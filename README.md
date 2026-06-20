@@ -1,5 +1,7 @@
 # nanoPyCodeAgent
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 A nano code agent built in pure Python.
 
 > "What I cannot create, I do not understand." — Richard Feynman, 1988
