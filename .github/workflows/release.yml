@@ -1,7 +1,13 @@
 name: Release
 
-# Publish to PyPI via Trusted Publishing when a v* tag is pushed.
-# No tokens needed: PyPI verifies this workflow through OIDC.
+# Build, publish to PyPI, and create a GitHub Release when a v* tag is pushed.
+#
+# Concerns are split into three jobs, each with the minimum permissions it
+# needs, so the powerful id-token (PyPI) and contents:write (repo) scopes never
+# coexist in one job:
+#   build            -> no special permissions
+#   publish-to-pypi  -> id-token: write  (Trusted Publishing / OIDC, no tokens)
+#   github-release   -> contents: write  (create the release + upload assets)
 #
 # One-time prerequisite on PyPI — add a "pending publisher" at
 # https://pypi.org/manage/account/publishing/ matching:
@@ -32,13 +38,12 @@ jobs:
           name: dist
           path: dist/
 
-  publish:
-    name: Publish to PyPI & GitHub Release
+  publish-to-pypi:
+    name: Publish to PyPI
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # required for Trusted Publishing (PyPI)
-      contents: write # required to create the GitHub Release
+      id-token: write # required for Trusted Publishing (OIDC)
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -51,6 +56,19 @@ jobs:
         # --check-url makes re-runs idempotent: files already on the index are
         # skipped instead of failing the job on "file already exists".
         run: uv publish --check-url https://pypi.org/simple/
+
+  github-release:
+    name: Create GitHub Release
+    needs: publish-to-pypi # only after a successful PyPI publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # required to create the release and upload assets
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
