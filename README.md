@@ -25,15 +25,3 @@ From a local checkout:
 ```bash
 uv run nanoPyCodeAgent      # or: uv run main.py
 ```
-
-## Releasing (maintainers)
-
-Pushing a `v*` tag publishes to PyPI automatically via GitHub Actions
-Trusted Publishing. One-time setup: add a pending publisher on
-[PyPI](https://pypi.org/manage/account/publishing/) for repo
-`minixalpha/nanoPyCodeAgent`, workflow `release.yml`, with no environment.
-
-```bash
-git tag -a v0.1.0 -m "Release v0.1.0"
-git push origin v0.1.0
-```
