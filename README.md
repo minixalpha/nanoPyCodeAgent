@@ -4,17 +4,40 @@ A nano code agent built in pure Python.
 
 > "What I cannot create, I do not understand." — Richard Feynman, 1988
 
-## Install / Run
+## Getting Started
 
-Requires Python 3.13+ (managed automatically by [uv](https://docs.astral.sh/uv/)).
+### Installation
 
-Run it directly once published to PyPI:
+nanoPyCodeAgent requires Python 3.13+.
+
+Install from PyPI with [uv](https://docs.astral.sh/uv/) (recommended), `pip`, or `pipx`:
+
+```bash
+# uv
+uv tool install nanoPyCodeAgent
+
+# pip
+pip install nanoPyCodeAgent
+
+# pipx
+pipx install nanoPyCodeAgent
+```
+
+### Usage
+
+Run the installed command:
+
+```bash
+nanoPyCodeAgent
+```
+
+Or run it without installing, straight from PyPI with `uvx`:
 
 ```bash
 uvx nanoPyCodeAgent
 ```
 
-Or run the current development branch straight from GitHub (no PyPI needed):
+To run an unreleased version directly from a Git branch (no PyPI needed):
 
 ```bash
 uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent" nanoPyCodeAgent
