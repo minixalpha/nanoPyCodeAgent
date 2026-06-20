@@ -2,9 +2,9 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-一个用纯 Python 构建的纳米级(nano)代码 agent。
+一个用纯 Python 构建的 Nano 级别的代码智能体。
 
-> “凡我不能创造的,我便未能理解。” —— 理查德·费曼,1988
+> “凡我不能创造的,我便未能真正理解。” —— 理查德·费曼,1988
 
 ## 使用
 
@@ -39,7 +39,7 @@ nanoPyCodeAgent
 # 分支上的最新提交
 uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@main" nanoPyCodeAgent
 
-# 某个具体标签
+# 某个具体 tag
 uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCodeAgent
 ```
 
