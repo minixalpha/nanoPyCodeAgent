@@ -4,47 +4,47 @@ A nano code agent built in pure Python.
 
 > "What I cannot create, I do not understand." — Richard Feynman, 1988
 
-## Getting Started
+## Usage
 
-### Installation
+nanoPyCodeAgent requires Python 3.13 or newer.
 
-nanoPyCodeAgent requires Python 3.13+.
+### How to Run
 
-Install from PyPI with [uv](https://docs.astral.sh/uv/) (recommended), `pip`, or `pipx`:
+There are a few ways to run it — pick whichever fits your workflow.
 
-```bash
-# uv
-uv tool install nanoPyCodeAgent
+#### Run without installing
 
-# pip
-pip install nanoPyCodeAgent
-
-# pipx
-pipx install nanoPyCodeAgent
-```
-
-### Usage
-
-Run the installed command:
-
-```bash
-nanoPyCodeAgent
-```
-
-Or run it without installing, straight from PyPI with `uvx`:
+Use `uvx` to run the latest release without installing anything:
 
 ```bash
 uvx nanoPyCodeAgent
 ```
 
-To run an unreleased version directly from a Git branch (no PyPI needed):
+#### Run after installing
+
+Install it as a persistent command-line tool, then run it from anywhere:
 
 ```bash
-uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent" nanoPyCodeAgent
+uv tool install nanoPyCodeAgent   # or: pipx install nanoPyCodeAgent
+nanoPyCodeAgent
 ```
 
-From a local checkout:
+#### Run a branch or tagged version
+
+Run an unreleased branch or a specific release tag straight from GitHub:
 
 ```bash
-uv run nanoPyCodeAgent      # or: uv run main.py
+# latest commit on a branch
+uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@main" nanoPyCodeAgent
+
+# a specific tag
+uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCodeAgent
+```
+
+### How to Update
+
+Upgrade an installed tool to the latest release:
+
+```bash
+uv tool upgrade nanoPyCodeAgent   # or: pipx upgrade nanoPyCodeAgent
 ```
