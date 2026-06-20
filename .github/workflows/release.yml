@@ -1,0 +1,81 @@
+name: Release
+
+# Build, publish to PyPI, and create a GitHub Release when a v* tag is pushed.
+#
+# Concerns are split into three jobs, each with the minimum permissions it
+# needs, so the powerful id-token (PyPI) and contents:write (repo) scopes never
+# coexist in one job:
+#   build            -> no special permissions
+#   publish-to-pypi  -> id-token: write  (Trusted Publishing / OIDC, no tokens)
+#   github-release   -> contents: write  (create the release + upload assets)
+#
+# One-time prerequisite on PyPI — add a "pending publisher" at
+# https://pypi.org/manage/account/publishing/ matching:
+#   owner = minixalpha, repo = nanoPyCodeAgent,
+#   workflow = release.yml, environment = (leave blank; this workflow sets none).
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    name: Build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # full history + tags so hatch-vcs can derive the version
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+      - name: Build
+        run: uv build
+      - name: Check distribution metadata
+        run: uvx twine check dist/*
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # required for Trusted Publishing (OIDC)
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+      - name: Publish to PyPI
+        # --check-url makes re-runs idempotent: files already on the index are
+        # skipped instead of failing the job on "file already exists".
+        run: uv publish --check-url https://pypi.org/simple/
+
+  github-release:
+    name: Create GitHub Release
+    needs: publish-to-pypi # only after a successful PyPI publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # required to create the release and upload assets
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        # --generate-notes builds notes from merged PRs since the previous tag;
+        # dist/* attaches the wheel and sdist as assets. Idempotent: skip if a
+        # release for this tag already exists, so re-runs don't fail.
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 \
+            || gh release create "$GITHUB_REF_NAME" dist/* --generate-notes
