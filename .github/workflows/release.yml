@@ -2,6 +2,11 @@ name: Release
 
 # Publish to PyPI via Trusted Publishing when a v* tag is pushed.
 # No tokens needed: PyPI verifies this workflow through OIDC.
+#
+# One-time prerequisite on PyPI — add a "pending publisher" at
+# https://pypi.org/manage/account/publishing/ matching:
+#   owner = minixalpha, repo = nanoPyCodeAgent,
+#   workflow = release.yml, environment = (leave blank; this workflow sets none).
 on:
   push:
     tags:
@@ -17,6 +22,8 @@ jobs:
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       - name: Build
         run: uv build
+      - name: Check distribution metadata
+        run: uvx twine check dist/*
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -38,4 +45,6 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       - name: Publish to PyPI
-        run: uv publish
+        # --check-url makes re-runs idempotent: files already on the index are
+        # skipped instead of failing the job on "file already exists".
+        run: uv publish --check-url https://pypi.org/simple/
