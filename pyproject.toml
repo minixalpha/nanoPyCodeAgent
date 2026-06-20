@@ -4,7 +4,21 @@ version = "0.1.0"
 description = "A nano code agent built from scratch in pure Python."
 readme = "README.md"
 requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "minixalpha" }]
+keywords = ["agent", "llm", "code-agent", "ai"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Intended Audience :: Developers",
+]
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/minixalpha/nanoPyCodeAgent"
+Repository = "https://github.com/minixalpha/nanoPyCodeAgent"
+Issues = "https://github.com/minixalpha/nanoPyCodeAgent/issues"
 
 [project.scripts]
 nanoPyCodeAgent = "nanopycodeagent:main"
