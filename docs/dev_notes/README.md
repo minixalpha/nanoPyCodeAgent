@@ -8,5 +8,6 @@ Notes are bilingual, split by language:
 - [`zh-CN/`](zh-CN/) — **hand-written Chinese source** (source of truth)
 - [`en/`](en/) — **English, generated from the Chinese source** (do not edit by hand)
 
-These are dev-facing — decisions, rationale, gotchas, and context for each
-series. User-facing changes live in [`../changelogs/`](../changelogs/).
+These are free-form notes — insights, takeaways, and design decisions gathered
+while developing each series, with no fixed structure. User-facing changes live
+in [`../changelogs/`](../changelogs/).
