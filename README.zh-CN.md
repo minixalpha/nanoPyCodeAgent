@@ -50,3 +50,7 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCode
 ```bash
 uv tool upgrade nanoPyCodeAgent   # 或: pipx upgrade nanoPyCodeAgent
 ```
+
+## 发布
+
+维护者请参阅 [docs/RELEASING.md](docs/RELEASING.md) 了解发布流程与前置条件。

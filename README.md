@@ -50,3 +50,7 @@ Upgrade an installed tool to the latest release:
 ```bash
 uv tool upgrade nanoPyCodeAgent   # or: pipx upgrade nanoPyCodeAgent
 ```
+
+## Releasing
+
+For maintainers: see [docs/RELEASING.md](docs/RELEASING.md) for the release process and prerequisites.
