@@ -33,7 +33,7 @@ jobs:
       - name: Check distribution metadata
         run: uvx twine check dist/*
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist/
@@ -46,12 +46,16 @@ jobs:
       id-token: write # required for Trusted Publishing (OIDC)
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: dist/
       - name: Install uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          # No checkout in this job, so the cache-dependency glob (pyproject.toml,
+          # uv.lock) matches nothing; uv publish needs no resolved-dep cache anyway.
+          enable-cache: false
       - name: Publish to PyPI
         # --check-url makes re-runs idempotent: files already on the index are
         # skipped instead of failing the job on "file already exists".
@@ -65,7 +69,7 @@ jobs:
       contents: write # required to create the release and upload assets
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: dist/
