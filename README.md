@@ -43,6 +43,18 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@main" nanoPyCodeAg
 uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCodeAgent
 ```
 
+### Configuration
+
+Credentials and the model are read from environment variables. A local `.env`
+file works too — copy `.env.example` to `.env` and fill it in (`.env` is
+git-ignored).
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `ANTHROPIC_API_KEY` | Yes | — | Your Anthropic API key, or the key for a third-party / proxy service. |
+| `ANTHROPIC_BASE_URL` | No | `https://api.anthropic.com` | Point the SDK at a non-official / proxy endpoint. Leave it unset to use the official API — an empty value breaks requests. |
+| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Override the model. An empty or whitespace-only value falls back to the default. |
+
 ### How to Update
 
 Upgrade an installed tool to the latest release:

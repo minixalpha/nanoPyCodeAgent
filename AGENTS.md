@@ -19,6 +19,21 @@ the matching one:
 
 See `docs/RELEASING.md` for the release process and prerequisites.
 
+## Language
+
+Write everything in **English** by default — source code (identifiers,
+comments, string literals), commit messages, PR titles/descriptions, changelog
+entries, and Markdown documentation.
+
+The **only** exception is documentation explicitly designated as Chinese:
+
+- `README.zh-CN.md` and any other `*.zh-CN.*` file.
+- Files under a `zh-CN/` directory (e.g. `docs/dev_notes/zh-CN/`).
+- Any document with an explicit requirement to be written in Chinese.
+
+Everything outside that list — including code under `src/`, this file, and all
+other docs — is English.
+
 ## Commits & PRs
 
 All agents working in this repo MUST follow

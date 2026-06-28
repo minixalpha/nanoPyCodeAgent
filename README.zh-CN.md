@@ -43,6 +43,17 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@main" nanoPyCodeAg
 uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCodeAgent
 ```
 
+### 配置
+
+凭据与模型通过环境变量读取。也可使用本地 `.env` 文件:将 `.env.example` 复制为
+`.env` 并填写(`.env` 已被 git 忽略)。
+
+| 变量 | 是否必填 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `ANTHROPIC_API_KEY` | 是 | 无 | 你的 Anthropic API key,或第三方/代理服务的 key。 |
+| `ANTHROPIC_BASE_URL` | 否 | `https://api.anthropic.com` | 将 SDK 指向非官方/代理 endpoint。使用官方 API 时保持不设置;留空值会导致请求失败。 |
+| `ANTHROPIC_MODEL` | 否 | `claude-sonnet-4-6` | 覆盖默认模型。空值或纯空白会回退到默认值。 |
+
 ### 如何更新
 
 将已安装的工具升级到最新发布版:
