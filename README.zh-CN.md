@@ -45,8 +45,22 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCode
 
 ### 配置
 
-凭据与模型通过环境变量读取。也可使用本地 `.env` 文件:将 `.env.example` 复制为
-`.env` 并填写(`.env` 已被 git 忽略)。
+凭据与模型有两种配置来源:**环境变量**,以及可选的用户级配置文件
+`~/.nanoPyCodeAgent/settings.json`。环境变量优先级更高——配置文件只用于填补你
+未在环境变量中设置的键。
+
+配置文件写法与 [Claude Code settings](https://code.claude.com/docs/en/settings)
+一致:把值放在 `env` 对象下。空值或纯空白会被忽略。
+
+```json
+{
+  "env": {
+    "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_BASE_URL": "",
+    "ANTHROPIC_MODEL": ""
+  }
+}
+```
 
 | 变量 | 是否必填 | 默认值 | 说明 |
 | --- | --- | --- | --- |

@@ -45,9 +45,23 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCode
 
 ### Configuration
 
-Credentials and the model are read from environment variables. A local `.env`
-file works too — copy `.env.example` to `.env` and fill it in (`.env` is
-git-ignored).
+Credentials and the model come from two sources: **environment variables** and
+an optional user-level config file at `~/.nanoPyCodeAgent/settings.json`.
+Environment variables take precedence — the config file only fills in keys you
+have not set in the environment.
+
+The config file mirrors [Claude Code's settings](https://code.claude.com/docs/en/settings):
+put the values under an `env` object. Empty or whitespace-only values are ignored.
+
+```json
+{
+  "env": {
+    "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_BASE_URL": "",
+    "ANTHROPIC_MODEL": ""
+  }
+}
+```
 
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |

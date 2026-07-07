@@ -5,17 +5,48 @@ never spend tokens. We drive ``run()`` by scripting ``input()`` and the client,
 then assert on captured stdout and the recorded calls.
 """
 
+import json
+import os
 from types import SimpleNamespace
 
 import anthropic
 import httpx
+import pytest
 
 from nanopycodeagent import agent
+
+_MANAGED_ENV = ("ANTHROPIC_API_KEY", "ANTHROPIC_BASE_URL", "ANTHROPIC_MODEL")
+
+
+@pytest.fixture(autouse=True)
+def _isolate_config(monkeypatch, tmp_path):
+    """Keep every test off the real config file and ambient ANTHROPIC_* vars.
+
+    ``SETTINGS_PATH`` is redirected into an empty temp dir (so tests never read
+    the developer's ~/.nanoPyCodeAgent/settings.json), and the managed env vars
+    are cleared up front and restored afterwards — ``load_settings_env`` writes
+    to ``os.environ`` directly, which monkeypatch would not roll back on its own.
+    """
+    monkeypatch.setattr(agent, "SETTINGS_PATH", tmp_path / "settings.json")
+    saved = {key: os.environ.pop(key, None) for key in _MANAGED_ENV}
+    try:
+        yield
+    finally:
+        for key, value in saved.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
 
 
 def _text_block(text):
     """A minimal stand-in for an SDK text content block."""
     return SimpleNamespace(type="text", text=text)
+
+
+def _write_settings(path, env):
+    """Write a ``settings.json`` with the given ``env`` mapping."""
+    path.write_text(json.dumps({"env": env}), encoding="utf-8")
 
 
 class _FakeMessages:
@@ -49,9 +80,11 @@ def _request():
 
 
 def _patch(monkeypatch, *, client, inputs):
-    """Wire up a no-op dotenv, a fake Anthropic client, and scripted input()."""
-    monkeypatch.setattr(agent, "find_dotenv", lambda *a, **k: "")
-    monkeypatch.setattr(agent, "load_dotenv", lambda *a, **k: None)
+    """Wire up a fake Anthropic client and scripted input().
+
+    The config file is isolated by the autouse ``_isolate_config`` fixture, so
+    ``run()`` sees no config file unless a test writes one to ``SETTINGS_PATH``.
+    """
     monkeypatch.setattr(agent.anthropic, "Anthropic", lambda *a, **k: client)
 
     answers = iter(inputs)
@@ -209,3 +242,87 @@ def test_api_error_drops_turn_and_continues(monkeypatch, capsys):
     assert messages.calls[0] == [{"role": "user", "content": "fails"}]
     # That turn was popped on error, so the next call's history is clean.
     assert messages.calls[1] == [{"role": "user", "content": "hello"}]
+
+
+def test_settings_file_supplies_model(monkeypatch):
+    # With ANTHROPIC_MODEL unset in the environment, the config file supplies it.
+    _write_settings(agent.SETTINGS_PATH, {"ANTHROPIC_MODEL": "claude-opus-4-8"})
+    messages = _FakeMessages([[_text_block("ok")]])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
+
+    agent.run()
+
+    assert messages.kwargs[0]["model"] == "claude-opus-4-8"  # reaches the API
+
+
+def test_env_var_overrides_settings_file(monkeypatch):
+    # A real environment variable wins over the config file's value.
+    _write_settings(agent.SETTINGS_PATH, {"ANTHROPIC_MODEL": "from-settings"})
+    monkeypatch.setenv("ANTHROPIC_MODEL", "from-env")
+    messages = _FakeMessages([[_text_block("ok")]])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
+
+    agent.run()
+
+    assert messages.kwargs[0]["model"] == "from-env"
+
+
+def test_missing_settings_file_starts_cleanly(monkeypatch, capsys):
+    # No config file exists (SETTINGS_PATH points into an empty temp dir).
+    messages = _FakeMessages([])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Warning" not in out  # a missing config file is not an error
+    assert "Bye!" in out
+
+
+def test_malformed_settings_file_warns_but_continues(monkeypatch, capsys):
+    # A broken config file degrades gracefully: warn, then start anyway.
+    agent.SETTINGS_PATH.write_text("{ not valid json", encoding="utf-8")
+    messages = _FakeMessages([])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Warning" in out  # the malformed file was reported
+    assert "Bye!" in out  # but startup still proceeded
+
+
+def test_load_settings_env_fills_only_unset_keys(monkeypatch, tmp_path):
+    # Existing env vars are preserved; only unset keys are filled from the file.
+    monkeypatch.setenv("ANTHROPIC_MODEL", "already-set")
+    path = tmp_path / "settings.json"
+    _write_settings(path, {"ANTHROPIC_MODEL": "ignored", "ANTHROPIC_API_KEY": "sk-cfg"})
+
+    agent.load_settings_env(path)
+
+    assert os.environ["ANTHROPIC_MODEL"] == "already-set"  # env var wins
+    assert os.environ["ANTHROPIC_API_KEY"] == "sk-cfg"  # the gap gets filled
+
+
+def test_load_settings_env_skips_empty_and_non_string(tmp_path):
+    path = tmp_path / "settings.json"
+    _write_settings(
+        path,
+        {
+            "ANTHROPIC_API_KEY": "sk-real",
+            "ANTHROPIC_BASE_URL": "",  # empty -> skipped
+            "ANTHROPIC_MODEL": "   ",  # whitespace-only -> skipped
+            "SOME_FLAG": 123,  # non-string -> skipped
+        },
+    )
+
+    agent.load_settings_env(path)
+
+    assert os.environ.get("ANTHROPIC_API_KEY") == "sk-real"
+    assert "ANTHROPIC_BASE_URL" not in os.environ
+    assert "ANTHROPIC_MODEL" not in os.environ
+    assert "SOME_FLAG" not in os.environ

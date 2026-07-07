@@ -15,7 +15,6 @@ classifiers = [
 ]
 dependencies = [
     "anthropic>=0.112.0",
-    "python-dotenv>=1.2.2",
 ]
 
 [project.urls]
