@@ -43,6 +43,32 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@main" nanoPyCodeAg
 uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCodeAgent
 ```
 
+### Configuration
+
+Credentials and the model come from two sources: **environment variables** and
+an optional user-level config file at `~/.nanoPyCodeAgent/settings.json`.
+Environment variables take precedence — the config file only fills in keys you
+have not set in the environment.
+
+The config file mirrors [Claude Code's settings](https://code.claude.com/docs/en/settings):
+put the values under an `env` object. Empty or whitespace-only values are ignored.
+
+```json
+{
+  "env": {
+    "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_BASE_URL": "",
+    "ANTHROPIC_MODEL": ""
+  }
+}
+```
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `ANTHROPIC_API_KEY` | Yes | — | Your Anthropic API key, or the key for a third-party / proxy service. |
+| `ANTHROPIC_BASE_URL` | No | `https://api.anthropic.com` | Point the SDK at a non-official / proxy endpoint. Leave it unset to use the official API — an empty value breaks requests. |
+| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Override the model. An empty or whitespace-only value falls back to the default. |
+
 ### How to Update
 
 Upgrade an installed tool to the latest release:

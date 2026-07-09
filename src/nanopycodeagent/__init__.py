@@ -1,2 +1,5 @@
+from nanopycodeagent.agent import run
+
+
 def main() -> None:
-    print("hello nanoPyCodeAgent")
+    run()
