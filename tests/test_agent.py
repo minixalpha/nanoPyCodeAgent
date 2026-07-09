@@ -54,7 +54,8 @@ class _FakeMessages:
 
     def __init__(self, script):
         # Each script entry is either a list of content blocks to return as the
-        # message's ``content``, or an ``Exception`` instance to raise.
+        # message's ``content``, or a ``BaseException`` instance to raise (an API
+        # error, or ``KeyboardInterrupt`` to simulate Ctrl-C mid-request).
         self._script = list(script)
         self.calls = []  # snapshot of the ``messages`` list at each call
         self.kwargs = []  # full kwargs passed to each create() call
@@ -63,7 +64,7 @@ class _FakeMessages:
         self.calls.append(list(kwargs["messages"]))  # freeze history at call time
         self.kwargs.append(kwargs)
         item = self._script.pop(0)
-        if isinstance(item, Exception):
+        if isinstance(item, BaseException):
             raise item
         return SimpleNamespace(content=item)
 
@@ -326,3 +327,94 @@ def test_load_settings_env_skips_empty_and_non_string(tmp_path):
     assert "ANTHROPIC_BASE_URL" not in os.environ
     assert "ANTHROPIC_MODEL" not in os.environ
     assert "SOME_FLAG" not in os.environ
+
+
+def test_load_settings_env_ignores_non_anthropic_keys(monkeypatch, tmp_path):
+    # Only ANTHROPIC_* keys are honored; unrelated (string) vars are never
+    # injected into the environment, even when unset.
+    monkeypatch.delenv("UNRELATED_PROXY_VAR", raising=False)
+    path = tmp_path / "settings.json"
+    _write_settings(
+        path,
+        {"UNRELATED_PROXY_VAR": "http://proxy:8080", "ANTHROPIC_API_KEY": "sk-real"},
+    )
+
+    agent.load_settings_env(path)
+
+    assert os.environ.get("ANTHROPIC_API_KEY") == "sk-real"  # allowed key fills
+    assert "UNRELATED_PROXY_VAR" not in os.environ  # foreign key ignored
+
+
+def test_load_settings_env_skips_os_rejected_values(tmp_path, capsys):
+    # A value the OS rejects (embedded NUL) is warned about, not fatal, and the
+    # key is left unset — a bad config never blocks startup.
+    path = tmp_path / "settings.json"
+    _write_settings(path, {"ANTHROPIC_API_KEY": "sk-\x00bad"})
+
+    agent.load_settings_env(path)  # must not raise
+
+    out = capsys.readouterr().out
+    assert "Warning" in out
+    assert "ANTHROPIC_API_KEY" not in os.environ
+
+
+def test_load_settings_env_handles_unresolvable_home(monkeypatch):
+    # When the home dir can't be resolved, SETTINGS_PATH is None and the default
+    # load is a silent no-op rather than a crash.
+    monkeypatch.setattr(agent, "SETTINGS_PATH", None)
+
+    agent.load_settings_env()  # must not raise
+
+
+def test_default_settings_path_survives_unresolvable_home(monkeypatch):
+    # Path.home() raising RuntimeError yields a None path instead of propagating
+    # out at import time.
+    def _no_home(*args, **kwargs):
+        raise RuntimeError("Could not determine home directory.")
+
+    monkeypatch.setattr(agent.Path, "home", _no_home)
+
+    assert agent._default_settings_path() is None
+
+
+def test_non_utf8_settings_file_warns_but_continues(monkeypatch, capsys):
+    # A config file with non-UTF-8 bytes degrades gracefully instead of crashing.
+    agent.SETTINGS_PATH.write_bytes(b"\xff\xfe not utf-8")
+    messages = _FakeMessages([])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Warning" in out  # the unreadable file was reported
+    assert "Bye!" in out  # but startup still proceeded
+
+
+def test_startup_message_labels_explicit_default_model_as_configured(monkeypatch, capsys):
+    # Explicitly pinning the model to the default value is still reported as a
+    # configured override, not as the fallback.
+    monkeypatch.setenv("ANTHROPIC_MODEL", agent.DEFAULT_MODEL)
+    messages = _FakeMessages([[_text_block("ok")]])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "from ANTHROPIC_MODEL" in out
+    assert "using default model" not in out
+
+
+def test_keyboard_interrupt_during_request_exits_gracefully(monkeypatch, capsys):
+    # Ctrl-C while waiting on the model reply quits cleanly, not with a traceback.
+    messages = _FakeMessages([KeyboardInterrupt()])
+    client = _FakeClient(messages)
+    # The second input is provided but must never be read (the loop breaks).
+    _patch(monkeypatch, client=client, inputs=["hi", "should be ignored"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Bye!" in out
+    assert len(messages.calls) == 1  # broke right after the interrupted call

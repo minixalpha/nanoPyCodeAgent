@@ -17,33 +17,53 @@ DEFAULT_MODEL = "claude-sonnet-4-6"
 MAX_TOKENS = 8192
 SYSTEM_PROMPT = "You are nanoPyCodeAgent, a concise and helpful coding assistant."
 
+
 # User-level config file. Its ``env`` mapping supplies ANTHROPIC_* values for
 # keys that are not already set in the environment (environment variables win).
-SETTINGS_PATH = Path.home() / ".nanoPyCodeAgent" / "settings.json"
+def _default_settings_path() -> Path | None:
+    """Resolve the user-level config path, or ``None`` if home is unknown.
+
+    ``Path.home()`` raises ``RuntimeError`` when the home directory cannot be
+    determined (e.g. ``$HOME`` unset and no passwd entry, common in minimal
+    containers). Guarding it here keeps ``import nanopycodeagent`` — which runs
+    eagerly behind the console script — from crashing at import; a ``None`` path
+    simply means "no user config file".
+    """
+    try:
+        return Path.home() / ".nanoPyCodeAgent" / "settings.json"
+    except RuntimeError:
+        return None
+
+
+SETTINGS_PATH = _default_settings_path()
 
 
 def load_settings_env(path: Path | None = None) -> None:
     """Apply the ``env`` mapping from the config file into ``os.environ``.
 
     ``path`` defaults to the module-level ``SETTINGS_PATH`` (resolved at call
-    time, so it stays overridable). Only keys not already present are set, so
-    environment variables take precedence over the config file. Behaviour by
-    case:
+    time, so it stays overridable). Only ``ANTHROPIC_*`` keys that are not
+    already present are set, so environment variables take precedence over the
+    config file and unrelated variables are never injected. Behaviour by case:
 
-    - Missing file: silently ignored (running without a config file is normal).
-    - Malformed JSON, non-object top level, or a non-object ``env``: a warning is
-      printed and the file is otherwise ignored — a bad config never blocks
-      startup.
-    - Empty, whitespace-only, or non-string values: skipped (the documented
-      example ships these keys as empty-string placeholders).
+    - Missing file, or a home directory that cannot be resolved: silently
+      ignored (running without a config file is normal).
+    - Unreadable / non-UTF-8 file, malformed JSON, non-object top level, or a
+      non-object ``env``: a warning is printed and the file is otherwise
+      ignored — a bad config never blocks startup.
+    - Empty, whitespace-only, or non-string values, and values the OS rejects
+      (e.g. an embedded NUL): skipped (the documented example ships these keys
+      as empty-string placeholders).
     """
     if path is None:
         path = SETTINGS_PATH
+    if path is None:
+        return  # home dir unresolvable → behave as if no config file exists
     try:
         raw = path.read_text(encoding="utf-8")
     except FileNotFoundError:
         return
-    except OSError as exc:
+    except (OSError, UnicodeDecodeError) as exc:
         print(f"Warning: could not read config file {path}: {exc}")
         return
 
@@ -63,8 +83,18 @@ def load_settings_env(path: Path | None = None) -> None:
         return
 
     for key, value in env.items():
-        if isinstance(value, str) and value.strip():
+        # Only honor ANTHROPIC_* keys (the config's documented purpose) so a
+        # shared settings.json cannot silently inject unrelated variables such
+        # as HTTPS_PROXY into the process environment.
+        if not key.startswith("ANTHROPIC_"):
+            continue
+        if not (isinstance(value, str) and value.strip()):
+            continue
+        try:
             os.environ.setdefault(key, value.strip())
+        except ValueError as exc:
+            # e.g. an embedded NUL in the value or '=' in the key name.
+            print(f"Warning: ignoring invalid config entry {key!r}: {exc}")
 
 
 def run() -> None:
@@ -85,16 +115,17 @@ def run() -> None:
 
     # Resolve the model after load_settings_env() so a config-file ANTHROPIC_MODEL
     # is honored. An empty or whitespace-only value falls back to the default.
-    model = os.environ.get("ANTHROPIC_MODEL", "").strip() or DEFAULT_MODEL
+    configured_model = os.environ.get("ANTHROPIC_MODEL", "").strip()
+    model = configured_model or DEFAULT_MODEL
 
     messages: list[MessageParam] = []
-    if model == DEFAULT_MODEL:
+    if configured_model:
+        print(f"nanoPyCodeAgent — using model {model} (from ANTHROPIC_MODEL).")
+    else:
         print(
             f"nanoPyCodeAgent — using default model {model} "
             "(set ANTHROPIC_MODEL to override)."
         )
-    else:
-        print(f"nanoPyCodeAgent — using model {model} (from ANTHROPIC_MODEL).")
     print("Type a message to chat, or /exit to quit.")
 
     while True:
@@ -122,6 +153,11 @@ def run() -> None:
             text = "".join(b.text for b in message.content if b.type == "text")
             print(text, end="", flush=True)
             print()
+        except KeyboardInterrupt:
+            # Ctrl-C while waiting on the reply cancels cleanly, mirroring the
+            # graceful quit offered at the input prompt.
+            print()
+            break
         except anthropic.AuthenticationError:
             print(
                 "\nAuthentication failed. Check that ANTHROPIC_API_KEY is set correctly."

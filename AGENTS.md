@@ -29,6 +29,9 @@ The **only** exception is documentation explicitly designated as Chinese:
 
 - `README.zh-CN.md` and any other `*.zh-CN.*` file.
 - Files under a `zh-CN/` directory (e.g. `docs/dev_notes/zh-CN/`).
+- Design specs under `docs/superpowers/specs/` — the prose may be Chinese for
+  review convenience, but the deliverables the spec produces (code under
+  `src/`, tests, and any English documentation) remain English.
 - Any document with an explicit requirement to be written in Chinese.
 
 Everything outside that list — including code under `src/`, this file, and all
