@@ -50,10 +50,16 @@ def _write_settings(path, env):
 
 
 class _FakeStream:
-    """Mimics the SDK's ``MessageStream`` context manager for scripted replies."""
+    """Mimics the SDK's ``MessageStream`` context manager for scripted replies.
 
-    def __init__(self, content):
+    ``mid_stream_error`` simulates a failure while the reply is streaming: the
+    text chunks are yielded first, then the exception is raised from within the
+    ``text_stream`` iteration — after partial output has already been printed.
+    """
+
+    def __init__(self, content, mid_stream_error=None):
         self._content = content
+        self._mid_stream_error = mid_stream_error
 
     def __enter__(self):
         return self
@@ -63,8 +69,15 @@ class _FakeStream:
 
     @property
     def text_stream(self):
-        # Yield each text block's text as a single chunk.
-        return (b.text for b in self._content if b.type == "text")
+        def _gen():
+            # Yield each text block's text as a single chunk.
+            for b in self._content:
+                if b.type == "text":
+                    yield b.text
+            if self._mid_stream_error is not None:
+                raise self._mid_stream_error
+
+        return _gen()
 
     def get_final_message(self):
         return SimpleNamespace(content=self._content)
@@ -75,8 +88,9 @@ class _FakeMessages:
 
     def __init__(self, script):
         # Each script entry is either a list of content blocks to stream as the
-        # message's ``content``, or a ``BaseException`` instance to raise (an API
-        # error, or ``KeyboardInterrupt`` to simulate Ctrl-C mid-request).
+        # message's ``content``, a ``BaseException`` instance to raise at request
+        # time (an API error, or ``KeyboardInterrupt`` to simulate Ctrl-C while
+        # connecting), or a ``_FakeStream`` — e.g. one that fails mid-stream.
         self._script = list(script)
         self.calls = []  # snapshot of the ``messages`` list at each call
         self.kwargs = []  # full kwargs passed to each stream() call
@@ -87,6 +101,8 @@ class _FakeMessages:
         item = self._script.pop(0)
         if isinstance(item, BaseException):
             raise item
+        if isinstance(item, _FakeStream):
+            return item
         return _FakeStream(item)
 
 
@@ -439,3 +455,58 @@ def test_keyboard_interrupt_during_request_exits_gracefully(monkeypatch, capsys)
     out = capsys.readouterr().out
     assert "Bye!" in out
     assert len(messages.calls) == 1  # broke right after the interrupted call
+
+
+def test_keyboard_interrupt_mid_stream_exits_gracefully(monkeypatch, capsys):
+    # Ctrl-C after part of the reply has already streamed quits cleanly.
+    stream = _FakeStream([_text_block("partial")], mid_stream_error=KeyboardInterrupt())
+    messages = _FakeMessages([stream])
+    client = _FakeClient(messages)
+    # The second input is provided but must never be read (the loop breaks).
+    _patch(monkeypatch, client=client, inputs=["hi", "should be ignored"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "partial" in out  # the streamed text made it out before the interrupt
+    assert "Bye!" in out
+    assert len(messages.calls) == 1
+
+
+def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
+    # An SDK error surfacing mid-stream (e.g. an SSE error event) is handled
+    # the same as one raised at request time: drop the turn and keep going.
+    err = anthropic.APIConnectionError(request=_request())
+    stream = _FakeStream([_text_block("partial")], mid_stream_error=err)
+    reply = [_text_block("ok now")]
+    messages = _FakeMessages([stream, reply])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Request failed:" in out
+    assert len(messages.calls) == 2
+    # The failed turn was popped, so the next call's history is clean.
+    assert messages.calls[1] == [{"role": "user", "content": "hello"}]
+
+
+def test_network_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
+    # A network failure mid-stream raises a raw httpx error (the SDK only wraps
+    # transport errors around the initial send, not around SSE iteration); the
+    # loop must survive it instead of crashing with a traceback.
+    err = httpx.ReadError("connection lost mid-stream")
+    stream = _FakeStream([_text_block("partial")], mid_stream_error=err)
+    reply = [_text_block("ok now")]
+    messages = _FakeMessages([stream, reply])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Request failed:" in out
+    assert len(messages.calls) == 2
+    # The failed turn was popped, so the next call's history is clean.
+    assert messages.calls[1] == [{"role": "user", "content": "hello"}]

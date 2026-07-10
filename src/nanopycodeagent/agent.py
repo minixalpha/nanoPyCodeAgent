@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 
 import anthropic
+import httpx
 from anthropic.types import MessageParam
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor the
@@ -166,7 +167,10 @@ def run() -> None:
                 "\nAuthentication failed. Check that ANTHROPIC_API_KEY is set correctly."
             )
             break
-        except anthropic.APIError as exc:
+        except (anthropic.APIError, httpx.HTTPError) as exc:
+            # httpx.HTTPError: the SDK wraps transport errors only around the
+            # initial send, so a network failure mid-stream surfaces as a raw
+            # httpx error during iteration rather than an anthropic.APIError.
             print(f"\nRequest failed: {exc}")
             messages.pop()  # drop the unanswered user turn so history stays valid
             continue
