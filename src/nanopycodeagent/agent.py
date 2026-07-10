@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 
 import anthropic
+import httpx
 from anthropic.types import MessageParam
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor the
@@ -144,17 +145,20 @@ def run() -> None:
 
         try:
             print("\nAgent> ", end="", flush=True)
-            message = client.messages.create(
+            # Stream the reply so text shows up as it is generated, then grab
+            # the accumulated message for the conversation history.
+            with client.messages.stream(
                 model=model,
                 max_tokens=MAX_TOKENS,
                 system=SYSTEM_PROMPT,
                 messages=messages,
-            )
-            text = "".join(b.text for b in message.content if b.type == "text")
-            print(text, end="", flush=True)
+            ) as stream:
+                for text in stream.text_stream:
+                    print(text, end="", flush=True)
+                message = stream.get_final_message()
             print()
         except KeyboardInterrupt:
-            # Ctrl-C while waiting on the reply cancels cleanly, mirroring the
+            # Ctrl-C while streaming the reply cancels cleanly, mirroring the
             # graceful quit offered at the input prompt.
             print()
             break
@@ -163,7 +167,10 @@ def run() -> None:
                 "\nAuthentication failed. Check that ANTHROPIC_API_KEY is set correctly."
             )
             break
-        except anthropic.APIError as exc:
+        except (anthropic.APIError, httpx.HTTPError) as exc:
+            # httpx.HTTPError: the SDK wraps transport errors only around the
+            # initial send, so a network failure mid-stream surfaces as a raw
+            # httpx error during iteration rather than an anthropic.APIError.
             print(f"\nRequest failed: {exc}")
             messages.pop()  # drop the unanswered user turn so history stays valid
             continue
