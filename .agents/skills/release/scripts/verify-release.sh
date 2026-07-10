@@ -60,9 +60,14 @@ grep -q '\.tar\.gz$' <<<"$assets" || fail "Release ${tag} missing an sdist (.tar
 printf 'OK: GitHub Release %s has wheel + sdist\n' "$tag"
 
 # 3. uvx smoke test (official index, with retries) ------------------------
+# --default-index (not --index): --index only *adds* an index, and uv's
+# first-index strategy would stop at a locally configured mirror that has the
+# package but not the new version yet. --refresh: uv's cached simple-index
+# metadata can be stale right after a publish. </dev/null: the entry point
+# reads stdin; EOF makes it exit immediately instead of hanging interactively.
 log "Smoke-testing uvx ${PACKAGE}@${version}"
 deadline=$(( $(date +%s) + POLL_TIMEOUT ))
-until uvx --index "$PYPI_INDEX" --from "${PACKAGE}@${version}" "$PACKAGE" >/dev/null 2>&1; do
+until uvx --refresh --default-index "$PYPI_INDEX" --from "${PACKAGE}@${version}" "$PACKAGE" >/dev/null 2>&1 </dev/null; do
   (( $(date +%s) >= deadline )) && fail "uvx smoke test failed for ${PACKAGE}@${version} after ${POLL_TIMEOUT}s"
   printf 'uvx not ready (index propagation?); retrying in %ss...\n' "$POLL_INTERVAL"; sleep "$POLL_INTERVAL"
 done
