@@ -144,17 +144,20 @@ def run() -> None:
 
         try:
             print("\nAgent> ", end="", flush=True)
-            message = client.messages.create(
+            # Stream the reply so text shows up as it is generated, then grab
+            # the accumulated message for the conversation history.
+            with client.messages.stream(
                 model=model,
                 max_tokens=MAX_TOKENS,
                 system=SYSTEM_PROMPT,
                 messages=messages,
-            )
-            text = "".join(b.text for b in message.content if b.type == "text")
-            print(text, end="", flush=True)
+            ) as stream:
+                for text in stream.text_stream:
+                    print(text, end="", flush=True)
+                message = stream.get_final_message()
             print()
         except KeyboardInterrupt:
-            # Ctrl-C while waiting on the reply cancels cleanly, mirroring the
+            # Ctrl-C while streaming the reply cancels cleanly, mirroring the
             # graceful quit offered at the input prompt.
             print()
             break

@@ -49,24 +49,45 @@ def _write_settings(path, env):
     path.write_text(json.dumps({"env": env}), encoding="utf-8")
 
 
+class _FakeStream:
+    """Mimics the SDK's ``MessageStream`` context manager for scripted replies."""
+
+    def __init__(self, content):
+        self._content = content
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        return False
+
+    @property
+    def text_stream(self):
+        # Yield each text block's text as a single chunk.
+        return (b.text for b in self._content if b.type == "text")
+
+    def get_final_message(self):
+        return SimpleNamespace(content=self._content)
+
+
 class _FakeMessages:
-    """Records each ``create()`` call and replays a scripted response or raises."""
+    """Records each ``stream()`` call and replays a scripted response or raises."""
 
     def __init__(self, script):
-        # Each script entry is either a list of content blocks to return as the
+        # Each script entry is either a list of content blocks to stream as the
         # message's ``content``, or a ``BaseException`` instance to raise (an API
         # error, or ``KeyboardInterrupt`` to simulate Ctrl-C mid-request).
         self._script = list(script)
         self.calls = []  # snapshot of the ``messages`` list at each call
-        self.kwargs = []  # full kwargs passed to each create() call
+        self.kwargs = []  # full kwargs passed to each stream() call
 
-    def create(self, **kwargs):
+    def stream(self, **kwargs):
         self.calls.append(list(kwargs["messages"]))  # freeze history at call time
         self.kwargs.append(kwargs)
         item = self._script.pop(0)
         if isinstance(item, BaseException):
             raise item
-        return SimpleNamespace(content=item)
+        return _FakeStream(item)
 
 
 class _FakeClient:
