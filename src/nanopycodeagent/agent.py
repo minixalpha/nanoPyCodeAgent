@@ -157,8 +157,14 @@ def run_bash(command: str) -> tuple[str, bool]:
             tempfile.TemporaryFile() as stdout_file,
             tempfile.TemporaryFile() as stderr_file,
         ):
+            # stdin is closed off: the child must not share the terminal with
+            # the agent, or a command that prompts (or falls back to reading
+            # stdin) blocks until the timeout while eating the user's keys.
             process = subprocess.Popen(
-                ["bash", "-c", command], stdout=stdout_file, stderr=stderr_file
+                ["bash", "-c", command],
+                stdin=subprocess.DEVNULL,
+                stdout=stdout_file,
+                stderr=stderr_file,
             )
             try:
                 returncode = process.wait(timeout=BASH_TIMEOUT_SECONDS)
