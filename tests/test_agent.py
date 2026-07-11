@@ -629,6 +629,38 @@ def test_bash_tool_with_invalid_input_returns_error_result(monkeypatch, capsys):
     assert "'command'" in result["content"]
 
 
+def test_max_tokens_truncated_tool_call_is_not_run_and_history_stays_valid(
+    monkeypatch, capsys
+):
+    # A reply that hits the token limit mid-tool-call still carries tool_use
+    # blocks. They must not be executed (the command may be cut off), but each
+    # one needs an error tool_result in history — otherwise the API rejects
+    # every later request and the session is unrecoverable.
+    truncated = _FakeStream(
+        [_text_block("Let me check."), _tool_use_block("tu_1", "echo hi")],
+        stop_reason="max_tokens",
+    )
+    reply = [_text_block("second turn ok")]
+    messages = _FakeMessages([truncated, reply])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["go", "again", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "[bash]$" not in out  # the truncated tool call never ran
+    assert "truncated" in out  # and the user was told why the turn stopped
+    assert len(messages.calls) == 2  # the turn ended; no automatic retry
+    # The next turn's history pairs the dangling tool_use with an error result.
+    history = messages.calls[1]
+    assert history[1] == {"role": "assistant", "content": truncated._content}
+    (result,) = history[2]["content"]
+    assert result["type"] == "tool_result"
+    assert result["tool_use_id"] == "tu_1"
+    assert result["is_error"] is True
+    assert history[3] == {"role": "user", "content": "again"}
+
+
 def test_api_error_during_tool_loop_drops_whole_turn(monkeypatch, capsys):
     # The follow-up request after a tool run fails: the whole turn — user
     # prompt, tool_use reply, and tool_result — is rolled back so the next

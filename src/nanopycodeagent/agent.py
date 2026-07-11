@@ -207,6 +207,28 @@ def _run_tool_calls(content: list[ContentBlock]) -> list[ToolResultBlockParam]:
     return results
 
 
+def _error_tool_results(
+    content: list[ContentBlock], note: str
+) -> list[ToolResultBlockParam]:
+    """Pair every ``tool_use`` block with an error ``tool_result``, unexecuted.
+
+    Once an assistant message is in the history, the API rejects every later
+    request until each of its ``tool_use`` blocks has a matching
+    ``tool_result`` — so tool calls that must not (or could not) run still
+    need an error result to keep the conversation alive.
+    """
+    return [
+        {
+            "type": "tool_result",
+            "tool_use_id": block.id,
+            "content": note,
+            "is_error": True,
+        }
+        for block in content
+        if getattr(block, "type", None) == "tool_use"
+    ]
+
+
 def run() -> None:
     """Start the read → ask → answer loop until the user types ``/exit``.
 
@@ -280,12 +302,25 @@ def run() -> None:
                 # next user turn) carries complete context.
                 messages.append({"role": "assistant", "content": message.content})
 
-                if message.stop_reason != "tool_use":
-                    break
-                tool_results = _run_tool_calls(message.content)
-                if not tool_results:
-                    break  # defensive: tool_use stop with no tool_use blocks
-                messages.append({"role": "user", "content": tool_results})
+                if message.stop_reason == "tool_use":
+                    tool_results = _run_tool_calls(message.content)
+                    if not tool_results:
+                        break  # defensive: tool_use stop with no tool_use blocks
+                    messages.append({"role": "user", "content": tool_results})
+                    continue
+
+                # Any other stop reason ends the turn — but a reply truncated
+                # at the max_tokens limit can still carry tool_use blocks. A
+                # truncated command must never be executed, yet each block
+                # still needs a tool_result or the history is poisoned.
+                truncated = _error_tool_results(
+                    message.content,
+                    "Reply was truncated before this tool call could run.",
+                )
+                if truncated:
+                    messages.append({"role": "user", "content": truncated})
+                    print("[Reply truncated: its tool calls were not executed.]")
+                break
         except KeyboardInterrupt:
             # Ctrl-C while streaming the reply cancels cleanly, mirroring the
             # graceful quit offered at the input prompt.
