@@ -628,6 +628,19 @@ def test_run_bash_timeout_kills_the_whole_process_tree(monkeypatch, tmp_path):
     assert not marker.exists()
 
 
+def test_run_bash_timeout_forwards_partial_output(monkeypatch):
+    # A command killed at the timeout already produced useful output; the
+    # model must see how far it got, not just a bare timeout notice.
+    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 0.3)
+
+    output, is_error = agent.run_bash("echo progress; echo warn >&2; sleep 5")
+
+    assert "progress" in output
+    assert "[stderr]\nwarn" in output
+    assert "timed out" in output
+    assert is_error is True
+
+
 def test_run_bash_truncates_long_output(monkeypatch):
     monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 10)
 

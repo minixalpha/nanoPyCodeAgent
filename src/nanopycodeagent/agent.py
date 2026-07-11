@@ -210,11 +210,16 @@ def run_bash(command: str) -> tuple[str, bool]:
                 stderr=stderr_file,
                 start_new_session=True,
             )
+            timed_out = False
             try:
                 returncode = process.wait(timeout=BASH_TIMEOUT_SECONDS)
             except subprocess.TimeoutExpired:
+                # The tree is killed, but everything it wrote until now is in
+                # the temp files — forward it, so a slow build or test run
+                # shows how far it got instead of a bare timeout notice.
                 _kill_process_tree(process)
-                return f"Command timed out after {BASH_TIMEOUT_SECONDS} seconds.", True
+                returncode = None
+                timed_out = True
             except BaseException:  # e.g. Ctrl-C mid-command: never leak the tree
                 _kill_process_tree(process)
                 raise
@@ -233,10 +238,12 @@ def run_bash(command: str) -> tuple[str, bool]:
         parts.append(stdout)
     if stderr:
         parts.append("[stderr]\n" + stderr)
-    if returncode != 0:
+    if timed_out:
+        parts.append(f"[command timed out after {BASH_TIMEOUT_SECONDS} seconds]")
+    elif returncode != 0:
         parts.append(f"[exit code: {returncode}]")
     output = "\n".join(parts) or "(no output)"
-    return output, returncode != 0
+    return output, timed_out or returncode != 0
 
 
 def _terminal_safe(text: str) -> str:
