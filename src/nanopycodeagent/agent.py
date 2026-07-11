@@ -140,6 +140,19 @@ def load_settings_env(path: Path | None = None) -> None:
             print(f"Warning: ignoring invalid config entry {key!r}: {exc}")
 
 
+def _clip_stream(text: str) -> str:
+    """Truncate one captured stream to ``MAX_TOOL_OUTPUT_CHARS``.
+
+    Each stream is clipped on its own, before the sections are joined —
+    clipping the joined result instead would let a chatty stdout push the
+    ``[stderr]`` section and the exit-code marker out of the message
+    entirely, hiding the one part that explains a failure.
+    """
+    if len(text) > MAX_TOOL_OUTPUT_CHARS:
+        return text[:MAX_TOOL_OUTPUT_CHARS] + "\n[... output truncated ...]"
+    return text
+
+
 def _kill_process_tree(process: subprocess.Popen) -> None:
     """Kill the bash child and every process in its group, then reap it.
 
@@ -201,14 +214,12 @@ def run_bash(command: str) -> tuple[str, bool]:
 
     parts = []
     if stdout:
-        parts.append(stdout.rstrip("\n"))
+        parts.append(_clip_stream(stdout.rstrip("\n")))
     if stderr:
-        parts.append("[stderr]\n" + stderr.rstrip("\n"))
+        parts.append("[stderr]\n" + _clip_stream(stderr.rstrip("\n")))
     if returncode != 0:
         parts.append(f"[exit code: {returncode}]")
     output = "\n".join(parts) or "(no output)"
-    if len(output) > MAX_TOOL_OUTPUT_CHARS:
-        output = output[:MAX_TOOL_OUTPUT_CHARS] + "\n[... output truncated ...]"
     return output, returncode != 0
 
 

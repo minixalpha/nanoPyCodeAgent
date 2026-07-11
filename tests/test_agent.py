@@ -623,6 +623,22 @@ def test_run_bash_truncates_long_output(monkeypatch):
     assert is_error is False
 
 
+def test_run_bash_truncation_keeps_stderr_and_exit_code_visible(monkeypatch):
+    # A failing command with chatty stdout must not have its diagnosis cut
+    # off: each stream is truncated on its own, so the [stderr] section and
+    # the exit-code marker survive no matter how much stdout was printed.
+    monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 50)
+
+    output, is_error = agent.run_bash(
+        "printf 'a%.0s' {1..500}; echo boom >&2; exit 3"
+    )
+
+    assert "[... output truncated ...]" in output
+    assert "[stderr]\nboom" in output
+    assert output.endswith("[exit code: 3]")
+    assert is_error is True
+
+
 def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
     # First reply asks to run a command; the second one answers with text.
     tool_turn = _FakeStream(
