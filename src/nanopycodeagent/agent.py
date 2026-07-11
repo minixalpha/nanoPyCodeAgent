@@ -184,9 +184,12 @@ def run_bash(command: str) -> tuple[str, bool]:
     """Run ``command`` with ``bash -c`` and return ``(output, is_error)``.
 
     The output combines stdout, labelled stderr, and the exit code when
-    non-zero, truncated to ``MAX_TOOL_OUTPUT_CHARS``. ``is_error`` is true when
-    bash could not be started, the command timed out, or it exited non-zero.
-    Non-UTF-8 output bytes are replaced rather than raising.
+    non-zero, truncated to ``MAX_TOOL_OUTPUT_CHARS``. ``is_error`` is true
+    only when the tool itself failed — bash could not be started or the
+    command timed out. A command that ran to completion is a successful tool
+    call whatever its exit code: the code is reported in the output text,
+    where the model can tell a negative answer (``grep`` finding nothing)
+    from a failure. Non-UTF-8 output bytes are replaced rather than raising.
 
     Output is captured into temp files, not pipes: a pipe only reaches EOF
     once every inherited copy is closed, so a background child (e.g.
@@ -244,7 +247,7 @@ def run_bash(command: str) -> tuple[str, bool]:
     elif returncode != 0:
         parts.append(f"[exit code: {returncode}]")
     output = "\n".join(parts) or "(no output)"
-    return output, timed_out or returncode != 0
+    return output, timed_out
 
 
 # Control characters other than newline and tab: C0 controls (\r, ESC, ...),

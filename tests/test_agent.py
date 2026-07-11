@@ -597,7 +597,11 @@ def test_run_bash_reports_stderr_and_exit_code():
 
     assert "[stderr]\noops" in output
     assert "[exit code: 3]" in output
-    assert is_error is True
+    # A command that ran to completion is a successful tool call whatever its
+    # exit code — the code is reported in the text, and is_error stays
+    # reserved for tool failures (timeout, bash missing). A non-zero exit is
+    # often a valid negative answer, e.g. grep finding no match.
+    assert is_error is False
 
 
 def test_run_bash_placeholder_for_empty_output():
@@ -712,7 +716,7 @@ def test_run_bash_truncation_keeps_stderr_and_exit_code_visible(monkeypatch):
     assert "[... output truncated ...]" in output
     assert "[stderr]\nboom" in output
     assert output.endswith("[exit code: 3]")
-    assert is_error is True
+    assert is_error is False  # completed command; the exit code is in the text
 
 
 def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
