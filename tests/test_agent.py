@@ -530,6 +530,19 @@ def test_run_bash_times_out(monkeypatch):
     assert is_error is True
 
 
+def test_run_bash_returns_when_background_child_keeps_output_open(monkeypatch):
+    # A backgrounded child inherits bash's stdout/stderr; run_bash must wait
+    # for bash itself, not for the output streams to close, or a plain
+    # "start a server" command stalls until the timeout and is reported as a
+    # spurious failure.
+    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 5)
+
+    output, is_error = agent.run_bash("echo started; sleep 10 &")
+
+    assert output == "started"
+    assert is_error is False
+
+
 def test_run_bash_truncates_long_output(monkeypatch):
     monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 10)
 

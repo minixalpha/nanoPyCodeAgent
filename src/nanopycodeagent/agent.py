@@ -9,6 +9,7 @@ terminal as they happen. Type ``/exit`` to quit.
 import json
 import os
 import subprocess
+import tempfile
 from pathlib import Path
 
 import anthropic
@@ -145,31 +146,48 @@ def run_bash(command: str) -> tuple[str, bool]:
     non-zero, truncated to ``MAX_TOOL_OUTPUT_CHARS``. ``is_error`` is true when
     bash could not be started, the command timed out, or it exited non-zero.
     Non-UTF-8 output bytes are replaced rather than raising.
+
+    Output is captured into temp files, not pipes: a pipe only reaches EOF
+    once every inherited copy is closed, so a background child (e.g.
+    ``some_server &``) would stall a pipe read until the timeout even though
+    bash itself exited immediately. Files let us wait on bash alone.
     """
     try:
-        completed = subprocess.run(
-            ["bash", "-c", command],
-            capture_output=True,
-            timeout=BASH_TIMEOUT_SECONDS,
-            encoding="utf-8",
-            errors="replace",
-        )
-    except subprocess.TimeoutExpired:
-        return f"Command timed out after {BASH_TIMEOUT_SECONDS} seconds.", True
+        with (
+            tempfile.TemporaryFile() as stdout_file,
+            tempfile.TemporaryFile() as stderr_file,
+        ):
+            process = subprocess.Popen(
+                ["bash", "-c", command], stdout=stdout_file, stderr=stderr_file
+            )
+            try:
+                returncode = process.wait(timeout=BASH_TIMEOUT_SECONDS)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
+                return f"Command timed out after {BASH_TIMEOUT_SECONDS} seconds.", True
+            except BaseException:  # e.g. Ctrl-C mid-command: never leak the child
+                process.kill()
+                process.wait()
+                raise
+            stdout_file.seek(0)
+            stdout = stdout_file.read().decode("utf-8", errors="replace")
+            stderr_file.seek(0)
+            stderr = stderr_file.read().decode("utf-8", errors="replace")
     except OSError as exc:  # e.g. bash itself is missing
         return f"Could not run bash: {exc}", True
 
     parts = []
-    if completed.stdout:
-        parts.append(completed.stdout.rstrip("\n"))
-    if completed.stderr:
-        parts.append("[stderr]\n" + completed.stderr.rstrip("\n"))
-    if completed.returncode != 0:
-        parts.append(f"[exit code: {completed.returncode}]")
+    if stdout:
+        parts.append(stdout.rstrip("\n"))
+    if stderr:
+        parts.append("[stderr]\n" + stderr.rstrip("\n"))
+    if returncode != 0:
+        parts.append(f"[exit code: {returncode}]")
     output = "\n".join(parts) or "(no output)"
     if len(output) > MAX_TOOL_OUTPUT_CHARS:
         output = output[:MAX_TOOL_OUTPUT_CHARS] + "\n[... output truncated ...]"
-    return output, completed.returncode != 0
+    return output, returncode != 0
 
 
 def _run_one_tool(block: ToolUseBlock) -> tuple[str, bool]:
