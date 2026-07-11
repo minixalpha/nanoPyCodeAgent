@@ -44,6 +44,11 @@ def _text_block(text):
     return SimpleNamespace(type="text", text=text)
 
 
+def _tool_use_block(block_id, command, name="bash"):
+    """A minimal stand-in for an SDK tool_use content block."""
+    return SimpleNamespace(type="tool_use", id=block_id, name=name, input={"command": command})
+
+
 def _write_settings(path, env):
     """Write a ``settings.json`` with the given ``env`` mapping."""
     path.write_text(json.dumps({"env": env}), encoding="utf-8")
@@ -55,11 +60,13 @@ class _FakeStream:
     ``mid_stream_error`` simulates a failure while the reply is streaming: the
     text chunks are yielded first, then the exception is raised from within the
     ``text_stream`` iteration — after partial output has already been printed.
+    ``stop_reason`` is ``"tool_use"`` when the scripted reply asks to run tools.
     """
 
-    def __init__(self, content, mid_stream_error=None):
+    def __init__(self, content, mid_stream_error=None, stop_reason="end_turn"):
         self._content = content
         self._mid_stream_error = mid_stream_error
+        self._stop_reason = stop_reason
 
     def __enter__(self):
         return self
@@ -80,7 +87,7 @@ class _FakeStream:
         return _gen()
 
     def get_final_message(self):
-        return SimpleNamespace(content=self._content)
+        return SimpleNamespace(content=self._content, stop_reason=self._stop_reason)
 
 
 class _FakeMessages:
@@ -490,6 +497,156 @@ def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
     assert len(messages.calls) == 2
     # The failed turn was popped, so the next call's history is clean.
     assert messages.calls[1] == [{"role": "user", "content": "hello"}]
+
+
+def test_run_bash_captures_stdout():
+    output, is_error = agent.run_bash("echo hello")
+
+    assert output == "hello"
+    assert is_error is False
+
+
+def test_run_bash_reports_stderr_and_exit_code():
+    output, is_error = agent.run_bash("echo oops >&2; exit 3")
+
+    assert "[stderr]\noops" in output
+    assert "[exit code: 3]" in output
+    assert is_error is True
+
+
+def test_run_bash_placeholder_for_empty_output():
+    output, is_error = agent.run_bash("true")
+
+    assert output == "(no output)"
+    assert is_error is False
+
+
+def test_run_bash_times_out(monkeypatch):
+    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 0.2)
+
+    output, is_error = agent.run_bash("sleep 5")
+
+    assert "timed out" in output
+    assert is_error is True
+
+
+def test_run_bash_truncates_long_output(monkeypatch):
+    monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 10)
+
+    output, is_error = agent.run_bash("printf 'a%.0s' {1..100}")
+
+    assert output.startswith("a" * 10)
+    assert output.endswith("[... output truncated ...]")
+    assert is_error is False
+
+
+def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
+    # First reply asks to run a command; the second one answers with text.
+    tool_turn = _FakeStream(
+        [_text_block("Let me check."), _tool_use_block("tu_1", "echo hello")],
+        stop_reason="tool_use",
+    )
+    final = [_text_block("It printed hello.")]
+    messages = _FakeMessages([tool_turn, final])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["run echo", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "[bash]$ echo hello" in out  # the command was echoed to the user
+    assert "hello" in out  # and so was its output
+    assert "It printed hello." in out
+    assert len(messages.calls) == 2
+    # The bash tool is offered on every request.
+    assert messages.kwargs[0]["tools"] == [agent.BASH_TOOL]
+    # The second call carries the tool_use turn plus a matching tool_result.
+    assert messages.calls[1][-2] == {"role": "assistant", "content": tool_turn._content}
+    assert messages.calls[1][-1] == {
+        "role": "user",
+        "content": [
+            {
+                "type": "tool_result",
+                "tool_use_id": "tu_1",
+                "content": "hello",
+                "is_error": False,
+            }
+        ],
+    }
+
+
+def test_tool_use_turn_runs_multiple_tool_calls(monkeypatch, capsys):
+    tool_turn = _FakeStream(
+        [_tool_use_block("tu_1", "echo one"), _tool_use_block("tu_2", "echo two")],
+        stop_reason="tool_use",
+    )
+    final = [_text_block("done")]
+    messages = _FakeMessages([tool_turn, final])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["go", "/exit"])
+
+    agent.run()
+
+    results = messages.calls[1][-1]["content"]
+    assert [r["tool_use_id"] for r in results] == ["tu_1", "tu_2"]
+    assert [r["content"] for r in results] == ["one", "two"]
+
+
+def test_unknown_tool_returns_error_result(monkeypatch, capsys):
+    # A tool name we never registered comes back as an error result instead of
+    # crashing the loop, so the model can see the problem and recover.
+    tool_turn = _FakeStream(
+        [_tool_use_block("tu_1", "whatever", name="python")], stop_reason="tool_use"
+    )
+    final = [_text_block("ok")]
+    messages = _FakeMessages([tool_turn, final])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["go", "/exit"])
+
+    agent.run()
+
+    (result,) = messages.calls[1][-1]["content"]
+    assert result["is_error"] is True
+    assert "Unknown tool: python" in result["content"]
+
+
+def test_bash_tool_with_invalid_input_returns_error_result(monkeypatch, capsys):
+    # A tool_use block without a usable 'command' string becomes an error
+    # result; nothing is executed.
+    bad_block = SimpleNamespace(type="tool_use", id="tu_1", name="bash", input={})
+    tool_turn = _FakeStream([bad_block], stop_reason="tool_use")
+    final = [_text_block("ok")]
+    messages = _FakeMessages([tool_turn, final])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["go", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "[bash]$" not in out  # nothing ran
+    (result,) = messages.calls[1][-1]["content"]
+    assert result["is_error"] is True
+    assert "'command'" in result["content"]
+
+
+def test_api_error_during_tool_loop_drops_whole_turn(monkeypatch, capsys):
+    # The follow-up request after a tool run fails: the whole turn — user
+    # prompt, tool_use reply, and tool_result — is rolled back so the next
+    # turn starts from a valid history.
+    tool_turn = _FakeStream([_tool_use_block("tu_1", "echo hi")], stop_reason="tool_use")
+    conn_err = anthropic.APIConnectionError(request=_request())
+    reply = [_text_block("ok now")]
+    messages = _FakeMessages([tool_turn, conn_err, reply])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Request failed:" in out
+    assert len(messages.calls) == 3
+    # The partial tool exchange was rolled back, so the next call is clean.
+    assert messages.calls[2] == [{"role": "user", "content": "hello"}]
 
 
 def test_network_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
