@@ -8,6 +8,7 @@ terminal as they happen. Type ``/exit`` to quit.
 
 import json
 import os
+import signal
 import subprocess
 import tempfile
 from pathlib import Path
@@ -139,6 +140,19 @@ def load_settings_env(path: Path | None = None) -> None:
             print(f"Warning: ignoring invalid config entry {key!r}: {exc}")
 
 
+def _kill_process_tree(process: subprocess.Popen) -> None:
+    """Kill the bash child and every process in its group, then reap it.
+
+    ``process`` must have been started with ``start_new_session=True`` so its
+    pid doubles as the process-group id.
+    """
+    try:
+        os.killpg(process.pid, signal.SIGKILL)
+    except ProcessLookupError:  # the whole group already exited
+        pass
+    process.wait()
+
+
 def run_bash(command: str) -> tuple[str, bool]:
     """Run ``command`` with ``bash -c`` and return ``(output, is_error)``.
 
@@ -160,21 +174,23 @@ def run_bash(command: str) -> tuple[str, bool]:
             # stdin is closed off: the child must not share the terminal with
             # the agent, or a command that prompts (or falls back to reading
             # stdin) blocks until the timeout while eating the user's keys.
+            # start_new_session puts bash and its descendants in their own
+            # process group, so a timeout can kill the work the command
+            # actually forked (builds, servers), not just the bash wrapper.
             process = subprocess.Popen(
                 ["bash", "-c", command],
                 stdin=subprocess.DEVNULL,
                 stdout=stdout_file,
                 stderr=stderr_file,
+                start_new_session=True,
             )
             try:
                 returncode = process.wait(timeout=BASH_TIMEOUT_SECONDS)
             except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait()
+                _kill_process_tree(process)
                 return f"Command timed out after {BASH_TIMEOUT_SECONDS} seconds.", True
-            except BaseException:  # e.g. Ctrl-C mid-command: never leak the child
-                process.kill()
-                process.wait()
+            except BaseException:  # e.g. Ctrl-C mid-command: never leak the tree
+                _kill_process_tree(process)
                 raise
             stdout_file.seek(0)
             stdout = stdout_file.read().decode("utf-8", errors="replace")

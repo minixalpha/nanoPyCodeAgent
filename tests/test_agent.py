@@ -7,6 +7,7 @@ then assert on captured stdout and the recorded calls.
 
 import json
 import os
+import time
 from types import SimpleNamespace
 
 import anthropic
@@ -594,6 +595,22 @@ def test_run_bash_returns_when_background_child_keeps_output_open(monkeypatch):
 
     assert output == "started"
     assert is_error is False
+
+
+def test_run_bash_timeout_kills_the_whole_process_tree(monkeypatch, tmp_path):
+    # On timeout the work the command forked must die with it: a surviving
+    # grandchild would keep burning CPU or holding ports after the tool
+    # reported "timed out". The subshell below would write the marker after
+    # the timeout fires — it only stays absent if the group was killed.
+    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 0.3)
+    marker = tmp_path / "survived"
+
+    output, is_error = agent.run_bash(f"(sleep 0.8; touch {marker}) & wait")
+
+    assert "timed out" in output
+    assert is_error is True
+    time.sleep(1.0)  # past the grandchild's write moment
+    assert not marker.exists()
 
 
 def test_run_bash_truncates_long_output(monkeypatch):
