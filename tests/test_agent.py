@@ -1,153 +1,32 @@
-"""Tests for the minimal agent loop.
+"""Tests for the agent loop: startup, streaming, tool dispatch, and recovery.
 
 Every Anthropic API access is mocked, so these tests never hit the network and
 never spend tokens. We drive ``run()`` by scripting ``input()`` and the client,
 then assert on captured stdout and the recorded calls.
 """
 
-import json
-import os
-import time
 from types import SimpleNamespace
 
 import anthropic
 import httpx
-import pytest
 
 from nanopycodeagent import agent
 
-_MANAGED_ENV = ("ANTHROPIC_API_KEY", "ANTHROPIC_BASE_URL", "ANTHROPIC_MODEL")
-
-
-@pytest.fixture(autouse=True)
-def _isolate_config(monkeypatch, tmp_path):
-    """Keep every test off the real config file and ambient ANTHROPIC_* vars.
-
-    ``SETTINGS_PATH`` is redirected into an empty temp dir (so tests never read
-    the developer's ~/.nanoPyCodeAgent/settings.json), and the managed env vars
-    are cleared up front and restored afterwards — ``load_settings_env`` writes
-    to ``os.environ`` directly, which monkeypatch would not roll back on its own.
-    """
-    monkeypatch.setattr(agent, "SETTINGS_PATH", tmp_path / "settings.json")
-    saved = {key: os.environ.pop(key, None) for key in _MANAGED_ENV}
-    try:
-        yield
-    finally:
-        for key, value in saved.items():
-            if value is None:
-                os.environ.pop(key, None)
-            else:
-                os.environ[key] = value
-
-
-def _text_block(text):
-    """A minimal stand-in for an SDK text content block."""
-    return SimpleNamespace(type="text", text=text)
-
-
-def _tool_use_block(block_id, command, name="bash"):
-    """A minimal stand-in for an SDK tool_use content block."""
-    return SimpleNamespace(type="tool_use", id=block_id, name=name, input={"command": command})
-
-
-def _write_settings(path, env):
-    """Write a ``settings.json`` with the given ``env`` mapping."""
-    path.write_text(json.dumps({"env": env}), encoding="utf-8")
-
-
-class _FakeStream:
-    """Mimics the SDK's ``MessageStream`` context manager for scripted replies.
-
-    ``mid_stream_error`` simulates a failure while the reply is streaming: the
-    text chunks are yielded first, then the exception is raised from within the
-    ``text_stream`` iteration — after partial output has already been printed.
-    ``stop_reason`` is ``"tool_use"`` when the scripted reply asks to run tools.
-    """
-
-    def __init__(self, content, mid_stream_error=None, stop_reason="end_turn"):
-        self._content = content
-        self._mid_stream_error = mid_stream_error
-        self._stop_reason = stop_reason
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *exc_info):
-        return False
-
-    @property
-    def text_stream(self):
-        def _gen():
-            # Yield each text block's text as a single chunk.
-            for b in self._content:
-                if b.type == "text":
-                    yield b.text
-            if self._mid_stream_error is not None:
-                raise self._mid_stream_error
-
-        return _gen()
-
-    def get_final_message(self):
-        return SimpleNamespace(content=self._content, stop_reason=self._stop_reason)
-
-
-class _FakeMessages:
-    """Records each ``stream()`` call and replays a scripted response or raises."""
-
-    def __init__(self, script):
-        # Each script entry is either a list of content blocks to stream as the
-        # message's ``content``, a ``BaseException`` instance to raise at request
-        # time (an API error, or ``KeyboardInterrupt`` to simulate Ctrl-C while
-        # connecting), or a ``_FakeStream`` — e.g. one that fails mid-stream.
-        self._script = list(script)
-        self.calls = []  # snapshot of the ``messages`` list at each call
-        self.kwargs = []  # full kwargs passed to each stream() call
-
-    def stream(self, **kwargs):
-        self.calls.append(list(kwargs["messages"]))  # freeze history at call time
-        self.kwargs.append(kwargs)
-        item = self._script.pop(0)
-        if isinstance(item, BaseException):
-            raise item
-        if isinstance(item, _FakeStream):
-            return item
-        return _FakeStream(item)
-
-
-class _FakeClient:
-    def __init__(self, messages, *, api_key="sk-test", auth_token=None):
-        self.messages = messages
-        self.api_key = api_key
-        self.auth_token = auth_token
-
-
-def _request():
-    return httpx.Request("POST", "https://api.anthropic.com/v1/messages")
-
-
-def _patch(monkeypatch, *, client, inputs):
-    """Wire up a fake Anthropic client and scripted input().
-
-    The config file is isolated by the autouse ``_isolate_config`` fixture, so
-    ``run()`` sees no config file unless a test writes one to ``SETTINGS_PATH``.
-    """
-    monkeypatch.setattr(agent.anthropic, "Anthropic", lambda *a, **k: client)
-
-    answers = iter(inputs)
-
-    def fake_input(prompt=""):
-        try:
-            return next(answers)
-        except StopIteration as exc:  # safety net: behaves like Ctrl-D
-            raise EOFError from exc
-
-    monkeypatch.setattr("builtins.input", fake_input)
+from helpers import (
+    FakeClient,
+    FakeMessages,
+    FakeStream,
+    api_request,
+    patch_client_and_input,
+    text_block,
+    tool_use_block,
+)
 
 
 def test_missing_credentials_exits_early(monkeypatch, capsys):
-    messages = _FakeMessages([])
-    client = _FakeClient(messages, api_key=None, auth_token=None)
-    _patch(monkeypatch, client=client, inputs=[])
+    messages = FakeMessages([])
+    client = FakeClient(messages, api_key=None, auth_token=None)
+    patch_client_and_input(monkeypatch, client=client, inputs=[])
 
     agent.run()
 
@@ -161,9 +40,9 @@ def test_missing_credentials_exits_early(monkeypatch, capsys):
 
 def test_startup_message_shows_default_model(monkeypatch, capsys):
     monkeypatch.delenv("ANTHROPIC_MODEL", raising=False)
-    messages = _FakeMessages([])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["/exit"])
+    messages = FakeMessages([])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["/exit"])
 
     agent.run()
 
@@ -174,10 +53,10 @@ def test_startup_message_shows_default_model(monkeypatch, capsys):
 
 def test_model_can_be_overridden_via_env(monkeypatch, capsys):
     monkeypatch.setenv("ANTHROPIC_MODEL", "claude-opus-4-8")
-    reply = [_text_block("ok")]
-    messages = _FakeMessages([reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
+    reply = [text_block("ok")]
+    messages = FakeMessages([reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["hi", "/exit"])
 
     agent.run()
 
@@ -188,20 +67,35 @@ def test_model_can_be_overridden_via_env(monkeypatch, capsys):
 
 def test_blank_model_env_falls_back_to_default(monkeypatch, capsys):
     monkeypatch.setenv("ANTHROPIC_MODEL", "   ")  # empty / whitespace-only
-    reply = [_text_block("ok")]
-    messages = _FakeMessages([reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
+    reply = [text_block("ok")]
+    messages = FakeMessages([reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["hi", "/exit"])
 
     agent.run()
 
     assert messages.kwargs[0]["model"] == agent.DEFAULT_MODEL
 
 
+def test_startup_message_labels_explicit_default_model_as_configured(monkeypatch, capsys):
+    # Explicitly pinning the model to the default value is still reported as a
+    # configured override, not as the fallback.
+    monkeypatch.setenv("ANTHROPIC_MODEL", agent.DEFAULT_MODEL)
+    messages = FakeMessages([[text_block("ok")]])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["hi", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "from ANTHROPIC_MODEL" in out
+    assert "using default model" not in out
+
+
 def test_exit_command_quits_without_api_call(monkeypatch, capsys):
-    messages = _FakeMessages([])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["/exit"])
+    messages = FakeMessages([])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["/exit"])
 
     agent.run()
 
@@ -211,10 +105,10 @@ def test_exit_command_quits_without_api_call(monkeypatch, capsys):
 
 
 def test_single_turn_prints_reply(monkeypatch, capsys):
-    reply = [_text_block("Hi there")]
-    messages = _FakeMessages([reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hello", "/exit"])
+    reply = [text_block("Hi there")]
+    messages = FakeMessages([reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["hello", "/exit"])
 
     agent.run()
 
@@ -226,11 +120,13 @@ def test_single_turn_prints_reply(monkeypatch, capsys):
 
 
 def test_multi_turn_accumulates_history(monkeypatch, capsys):
-    reply1 = [_text_block("Nice to meet you, Alice.")]
-    reply2 = [_text_block("Your name is Alice.")]
-    messages = _FakeMessages([reply1, reply2])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["I'm Alice", "What's my name?", "/exit"])
+    reply1 = [text_block("Nice to meet you, Alice.")]
+    reply2 = [text_block("Your name is Alice.")]
+    messages = FakeMessages([reply1, reply2])
+    client = FakeClient(messages)
+    patch_client_and_input(
+        monkeypatch, client=client, inputs=["I'm Alice", "What's my name?", "/exit"]
+    )
 
     agent.run()
 
@@ -246,9 +142,9 @@ def test_multi_turn_accumulates_history(monkeypatch, capsys):
 
 
 def test_blank_input_is_skipped(monkeypatch, capsys):
-    messages = _FakeMessages([])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["", "   ", "/exit"])
+    messages = FakeMessages([])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["", "   ", "/exit"])
 
     agent.run()
 
@@ -257,12 +153,12 @@ def test_blank_input_is_skipped(monkeypatch, capsys):
 
 def test_authentication_error_breaks_loop(monkeypatch, capsys):
     err = anthropic.AuthenticationError(
-        "unauthorized", response=httpx.Response(401, request=_request()), body=None
+        "unauthorized", response=httpx.Response(401, request=api_request()), body=None
     )
-    messages = _FakeMessages([err])
-    client = _FakeClient(messages)
+    messages = FakeMessages([err])
+    client = FakeClient(messages)
     # The second input is provided but must never be read (the loop breaks).
-    _patch(monkeypatch, client=client, inputs=["hi", "should be ignored"])
+    patch_client_and_input(monkeypatch, client=client, inputs=["hi", "should be ignored"])
 
     agent.run()
 
@@ -273,11 +169,11 @@ def test_authentication_error_breaks_loop(monkeypatch, capsys):
 
 
 def test_api_error_drops_turn_and_continues(monkeypatch, capsys):
-    conn_err = anthropic.APIConnectionError(request=_request())
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages([conn_err, reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
+    conn_err = anthropic.APIConnectionError(request=api_request())
+    reply = [text_block("ok now")]
+    messages = FakeMessages([conn_err, reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
 
     agent.run()
 
@@ -290,174 +186,13 @@ def test_api_error_drops_turn_and_continues(monkeypatch, capsys):
     assert messages.calls[1] == [{"role": "user", "content": "hello"}]
 
 
-def test_settings_file_supplies_model(monkeypatch):
-    # With ANTHROPIC_MODEL unset in the environment, the config file supplies it.
-    _write_settings(agent.SETTINGS_PATH, {"ANTHROPIC_MODEL": "claude-opus-4-8"})
-    messages = _FakeMessages([[_text_block("ok")]])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
-
-    agent.run()
-
-    assert messages.kwargs[0]["model"] == "claude-opus-4-8"  # reaches the API
-
-
-def test_env_var_overrides_settings_file(monkeypatch):
-    # A real environment variable wins over the config file's value.
-    _write_settings(agent.SETTINGS_PATH, {"ANTHROPIC_MODEL": "from-settings"})
-    monkeypatch.setenv("ANTHROPIC_MODEL", "from-env")
-    messages = _FakeMessages([[_text_block("ok")]])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
-
-    agent.run()
-
-    assert messages.kwargs[0]["model"] == "from-env"
-
-
-def test_missing_settings_file_starts_cleanly(monkeypatch, capsys):
-    # No config file exists (SETTINGS_PATH points into an empty temp dir).
-    messages = _FakeMessages([])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["/exit"])
-
-    agent.run()
-
-    out = capsys.readouterr().out
-    assert "Warning" not in out  # a missing config file is not an error
-    assert "Bye!" in out
-
-
-def test_malformed_settings_file_warns_but_continues(monkeypatch, capsys):
-    # A broken config file degrades gracefully: warn, then start anyway.
-    agent.SETTINGS_PATH.write_text("{ not valid json", encoding="utf-8")
-    messages = _FakeMessages([])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["/exit"])
-
-    agent.run()
-
-    out = capsys.readouterr().out
-    assert "Warning" in out  # the malformed file was reported
-    assert "Bye!" in out  # but startup still proceeded
-
-
-def test_load_settings_env_fills_only_unset_keys(monkeypatch, tmp_path):
-    # Existing env vars are preserved; only unset keys are filled from the file.
-    monkeypatch.setenv("ANTHROPIC_MODEL", "already-set")
-    path = tmp_path / "settings.json"
-    _write_settings(path, {"ANTHROPIC_MODEL": "ignored", "ANTHROPIC_API_KEY": "sk-cfg"})
-
-    agent.load_settings_env(path)
-
-    assert os.environ["ANTHROPIC_MODEL"] == "already-set"  # env var wins
-    assert os.environ["ANTHROPIC_API_KEY"] == "sk-cfg"  # the gap gets filled
-
-
-def test_load_settings_env_skips_empty_and_non_string(tmp_path):
-    path = tmp_path / "settings.json"
-    _write_settings(
-        path,
-        {
-            "ANTHROPIC_API_KEY": "sk-real",
-            "ANTHROPIC_BASE_URL": "",  # empty -> skipped
-            "ANTHROPIC_MODEL": "   ",  # whitespace-only -> skipped
-            "SOME_FLAG": 123,  # non-string -> skipped
-        },
-    )
-
-    agent.load_settings_env(path)
-
-    assert os.environ.get("ANTHROPIC_API_KEY") == "sk-real"
-    assert "ANTHROPIC_BASE_URL" not in os.environ
-    assert "ANTHROPIC_MODEL" not in os.environ
-    assert "SOME_FLAG" not in os.environ
-
-
-def test_load_settings_env_ignores_non_anthropic_keys(monkeypatch, tmp_path):
-    # Only ANTHROPIC_* keys are honored; unrelated (string) vars are never
-    # injected into the environment, even when unset.
-    monkeypatch.delenv("UNRELATED_PROXY_VAR", raising=False)
-    path = tmp_path / "settings.json"
-    _write_settings(
-        path,
-        {"UNRELATED_PROXY_VAR": "http://proxy:8080", "ANTHROPIC_API_KEY": "sk-real"},
-    )
-
-    agent.load_settings_env(path)
-
-    assert os.environ.get("ANTHROPIC_API_KEY") == "sk-real"  # allowed key fills
-    assert "UNRELATED_PROXY_VAR" not in os.environ  # foreign key ignored
-
-
-def test_load_settings_env_skips_os_rejected_values(tmp_path, capsys):
-    # A value the OS rejects (embedded NUL) is warned about, not fatal, and the
-    # key is left unset — a bad config never blocks startup.
-    path = tmp_path / "settings.json"
-    _write_settings(path, {"ANTHROPIC_API_KEY": "sk-\x00bad"})
-
-    agent.load_settings_env(path)  # must not raise
-
-    out = capsys.readouterr().out
-    assert "Warning" in out
-    assert "ANTHROPIC_API_KEY" not in os.environ
-
-
-def test_load_settings_env_handles_unresolvable_home(monkeypatch):
-    # When the home dir can't be resolved, SETTINGS_PATH is None and the default
-    # load is a silent no-op rather than a crash.
-    monkeypatch.setattr(agent, "SETTINGS_PATH", None)
-
-    agent.load_settings_env()  # must not raise
-
-
-def test_default_settings_path_survives_unresolvable_home(monkeypatch):
-    # Path.home() raising RuntimeError yields a None path instead of propagating
-    # out at import time.
-    def _no_home(*args, **kwargs):
-        raise RuntimeError("Could not determine home directory.")
-
-    monkeypatch.setattr(agent.Path, "home", _no_home)
-
-    assert agent._default_settings_path() is None
-
-
-def test_non_utf8_settings_file_warns_but_continues(monkeypatch, capsys):
-    # A config file with non-UTF-8 bytes degrades gracefully instead of crashing.
-    agent.SETTINGS_PATH.write_bytes(b"\xff\xfe not utf-8")
-    messages = _FakeMessages([])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["/exit"])
-
-    agent.run()
-
-    out = capsys.readouterr().out
-    assert "Warning" in out  # the unreadable file was reported
-    assert "Bye!" in out  # but startup still proceeded
-
-
-def test_startup_message_labels_explicit_default_model_as_configured(monkeypatch, capsys):
-    # Explicitly pinning the model to the default value is still reported as a
-    # configured override, not as the fallback.
-    monkeypatch.setenv("ANTHROPIC_MODEL", agent.DEFAULT_MODEL)
-    messages = _FakeMessages([[_text_block("ok")]])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hi", "/exit"])
-
-    agent.run()
-
-    out = capsys.readouterr().out
-    assert "from ANTHROPIC_MODEL" in out
-    assert "using default model" not in out
-
-
 def test_keyboard_interrupt_during_request_cancels_turn_only(monkeypatch, capsys):
     # Ctrl-C while waiting on the model reply cancels just that turn: the
     # prompt is rolled back and the session keeps going.
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages([KeyboardInterrupt(), reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hi", "again", "/exit"])
+    reply = [text_block("ok now")]
+    messages = FakeMessages([KeyboardInterrupt(), reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["hi", "again", "/exit"])
 
     agent.run()
 
@@ -472,11 +207,11 @@ def test_keyboard_interrupt_during_request_cancels_turn_only(monkeypatch, capsys
 def test_keyboard_interrupt_mid_stream_cancels_turn_only(monkeypatch, capsys):
     # Ctrl-C after part of the reply has already streamed cancels the turn
     # cleanly and returns to the prompt.
-    stream = _FakeStream([_text_block("partial")], mid_stream_error=KeyboardInterrupt())
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages([stream, reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["hi", "again", "/exit"])
+    stream = FakeStream([text_block("partial")], mid_stream_error=KeyboardInterrupt())
+    reply = [text_block("ok now")]
+    messages = FakeMessages([stream, reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["hi", "again", "/exit"])
 
     agent.run()
 
@@ -494,13 +229,13 @@ def test_keyboard_interrupt_during_tool_run_repairs_history_and_continues(
     # Ctrl-C while a bash command runs: the tool_use reply is already in
     # history, so it must gain an error tool_result (or the API rejects every
     # later request), and the session returns to the prompt instead of dying.
-    tool_turn = _FakeStream(
-        [_tool_use_block("tu_1", "sleep 100")], stop_reason="tool_use"
+    tool_turn = FakeStream(
+        [tool_use_block("tu_1", "sleep 100")], stop_reason="tool_use"
     )
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages([tool_turn, reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["go", "next", "/exit"])
+    reply = [text_block("ok now")]
+    messages = FakeMessages([tool_turn, reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["go", "next", "/exit"])
 
     def _interrupt(command):
         raise KeyboardInterrupt
@@ -526,12 +261,12 @@ def test_keyboard_interrupt_during_tool_run_repairs_history_and_continues(
 def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
     # An SDK error surfacing mid-stream (e.g. an SSE error event) is handled
     # the same as one raised at request time: drop the turn and keep going.
-    err = anthropic.APIConnectionError(request=_request())
-    stream = _FakeStream([_text_block("partial")], mid_stream_error=err)
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages([stream, reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
+    err = anthropic.APIConnectionError(request=api_request())
+    stream = FakeStream([text_block("partial")], mid_stream_error=err)
+    reply = [text_block("ok now")]
+    messages = FakeMessages([stream, reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
 
     agent.run()
 
@@ -540,31 +275,6 @@ def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
     assert len(messages.calls) == 2
     # The failed turn was popped, so the next call's history is clean.
     assert messages.calls[1] == [{"role": "user", "content": "hello"}]
-
-
-def test_terminal_safe_replaces_chars_stdout_cannot_encode(monkeypatch):
-    # Under an ascii stdout (e.g. PYTHONIOENCODING=ascii), printing bash
-    # output containing non-ASCII (like the U+FFFD replacements produced by
-    # errors="replace" decoding) must degrade, not raise and kill the agent.
-    monkeypatch.setattr(agent.sys, "stdout", SimpleNamespace(encoding="ascii"))
-
-    assert agent._terminal_safe("café �") == "caf? ?"
-
-
-def test_terminal_safe_passes_utf8_through_unchanged(monkeypatch):
-    monkeypatch.setattr(agent.sys, "stdout", SimpleNamespace(encoding="utf-8"))
-
-    assert agent._terminal_safe("café �") == "café �"
-
-
-def test_terminal_safe_strips_control_characters(monkeypatch):
-    # \r + erase-line sequences could rewrite the echoed "[bash]$ ..." line —
-    # the user's only view of what actually executed — so control characters
-    # are stripped for display; newlines and tabs stay.
-    monkeypatch.setattr(agent.sys, "stdout", SimpleNamespace(encoding="utf-8"))
-
-    assert agent._terminal_safe("evil\r\x1b[2Kmasked") == "evil[2Kmasked"
-    assert agent._terminal_safe("keep\nlines\tand tabs") == "keep\nlines\tand tabs"
 
 
 def test_tool_echo_is_sanitized_but_the_model_sees_raw_output(capsys):
@@ -585,150 +295,16 @@ def test_tool_echo_is_sanitized_but_the_model_sees_raw_output(capsys):
     assert is_error is False
 
 
-def test_run_bash_captures_stdout():
-    output, is_error = agent.run_bash("echo hello")
-
-    assert output == "hello"
-    assert is_error is False
-
-
-def test_run_bash_reports_stderr_and_exit_code():
-    output, is_error = agent.run_bash("echo oops >&2; exit 3")
-
-    assert "[stderr]\noops" in output
-    assert "[exit code: 3]" in output
-    # A command that ran to completion is a successful tool call whatever its
-    # exit code — the code is reported in the text, and is_error stays
-    # reserved for tool failures (timeout, bash missing). A non-zero exit is
-    # often a valid negative answer, e.g. grep finding no match.
-    assert is_error is False
-
-
-def test_run_bash_placeholder_for_empty_output():
-    output, is_error = agent.run_bash("true")
-
-    assert output == "(no output)"
-    assert is_error is False
-
-
-def test_run_bash_times_out(monkeypatch):
-    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 0.2)
-
-    output, is_error = agent.run_bash("sleep 5")
-
-    assert "timed out" in output
-    assert is_error is True
-
-
-def test_run_bash_does_not_read_the_terminal_stdin(monkeypatch):
-    # A command that reads stdin must see EOF immediately (stdin is
-    # /dev/null), not block on — and consume — the user's terminal input.
-    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 5)
-
-    output, is_error = agent.run_bash("cat; echo done")
-
-    assert output == "done"
-    assert is_error is False
-
-
-def test_run_bash_returns_when_background_child_keeps_output_open(monkeypatch):
-    # A backgrounded child inherits bash's stdout/stderr; run_bash must wait
-    # for bash itself, not for the output streams to close, or a plain
-    # "start a server" command stalls until the timeout and is reported as a
-    # spurious failure.
-    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 5)
-
-    output, is_error = agent.run_bash("echo started; sleep 10 &")
-
-    assert output == "started"
-    assert is_error is False
-
-
-def test_run_bash_timeout_kills_the_whole_process_tree(monkeypatch, tmp_path):
-    # On timeout the work the command forked must die with it: a surviving
-    # grandchild would keep burning CPU or holding ports after the tool
-    # reported "timed out". The subshell below would write the marker after
-    # the timeout fires — it only stays absent if the group was killed.
-    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 0.3)
-    marker = tmp_path / "survived"
-
-    output, is_error = agent.run_bash(f"(sleep 0.8; touch {marker}) & wait")
-
-    assert "timed out" in output
-    assert is_error is True
-    time.sleep(1.0)  # past the grandchild's write moment
-    assert not marker.exists()
-
-
-def test_run_bash_timeout_forwards_partial_output(monkeypatch):
-    # A command killed at the timeout already produced useful output; the
-    # model must see how far it got, not just a bare timeout notice.
-    monkeypatch.setattr(agent, "BASH_TIMEOUT_SECONDS", 0.3)
-
-    output, is_error = agent.run_bash("echo progress; echo warn >&2; sleep 5")
-
-    assert "progress" in output
-    assert "[stderr]\nwarn" in output
-    assert "timed out" in output
-    assert is_error is True
-
-
-def test_run_bash_truncates_long_output(monkeypatch):
-    monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 10)
-
-    output, is_error = agent.run_bash("printf 'a%.0s' {1..100}")
-
-    assert output.startswith("a" * 10)
-    assert output.endswith("[... output truncated ...]")
-    assert is_error is False
-
-
-def test_run_bash_with_embedded_nul_returns_error_result():
-    # An embedded NUL byte is legal in the tool-call JSON but rejected by the
-    # OS; it must come back as an error result, not crash the agent.
-    output, is_error = agent.run_bash("echo \x00hi")
-
-    assert output.startswith("Could not run bash:")
-    assert is_error is True
-
-
-def test_run_bash_output_exactly_at_the_limit_is_not_marked_truncated(monkeypatch):
-    # Boundary check for the bounded read: only output beyond the cap gets
-    # the truncation marker.
-    monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 6)
-
-    output, is_error = agent.run_bash("printf 'abcde\\n'")
-
-    assert output == "abcde"
-    assert is_error is False
-
-
-def test_run_bash_truncation_keeps_stderr_and_exit_code_visible(monkeypatch):
-    # A failing command with chatty stdout must not have its diagnosis cut
-    # off: each stream is truncated on its own, so the [stderr] section and
-    # the exit-code marker survive no matter how much stdout was printed.
-    monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 50)
-
-    output, is_error = agent.run_bash(
-        "printf 'a%.0s' {1..500}; echo boom >&2; exit 3"
-    )
-
-    assert "[... output truncated ...]" in output
-    assert "[stderr]\nboom" in output
-    assert output.endswith("[exit code: 3]")
-    assert is_error is False  # completed command; the exit code is in the text
-
-
 def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
     # First reply asks to run a command; the second one answers with text.
-    tool_turn = _FakeStream(
-        [_text_block("Let me check."), _tool_use_block("tu_1", "echo hello")],
+    tool_turn = FakeStream(
+        [text_block("Let me check."), tool_use_block("tu_1", "echo hello")],
         stop_reason="tool_use",
     )
-    final = [_text_block("It printed hello.")]
-    messages = _FakeMessages([tool_turn, final])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["run echo", "/exit"])
+    final = [text_block("It printed hello.")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["run echo", "/exit"])
 
     agent.run()
 
@@ -755,14 +331,14 @@ def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
 
 
 def test_tool_use_turn_runs_multiple_tool_calls(monkeypatch, capsys):
-    tool_turn = _FakeStream(
-        [_tool_use_block("tu_1", "echo one"), _tool_use_block("tu_2", "echo two")],
+    tool_turn = FakeStream(
+        [tool_use_block("tu_1", "echo one"), tool_use_block("tu_2", "echo two")],
         stop_reason="tool_use",
     )
-    final = [_text_block("done")]
-    messages = _FakeMessages([tool_turn, final])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["go", "/exit"])
+    final = [text_block("done")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["go", "/exit"])
 
     agent.run()
 
@@ -774,13 +350,13 @@ def test_tool_use_turn_runs_multiple_tool_calls(monkeypatch, capsys):
 def test_unknown_tool_returns_error_result(monkeypatch, capsys):
     # A tool name we never registered comes back as an error result instead of
     # crashing the loop, so the model can see the problem and recover.
-    tool_turn = _FakeStream(
-        [_tool_use_block("tu_1", "whatever", name="python")], stop_reason="tool_use"
+    tool_turn = FakeStream(
+        [tool_use_block("tu_1", "whatever", name="python")], stop_reason="tool_use"
     )
-    final = [_text_block("ok")]
-    messages = _FakeMessages([tool_turn, final])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["go", "/exit"])
+    final = [text_block("ok")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["go", "/exit"])
 
     agent.run()
 
@@ -793,11 +369,11 @@ def test_bash_tool_with_invalid_input_returns_error_result(monkeypatch, capsys):
     # A tool_use block without a usable 'command' string becomes an error
     # result; nothing is executed.
     bad_block = SimpleNamespace(type="tool_use", id="tu_1", name="bash", input={})
-    tool_turn = _FakeStream([bad_block], stop_reason="tool_use")
-    final = [_text_block("ok")]
-    messages = _FakeMessages([tool_turn, final])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["go", "/exit"])
+    tool_turn = FakeStream([bad_block], stop_reason="tool_use")
+    final = [text_block("ok")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["go", "/exit"])
 
     agent.run()
 
@@ -815,14 +391,14 @@ def test_max_tokens_truncated_tool_call_is_not_run_and_history_stays_valid(
     # blocks. They must not be executed (the command may be cut off), but each
     # one needs an error tool_result in history — otherwise the API rejects
     # every later request and the session is unrecoverable.
-    truncated = _FakeStream(
-        [_text_block("Let me check."), _tool_use_block("tu_1", "echo hi")],
+    truncated = FakeStream(
+        [text_block("Let me check."), tool_use_block("tu_1", "echo hi")],
         stop_reason="max_tokens",
     )
-    reply = [_text_block("second turn ok")]
-    messages = _FakeMessages([truncated, reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["go", "again", "/exit"])
+    reply = [text_block("second turn ok")]
+    messages = FakeMessages([truncated, reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["go", "again", "/exit"])
 
     agent.run()
 
@@ -848,13 +424,13 @@ def test_tool_loop_stops_at_the_per_turn_request_budget(monkeypatch, capsys):
     # request too many would fail loudly.
     monkeypatch.setattr(agent, "MAX_REQUESTS_PER_TURN", 2)
     turns = [
-        _FakeStream([_tool_use_block(f"tu_{i}", "echo hi")], stop_reason="tool_use")
+        FakeStream([tool_use_block(f"tu_{i}", "echo hi")], stop_reason="tool_use")
         for i in range(2)
     ]
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages(turns + [reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["go", "next", "/exit"])
+    reply = [text_block("ok now")]
+    messages = FakeMessages(turns + [reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["go", "next", "/exit"])
 
     agent.run()
 
@@ -877,12 +453,12 @@ def test_api_error_after_tool_run_keeps_executed_commands_in_history(
     # executed — its side effects are real — so the tool exchange must stay
     # in history; dropping it would make the model re-run the command on the
     # next attempt. Only the failed request itself is abandoned.
-    tool_turn = _FakeStream([_tool_use_block("tu_1", "echo hi")], stop_reason="tool_use")
-    conn_err = anthropic.APIConnectionError(request=_request())
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages([tool_turn, conn_err, reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
+    tool_turn = FakeStream([tool_use_block("tu_1", "echo hi")], stop_reason="tool_use")
+    conn_err = anthropic.APIConnectionError(request=api_request())
+    reply = [text_block("ok now")]
+    messages = FakeMessages([tool_turn, conn_err, reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
 
     agent.run()
 
@@ -914,11 +490,11 @@ def test_network_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
     # transport errors around the initial send, not around SSE iteration); the
     # loop must survive it instead of crashing with a traceback.
     err = httpx.ReadError("connection lost mid-stream")
-    stream = _FakeStream([_text_block("partial")], mid_stream_error=err)
-    reply = [_text_block("ok now")]
-    messages = _FakeMessages([stream, reply])
-    client = _FakeClient(messages)
-    _patch(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
+    stream = FakeStream([text_block("partial")], mid_stream_error=err)
+    reply = [text_block("ok now")]
+    messages = FakeMessages([stream, reply])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["fails", "hello", "/exit"])
 
     agent.run()
 
