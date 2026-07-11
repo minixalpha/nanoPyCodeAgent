@@ -19,7 +19,7 @@ from anthropic.types import (
 
 from .bash_tool import BASH_TOOL, run_bash
 from .settings import load_settings_env
-from .terminal import terminal_safe
+from .terminal import safe_print
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor the
 # config file.
@@ -48,9 +48,9 @@ def _run_one_tool(block: ToolUseBlock) -> tuple[str, bool]:
     command = block.input.get("command") if isinstance(block.input, dict) else None
     if not (isinstance(command, str) and command.strip()):
         return "Invalid input: 'command' must be a non-empty string.", True
-    print(terminal_safe(f"[bash]$ {command}"))
+    safe_print(f"[bash]$ {command}")
     output, is_error = run_bash(command)
-    print(terminal_safe(output))
+    safe_print(output)
     return output, is_error
 
 
@@ -163,7 +163,7 @@ def run() -> None:
                     messages=messages,
                 ) as stream:
                     for text in stream.text_stream:
-                        print(terminal_safe(text), end="", flush=True)
+                        safe_print(text, end="")
                     message = stream.get_final_message()
                 print()
 
@@ -231,7 +231,9 @@ def run() -> None:
             # httpx.HTTPError: the SDK wraps transport errors only around the
             # initial send, so a network failure mid-stream surfaces as a raw
             # httpx error during iteration rather than an anthropic.APIError.
-            print(f"\nRequest failed: {exc}")
+            # The error text can come from a proxy or server — sanitize it
+            # like any other externally controlled text.
+            safe_print(f"\nRequest failed: {exc}")
             # Tool calls that already ran had real side effects (files
             # written, commands executed); erasing them from history would
             # make the model unknowingly re-run them on the next attempt.

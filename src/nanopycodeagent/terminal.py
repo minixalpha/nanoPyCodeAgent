@@ -24,3 +24,14 @@ def terminal_safe(text: str) -> str:
     text = _CONTROL_CHARS.sub("", text)
     encoding = getattr(sys.stdout, "encoding", None) or "utf-8"
     return text.encode(encoding, errors="replace").decode(encoding, errors="replace")
+
+
+def safe_print(text: str, end: str = "\n") -> None:
+    """Print ``text`` sanitized by ``terminal_safe``.
+
+    The single chokepoint for displaying text that the program does not
+    control — model replies, command output, error messages, config values.
+    Call sites that print such text through ``safe_print`` cannot forget to
+    sanitize it.
+    """
+    print(terminal_safe(text), end=end, flush=True)

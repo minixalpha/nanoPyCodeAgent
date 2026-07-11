@@ -9,6 +9,8 @@ import json
 import os
 from pathlib import Path
 
+from .terminal import safe_print
+
 
 def _default_settings_path() -> Path | None:
     """Resolve the user-level config path, or ``None`` if home is unknown.
@@ -54,22 +56,22 @@ def load_settings_env(path: Path | None = None) -> None:
     except FileNotFoundError:
         return
     except (OSError, UnicodeDecodeError) as exc:
-        print(f"Warning: could not read config file {path}: {exc}")
+        safe_print(f"Warning: could not read config file {path}: {exc}")
         return
 
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as exc:
-        print(f"Warning: ignoring malformed config file {path}: {exc}")
+        safe_print(f"Warning: ignoring malformed config file {path}: {exc}")
         return
 
     if not isinstance(data, dict):
-        print(f"Warning: ignoring config file {path}: top level must be an object.")
+        safe_print(f"Warning: ignoring config file {path}: top level must be an object.")
         return
 
     env = data.get("env", {})
     if not isinstance(env, dict):
-        print(f"Warning: ignoring 'env' in config file {path}: it must be an object.")
+        safe_print(f"Warning: ignoring 'env' in config file {path}: it must be an object.")
         return
 
     for key, value in env.items():
@@ -84,4 +86,4 @@ def load_settings_env(path: Path | None = None) -> None:
             os.environ.setdefault(key, value.strip())
         except ValueError as exc:
             # e.g. an embedded NUL in the value or '=' in the key name.
-            print(f"Warning: ignoring invalid config entry {key!r}: {exc}")
+            safe_print(f"Warning: ignoring invalid config entry {key!r}: {exc}")
