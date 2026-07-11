@@ -769,6 +769,36 @@ def test_max_tokens_truncated_tool_call_is_not_run_and_history_stays_valid(
     assert history[3] == {"role": "user", "content": "again"}
 
 
+def test_tool_loop_stops_at_the_per_turn_request_budget(monkeypatch, capsys):
+    # A model that keeps asking for tools must not loop forever: after the
+    # per-turn request budget the agent returns to the prompt with a valid
+    # history (the last tool_use has its tool_result) instead of burning
+    # tokens until Ctrl-C. The script only covers the budgeted calls, so one
+    # request too many would fail loudly.
+    monkeypatch.setattr(agent, "MAX_REQUESTS_PER_TURN", 2)
+    turns = [
+        _FakeStream([_tool_use_block(f"tu_{i}", "echo hi")], stop_reason="tool_use")
+        for i in range(2)
+    ]
+    reply = [_text_block("ok now")]
+    messages = _FakeMessages(turns + [reply])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["go", "next", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "[Stopped: 2 requests in one turn" in out
+    assert "Bye!" in out  # control returned to the prompt
+    assert len(messages.calls) == 3  # 2 budgeted requests + the next turn
+    # History stayed valid: even the budget-cutoff tool_use got its result.
+    history = messages.calls[2]
+    assert history[3] == {"role": "assistant", "content": turns[1]._content}
+    (result,) = history[4]["content"]
+    assert result["tool_use_id"] == "tu_1"
+    assert history[5] == {"role": "user", "content": "next"}
+
+
 def test_api_error_after_tool_run_keeps_executed_commands_in_history(
     monkeypatch, capsys
 ):

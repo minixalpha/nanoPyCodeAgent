@@ -37,6 +37,10 @@ SYSTEM_PROMPT = (
 # seconds, and results are truncated so one command cannot flood the context.
 BASH_TIMEOUT_SECONDS = 120
 MAX_TOOL_OUTPUT_CHARS = 20_000
+# One user input may trigger at most this many API requests: a model stuck
+# re-running failing commands must eventually hand control back to the prompt
+# instead of burning tokens (and bash executions) until Ctrl-C.
+MAX_REQUESTS_PER_TURN = 30
 
 BASH_TOOL: ToolParam = {
     "name": "bash",
@@ -337,8 +341,9 @@ def run() -> None:
 
         try:
             # The model may ask to run tools; keep streaming replies and
-            # feeding results back until it answers without tool calls.
-            while True:
+            # feeding results back until it answers without tool calls (or
+            # exhausts the per-turn request budget).
+            for _ in range(MAX_REQUESTS_PER_TURN):
                 print("\nAgent> ", end="", flush=True)
                 # Stream the reply so text shows up as it is generated, then
                 # grab the accumulated message for the conversation history.
@@ -377,6 +382,13 @@ def run() -> None:
                     messages.append({"role": "user", "content": truncated})
                     print("[Reply truncated: its tool calls were not executed.]")
                 break
+            else:
+                # Budget exhausted. The last append was a tool_result message,
+                # so the history is valid; hand control back to the user.
+                print(
+                    f"[Stopped: {MAX_REQUESTS_PER_TURN} requests in one turn; "
+                    "reply to continue.]"
+                )
         except KeyboardInterrupt:
             # Ctrl-C cancels the current turn, not the session — a turn can
             # now run bash for minutes, and aborting one command must not
