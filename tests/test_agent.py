@@ -280,12 +280,7 @@ def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
 def test_tool_echo_is_sanitized_but_the_model_sees_raw_output(capsys):
     # Display is sanitized; the tool_result content keeps the real bytes so
     # the model works with what the command actually produced.
-    block = SimpleNamespace(
-        type="tool_use",
-        id="tu_1",
-        name="bash",
-        input={"command": "printf 'a\\rb\\033[2K'"},
-    )
+    block = tool_use_block("tu_1", "printf 'a\\rb\\033[2K'")
 
     output, is_error = agent._run_one_tool(block)
 

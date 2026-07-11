@@ -94,19 +94,6 @@ def _error_tool_results(
     ]
 
 
-def _turn_ran_tools(messages: list[MessageParam], turn_start: int) -> bool:
-    """Whether the turn starting at ``turn_start`` already executed tools.
-
-    Tool results are the only user-role messages whose content is a block
-    list rather than the prompt string, so their presence marks a turn that
-    had real side effects.
-    """
-    return any(
-        m["role"] == "user" and isinstance(m["content"], list)
-        for m in messages[turn_start:]
-    )
-
-
 def run() -> None:
     """Start the read → ask → answer loop until the user types ``/exit``.
 
@@ -155,6 +142,9 @@ def run() -> None:
             break
 
         turn_start = len(messages)
+        # Whether this turn executed tool calls yet — real side effects (files
+        # written, commands run) that the error handlers below must not erase.
+        ran_tools = False
         messages.append({"role": "user", "content": user_input})
 
         try:
@@ -186,6 +176,7 @@ def run() -> None:
                     if not tool_results:
                         break  # defensive: tool_use stop with no tool_use blocks
                     messages.append({"role": "user", "content": tool_results})
+                    ran_tools = True
                     continue
 
                 # Any other stop reason ends the turn — but a reply truncated
@@ -225,11 +216,10 @@ def run() -> None:
                 )
                 if cancelled:
                     messages.append({"role": "user", "content": cancelled})
-            elif len(messages) == turn_start + 1:
-                # Nothing but the user prompt made it in: drop the turn as if
-                # it was never sent. (Otherwise the turn already holds a
-                # completed tool exchange, which stays — see the API-error
-                # handler below.)
+            elif not ran_tools:
+                # No side effects yet: drop the turn as if it was never sent.
+                # (A turn whose tool calls already ran stays — same policy as
+                # the API-error handler below.)
                 del messages[turn_start:]
             continue
         except anthropic.AuthenticationError:
@@ -249,7 +239,7 @@ def run() -> None:
             # inside stream(), before the next assistant message is appended,
             # so what has been appended so far is a valid history — and roll
             # back only a turn that never reached a tool call.
-            if _turn_ran_tools(messages, turn_start):
+            if ran_tools:
                 print("(Tool calls already executed this turn stay in history.)")
             else:
                 del messages[turn_start:]
