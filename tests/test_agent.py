@@ -542,6 +542,21 @@ def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
     assert messages.calls[1] == [{"role": "user", "content": "hello"}]
 
 
+def test_terminal_safe_replaces_chars_stdout_cannot_encode(monkeypatch):
+    # Under an ascii stdout (e.g. PYTHONIOENCODING=ascii), printing bash
+    # output containing non-ASCII (like the U+FFFD replacements produced by
+    # errors="replace" decoding) must degrade, not raise and kill the agent.
+    monkeypatch.setattr(agent.sys, "stdout", SimpleNamespace(encoding="ascii"))
+
+    assert agent._terminal_safe("café �") == "caf? ?"
+
+
+def test_terminal_safe_passes_utf8_through_unchanged(monkeypatch):
+    monkeypatch.setattr(agent.sys, "stdout", SimpleNamespace(encoding="utf-8"))
+
+    assert agent._terminal_safe("café �") == "café �"
+
+
 def test_run_bash_captures_stdout():
     output, is_error = agent.run_bash("echo hello")
 

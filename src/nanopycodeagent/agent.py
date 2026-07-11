@@ -10,6 +10,7 @@ import json
 import os
 import signal
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -238,6 +239,18 @@ def run_bash(command: str) -> tuple[str, bool]:
     return output, returncode != 0
 
 
+def _terminal_safe(text: str) -> str:
+    """Re-encode ``text`` so printing it cannot raise ``UnicodeEncodeError``.
+
+    Command output and model text can contain characters the active stdout
+    encoding cannot represent (e.g. U+FFFD replacement characters under
+    ``PYTHONIOENCODING=ascii``); ``print`` would then crash the whole
+    session, so unencodable characters are replaced before printing.
+    """
+    encoding = getattr(sys.stdout, "encoding", None) or "utf-8"
+    return text.encode(encoding, errors="replace").decode(encoding, errors="replace")
+
+
 def _run_one_tool(block: ToolUseBlock) -> tuple[str, bool]:
     """Execute one ``tool_use`` block, echoing the command and its output.
 
@@ -249,9 +262,9 @@ def _run_one_tool(block: ToolUseBlock) -> tuple[str, bool]:
     command = block.input.get("command") if isinstance(block.input, dict) else None
     if not (isinstance(command, str) and command.strip()):
         return "Invalid input: 'command' must be a non-empty string.", True
-    print(f"[bash]$ {command}")
+    print(_terminal_safe(f"[bash]$ {command}"))
     output, is_error = run_bash(command)
-    print(output)
+    print(_terminal_safe(output))
     return output, is_error
 
 
@@ -361,7 +374,7 @@ def run() -> None:
                     messages=messages,
                 ) as stream:
                     for text in stream.text_stream:
-                        print(text, end="", flush=True)
+                        print(_terminal_safe(text), end="", flush=True)
                     message = stream.get_final_message()
                 print()
 
