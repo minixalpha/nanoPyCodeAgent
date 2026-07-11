@@ -354,9 +354,20 @@ def run() -> None:
             # initial send, so a network failure mid-stream surfaces as a raw
             # httpx error during iteration rather than an anthropic.APIError.
             print(f"\nRequest failed: {exc}")
-            # Roll back the whole turn — the user prompt plus any partial
-            # assistant/tool exchanges — so the history stays valid.
-            del messages[turn_start:]
+            # Tool calls that already ran had real side effects (files
+            # written, commands executed); erasing them from history would
+            # make the model unknowingly re-run them on the next attempt.
+            # Keep any completed tool exchange — the failure always strikes
+            # inside stream(), before the next assistant message is appended,
+            # so what has been appended so far is a valid history — and roll
+            # back only a turn that never reached a tool call.
+            if any(
+                m["role"] == "user" and isinstance(m["content"], list)
+                for m in messages[turn_start:]
+            ):
+                print("(Tool calls already executed this turn stay in history.)")
+            else:
+                del messages[turn_start:]
             continue
 
     print("Bye!")

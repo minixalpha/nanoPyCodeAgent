@@ -674,10 +674,13 @@ def test_max_tokens_truncated_tool_call_is_not_run_and_history_stays_valid(
     assert history[3] == {"role": "user", "content": "again"}
 
 
-def test_api_error_during_tool_loop_drops_whole_turn(monkeypatch, capsys):
-    # The follow-up request after a tool run fails: the whole turn — user
-    # prompt, tool_use reply, and tool_result — is rolled back so the next
-    # turn starts from a valid history.
+def test_api_error_after_tool_run_keeps_executed_commands_in_history(
+    monkeypatch, capsys
+):
+    # The follow-up request after a tool run fails. The command already
+    # executed — its side effects are real — so the tool exchange must stay
+    # in history; dropping it would make the model re-run the command on the
+    # next attempt. Only the failed request itself is abandoned.
     tool_turn = _FakeStream([_tool_use_block("tu_1", "echo hi")], stop_reason="tool_use")
     conn_err = anthropic.APIConnectionError(request=_request())
     reply = [_text_block("ok now")]
@@ -689,9 +692,25 @@ def test_api_error_during_tool_loop_drops_whole_turn(monkeypatch, capsys):
 
     out = capsys.readouterr().out
     assert "Request failed:" in out
+    assert "stay in history" in out  # the user is told the record is kept
     assert len(messages.calls) == 3
-    # The partial tool exchange was rolled back, so the next call is clean.
-    assert messages.calls[2] == [{"role": "user", "content": "hello"}]
+    # The executed tool exchange survives into the next turn's history.
+    assert messages.calls[2] == [
+        {"role": "user", "content": "fails"},
+        {"role": "assistant", "content": tool_turn._content},
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "tool_result",
+                    "tool_use_id": "tu_1",
+                    "content": "hi",
+                    "is_error": False,
+                }
+            ],
+        },
+        {"role": "user", "content": "hello"},
+    ]
 
 
 def test_network_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
