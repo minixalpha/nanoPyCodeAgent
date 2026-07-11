@@ -211,6 +211,11 @@ def run_bash(command: str) -> tuple[str, bool]:
             stderr = stderr_file.read().decode("utf-8", errors="replace")
     except OSError as exc:  # e.g. bash itself is missing
         return f"Could not run bash: {exc}", True
+    except ValueError as exc:
+        # Popen rejects arguments the OS cannot represent (e.g. an embedded
+        # NUL byte in the command — legal JSON the model can emit). Report it
+        # as a tool error the model can recover from instead of crashing.
+        return f"Could not run bash: {exc}", True
 
     parts = []
     if stdout:

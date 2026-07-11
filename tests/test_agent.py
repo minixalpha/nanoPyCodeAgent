@@ -623,6 +623,15 @@ def test_run_bash_truncates_long_output(monkeypatch):
     assert is_error is False
 
 
+def test_run_bash_with_embedded_nul_returns_error_result():
+    # An embedded NUL byte is legal in the tool-call JSON but rejected by the
+    # OS; it must come back as an error result, not crash the agent.
+    output, is_error = agent.run_bash("echo \x00hi")
+
+    assert output.startswith("Could not run bash:")
+    assert is_error is True
+
+
 def test_run_bash_truncation_keeps_stderr_and_exit_code_visible(monkeypatch):
     # A failing command with chatty stdout must not have its diagnosis cut
     # off: each stream is truncated on its own, so the [stderr] section and
