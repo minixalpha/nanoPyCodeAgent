@@ -14,7 +14,7 @@ from anthropic.types import ToolParam
 # Guardrails for the bash tool: a hung command is killed after this many
 # seconds, and results are truncated so one command cannot flood the context.
 BASH_TIMEOUT_SECONDS = 120
-MAX_TOOL_OUTPUT_CHARS = 20_000
+MAX_TOOL_OUTPUT_BYTES = 20_000
 
 BASH_TOOL: ToolParam = {
     "name": "bash",
@@ -42,10 +42,10 @@ BASH_TOOL: ToolParam = {
 def _read_stream(stream_file) -> str:
     """Read one captured stream from its temp file, bounded and decoded.
 
-    At most ``MAX_TOOL_OUTPUT_CHARS`` bytes are read, so a command that wrote
+    At most ``MAX_TOOL_OUTPUT_BYTES`` bytes are read, so a command that wrote
     gigabytes stays on disk instead of being materialized in the agent's
-    memory before truncation (the byte cap can only undershoot the character
-    cap: a UTF-8 character is at least one byte). Each stream is bounded on
+    memory before truncation (a UTF-8 character is at least one byte, so the
+    byte cap also bounds the decoded text). Each stream is bounded on
     its own, before the sections are joined — bounding the joined result
     instead would let a chatty stdout push the ``[stderr]`` section and the
     exit-code marker out of the message entirely, hiding the one part that
@@ -53,9 +53,9 @@ def _read_stream(stream_file) -> str:
     """
     size = stream_file.seek(0, os.SEEK_END)
     stream_file.seek(0)
-    data = stream_file.read(MAX_TOOL_OUTPUT_CHARS)
+    data = stream_file.read(MAX_TOOL_OUTPUT_BYTES)
     text = data.decode("utf-8", errors="replace").rstrip("\n")
-    if size > MAX_TOOL_OUTPUT_CHARS:
+    if size > MAX_TOOL_OUTPUT_BYTES:
         text += "\n[... output truncated ...]"
     return text
 
@@ -77,7 +77,7 @@ def run_bash(command: str) -> tuple[str, bool]:
     """Run ``command`` with ``bash -c`` and return ``(output, is_error)``.
 
     The output combines stdout, labelled stderr, and the exit code when
-    non-zero, truncated to ``MAX_TOOL_OUTPUT_CHARS``. ``is_error`` is true
+    non-zero, truncated to ``MAX_TOOL_OUTPUT_BYTES``. ``is_error`` is true
     only when the tool itself failed — bash could not be started or the
     command timed out. A command that ran to completion is a successful tool
     call whatever its exit code: the code is reported in the output text,
