@@ -557,6 +557,34 @@ def test_terminal_safe_passes_utf8_through_unchanged(monkeypatch):
     assert agent._terminal_safe("café �") == "café �"
 
 
+def test_terminal_safe_strips_control_characters(monkeypatch):
+    # \r + erase-line sequences could rewrite the echoed "[bash]$ ..." line —
+    # the user's only view of what actually executed — so control characters
+    # are stripped for display; newlines and tabs stay.
+    monkeypatch.setattr(agent.sys, "stdout", SimpleNamespace(encoding="utf-8"))
+
+    assert agent._terminal_safe("evil\r\x1b[2Kmasked") == "evil[2Kmasked"
+    assert agent._terminal_safe("keep\nlines\tand tabs") == "keep\nlines\tand tabs"
+
+
+def test_tool_echo_is_sanitized_but_the_model_sees_raw_output(capsys):
+    # Display is sanitized; the tool_result content keeps the real bytes so
+    # the model works with what the command actually produced.
+    block = SimpleNamespace(
+        type="tool_use",
+        id="tu_1",
+        name="bash",
+        input={"command": "printf 'a\\rb\\033[2K'"},
+    )
+
+    output, is_error = agent._run_one_tool(block)
+
+    out = capsys.readouterr().out
+    assert "\r" not in out and "\x1b" not in out
+    assert "\r" in output and "\x1b" in output
+    assert is_error is False
+
+
 def test_run_bash_captures_stdout():
     output, is_error = agent.run_bash("echo hello")
 
