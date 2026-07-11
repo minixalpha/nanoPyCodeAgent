@@ -340,10 +340,30 @@ def run() -> None:
                     print("[Reply truncated: its tool calls were not executed.]")
                 break
         except KeyboardInterrupt:
-            # Ctrl-C while streaming the reply cancels cleanly, mirroring the
-            # graceful quit offered at the input prompt.
-            print()
-            break
+            # Ctrl-C cancels the current turn, not the session — a turn can
+            # now run bash for minutes, and aborting one command must not
+            # throw away the whole conversation. (Ctrl-C at the You> prompt
+            # still quits.)
+            print("\n[Interrupted — turn cancelled]")
+            last = messages[-1]
+            if last["role"] == "assistant":
+                # Interrupted between the tool_use reply and its results:
+                # commands may have partially run, so keep the record but pair
+                # every dangling tool_use with an error tool_result — the API
+                # rejects the history otherwise.
+                cancelled = _error_tool_results(
+                    last["content"],
+                    "Interrupted by user; the command may have partially run.",
+                )
+                if cancelled:
+                    messages.append({"role": "user", "content": cancelled})
+            elif len(messages) == turn_start + 1:
+                # Nothing but the user prompt made it in: drop the turn as if
+                # it was never sent. (Otherwise the turn already holds a
+                # completed tool exchange, which stays — see the API-error
+                # handler below.)
+                del messages[turn_start:]
+            continue
         except anthropic.AuthenticationError:
             print(
                 "\nAuthentication failed. Check that ANTHROPIC_API_KEY is set correctly."

@@ -450,34 +450,76 @@ def test_startup_message_labels_explicit_default_model_as_configured(monkeypatch
     assert "using default model" not in out
 
 
-def test_keyboard_interrupt_during_request_exits_gracefully(monkeypatch, capsys):
-    # Ctrl-C while waiting on the model reply quits cleanly, not with a traceback.
-    messages = _FakeMessages([KeyboardInterrupt()])
+def test_keyboard_interrupt_during_request_cancels_turn_only(monkeypatch, capsys):
+    # Ctrl-C while waiting on the model reply cancels just that turn: the
+    # prompt is rolled back and the session keeps going.
+    reply = [_text_block("ok now")]
+    messages = _FakeMessages([KeyboardInterrupt(), reply])
     client = _FakeClient(messages)
-    # The second input is provided but must never be read (the loop breaks).
-    _patch(monkeypatch, client=client, inputs=["hi", "should be ignored"])
+    _patch(monkeypatch, client=client, inputs=["hi", "again", "/exit"])
 
     agent.run()
 
     out = capsys.readouterr().out
-    assert "Bye!" in out
-    assert len(messages.calls) == 1  # broke right after the interrupted call
+    assert "Interrupted" in out
+    assert "Bye!" in out  # the session survived until /exit
+    assert len(messages.calls) == 2
+    # The cancelled turn left no trace in the next call's history.
+    assert messages.calls[1] == [{"role": "user", "content": "again"}]
 
 
-def test_keyboard_interrupt_mid_stream_exits_gracefully(monkeypatch, capsys):
-    # Ctrl-C after part of the reply has already streamed quits cleanly.
+def test_keyboard_interrupt_mid_stream_cancels_turn_only(monkeypatch, capsys):
+    # Ctrl-C after part of the reply has already streamed cancels the turn
+    # cleanly and returns to the prompt.
     stream = _FakeStream([_text_block("partial")], mid_stream_error=KeyboardInterrupt())
-    messages = _FakeMessages([stream])
+    reply = [_text_block("ok now")]
+    messages = _FakeMessages([stream, reply])
     client = _FakeClient(messages)
-    # The second input is provided but must never be read (the loop breaks).
-    _patch(monkeypatch, client=client, inputs=["hi", "should be ignored"])
+    _patch(monkeypatch, client=client, inputs=["hi", "again", "/exit"])
 
     agent.run()
 
     out = capsys.readouterr().out
     assert "partial" in out  # the streamed text made it out before the interrupt
+    assert "Interrupted" in out
     assert "Bye!" in out
-    assert len(messages.calls) == 1
+    assert len(messages.calls) == 2
+    assert messages.calls[1] == [{"role": "user", "content": "again"}]
+
+
+def test_keyboard_interrupt_during_tool_run_repairs_history_and_continues(
+    monkeypatch, capsys
+):
+    # Ctrl-C while a bash command runs: the tool_use reply is already in
+    # history, so it must gain an error tool_result (or the API rejects every
+    # later request), and the session returns to the prompt instead of dying.
+    tool_turn = _FakeStream(
+        [_tool_use_block("tu_1", "sleep 100")], stop_reason="tool_use"
+    )
+    reply = [_text_block("ok now")]
+    messages = _FakeMessages([tool_turn, reply])
+    client = _FakeClient(messages)
+    _patch(monkeypatch, client=client, inputs=["go", "next", "/exit"])
+
+    def _interrupt(command):
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(agent, "run_bash", _interrupt)
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert "Interrupted" in out
+    assert "Bye!" in out
+    assert len(messages.calls) == 2
+    # The interrupted exchange stays, with the dangling tool_use answered.
+    history = messages.calls[1]
+    assert history[1] == {"role": "assistant", "content": tool_turn._content}
+    (result,) = history[2]["content"]
+    assert result["type"] == "tool_result"
+    assert result["tool_use_id"] == "tu_1"
+    assert result["is_error"] is True
+    assert history[3] == {"role": "user", "content": "next"}
 
 
 def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
