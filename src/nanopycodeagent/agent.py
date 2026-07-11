@@ -144,16 +144,24 @@ def load_settings_env(path: Path | None = None) -> None:
             print(f"Warning: ignoring invalid config entry {key!r}: {exc}")
 
 
-def _clip_stream(text: str) -> str:
-    """Truncate one captured stream to ``MAX_TOOL_OUTPUT_CHARS``.
+def _read_stream(stream_file) -> str:
+    """Read one captured stream from its temp file, bounded and decoded.
 
-    Each stream is clipped on its own, before the sections are joined —
-    clipping the joined result instead would let a chatty stdout push the
-    ``[stderr]`` section and the exit-code marker out of the message
-    entirely, hiding the one part that explains a failure.
+    At most ``MAX_TOOL_OUTPUT_CHARS`` bytes are read, so a command that wrote
+    gigabytes stays on disk instead of being materialized in the agent's
+    memory before truncation (the byte cap can only undershoot the character
+    cap: a UTF-8 character is at least one byte). Each stream is bounded on
+    its own, before the sections are joined — bounding the joined result
+    instead would let a chatty stdout push the ``[stderr]`` section and the
+    exit-code marker out of the message entirely, hiding the one part that
+    explains a failure.
     """
-    if len(text) > MAX_TOOL_OUTPUT_CHARS:
-        return text[:MAX_TOOL_OUTPUT_CHARS] + "\n[... output truncated ...]"
+    size = stream_file.seek(0, os.SEEK_END)
+    stream_file.seek(0)
+    data = stream_file.read(MAX_TOOL_OUTPUT_CHARS)
+    text = data.decode("utf-8", errors="replace").rstrip("\n")
+    if size > MAX_TOOL_OUTPUT_CHARS:
+        text += "\n[... output truncated ...]"
     return text
 
 
@@ -209,10 +217,8 @@ def run_bash(command: str) -> tuple[str, bool]:
             except BaseException:  # e.g. Ctrl-C mid-command: never leak the tree
                 _kill_process_tree(process)
                 raise
-            stdout_file.seek(0)
-            stdout = stdout_file.read().decode("utf-8", errors="replace")
-            stderr_file.seek(0)
-            stderr = stderr_file.read().decode("utf-8", errors="replace")
+            stdout = _read_stream(stdout_file)
+            stderr = _read_stream(stderr_file)
     except OSError as exc:  # e.g. bash itself is missing
         return f"Could not run bash: {exc}", True
     except ValueError as exc:
@@ -223,9 +229,9 @@ def run_bash(command: str) -> tuple[str, bool]:
 
     parts = []
     if stdout:
-        parts.append(_clip_stream(stdout.rstrip("\n")))
+        parts.append(stdout)
     if stderr:
-        parts.append("[stderr]\n" + _clip_stream(stderr.rstrip("\n")))
+        parts.append("[stderr]\n" + stderr)
     if returncode != 0:
         parts.append(f"[exit code: {returncode}]")
     output = "\n".join(parts) or "(no output)"

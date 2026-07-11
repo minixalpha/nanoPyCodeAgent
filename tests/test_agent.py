@@ -632,6 +632,17 @@ def test_run_bash_with_embedded_nul_returns_error_result():
     assert is_error is True
 
 
+def test_run_bash_output_exactly_at_the_limit_is_not_marked_truncated(monkeypatch):
+    # Boundary check for the bounded read: only output beyond the cap gets
+    # the truncation marker.
+    monkeypatch.setattr(agent, "MAX_TOOL_OUTPUT_CHARS", 6)
+
+    output, is_error = agent.run_bash("printf 'abcde\\n'")
+
+    assert output == "abcde"
+    assert is_error is False
+
+
 def test_run_bash_truncation_keeps_stderr_and_exit_code_visible(monkeypatch):
     # A failing command with chatty stdout must not have its diagnosis cut
     # off: each stream is truncated on its own, so the [stderr] section and
