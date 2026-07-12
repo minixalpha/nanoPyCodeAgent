@@ -48,9 +48,9 @@ def _run_one_tool(block: ToolUseBlock) -> tuple[str, bool]:
     command = block.input.get("command") if isinstance(block.input, dict) else None
     if not (isinstance(command, str) and command.strip()):
         return "Invalid input: 'command' must be a non-empty string.", True
-    safe_print(f"[bash]$ {command}")
+    safe_print(f"[bash]$ {command}", tool_bg=True)
     output, is_error = run_bash(command)
-    safe_print(output)
+    safe_print(output, tool_bg=True)
     return output, is_error
 
 
