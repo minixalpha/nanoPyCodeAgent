@@ -18,7 +18,7 @@ from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
 from .bash_tool import BASH_TOOL, run_bash
 from .settings import load_settings_env
-from .terminal import safe_print
+from .terminal import print_tool
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor
 # the config file.
@@ -34,9 +34,9 @@ SYSTEM_PROMPT = (
 def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
     """Execute one ``tool_use`` block, echoing the command and its output."""
     command = block.input["command"]
-    safe_print(f"[bash]$ {command}", tool_bg=True)
+    print_tool(f"[bash]$ {command}")
     output, is_error = run_bash(command)
-    safe_print(output, tool_bg=True)
+    print_tool(output)
     return {
         "type": "tool_result",
         "tool_use_id": block.id,
@@ -97,7 +97,7 @@ def run() -> None:
                 messages=messages,
             ) as stream:
                 for text in stream.text_stream:
-                    safe_print(text, end="")
+                    print(text, end="", flush=True)
                 message = stream.get_final_message()
             print()
 

@@ -141,19 +141,6 @@ def test_blank_input_is_skipped(monkeypatch, capsys):
     assert messages.calls == []  # blank / whitespace lines never reach the API
 
 
-def test_tool_echo_is_sanitized_but_the_model_sees_raw_output(capsys):
-    # Display is sanitized; the tool_result content keeps the real escape
-    # codes so the model works with what the command actually produced.
-    block = tool_use_block("tu_1", "printf 'ab\\033[2K'")
-
-    result = agent._run_one_tool(block)
-
-    out = capsys.readouterr().out
-    assert "\x1b" not in out
-    assert "\x1b" in result["content"]
-    assert result["is_error"] is False
-
-
 def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
     # First reply asks to run a command; the second one answers with text.
     tool_turn = FakeStream(
