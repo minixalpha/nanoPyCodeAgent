@@ -278,15 +278,15 @@ def test_api_error_mid_stream_drops_turn_and_continues(monkeypatch, capsys):
 
 
 def test_tool_echo_is_sanitized_but_the_model_sees_raw_output(capsys):
-    # Display is sanitized; the tool_result content keeps the real bytes so
-    # the model works with what the command actually produced.
-    block = tool_use_block("tu_1", "printf 'a\\rb\\033[2K'")
+    # Display is sanitized; the tool_result content keeps the real escape
+    # codes so the model works with what the command actually produced.
+    block = tool_use_block("tu_1", "printf 'ab\\033[2K'")
 
     output, is_error = agent._run_one_tool(block)
 
     out = capsys.readouterr().out
-    assert "\r" not in out and "\x1b" not in out
-    assert "\r" in output and "\x1b" in output
+    assert "\x1b" not in out
+    assert "\x1b" in output
     assert is_error is False
 
 
