@@ -10,7 +10,6 @@ import json
 from types import SimpleNamespace
 
 import anthropic
-import httpx
 
 
 def text_block(text):
@@ -18,9 +17,11 @@ def text_block(text):
     return SimpleNamespace(type="text", text=text)
 
 
-def tool_use_block(block_id, command, name="bash"):
+def tool_use_block(block_id, command):
     """A minimal stand-in for an SDK tool_use content block."""
-    return SimpleNamespace(type="tool_use", id=block_id, name=name, input={"command": command})
+    return SimpleNamespace(
+        type="tool_use", id=block_id, name="bash", input={"command": command}
+    )
 
 
 def write_settings(path, env):
@@ -31,15 +32,12 @@ def write_settings(path, env):
 class FakeStream:
     """Mimics the SDK's ``MessageStream`` context manager for scripted replies.
 
-    ``mid_stream_error`` simulates a failure while the reply is streaming: the
-    text chunks are yielded first, then the exception is raised from within the
-    ``text_stream`` iteration — after partial output has already been printed.
-    ``stop_reason`` is ``"tool_use"`` when the scripted reply asks to run tools.
+    ``stop_reason`` is ``"tool_use"`` when the scripted reply asks to run
+    tools.
     """
 
-    def __init__(self, content, mid_stream_error=None, stop_reason="end_turn"):
+    def __init__(self, content, stop_reason="end_turn"):
         self._content = content
-        self._mid_stream_error = mid_stream_error
         self._stop_reason = stop_reason
 
     def __enter__(self):
@@ -55,8 +53,6 @@ class FakeStream:
             for b in self._content:
                 if b.type == "text":
                     yield b.text
-            if self._mid_stream_error is not None:
-                raise self._mid_stream_error
 
         return _gen()
 
@@ -65,13 +61,12 @@ class FakeStream:
 
 
 class FakeMessages:
-    """Records each ``stream()`` call and replays a scripted response or raises."""
+    """Records each ``stream()`` call and replays a scripted response."""
 
     def __init__(self, script):
-        # Each script entry is either a list of content blocks to stream as the
-        # message's ``content``, a ``BaseException`` instance to raise at request
-        # time (an API error, or ``KeyboardInterrupt`` to simulate Ctrl-C while
-        # connecting), or a ``FakeStream`` — e.g. one that fails mid-stream.
+        # Each script entry is either a list of content blocks to stream as
+        # the message's ``content``, or a ``FakeStream`` — e.g. a tool_use
+        # turn.
         self._script = list(script)
         self.calls = []  # snapshot of the ``messages`` list at each call
         self.kwargs = []  # full kwargs passed to each stream() call
@@ -80,8 +75,6 @@ class FakeMessages:
         self.calls.append(list(kwargs["messages"]))  # freeze history at call time
         self.kwargs.append(kwargs)
         item = self._script.pop(0)
-        if isinstance(item, BaseException):
-            raise item
         if isinstance(item, FakeStream):
             return item
         return FakeStream(item)
@@ -92,10 +85,6 @@ class FakeClient:
         self.messages = messages
         self.api_key = api_key
         self.auth_token = auth_token
-
-
-def api_request():
-    return httpx.Request("POST", "https://api.anthropic.com/v1/messages")
 
 
 def patch_client_and_input(monkeypatch, *, client, inputs):
