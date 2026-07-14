@@ -1,107 +1,59 @@
 """A minimal agent loop built on the Anthropic Python SDK.
 
 Run the program, type a message, and Agent replies. The full conversation is
-kept in memory so each turn has context. Type ``/exit`` to quit.
+kept in memory so each turn has context. The model can call a single ``bash``
+tool to run shell commands; every command and its output are echoed to the
+terminal as they happen. Type ``/exit`` to quit.
+
+The loop handles only the happy path: anything unexpected — a network error,
+a Ctrl-C mid-turn — crashes the session, and restarting it is the recovery.
+That trade keeps the core flow readable; the hardened variant it replaced is
+preserved at the ``hardened-agent-loop`` tag.
 """
 
-import json
 import os
-from pathlib import Path
 
 import anthropic
-import httpx
-from anthropic.types import MessageParam
+from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
-# The model used when ANTHROPIC_MODEL is set in neither the environment nor the
-# config file.
+from .bash_tool import BASH_TOOL, run_bash
+from .settings import load_settings_env
+from .terminal import print_tool
+
+# The model used when ANTHROPIC_MODEL is set in neither the environment nor
+# the config file.
 DEFAULT_MODEL = "claude-sonnet-4-6"
 MAX_TOKENS = 8192
-SYSTEM_PROMPT = "You are nanoPyCodeAgent, a concise and helpful coding assistant."
+SYSTEM_PROMPT = (
+    "You are nanoPyCodeAgent, a concise and helpful coding assistant. "
+    "Use the bash tool to inspect files, run code, and complete tasks that "
+    "need real command output instead of guessing."
+)
 
 
-# User-level config file. Its ``env`` mapping supplies ANTHROPIC_* values for
-# keys that are not already set in the environment (environment variables win).
-def _default_settings_path() -> Path | None:
-    """Resolve the user-level config path, or ``None`` if home is unknown.
-
-    ``Path.home()`` raises ``RuntimeError`` when the home directory cannot be
-    determined (e.g. ``$HOME`` unset and no passwd entry, common in minimal
-    containers). Guarding it here keeps ``import nanopycodeagent`` — which runs
-    eagerly behind the console script — from crashing at import; a ``None`` path
-    simply means "no user config file".
-    """
-    try:
-        return Path.home() / ".nanoPyCodeAgent" / "settings.json"
-    except RuntimeError:
-        return None
-
-
-SETTINGS_PATH = _default_settings_path()
-
-
-def load_settings_env(path: Path | None = None) -> None:
-    """Apply the ``env`` mapping from the config file into ``os.environ``.
-
-    ``path`` defaults to the module-level ``SETTINGS_PATH`` (resolved at call
-    time, so it stays overridable). Only ``ANTHROPIC_*`` keys that are not
-    already present are set, so environment variables take precedence over the
-    config file and unrelated variables are never injected. Behaviour by case:
-
-    - Missing file, or a home directory that cannot be resolved: silently
-      ignored (running without a config file is normal).
-    - Unreadable / non-UTF-8 file, malformed JSON, non-object top level, or a
-      non-object ``env``: a warning is printed and the file is otherwise
-      ignored — a bad config never blocks startup.
-    - Empty, whitespace-only, or non-string values, and values the OS rejects
-      (e.g. an embedded NUL): skipped (the documented example ships these keys
-      as empty-string placeholders).
-    """
-    if path is None:
-        path = SETTINGS_PATH
-    if path is None:
-        return  # home dir unresolvable → behave as if no config file exists
-    try:
-        raw = path.read_text(encoding="utf-8")
-    except FileNotFoundError:
-        return
-    except (OSError, UnicodeDecodeError) as exc:
-        print(f"Warning: could not read config file {path}: {exc}")
-        return
-
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        print(f"Warning: ignoring malformed config file {path}: {exc}")
-        return
-
-    if not isinstance(data, dict):
-        print(f"Warning: ignoring config file {path}: top level must be an object.")
-        return
-
-    env = data.get("env", {})
-    if not isinstance(env, dict):
-        print(f"Warning: ignoring 'env' in config file {path}: it must be an object.")
-        return
-
-    for key, value in env.items():
-        # Only honor ANTHROPIC_* keys (the config's documented purpose) so a
-        # shared settings.json cannot silently inject unrelated variables such
-        # as HTTPS_PROXY into the process environment.
-        if not key.startswith("ANTHROPIC_"):
-            continue
-        if not (isinstance(value, str) and value.strip()):
-            continue
-        try:
-            os.environ.setdefault(key, value.strip())
-        except ValueError as exc:
-            # e.g. an embedded NUL in the value or '=' in the key name.
-            print(f"Warning: ignoring invalid config entry {key!r}: {exc}")
+def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
+    """Execute one ``tool_use`` block, echoing the command and its output."""
+    command = block.input["command"]
+    print_tool(f"[bash]$ {command}")
+    output, is_error = run_bash(command)
+    print_tool(output)
+    return {
+        "type": "tool_result",
+        "tool_use_id": block.id,
+        "content": output,
+        "is_error": is_error,
+    }
 
 
 def run() -> None:
-    """Start the read → ask → answer loop until the user types ``/exit``."""
-    # Fill any unset ANTHROPIC_* keys from the config file (environment variables
-    # take precedence), then let the SDK read credentials from os.environ.
+    """Start the read → ask → answer loop until the user types ``/exit``.
+
+    A reply may include bash tool calls; they are executed and their results
+    fed back to the model until it finishes the turn without tool use.
+    """
+    # Fill any unset ANTHROPIC_* keys from the config file (environment
+    # variables take precedence), then let the SDK read credentials from
+    # os.environ.
     load_settings_env()
     client = anthropic.Anthropic()
     if client.api_key is None and client.auth_token is None:
@@ -114,36 +66,26 @@ def run() -> None:
         )
         return
 
-    # Resolve the model after load_settings_env() so a config-file ANTHROPIC_MODEL
-    # is honored. An empty or whitespace-only value falls back to the default.
-    configured_model = os.environ.get("ANTHROPIC_MODEL", "").strip()
-    model = configured_model or DEFAULT_MODEL
-
-    messages: list[MessageParam] = []
-    if configured_model:
-        print(f"nanoPyCodeAgent — using model {model} (from ANTHROPIC_MODEL).")
-    else:
-        print(
-            f"nanoPyCodeAgent — using default model {model} "
-            "(set ANTHROPIC_MODEL to override)."
-        )
+    model = os.environ.get("ANTHROPIC_MODEL", "").strip() or DEFAULT_MODEL
+    print(f"nanoPyCodeAgent — model {model} (set ANTHROPIC_MODEL to override).")
     print("Type a message to chat, or /exit to quit.")
 
+    messages: list[MessageParam] = []
     while True:
         try:
             user_input = input("\nYou> ").strip()
         except (EOFError, KeyboardInterrupt):
             print()
             break
-
         if not user_input:
             continue
         if user_input == "/exit":
             break
 
         messages.append({"role": "user", "content": user_input})
-
-        try:
+        # The model may ask to run tools; keep streaming replies and feeding
+        # results back until it finishes a reply without tool calls.
+        while True:
             print("\nAgent> ", end="", flush=True)
             # Stream the reply so text shows up as it is generated, then grab
             # the accumulated message for the conversation history.
@@ -151,31 +93,24 @@ def run() -> None:
                 model=model,
                 max_tokens=MAX_TOKENS,
                 system=SYSTEM_PROMPT,
+                tools=[BASH_TOOL],
                 messages=messages,
             ) as stream:
                 for text in stream.text_stream:
                     print(text, end="", flush=True)
                 message = stream.get_final_message()
             print()
-        except KeyboardInterrupt:
-            # Ctrl-C while streaming the reply cancels cleanly, mirroring the
-            # graceful quit offered at the input prompt.
-            print()
-            break
-        except anthropic.AuthenticationError:
-            print(
-                "\nAuthentication failed. Check that ANTHROPIC_API_KEY is set correctly."
-            )
-            break
-        except (anthropic.APIError, httpx.HTTPError) as exc:
-            # httpx.HTTPError: the SDK wraps transport errors only around the
-            # initial send, so a network failure mid-stream surfaces as a raw
-            # httpx error during iteration rather than an anthropic.APIError.
-            print(f"\nRequest failed: {exc}")
-            messages.pop()  # drop the unanswered user turn so history stays valid
-            continue
 
-        # Append the full content blocks so the next turn carries complete context.
-        messages.append({"role": "assistant", "content": message.content})
+            messages.append({"role": "assistant", "content": message.content})
+            if message.stop_reason != "tool_use":
+                break
+            # Every tool_use block needs a matching tool_result in the next
+            # user message, or the API rejects the request.
+            results = [
+                _run_one_tool(block)
+                for block in message.content
+                if block.type == "tool_use"
+            ]
+            messages.append({"role": "user", "content": results})
 
     print("Bye!")
