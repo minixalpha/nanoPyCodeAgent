@@ -50,12 +50,18 @@ Read the entries under `## [Unreleased]` and propose the next semver `X.Y.Z`:
 **0.x caveat:** on `0.y.z` a minor may still contain breaking changes; treat the
 proposal as a suggestion. The maintainer makes the final call at the gate (step 5).
 
-### 4. Cut the changelog
+### 4. Cut the changelog and date the dev notes
 In `<series>`:
 - rename `## [Unreleased]` to `## [X.Y.Z] - <today YYYY-MM-DD>`, keeping its entries;
 - add a fresh empty `## [Unreleased]` section above it.
 
-Touch no other file — dev notes and README were synced per-PR by `land-pr`.
+In `docs/dev_notes/zh-CN/<series>.md` and `docs/dev_notes/en/<series>.md`,
+replace the `YYYY.MM.DD` placeholder in the `## X.Y.Z - YYYY.MM.DD` heading
+with today's date (dot-separated). Skip if the dev notes have no section for
+this version.
+
+Touch no other file — dev notes content and README were synced per-PR by
+`land-pr`.
 
 ### 5. ⛔ Confirmation gate (mandatory)
 Present to the maintainer: the proposed **version** `X.Y.Z` and the **changelog
