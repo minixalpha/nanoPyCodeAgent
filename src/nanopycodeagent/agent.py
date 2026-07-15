@@ -12,6 +12,7 @@ preserved at the ``hardened-agent-loop`` tag.
 """
 
 import os
+from importlib.metadata import PackageNotFoundError, version
 
 import anthropic
 from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
@@ -29,6 +30,20 @@ SYSTEM_PROMPT = (
     "Use the bash tool to inspect files, run code, and complete tasks that "
     "need real command output instead of guessing."
 )
+
+
+def _package_version() -> str:
+    """Return the installed package version.
+
+    The version comes from the package metadata written at install time
+    (hatch-vcs derives it from the git tag). When the package is not
+    installed — e.g. the module is run straight from a source checkout —
+    there is no metadata to read, so fall back to a placeholder.
+    """
+    try:
+        return version("nanoPyCodeAgent")
+    except PackageNotFoundError:
+        return "unknown"
 
 
 def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
@@ -67,7 +82,10 @@ def run() -> None:
         return
 
     model = os.environ.get("ANTHROPIC_MODEL", "").strip() or DEFAULT_MODEL
-    print(f"nanoPyCodeAgent — model {model} (set ANTHROPIC_MODEL to override).")
+    print(
+        f"nanoPyCodeAgent v{_package_version()} — model {model} "
+        "(set ANTHROPIC_MODEL to override)."
+    )
     print("Type a message to chat, or /exit to quit.")
 
     messages: list[MessageParam] = []

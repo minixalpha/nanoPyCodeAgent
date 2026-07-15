@@ -45,6 +45,19 @@ def test_startup_message_shows_default_model(monkeypatch, capsys):
     assert agent.DEFAULT_MODEL in out
 
 
+def test_startup_message_shows_version(monkeypatch, capsys):
+    messages = FakeMessages([])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    # The banner carries the installed package version (from git-tag metadata).
+    assert f"nanoPyCodeAgent v{agent._package_version()}" in out
+    assert "vunknown" not in out  # metadata is present in the test environment
+
+
 def test_model_can_be_overridden_via_env(monkeypatch, capsys):
     monkeypatch.setenv("ANTHROPIC_MODEL", "claude-opus-4-8")
     reply = [text_block("ok")]
