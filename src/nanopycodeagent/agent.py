@@ -1,9 +1,9 @@
 """A minimal agent loop built on the Anthropic Python SDK.
 
 Run the program, type a message, and Agent replies. The full conversation is
-kept in memory so each turn has context. The model can call a single ``bash``
-tool to run shell commands; every command and its output are echoed to the
-terminal as they happen. Type ``/exit`` to quit.
+kept in memory so each turn has context. The model can call a ``read`` tool
+to view files and a ``bash`` tool to run shell commands; every call and its
+output are echoed to the terminal as they happen. Type ``/exit`` to quit.
 
 The loop handles only the happy path: anything unexpected — a network error,
 a Ctrl-C mid-turn — crashes the session, and restarting it is the recovery.
@@ -18,6 +18,7 @@ import anthropic
 from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
 from .bash_tool import BASH_TOOL, run_bash
+from .read_tool import READ_TOOL, run_read
 from .settings import load_settings_env
 from .terminal import print_tool
 
@@ -27,9 +28,13 @@ DEFAULT_MODEL = "claude-sonnet-4-6"
 MAX_TOKENS = 8192
 SYSTEM_PROMPT = (
     "You are nanoPyCodeAgent, a concise and helpful coding assistant. "
-    "Use the bash tool to inspect files, run code, and complete tasks that "
-    "need real command output instead of guessing."
+    "Prefer the read tool for viewing files. Use the bash tool to run "
+    "commands, search with grep, and complete tasks that need real command "
+    "output instead of guessing."
 )
+
+# Every tool offered to the model on each request.
+TOOLS = [READ_TOOL, BASH_TOOL]
 
 
 def _package_version() -> str:
@@ -47,10 +52,19 @@ def _package_version() -> str:
 
 
 def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
-    """Execute one ``tool_use`` block, echoing the command and its output."""
-    command = block.input["command"]
-    print_tool(f"[bash]$ {command}")
-    output, is_error = run_bash(command)
+    """Execute one ``tool_use`` block, echoing the call and its output."""
+    if block.name == "read":
+        path = block.input["path"]
+        print_tool(f"[read] {path}")
+        output, is_error = run_read(
+            path,
+            offset=block.input.get("offset", 1),
+            limit=block.input.get("limit"),
+        )
+    else:  # bash — the only other tool offered
+        command = block.input["command"]
+        print_tool(f"[bash]$ {command}")
+        output, is_error = run_bash(command)
     print_tool(output)
     return {
         "type": "tool_result",
@@ -63,7 +77,7 @@ def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
 def run() -> None:
     """Start the read → ask → answer loop until the user types ``/exit``.
 
-    A reply may include bash tool calls; they are executed and their results
+    A reply may include tool calls; they are executed and their results
     fed back to the model until it finishes the turn without tool use.
     """
     # Fill any unset ANTHROPIC_* keys from the config file (environment
@@ -111,7 +125,7 @@ def run() -> None:
                 model=model,
                 max_tokens=MAX_TOKENS,
                 system=SYSTEM_PROMPT,
-                tools=[BASH_TOOL],
+                tools=TOOLS,
                 messages=messages,
             ) as stream:
                 for text in stream.text_stream:

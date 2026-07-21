@@ -4,7 +4,7 @@
 
 ## 研究范围
 
-本文只统计**模型可以直接调用的内置工具**，不把普通内部函数、测试辅助函数或面向 GUI 客户端的 RPC 混作 Agent 工具。结论基于当前目录中的以下检出版本：
+本文只统计**模型可以直接调用的内置工具**，不把普通内部函数、测试辅助函数或面向 GUI 客户端的 RPC 混作 Agent 工具。结论基于调研时使用的以下检出版本；源码快照不随本仓库提交，因此本文不引用其本地代码路径：
 
 | 项目 | 当前提交 | 提交日期 |
 | --- | --- | --- |
@@ -41,13 +41,11 @@
 
 因此，如果把“纯文本”定义为“不添加行号、标签或 JSON 外壳的文件正文”，Pi 最接近纯文本；Claude Code、Grok 和经典 OpenCode 都会主动增加位置或结构标记；OpenCode V2 保留原始正文，但把它放进结构化结果；Codex 则把格式选择交给具体 shell 命令。
 
-相关实现：Grok 的参数和文本锚点见 [`read_file/mod.rs`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/grok_build/read_file/mod.rs#L103) 与 [`output.rs`](../../references/grok-build/crates/codegen/xai-grok-tools/src/types/output.rs#L698)；Pi 见 [`read.ts`](../../references/pi/packages/coding-agent/src/core/tools/read.ts#L20)；Claude Code 见 [`FileReadTool.ts`](../../references/claude-code/src/tools/FileReadTool/FileReadTool.ts#L227) 和 [`file.ts`](../../references/claude-code/src/utils/file.ts#L290)；OpenCode 经典实现见 [`packages/opencode/src/tool/read.ts`](../../references/opencode/packages/opencode/src/tool/read.ts#L338)，V2 见 [`packages/core/src/tool/read.ts`](../../references/opencode/packages/core/src/tool/read.ts#L16)；Codex 的命令结果 schema 见 [`shell_spec.rs`](../../references/codex/codex-rs/core/src/tools/handlers/shell_spec.rs#L264)。
-
 ## 1. Grok：`read_file`
 
 ### 工具入口与参数
 
-- 工具 ID 明确注册为 `read_file`，实现入口位于 [`grok_build/read_file/mod.rs`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/grok_build/read_file/mod.rs#L545)。
+- 模型侧工具名为 `read_file`。
 - 参数为：
   - `target_file`：工作区相对路径或绝对路径；
   - `offset`：起始行，支持正数、`0` 和负数；负数可从文件尾部反向定位；
@@ -64,8 +62,6 @@
 - 文本结果可以按约 4 KiB 的字符边界分块流式发送，但文件本身仍然是在分段前一次性读入内存。
 - `SKILL.md` 是有意设置的例外：忽略传入的 `offset`/`limit`，并绕过普通行数和 token 上限，确保技能说明被完整加载。
 
-相关实现：[`read_file/mod.rs:55`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/grok_build/read_file/mod.rs#L55)、[`read_file/mod.rs:150`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/grok_build/read_file/mod.rs#L150)、[`read_file/mod.rs:190`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/grok_build/read_file/mod.rs#L190)、[`read_file/mod.rs:442`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/grok_build/read_file/mod.rs#L442)。
-
 ### 图片和文档
 
 - 图片按 magic bytes 判断，而不是只信扩展名。
@@ -73,8 +69,6 @@
 - PDF 默认渲染为逐页图片，也可用 `format="text"` 提取文字。未指定页码时最多自动读取 10 页；显式指定时一次最多 20 页；文件上限为 50 MiB，处理超时为 60 秒。
 - PPTX 会解压并抽取每张幻灯片的 DrawingML 文本和演讲者备注；压缩输入同样限制为 50 MiB，处理超时 60 秒。
 - 工具描述声称支持 Jupyter Notebook，但当前 `read_file` 实现没有 Notebook 专用分支；`.ipynb` 实际走普通 JSON 文本路径。
-
-相关实现：[`image.rs`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/read_file/image.rs#L25)、[`pdf.rs`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/read_file/pdf.rs#L12)、[`pptx.rs`](../../references/grok-build/crates/codegen/xai-grok-tools/src/implementations/read_file/pptx.rs#L26)。
 
 ### 与 Agent 框架的额外集成
 
@@ -87,7 +81,7 @@
 
 ### 工具入口与参数
 
-- 模型侧名称为 `read`，定义位于 [`read.ts`](../../references/pi/packages/coding-agent/src/core/tools/read.ts#L203)。
+- 模型侧名称为 `read`。
 - 参数很小：`path`、1-based `offset`、`limit`。
 - 路径可为相对路径或绝对路径；路径层还处理 `~`、`@` 前缀、Unicode 空格，以及 macOS 截图名中的窄不换行空格、NFD 文件名和弯引号变体。
 
@@ -100,16 +94,12 @@
 - `limit` 先选择用户需要的窗口，再应用统一的行数/字节上限；越界 `offset` 会返回包含总行数的错误。
 - 与 Claude/Grok 不同，Pi 返回给模型的普通文本不自动添加行号；优点是 token 更省，代价是引用某一行时需要调用者自行建立位置锚点。
 
-相关实现：[`read.ts:264`](../../references/pi/packages/coding-agent/src/core/tools/read.ts#L264)、[`truncate.ts`](../../references/pi/packages/coding-agent/src/core/tools/truncate.ts#L1)。
-
 ### 图片
 
 - 支持 JPEG、PNG、GIF、WebP、BMP，并通过文件内容签名识别；扩展名伪装成图片不会误走图片分支。
 - BMP 等模型接口不直接接受的格式会先转换为 PNG。
 - 默认将图片缩到不超过 2000×2000，并把 base64 载荷控制在约 4.5 MiB 内；会尝试 PNG/JPEG、多档 JPEG 质量以及逐级缩小尺寸。
 - 图片以真正的 image content block 附加给模型，而不是把 base64 文本塞进普通输出。模型不支持视觉输入时会明确说明图片被省略。
-
-相关实现：[`mime.ts`](../../references/pi/packages/coding-agent/src/utils/mime.ts#L3)、[`image-process.ts`](../../references/pi/packages/coding-agent/src/utils/image-process.ts#L52)、[`image-resize-core.ts`](../../references/pi/packages/coding-agent/src/utils/image-resize-core.ts#L21)。
 
 ### 与 Agent 框架的额外集成
 
@@ -121,7 +111,7 @@
 
 ### 工具入口与参数
 
-- 对模型暴露的名称为 `Read`，常量定义于 [`prompt.ts:5`](../../references/claude-code/src/tools/FileReadTool/prompt.ts#L5)，主实现为 [`FileReadTool.ts`](../../references/claude-code/src/tools/FileReadTool/FileReadTool.ts#L337)。
+- 对模型暴露的名称为 `Read`。
 - 参数为绝对路径 `file_path`、1-based `offset`、`limit`，以及 PDF 专用 `pages`。
 - 工具声明自身为只读、可并发执行，并把路径纳入权限匹配。
 
@@ -133,8 +123,6 @@
 - 默认输出 token 上限为 25000。未显式传 `limit` 时，还会用 256 KiB 的总文件大小门槛提前拒绝大文件；显式提供 `limit` 后可读取大文件中的小窗口，最终仍受 token 上限约束。
 - 工具提示中写着“默认最多 2000 行”，但当前核心 `call` 实现没有在缺省时把 `limit` 设为 2000，而是主要依赖 256 KiB/25000 token 两个上限；2000 行常量明确用于附件自动摄入路径。这是当前检出源码中的实现与提示差异。
 - 相同文件、相同范围若修改时间未变化，后续读取会只返回“文件未变化”的短消息，复用对话中较早的内容，减少上下文和 prompt cache 成本。
-
-相关实现：[`readFileInRange.ts`](../../references/claude-code/src/utils/readFileInRange.ts#L1)、[`limits.ts`](../../references/claude-code/src/tools/FileReadTool/limits.ts#L1)、[`FileReadTool.ts:489`](../../references/claude-code/src/tools/FileReadTool/FileReadTool.ts#L489)。
 
 ### 图片、PDF 和 Notebook
 
@@ -155,7 +143,7 @@
 
 ### 工具入口与分层
 
-- 模型侧名称为 `read`，属于当前 V2 Location-scoped 内置工具，组装入口见 [`builtins.ts`](../../references/opencode/packages/core/src/tool/builtins.ts#L5)，工具定义见 [`read.ts`](../../references/opencode/packages/core/src/tool/read.ts#L16)。
+- 模型侧名称为 `read`，这里讨论当前 V2 Location-scoped 内置工具。
 - 参数为 `path`、1-based 正整数 `offset` 和正整数 `limit`；`limit` 在 schema 层就被限制为不超过 2000。`path` 可以指向文件或目录，因此当前实现不再暴露单独的 `list` 工具。
 - 实现刻意拆成两层：`read.ts` 负责模型 schema、Location 路径、权限、文件/目录分派、图片归一化和错误投影；`read-filesystem.ts` 负责可独立测试的实际 I/O、分页、格式识别与结构化结果。
 - 返回值不是预先排版的一段字符串，而是三种结构化结果的联合：普通文件的 `FileSystem.Content`、分页文本的 `TextPage`、目录的 `ListPage`。只有图片会另外产生原生 media content block。
@@ -169,8 +157,6 @@
 - 文本正文没有自动行号。小文件结果是包含 `content`、`encoding`、`mime` 的 `FileSystem.Content` JSON；分页结果才额外带 `offset`、`truncated`、`next`。位置锚点依赖分页元数据，而不是像 Claude Code 那样给每一行加前缀。
 - 二进制判断结合扩展名、PDF magic bytes、NUL 字节和不可打印控制字符比例。PDF、Office、压缩包、可执行文件等会被拒绝；`.ipynb` 没有专用分支，会作为普通 UTF-8 JSON 文本读取。
 
-相关实现：[`read-filesystem.ts:10`](../../references/opencode/packages/core/src/tool/read-filesystem.ts#L10)、[`read-filesystem.ts:166`](../../references/opencode/packages/core/src/tool/read-filesystem.ts#L166)、[`read-filesystem.ts:214`](../../references/opencode/packages/core/src/tool/read-filesystem.ts#L214)。
-
 ### 图片和目录
 
 - 图片按内容签名识别 JPEG、PNG、GIF、WebP，优先级高于扩展名，因此伪装成 `.bin` 的合法图片仍能读取。原始媒体摄入上限为 20 MiB，并同时检查 `stat` 大小和实际流入字节数，避免读取期间文件增长绕过上限。
@@ -178,15 +164,11 @@
 - 图片结果以“读取成功”文本加原生 `file` content block 返回，base64 不会伪装成普通文本。通用文本输出裁剪也不会裁掉 media block。
 - 目录读取会解析每个直接子项的真实路径，只保留仍位于该目录内的普通文件和目录，因此会排除断链、特殊文件以及指向目录外部的符号链接。结果按“目录优先、同类按名称”排序，最多返回 2000 项，并用 `next` 延续分页。
 
-相关实现：[`read-filesystem.ts:125`](../../references/opencode/packages/core/src/tool/read-filesystem.ts#L125)、[`image.ts:56`](../../references/opencode/packages/core/src/image.ts#L56)、[`photon.ts:17`](../../references/opencode/packages/core/src/image/photon.ts#L17)、[`read-filesystem.ts:325`](../../references/opencode/packages/core/src/tool/read-filesystem.ts#L325)。
-
 ### 路径、权限和输出生命周期
 
 - 相对路径必须留在当前 Location 内，Location 内的绝对路径也可使用；相对 `..` 越界或通过符号链接逃逸会被拒绝。显式读取 Location 外绝对路径时，先要求 `external_directory` 授权，再要求目标资源的 `read` 授权。
 - 工具自身在分页生产阶段控制文本窗口为 2000 行/50 KiB；Tool Registry 在结算阶段还有一层默认同为 2000 行/50 KiB 的通用模型输出保护。若完整结构化结果仍超限，会把完整内容保存到受管 `tool-output` 文件，给模型发送头尾预览和路径；留存期默认为 7 天。
 - 预期错误并非全部原样暴露：二进制、媒体摄入上限、图片解码和尺寸错误保留具体消息；路径、普通文件系统、权限、非法 UTF-8、offset 越界等目前统一投影为 `Unable to read <path>`。这减少了内部错误泄露，但也让部分失败的恢复提示不如 Pi、Claude Code 具体。
-
-相关实现：[`location-mutation.ts:120`](../../references/opencode/packages/core/src/location-mutation.ts#L120)、[`read.ts:53`](../../references/opencode/packages/core/src/tool/read.ts#L53)、[`read.ts:95`](../../references/opencode/packages/core/src/tool/read.ts#L95)、[`tool-output-store.ts:10`](../../references/opencode/packages/core/src/tool-output-store.ts#L10)、[`tool-output-store.ts:138`](../../references/opencode/packages/core/src/tool-output-store.ts#L138)。
 
 ## 5. Codex：没有专用文本 `read_file`
 
@@ -198,7 +180,7 @@
 - `write_stdin`：继续与仍在运行的命令交互；
 - `view_image`：读取并查看本地图片。
 
-不支持 Unified Exec 或使用旧模型配置时，会改为 `shell_command`。注册逻辑见 [`spec_plan.rs:643`](../../references/codex/codex-rs/core/src/tools/spec_plan.rs#L643)，对应测试见 [`spec_plan_tests.rs:486`](../../references/codex/codex-rs/core/src/tools/spec_plan_tests.rs#L486)。
+不支持 Unified Exec 或使用旧模型配置时，会改为 `shell_command`。
 
 因此，Codex 读取文本通常是让 `exec_command` 执行：
 
@@ -216,7 +198,33 @@ head -n 200 path/to/file
 - 命令在文件系统/网络沙箱中运行；需要越界访问时走结构化审批，并可记录受控的命令前缀规则。
 - 支持本地或附加的远程环境，并返回 `exit_code`、耗时、会话 ID、是否截断等结构化元数据。
 
-工具 schema 位于 [`shell_spec.rs`](../../references/codex/codex-rs/core/src/tools/handlers/shell_spec.rs#L17)，执行处理位于 [`exec_command.rs`](../../references/codex/codex-rs/core/src/tools/handlers/unified_exec/exec_command.rs#L80)，输出裁剪位于 [`context.rs`](../../references/codex/codex-rs/core/src/tools/context.rs#L408) 和 [`output-truncation`](../../references/codex/codex-rs/utils/output-truncation/src/lib.rs#L12)。
+### 输出预算、中间裁剪与会话续接的实现细节
+
+上面提到的“10000 token 预算、中间裁剪、会话续接”分布在三个层次，合起来是一套“采集层字节裁剪 + 渲染层 token 裁剪 + 进程仓库会话续接”的组合。
+
+**采集层：字节级 head/tail 缓冲（`HeadTailBuffer`）**
+
+- 每个进程只有一个 1 MiB 的输出缓冲，对半分成 head 和 tail 各 512 KiB。
+- 写入时先填满 head，之后全部进入 tail；tail 是滚动队列，超预算就从前端丢弃，只保留最后 512 KiB，被丢弃的字节只累加一个 `omitted_bytes` 计数器。
+- 读取时拼成 `head + "... N bytes omitted ..." + tail`。
+- 这一级的目的是内存硬上限：后台任务持续把 PTY 输出写入缓冲，即使进程无限输出（如 `yes`），内存占用也恒定为 1 MiB。
+
+**渲染层：token 级中间裁剪（`truncate_middle_with_token_budget`）**
+
+- token 计数不是真 tokenizer，就是“字节数 ÷ 4”向上取整（`APPROX_BYTES_PER_TOKEN = 4`）。
+- 把 token 预算换算成字节预算后对半分给开头和结尾，按字符边界切开，中间替换为 `…N tokens truncated…` 标记。
+- 最终文本再加上 `Warning: truncated output (original token count: N)` 头部；组装时会检查是否已含字节级标记以避免重复插入——两级裁剪的标记相互独立，可能同时出现。
+- 10000 token 预算的取值是 `min(调用方 max_output_tokens 或默认 10000, 模型档位 truncation_policy 上限)`：模型可以在参数里主动要更多输出，但会被策略封顶。该预算只作用于渲染层，采集层的 1 MiB 固定不变。
+
+**会话层：进程仓库与限时收集**
+
+- `exec_command` 先随机分配 1000–100000 的 process_id，spawn PTY 后立即把进程存入仓库（HashMap）；特意在等待输出之前就存入，避免用户中断当前轮次时最后一个引用被释放、误杀后台进程。
+- 核心循环 `collect_output_until_deadline` 反复 drain 共享缓冲、等待新输出通知、感知进程退出（退出后仍保留 50 ms 收尾窗口抓残余输出），直到 deadline；等待时长被 clamp 到 250 ms–30 s，默认 10 s。
+- deadline 到达时进程已退出，则返回 exit_code 并释放 process_id；仍在运行则在响应中给出 session ID，进程留在仓库继续运行。
+- `write_stdin` 按 process_id 取回同一组输出句柄，写入 stdin 后走同一个限时收集循环。两次工具调用之间产生的输出不会丢失：后台任务一直在向共享缓冲写入，下次调用一进来 drain 即得。空输入的 `write_stdin` 是轮询语义，等待窗口放宽到 5 s–300 s。
+- 仓库最多保留 64 个并发会话；满了按 LRU 剪枝，但保护最近使用的 8 个，并优先剪除已退出的进程。
+
+这套实现的复杂度分布很不均匀：head/tail 缓冲与 token 裁剪合计不到 350 行、无特殊依赖，容易移植；真正重的是会话续接——PTY、后台采集任务、进程仓库和退出竞态处理占了绝大部分代码。
 
 ### `view_image`
 
@@ -227,11 +235,9 @@ head -n 200 path/to/file
 - 默认用 `high` 细节级别，也可在模型支持时请求 `original`；
 - 把文件转成 data URL，并作为真正的 image content item 发送给模型。
 
-实现见 [`view_image.rs`](../../references/codex/codex-rs/core/src/tools/handlers/view_image.rs#L84)。
-
 ### 不要混淆 `fs/readFile`
 
-Codex app-server 还提供一个 `fs/readFile` JSON-RPC：接收绝对路径，返回原始字节的 base64。它面向 app-server 客户端，不在模型工具计划中，也没有 `offset`、`limit`、行号、文本 token 控制或文档解析，因此不应算作 Codex Agent 的内置读文件工具。实现见 [`fs_processor.rs:64`](../../references/codex/codex-rs/app-server/src/request_processors/fs_processor.rs#L64)。
+Codex app-server 还提供一个 `fs/readFile` JSON-RPC：接收绝对路径，返回原始字节的 base64。它面向 app-server 客户端，不在模型工具计划中，也没有 `offset`、`limit`、行号、文本 token 控制或文档解析，因此不应算作 Codex Agent 的内置读文件工具。
 
 ## 与直接通过 Bash 读文件相比，增强能力有什么好处
 
@@ -277,6 +283,14 @@ Claude Code 能避免重复发送未修改文件、触发路径相关技能并�
 
 框架可以把“读了哪个文件、读了多少、是否截断、是否命中权限规则”记录成结构化事件。若只看到一段任意 shell 脚本，系统必须先解析命令，仍可能无法准确判断管道、重定向或子进程最终读了什么。
 
+## 专用读工具自身的代价
+
+- **实现与维护成本随文件类型线性增长**：每种格式一个分支，还容易出现工具描述与实现漂移——Grok 声称支持 Notebook 但实际没有专用分支、Claude Code 提示中的“默认最多 2000 行”与核心实现的差异，都是例子。
+- **工具定义占用上下文**：每个专用工具的 schema 和描述都进入系统提示；与 Bash 功能重叠时，还需要提示词引导模型才能稳定选择正确的工具，否则会在两者间摇摆。
+- **表达力有天花板**：offset/limit 的行分页模型对超长单行、按字段提取无能为力。Pi 和 Grok 遇到超长单行时都主动建议退回 `sed | head -c` 或 `jq`——专用工具自己承认了边界，因此它是 Bash 的补充而非替代。
+
+镜像地看，Bash 路线的代价在上一节已逐条展开：权限语义无法静态判断（无法证明一条任意命令只读，管道、重定向、`$()` 都可能写入）、上下文保护只能事后补救、输出格式依赖模型自觉、多模态不可达、缺少会话集成与结构化错误恢复。
+
 ## 专用读工具并不总比 Bash 更好
 
 Bash 仍然适合以下情况：
@@ -287,11 +301,16 @@ Bash 仍然适合以下情况：
 - Pi 和 Grok 都会先把整个普通文件读入内存；针对超大文件的少量窗口读取，Claude Code、OpenCode 的流式实现或 `sed`/`awk` 更节省内存；
 - Codex 的通用 shell 路线可以立即利用机器上已有的新格式处理器，不需要先给 Agent 增加一个新的内置分支。
 
+不过要正确理解 Codex 的例子：它并不证明“只用 Bash 就够了”，而是证明“如果在命令执行层投入足够重的基础设施（沙箱、审批、输出预算、会话管理），Bash 可以承担文本读取”。复杂度没有消失，只是从 read 工具搬到了 exec 工具；而且 Codex 也没能完全摆脱专用读工具——`view_image` 就是一个，因为图片内容在协议层无法通过文本输出表达。所以 Bash-only 路线的真实适用范围只有文本。
+
+另一个容易被忽略的变量是模型训练分布：工具形状和模型是协同进化的。Claude 系模型在训练中大量使用 Read/Edit 配对，行号锚点直接服务后续编辑；Codex 的模型则针对 shell 使用做了训练。“Codex 用 Bash 没问题”部分是因为它的模型就是这么练的，这个结论不能免费迁移到其他模型上。
+
 更准确的结论不是“专用工具取代 Bash”，而是：
 
 - **常规源码、配置和多媒体阅读**：专用工具更安全、稳定、节省上下文；
 - **搜索、超长单行和临时格式转换**：Bash/CLI 更强；
-- **最佳 Agent 实现**通常保留两者，并在提示中让模型优先使用专用读工具、遇到专用工具表达不了的窗口或变换时再退回 shell。
+- **最佳 Agent 实现**通常保留两者，并在提示中让模型优先使用专用读工具、遇到专用工具表达不了的窗口或变换时再退回 shell；
+- 两者的根本差异不是功能覆盖（Bash 几乎什么都能做），而是**复杂度花在哪一层**与**权限语义能否静态表达**：专用工具把安全和预算前置到协议层，Bash 路线则要求执行层提供同等强度的沙箱与审批基础设施。
 
 ## 横向评价
 
