@@ -44,8 +44,9 @@ READ_TOOL: ToolParam = {
             "limit": {
                 "type": "integer",
                 "description": (
-                    "Maximum number of lines to return (default: up to the "
-                    "line cap)."
+                    f"Maximum number of lines to return. Omit to read up to "
+                    f"the {MAX_READ_LINES}-line cap; larger values are "
+                    f"clamped to it."
                 ),
             },
         },
