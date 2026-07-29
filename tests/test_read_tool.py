@@ -4,6 +4,10 @@ These read real files under pytest's ``tmp_path``; the line and character
 caps are patched down so every case stays small.
 """
 
+import os
+
+import pytest
+
 from nanopycodeagent import read_tool
 
 
@@ -116,6 +120,19 @@ def test_directory_is_an_error(tmp_path):
     output, is_error = read_tool.run_read(str(tmp_path))
 
     assert "is a directory" in output
+    assert is_error is True
+
+
+@pytest.mark.skipif(not hasattr(os, "mkfifo"), reason="POSIX-only file type")
+def test_fifo_is_rejected_instead_of_blocking(tmp_path):
+    path = tmp_path / "pipe"
+    os.mkfifo(path)
+
+    # Opening it would block until a writer shows up, with no timeout to
+    # escape; the type check has to come before the read.
+    output, is_error = read_tool.run_read(str(path))
+
+    assert "not a regular file" in output
     assert is_error is True
 
 

@@ -61,8 +61,11 @@ def run_read(
     """Read a window of the file and return ``(output, is_error)``.
 
     ``is_error`` is true when the tool could not produce a reading: a bad
-    argument, a missing file or directory path, a binary file, or a single
-    line over the character cap. Every error message states what to do next
+    argument, a missing file, a directory or any other non-regular file, a
+    binary file, or a single line over the character cap. Only regular
+    files are opened — a FIFO or a device file would block or never end,
+    and there is no timeout here to escape that. Every error message states
+    what to do next
     — the file's total line count, a bash command to slice an over-long
     line — rather than just what failed.
 
@@ -77,11 +80,18 @@ def run_read(
         return f"[invalid limit {limit}: must be at least 1]", True
 
     path = Path(path_str).expanduser()
+    if not path.exists():
+        return f"[file not found: {path_str}]", True
     if path.is_dir():
         return f"[{path_str} is a directory, not a file]", True
+    if not path.is_file():
+        # A FIFO blocks until something writes to it and a device file like
+        # /dev/zero never ends. Reading either would hang the session, and
+        # unlike the bash tool there is no timeout to escape it.
+        return f"[{path_str} is not a regular file; read is text-only]", True
     try:
         data = path.read_bytes()
-    except FileNotFoundError:
+    except FileNotFoundError:  # the file went away after the check above
         return f"[file not found: {path_str}]", True
     except OSError as exc:
         return f"[cannot read {path_str}: {exc}]", True
