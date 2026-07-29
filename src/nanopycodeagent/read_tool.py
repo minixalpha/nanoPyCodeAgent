@@ -5,6 +5,7 @@ line numbers, ``cat -n`` style, plus a continuation hint whenever the
 window stops short of the end of the file.
 """
 
+import shlex
 from pathlib import Path
 
 from anthropic.types import ToolParam
@@ -142,12 +143,16 @@ def run_read(
 
     # A single line over the character cap cannot be returned whole, and
     # returning a bare fragment would hide where it came from — point at
-    # bash instead.
+    # bash instead. The path goes into a command the model may run, so it
+    # is the expanded one (quoting would stop the shell from expanding ~),
+    # quoted so spaces and $(...) in a filename cannot reshape the command,
+    # and behind -- so a leading dash cannot read as an option.
     if len(window[0]) > MAX_READ_CHARS:
         return (
             f"[line {offset} is {len(window[0])} characters long, over the "
             f"{MAX_READ_CHARS}-character cap; slice it with bash instead, "
-            f"e.g. sed -n '{offset}p' {path_str} | cut -c 1-2000]",
+            f"e.g. sed -n '{offset}p' -- {shlex.quote(str(path))} "
+            f"| cut -c 1-2000]",
             True,
         )
 

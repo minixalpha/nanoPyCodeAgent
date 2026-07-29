@@ -5,6 +5,7 @@ caps are patched down so every case stays small.
 """
 
 import os
+import shlex
 
 import pytest
 
@@ -97,6 +98,33 @@ def test_single_line_over_the_char_cap_suggests_bash(tmp_path, monkeypatch):
     # command that can slice it.
     assert "line 1 is 100 characters long" in output
     assert "sed -n '1p'" in output
+    assert is_error is True
+
+
+def test_the_bash_hint_survives_a_hostile_filename(tmp_path, monkeypatch):
+    monkeypatch.setattr(read_tool, "MAX_READ_CHARS", 20)
+    path = _write(tmp_path, "-a $(echo pwned).json", "x" * 100 + "\n")
+
+    output, is_error = read_tool.run_read(str(path))
+
+    # The hint is a command the model may run, so parse it back the way the
+    # shell would: the path has to arrive as one argument, unexpanded, and
+    # its leading dash must not read as an option.
+    hint = output.split("e.g. ")[1].rstrip("]").split(" | ")[0]
+    assert shlex.split(hint) == ["sed", "-n", "1p", "--", str(path)]
+    assert is_error is True
+
+
+def test_the_bash_hint_carries_the_expanded_path(tmp_path, monkeypatch):
+    monkeypatch.setattr(read_tool, "MAX_READ_CHARS", 20)
+    monkeypatch.setenv("HOME", str(tmp_path))
+    _write(tmp_path, "big.json", "x" * 100 + "\n")
+
+    output, is_error = read_tool.run_read("~/big.json")
+
+    # Quoting the path stops the shell from expanding ~ itself, so the hint
+    # has to hand over the path already expanded.
+    assert f"-- {tmp_path}/big.json" in output
     assert is_error is True
 
 
