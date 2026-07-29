@@ -136,6 +136,22 @@ def test_fifo_is_rejected_instead_of_blocking(tmp_path):
     assert is_error is True
 
 
+def test_file_over_the_byte_cap_is_turned_away_before_reading(tmp_path, monkeypatch):
+    monkeypatch.setattr(read_tool, "MAX_READ_BYTES", 10)
+    path = _write(tmp_path, "big.log", "x" * 100 + "\n")
+    # Never loading the file is the whole point of the cap, so fail loudly
+    # if the read happens anyway.
+    monkeypatch.setattr(
+        read_tool.Path, "read_bytes", lambda self: pytest.fail("the file was read")
+    )
+
+    output, is_error = read_tool.run_read(str(path))
+
+    assert "101 bytes, over the 10-byte cap" in output
+    assert "sed" in output  # and bash is named as the way to read it anyway
+    assert is_error is True
+
+
 def test_offset_past_the_end_reports_total_lines(tmp_path):
     path = _write(tmp_path, "notes.txt", "one\ntwo\n")
 

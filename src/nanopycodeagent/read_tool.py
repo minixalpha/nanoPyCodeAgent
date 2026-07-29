@@ -15,6 +15,12 @@ from anthropic.types import ToolParam
 MAX_READ_LINES = 2_000
 MAX_READ_CHARS = 50_000
 
+# The output caps above only bound what reaches the context; the file itself
+# is read whole, so a byte cap is what bounds memory. It is generous next to
+# the output caps because a small window may sit deep inside a large source
+# file — it only has to keep a multi-gigabyte log from being loaded at all.
+MAX_READ_BYTES = 10_000_000
+
 READ_TOOL: ToolParam = {
     "name": "read",
     "description": (
@@ -62,17 +68,19 @@ def run_read(
 
     ``is_error`` is true when the tool could not produce a reading: a bad
     argument, a missing file, a directory or any other non-regular file, a
-    binary file, or a single line over the character cap. Only regular
-    files are opened — a FIFO or a device file would block or never end,
-    and there is no timeout here to escape that. Every error message states
-    what to do next
-    — the file's total line count, a bash command to slice an over-long
-    line — rather than just what failed.
+    file over the byte cap, a binary file, or a single line over the
+    character cap. Only regular files are opened — a FIFO or a device file
+    would block or never end, and there is no timeout here to escape that.
+    Every error message states what to do next — the file's total line
+    count, a bash command to slice an over-long line — rather than just
+    what failed.
 
     Content is decoded as UTF-8 with invalid bytes replaced, matching the
     bash tool's tolerance. The whole file is read into memory: fine for
     source and config files, and the output caps bound what reaches the
-    context either way.
+    context either way. Files over the byte cap are turned away before the
+    read, since the output caps would otherwise apply only after the whole
+    file had already been loaded.
     """
     if offset < 1:
         return f"[invalid offset {offset}: line numbers start at 1]", True
@@ -90,6 +98,15 @@ def run_read(
         # unlike the bash tool there is no timeout to escape it.
         return f"[{path_str} is not a regular file; read is text-only]", True
     try:
+        size = path.stat().st_size
+        if size > MAX_READ_BYTES:
+            return (
+                f"[{path_str} is {size} bytes, over the "
+                f"{MAX_READ_BYTES}-byte cap; read loads the whole file into "
+                f"memory, so slice it with bash instead, e.g. with "
+                f"sed -n '1,200p']",
+                True,
+            )
         data = path.read_bytes()
     except FileNotFoundError:  # the file went away after the check above
         return f"[file not found: {path_str}]", True
