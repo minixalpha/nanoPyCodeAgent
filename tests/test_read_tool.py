@@ -171,6 +171,35 @@ def test_invalid_utf8_bytes_are_replaced(tmp_path):
     assert is_error is False
 
 
+def test_only_newlines_break_lines(tmp_path):
+    # A form feed is an ordinary character inside a line for sed, grep -n and
+    # editors; splitlines() would break on it and shift every number after it.
+    path = _write(tmp_path, "page.txt", b"one\ntwo\x0cthree\nfour\n")
+
+    output, is_error = read_tool.run_read(str(path))
+
+    assert output == "     1\tone\n     2\ttwo\x0cthree\n     3\tfour"
+    assert is_error is False
+
+
+def test_crlf_line_endings_read_like_lf(tmp_path):
+    path = _write(tmp_path, "dos.txt", b"one\r\n\r\ntwo\r\n")
+
+    output, is_error = read_tool.run_read(str(path))
+
+    assert output == "     1\tone\n     2\t\n     3\ttwo"
+    assert is_error is False
+
+
+def test_last_line_without_a_trailing_newline_is_kept(tmp_path):
+    path = _write(tmp_path, "notes.txt", "one\ntwo")
+
+    output, is_error = read_tool.run_read(str(path))
+
+    assert output == "     1\tone\n     2\ttwo"
+    assert is_error is False
+
+
 def test_tilde_is_expanded(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
     _write(tmp_path, "home.txt", "hello\n")

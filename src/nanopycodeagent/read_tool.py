@@ -101,7 +101,16 @@ def run_read(
     if b"\x00" in data[:8192]:
         return f"[{path_str} looks like a binary file; read is text-only]", True
 
-    lines = data.decode("utf-8", errors="replace").splitlines()
+    # Split on \n alone, not with splitlines(): that also breaks on \x0c,
+    # \x0b, \x85 and U+2028, which would number the lines differently from
+    # sed, grep -n and the user's editor. A trailing \r is dropped so CRLF
+    # files read like LF ones.
+    lines = [
+        line.removesuffix("\r")
+        for line in data.decode("utf-8", errors="replace").split("\n")
+    ]
+    if lines and lines[-1] == "":
+        lines.pop()  # the newline ending the last line starts no new one
     total = len(lines)
     if total == 0:
         return "(empty file)", False
