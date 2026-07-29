@@ -18,9 +18,16 @@ def text_block(text):
 
 
 def tool_use_block(block_id, command):
-    """A minimal stand-in for an SDK tool_use content block."""
+    """A minimal stand-in for a ``bash`` tool_use content block."""
     return SimpleNamespace(
         type="tool_use", id=block_id, name="bash", input={"command": command}
+    )
+
+
+def read_tool_use_block(block_id, **arguments):
+    """A minimal stand-in for a ``read`` tool_use content block."""
+    return SimpleNamespace(
+        type="tool_use", id=block_id, name="read", input=arguments
     )
 
 

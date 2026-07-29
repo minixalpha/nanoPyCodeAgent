@@ -12,6 +12,7 @@ from helpers import (
     FakeMessages,
     FakeStream,
     patch_client_and_input,
+    read_tool_use_block,
     text_block,
     tool_use_block,
 )
@@ -43,6 +44,19 @@ def test_startup_message_shows_default_model(monkeypatch, capsys):
     out = capsys.readouterr().out
     # With credentials configured, the banner names the model in use.
     assert agent.DEFAULT_MODEL in out
+
+
+def test_startup_message_shows_version(monkeypatch, capsys):
+    messages = FakeMessages([])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    # The banner carries the installed package version (from git-tag metadata).
+    assert f"nanoPyCodeAgent v{agent._package_version()}" in out
+    assert "vunknown" not in out  # metadata is present in the test environment
 
 
 def test_model_can_be_overridden_via_env(monkeypatch, capsys):
@@ -159,8 +173,8 @@ def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
     assert "hello" in out  # and so was its output
     assert "It printed hello." in out
     assert len(messages.calls) == 2
-    # The bash tool is offered on every request.
-    assert messages.kwargs[0]["tools"] == [agent.BASH_TOOL]
+    # The full tool set is offered on every request.
+    assert messages.kwargs[0]["tools"] == agent.TOOLS
     # The second call carries the tool_use turn plus a matching tool_result.
     assert messages.calls[1][-2] == {"role": "assistant", "content": tool_turn._content}
     assert messages.calls[1][-1] == {
@@ -170,6 +184,34 @@ def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
                 "type": "tool_result",
                 "tool_use_id": "tu_1",
                 "content": "hello",
+                "is_error": False,
+            }
+        ],
+    }
+
+
+def test_tool_use_turn_runs_read_and_feeds_result_back(monkeypatch, capsys, tmp_path):
+    target = tmp_path / "notes.txt"
+    target.write_text("alpha\nbeta\n", encoding="utf-8")
+    tool_turn = FakeStream(
+        [read_tool_use_block("tu_1", path=str(target))], stop_reason="tool_use"
+    )
+    final = [text_block("done")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["read it", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    assert f"[read] {target}" in out  # the call was echoed to the user
+    assert messages.calls[1][-1] == {
+        "role": "user",
+        "content": [
+            {
+                "type": "tool_result",
+                "tool_use_id": "tu_1",
+                "content": "     1\talpha\n     2\tbeta",
                 "is_error": False,
             }
         ],
