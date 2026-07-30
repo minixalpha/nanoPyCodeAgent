@@ -1,0 +1,41 @@
+name: CI
+
+# Run the test suite on every pull request, and again on main once a change
+# has landed. Read-only: this workflow never publishes anything, so it holds
+# no write scopes of any kind.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# A new push to a branch supersedes the run still in flight for it.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: pytest (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # one version failing should not hide the other's result
+      matrix:
+        # The lowest version the project supports, and the newest it can run
+        # on, so a break in either direction shows up here.
+        python-version: ["3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # full history + tags so hatch-vcs can derive the version
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run tests
+        # --frozen installs exactly what uv.lock pins and fails if the lock has
+        # drifted from pyproject.toml, so CI tests the declared dependencies.
+        run: uv run --frozen pytest
