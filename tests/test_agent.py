@@ -5,6 +5,8 @@ never spend tokens. We drive ``run()`` by scripting ``input()`` and the client,
 then assert on captured stdout and the recorded calls.
 """
 
+import pytest
+
 from nanopycodeagent import agent
 
 from helpers import (
@@ -143,6 +145,28 @@ def test_multi_turn_accumulates_history(monkeypatch, capsys):
         {"role": "assistant", "content": reply1},
         {"role": "user", "content": "What's my name?"},
     ]
+
+
+def test_readline_is_imported_for_line_editing():
+    # Without readline, input() leaves erasing to the tty, which clears one
+    # column per backspace and so strands half of a double-width character.
+    pytest.importorskip("readline")
+    assert hasattr(agent, "readline")
+
+
+def test_prompt_carries_no_embedded_newline(monkeypatch, capsys):
+    messages = FakeMessages([])
+    client = FakeClient(messages)
+    prompts = patch_client_and_input(monkeypatch, client=client, inputs=["/exit"])
+
+    agent.run()
+
+    # readline measures the prompt to place the cursor, so the blank line
+    # between turns is printed on its own rather than embedded in the prompt.
+    assert prompts == ["You> "]
+    # The banner's last line is still followed by that blank line. (input() is
+    # faked here, so the prompt itself never reaches stdout.)
+    assert "or /exit to quit.\n\n" in capsys.readouterr().out
 
 
 def test_blank_input_is_skipped(monkeypatch, capsys):

@@ -100,15 +100,20 @@ def patch_client_and_input(monkeypatch, *, client, inputs):
     The config file is isolated by the autouse ``_isolate_config`` fixture in
     conftest.py, so ``run()`` sees no config file unless a test writes one to
     ``settings.SETTINGS_PATH``.
+
+    Returns the list that records the prompt of each ``input()`` call.
     """
     monkeypatch.setattr(anthropic, "Anthropic", lambda *a, **k: client)
 
     answers = iter(inputs)
+    prompts = []
 
     def fake_input(prompt=""):
+        prompts.append(prompt)
         try:
             return next(answers)
         except StopIteration as exc:  # safety net: behaves like Ctrl-D
             raise EOFError from exc
 
     monkeypatch.setattr("builtins.input", fake_input)
+    return prompts
