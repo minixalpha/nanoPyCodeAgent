@@ -14,6 +14,16 @@ preserved at the ``hardened-agent-loop`` tag.
 import os
 from importlib.metadata import PackageNotFoundError, version
 
+try:
+    # Importing readline routes input() through a line editor that redraws the
+    # whole line. Without it the tty erases one column per backspace, which
+    # leaves half of a double-width character (CJK, emoji) on screen even
+    # though it is gone from the buffer. Editing and history come along for
+    # the ride. Not available on every platform, so the import is optional.
+    import readline  # noqa: F401
+except ImportError:  # pragma: no cover - platform without readline
+    pass
+
 import anthropic
 from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
@@ -105,7 +115,11 @@ def run() -> None:
     messages: list[MessageParam] = []
     while True:
         try:
-            user_input = input("\nYou> ").strip()
+            # The blank line before the prompt is printed separately: readline
+            # measures the prompt to place the cursor, and a newline inside it
+            # throws that off.
+            print()
+            user_input = input("You> ").strip()
         except (EOFError, KeyboardInterrupt):
             print()
             break
