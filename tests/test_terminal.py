@@ -49,3 +49,38 @@ def test_print_tool_plain_without_terminal(monkeypatch, capsys):
     terminal.print_tool_output("out")
 
     assert capsys.readouterr().out == "[bash]$ ls\nout\n"
+
+
+def test_spinner_draws_frames_and_erases_itself(monkeypatch, capsys):
+    # The spinner redraws one line in place with carriage returns; stopping
+    # erases the line so the transcript keeps no trace of the animation.
+    monkeypatch.setattr(terminal, "_use_color", lambda: True)
+
+    spinner = terminal.Spinner("Working...")
+    spinner.start()
+    spinner.stop()
+
+    out = capsys.readouterr().out
+    assert out.startswith("\r⠋ Working...")  # the first frame drew immediately
+    assert out.endswith("\r\x1b[K")  # and stopping erased the line
+
+
+def test_spinner_stop_is_idempotent(monkeypatch, capsys):
+    # An early stop (first streamed token) followed by the context-manager
+    # exit must erase the line exactly once.
+    monkeypatch.setattr(terminal, "_use_color", lambda: True)
+
+    with terminal.Spinner() as spinner:
+        spinner.stop()
+
+    assert capsys.readouterr().out.count("\x1b[K") == 1
+
+
+def test_spinner_silent_without_terminal(monkeypatch, capsys):
+    # Redirected output (pipes, log files) must stay free of animation.
+    monkeypatch.setattr(terminal, "_use_color", lambda: False)
+
+    with terminal.Spinner():
+        pass
+
+    assert capsys.readouterr().out == ""
