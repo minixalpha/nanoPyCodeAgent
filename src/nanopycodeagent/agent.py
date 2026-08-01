@@ -30,7 +30,7 @@ from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 from .bash_tool import BASH_TOOL, run_bash
 from .read_tool import READ_TOOL, run_read
 from .settings import load_settings_env
-from .terminal import print_tool
+from .terminal import Spinner, print_tool_output, print_tool_use
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor
 # the config file.
@@ -65,7 +65,7 @@ def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
     """Execute one ``tool_use`` block, echoing the call and its output."""
     if block.name == "read":
         path = block.input["path"]
-        print_tool(f"[read] {path}")
+        print_tool_use(f"[read] {path}")
         output, is_error = run_read(
             path,
             offset=block.input.get("offset", 1),
@@ -73,9 +73,10 @@ def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
         )
     else:  # bash — the only other tool offered
         command = block.input["command"]
-        print_tool(f"[bash]$ {command}")
-        output, is_error = run_bash(command)
-    print_tool(output)
+        print_tool_use(f"[bash]$ {command}")
+        with Spinner("Running..."):
+            output, is_error = run_bash(command)
+    print_tool_output(output)
     return {
         "type": "tool_result",
         "tool_use_id": block.id,
@@ -132,10 +133,13 @@ def run() -> None:
         # The model may ask to run tools; keep streaming replies and feeding
         # results back until it finishes a reply without tool calls.
         while True:
-            print("\nAgent> ", end="", flush=True)
+            # A spinner marks the wait for the reply; the first streamed
+            # token replaces it with the Agent> prompt. A tool-only reply
+            # streams no text, so the prompt is skipped for it entirely.
+            replied = False
             # Stream the reply so text shows up as it is generated, then grab
             # the accumulated message for the conversation history.
-            with client.messages.stream(
+            with Spinner() as spinner, client.messages.stream(
                 model=model,
                 max_tokens=MAX_TOKENS,
                 system=SYSTEM_PROMPT,
@@ -143,9 +147,14 @@ def run() -> None:
                 messages=messages,
             ) as stream:
                 for text in stream.text_stream:
+                    if not replied:
+                        spinner.stop()
+                        print("\nAgent> ", end="", flush=True)
+                        replied = True
                     print(text, end="", flush=True)
                 message = stream.get_final_message()
-            print()
+            if replied:
+                print()
 
             messages.append({"role": "assistant", "content": message.content})
             if message.stop_reason != "tool_use":
