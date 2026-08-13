@@ -2,8 +2,9 @@
 
 Run the program, type a message, and Agent replies. The full conversation is
 kept in memory so each turn has context. The model can call a ``read`` tool
-to view files and a ``bash`` tool to run shell commands; every call and its
-output are echoed to the terminal as they happen. Type ``/exit`` to quit.
+to view files, a ``write`` tool to create or overwrite them, and a ``bash``
+tool to run shell commands; every call and its output are echoed to the
+terminal as they happen. Type ``/exit`` to quit.
 
 The loop handles only the happy path: anything unexpected — a network error,
 a Ctrl-C mid-turn — crashes the session, and restarting it is the recovery.
@@ -31,6 +32,7 @@ from .bash_tool import BASH_TOOL, run_bash
 from .read_tool import READ_TOOL, run_read
 from .settings import load_settings_env
 from .terminal import Spinner, print_tool_output, print_tool_use
+from .write_tool import WRITE_TOOL, content_preview, run_write
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor
 # the config file.
@@ -38,13 +40,14 @@ DEFAULT_MODEL = "claude-sonnet-4-6"
 MAX_TOKENS = 8192
 SYSTEM_PROMPT = (
     "You are nanoPyCodeAgent, a concise and helpful coding assistant. "
-    "Prefer the read tool for viewing files. Use the bash tool to run "
-    "commands, search with grep, and complete tasks that need real command "
-    "output instead of guessing."
+    "Prefer the read tool for viewing files and the write tool for creating "
+    "files or rewriting them whole. Use the bash tool to run commands, "
+    "search with grep, and complete tasks that need real command output "
+    "instead of guessing."
 )
 
 # Every tool offered to the model on each request.
-TOOLS = [READ_TOOL, BASH_TOOL]
+TOOLS = [READ_TOOL, WRITE_TOOL, BASH_TOOL]
 
 
 def _package_version() -> str:
@@ -71,6 +74,13 @@ def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
             offset=block.input.get("offset", 1),
             limit=block.input.get("limit"),
         )
+    elif block.name == "write":
+        path = block.input["path"]
+        content = block.input["content"]
+        # The echo folds the content: the terminal shows where the write
+        # goes and how it starts, not hundreds of lines.
+        print_tool_use(f"[write] {path}\n{content_preview(content)}")
+        output, is_error = run_write(path, content)
     else:  # bash — the only other tool offered
         command = block.input["command"]
         print_tool_use(f"[bash]$ {command}")
