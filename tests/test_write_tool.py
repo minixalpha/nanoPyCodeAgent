@@ -97,6 +97,7 @@ def test_fifo_is_rejected_instead_of_blocking(tmp_path):
     output, is_error = write_tool.run_write(str(path), "content\n")
 
     assert "not a regular file" in output
+    assert "bash" in output  # the error names the way to write it anyway
     assert is_error is True
 
 
@@ -107,6 +108,8 @@ def test_parent_path_through_a_file_is_an_error(tmp_path):
     output, is_error = write_tool.run_write(str(blocker / "child.txt"), "x\n")
 
     assert output.startswith("[cannot write")
+    # The hint hands the model a bash command pointed at the blocking parent.
+    assert f"ls -ld -- {blocker}" in output
     assert is_error is True
 
 

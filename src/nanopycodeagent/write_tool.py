@@ -6,6 +6,7 @@ passing through shell expansion, heredoc delimiters or quoting, which is
 what makes a heredoc silently corrupt a file while exiting 0.
 """
 
+import shlex
 from pathlib import Path
 
 from anthropic.types import ToolParam
@@ -51,6 +52,18 @@ WRITE_TOOL: ToolParam = {
 }
 
 
+def _logical_lines(content: str) -> list[str]:
+    """Split ``content`` into the lines read would number.
+
+    The split is on ``\\n`` alone, and the newline ending the last line
+    starts no new one — so ``"a\\nb\\n"`` is two lines, not three.
+    """
+    lines = content.split("\n")
+    if lines and lines[-1] == "":
+        lines.pop()
+    return lines
+
+
 def content_preview(content: str) -> str:
     """Fold ``content`` for the terminal echo of a write call.
 
@@ -58,9 +71,7 @@ def content_preview(content: str) -> str:
     closing note counts the hidden lines, so the echo reads as "where the
     write goes and how it starts" rather than the whole file.
     """
-    lines = content.split("\n")
-    if lines and lines[-1] == "":
-        lines.pop()  # the newline ending the last line starts no new one
+    lines = _logical_lines(content)
     if not lines:
         return "(empty)"
     shown = [
@@ -109,7 +120,8 @@ def run_write(path_str: str, content: str) -> tuple[str, bool]:
         # check as read's, from the writing side.
         return (
             f"[{path_str} is not a regular file; write refuses FIFOs and "
-            f"device files]",
+            f"device files — if it really is the target, write it with "
+            f"bash, whose timeout escapes a blocked open]",
             True,
         )
     try:
@@ -123,10 +135,19 @@ def run_write(path_str: str, content: str) -> tuple[str, bool]:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
     except OSError as exc:
-        return f"[cannot write {path_str}: {exc}]", True
+        # ``exc`` names the OS reason — permission denied, a file sitting
+        # in the parent path, a full disk. The hint points at the usual
+        # first suspect, following read's bash-hint conventions: expanded
+        # path, quoted, behind -- so it cannot read as an option.
+        return (
+            f"[cannot write {path_str}: {exc}; inspect the parent with "
+            f"bash, e.g. ls -ld -- {shlex.quote(str(path.parent))}]",
+            True,
+        )
 
-    lines = content.split("\n")
-    if lines and lines[-1] == "":
-        lines.pop()  # count lines the way read numbers them
     verb = "overwrote" if existed else "created"
-    return f"[{verb} {path_str}: {len(data)} bytes, {len(lines)} lines]", False
+    return (
+        f"[{verb} {path_str}: {len(data)} bytes, "
+        f"{len(_logical_lines(content))} lines]",
+        False,
+    )
