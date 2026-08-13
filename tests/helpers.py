@@ -31,6 +31,13 @@ def read_tool_use_block(block_id, **arguments):
     )
 
 
+def write_tool_use_block(block_id, **arguments):
+    """A minimal stand-in for a ``write`` tool_use content block."""
+    return SimpleNamespace(
+        type="tool_use", id=block_id, name="write", input=arguments
+    )
+
+
 def write_settings(path, env):
     """Write a ``settings.json`` with the given ``env`` mapping."""
     path.write_text(json.dumps({"env": env}), encoding="utf-8")

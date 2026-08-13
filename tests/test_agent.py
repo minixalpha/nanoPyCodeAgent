@@ -17,6 +17,7 @@ from helpers import (
     read_tool_use_block,
     text_block,
     tool_use_block,
+    write_tool_use_block,
 )
 
 
@@ -208,6 +209,37 @@ def test_tool_use_turn_runs_bash_and_feeds_result_back(monkeypatch, capsys):
                 "type": "tool_result",
                 "tool_use_id": "tu_1",
                 "content": "hello",
+                "is_error": False,
+            }
+        ],
+    }
+
+
+def test_tool_use_turn_runs_write_and_feeds_result_back(monkeypatch, capsys, tmp_path):
+    target = tmp_path / "hello.py"
+    tool_turn = FakeStream(
+        [write_tool_use_block("tu_1", path=str(target), content='print("hi")\n')],
+        stop_reason="tool_use",
+    )
+    final = [text_block("done")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["write it", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    # The echo names the target and previews the content on the next line.
+    assert f"[write] {target}\n" in out
+    assert 'print("hi")' in out
+    assert target.read_text(encoding="utf-8") == 'print("hi")\n'
+    assert messages.calls[1][-1] == {
+        "role": "user",
+        "content": [
+            {
+                "type": "tool_result",
+                "tool_use_id": "tu_1",
+                "content": f"[created {target}: 12 bytes, 1 lines]",
                 "is_error": False,
             }
         ],
