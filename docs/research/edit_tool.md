@@ -34,7 +34,7 @@
 
 因此，“Edit 工具”真正的共同点不是名字或 schema，而是：**模型只表达变更及其前置条件，运行时读取当前文件、验证前置条件，再保留未涉及的内容。**
 
-相较整文件 `write`，Edit 的第一价值是少传 token、少重写无关内容；相较 Bash，它的第一价值是让宿主理解“改哪个资源、以什么旧内容为前提、实际产生了什么 diff”。但 Edit 仍不是天然的安全边界或事务：只要 Bash 可以任意写文件，路径规则就能被绕过；只要检查和落盘不是同一个强一致存储事务，外部进程仍可能制造竞态。
+相较整文件 `write`，Edit 的第一价值是少传 token、少重写无关内容；相较 Bash，它的第一价值是让 Agent 运行时理解“改哪个资源、以什么旧内容为前提、实际产生了什么 diff”。但 Edit 仍不是天然的安全边界或事务：只要 Bash 可以任意写文件，路径规则就能被绕过；只要检查和落盘不是同一个强一致存储事务，外部进程仍可能制造竞态。
 
 ## 为什么要设计 Edit 工具
 
@@ -66,7 +66,7 @@
 
 ### 4. 建立可审批、可观察的文件变更生命周期
 
-结构化输入让宿主在执行前知道目标路径，并可在执行后得到 old/new 内容或 unified diff，从而接入一条可审计的生命周期。具体项目的授权时机不同；较完整的顺序是：
+结构化输入让 Agent 运行时在执行前知道目标路径，并可在执行后得到 old/new 内容或 unified diff，从而接入一条可审计的生命周期。具体项目的授权时机不同；较完整的顺序是：
 
 ```text
 目标与 canonical path 解析
@@ -76,14 +76,14 @@
 → 提交前复核或 expected-bytes 条件写
 → 落盘
 → formatter / LSP / 文件事件 / history / undo / 审计
-→ 给模型的摘要与给宿主的结构化结果
+→ 给模型的摘要与给 Agent 运行时的结构化结果
 ```
 
-任意 Bash 当然也能修改文件，但宿主很难从一个动态 shell 程序中可靠推导最终写集合、执行前 diff 和每个 hunk 的归属。
+任意 Bash 当然也能修改文件，但 Agent 运行时很难从一个动态 shell 程序中可靠推导最终写集合、执行前 diff 和每个 hunk 的归属。
 
 ### 5. 适配模型的训练分布，而不是追求唯一协议
 
-OpenCode 会给现代非 OSS GPT 模型暴露 `apply_patch`，给其他模型暴露 `edit`/`write`；Grok Build 也用 preset 在 search/replace、Hashline、OpenCode Edit 和 Codex Patch 之间切换。这个事实说明：工具 schema 是模型适配面，不能只按宿主实现难度决定。
+OpenCode 会给现代非 OSS GPT 模型暴露 `apply_patch`，给其他模型暴露 `edit`/`write`；Grok Build 也用 preset 在 search/replace、Hashline、OpenCode Edit 和 Codex Patch 之间切换。这个事实说明：工具 schema 是模型适配面，不能只按 Agent 运行时的实现难度决定。
 
 字符串替换对模型最简单；Patch 更适合一次多文件变更；Hashline 把“旧内容仍是我看到的版本”编码得最强，但要求 Read 输出和 Edit 输入采用一套新的锚点语言。不存在对所有模型都最优的接口。
 
