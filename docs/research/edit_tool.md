@@ -20,6 +20,11 @@
 | `opencode` | [`e23586a`](https://github.com/anomalyco/opencode/tree/e23586af2623f1bc2e8e6965d2d7acf7bd03d5c3) | 2026-08-14 |
 | `codex` | [`5bc8da6`](https://github.com/openai/codex/tree/5bc8da6d78fe32343dc51eaf73b96fd288ae0e87) | 2026-08-14 |
 
+两条口径需要先声明：
+
+- **快照新旧不齐。** `grok-build`、`pi`、`opencode`、`codex` 都是 2026-08 中旬的检出，`claude-code` 镜像停在 2026-04-05，比其余四个旧约四个月。本文关于 Claude Code 的结论只对该镜像成立，不能当作 Claude Code 当前版本的描述。
+- **同名工具要认准包。** 有些仓库同时存在多套 Edit 实现，本文只调研模型在该 Code Agent 里实际会调用的那一套。Pi 的 CLI 由 `@earendil-works/pi-coding-agent` 提供（`bin: pi` → `cli.ts` → `main.ts` → `AgentSession` → `createAllToolDefinitions`），落到 [`packages/coding-agent/src/core/tools/edit.ts`](https://github.com/earendil-works/pi/blob/b1efcf7d7c5d7394fbb12ede0174e04d39ee7004/packages/coding-agent/src/core/tools/edit.ts)，本文写的就是它；通用 agent 内核 `@earendil-works/pi-agent-core` 另有一份 [`packages/agent/src/harness/tools/edit.ts`](https://github.com/earendil-works/pi/blob/b1efcf7d7c5d7394fbb12ede0174e04d39ee7004/packages/agent/src/harness/tools/edit.ts)，共用同一套匹配算法但把 I/O 换成全 `env` 抽象，当前只被 `server/create-harness.ts` 引用，CLI 走不到。OpenCode 的两代差异大得多，按 V1/V2 分别记录。
+
 ## 结论
 
 五个项目都有结构化局部编辑能力，但并没有收敛到同一种 Edit：
@@ -171,7 +176,7 @@ Pi 曾同时支持单编辑和多编辑 schema，但模型会混用两种形状�
 
 Pi 将 `readFile`、`writeFile`、`access` 抽成可注入 operations，同一协议可接 SSH、VM 等后端。所有 `write`/`edit` 还共用按现存文件 `realpath` 归并的进程内 mutation queue：同真实文件串行，不同文件仍可并行；Abort 只有在底层 I/O settled 后才释放队列，避免已报告取消的写与下一次写交错。[operations](https://github.com/earendil-works/pi/blob/b1efcf7d7c5d7394fbb12ede0174e04d39ee7004/packages/coding-agent/src/core/tools/edit.ts#L81-L103)与[mutation queue](https://github.com/earendil-works/pi/blob/b1efcf7d7c5d7394fbb12ede0174e04d39ee7004/packages/coding-agent/src/core/tools/file-mutation-queue.ts#L1-L60)体现了 Pi 的轻量、可嵌入取向。
 
-边界是：队列只协调参与它的 Pi 工具，不包含 Bash 和外部编辑器；没有 mtime/hash/expected bytes，也没有 temp + fsync + rename；默认路径不限制在 cwd 内。fuzzy fallback 会归一化被触及的完整行，仍可能改变这些行上不在 oldText 中的尾空白或 Unicode 形式。混合行尾会按首先检测到的风格整体统一，裸 CR 会变成 LF；UTF-8 解码是有损的，也没有 NUL/binary guard。可注入 I/O 便于远程后端，但旧实现的 `realpath` 与 TUI preview 仍走本机文件系统，抽象并不彻底。
+边界是：队列只协调参与它的 Pi 工具，不包含 Bash 和外部编辑器；没有 mtime/hash/expected bytes，也没有 temp + fsync + rename；默认路径不限制在 cwd 内。fuzzy fallback 会归一化被触及的完整行，仍可能改变这些行上不在 oldText 中的尾空白或 Unicode 形式。混合行尾会按首先检测到的风格整体统一，裸 CR 会变成 LF；UTF-8 解码是有损的，也没有 NUL/binary guard。可注入 I/O 便于远程后端，但工具外围没有跟上：mutation queue 的 `realpath` 与 TUI 的执行前 diff 预览都直接调用本机 `node:fs`，绕过了 `operations`，抽象并不彻底。
 
 ### 3. Claude Code
 
@@ -224,13 +229,15 @@ V1 `apply_patch` 使用 `{ patchText }` JSON 包裹与 Codex 相近的 Patch 语
 
 #### V2 `edit`：exact + expected bytes
 
-V2 保留同样的单个 old/new + `replaceAll` 形状，但刻意只做 exact，源码把 V1 fuzzy、formatter、watcher、snapshot/undo、LSP 都列为后续 TODO。它：
+V2 保留同样的单个 old/new + `replaceAll` 形状，但不做 V1 的相似度 fuzzy，源码把 V1 fuzzy、formatter、watcher、snapshot/undo、LSP 都列为后续 TODO。它：
 
 - 通过 `LocationMutation` canonicalize 路径，防相对路径/工作区 symlink 越界；显式外部绝对路径先申请 `external_directory`；
 - 禁止空 old 和 no-op，要求唯一或显式 replace-all；
-- 保留 UTF-8 BOM 和目标 LF/CRLF；
+- 匹配前剥离 UTF-8 BOM，并把 `oldString` 和 `newString` 一起换算成文件检测到的行尾，写回时再补上 BOM；
 - 返回 replacements、unified patch、additions/deletions，并给模型一个有限 old/new diff preview；
 - 权限批准后才读取 source bytes；提交时在 canonical-path 进程内锁中比较当前 bytes 与 expected bytes，不同即 stale。
+
+需要说清的是，V2 的 exact 不是裸字节 exact，而是**剥掉 BOM、把 old/new 换算到文件行尾之后**的 exact：`detectLineEnding` 只要文件里出现过一次 `\r\n` 就判定为 CRLF，`convertToLineEnding` 先把输入统一成 LF 再按需转回 CRLF。[归一化辅助函数](https://github.com/anomalyco/opencode/blob/e23586af2623f1bc2e8e6965d2d7acf7bd03d5c3/packages/core/src/tool/edit.ts#L42-L53)与[匹配前的换算](https://github.com/anomalyco/opencode/blob/e23586af2623f1bc2e8e6965d2d7acf7bd03d5c3/packages/core/src/tool/edit.ts#L161-L165)。这层换算方向确定、范围可枚举，而且只改写命中的 span，未命中区域仍是原字节，因此它同时解决了“Read 输出被剥掉 `\r`、模型交不出 CRLF 原文”和“不要顺手归一化整份文件”两个问题——这是五个项目里对该问题最克制的处理。代价是判定很粗：文件里只要出现过一次 `\r\n` 就整体按 CRLF 换算，混合行尾文件中纯 LF 的片段因此匹配不到，只能 fail closed 让模型重读。
 
 执行见 [`V2 edit.ts`](https://github.com/anomalyco/opencode/blob/e23586af2623f1bc2e8e6965d2d7acf7bd03d5c3/packages/core/src/tool/edit.ts#L22-L223)，进程内 keyed lock 与 expected-bytes 条件写见 [`file-mutation.ts`](https://github.com/anomalyco/opencode/blob/e23586af2623f1bc2e8e6965d2d7acf7bd03d5c3/packages/core/src/file-mutation.ts#L54-L171)。比较与普通写入只对协作使用该锁的 OpenCode mutation 连续，外部进程和 Bash 仍可在两者之间竞争。这是“先把可解释的 exact 与进程内并发语义做清楚，再逐步补 UX”的取向。
 
@@ -284,8 +291,8 @@ Patch 的重要限制是：
 | 全部替换 | `replace_all` | 无直接开关 | `replace_all` | `replaceAll` | 多个 hunk/上下文 |
 | 同调用多处/多文件 | Search 可改同字面量；Hashline 多组；Patch 多文件 | 同文件多组 | `replace_all` 可改同字面量；不可多组/多文件 | Edit 可改同字面量；Patch 多文件 | 多文件 |
 | 创建 | `search_replace` 空 old；Hashline write | 否 | 空 old 受限创建 | V1 空 old；V2 Edit 否；Patch Add | Patch Add |
-| 模糊回退 | search 可选 Unicode；Hash anchor recovery | NFKC/尾空白/Unicode | quote 归一 + 固定 desanitize | V1 多层 fuzzy；V2 exact | hunk trim/Unicode |
-| CRLF/BOM | Search 保持 LF 或统一为 CRLF；Hashline 转 LF；BOM 无专门保护 | BOM、普通 LF/CRLF；混合行尾会统一 | UTF-8/UTF-16LE、主导 LF/CRLF | Edit 保留；Patch 可能混合行尾 | 默认转 LF；实验特性可保留行尾，BOM 无专门处理 |
+| 模糊回退 | search 可选 Unicode；Hash anchor recovery | NFKC/尾空白/Unicode | quote 归一 + 固定 desanitize | V1 多层 fuzzy；V2 仅 BOM/行尾换算后 exact | hunk trim/Unicode |
+| CRLF/BOM | Search 保持 LF 或统一为 CRLF；Hashline 转 LF；BOM 无专门保护 | BOM、普通 LF/CRLF；混合行尾会统一 | UTF-8/UTF-16LE、主导 LF/CRLF | V1 Edit 保留；V2 剥 BOM 匹配、old/new 按文件行尾换算；Patch 可能混合行尾 | 默认转 LF；实验特性可保留行尾，BOM 无专门处理 |
 | 防陈旧 | old/anchor 前置条件 | old 前置条件 | prior Read + mtime/content | V1 Edit: old；V2 Edit/Patch Update: expected bytes，Add: `wx`，Delete: 无 | hunk 前置条件，无 CAS |
 | 同文件进程内串行 | 无共享路径锁 | realpath queue | 最终段无 `await`，无路径锁 | V1 仅 Edit semaphore；V2 每目标 canonical lock | 无路径锁/CAS |
 | Diff/UI | context；Search 有 `FileWritten` event | 预览 + diff + patch | structured patch + IDE | V1/V2 diff | diff event + A/M/D summary |
@@ -297,7 +304,7 @@ Patch 的重要限制是：
 
 Exact 的优点是可解释、可测试：工具改动的就是模型提交的前置条件。缺点是 Read 格式、CRLF、尾空白、smart quotes 等微小差异会导致重试。
 
-Fuzzy 能提高一次成功率，却会扩大工具实际获准修改的范围。Grok 的 Unicode offset-map 会把有限归一化命中映射回原始字节，并拒绝无法完整回映的候选；Pi 则在归一化文本上替换，只回填未触及的原始行块，因此触及行可能附带发生 NFKC、标点或尾空白变化。OpenCode V1 的 block similarity 更激进，还需要额外的跨度保护和审批 diff。对没有执行前审批 UI 的小型 Agent，exact-first/fail-closed 更合适。
+Fuzzy 能提高一次成功率，却会扩大工具实际获准修改的范围。Grok 的 Unicode offset-map 会把有限归一化命中映射回原始字节，并拒绝无法完整回映的候选；Pi 则在归一化文本上替换，只回填未触及的原始行块，因此触及行可能附带发生 NFKC、标点或尾空白变化。OpenCode V1 的 block similarity 更激进，还需要额外的跨度保护和审批 diff。OpenCode V2 则划出了另一端的下限：只做 BOM 与行尾这两项方向确定、范围可枚举的换算，不引入任何相似度判断，命中范围因此仍然等于模型提交的字面量。对没有执行前审批 UI 的小型 Agent，exact-first/fail-closed 更合适，而“允许哪几项换算”必须是可枚举、可写进工具描述的短清单，不是一串启发式。
 
 ### 单替换、批量替换与 Patch
 
@@ -348,10 +355,10 @@ Edit(
 
 1. 只编辑已经存在的 UTF-8 普通文件；missing、目录、FIFO、device 失败。创建和 whole-file overwrite 继续用 `write`。
 2. `old_text` 不得为空，`old_text == new_text` 失败；`new_text=""` 合法，表示精确删除，不附带“顺手删除下一换行”等隐藏语义。
-3. 先 exact literal match。0 处失败；多于 1 处且 `replace_all=false` 失败并报告匹配数；`replace_all=true` 替换所有非重叠匹配并返回实际次数。
-4. 不做 regex，不做 trim、缩进、相似度或 Unicode fuzzy。错误提示让模型 Read 后扩大/修正上下文。首版没有执行前 diff 审批，宁可多一次重试，也不要静默扩大授权的修改范围。
-5. 严格 UTF-8 解码并保留 UTF-8 BOM。`read` 对非法字节使用 replacement character 便于查看，但 Edit 若照此 round-trip 会永久损坏原字节，所以应明确拒绝非法 UTF-8 和含 NUL 的文件。
-6. 兼容 Read 的换行视图：把 `old_text` 的 LF 编码和 LF→CRLF 编码都视为允许的 exact 候选，合并所有不重叠 raw span 后再做唯一性判断；显式含 `\r` 的输入则只做 raw exact。命中 LF span 时原样写入 `new_text`，命中 CRLF span 时只把 `new_text` 的 LF 转为 CRLF。这样 `replace_all` 在混合行尾文件中也有确定语义，并且从不归一化未触及区域。
+3. 先做 exact literal match（第 6 条允许在其后追加一次、且仅一次 CRLF 重试）。命中 0 处失败；多于 1 处且 `replace_all=false` 失败并报告匹配数；`replace_all=true` 替换所有非重叠匹配并返回实际次数。
+4. 不做 regex，不做 trim、缩进、相似度或 Unicode fuzzy。允许的输入换算只有第 5、6 条的 BOM 与行尾两项，它们方向确定、范围可枚举，并且必须如实写进工具描述——不能像 OpenCode V1 和 Pi 那样，对模型宣称 exact，实际匹配边界却更宽。错误提示让模型 Read 后扩大/修正上下文。首版没有执行前 diff 审批，宁可多一次重试，也不要静默扩大授权的修改范围。
+5. 严格 UTF-8 解码，拒绝非法 UTF-8 和含 NUL 的文件：`read` 对非法字节使用 replacement character 便于查看，Edit 若照此 round-trip 会永久损坏原字节。UTF-8 BOM 在匹配前剥离、写回时原样补回。这一条不能省：`read` 目前不剥 U+FEFF，模型看到的首行带一个不可见字符，不剥就会让针对首行的 `old_text` 神秘失配。Pi 和 OpenCode V2 都是这么处理的。
+6. 兼容 Read 的换行视图，采用 OpenCode V2 的思路做**一次方向确定的换算**，而不是并列多个候选：先用 `old_text` 原样做 raw exact；只有当匹配数为 0、文件含 `\r\n`、且 `old_text` 含 `\n` 而不含 `\r` 时，才用 `old_text` 的 LF→CRLF 形式重试一次，此时写入的也换成 `new_text` 的 LF→CRLF 形式。两趟之间不取并集：唯一性判定和 `replace_all` 计数都发生在实际命中的那一趟里，因此不存在候选去重和跨编码 span 重叠的歧义（取并集就会出现这种歧义：内容 `"a\r\na\na"` 配 `old_text="a\na"`，两种编码分别命中 `[3,6)` 和 `[0,4)`，彼此重叠）。`old_text` 显式含 `\r` 时只做 raw exact，视为模型在表达原字节。两趟都只改写命中的 span，未触及区域始终保持原字节。因为第二趟只在第一趟颗粒无收时才跑，一次调用只会命中一种行尾风格，混合行尾文件里另一种风格的片段这次匹配不到——这是有意的 fail closed，错误信息要讲明 CRLF 重试已经试过。这条限制只影响多行 `old_text`：不含 `\n` 的单行 `old_text` 与行尾无关，第一趟就能跨两种风格全部命中，也不会触发重试。
 7. 文件大小沿用 `MAX_READ_BYTES` 10 MB 上限，因为实现需要整文件 read-compute-write；错误明确建议大文件用 Bash/专用脚本。
 8. 路径展开、普通文件检查、symlink 行为、错误格式与 `read`/`write` 对齐。首版仍直接写回并明确不提供 mtime/CAS/atomic replace。
 
@@ -368,7 +375,7 @@ Edit(
 工具描述应直接告诉模型：
 
 - 普通局部修改优先 Edit；新文件或整文件重写用 Write；批量机械变换用 Bash；
-- `old_text` 必须逐字匹配且默认唯一，通常取 2–4 行足够，不要包含 Read 的行号前缀；
+- `old_text` 必须与文件内容逐字一致且默认唯一，通常取 2–4 行足够，不要包含 Read 的行号前缀；唯一的例外是行尾和 BOM——Read 显示的是 LF，CRLF 文件由工具自行换算，不必也不要自己拼 `\r`；
 - 不匹配时先 Read 最新内容，不要反复提交同一调用；
 - `replace_all` 只用于明确要修改所有相同字面量的场景。
 
@@ -389,7 +396,8 @@ Edit(
 - 唯一替换、删除、Unicode、空文件/no-op；
 - not-found、重复匹配、`replace_all` 及返回计数；
 - LF、CRLF、无末尾换行、混合行尾的未触及内容不变；
-- UTF-8 BOM 保留，非法 UTF-8 和 NUL 拒绝；
+- CRLF 文件里 LF 形式的多行 `old_text` 能命中并按 CRLF 写回；混合行尾文件里一次调用只命中一种风格、另一种 fail closed；单行 `old_text` 跨两种风格全部命中且不触发重试；显式含 `\r` 的 `old_text` 只走 raw exact；两趟各自的 `replace_all` 计数正确；
+- UTF-8 BOM 在匹配前剥离、写回时补回，针对首行的 `old_text` 能命中；非法 UTF-8 和 NUL 拒绝；
 - missing、目录、FIFO/device、超过大小上限；
 - `~`、相对/绝对路径、symlink 与 Write 一致；
 - terminal preview 折叠，tool result 正确设置 `is_error`；
