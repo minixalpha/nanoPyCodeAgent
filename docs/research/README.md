@@ -10,5 +10,9 @@ top.
 
 - [`agent_tools.md`](agent_tools.md) — the built-in tools of Pi, Claude Code,
   Codex, OpenCode and Grok Build.
+- [`edit_tool.md`](edit_tool.md) — how five agent projects express a localized
+  edit, and what contract a first Edit tool here should commit to.
 - [`read_tool.md`](read_tool.md) — how five agent projects read files, and what
   a dedicated read tool buys over plain bash.
+- [`write_tool.md`](write_tool.md) — how five agent projects write whole files,
+  and why a structured write beats a heredoc.
