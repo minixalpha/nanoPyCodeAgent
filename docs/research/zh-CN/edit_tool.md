@@ -1,6 +1,6 @@
 # 五个 Code Agent 的 Edit 工具设计调研
 
-> 本文明确指定使用中文编写和维护。
+> 本文件为**手写中文源文件**（source of truth）；英文版 [`../en/edit_tool.md`](../en/edit_tool.md) 由其生成。
 
 ## 研究范围与口径
 
@@ -330,9 +330,9 @@ Pi/Hashline 批量 Edit 做到第 1 项；Claude 的底层写入尽力采用 tem
 
 ### 当前约束
 
-nanoPyCodeAgent 当前只暴露 `read`、`write`、`bash`，默认模型是 Claude Sonnet 4.6；工具调用由单线程循环按模型返回顺序执行。[系统提示与工具集](../../src/nanopycodeagent/agent.py#L37-L50)和[顺序 dispatch](../../src/nanopycodeagent/agent.py#L169-L179)意味着目前没有同一进程内的并行 lost-update 问题。
+nanoPyCodeAgent 当前只暴露 `read`、`write`、`bash`，默认模型是 Claude Sonnet 4.6；工具调用由单线程循环按模型返回顺序执行。[系统提示与工具集](../../../src/nanopycodeagent/agent.py#L37-L50)和[顺序 dispatch](../../../src/nanopycodeagent/agent.py#L169-L179)意味着目前没有同一进程内的并行 lost-update 问题。
 
-现有 `write` 是明确的 last-writer-wins：直接 `Path.write_bytes`，不要求先 Read、不检查 revision、没有 atomic replace，并跟随指向普通文件的 symlink。[`write_tool.py`](../../src/nanopycodeagent/write_tool.py#L89-L153)。`read` 最多整文件加载 10 MB，并在展示时把 CRLF 的 `\r` 去掉。[大小上限](../../src/nanopycodeagent/read_tool.py#L13-L23)与[换行视图](../../src/nanopycodeagent/read_tool.py#L117-L129)意味着模型复制出的多行旧文本通常只含 LF。新 Edit 必须与这些真实语义相容，不能突然宣称一套 Bash 可以绕过、Write 也没有的安全边界。
+现有 `write` 是明确的 last-writer-wins：直接 `Path.write_bytes`，不要求先 Read、不检查 revision、没有 atomic replace，并跟随指向普通文件的 symlink。[`write_tool.py`](../../../src/nanopycodeagent/write_tool.py#L89-L153)。`read` 最多整文件加载 10 MB，并在展示时把 CRLF 的 `\r` 去掉。[大小上限](../../../src/nanopycodeagent/read_tool.py#L13-L23)与[换行视图](../../../src/nanopycodeagent/read_tool.py#L117-L129)意味着模型复制出的多行旧文本通常只含 LF。新 Edit 必须与这些真实语义相容，不能突然宣称一套 Bash 可以绕过、Write 也没有的安全边界。
 
 ### 结论：现在增加一个薄、精确、单替换 Edit
 

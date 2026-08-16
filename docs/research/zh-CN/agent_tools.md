@@ -1,6 +1,6 @@
 # 常见 Code Agent 内置工具
 
-> 本文明确指定使用中文编写和维护。
+> 本文件为**手写中文源文件**（source of truth）；英文版 [`../en/agent_tools.md`](../en/agent_tools.md) 由其生成。
 
 目前 nanoPyCodeAgent 只有 Bash 工具，但主流 Code Agent 通常还会提供其他内置工具。本文调研 Pi、Claude Code、Codex、OpenCode 和 Grok Build 的工具设计。
 
