@@ -13,6 +13,7 @@ from helpers import (
     FakeClient,
     FakeMessages,
     FakeStream,
+    edit_tool_use_block,
     patch_client_and_input,
     read_tool_use_block,
     text_block,
@@ -272,6 +273,92 @@ def test_tool_use_turn_runs_read_and_feeds_result_back(monkeypatch, capsys, tmp_
             }
         ],
     }
+
+
+def test_tool_use_turn_runs_edit_and_feeds_result_back(monkeypatch, capsys, tmp_path):
+    target = tmp_path / "app.py"
+    target.write_text("alpha\nbeta\n", encoding="utf-8")
+    tool_turn = FakeStream(
+        [
+            edit_tool_use_block(
+                "tu_1", path=str(target), old_text="beta", new_text="BETA"
+            )
+        ],
+        stop_reason="tool_use",
+    )
+    final = [text_block("done")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["edit it", "/exit"])
+
+    agent.run()
+
+    out = capsys.readouterr().out
+    # The echo names the target and previews the swap on the next lines.
+    assert f"[edit] {target}\n" in out
+    assert "- beta" in out
+    assert "+ BETA" in out
+    assert target.read_text(encoding="utf-8") == "alpha\nBETA\n"
+    assert messages.calls[1][-1] == {
+        "role": "user",
+        "content": [
+            {
+                "type": "tool_result",
+                "tool_use_id": "tu_1",
+                "content": f"[edited {target}: replaced 1 occurrence at line 2]",
+                "is_error": False,
+            }
+        ],
+    }
+
+
+def test_edits_in_one_reply_see_the_previous_result(monkeypatch, capsys, tmp_path):
+    target = tmp_path / "app.py"
+    target.write_text("one\ntwo\n", encoding="utf-8")
+    tool_turn = FakeStream(
+        [
+            edit_tool_use_block("tu_1", path=str(target), old_text="one", new_text="1"),
+            edit_tool_use_block("tu_2", path=str(target), old_text="two", new_text="2"),
+        ],
+        stop_reason="tool_use",
+    )
+    final = [text_block("done")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["edit it", "/exit"])
+
+    agent.run()
+
+    # The calls run in the order the model returned them, each reading what
+    # the one before it wrote.
+    assert target.read_text(encoding="utf-8") == "1\n2\n"
+    results = messages.calls[1][-1]["content"]
+    assert [r["tool_use_id"] for r in results] == ["tu_1", "tu_2"]
+    assert all(r["is_error"] is False for r in results)
+
+
+def test_failed_edit_is_reported_as_an_error_result(monkeypatch, capsys, tmp_path):
+    target = tmp_path / "app.py"
+    target.write_text("alpha\n", encoding="utf-8")
+    tool_turn = FakeStream(
+        [
+            edit_tool_use_block(
+                "tu_1", path=str(target), old_text="missing", new_text="x"
+            )
+        ],
+        stop_reason="tool_use",
+    )
+    final = [text_block("done")]
+    messages = FakeMessages([tool_turn, final])
+    client = FakeClient(messages)
+    patch_client_and_input(monkeypatch, client=client, inputs=["edit it", "/exit"])
+
+    agent.run()
+
+    result = messages.calls[1][-1]["content"][0]
+    assert result["is_error"] is True  # the model is told to recover, not retry blind
+    assert "no match for old_text" in result["content"]
+    assert target.read_text(encoding="utf-8") == "alpha\n"
 
 
 def test_tool_use_turn_runs_multiple_tool_calls(monkeypatch, capsys):
