@@ -1,6 +1,6 @@
 # 五个 Agent 项目的写文件工具设计对比
 
-> 本文明确指定使用中文编写和维护。
+> 本文件为**手写中文源文件**（source of truth）；英文版 [`../en/write_tool.md`](../en/write_tool.md) 由其生成。
 
 ## 研究范围
 

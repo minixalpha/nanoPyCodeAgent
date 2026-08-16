@@ -37,6 +37,19 @@ The **only** exception is documentation explicitly designated as Chinese:
 Everything outside that list — including code under `src/`, this file, and all
 other docs — is English.
 
+### Bilingual research notes
+
+Research notes are bilingual:
+
+- `docs/research/zh-CN/` contains the hand-written Chinese sources of truth.
+- `docs/research/en/` contains English versions generated from the Chinese
+  sources; regenerate the whole corresponding file instead of hand-editing it.
+
+When a change to a Chinese research source is headed into a pull request, the
+agent MUST remind the user that the corresponding English version also needs to
+be translated or refreshed. Before opening or landing the PR, report whether
+the English version is in sync, even when it has already been updated.
+
 ## Commits & PRs
 
 All agents working in this repo MUST follow
