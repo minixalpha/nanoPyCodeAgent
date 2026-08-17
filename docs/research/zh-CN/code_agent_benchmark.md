@@ -4,7 +4,7 @@
 
 调研时间：2026-08-17。
 
-模型发布公告里的分数只有放在「哪个 benchmark + 哪个 harness + 哪档 effort」这三件事一起看时才有意义。本文调研六个 2026 年的模型发布——DeepSeek-V4-Flash-0731、Claude Opus 5、GPT-5.6 Sol、Qwen3.8-27B、Kimi-K3、GLM-5.2——把它们报的 code agent 相关 benchmark 拉平成一张表，然后回答一个具体问题：nanoPyCodeAgent 想跑其中哪一个，还差什么。
+模型发布公告里的分数只有放在“哪个 benchmark + 哪个 harness + 哪档 effort”这三件事一起看时才有意义。本文调研六个 2026 年的模型发布——DeepSeek-V4-Flash-0731、Claude Opus 5、GPT-5.6 Sol、Qwen3.8-27B、Kimi-K3、GLM-5.2——把它们报的 code agent 相关 benchmark 拉平成一张表，然后回答一个具体问题：nanoPyCodeAgent 想跑其中哪一个，还差什么。
 
 **读数前的三条注意事项：**
 
@@ -18,7 +18,7 @@
 | --- | --- | :-: | :-: | :-: | :-: | :-: | :-: |
 | Terminal-Bench 2.1 | 终端 agent | ✅ | ✅(三方) | ✅ | ✅ | ✅ | ✅ |
 | SWE-bench Pro | 仓库级修 bug | — | — | ✅ | ✅ | — | ✅ |
-| DeepSWE (v1.1) | 长时程工程 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DeepSWE (v1.1) | 长时程工程 | ✅ | ✅(三方) | ✅ | ✅ | ✅ | ✅ |
 | NL2Repo-Bench | 从零建仓库 | ✅ | — | — | ✅ | — | ✅ |
 | ProgramBench | 从二进制重建程序 | — | — | — | — | ✅ | ✅ |
 | SWE-Marathon | 超长时程 | — | — | — | — | ✅ | ✅ |
@@ -30,7 +30,7 @@
 | MLS-Bench-Lite | ML 方法研究 | — | — | — | — | ✅ | — |
 | CyberGym | 安全（漏洞复现） | ✅ | — | ✅ | — | — | — |
 | Agents' Last Exam | 通用 agent | ✅ | — | ✅ | ✅ | — | — |
-| AutomationBench | 业务流程自动化 | ✅ | ✅ | — | — | ✅ | ✅ |
+| AutomationBench | 业务流程自动化 | ✅ | ✅ | — | — | ✅ | —† |
 | Toolathlon / Tool-Decathlon | 工具使用 | ✅ | — | — | — | — | ✅ |
 | MCP-Atlas | MCP 工具使用 | — | — | — | — | — | ✅ |
 | JobBench | 职业任务 | — | — | — | ✅ | ✅ | — |
@@ -40,7 +40,9 @@
 | OSWorld (2.0 / Verified) | 计算机操作 | — | ✅ | ✅ | ✅ | — | — |
 | 内部集 | — | DSBench-FullStack / Hard | — | — | QwenSWEBench | Kimi Code Bench 2.0 | — |
 
-一句话结论：**Terminal-Bench 2.1 和 DeepSWE 是当前唯一被六家全部采纳的两个 code agent benchmark**，是横向比较的事实标准；SWE-bench Pro 是次一档的共识项。
+† GLM-5.2 自己的发布材料没有 AutomationBench，它的 12.9 分出现在 DeepSeek 和 Kimi 的对照表里。
+
+一句话结论：**Terminal-Bench 2.1 和 DeepSWE 是六个模型都有分数可查的两个 code agent benchmark**，是横向比较的事实标准；SWE-bench Pro 是次一档的共识项。注意 Opus 5 这两项都不是 Anthropic 自己公布的，而是第三方榜单跑出来的（见 4.2）。
 
 ## 二、Benchmark 逐个说明
 
@@ -50,8 +52,8 @@
 
 - **主页**：<https://www.tbench.ai/>，运行框架 Harbor：<https://www.harborframework.com/>
 - **论文**：[arXiv:2601.11868](https://arxiv.org/abs/2601.11868)
-- **介绍**：Stanford × Anthropic 合作的终端能力 benchmark，衡量 agent 在真实命令行环境里完成硬任务的能力。任务按领域（system-administration、security、data-science、software-engineering、ML）和难度（medium / hard）分类，2.0 版含 89 个任务，2.1 是受 Z.ai 的「Terminal-Bench 2.0 Verified」启发做的修订版。每个任务跑在独立 Docker 容器里，容器内需要 tmux，由测试脚本判定成功与否。
-- **harness**：官方基线 harness 叫 **Terminus 2**；榜单同时接受 Claude Code、Codex、Cursor CLI、Gemini CLI、mini-SWE-agent 等外部 harness，因此榜单条目是「harness + 模型」的组合。
+- **介绍**：Stanford × Anthropic 合作的终端能力 benchmark，衡量 agent 在真实命令行环境里完成硬任务的能力。任务按领域（system-administration、security、data-science、software-engineering、ML）和难度（medium / hard）分类，2.0 版含 89 个任务，2.1 是受 Z.ai 的“Terminal-Bench 2.0 Verified”启发做的修订版。每个任务跑在独立 Docker 容器里，容器内需要 tmux，由测试脚本判定成功与否。
+- **harness**：官方基线 harness 叫 **Terminus 2**；榜单同时接受 Claude Code、Codex、Cursor CLI、Gemini CLI、mini-SWE-agent 等外部 harness，因此榜单条目是“harness + 模型”的组合。
 - **示例任务**：`openssl-selfsigned-cert`——生成自签名证书、配套脚本和校验文件，且文件权限和格式都要符合要求。难档任务包括编译 Linux 内核、训练一个 ML 模型。
 - **官方榜（Terminal-Bench 2.1，节选）**：Claude Code + Fable 5 = 83.8% ±1.2；Codex + GPT-5.5 = 83.1% ±1.1；Terminus 2 + Fable 5 = 80.4% ±1.2；Cursor CLI + Grok 4.5 = 79.3% ±1.5；Claude Code + Opus 4.8 = 78.9% ±1.3。
 
@@ -60,30 +62,35 @@
 - **主页**：无公开主页（Anthropic 内部数据集），第三方汇总见 <https://llm-stats.com/benchmarks/frontier-bench-v0.1>
 - **介绍**：Anthropic 在 Opus 5 发布时启用的新 agentic 终端编码 benchmark，被描述为 Terminal-Bench 2.1 的后继者，74 个任务，覆盖多文件改动、调试、功能开发。
 - **harness**：mini-SWE-agent + GKE 后端，每题 5 次尝试取平均 reward。
-- **示例**：官方博客提到一个任务里 Opus 5 自己写了一条计算机视觉流水线、在没有直接视觉输入的情况下重建 3D 模型——说明任务是开放式的「给目标、不给方法」。
+- **示例**：官方公告提到一个任务里 Opus 5 自己写了一条计算机视觉流水线、在没有直接视觉输入的情况下重建 3D 模型——说明任务是开放式的“给目标、不给方法”。
 
 #### CursorBench (3.2)
 
 - **主页**：<https://cursor.com/blog/cursorbench>
-- **介绍**：Cursor 自研的 IDE 内编码 agent 评测集，任务来自 Cursor 生产环境里真实的开发者-agent 会话，覆盖多文件项目、monorepo 和含糊的口语化需求。评的是「模型 + Cursor harness」的组合，不是裸模型。每个模型在多档 reasoning effort 下评测，榜单同时报正确率、平均成本、token 用量和 agent 步数。3.2 版含 42 个配置。
+- **介绍**：Cursor 自研的 IDE 内编码 agent 评测集，任务来自 Cursor 生产环境里真实的开发者-agent 会话，覆盖多文件项目、monorepo 和含糊的口语化需求。评的是“模型 + Cursor harness”的组合，不是裸模型。每个模型在多档 reasoning effort 下评测，榜单同时报正确率、平均成本、token 用量和 agent 步数。3.2 版含 42 个配置。
+- **示例**：一次评测的输入是一段真实开发者提示（可能含糊、可能跨多个包）加一个仓库快照，输出是 agent 的多文件改动，再按正确性、代码质量、效率和行为打分；榜单条目形如“某模型 × 某 effort 档 → 正确率 / 平均成本 / 平均步数”。
 - **局限**：厂商自评、harness 不可独立复现。
 
 #### AA Coding Agent Index (v1.1)
 
 - **主页**：<https://artificialanalysis.ai/agents/coding-agents>，方法论 <https://artificialanalysis.ai/methodology/coding-agents-benchmarking>
-- **介绍**：Artificial Analysis 的复合指数，明确以「harness + 模型」为评测单位。由三个子项等权合成：**SWE-Bench-Pro-Hard-AA**（150 个来自 Scale AI SWE-bench Pro 的任务）、**Terminal-Bench v2**（84 个终端任务）、**SWE-Atlas-QnA**（124 道技术问答）。每题跑 3 次取平均得 pass@1，再对任务等权平均。同时公布成本、token 用量和墙钟耗时。
+- **介绍**：Artificial Analysis 的复合指数，明确以“harness + 模型”为评测单位。由三个子项等权合成：**SWE-Bench-Pro-Hard-AA**（150 个来自 Scale AI SWE-bench Pro 的任务）、**Terminal-Bench v2**（84 个终端任务）、**SWE-Atlas-QnA**（124 道技术问答）。每题跑 3 次取平均得 pass@1，再对任务等权平均。同时公布成本、token 用量和墙钟耗时。
+- **示例**：一个榜单条目形如“Claude Code + Opus 5（max effort）”——同一个模型换成 Codex 或 Terminus 2 就是另一个条目。跑法是 150 + 84 + 124 三份子集各跑 3 次，得到三个 pass@1 再等权平均。
+- **注意**：AA 口径的 Terminal-Bench v2 是 84 题，与 Terminal-Bench 官方 2.0 的 89 题不一致，应为子集。
 
 ### 2.2 仓库级软件工程
 
 #### SWE-bench Verified
 
 - **主页**：<https://www.swebench.com/>
-- **介绍**：SWE-bench 的人工校验子集，500 个实例。给定一个真实仓库快照和一个 GitHub issue，agent 要产出能让隐藏测试通过的补丁。是这一类的老基线，目前头部模型已到 90%+，区分度下降，但仍是最容易上手的入口。
+- **介绍**：SWE-bench 的人工校验子集，500 个实例。给定一个真实仓库快照和一个 GitHub issue，agent 要产出能让隐藏测试通过的补丁。是这一类的老基线，目前头部模型已到 90%+，区分度下降，但仍是最容易上手的入口。本文调研的六个发布都没有报它，列在这里是因为第 5 节把它推荐给本项目作为第二步。
+- **示例**：输入是某个仓库的快照加一段 GitHub issue 文本，输出是一个 patch；判定方式是打上 patch 后跑隐藏测试，要求原本失败的测试转为通过（FAIL_TO_PASS）且原本通过的不许挂（PASS_TO_PASS）。
 
 #### SWE-bench Pro
 
 - **主页**：<https://scale.com/blog/swe-bench-pro>，榜单 <https://labs.scale.com/leaderboard/swe_bench_pro_public>，代码 <https://github.com/scaleapi/SWE-bench_Pro-os>
-- **介绍**：Scale AI 做的 SWE-bench 接棒者，针对四个问题设计：数据污染、任务多样性不足、问题被过度简化、测试不可复现。共 1865 个实例（731 公开 / 858 私有 / 276 商业），来自 41 个仓库（11 公开 / 12 私有 / 18 来自企业初创公司）。任务形式仍是「仓库 + issue → 补丁」，但是长时程、跨文件的难题。
+- **介绍**：Scale AI 做的 SWE-bench 接棒者，针对四个问题设计：数据污染、任务多样性不足、问题被过度简化、测试不可复现。共 1865 个实例（731 公开 / 858 私有 / 276 商业），来自 41 个仓库（11 公开 / 12 私有 / 18 来自企业初创公司）。任务形式仍是“仓库 + issue → 补丁”，但是长时程、跨文件的难题。
+- **示例**：与 Verified 同形（仓库 + issue → 补丁），但仓库跨 41 个项目、含企业初创公司的代码，且刻意保留了含糊的 issue 描述，需要跨文件的长时程改动。
 - **难度参照**：刚发布时 GPT-5 与 Claude Opus 4.1 只有 23.3% / 23.1%（同期 Verified 上普遍 70%+）。
 
 #### DeepSWE (v1.1)
@@ -91,32 +98,37 @@
 - **主页**：<https://deepswe.datacurve.ai/>，代码 <https://github.com/datacurve-ai/deep-swe>，数据 <https://huggingface.co/datasets/datacurve/deep-swe>
 - **论文**：[arXiv:2607.07946](https://arxiv.org/abs/2607.07946)
 - **介绍**：Datacurve 出的长时程工程任务集，113 个任务，取自活跃开源仓库，覆盖 TypeScript、Go、Python、JavaScript、Rust。每题一个隔离环境和一个程序化 verifier。v1.1 相对 v1 没换任务，改的是执行与评分方式——在干净隔离环境里对 agent 提交的代码打分，让结果可复现、可审计。
-- **harness**：官方榜统一用 **mini-swe-agent**（在 Modal 上由 Pier 驱动），这是「同一 harness 横向比模型」的少数样板。
+- **示例**：输入是某活跃开源仓库（TypeScript / Go / Python / JavaScript / Rust 之一）的隔离快照加一份长时程任务描述，输出是 agent 在沙箱里改完并提交的代码；v1.1 的判定是把提交的代码搬到干净环境里，由程序化 verifier 重跑决定通过与否。
+- **harness**：官方榜统一用 **mini-swe-agent**（在 Modal 上由 Pier 驱动），这是“同一 harness 横向比模型”的少数样板。
 - **v1.1 榜单（节选）**：Claude Opus 5 = 74.0%，GPT-5.6 Sol = 72.7%，Grok 4.6 = 67.0%，Gemini 3.7 Flash = 65.0%，DeepSeek V4 Pro 0813 = 63.0%。
 
 #### FrontierSWE
 
 - **主页**：<https://www.proximal.so/blog/frontierswe>，代码 <https://github.com/Proximal-Labs/frontier-swe>，第三方榜 <https://epoch.ai/benchmarks/frontierswe>
 - **介绍**：Proximal Labs 的超长时程编码 benchmark，覆盖三类任务：功能实现、性能工程、研究型任务。
-- **计分方式特殊**：主指标是 **dominance**——在单个任务上对随机对手的成对胜率，0～1 区间，不是「完成了百分之多少的任务」。看这个 benchmark 的分数时要留意这一点。
+- **计分方式特殊**：主指标是 **dominance**——在单个任务上对随机对手的成对胜率，不是“完成了百分之多少的任务”。原始区间是 0～1（Epoch AI 榜上 Fable 5 为 0.900），但模型卡普遍按百分比呈现，所以本文表格里的 74.4 对应 dominance 0.744。
+- **示例**：三类任务的形态分别是——实现一个新的功能模块、把一段热点代码的性能提上去、复现一篇论文的方法。dominance 0.744 的读法是：随机抽一个任务、随机抽一个对手，该 agent 赢的概率约 74.4%。
 
 #### SWE-Marathon
 
 - **主页**：论文 [arXiv:2606.07682](https://arxiv.org/abs/2606.07682)，第三方榜 <https://llm-stats.com/benchmarks/swe-marathon>
 - **介绍**：Abundant AI 的超长时程任务集，只有 20 个任务，但每个都是项目级：产品克隆、库重写、ML 工程。每题配一个可执行环境、一份人写的参考实现和一套多层校验。**记录到的 agent 轨迹平均 2720 万 token**，量级远超其他 SWE / 命令行 benchmark。
+- **示例**：任务形态包括克隆一个产品、重写一个库、做一整套 ML 工程；单题轨迹平均 2720 万 token，意味着从探索仓库、搭环境、调试一路做到部署。
 - **有意思的观察**：13.8% 的 rollout 里出现了 reward hacking——agent 试图绕过环境或 verifier 而不是真做任务。失败模式集中在自我校验差、自称任务不可行、过早终止。
 
 #### NL2Repo-Bench
 
 - **主页**：论文 [arXiv:2512.12730](https://arxiv.org/abs/2512.12730)
 - **介绍**：ByteDance Seed 等机构做的仓库生成 benchmark，104 个任务，覆盖九类 Python 库。**给 agent 的只有一份自然语言需求文档和一个空工作区**，agent 要自己设计架构、管理依赖、实现多模块逻辑，最终产出一个能安装的 Python 库；评测方式是跑上游项目原本的 pytest 套件，再加结构一致性和跨文件架构校验。
+- **示例**：给 agent 一份“实现某类功能的 Python 库”的需求文档和一个空目录，agent 产出完整仓库（含打包配置和多个模块），评测方再跑上游同名项目原本的 pytest 套件打分。
 - **难度**：SOTA 平均测试通过率不到 40.5%。失败模式：过早终止、全局一致性丢失、跨文件依赖脆弱、几百步交互中规划不足。
 
 #### ProgramBench
 
 - **主页**：<https://programbench.com/>，论文 [arXiv:2605.03546](https://arxiv.org/abs/2605.03546)
 - **介绍**：**给 agent 一个编译好的可执行文件加它的用法文档，要求从零写出行为一致的程序。** 没有方法签名、没有类骨架、没有 PRD、没有文件布局说明——语言、架构、构建脚本全由 agent 自己定。200 个任务，24.8 万条行为测试，规模从 `jq` 到 SQLite、PHP、FFmpeg。
-- **难度**：全部前沿模型的「完全解决」率都是 0%。因此发布公告里的 ProgramBench 分数是部分测试通过率，不是任务完成率。也有批评指出其 harness 缺上下文管理，对 Claude Code / Codex 这类会跑很长的 harness 不够公平。
+- **示例**：给出编译好的 `jq` 二进制及其用法文档，要求 agent 探测其行为、自选语言重写出一个行为一致的实现并给出构建脚本；题目大的一侧是 SQLite、PHP、FFmpeg。
+- **难度**：全部前沿模型的“完全解决”率都是 0%。因此发布公告里的 ProgramBench 分数是部分测试通过率，不是任务完成率。也有批评指出其 harness 缺上下文管理，对 Claude Code / Codex 这类会跑很长的 harness 不够公平。
 
 ### 2.3 ML / 科研工程
 
@@ -124,23 +136,27 @@
 
 - **主页**：<https://github.com/aisa-group/PostTrainBench>，论文 [arXiv:2603.08640](https://arxiv.org/abs/2603.08640)，第三方榜 <https://epoch.ai/benchmarks/post-train-bench>
 - **介绍**：衡量 CLI agent 能否自主给一个 1～4B 的基座模型做后训练：**一张 H100、10 小时窗口**，目标是提高该模型在指定 benchmark 上的表现。用什么数据、怎么微调、怎么分配算力全自由，不给起始代码，不允许人介入。评测经 Harbor 编排的 E2B 沙箱执行，训练与推理走共享的 Tinker 服务。
-- **特别之处**：这是少数**直接以「CLI 脚手架」为评测对象**的 benchmark——官方跑 Claude Code、Codex CLI、Gemini CLI、OpenCode 四种脚手架。当前结论：AI 平均约 28%，人类工程团队约 51%。
+- **示例**：给一个 1～4B 的基座模型和一张 H100，10 小时内自己造数据、自己选微调方法，把它在指定 benchmark 上的分数提上去。
+- **特别之处**：这是少数**直接以“CLI 脚手架”为评测对象**的 benchmark——官方跑 Claude Code、Codex CLI、Gemini CLI、OpenCode 四种脚手架。当前结论：AI 平均约 28%，人类工程团队约 51%。
 
 #### MLS-Bench / MLS-Bench-Lite
 
 - **主页**：论文 [arXiv:2605.08678](https://arxiv.org/abs/2605.08678)，第三方榜 <https://llm-stats.com/benchmarks/mls-bench-lite>
 - **介绍**：140 个任务、12 个 ML 领域，评的是 AI 系统能否产出**真正可迁移的 ML 方法改进**（不是调参涨点）。每题要求在受控的编辑范围内改进某个指定组件，并配有复现过的强人类基线。Lite 是官方 30 题子集，覆盖 LLM 预训练/后训练、机器人、世界模型、CV、RL、优化、ML 系统、AI for Science。
+- **示例**：任务形态是“在受控的编辑范围内改进某个指定组件（例如 LLM 后训练流程里的某一环），再在多种评测设置下看这个改进是否还成立”——考的是改进能不能迁移，而不是在单一设置上调参涨点。
 - **注意**：不要和 OpenAI 的 **MLE-bench**（75 个 Kaggle 竞赛，Lite 为 22 个）搞混，两者不同。
 
 #### SciCode
 
 - **主页**：<https://scicode-bench.github.io/>，代码 <https://github.com/scicode-bench/SciCode>，论文 [arXiv:2407.13168](https://arxiv.org/abs/2407.13168)
-- **介绍**：科学家策划的科研编码 benchmark，从真实研究问题转写而来，覆盖物理、数学、材料、生物、化学 6 个领域 16 个子领域，80 个主问题拆成 338 个子问题，带科学背景说明和科学家标注的金标准解与测试用例。偏「模型的科学编码能力」，不太考验 agent 循环。
+- **介绍**：科学家策划的科研编码 benchmark，从真实研究问题转写而来，覆盖 6 个领域 16 个子领域（公开材料点名的是物理、数学、材料科学、生物、化学五个），80 个主问题拆成 338 个子问题，带可选的科学背景说明和科学家标注的金标准解与测试用例。偏“模型的科学编码能力”，不太考验 agent 循环。
+- **示例**：一个主问题（来自某篇真实论文）被拆成若干子问题，每个子问题要求补全一个函数；可选提供该问题的科学背景说明，判定用科学家写的测试用例。
 
 #### LiveCodeBench (v6)
 
 - **主页**：<https://livecodebench.github.io/>
 - **介绍**：持续从 LeetCode、AtCoder、Codeforces 收新题的无污染竞赛编码评测，除代码生成外还评自修复、代码执行、测试输出预测。同样偏模型能力，不测 agent 循环。
+- **示例**：除“写出能通过全部测试的解”之外还有三类子任务——给一个错解要求自修复、给一段代码和输入要求预测执行结果、给一道题和一个测试要求预测该测试的输出。
 
 ### 2.4 安全
 
@@ -148,6 +164,7 @@
 
 - **主页**：<https://www.cybergym.io/cybergym/>，论文 [arXiv:2506.02548](https://arxiv.org/abs/2506.02548)
 - **介绍**：大规模真实漏洞分析评测，1507 个历史漏洞实例，来自 Google OSS-Fuzz，覆盖 188 个 C/C++ 项目。主任务是**漏洞复现**：给 agent 一段文字描述和打补丁前的代码库，要它写出能触发该漏洞的 PoC。该 benchmark 的构建过程本身发现了 35 个 0-day 和 17 个不完整补丁。
+- **示例**：给 agent 一段漏洞的文字描述和该漏洞打补丁之前的 C/C++ 代码库，要求产出一个 PoC 输入，跑起来能触发对应的崩溃。
 - **相关**：同组还有 ExploitGym（<https://www.cybergym.io/exploitgym/>，把漏洞变成可用攻击）和 ExploitBench（能力阶梯式的 LLM 安全 agent 评测）。
 
 ### 2.5 通用 Agent / 工具使用
@@ -156,35 +173,41 @@
 
 - **主页**：<https://agents-last-exam.org/>，代码 <https://github.com/rdi-berkeley/agents-last-exam>，论文 [arXiv:2606.05405](https://arxiv.org/abs/2606.05405)
 - **介绍**：Berkeley RDI 联合 250～300 位行业专家做的大规模 agent 评测，围绕 55 个子行业（归为 13 个行业簇）组织，已收 1000～1500+ 任务，目标 5000。**每个任务由确定性脚本对照专家自己的交付物打分，不用 LLM 当裁判。** 采用滚动评测：每约 6 个月发一批新的公开子集，私有任务轮换进、退役的公开任务轮换出，以抑制泄漏。
+- **示例**：任务由某个子行业的专家按自己真实的工作产出构造——给 agent 一份工作区材料，要求交付一份与专家同款的成果物，再由确定性脚本逐项比对，而不是让 LLM 判断“看起来对不对”。
 - **难度**：最难档远未饱和，主流 harness + 骨干模型组合的平均完全通过率为 2.6%。
 
 #### AutomationBench (Zapier)
 
 - **主页**：<https://zapier.com/benchmarks>，代码 <https://github.com/zapier/AutomationBench>，论文 [arXiv:2604.18934](https://arxiv.org/abs/2604.18934)
 - **介绍**：评 agent 通过 REST API 做跨应用工作流编排，47 个真实工具，覆盖销售、市场、运营、支持、财务、HR 六大业务职能，任务模式取自 Zapier 平台上每月 20 亿+ 任务、370 万家公司的真实流量。一个任务可能横跨 CRM、收件箱、日历和 IM，agent 要自己发现端点、遵守一份策略文档、把正确数据写进每个系统。
+- **示例**：一个任务可能横跨 CRM、收件箱、日历和 IM——agent 要自己找到对应的 REST 端点、按一份策略文档行事、把正确数据写进每个系统。
 - **评分**：确定性终态断言（不用 LLM 裁判），含正向和负向断言；差一点也算失败。
 
 #### Toolathlon / The Tool Decathlon
 
 - **主页**：<https://github.com/hkust-nlp/Toolathlon>（另有 toolathlon.xyz），论文 [arXiv:2510.25726](https://arxiv.org/abs/2510.25726)（ICLR 2026）
-- **介绍**：HKUST NLP 做的工具使用评测，覆盖 **32 个软件应用、604 个工具**，从 Google Calendar、Notion 到 WooCommerce、Kubernetes、BigQuery。108 个人工构造任务，平均需要约 20 轮跨应用交互，每题有专门的校验脚本。
-- **难度参照**：论文里最好的 Claude-4.5-Sonnet 只有 38.6% 成功率。DeepSeek 公告中的「Toolathlon-Verified」和 GLM 公告中的「Tool-Decathlon」都指这个 benchmark。
+- **介绍**：HKUST NLP 做的工具使用评测，覆盖 **32 个软件应用、604 个工具**，从 Google Calendar、Notion 到 WooCommerce、Kubernetes、BigQuery。108 个人工构造任务，平均需要约 20 轮跨应用交互，每题都有专门的校验脚本可严格验证。
+- **示例**：任务要求在 Google Calendar、Notion、WooCommerce、Kubernetes、BigQuery 这类应用之间协同完成一件事，平均约 20 轮跨应用交互，由该题专属的校验脚本判定。
+- **难度参照**：论文里最好的 Claude-4.5-Sonnet 只有 38.6% 成功率。DeepSeek 公告中的“Toolathlon-Verified”和 GLM 公告中的“Tool-Decathlon”都指这个 benchmark。
 
 #### MCP-Atlas
 
 - **主页**：<https://github.com/scaleapi/mcp-atlas>，论文 [arXiv:2602.00933](https://arxiv.org/abs/2602.00933)
 - **介绍**：Scale AI 做的 MCP 工具能力评测，**1000 个由人类专家撰写并校验的自然语言任务，覆盖 36 个真实 MCP server、220 个工具**。提示里不说用哪个 server、哪个工具、什么参数，agent 要在语义相近的干扰项中自己找工具，并跨 server 组合多步流程。用 claim-level rubric 打分：把最终答案拆成基于工具输出的原子事实逐条核对，从而与 agent 的啰嗦程度和文风解耦。公开子集 500 题。
+- **示例**：提示里不说用哪个 server、哪个工具、什么参数，agent 要在 36 个真实 MCP server、220 个工具（还混着语义相近的干扰项）里自己挑，并跨 server 组合出多步流程。
 
 #### JobBench
 
 - **主页**：论文 [arXiv:2605.26329](https://arxiv.org/abs/2605.26329)，榜单 <https://www.vals.ai/benchmarks>
-- **介绍**：130 个 agentic 任务，覆盖 35 个职业。设计思路是「对齐人的委派意愿」而不是「按 GDP 价值替代人」：任务建在 Workbank 之上——一份 1500+ 名劳动者填写的、说明自己希望把哪些职责交给 AI 的调查——从「高委派意愿 × 高经济暴露」的交集里挑出 35 个职业。每题打包成一个含各类参考文件的工作区，输出由事实锚定的 rubric 链评分，平均每题 35.6 条二值判据。
+- **介绍**：130 个 agentic 任务，覆盖 35 个职业。设计思路是“对齐人的委派意愿”而不是“按 GDP 价值替代人”：任务建在 Workbank 之上——一份 1500+ 名劳动者填写的、说明自己希望把哪些职责交给 AI 的调查——从“高委派意愿 × 高经济暴露”的交集里挑出 35 个职业。每题打包成一个含各类参考文件的工作区，输出由事实锚定的 rubric 链评分，平均每题 35.6 条二值判据。
+- **示例**：一个任务打包成含各类参考文件的工作区（对应某个职业的真实产出物），agent 要交付相应成果，再由平均 35.6 条二值判据的 rubric 链评分。
 - **难度参照**：最强组合 Claude Opus 4.7 + Claude Code 为 45.9%。
 
 #### CoWorkBench
 
 - **主页**：无公开主页，第三方汇总见 <https://llm-stats.com/benchmarks/coworkbench>
-- **介绍**：长时程办公/生产力任务评测，覆盖计算机科学、金融、法律、医疗等领域。不是编码题，而是专业工作流：调研一个主题、从多个来源综合信息。评测配置为 256K 上下文、8 小时超时。
+- **介绍**：长时程办公/生产力任务评测，覆盖计算机科学、金融、法律、医疗等领域。不是编码题，而是专业工作流。评测配置为 256K 上下文、8 小时超时。
+- **示例**：一个任务的形态是“就某个主题做调研，从多个来源把信息综合成一份交付物”——要求在很长的轨迹上保持注意力，而不是一次问答。
 
 ### 2.6 计算机操作与多模态（顺带记录）
 
@@ -194,7 +217,7 @@
 - **WebArena-Verified**——浏览器操作。
 - **AndroidWorld**——移动端操作。
 - **BrowseComp**——agentic 网页检索。
-- **RecreationBench**（复刻应用）、**Vision2Web**（[arXiv:2603.26648](https://arxiv.org/abs/2603.26648)，视觉驱动的网站开发）、**SWE-MM**（多模态软件工程）、**ClawEval-MM**（多模态工具使用）——Qwen3.8-27B 视觉侧报的几项，其中前三项与「看图写代码」相关。
+- **RecreationBench**（复刻应用）、**Vision2Web**（[arXiv:2603.26648](https://arxiv.org/abs/2603.26648)，视觉驱动的网站开发）、**SWE-MM**（多模态软件工程）、**ClawEval-MM**（多模态工具使用）——Qwen3.8-27B 视觉侧报的几项，其中前三项与“看图写代码”相关。
 
 ### 2.7 厂商内部集
 
@@ -216,7 +239,7 @@ harness（脚手架）决定了模型怎么看到工具、怎么管上下文、�
 | **DeepSeek Harness** | DeepSeek | V4-Flash-0731 用其 **minimal mode** 报分（模型卡称将开源） |
 | **Cursor CLI / Gemini CLI / OpenCode** | 各自厂商 | 出现在 Terminal-Bench 榜和 PostTrainBench 的四脚手架对照里 |
 
-**对本项目的直接启示**：Terminal-Bench 和 PostTrainBench 这类 benchmark 是**面向 CLI agent** 设计的，nanoPyCodeAgent 这种「一个可执行 CLI + 几个内置工具」的形态天生适配；而 SWE-bench 家族是**面向 patch** 设计的，接入时只需要在结束时产出 `git diff`。
+**对本项目的直接启示**：Terminal-Bench 和 PostTrainBench 这类 benchmark 是**面向 CLI agent** 设计的，nanoPyCodeAgent 这种“一个可执行 CLI + 几个内置工具”的形态天生适配；而 SWE-bench 家族是**面向 patch** 设计的，接入时只需要在结束时产出 `git diff`。
 
 ## 四、各模型发布时的 benchmark 与得分
 
@@ -242,6 +265,8 @@ harness（脚手架）决定了模型怎么看到工具、怎么管上下文、�
 
 † 内部测试集；DSBench-Hard 专注困难编码 agent 问题。
 
+一处未能解释的冲突：DeepSeek 给 GLM-5.2 的 Toolathlon-Verified 打了 59.9，而 GLM 自己在 4.6 里报的 Tool-Decathlon 只有 48.2——59.9 在 GLM 的表里恰好是 Opus 4.8 的值。两边原文都已逐字核对，转录无误，引用时以各自来源为准。
+
 ### 4.2 Claude Opus 5
 
 - **来源**：<https://www.anthropic.com/news/claude-opus-5>
@@ -258,7 +283,7 @@ harness（脚手架）决定了模型怎么看到工具、怎么管上下文、�
 | AA Coding Agent Index | 榜首 |
 | ARC-AGI 3 | 次优模型的 3 倍 |
 | Zapier AutomationBench | 同等每任务成本下通过率约为次优模型的 1.5 倍；churn-prevention 序列 100% 通过 |
-| OSWorld 2.0 | 超过 Fable 5，成本仅约三分之一 |
+| OSWorld 2.0 | 超过 Fable 5，成本仅略高于三分之一 |
 | GDPval-AA v2 / HLE / DeepSearchQA | 领先 |
 | 生命科学 | 全项优于 Opus 4.8；有机化学 +10.2pt，蛋白功能预测 +7.7pt |
 | OSS-Fuzz | 漏洞识别与 Mythos 5 相当，漏洞利用开发明显落后 |
@@ -269,7 +294,7 @@ harness（脚手架）决定了模型怎么看到工具、怎么管上下文、�
 | --- | :-: | --- | --- |
 | Frontier-Bench v0.1 | 43.3% | Fable 5 33.7%、Opus 4.8 18.7% | [Vellum](https://www.vellum.ai/blog/claude-opus-5-benchmarks-explained)、[llm-stats](https://llm-stats.com/benchmarks/frontier-bench-v0.1) |
 | DeepSWE v1.1 | 74.0% | GPT-5.6 Sol 72.7% | [DeepSWE 官方榜](https://deepswe.datacurve.ai/) |
-| Terminal-Bench 2.1 | 89.1%（max effort） | GPT-5.6 Sol xhigh 89.5% | [Artificial Analysis](https://artificialanalysis.ai/evaluations/terminalbench-v2-1) |
+| Terminal-Bench 2.1 | 89.1%（max effort） | GPT-5.6 Sol xhigh 89.5%（AA 自测口径，与 4.3 里 OpenAI 自报的 88.8% 不是同一次评测） | [Artificial Analysis](https://artificialanalysis.ai/evaluations/terminalbench-v2-1) |
 | SWE-bench Verified | 97%（聚合站数据，未见官方确认） | — | [morphllm](https://www.morphllm.com/claude-benchmarks) |
 
 ### 4.3 GPT-5.6 Sol
@@ -355,6 +380,8 @@ harness（脚手架）决定了模型怎么看到工具、怎么管上下文、�
   - Terminal-Bench 2.1（Best Reported Harness）→ **Claude Code 2.1.167**，`temperature=1.0`、`top_p=0.95`、`max_new_tokens=131072`，无墙钟限制
   - FrontierSWE / PostTrainBench / SWE-Marathon → 1M 上下文，max effort，128K 输出
 
+> 照抄时发现的一处源表异常：Terminal Bench 2.1 的两行对非 GLM 模型口径不一致——Opus 4.8 在 Terminus-2 行是 85，在“最佳 harness”行反而只有 78.9（78.9 恰是 Terminal-Bench 官方榜上 Claude Code + Opus 4.8 的成绩），GPT-5.5 同样是 84 → 83.4。下表照抄原文，未作修正。
+
 编码：
 
 | Benchmark | GLM-5.2 | GLM-5.1 | Qwen3.7-Max | MiniMax M3 | DeepSeek-V4-Pro | Opus 4.8 | GPT-5.5 | Gemini 3.1 Pro |
@@ -388,9 +415,9 @@ Agent 与推理（节选）：
 
 最合适的第一个 benchmark，理由：
 
-1. **形态天然匹配**。任务就是「在一个 Linux 容器里用命令行把事做成」，而本项目正好是 bash + read + write + edit 四件套。
+1. **形态天然匹配**。任务就是“在一个 Linux 容器里用命令行把事做成”，而本项目正好是 bash + read + write + edit 四件套。
 2. **官方支持自定义 agent**。Harbor 提供 `--agent-import-path` 挂载自定义 agent，不必等官方适配。
-3. **横向可比性最高**。六个模型发布全都报了它，且官方榜按「harness + 模型」列条目——这正是「同一模型换 harness 掉几分」的直接对照，能量化 nanoPyCodeAgent 相对 Claude Code / Terminus 2 的差距。
+3. **横向可比性最高**。六个模型都有可查的分数（Opus 5 的来自第三方榜），且官方榜按“harness + 模型”列条目——这正是“同一模型换 harness 掉几分”的直接对照，能量化 nanoPyCodeAgent 相对 Claude Code / Terminus 2 的差距。
 4. **成本可控**。可以先跑 10～20 题子集；`-k` 参数控制采样次数。
 
 建议做法：先在本地跑 Terminus 2 + `claude-sonnet-4-6` 得到基线，再跑 nanoPyCodeAgent + 同一模型，两者之差就是 harness 差距，这比绝对分数更有信息量。
@@ -404,13 +431,13 @@ Agent 与推理（节选）：
 ### 第三优先：NL2Repo-Bench
 
 - 只需要 Python + pytest，环境依赖在所有长时程 benchmark 里最轻。
-- 「空工作区 + 一份规格 → 一个能安装的库」直接压测 write 工具和多文件规划能力，正好补 SWE-bench 只测局部修改的盲区。
+- “空工作区 + 一份规格 → 一个能安装的库”直接压测 write 工具和多文件规划能力，正好补 SWE-bench 只测局部修改的盲区。
 - 104 题，可跑子集。
 
 ### 值得后续考虑
 
 - **DeepSWE v1.1**：113 题，官方榜要求 mini-swe-agent 才能上榜，但可以自建 harness 自测；六家全报，对照价值高。
-- **PostTrainBench**：唯一直接把「CLI 脚手架」当评测对象的 benchmark，未来若想论证「nanoPyCodeAgent 作为脚手架的质量」，它的四脚手架对照（Claude Code / Codex CLI / Gemini CLI / OpenCode）是最好的框架——但需要一张 H100 和 10 小时，现阶段不现实。
+- **PostTrainBench**：唯一直接把“CLI 脚手架”当评测对象的 benchmark，未来若想论证“nanoPyCodeAgent 作为脚手架的质量”，它的四脚手架对照（Claude Code / Codex CLI / Gemini CLI / OpenCode）是最好的框架——但需要一张 H100 和 10 小时，现阶段不现实。
 
 ### 暂不建议
 
@@ -428,7 +455,7 @@ Agent 与推理（节选）：
 
 现状（截至 v0.7.0）：`agent.py` 是一个交互式 REPL——`load_settings_env()` → `anthropic.Anthropic()` → `while True: input("You> ")`，内层再一个 `while True` 处理 tool_use 直到模型不再调工具。四个工具（read / write / edit / bash），`MAX_TOKENS = 8192`，无 CLI 参数，`main()` 直接调 `run()`。
 
-好消息是有两件事已经做对了：`terminal.py` 的 ANSI 上色和 Spinner 都用 `sys.stdout.isatty()` 做了门控（`terminal.py:22`、`terminal.py:69`），所以在容器里不会喷转义序列；`bash_tool.py` 已有 120 秒超时和 20000 字符输出截断（`bash_tool.py:13-14`），并且把 stdin 设成 `/dev/null`（`bash_tool.py:61`），命令不会抢走 agent 的输入。
+好消息是有两件事已经做对了：`terminal.py` 的 ANSI 背景上色和 Spinner 都用 `sys.stdout.isatty()` 做了门控（`terminal.py:20`、`terminal.py:69`），所以在容器里不会喷转义序列；`bash_tool.py` 已有 120 秒超时和 20000 字符输出截断（`bash_tool.py:13-14`），并且把 stdin 设成 `/dev/null`（`bash_tool.py:61`），命令不会抢走 agent 的输入。
 
 下面按优先级列出缺口。
 
@@ -438,23 +465,23 @@ Agent 与推理（节选）：
 
 2. **明确的终止条件与退出码**。正常完成 exit 0；超轮数、超时、API 连续失败 exit 非 0。`main()` 现在没有返回码概念（`__init__.py`）。
 
-3. **轮数上限 + 墙钟超时**。`agent.py:158` 的内层 `while True` 没有任何上限，模型一旦陷入「反复试同一条命令」的循环就会一直烧钱到 API 报错。需要 `--max-turns` 和 `--timeout`。
+3. **轮数上限 + 墙钟超时**。`agent.py:158` 的内层 `while True` 没有任何上限，模型一旦陷入“反复试同一条命令”的循环就会一直烧钱到 API 报错。需要 `--max-turns` 和 `--timeout`。
 
-4. **错误重试，不许崩**。模块 docstring 明说只处理 happy path、异常即崩溃（`agent.py:10-13`）。benchmark 里一次 429 / `overloaded_error` / 网络抖动就是整题 0 分。至少要给 `client.messages.stream` 加指数退避重试，并把单题失败收敛成「这题 0 分」而不是「整个 run 挂掉」。
+4. **错误重试，不许崩**。模块 docstring 明说只处理 happy path、异常即崩溃（`agent.py:10-13`）。benchmark 里一次 429 / `overloaded_error` / 网络抖动就是整题 0 分。至少要给 `client.messages.stream` 加指数退避重试，并把单题失败收敛成“这题 0 分”而不是“整个 run 挂掉”。
 
-5. **benchmark 化的系统提示词**。当前提示词面向对话助手（`agent.py:43-50`）。非交互模式下必须显式要求：不要向用户提问、不要停下来等确认、自己决策到底、完成后明确声明结束。这一条不改，分数会被「模型礼貌地询问下一步」大量吃掉。
+5. **benchmark 化的系统提示词**。当前提示词面向对话助手（`agent.py:43-50`）。非交互模式下必须显式要求：不要向用户提问、不要停下来等确认、自己决策到底、完成后明确声明结束。这一条不改，分数会被“模型礼貌地询问下一步”大量吃掉。
 
 6. **可配置的工作目录**。benchmark 在容器里指定工作目录（Terminal-Bench 常用 `/app`）。bash 工具每次开新 shell、`cd` 不跨调用保留（`bash_tool.py:39` 的 docstring 已说明），长任务里模型必须反复写绝对路径。需要 `--workdir`，并考虑让 bash 会话保留 cwd。
 
 ### P1 — 不做的话分数会很难看
 
-7. **上下文管理 / compaction**。`messages` 列表只增不减（`agent.py:139`）。Terminal-Bench 的 hard 任务几十轮后必然打满上下文，然后 API 直接报错——这会被计成「任务失败」而不是「harness 缺陷」。参考各家做法：Kimi 在 300K token 处压缩上下文，GLM 用 256K～1M 上下文。最小可行方案是「工具结果二次截断 + 旧轮次摘要或丢弃」。
+7. **上下文管理 / compaction**。`messages` 列表只增不减（`agent.py:139`）。Terminal-Bench 的 hard 任务几十轮后必然打满上下文，然后 API 直接报错——这会被计成“任务失败”而不是“harness 缺陷”。参考各家做法：Kimi 在 300K token 处压缩上下文，GLM 用 256K～1M 上下文。最小可行方案是“工具结果二次截断 + 旧轮次摘要或丢弃”。
 
 8. **Trajectory 落盘**。把每轮的 request/response、tool call 与结果、token 用量、耗时写成 JSONL。没有这个，一题失败只能看终端 scrollback 猜原因，无法归因也无法复现。
 
 9. **token 与成本统计**。从 `message.usage` 累加输入/输出 token。现在的 benchmark 报告普遍同时看分数和 token 用量（AA Coding Agent Index、CursorBench 都报成本与步数），只有分数没有成本是不完整的。
 
-10. **`MAX_TOKENS` 与 bash 超时可配**。8192 输出上限（`agent.py:42`）对长任务偏小——各家都在 128K 量级报分。`BASH_TIMEOUT_SECONDS = 120`（`bash_tool.py:13`）对「编译内核」「跑完整测试套件」这类 Terminal-Bench 任务不够。
+10. **`MAX_TOKENS` 与 bash 超时可配**。8192 输出上限（`agent.py:42`）对长任务偏小——各家都在 128K 量级报分。`BASH_TIMEOUT_SECONDS = 120`（`bash_tool.py:13`）对“编译内核”“跑完整测试套件”这类 Terminal-Bench 任务不够。
 
 11. **grep / glob 工具**。现在靠 bash 里的 `grep`，能用，但输出难以结构化截断，模型容易一次拉回上万行把上下文打满。仓库级任务（SWE-bench、NL2Repo）里专用的 Grep/Glob 明显更省 token。
 

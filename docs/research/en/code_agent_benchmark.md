@@ -18,7 +18,7 @@ A score in a model release announcement only means something when you read it to
 | --- | --- | :-: | :-: | :-: | :-: | :-: | :-: |
 | Terminal-Bench 2.1 | Terminal agent | ✅ | ✅(3rd party) | ✅ | ✅ | ✅ | ✅ |
 | SWE-bench Pro | Repo-level bug fixing | — | — | ✅ | ✅ | — | ✅ |
-| DeepSWE (v1.1) | Long-horizon engineering | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DeepSWE (v1.1) | Long-horizon engineering | ✅ | ✅(3rd party) | ✅ | ✅ | ✅ | ✅ |
 | NL2Repo-Bench | Repo generation from scratch | ✅ | — | — | ✅ | — | ✅ |
 | ProgramBench | Rebuild a program from its binary | — | — | — | — | ✅ | ✅ |
 | SWE-Marathon | Ultra-long-horizon | — | — | — | — | ✅ | ✅ |
@@ -30,7 +30,7 @@ A score in a model release announcement only means something when you read it to
 | MLS-Bench-Lite | ML method research | — | — | — | — | ✅ | — |
 | CyberGym | Security (vulnerability reproduction) | ✅ | — | ✅ | — | — | — |
 | Agents' Last Exam | General agent | ✅ | — | ✅ | ✅ | — | — |
-| AutomationBench | Business workflow automation | ✅ | ✅ | — | — | ✅ | ✅ |
+| AutomationBench | Business workflow automation | ✅ | ✅ | — | — | ✅ | —† |
 | Toolathlon / Tool-Decathlon | Tool use | ✅ | — | — | — | — | ✅ |
 | MCP-Atlas | MCP tool use | — | — | — | — | — | ✅ |
 | JobBench | Occupational tasks | — | — | — | ✅ | ✅ | — |
@@ -40,7 +40,9 @@ A score in a model release announcement only means something when you read it to
 | OSWorld (2.0 / Verified) | Computer use | — | ✅ | ✅ | ✅ | — | — |
 | Internal sets | — | DSBench-FullStack / Hard | — | — | QwenSWEBench | Kimi Code Bench 2.0 | — |
 
-In one sentence: **Terminal-Bench 2.1 and DeepSWE are currently the only two code-agent benchmarks adopted by all six vendors**, which makes them the de facto standard for cross-model comparison; SWE-bench Pro is the next tier of consensus.
+† GLM-5.2's own release material has no AutomationBench; its 12.9 appears in DeepSeek's and Kimi's comparison tables.
+
+In one sentence: **Terminal-Bench 2.1 and DeepSWE are the two code-agent benchmarks on which all six models have a lookup-able score**, which makes them the de facto standard for cross-model comparison; SWE-bench Pro is the next tier of consensus. Note that Anthropic itself published neither for Opus 5 — both numbers come from third-party leaderboards (see 4.2).
 
 ## 2. The benchmarks, one by one
 
@@ -60,30 +62,35 @@ In one sentence: **Terminal-Bench 2.1 and DeepSWE are currently the only two cod
 - **Homepage**: none public (Anthropic internal dataset); third-party aggregation at <https://llm-stats.com/benchmarks/frontier-bench-v0.1>
 - **What it is**: A new agentic terminal-coding benchmark Anthropic introduced with the Opus 5 release, described as the successor to Terminal-Bench 2.1: 74 tasks covering multi-file changes, debugging, and feature building.
 - **Harness**: mini-SWE-agent on a GKE backend, mean reward over 5 attempts per task.
-- **Example**: The announcement mentions a task where Opus 5 wrote its own computer-vision pipeline and reconstructed 3D models without direct visual access — i.e. the tasks state a goal without prescribing a method.
+- **Example**: The official announcement mentions a task where Opus 5 wrote its own computer-vision pipeline and reconstructed 3D models without direct visual access — i.e. the tasks state a goal without prescribing a method.
 
 #### CursorBench (3.2)
 
 - **Homepage**: <https://cursor.com/blog/cursorbench>
 - **What it is**: Cursor's in-house evaluation suite for in-IDE coding agents. Tasks are drawn from real developer–agent sessions in Cursor production, spanning multi-file projects, monorepos, and ambiguous developer-style requests. It evaluates the "model + Cursor harness" combination, not the bare model. Each model is evaluated at several reasoning-effort levels, and the leaderboard reports correctness alongside average cost, token usage, and agent steps per task. Version 3.2 covers 42 configurations.
+- **Example**: One evaluation's input is a real developer prompt (possibly ambiguous, possibly spanning several packages) plus a repository snapshot; the output is the agent's multi-file change, scored on correctness, code quality, efficiency, and behavior. A leaderboard entry reads as "some model × some effort level → correctness / average cost / average steps".
 - **Limitation**: Vendor-run, and the harness is not independently reproducible.
 
 #### AA Coding Agent Index (v1.1)
 
 - **Homepage**: <https://artificialanalysis.ai/agents/coding-agents>; methodology at <https://artificialanalysis.ai/methodology/coding-agents-benchmarking>
 - **What it is**: Artificial Analysis's composite index, which explicitly treats "harness + model" as the unit of evaluation. It equally weights three components: **SWE-Bench-Pro-Hard-AA** (150 tasks from Scale AI's SWE-bench Pro), **Terminal-Bench v2** (84 agentic terminal tasks), and **SWE-Atlas-QnA** (124 technical questions). Each task is run 3 times and averaged into a pass@1, then task-level scores are averaged with equal weight. Cost, token usage, and wall-clock time are published alongside.
+- **Example**: A leaderboard entry reads as "Claude Code + Opus 5 (max effort)" — the same model paired with Codex or Terminus 2 is a different entry. The run is 150 + 84 + 124 tasks across the three subsets, each 3 times, yielding three pass@1 scores that are then averaged with equal weight.
+- **Caveat**: AA's Terminal-Bench v2 has 84 tasks, which disagrees with Terminal-Bench 2.0's official 89; it is presumably a subset.
 
 ### 2.2 Repository-level software engineering
 
 #### SWE-bench Verified
 
 - **Homepage**: <https://www.swebench.com/>
-- **What it is**: The human-validated subset of SWE-bench, 500 instances. Given a real repository snapshot and a GitHub issue, the agent must produce a patch that makes the hidden tests pass. It is the veteran baseline in this category; frontier models are now above 90%, so its discriminating power has dropped, but it remains the easiest entry point.
+- **What it is**: The human-validated subset of SWE-bench, 500 instances. Given a real repository snapshot and a GitHub issue, the agent must produce a patch that makes the hidden tests pass. It is the veteran baseline in this category; frontier models are now above 90%, so its discriminating power has dropped, but it remains the easiest entry point. None of the six releases surveyed here report it; it appears in this document because section 5 recommends it to this project as a second step.
+- **Example**: The input is a repository snapshot plus the text of a GitHub issue; the output is a patch. Grading applies the patch and runs the hidden tests, requiring the originally failing tests to pass (FAIL_TO_PASS) while the originally passing ones stay green (PASS_TO_PASS).
 
 #### SWE-bench Pro
 
 - **Homepage**: <https://scale.com/blog/swe-bench-pro>; leaderboard <https://labs.scale.com/leaderboard/swe_bench_pro_public>; code <https://github.com/scaleapi/SWE-bench_Pro-os>
 - **What it is**: Scale AI's successor to SWE-bench, designed against four problems: data contamination, limited task diversity, oversimplified problems, and unreliable/irreproducible testing. It contains 1,865 instances (731 public / 858 held-out / 276 commercial) across 41 repositories (11 public / 12 held-out / 18 from enterprise startups). The task shape is still "repo + issue → patch", but the problems are long-horizon and cross-file.
+- **Example**: Same shape as Verified (repo + issue → patch), but the repositories span 41 projects including enterprise-startup code, and the problems deliberately keep their ambiguous issue descriptions, demanding long-horizon cross-file changes.
 - **Difficulty reference**: At release, GPT-5 and Claude Opus 4.1 scored only 23.3% / 23.1% (versus 70%+ on Verified at the same time).
 
 #### DeepSWE (v1.1)
@@ -91,6 +98,7 @@ In one sentence: **Terminal-Bench 2.1 and DeepSWE are currently the only two cod
 - **Homepage**: <https://deepswe.datacurve.ai/>; code <https://github.com/datacurve-ai/deep-swe>; data <https://huggingface.co/datasets/datacurve/deep-swe>
 - **Paper**: [arXiv:2607.07946](https://arxiv.org/abs/2607.07946)
 - **What it is**: Datacurve's set of long-horizon engineering tasks — 113 tasks drawn from active open-source repositories, covering TypeScript, Go, Python, JavaScript, and Rust. Each task has an isolated environment and a program-based verifier. v1.1 keeps v1's tasks but changes execution and scoring: the agent's committed code is graded in a clean, isolated environment, making results reproducible and auditable.
+- **Example**: The input is an isolated snapshot of an active open-source repository (in TypeScript, Go, Python, JavaScript, or Rust) plus a long-horizon task description; the output is the code the agent changes and commits inside the sandbox. v1.1 grades by moving that committed code into a clean environment and letting a program-based verifier re-run it.
 - **Harness**: The official leaderboard standardizes on **mini-swe-agent** (driven by Pier on Modal), one of the few examples of "same harness, compare models".
 - **v1.1 leaderboard (excerpt)**: Claude Opus 5 = 74.0%, GPT-5.6 Sol = 72.7%, Grok 4.6 = 67.0%, Gemini 3.7 Flash = 65.0%, DeepSeek V4 Pro 0813 = 63.0%.
 
@@ -98,24 +106,28 @@ In one sentence: **Terminal-Bench 2.1 and DeepSWE are currently the only two cod
 
 - **Homepage**: <https://www.proximal.so/blog/frontierswe>; code <https://github.com/Proximal-Labs/frontier-swe>; third-party leaderboard <https://epoch.ai/benchmarks/frontierswe>
 - **What it is**: Proximal Labs' ultra-long-horizon coding benchmark, covering three task types: implementation, performance engineering, and research.
-- **Unusual scoring**: The headline metric is **dominance** — a pairwise, task-level win probability against a random opponent, on a 0–1 scale. It is *not* the percentage of tasks completed. Keep that in mind when reading its scores.
+- **Unusual scoring**: The headline metric is **dominance** — a pairwise, task-level win probability against a random opponent. It is *not* the percentage of tasks completed. The native range is 0–1 (Epoch AI's leaderboard has Fable 5 at 0.900), but model cards generally present it as a percentage, so the 74.4 in this document's tables corresponds to a dominance of 0.744.
+- **Example**: The three task types take the shapes of implementing a new feature module, making a hot code path faster, and reproducing a paper's method. A dominance of 0.744 reads as: pick a task at random and an opponent at random, and this agent wins about 74.4% of the time.
 
 #### SWE-Marathon
 
 - **Homepage**: paper [arXiv:2606.07682](https://arxiv.org/abs/2606.07682); third-party leaderboard <https://llm-stats.com/benchmarks/swe-marathon>
 - **What it is**: Abundant AI's ultra-long-horizon task set — only 20 tasks, but each is project-scale: product clones, library rewrites, ML engineering. Each ships an executable environment, a human-written reference solution, and a multi-layer verification suite. **Logged agent trajectories average 27.2M tokens**, far longer-horizon than other SWE or command-line benchmarks.
+- **Example**: Task shapes include cloning a product, rewriting a library, and doing a full piece of ML engineering; at 27.2M tokens per trajectory on average, a single task runs from repository exploration and environment setup through debugging to deployment.
 - **Notable observation**: Reward hacking appeared in 13.8% of rollouts — agents trying to exploit the environment or the verifier instead of doing the work. Failures cluster around poor self-verification, self-reported infeasibility, and premature termination.
 
 #### NL2Repo-Bench
 
 - **Homepage**: paper [arXiv:2512.12730](https://arxiv.org/abs/2512.12730)
 - **What it is**: A repository-generation benchmark from ByteDance Seed and collaborators — 104 tasks across nine categories of Python libraries. **The agent is given only a single natural-language requirements document and an empty workspace**; it must design the architecture, manage dependencies, implement multi-module logic, and produce an installable Python library. Grading runs the upstream project's original pytest suite, plus structural-consistency and cross-file architectural checks.
+- **Example**: The agent gets a requirements document for "a Python library that does X" plus an empty directory, and produces a complete repository (packaging config and several modules); the harness then grades it by running the upstream project's own pytest suite.
 - **Difficulty**: SOTA average test pass rate is under 40.5%. Failure modes: premature termination, loss of global coherence, fragile cross-file dependencies, and inadequate planning over hundreds of interaction steps.
 
 #### ProgramBench
 
 - **Homepage**: <https://programbench.com/>; paper [arXiv:2605.03546](https://arxiv.org/abs/2605.03546)
 - **What it is**: **The agent gets a compiled executable plus its usage documentation and must write, from scratch, a program that matches its behavior.** No method signatures, no class skeletons, no PRD, no file-layout description — language, architecture, and build script are all the agent's choice. 200 tasks, 248,000 behavioral tests, ranging from `jq` up to SQLite, PHP, and FFmpeg.
+- **Example**: Given the compiled `jq` binary and its usage documentation, the agent must probe its behavior, pick a language, write a behaviorally equivalent implementation, and supply a build script; at the large end the targets are SQLite, PHP, and FFmpeg.
 - **Difficulty**: Every frontier model scores 0% fully resolved. So a ProgramBench number in an announcement is a partial test-pass rate, not a task-completion rate. Critics have also noted that its harness lacks context management, which is unfair to long-running harnesses like Claude Code and Codex.
 
 ### 2.3 ML / research engineering
@@ -124,23 +136,27 @@ In one sentence: **Terminal-Bench 2.1 and DeepSWE are currently the only two cod
 
 - **Homepage**: <https://github.com/aisa-group/PostTrainBench>; paper [arXiv:2603.08640](https://arxiv.org/abs/2603.08640); third-party leaderboard <https://epoch.ai/benchmarks/post-train-bench>
 - **What it is**: Measures whether a CLI agent can autonomously post-train a 1–4B base model: **one H100, a 10-hour window**, with the goal of improving that model on a given benchmark. What data to use, how to fine-tune, and how to allocate compute are entirely up to the agent; no starter code and no human interaction are allowed. Official runs execute in Harbor-orchestrated E2B sandboxes, with training and serving on shared Tinker-backed services.
+- **Example**: Given a 1–4B base model and one H100, within 10 hours the agent must build its own data, choose its own fine-tuning method, and raise that model's score on a specified benchmark.
 - **What makes it special**: It is one of the few benchmarks that **evaluates CLI scaffolds directly** — the official runs cover four scaffolds: Claude Code, Codex CLI, Gemini CLI, and OpenCode. Current finding: AI averages about 28% versus about 51% for human engineering teams.
 
 #### MLS-Bench / MLS-Bench-Lite
 
 - **Homepage**: paper [arXiv:2605.08678](https://arxiv.org/abs/2605.08678); third-party leaderboard <https://llm-stats.com/benchmarks/mls-bench-lite>
 - **What it is**: 140 tasks across 12 ML domains, evaluating whether an AI system can produce **genuinely transferable ML method improvements** (not just hyperparameter wins). Each task asks for an improvement to one specified component under a controlled edit scope, against reproduced strong human baselines. Lite is the official 30-task subset, covering LLM pretraining/post-training, robotics, world models, CV, RL, optimization, ML systems, and AI for Science.
+- **Example**: The task shape is "improve one specified component within a controlled edit scope (say, one stage of an LLM post-training pipeline), then check whether that improvement still holds across several evaluation settings" — what is being tested is whether the improvement transfers, not whether hyperparameter tuning wins on a single setting.
 - **Note**: Do not confuse it with OpenAI's **MLE-bench** (75 Kaggle competitions, 22 in Lite); they are different benchmarks.
 
 #### SciCode
 
 - **Homepage**: <https://scicode-bench.github.io/>; code <https://github.com/scicode-bench/SciCode>; paper [arXiv:2407.13168](https://arxiv.org/abs/2407.13168)
-- **What it is**: A research-coding benchmark curated by scientists, converted from real research problems, covering 16 subdomains across 6 domains (physics, math, materials, biology, chemistry). 80 main problems decomposed into 338 subproblems, with optional scientific background and scientist-annotated gold solutions and test cases. It leans toward "the model's scientific coding ability" and exercises the agent loop only lightly.
+- **What it is**: A research-coding benchmark curated by scientists, converted from real research problems, covering 16 subdomains across 6 domains (the public material names five of them: physics, math, materials science, biology, chemistry). 80 main problems decomposed into 338 subproblems, with optional scientific background and scientist-annotated gold solutions and test cases. It leans toward "the model's scientific coding ability" and exercises the agent loop only lightly.
+- **Example**: One main problem (drawn from a real paper) is decomposed into several subproblems, each asking for one function to be completed; the scientific background for the problem is offered optionally, and grading uses the scientist-written test cases.
 
 #### LiveCodeBench (v6)
 
 - **Homepage**: <https://livecodebench.github.io/>
 - **What it is**: A contamination-free competitive-coding evaluation that continuously collects new problems from LeetCode, AtCoder, and Codeforces, and evaluates self-repair, code execution, and test-output prediction in addition to code generation. Also a model-capability benchmark rather than an agent-loop one.
+- **Example**: Beyond "write a solution that passes all tests" there are three subtask types — given a wrong solution, repair it; given code and an input, predict the result of executing it; given a problem and a test, predict that test's output.
 
 ### 2.4 Security
 
@@ -148,6 +164,7 @@ In one sentence: **Terminal-Bench 2.1 and DeepSWE are currently the only two cod
 
 - **Homepage**: <https://www.cybergym.io/cybergym/>; paper [arXiv:2506.02548](https://arxiv.org/abs/2506.02548)
 - **What it is**: A large-scale evaluation of real-world vulnerability analysis — 1,507 historical vulnerability instances from Google's OSS-Fuzz across 188 C/C++ projects. The primary task is **vulnerability reproduction**: given a textual description and the pre-patch codebase, the agent must write a PoC that triggers the vulnerability. Building the benchmark itself surfaced 35 zero-days and 17 incomplete patches.
+- **Example**: The agent gets a textual description of a vulnerability plus the pre-patch C/C++ codebase, and must produce a PoC input that triggers the corresponding crash when run.
 - **Related**: The same group also publishes ExploitGym (<https://www.cybergym.io/exploitgym/>, turning vulnerabilities into working attacks) and ExploitBench (a capability-ladder benchmark for LLM security agents).
 
 ### 2.5 General agents / tool use
@@ -156,39 +173,45 @@ In one sentence: **Terminal-Bench 2.1 and DeepSWE are currently the only two cod
 
 - **Homepage**: <https://agents-last-exam.org/>; code <https://github.com/rdi-berkeley/agents-last-exam>; paper [arXiv:2606.05405](https://arxiv.org/abs/2606.05405)
 - **What it is**: A large-scale agent evaluation from Berkeley RDI with 250–300 industry experts, organized around 55 sub-industries grouped into 13 industry clusters, with 1,000–1,500+ tasks collected toward a 5,000-task target. **Every task is graded by deterministic scripts against the expert's own deliverable — no LLM judge.** It uses rolling evaluation: roughly every 6 months a fresh public subset is published, private tasks rotate in, and retired public tasks rotate out, to limit leakage.
+- **Example**: Tasks are constructed by an expert in one sub-industry from that expert's own real work product — the agent gets a workspace of material and must deliver something matching the expert's deliverable, which a deterministic script then checks item by item, rather than an LLM judging whether it "looks right".
 - **Difficulty**: The hardest tier is far from saturated — the average full pass rate across mainstream harness/backbone configurations is 2.6%.
 
 #### AutomationBench (Zapier)
 
 - **Homepage**: <https://zapier.com/benchmarks>; code <https://github.com/zapier/AutomationBench>; paper [arXiv:2604.18934](https://arxiv.org/abs/2604.18934)
 - **What it is**: Evaluates cross-application workflow orchestration over REST APIs, with 47 real tools across six business functions (Sales, Marketing, Operations, Support, Finance, HR). Task patterns are drawn from real traffic on Zapier's platform — 2B+ monthly tasks across 3.7M companies. A single task may span a CRM, an inbox, a calendar, and a messaging platform, requiring the agent to discover endpoints, follow a policy document, and write correct data into each system.
+- **Example**: A single task may span a CRM, an inbox, a calendar, and a messaging platform — the agent must find the right REST endpoints itself, act according to a policy document, and write correct data into each system.
 - **Scoring**: Deterministic final-state assertions (no LLM judge), including both positive and negative assertions; getting most of the way there still fails.
 
 #### Toolathlon / The Tool Decathlon
 
 - **Homepage**: <https://github.com/hkust-nlp/Toolathlon> (also toolathlon.xyz); paper [arXiv:2510.25726](https://arxiv.org/abs/2510.25726) (ICLR 2026)
-- **What it is**: HKUST NLP's tool-use benchmark spanning **32 software applications and 604 tools**, from Google Calendar and Notion to WooCommerce, Kubernetes, and BigQuery. 108 hand-crafted tasks, each requiring roughly 20 turns of cross-application interaction on average, each strictly verified by a dedicated evaluation script.
+- **What it is**: HKUST NLP's tool-use benchmark spanning **32 software applications and 604 tools**, from Google Calendar and Notion to WooCommerce, Kubernetes, and BigQuery. 108 hand-crafted tasks, each requiring roughly 20 turns of cross-application interaction on average, each strictly verifiable through a dedicated evaluation script.
+- **Example**: A task asks the agent to coordinate one outcome across applications like Google Calendar, Notion, WooCommerce, Kubernetes, and BigQuery, taking roughly 20 cross-application turns on average, judged by a script written for that task.
 - **Difficulty reference**: In the paper the best model, Claude-4.5-Sonnet, reaches only a 38.6% success rate. "Toolathlon-Verified" in DeepSeek's announcement and "Tool-Decathlon" in GLM's both refer to this benchmark.
 
 #### MCP-Atlas
 
 - **Homepage**: <https://github.com/scaleapi/mcp-atlas>; paper [arXiv:2602.00933](https://arxiv.org/abs/2602.00933)
 - **What it is**: Scale AI's MCP tool-use benchmark — **1,000 natural-language tasks written and verified by human experts across 36 real MCP servers and 220 tools**. Prompts do not name the server, tool, or parameters, so the agent must find the right tools among semantically plausible distractors and compose multi-step, cross-server workflows. Scoring uses a claim-level rubric: the final answer is checked against atomic factual claims grounded in tool outputs, which decouples the score from agent verbosity and style. A 500-task public subset is released.
+- **Example**: The prompt names no server, tool, or parameter — the agent must pick from 36 real MCP servers and 220 tools (salted with semantically plausible distractors) and compose a multi-step workflow across servers.
 
 #### JobBench
 
 - **Homepage**: paper [arXiv:2605.26329](https://arxiv.org/abs/2605.26329); leaderboard <https://www.vals.ai/benchmarks>
 - **What it is**: 130 agentic tasks across 35 occupations. The design goal is to align with what humans *want* to delegate rather than to replace them by GDP value: tasks are built on Workbank, a survey in which 1,500+ workers report which duties they would prefer AI to handle, and the 35 occupations sit at the intersection of high delegation preference and high economic exposure. Each task is packaged as a workspace of heterogeneous reference files, and outputs are graded by a fact-anchored chain of rubrics averaging 35.6 binary criteria per task.
+- **Example**: A task is packaged as a workspace of heterogeneous reference files (matching one occupation's real work product); the agent must deliver the corresponding output, which is then graded by a chain of rubrics averaging 35.6 binary criteria.
 - **Difficulty reference**: The strongest combination, Claude Opus 4.7 under Claude Code, reaches 45.9%.
 
 #### CoWorkBench
 
 - **Homepage**: none public; third-party aggregation at <https://llm-stats.com/benchmarks/coworkbench>
-- **What it is**: A long-horizon office/productivity task evaluation covering computer science, finance, law, and medicine. These are not coding problems but professional workflows: research a topic, synthesize information from multiple sources. The evaluation configuration is a 256K context with an 8-hour timeout.
+- **What it is**: A long-horizon office/productivity task evaluation covering computer science, finance, law, and medicine. These are not coding problems but professional workflows. The evaluation configuration is a 256K context with an 8-hour timeout.
+- **Example**: A task takes the shape of "research a topic and synthesize information from multiple sources into one deliverable" — it demands sustained attention over a very long trajectory rather than a single question and answer.
 
 ### 2.6 Computer use and multimodal (recorded for reference)
 
-These are not code-agent benchmarks, but they appear in the same announcements:
+These are not code-agent benchmarks, but they appear in the same announcements, so they are recorded here for cross-reference:
 
 - **OSWorld 2.0 / OSWorld-Verified** — computer-use tasks in a real operating system.
 - **WebArena-Verified** — browser use.
@@ -242,6 +265,8 @@ The tables below follow each release's own material as closely as possible. The 
 
 † Internal test sets; DSBench-Hard focuses on difficult coding-agent problems.
 
+One unexplained conflict: DeepSeek scores GLM-5.2 at 59.9 on Toolathlon-Verified, while GLM's own Tool-Decathlon figure in 4.6 is only 48.2 — and 59.9 is exactly Opus 4.8's value in GLM's table. Both sources were transcribed verbatim and re-checked; cite each to its own source.
+
 ### 4.2 Claude Opus 5
 
 - **Source**: <https://www.anthropic.com/news/claude-opus-5>
@@ -269,7 +294,7 @@ Concrete numbers from third-party sources (**unofficial — cite with care**):
 | --- | :-: | --- | --- |
 | Frontier-Bench v0.1 | 43.3% | Fable 5 33.7%, Opus 4.8 18.7% | [Vellum](https://www.vellum.ai/blog/claude-opus-5-benchmarks-explained), [llm-stats](https://llm-stats.com/benchmarks/frontier-bench-v0.1) |
 | DeepSWE v1.1 | 74.0% | GPT-5.6 Sol 72.7% | [DeepSWE official leaderboard](https://deepswe.datacurve.ai/) |
-| Terminal-Bench 2.1 | 89.1% (max effort) | GPT-5.6 Sol xhigh 89.5% | [Artificial Analysis](https://artificialanalysis.ai/evaluations/terminalbench-v2-1) |
+| Terminal-Bench 2.1 | 89.1% (max effort) | GPT-5.6 Sol xhigh 89.5% (AA's own measurement — not the same run as OpenAI's self-reported 88.8% in 4.3) | [Artificial Analysis](https://artificialanalysis.ai/evaluations/terminalbench-v2-1) |
 | SWE-bench Verified | 97% (aggregator figure, no official confirmation found) | — | [morphllm](https://www.morphllm.com/claude-benchmarks) |
 
 ### 4.3 GPT-5.6 Sol
@@ -355,6 +380,8 @@ Concrete numbers from third-party sources (**unofficial — cite with care**):
   - Terminal-Bench 2.1 (best reported harness) → **Claude Code 2.1.167**, `temperature=1.0`, `top_p=0.95`, `max_new_tokens=131072`, no wall-clock limit
   - FrontierSWE / PostTrainBench / SWE-Marathon → 1M context, max effort, 128K output
 
+> One source-table anomaly found while transcribing: the two Terminal Bench 2.1 rows are inconsistent for the non-GLM models — Opus 4.8 is 85 on the Terminus-2 row but only 78.9 on the "best harness" row (78.9 is exactly Claude Code + Opus 4.8's entry on the official Terminal-Bench leaderboard), and GPT-5.5 likewise goes 84 → 83.4. The table below transcribes the source without correction.
+
 Coding:
 
 | Benchmark | GLM-5.2 | GLM-5.1 | Qwen3.7-Max | MiniMax M3 | DeepSeek-V4-Pro | Opus 4.8 | GPT-5.5 | Gemini 3.1 Pro |
@@ -390,7 +417,7 @@ The best first benchmark, because:
 
 1. **The shape matches naturally.** The task is "get something done from the command line in a Linux container", and this project is exactly bash + read + write + edit.
 2. **Custom agents are officially supported.** Harbor takes `--agent-import-path` to mount a custom agent, so there is no need to wait for official support.
-3. **Best comparability.** All six releases report it, and the official leaderboard lists entries as "harness + model" — precisely the comparison needed to quantify how far nanoPyCodeAgent sits behind Claude Code / Terminus 2 on the same model.
+3. **Best comparability.** All six models have a lookup-able score (Opus 5's comes from a third-party leaderboard), and the official leaderboard lists entries as "harness + model" — precisely the comparison needed to quantify how far nanoPyCodeAgent sits behind Claude Code / Terminus 2 on the same model.
 4. **Cost is controllable.** Start with a 10–20 task subset; the `-k` flag controls sampling count.
 
 Suggested approach: first run Terminus 2 + `claude-sonnet-4-6` locally to get a baseline, then run nanoPyCodeAgent with the same model. The gap between them *is* the harness gap, which carries more information than the absolute score.
@@ -428,7 +455,7 @@ Suggested approach: first run Terminus 2 + `claude-sonnet-4-6` locally to get a 
 
 Current state (as of v0.7.0): `agent.py` is an interactive REPL — `load_settings_env()` → `anthropic.Anthropic()` → `while True: input("You> ")`, with an inner `while True` handling `tool_use` until the model stops calling tools. Four tools (read / write / edit / bash), `MAX_TOKENS = 8192`, no CLI arguments, and `main()` calling `run()` directly.
 
-The good news is that two things are already right: the ANSI shading and the spinner in `terminal.py` are both gated on `sys.stdout.isatty()` (`terminal.py:22`, `terminal.py:69`), so nothing spews escape sequences inside a container; and `bash_tool.py` already has a 120-second timeout and 20,000-character output truncation (`bash_tool.py:13-14`), with stdin set to `/dev/null` (`bash_tool.py:61`) so a command cannot steal the agent's input.
+The good news is that two things are already right: the ANSI background shading and the spinner in `terminal.py` are both gated on `sys.stdout.isatty()` (`terminal.py:20`, `terminal.py:69`), so nothing spews escape sequences inside a container; and `bash_tool.py` already has a 120-second timeout and 20,000-character output truncation (`bash_tool.py:13-14`), with stdin set to `/dev/null` (`bash_tool.py:61`) so a command cannot steal the agent's input.
 
 The gaps, by priority:
 
