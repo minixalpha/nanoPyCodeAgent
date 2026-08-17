@@ -27,3 +27,6 @@ versions are in sync.
 - How five agent projects write whole files, and why a structured write beats a
   heredoc:
   [English](en/write_tool.md) | [Chinese](zh-CN/write_tool.md)
+- Which code-agent benchmarks six 2026 model releases reported, which ones fit
+  this project, and what it still needs to run them:
+  [English](en/code_agent_benchmark.md) | [Chinese](zh-CN/code_agent_benchmark.md)
