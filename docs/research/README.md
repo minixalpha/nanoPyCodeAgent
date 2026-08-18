@@ -30,3 +30,6 @@ versions are in sync.
 - Which code-agent benchmarks six 2026 model releases reported, which ones fit
   this project, and what it still needs to run them:
   [English](en/code_agent_benchmark.md) | [Chinese](zh-CN/code_agent_benchmark.md)
+- What Terminal-Bench 2.1, SWE-bench Verified, and NL2Repo-Bench actually
+  require of a headless agent, read down to the source level:
+  [English](en/benchmark_headless_interface.md) | [Chinese](zh-CN/benchmark_headless_interface.md)
