@@ -415,9 +415,9 @@ Selection criteria: **runnable** (no GPU, no private-set registration, environme
 
 The best first benchmark, because:
 
-1. **The shape matches naturally.** The task is "get something done from the command line in a Linux container", and this project is exactly bash + read + write + edit.
-2. **Custom agents are officially supported.** Harbor takes `--agent-import-path` to mount a custom agent, so there is no need to wait for official support.
-3. **Best comparability.** All six models have a lookup-able score (Opus 5's comes from a third-party leaderboard), and the official leaderboard lists entries as "harness + model" — precisely the comparison needed to quantify how far nanoPyCodeAgent sits behind Claude Code / Terminus 2 on the same model.
+1. **The leaderboard itself acknowledges the harness dimension.** Its entries read `Claude Code + Fable 5`, `Terminus 2 + Fable 5` — the harness is half of the entry, so nanoPyCodeAgent has a legitimate place on it rather than only being able to compare against itself. All six models also have a lookup-able score (Opus 5's comes from a third-party leaderboard), giving the best comparability of any option. This is the strongest reason.
+2. **The shape matches naturally.** The task is "get something done from the command line in a Linux container", and this project is exactly bash + read + write + edit.
+3. **Custom agents are officially supported.** Harbor takes `--agent-import-path` to mount a custom agent, so there is no need to wait for official support; the interface is `BaseInstalledAgent`, and only `install()` and `run()` have to be implemented (see [`benchmark_headless_interface.md`](benchmark_headless_interface.md)).
 4. **Cost is controllable.** Start with a 10–20 task subset; the `-k` flag controls sampling count.
 
 Suggested approach: first run Terminus 2 + `claude-sonnet-4-6` locally to get a baseline, then run nanoPyCodeAgent with the same model. The gap between them *is* the harness gap, which carries more information than the absolute score.
@@ -436,7 +436,7 @@ Suggested approach: first run Terminus 2 + `claude-sonnet-4-6` locally to get a 
 
 ### Worth considering later
 
-- **DeepSWE v1.1**: 113 tasks. The official leaderboard requires mini-swe-agent, but a self-built harness can still be used for internal measurement; all six vendors report it, so its comparison value is high.
+- **DeepSWE v1.1**: 113 tasks, reported by all six vendors, so it is valuable as a trend reference. But the official leaderboard pins the harness to mini-swe-agent ("All models run on mini-swe-agent for consistency."), which makes its entries one-dimensional — the model only, unlike Terminal-Bench's harness dimension. A score from a self-built harness therefore has no place on that leaderboard and cannot be set beside the numbers on it. What remains possible is a local A/B: run mini-swe-agent and nanoPyCodeAgent on the same model and compare the delta.
 - **PostTrainBench**: The only benchmark that treats the CLI scaffold itself as the object of evaluation. If the project later wants to argue about "nanoPyCodeAgent's quality as a scaffold", its four-scaffold comparison (Claude Code / Codex CLI / Gemini CLI / OpenCode) is the right frame — but it needs an H100 and 10 hours, which is unrealistic for now.
 
 ### Not recommended for now
@@ -453,6 +453,8 @@ Suggested approach: first run Terminus 2 + `claude-sonnet-4-6` locally to get a 
 
 ## 6. What the project still needs in order to run them
 
+> This section lists the gaps. The **specific** headless-interface requirements of the three benchmarks — the Harbor adapter's signatures, the exit-code semantics, how the patch is collected — were surveyed separately in [`benchmark_headless_interface.md`](benchmark_headless_interface.md); the items below have been revised against its conclusions.
+
 Current state (as of v0.7.0): `agent.py` is an interactive REPL — `load_settings_env()` → `anthropic.Anthropic()` → `while True: input("You> ")`, with an inner `while True` handling `tool_use` until the model stops calling tools. Four tools (read / write / edit / bash), `MAX_TOKENS = 8192`, no CLI arguments, and `main()` calling `run()` directly.
 
 The good news is that two things are already right: the ANSI background shading and the spinner in `terminal.py` are both gated on `sys.stdout.isatty()` (`terminal.py:20`, `terminal.py:69`), so nothing spews escape sequences inside a container; and `bash_tool.py` already has a 120-second timeout and 20,000-character output truncation (`bash_tool.py:13-14`), with stdin set to `/dev/null` (`bash_tool.py:61`) so a command cannot steal the agent's input.
@@ -463,49 +465,49 @@ The gaps, by priority:
 
 1. **Non-interactive (headless) one-shot mode.** This is the hard blocker: a benchmark hands the task description to the agent in one command and expects it to exit when done. The only entry point today is the `input()` loop (`agent.py:146`); inside a container stdin is EOF, so it immediately `break`s, prints `Bye!`, and does nothing. A CLI layer is needed: `nanoPyCodeAgent -p "<task>"`, `--prompt-file <path>`, or reading a whole prompt from stdin.
 
-2. **A definite termination condition and exit code.** Exit 0 on normal completion; non-zero on exceeding the turn limit, timing out, or repeated API failures. `main()` has no notion of a return code today (`__init__.py`).
+2. **A definite termination condition and exit code.** The test is "did the task fail, or did the harness fail?" The model declaring completion, the turn limit being reached, and winding down after the wall clock expires — **all of these exit 0**, even when the task was not solved; the reward is the verifier's call. Only missing credentials, bad arguments, or API failures severe enough to make progress impossible exit non-zero. This is easy to get backwards: Harbor runs the agent command under `set -o pipefail` and treats a non-zero exit code as an agent failure, raising an exception and possibly triggering a retry that burns money for nothing. `main()` has no notion of a return code today (`__init__.py`).
 
-3. **A turn cap plus a wall-clock timeout.** The inner `while True` at `agent.py:158` has no bound, so a model that falls into "retry the same command forever" will burn tokens until the API errors out. `--max-turns` and `--timeout` are needed.
+3. **A turn cap plus a wall-clock timeout.** The inner `while True` at `agent.py:158` has no bound, so a model that falls into "retry the same command forever" will burn tokens until the API errors out. `--max-turns` is needed; the wall clock is also managed harness-side (a Harbor task's `task.toml` carries `[agent].timeout_sec`), so the agent's own `--timeout` is a safety net rather than a prerequisite for integration.
 
-4. **Retries — never crash.** The module docstring states plainly that only the happy path is handled and anything unexpected crashes the session (`agent.py:10-13`). In a benchmark, one 429 / `overloaded_error` / network blip means a zero on that task. At minimum, add exponential-backoff retries around `client.messages.stream`, and contain a single-task failure to "this task scores 0" rather than "the whole run dies".
+4. **Retries — never crash.** The module docstring states plainly that only the happy path is handled and anything unexpected crashes the session (`agent.py:10-13`). In a benchmark, one 429 / `overloaded_error` / network blip means a zero on that task. At minimum, add exponential-backoff retries around `client.messages.stream`, and contain a single-task failure to "this task scores 0" rather than "the whole run dies". Harbor adds a second layer: it scans the agent's output with regexes to classify errors into types such as `ApiRateLimitError` and `ContextWindowExceededError`, which feed `--max-retries 3 --retry-include ApiRateLimitError`. So the agent only needs basic backoff — but it **must print API errors verbatim** rather than swallowing them.
 
 5. **A benchmark-oriented system prompt.** The current prompt targets a conversational assistant (`agent.py:43-50`). In non-interactive mode it must explicitly say: do not ask the user questions, do not stop for confirmation, decide for yourself, and state clearly when finished. Without this change, a large share of the score is lost to the model politely asking what to do next.
 
-6. **A configurable working directory.** Benchmarks pin a working directory inside the container (Terminal-Bench commonly uses `/app`). The bash tool opens a fresh shell per call, so `cd` does not persist across calls (already documented in the `bash_tool.py:39` docstring), which forces the model to keep writing absolute paths on long tasks. Add `--workdir`, and consider letting the bash session retain its cwd.
-
 ### P1 — without these, the scores will look bad
 
-7. **Context management / compaction.** The `messages` list only grows (`agent.py:139`). Terminal-Bench hard tasks will fill the context after a few dozen turns and the API will simply error out — which gets counted as a failed task, not a harness defect. For reference: Kimi compacts context at 300K tokens, and GLM evaluates with 256K–1M contexts. The minimum viable approach is "re-truncate tool results + summarize or drop old turns".
+6. **Context management / compaction.** The `messages` list only grows (`agent.py:139`). Terminal-Bench hard tasks will fill the context after a few dozen turns and the API will simply error out — which gets counted as a failed task, not a harness defect. For reference: Kimi compacts context at 300K tokens, and GLM evaluates with 256K–1M contexts. The minimum viable approach is "re-truncate tool results + summarize or drop old turns".
 
-8. **Trajectory logging to disk.** Write each turn's request/response, tool calls and results, token usage, and elapsed time to JSONL. Without it, a failed task can only be guessed at from terminal scrollback — no attribution and no reproduction.
+7. **Trajectory logging to disk.** Write each turn's request/response, tool calls and results, token usage, and elapsed time to JSONL. Without it, a failed task can only be guessed at from terminal scrollback — no attribution and no reproduction. There is a bonus here: Harbor has a unified trajectory format, ATIF, so as soon as the agent can emit a structured trajectory (or a structured event stream), Harbor will collect steps, tokens, and cost along the way.
 
-9. **Token and cost accounting.** Accumulate input/output tokens from `message.usage`. Benchmark reports now routinely pair scores with token usage (both the AA Coding Agent Index and CursorBench report cost and steps); a score without a cost is incomplete.
+8. **Token and cost accounting.** Accumulate input/output tokens from `message.usage`. Benchmark reports now routinely pair scores with token usage (both the AA Coding Agent Index and CursorBench report cost and steps); a score without a cost is incomplete.
 
-10. **Make `MAX_TOKENS` and the bash timeout configurable.** The 8192 output cap (`agent.py:42`) is small for long tasks — vendors report at the 128K scale. And `BASH_TIMEOUT_SECONDS = 120` (`bash_tool.py:13`) is not enough for Terminal-Bench tasks like "build a kernel" or "run a full test suite".
+9. **Make `MAX_TOKENS` and the bash timeout configurable.** The 8192 output cap (`agent.py:42`) is small for long tasks — vendors report at the 128K scale. And `BASH_TIMEOUT_SECONDS = 120` (`bash_tool.py:13`) is not enough for Terminal-Bench tasks like "build a kernel" or "run a full test suite".
 
-11. **grep / glob tools.** Today this goes through `grep` in bash, which works but is hard to truncate in a structured way, so the model easily pulls back tens of thousands of lines and fills the context. On repository-level tasks (SWE-bench, NL2Repo) dedicated Grep/Glob tools are noticeably cheaper in tokens.
+10. **grep / glob tools.** Today this goes through `grep` in bash, which works but is hard to truncate in a structured way, so the model easily pulls back tens of thousands of lines and fills the context. On repository-level tasks (SWE-bench, NL2Repo) dedicated Grep/Glob tools are noticeably cheaper in tokens.
 
 ### P2 — needed only for official leaderboards or cross-model comparison
 
-12. **A Harbor agent adapter.** Write an adapter: a Jinja2 install template (`pip install nanoPyCodeAgent` or `uv tool install` inside the container) plus an agent class that hands the task instruction to the CLI, with API keys injected via environment variables. Follow the submission instructions in the `harbor-framework/terminal-bench-2-1` repository for the exact interface.
+11. **A Harbor agent adapter.** The interface is confirmed: subclass `BaseInstalledAgent` and implement `install()` (`uv tool install nanoPyCodeAgent` inside the container) and `run()` (hand the instruction to the CLI, tee the logs to `/logs/agent/`), with API keys injected by Harbor through environment variables. The method signatures and the two official examples (Claude Code via a stdin pipe, mini-swe-agent via `--task=`) are in [`benchmark_headless_interface.md`](benchmark_headless_interface.md).
 
-13. **An OpenAI-compatible backend.** Comparing against GLM / Kimi / Qwen / DeepSeek requires speaking a non-Anthropic protocol — GLM-5.2's SWE-bench Pro numbers were produced over an OpenAI-compatible API. The only dependency today is `anthropic` (`pyproject.toml`), and pointing `ANTHROPIC_BASE_URL` at a proxy only partly works around it.
+12. **An OpenAI-compatible backend.** Comparing against GLM / Kimi / Qwen / DeepSeek requires speaking a non-Anthropic protocol — GLM-5.2's SWE-bench Pro numbers were produced over an OpenAI-compatible API. The only dependency today is `anthropic` (`pyproject.toml`), and pointing `ANTHROPIC_BASE_URL` at a proxy only partly works around it.
 
-14. **A patch output mode.** The SWE-bench family wants a patch: write `git diff` to a designated file or stdout when the task ends.
+13. **A patch output mode (optional).** The SWE-bench family wants a patch, but the simpler route is for the runner to collect it after the agent exits with `git add -A && git diff --cached` — zero agent-side changes, and it eliminates the whole failure class of "the model forgot the submit command, so it scores 0". The agent only needs to emit `git diff` itself when the runner has no access to the container.
 
-15. **Passing through thinking / reasoning effort.** No `thinking` parameter is sent today. Every vendor reports at max effort, so not passing it through is a self-inflicted handicap.
+14. **Passing through thinking / reasoning effort.** No `thinking` parameter is sent today. Every vendor reports at max effort, so not passing it through is a self-inflicted handicap.
 
-16. **A batch runner with repeated sampling.** `-k 5`-style multi-sample averaging is standard practice (Frontier-Bench averages over 5 attempts), so running many tasks concurrently and aggregating is needed.
+15. **A batch runner with repeated sampling.** `-k 5`-style multi-sample averaging is standard practice (Frontier-Bench averages over 5 attempts), so running many tasks concurrently and aggregating is needed.
 
-17. **Reward-hacking self-checks.** SWE-Marathon observed reward hacking in 13.8% of rollouts, and METR reported a record detection rate for GPT-5.6 Sol. Any home-grown evaluation should check whether the agent edited the tests, read hidden answers, or shortcut its way past the assertions.
+16. **Reward-hacking self-checks.** SWE-Marathon observed reward hacking in 13.8% of rollouts, and METR reported a record detection rate for GPT-5.6 Sol. Any home-grown evaluation should check whether the agent edited the tests, read hidden answers, or shortcut its way past the assertions.
+
+17. **A configurable working directory.** Every benchmark pins a working directory inside the container (Terminal-Bench uses `/app`, SWE-bench `/testbed`, NL2Repo `/workspace`), but all three deliver it through the container's default WORKDIR, so the agent only has to work in the process's current cwd — `--workdir` is not a prerequisite for integration (listing it under P0 in the first draft was a misjudgement). What is genuinely worth doing is letting the bash session retain its cwd: today each call opens a fresh shell so `cd` does not persist across calls (already documented in the `bash_tool.py:39` docstring), which forces the model to keep writing absolute paths on long tasks.
 
 ### Minimum viable path
 
-In one sentence: **all of P0 plus items 7 and 8 of P1** is enough to run a small Terminal-Bench 2.1 subset and get a trustworthy number. As an implementation order:
+In one sentence: **all of P0 plus items 6 and 7 of P1** is enough to run a small Terminal-Bench 2.1 subset and get a trustworthy number. As an implementation order:
 
-1. Add the CLI layer and headless mode (P0-1, 2, 6) — after this, scripts can drive it.
-2. Add the turn cap, timeout, and retries (P0-3, 4) — after this, one failed task no longer ruins the whole run.
+1. Add the CLI layer and headless mode (P0-1, 2) — after this, scripts can drive it.
+2. Add the turn cap and retries (P0-3, 4) — after this, one failed task no longer ruins the whole run.
 3. Rewrite the system prompt for benchmark mode (P0-5).
-4. Add trajectory JSONL and token accounting (P1-8, 9) — after this, failures can be attributed.
-5. Add minimal compaction (P1-7) — after this, hard tasks no longer inevitably hit the context wall.
-6. Write the Harbor adapter (P2-12), run a 20-task subset, and compare against the Terminus 2 baseline on the same model.
+4. Add trajectory JSONL and token accounting (P1-7, 8) — after this, failures can be attributed.
+5. Add minimal compaction (P1-6) — after this, hard tasks no longer inevitably hit the context wall.
+6. Write the Harbor adapter (P2-11), run a 20-task subset, and compare against the Terminus 2 baseline on the same model.

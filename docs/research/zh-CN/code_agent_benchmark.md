@@ -415,9 +415,9 @@ Agent 与推理（节选）：
 
 最合适的第一个 benchmark，理由：
 
-1. **形态天然匹配**。任务就是“在一个 Linux 容器里用命令行把事做成”，而本项目正好是 bash + read + write + edit 四件套。
-2. **官方支持自定义 agent**。Harbor 提供 `--agent-import-path` 挂载自定义 agent，不必等官方适配。
-3. **横向可比性最高**。六个模型都有可查的分数（Opus 5 的来自第三方榜），且官方榜按“harness + 模型”列条目——这正是“同一模型换 harness 掉几分”的直接对照，能量化 nanoPyCodeAgent 相对 Claude Code / Terminus 2 的差距。
+1. **榜单本身承认 harness 这个维度**。官方榜条目形如 `Claude Code + Fable 5`、`Terminus 2 + Fable 5`——harness 是条目的一半，nanoPyCodeAgent 因此有一个名正言顺的位置，而不是只能自己跟自己比。六个模型也都有可查的分数（Opus 5 的来自第三方榜），横向可比性最高。这是最硬的理由。
+2. **形态天然匹配**。任务就是“在一个 Linux 容器里用命令行把事做成”，而本项目正好是 bash + read + write + edit 四件套。
+3. **官方支持自定义 agent**。Harbor 提供 `--agent-import-path` 挂载自定义 agent，不必等官方适配；接口是 `BaseInstalledAgent`，只需实现 `install()` 与 `run()` 两个方法（详见 [`benchmark_headless_interface.md`](benchmark_headless_interface.md)）。
 4. **成本可控**。可以先跑 10～20 题子集；`-k` 参数控制采样次数。
 
 建议做法：先在本地跑 Terminus 2 + `claude-sonnet-4-6` 得到基线，再跑 nanoPyCodeAgent + 同一模型，两者之差就是 harness 差距，这比绝对分数更有信息量。
@@ -436,7 +436,7 @@ Agent 与推理（节选）：
 
 ### 值得后续考虑
 
-- **DeepSWE v1.1**：113 题，官方榜要求 mini-swe-agent 才能上榜，但可以自建 harness 自测；六家全报，对照价值高。
+- **DeepSWE v1.1**：113 题，六家全报，趋势参考价值高。但官方榜把 harness 钉死在 mini-swe-agent 上（原文 “All models run on mini-swe-agent for consistency.”），榜单条目只有“模型”一维，不像 Terminal-Bench 那样带 harness 维度——所以自建 harness 跑出来的分数在那个榜上没有位置，不能拿去跟榜上的数字并列。能做的是本地 A/B：同一个模型，mini-swe-agent 跑一遍、nanoPyCodeAgent 跑一遍，比差值。
 - **PostTrainBench**：唯一直接把“CLI 脚手架”当评测对象的 benchmark，未来若想论证“nanoPyCodeAgent 作为脚手架的质量”，它的四脚手架对照（Claude Code / Codex CLI / Gemini CLI / OpenCode）是最好的框架——但需要一张 H100 和 10 小时，现阶段不现实。
 
 ### 暂不建议
@@ -453,6 +453,8 @@ Agent 与推理（节选）：
 
 ## 六、为了跑起来，项目还缺什么
 
+> 本节列的是缺口。三个 benchmark 对 headless 接口的**具体**要求——Harbor 适配类的签名、退出码语义、patch 怎么收——已另做调研，见 [`benchmark_headless_interface.md`](benchmark_headless_interface.md)；下面的条目已按其结论修订过。
+
 现状（截至 v0.7.0）：`agent.py` 是一个交互式 REPL——`load_settings_env()` → `anthropic.Anthropic()` → `while True: input("You> ")`，内层再一个 `while True` 处理 tool_use 直到模型不再调工具。四个工具（read / write / edit / bash），`MAX_TOKENS = 8192`，无 CLI 参数，`main()` 直接调 `run()`。
 
 好消息是有两件事已经做对了：`terminal.py` 的 ANSI 背景上色和 Spinner 都用 `sys.stdout.isatty()` 做了门控（`terminal.py:20`、`terminal.py:69`），所以在容器里不会喷转义序列；`bash_tool.py` 已有 120 秒超时和 20000 字符输出截断（`bash_tool.py:13-14`），并且把 stdin 设成 `/dev/null`（`bash_tool.py:61`），命令不会抢走 agent 的输入。
@@ -463,49 +465,49 @@ Agent 与推理（节选）：
 
 1. **非交互（headless）一次性任务模式**。这是最硬的阻塞项：benchmark 通过一条命令把任务描述交给 agent，跑完就退出。当前唯一入口是 `input()` 循环（`agent.py:146`），容器里 stdin 是 EOF，会立刻 `break` 打印 `Bye!` 退出，什么都不做。需要一个 CLI 层：`nanoPyCodeAgent -p "<任务>"`、`--prompt-file <path>`，或从 stdin 读整段。
 
-2. **明确的终止条件与退出码**。正常完成 exit 0；超轮数、超时、API 连续失败 exit 非 0。`main()` 现在没有返回码概念（`__init__.py`）。
+2. **明确的终止条件与退出码**。判据是“失败的是任务，还是 harness”。模型声明完成、轮数用尽、墙钟超时后自行收尾——**这些一律 exit 0**，哪怕任务没做成，reward 交给 verifier 去判；只有无凭证、参数错误、API 连续失败到无法继续，才 exit 非 0。这一条很容易做反：Harbor 在 `set -o pipefail` 下执行 agent 命令，非零退出码直接判成 agent 失败并抛异常，还可能触发重试白烧钱。`main()` 现在没有返回码概念（`__init__.py`）。
 
-3. **轮数上限 + 墙钟超时**。`agent.py:158` 的内层 `while True` 没有任何上限，模型一旦陷入“反复试同一条命令”的循环就会一直烧钱到 API 报错。需要 `--max-turns` 和 `--timeout`。
+3. **轮数上限 + 墙钟超时**。`agent.py:158` 的内层 `while True` 没有任何上限，模型一旦陷入“反复试同一条命令”的循环就会一直烧钱到 API 报错。需要 `--max-turns`；墙钟超时 harness 侧也管（Harbor 任务的 `task.toml` 里有 `[agent].timeout_sec`），所以 agent 自己的 `--timeout` 是保险而非接入前提。
 
-4. **错误重试，不许崩**。模块 docstring 明说只处理 happy path、异常即崩溃（`agent.py:10-13`）。benchmark 里一次 429 / `overloaded_error` / 网络抖动就是整题 0 分。至少要给 `client.messages.stream` 加指数退避重试，并把单题失败收敛成“这题 0 分”而不是“整个 run 挂掉”。
+4. **错误重试，不许崩**。模块 docstring 明说只处理 happy path、异常即崩溃（`agent.py:10-13`）。benchmark 里一次 429 / `overloaded_error` / 网络抖动就是整题 0 分。至少要给 `client.messages.stream` 加指数退避重试，并把单题失败收敛成“这题 0 分”而不是“整个 run 挂掉”。Harbor 侧另有一层：它用正则扫 agent 输出，把错误分类成 `ApiRateLimitError`、`ContextWindowExceededError` 等类型，配合 `--max-retries 3 --retry-include ApiRateLimitError` 重试——所以 agent 只需要基础退避，但**必须把 API 错误原文打到输出**而不是吞掉。
 
 5. **benchmark 化的系统提示词**。当前提示词面向对话助手（`agent.py:43-50`）。非交互模式下必须显式要求：不要向用户提问、不要停下来等确认、自己决策到底、完成后明确声明结束。这一条不改，分数会被“模型礼貌地询问下一步”大量吃掉。
 
-6. **可配置的工作目录**。benchmark 在容器里指定工作目录（Terminal-Bench 常用 `/app`）。bash 工具每次开新 shell、`cd` 不跨调用保留（`bash_tool.py:39` 的 docstring 已说明），长任务里模型必须反复写绝对路径。需要 `--workdir`，并考虑让 bash 会话保留 cwd。
-
 ### P1 — 不做的话分数会很难看
 
-7. **上下文管理 / compaction**。`messages` 列表只增不减（`agent.py:139`）。Terminal-Bench 的 hard 任务几十轮后必然打满上下文，然后 API 直接报错——这会被计成“任务失败”而不是“harness 缺陷”。参考各家做法：Kimi 在 300K token 处压缩上下文，GLM 用 256K～1M 上下文。最小可行方案是“工具结果二次截断 + 旧轮次摘要或丢弃”。
+6. **上下文管理 / compaction**。`messages` 列表只增不减（`agent.py:139`）。Terminal-Bench 的 hard 任务几十轮后必然打满上下文，然后 API 直接报错——这会被计成“任务失败”而不是“harness 缺陷”。参考各家做法：Kimi 在 300K token 处压缩上下文，GLM 用 256K～1M 上下文。最小可行方案是“工具结果二次截断 + 旧轮次摘要或丢弃”。
 
-8. **Trajectory 落盘**。把每轮的 request/response、tool call 与结果、token 用量、耗时写成 JSONL。没有这个，一题失败只能看终端 scrollback 猜原因，无法归因也无法复现。
+7. **Trajectory 落盘**。把每轮的 request/response、tool call 与结果、token 用量、耗时写成 JSONL。没有这个，一题失败只能看终端 scrollback 猜原因，无法归因也无法复现。这一项还有额外收益：Harbor 有统一轨迹格式 ATIF，agent 只要能输出结构化轨迹（或结构化事件流），Harbor 就能顺带采集步数、token 和成本。
 
-9. **token 与成本统计**。从 `message.usage` 累加输入/输出 token。现在的 benchmark 报告普遍同时看分数和 token 用量（AA Coding Agent Index、CursorBench 都报成本与步数），只有分数没有成本是不完整的。
+8. **token 与成本统计**。从 `message.usage` 累加输入/输出 token。现在的 benchmark 报告普遍同时看分数和 token 用量（AA Coding Agent Index、CursorBench 都报成本与步数），只有分数没有成本是不完整的。
 
-10. **`MAX_TOKENS` 与 bash 超时可配**。8192 输出上限（`agent.py:42`）对长任务偏小——各家都在 128K 量级报分。`BASH_TIMEOUT_SECONDS = 120`（`bash_tool.py:13`）对“编译内核”“跑完整测试套件”这类 Terminal-Bench 任务不够。
+9. **`MAX_TOKENS` 与 bash 超时可配**。8192 输出上限（`agent.py:42`）对长任务偏小——各家都在 128K 量级报分。`BASH_TIMEOUT_SECONDS = 120`（`bash_tool.py:13`）对“编译内核”“跑完整测试套件”这类 Terminal-Bench 任务不够。
 
-11. **grep / glob 工具**。现在靠 bash 里的 `grep`，能用，但输出难以结构化截断，模型容易一次拉回上万行把上下文打满。仓库级任务（SWE-bench、NL2Repo）里专用的 Grep/Glob 明显更省 token。
+10. **grep / glob 工具**。现在靠 bash 里的 `grep`，能用，但输出难以结构化截断，模型容易一次拉回上万行把上下文打满。仓库级任务（SWE-bench、NL2Repo）里专用的 Grep/Glob 明显更省 token。
 
 ### P2 — 想正式上榜或横向对比才需要
 
-12. **Harbor agent adapter**。写一个 adapter：Jinja2 安装模板（容器内 `pip install nanoPyCodeAgent` 或 `uv tool install`）+ 一个 agent 类，把任务 instruction 交给 CLI，API key 通过环境变量注入。具体接口以 `harbor-framework/terminal-bench-2-1` 仓库的提交说明为准。
+11. **Harbor agent adapter**。接口已确认：继承 `BaseInstalledAgent`，实现 `install()`（容器内 `uv tool install nanoPyCodeAgent`）与 `run()`（把 instruction 交给 CLI、日志 tee 到 `/logs/agent/`），API key 由 Harbor 通过环境变量注入。方法签名和两个官方范例（Claude Code 走 stdin 管道、mini-swe-agent 走 `--task=`）见 [`benchmark_headless_interface.md`](benchmark_headless_interface.md)。
 
-13. **OpenAI 兼容后端**。想跟 GLM / Kimi / Qwen / DeepSeek 对比就必须支持非 Anthropic 协议——GLM-5.2 的 SWE-bench Pro 就是走 OpenAI 兼容 API 报的。当前唯一依赖是 `anthropic`（`pyproject.toml`），靠 `ANTHROPIC_BASE_URL` 指代理只能部分绕过。
+12. **OpenAI 兼容后端**。想跟 GLM / Kimi / Qwen / DeepSeek 对比就必须支持非 Anthropic 协议——GLM-5.2 的 SWE-bench Pro 就是走 OpenAI 兼容 API 报的。当前唯一依赖是 `anthropic`（`pyproject.toml`），靠 `ANTHROPIC_BASE_URL` 指代理只能部分绕过。
 
-14. **patch 输出模式**。SWE-bench 家族要的是补丁：任务结束时把 `git diff` 写到指定文件或 stdout。
+13. **patch 输出模式（可选）**。SWE-bench 家族要的是补丁，但更省事的做法是 runner 在 agent 退出后自己 `git add -A && git diff --cached` 收，agent 侧零改动，还避免了“模型忘了敲提交命令就 0 分”这一整类失败。只有在 runner 拿不到容器的情况下才需要 agent 自己输出 `git diff`。
 
-15. **thinking / reasoning effort 透传**。现在没传 `thinking` 参数。所有厂商都是在 max effort 下报分的，不透传就是自带劣势。
+14. **thinking / reasoning effort 透传**。现在没传 `thinking` 参数。所有厂商都是在 max effort 下报分的，不透传就是自带劣势。
 
-16. **批量运行器与多次采样**。`-k 5` 式的多次采样求均值是通行做法（Frontier-Bench 就是 5 次取平均），需要能并发跑多题并汇总。
+15. **批量运行器与多次采样**。`-k 5` 式的多次采样求均值是通行做法（Frontier-Bench 就是 5 次取平均），需要能并发跑多题并汇总。
 
-17. **reward hacking 自查**。SWE-Marathon 观察到 13.8% 的 rollout 有 reward hacking，METR 报告 GPT-5.6 Sol 的 gaming 检出率创其历史新高。自建评测时要检查 agent 是不是改了测试、读了隐藏答案、或用捷径糊过了断言。
+16. **reward hacking 自查**。SWE-Marathon 观察到 13.8% 的 rollout 有 reward hacking，METR 报告 GPT-5.6 Sol 的 gaming 检出率创其历史新高。自建评测时要检查 agent 是不是改了测试、读了隐藏答案、或用捷径糊过了断言。
+
+17. **可配置的工作目录**。benchmark 都在容器里指定工作目录（Terminal-Bench 用 `/app`、SWE-bench 用 `/testbed`、NL2Repo 用 `/workspace`），但三家都是靠容器默认 WORKDIR 传递的，agent 在进程当前 cwd 里干活即可，所以 `--workdir` 不是接入前提（初稿把它列在 P0 是判断失误）。真正值得做的是让 bash 会话保留 cwd——现在每次开新 shell、`cd` 不跨调用保留（`bash_tool.py:39` 的 docstring 已说明），长任务里模型必须反复写绝对路径。
 
 ### 最小可行路径
 
-一句话：**P0 全做 + P1 的第 7 与第 8 项**，就足够跑通 Terminal-Bench 2.1 的一个小子集并拿到可信数字。落成一条实现顺序：
+一句话：**P0 全做 + P1 的第 6 与第 7 项**，就足够跑通 Terminal-Bench 2.1 的一个小子集并拿到可信数字。落成一条实现顺序：
 
-1. 加 CLI 层与 headless 模式（P0-1、2、6）——这一步之后就能被脚本调用。
-2. 加轮数上限、超时、重试（P0-3、4）——这一步之后单题失败不再毁掉整个 run。
+1. 加 CLI 层与 headless 模式（P0-1、2）——这一步之后就能被脚本调用。
+2. 加轮数上限与重试（P0-3、4）——这一步之后单题失败不再毁掉整个 run。
 3. 改 benchmark 化系统提示词（P0-5）。
-4. 加 trajectory JSONL 与 token 统计（P1-8、9）——这一步之后失败可归因。
-5. 加最简 compaction（P1-7）——这一步之后 hard 任务不再必然撞上下文墙。
-6. 写 Harbor adapter（P2-12），跑 20 题子集，与 Terminus 2 + 同模型的基线对照。
+4. 加 trajectory JSONL 与 token 统计（P1-7、8）——这一步之后失败可归因。
+5. 加最简 compaction（P1-6）——这一步之后 hard 任务不再必然撞上下文墙。
+6. 写 Harbor adapter（P2-11），跑 20 题子集，与 Terminus 2 + 同模型的基线对照。
