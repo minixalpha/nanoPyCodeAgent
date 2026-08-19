@@ -108,16 +108,22 @@ class FakeClient:
         self.auth_token = auth_token
 
 
+def patch_client(monkeypatch, client):
+    """Wire up a fake Anthropic client in place of the real SDK one.
+
+    The config file is isolated by the autouse ``_isolate_config`` fixture in
+    conftest.py, so the agent sees no config file unless a test writes one to
+    ``settings.SETTINGS_PATH``.
+    """
+    monkeypatch.setattr(anthropic, "Anthropic", lambda *a, **k: client)
+
+
 def patch_client_and_input(monkeypatch, *, client, inputs):
     """Wire up a fake Anthropic client and scripted input().
 
-    The config file is isolated by the autouse ``_isolate_config`` fixture in
-    conftest.py, so ``run()`` sees no config file unless a test writes one to
-    ``settings.SETTINGS_PATH``.
-
     Returns the list that records the prompt of each ``input()`` call.
     """
-    monkeypatch.setattr(anthropic, "Anthropic", lambda *a, **k: client)
+    patch_client(monkeypatch, client)
 
     answers = iter(inputs)
     prompts = []

@@ -27,13 +27,14 @@ def test_missing_credentials_exits_early(monkeypatch, capsys):
     client = FakeClient(messages, api_key=None, auth_token=None)
     patch_client_and_input(monkeypatch, client=client, inputs=[])
 
-    agent.run()
+    assert agent.run() == 1  # a configuration failure, not a task failure
 
-    out = capsys.readouterr().out
-    assert "No API credentials found." in out
+    captured = capsys.readouterr()
+    # The explanation goes to stderr, keeping stdout to the run itself.
+    assert "No API credentials found." in captured.err
     # Third-party / proxy users are told how to point the SDK at their endpoint.
-    assert "ANTHROPIC_BASE_URL" in out
-    assert "Bye!" not in out  # returned before entering the loop
+    assert "ANTHROPIC_BASE_URL" in captured.err
+    assert "Bye!" not in captured.out  # returned before entering the loop
     assert messages.calls == []
 
 

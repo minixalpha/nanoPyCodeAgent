@@ -1,5 +1,3 @@
-from nanopycodeagent.agent import run
+from nanopycodeagent.cli import main
 
-
-def main() -> None:
-    run()
+__all__ = ["main"]
