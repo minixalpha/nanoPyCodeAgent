@@ -34,6 +34,7 @@ except ImportError:  # pragma: no cover - platform without readline
     pass
 
 import anthropic
+import httpx
 from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
 from .bash_tool import BASH_TOOL, run_bash
@@ -305,7 +306,7 @@ def run_headless(task: str, *, max_turns: int = DEFAULT_MAX_TURNS) -> int:
             max_turns=max_turns,
             reply_prefix="",
         )
-    except anthropic.APIError as exc:
+    except (anthropic.APIError, httpx.HTTPError) as exc:
         # Printed verbatim on purpose: a harness classifies a failed run by
         # pattern-matching this text (rate limit, overloaded, context length,
         # …) to decide whether retrying is worth anything. Rewording it, or

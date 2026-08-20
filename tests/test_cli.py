@@ -156,6 +156,33 @@ def test_api_error_is_reported_verbatim_and_exits_non_zero(monkeypatch, capsys):
     assert "Overloaded (529)" in capsys.readouterr().err
 
 
+def test_stream_transport_error_is_reported_verbatim_and_exits_non_zero(
+    monkeypatch, capsys
+):
+    class DisconnectingStream(FakeStream):
+        @property
+        def text_stream(self):
+            def _gen():
+                yield "partial reply"
+                raise httpx.ReadError(
+                    "peer disconnected",
+                    request=httpx.Request(
+                        "POST", "https://api.anthropic.com/v1/messages"
+                    ),
+                )
+
+            return _gen()
+
+    messages = FakeMessages([DisconnectingStream([])])
+    patch_client(monkeypatch, FakeClient(messages))
+
+    assert cli.main(["-p", "say hi"]) == 1
+
+    captured = capsys.readouterr()
+    assert "partial reply" in captured.out
+    assert "API error: peer disconnected" in captured.err
+
+
 def test_empty_task_is_a_usage_error(monkeypatch):
     patch_client(monkeypatch, FakeClient(FakeMessages([])))
 
