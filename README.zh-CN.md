@@ -31,6 +31,24 @@ uv tool install nanoPyCodeAgent   # 或: pipx install nanoPyCodeAgent
 nanoPyCodeAgent
 ```
 
+#### 一次性任务(非交互)
+
+给它一个任务,它会自己做完退出——不给提示符,也不会停下来等确认,这正是脚本或
+benchmark harness 需要的形态:
+
+```bash
+nanoPyCodeAgent -p "add a --version flag and run the tests"
+nanoPyCodeAgent --prompt-file task.md
+printf "%s" "$TASK" | nanoPyCodeAgent
+```
+
+任务在当前目录下执行。`--max-turns N` 限制一次运行最多花费多少轮模型回复(默认
+50 轮)。
+
+只要 agent 真的跑起来了,退出码就是 `0`——包括它放弃了、或者轮数用尽而任务没做
+完,那该由检查结果的一方去判定。非零退出码表示这次运行根本没能进行:`1` 是缺少
+凭据或 API 持续失败,`2` 是命令行用错了。
+
 #### 运行某个分支或标签版本
 
 直接从 GitHub 运行未发布的分支,或某个具体的发布标签:

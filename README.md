@@ -31,6 +31,26 @@ uv tool install nanoPyCodeAgent   # or: pipx install nanoPyCodeAgent
 nanoPyCodeAgent
 ```
 
+#### Run one task and exit
+
+Give it a task and it works through it on its own, with no prompt and nothing
+to confirm — the shape a script or a benchmark harness needs:
+
+```bash
+nanoPyCodeAgent -p "add a --version flag and run the tests"
+nanoPyCodeAgent --prompt-file task.md
+printf "%s" "$TASK" | nanoPyCodeAgent
+```
+
+The task is carried out in the current directory. `--max-turns N` caps how
+many model replies one run may spend (50 by default).
+
+A run like this exits `0` whenever the agent actually ran — including when it
+gave up or ran out of turns with the task unfinished, which is for whatever
+checks the result to judge. A non-zero exit means the run could not happen at
+all: `1` for missing credentials or an API that kept refusing, `2` for a
+misused command line.
+
 #### Run a branch or tagged version
 
 Run an unreleased branch or a specific release tag straight from GitHub:
