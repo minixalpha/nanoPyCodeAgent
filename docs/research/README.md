@@ -7,7 +7,7 @@ feed into are recorded in [`../dev_notes/`](../dev_notes/).
 
 Research notes are bilingual, split by language:
 
-- [`zh-CN/`](zh-CN/) — **hand-written Chinese source** (source of truth)
+- [`zh-CN/`](zh-CN/) — **Chinese source** (source of truth)
 - [`en/`](en/) — **English, generated from the Chinese source** (do not edit by
   hand)
 

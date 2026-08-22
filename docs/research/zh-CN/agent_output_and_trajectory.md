@@ -1,6 +1,6 @@
 # 主流 Code Agent 的输出格式与轨迹设计
 
-> 本文件为**手写中文源文件**（source of truth）；英文版 [`../en/agent_output_and_trajectory.md`](../en/agent_output_and_trajectory.md) 由其生成。
+> 本文件为**中文源文件**（source of truth）；英文版 [`../en/agent_output_and_trajectory.md`](../en/agent_output_and_trajectory.md) 由其生成。
 
 调研时间：2026-08-22。
 

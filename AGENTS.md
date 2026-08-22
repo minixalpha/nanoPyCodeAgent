@@ -41,7 +41,7 @@ other docs — is English.
 
 Research notes are bilingual:
 
-- `docs/research/zh-CN/` contains the hand-written Chinese sources of truth.
+- `docs/research/zh-CN/` contains the Chinese sources of truth.
 - `docs/research/en/` contains English versions generated from the Chinese
   sources; regenerate the whole corresponding file instead of hand-editing it.
 
