@@ -33,3 +33,6 @@ versions are in sync.
 - What Terminal-Bench 2.1, SWE-bench Verified, and NL2Repo-Bench actually
   require of a headless agent, read down to the source level:
   [English](en/benchmark_headless_interface.md) | [Chinese](zh-CN/benchmark_headless_interface.md)
+- How Pi, Claude Code, Codex, OpenCode, and Grok Build separate final output,
+  live JSON event streams, persistent sessions, and trajectory artifacts:
+  [English](en/agent_output_and_trajectory.md) | [Chinese](zh-CN/agent_output_and_trajectory.md)
