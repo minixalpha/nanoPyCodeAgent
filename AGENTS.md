@@ -52,6 +52,28 @@ the English version is in sync, even when it has already been updated.
 
 ## Commits & PRs
 
+### Branch and pull request workflow
+
+All non-release changes MUST be made on a dedicated branch and merged into
+`main` through a GitHub pull request.
+
+- Before modifying repository files, agents MUST verify that the current branch
+  is not `main`. If it is `main`, create or switch to a dedicated branch first.
+- Agents MUST NOT commit directly to `main` or push non-release commits to
+  `origin/main`.
+- Open a pull request targeting `main`, and use the `land-pr` skill to merge it.
+  Do not merge without the skill's mandatory maintainer confirmation.
+- If work was accidentally started on `main`, move the changes to a dedicated
+  branch before committing or pushing them.
+
+The sole exception is the release workflow in `.agents/skills/release/SKILL.md`.
+Only when the maintainer explicitly requests a release may that skill commit and
+push its release-only changes directly to `main`, and only after its mandatory
+confirmation gate. Documentation, chores, hotfixes, and all other work still
+require a branch and pull request.
+
+### Commit and PR title format
+
 All agents working in this repo MUST follow
 [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
 for **commit messages** and **PR titles** (squash-merge often uses the PR
