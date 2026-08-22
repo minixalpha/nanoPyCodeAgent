@@ -42,13 +42,13 @@ run output 回答的是：**“这次调用要让外部看见什么？”** 调�
 已修复空工具参数的解析，并新增回归测试。相关测试 12 项全部通过。
 ```
 
-`json` 模式可以在结束时交付一个机器可读结果对象：
+`json` 模式可以在 run 结束时交付一个机器可读的**单个结果对象**。它汇总的是**本次 run 最终怎样结束**，例如最终状态、回答、stop reason、用量和成本；它不汇总完整执行过程，也不是把 trace、trajectory 或 session 全部装进一个 JSON：
 
 ```json
 {"status":"completed","result":"已修复空工具参数的解析，并新增回归测试。相关测试 12 项全部通过。","usage":{"input_tokens":1200,"output_tokens":180}}
 ```
 
-`stream-json` 模式则可以在运行期间发布一个稳定的公开事件协议：
+`stream-json` 模式则可以在运行期间发布一个稳定的公开事件协议。下面采用 **JSON Lines（JSONL）**：每个非空行都是一个完整 JSON 对象。它也常称 **Newline-Delimited JSON（NDJSON，按换行分隔的 JSON）**；其中 `ND` 就是 `Newline-Delimited`：
 
 ```jsonl
 {"type":"tool.completed","tool":"pytest","is_error":false,"result":"12 passed"}
@@ -56,7 +56,16 @@ run output 回答的是：**“这次调用要让外部看见什么？”** 调�
 {"type":"run.completed","status":"completed"}
 ```
 
-本文后文所说的“线协议”，就是 stdout 中实际出现的是一段文本、一个 JSON 对象，还是一行一个 JSON 对象，以及每条记录在何时结束。
+这里先固定四个后文会反复使用的 output 协议术语：
+
+- **单个结果对象（single result object）**：run 结束后只输出一个 JSON 对象，概括本次 run 的最终结果。不同产品包含的字段不同，常见字段有最终回答、completed/failed 状态、stop reason、run/session ID、turn 数、token usage 和 cost；它通常不包含逐步执行记录。
+- **公开事件流（public event stream）**：agent 在 run 期间按发生顺序逐条交付给外部调用方的稳定事件协议。它只公开经过筛选、适合长期兼容的事件，例如工具开始/结束、完整助手消息和 run 结束；它不是内部 event bus 或 execution trace 的原样输出。本文讨论的各家 CLI 事件流都使用 JSONL/NDJSON，即一行一个完整事件对象。
+- **partial 与 delta**：`partial` 指一条尚未完成的消息、thinking 或 tool arguments 的中间状态；`delta` 指相对于此前内容新增加或改变的那一小段。协议可以反复发送累计的 partial snapshot，也可以只发送 delta，让消费者自行拼接。表格中的“partial / delta 能力”统一询问：**公开事件流是否会在一个逻辑内容尚未完成时，就把它的片段交给调用方。**
+- **终止事件（terminal event）**：公开事件流中明确宣告本次 run 以 completed、failed 等状态结束的最后一类事件，例如 `run.completed` 或 `result`。它比 EOF 表达得更多：EOF 只说明 stdout 已关闭，既可能是正常退出，也可能是进程崩溃、被中断或输出被截断。
+
+因此，“有公开事件流”和“有 partial / delta”是两个独立能力。例如只在 pytest 完成后发送 `tool.completed`，再发送完整的 `assistant.message`，仍是实时事件流，但没有 partial / delta；若回答生成过程中先后发送 `assistant.delta: "已修"` 和 `assistant.delta: "复完成"`，才具备内容增量能力。无论是否发送 delta，正常收尾时都还可以用一个终止事件说明整个 run 已结束。
+
+本文后文把 stdout 的编码和记录边界称为**传输格式（wire format）**：stdout 中实际出现的是一段文本、一个 JSON 对象，还是一行一个 JSON 对象，以及记录之间怎样分隔。若讨论范围还包括事件类型、顺序、终止和错误语义，本文称为**输出协议**。
 
 即使公开流里出现了 `tool.completed`，它仍然是 **run output**，因为这是 agent 明确承诺给调用方的公共协议；它不是内部 trace 的原样倾倒。**`--output-format` 只选择这个公开输出怎样编码和分帧。** 它不负责开启 trace、保存 trajectory 或持久化 session。
 
@@ -157,7 +166,7 @@ session s1
 ```text
                          ┌─ text renderer ───────────────> stdout
 agent loop ─> canonical ├─ final JSON reducer ──────────> stdout
-              events     ├─ NDJSON event serializer ────> stdout
+              events     ├─ JSONL event serializer ─────> stdout
                          ├─ trace recorder ──────────────> debug bundle / OTel
                          ├─ trajectory projector ────────> requested artifact
                          └─ session recorder ────────────> session store
@@ -186,29 +195,39 @@ Claude Code 的正式契约以 Anthropic 当前的 [CLI reference](https://code.
 ### 3.2 核心结论
 
 1. **`--output-format` 只选择公开 run output 的 stdout 表示形式。** 它不是文件重定向，也不控制 execution trace、trajectory 或 session。
-2. **`text`、`json` 和 `stream-json` 描述的是三种线协议。** `text` 是最终文本，`json` 是结束时的单个对象，`stream-json` 是运行期间逐行发布的 NDJSON 事件。
+2. **`text`、`json` 和 `stream-json` 描述的是三种 stdout 传输格式。** `text` 是最终文本，`json` 是结束时的单个结果对象，`stream-json` 是运行期间逐行发布的 JSONL/NDJSON 事件。
 3. **`--trajectory PATH` 应是独立控制面。** 参数出现时为本次 run 生成一份以当前任务为边界的 trajectory，`PATH` 只指定产物位置，不改变 stdout。
 4. **trajectory 不是简化版 session。** trajectory 为评测解释任务路径；session 为产品恢复状态。要做 resume，必须另行设计稳定 ID、分支、compaction 和 schema migration。
 5. **五个被调研产品都有 session 实现，但都没有与本文建议完全等价的 benchmark `--trajectory PATH`。** benchmark 可以从公开事件流或 session 派生 trajectory，这不等于两者本来就是同一概念。
-6. **`json` 这个名字没有行业统一语义。** Claude Code 和 Grok 用它表示单个结果对象；Pi、Codex 和 OpenCode 用它表示 JSONL 事件流。因此不能只列枚举名，必须定义线协议。
+6. **`json` 这个名字没有行业统一语义。** Claude Code 和 Grok 用它表示单个结果对象；Pi、Codex 和 OpenCode 用它表示 JSONL 事件流。因此不能只列枚举名，必须说明 stdout 的实际传输格式和输出语义。
 
 ---
 
 ## 四、五个项目的实现全景
 
-### 4.1 Run output：`--output-format` 所在的平面
+### 4.1 向调用方输出什么：文本、单个结果对象或事件流
 
-下表按**实际线协议**比较，而不是按各家的命名比较。
+先看每个项目提供哪些 **run output 形态**。下表按 stdout 中实际出现的内容比较，而不是按各家的格式名称比较；`—` 表示没有提供这种输出形态。
 
-| 项目 | 人类可读文本 | 单个汇总 JSON | JSONL 公开事件流 | partial / delta 能力 | 明确终止事件 |
-| --- | --- | --- | --- | --- | --- |
-| Pi | print mode | — | `--mode json` | 有 `message_update` delta | `agent_settled`；`agent_end` 只结束一次 low-level run |
-| Claude Code | `--output-format text` | `--output-format json` | `--output-format stream-json` | 另加 `--include-partial-messages` | `result` |
-| Codex | `codex exec` 默认 | — | `codex exec --json` | 没有公开 token delta 契约 | `turn.completed` / `turn.failed`；interrupt 是例外 |
-| OpenCode | `opencode run --format default`，可能有多段已完成 text | —；`opencode export` 是另一个 session 导出命令 | `opencode run --format json` | 否，只发较粗的完成事件 | 无，依赖 EOF + exit code |
-| Grok Build | `--output-format plain`，边生成边写 text chunk | `--output-format json` | `streaming-json`；另有 Messages 兼容流 | 原生流默认发 text/thought chunk；仅兼容流另加 partial flag | 原生流成功 `end`、失败 `error`；兼容流 `result` |
+| 项目 | 给人读的文本 | run 结束后的一个结果 JSON | run 期间的逐行事件（JSONL/NDJSON） |
+| --- | --- | --- | --- |
+| Pi | print mode | — | `--mode json` |
+| Claude Code | `--output-format text` | `--output-format json` | `--output-format stream-json` |
+| Codex | `codex exec` 默认 | — | `codex exec --json` |
+| OpenCode | `opencode run --format default`，可能有多段已完成 text | —；`opencode export` 是另一个 session 导出命令 | `opencode run --format json` |
+| Grok Build | `--output-format plain`，边生成边写 text chunk | `--output-format json` | `streaming-json`；另有 Messages 兼容流 |
 
-从这张表能看出三个共同模式：
+再只看第三列的**公开事件流**。下面两个属性描述事件流的内容粒度与结束方式，并不是另外两种 output format。
+
+| 项目 | 是否提前输出尚未完成的内容（partial / delta） | 是否用流内终止事件明确宣告整个 run 结束 |
+| --- | --- | --- |
+| Pi | 是；`message_update` 提供 delta，`message_end` 提供完整消息 | 是；`agent_settled`。`agent_end` 只结束一次 low-level run |
+| Claude Code | 可选；另加 `--include-partial-messages` | 是；`result` |
+| Codex | 否；没有公开的 token/text delta 契约 | 是；`turn.completed` / `turn.failed`，但中断是例外 |
+| OpenCode | 否；只发较粗的完成事件 | 否；依赖 EOF + exit code |
+| Grok Build | 是；原生流默认发 text/thought chunk，Messages 兼容流另有 partial flag | 是；原生流成功为 `end`、失败为 `error`，兼容流为 `result` |
+
+从这两张表能看出三个共同模式：
 
 - 给人看的模式倾向于只把最终答案放 stdout，把进度和诊断放 stderr。
 - 给程序看的实时模式几乎都采用“一行一个对象”的 JSONL，而不是一个长寿命 JSON array。
@@ -286,7 +305,7 @@ Pi 没有专用 benchmark trajectory；评测方可以从 JSON 事件流或导�
 
 Claude Code 的公开定义最适合直接回答本文的命名问题：
 
-| 格式 | 线协议 |
+| 格式 | stdout 传输格式 |
 | --- | --- |
 | `text` | 完成后输出最终纯文本 |
 | `json` | 完成后输出**一个**结果对象，包含 result、session ID、用量/成本等元数据 |
@@ -315,7 +334,7 @@ Claude Code 没有专用 trajectory 路径参数；Harbor 解析 `stream-json` �
 
 **可借鉴点：**
 
-- 三种输出名与线协议一一对应，歧义最小；
+- 三种输出名与 stdout 传输格式一一对应，歧义最小；
 - partial delta 是独立能力，不绑死在 `stream-json` 名字上；
 - terminal `result` 汇总状态、最终答案、session ID、turn、usage/cost，消费者不必自己扫描整条流算最终结果；
 - session persistence 与 stdout representation 完全正交。
@@ -412,7 +431,7 @@ OpenCode 没有专用 benchmark trajectory。`opencode export` 的对象仍是 s
 **可借鉴点：**
 
 - CLI 流可以只投影对集成方有用的语义事件，不必泄露内部所有 event；
-- session 存储实现可以是 SQLite，wire protocol 仍然可以是 JSONL；
+- session 存储实现可以是 SQLite，对外传输格式仍然可以是 JSONL；
 - 反面经验是：terminal footer 和 schema version 很便宜，却能显著降低 runner 的状态推断成本。
 
 源码入口：[run command](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/opencode/src/cli/cmd/run.ts)、[session tables](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/core/src/session/sql.ts)、[export command](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/opencode/src/cli/cmd/export.ts)。
@@ -435,7 +454,7 @@ Grok Build 提供四种 headless 格式：
 这个矩阵展示了两条不同的扩展轴：
 
 - **时间轴：**最终结果对象，还是实时事件流；
-- **schema 轴：**agent 自己的语义事件，还是某个外部生态的兼容 wire format。
+- **schema 轴：**agent 自己的语义事件，还是某个外部生态的兼容传输格式（wire format）。
 
 它也展示了兼容层的代价：同一个内部事件要维护两套公开投影，某些内部状态无法无损映射，partial framing、usage、error 和 terminal result 都要各自定义。nanoPyCodeAgent 在有具体消费者之前不需要复制这套复杂度。
 
@@ -497,7 +516,7 @@ Grok 的原生 `json` / `streaming-json` 对 usage/cost 还有一个值得借鉴
 | 中断后产物 | 整个文档可能无效或根本没写 | 之前的完整行仍可解析，但必须结合 exit code 判断未正常结束 |
 | 最适合 | Shell 脚本、CI 读取一次结果 | runner、实时 UI、Harbor adapter、长任务观测 |
 
-它通常也叫 **NDJSON** 或 **JSON Lines / JSONL**。这里推荐 CLI 枚举名用 `stream-json`，文档里明确“wire format is NDJSON”，避免用户把 `jsonl` 误解成只适用于文件。
+本文将这种格式称为 **JSON Lines（JSONL）**；它也常称 **Newline-Delimited JSON（NDJSON）**。两个名字都强调记录由换行分隔，并不表示它只能保存在文件里。这里推荐 CLI 枚举名用 `stream-json`，再在文档中明确传输格式是 JSONL/NDJSON。
 
 ### 6.2 它不自动承诺什么
 
@@ -613,7 +632,7 @@ nanoPyCodeAgent [-p PROMPT | --prompt-file PATH | stdin]
 
 usage/cost 缺失时应省略或明确标记 `usage_incomplete: true`，不能用 0 代替未知。Grok 的完整性规则在这里比“始终填满一张数字表”更适合 benchmark。
 
-如果未来增加 `--output-schema PATH`，它应该约束 `result` 的语义内容，而不是改变上述 transport envelope。Codex 和 Grok 都把“模型结构化回答”与“CLI 输出协议”分开，这是正确边界。
+如果未来增加 `--output-schema PATH`，它应该约束 `result` 的语义内容，而不是改变 CLI 结果对象的外层结构。Codex 和 Grok 都把“模型结构化回答”与“CLI 输出协议”分开，这是正确边界。
 
 ### 8.3 `stream-json` 最小事件集
 
