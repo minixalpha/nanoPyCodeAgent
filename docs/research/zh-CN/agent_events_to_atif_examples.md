@@ -54,20 +54,67 @@
 | Claude Code | 2.1.237 | 成功，两次 Claude Opus message、一次 `Read`，另有辅助 Haiku usage |
 | OpenCode | 1.18.21 | 成功，两组 step 和一次 `read` |
 
-为避免把仓库内容发送给外部模型，四次测试均在 `/tmp` 的临时目录中，只读取一个专门创建的无敏感文件：
+为避免把仓库内容发送给外部模型，四次测试均在 `/tmp` 的临时目录中，只读取一个专门创建的无敏感文件。下面的准备命令会创建新的随机目录；后续命令中的 `$probe_dir` 都指向它：
 
-```text
-NANOPY_EVENT_PROBE_20260823
+```bash
+probe_dir="$(mktemp -d /tmp/nanopy-agent-event-probe.XXXXXX)"
+printf 'NANOPY_EVENT_PROBE_20260823\n' > "$probe_dir/probe.txt"
+cd "$probe_dir"
 ```
 
-使用的等价 prompt 是：
+本次成功抓包实际使用的命令如下。重新运行会生成新的 session/message ID、token 数和 timestamp，这是正常现象。
 
-```text
-Use the read tool exactly once to read probe.txt. Do not write or modify
-anything. Then reply with only the exact file content.
+Pi：
+
+```bash
+pi --mode json --print --no-session \
+  --tools read \
+  --no-extensions \
+  --no-skills \
+  --no-prompt-templates \
+  --no-themes \
+  --no-context-files \
+  --approve \
+  "Use the read tool exactly once to read probe.txt. Do not write or modify anything. Then reply with only the exact file content."
 ```
 
-下面是从真实 stdout 中抽取的关键记录。Pi 与 Claude Code 的完整行含大量 encrypted reasoning、插件清单等无关字段，故这里展示字段投影；事件名、ID、数值和时间均来自真实运行，不把投影误称为原样抓包。
+Codex：
+
+```bash
+codex exec --json \
+  --sandbox read-only \
+  --ephemeral \
+  --skip-git-repo-check \
+  --ignore-user-config \
+  "Read probe.txt using a shell command exactly once. Do not write or modify anything. Then reply with only the exact file content."
+```
+
+Claude Code：
+
+```bash
+claude -p \
+  --output-format stream-json \
+  --verbose \
+  --no-session-persistence \
+  --safe-mode \
+  --tools Read \
+  --permission-mode dontAsk \
+  "Use the Read tool exactly once to read probe.txt. Do not write or modify anything. Then reply with only the exact file content."
+```
+
+OpenCode；本机安装路径由 `.zshrc` 加入 `PATH`，因此按实测过程先加载它：
+
+```bash
+source ~/.zshrc
+opencode run \
+  --format json \
+  --pure \
+  --auto \
+  --dir "$probe_dir" \
+  "Use the read tool exactly once to read probe.txt. Do not write or modify anything. Then reply with only the exact file content."
+```
+
+下面是从真实 stdout 中抽取的关键记录。四组片段都只选择与结构比较有关的事件或字段：Pi 与 Claude Code 的完整行含大量 encrypted reasoning、初始化信息和插件清单，OpenCode 的工具输出和 metadata 也做了压缩。事件名、ID、数值和时间均来自真实运行；这些片段是**真实 stdout 的关键字段投影**，不是未经处理的逐行抓包。
 
 #### Pi 0.84.2
 
