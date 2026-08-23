@@ -15,6 +15,7 @@ classifiers = [
 ]
 dependencies = [
     "anthropic>=0.112.0",
+    "httpx>=0.25.0",
 ]
 
 [project.urls]
