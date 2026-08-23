@@ -1,4 +1,4 @@
-# Pi、Claude Code、Codex、OpenCode 与 Grok 的内部事件如何映射到 ATIF
+# Pi、Claude Code、Codex、OpenCode 与 Grok 的 Source Record、内部事件与 ATIF 如何对应
 
 > 本文件为**中文源文件**（source of truth）；对应英文版应完整生成到 `../en/agent_events_to_atif_examples.md`，当前尚未生成。
 
@@ -12,17 +12,57 @@
 
 ## 结论先行
 
-可以，但“真实”需要先限定含义。本文分两层证据：前面的“本机实测补充”保留 Pi、Codex、Claude Code 和 OpenCode 四次真实运行的 ID、token 与时间；后面的五组横向示例则依据真实类型定义、转换器和测试做 **schema-faithful 重建**，其中任务内容、ID、token 数和时间值是便于比较的示意值。Grok 因本机未安装，只提供源码重建示例。
+可以，但“真实”和“内部”都需要先限定含义。本文分两层证据：前面的“本机实测补充”保留 Pi、Codex、Claude Code 和 OpenCode 四次真实运行 stdout 的 ID、token 与时间；这些记录是 CLI/SDK 边界可见的 **Source Record**，不能一律视为 agent core 的原始内部事件。后面的五组横向示例依据真实类型定义、转换器和测试做 **schema-faithful 重建**，其中任务内容、ID、token 数和时间值是便于比较的示意值。Grok 因本机未安装，只提供源码重建示例。
 
-五个项目的共同规律是：**agent loop 先产生自身的 message/event/state，ATIF 是之后整理出的评测视图，并不是 loop 内部直接运行的对象模型。** 差异主要在三个地方：
+五个项目的共同规律是：**agent loop 先产生自身的 message/event/state，CLI 或 SDK 再将其投影成 Source Record；ATIF 是之后整理出的评测视图，并不是 loop 内部直接运行的对象模型。** 差异主要在三个地方：
 
-1. 原生事件按模型消息、工具状态还是 CLI item 组织；
+1. Source Record 按模型消息、工具状态还是 CLI item 组织；
 2. token/cost 是逐次模型调用提供，还是只在 run/turn 末尾聚合；
-3. 时间是事件 envelope 自带、藏在 payload 中，还是只能由接收器补采。
+3. 原始时间是 Source Record 自带、藏在 payload 中，还是只能由接收器补采。
+
+## 概念与转换关系
+
+本文采用根目录 [`CONTEXT.md`](../../../CONTEXT.md) 中的术语：
+
+| 概念 | 定义 | 不应混称为 |
+|---|---|---|
+| **Source Record** | adapter 在第三方 CLI、SDK 或协议边界实际观察到的 agent-specific 记录；它可能已经是内部状态的裁剪投影 | nano Native Event、Journal Entry |
+| **Native Event** | nano core 直接产生，或 adapter 从 Source Record 归一化得到的 agent-independent 运行事实 | 第三方 stdout 原始行、ATIF step |
+| **Journal Entry** | Native Event 加上持久化所需的身份、顺序和记录时间元数据 | “持久化 envelope”这个独立产物、trajectory step |
+| **Event Journal** | 一个 Agent Run 的 Journal Entry 按追加顺序组成的内部事实日志 | Public Event Stream、Trajectory、Session |
+| **ATIF Trajectory** | Event Journal 投影出的公开评测/分析完成态 | Event Journal、native JSONL |
+
+对第三方 agent，完整边界是：
+
+```text
+第三方内部状态/事件
+        ↓ 第三方 CLI/SDK projector
+Source Record
+        ↓ nano adapter 归一化
+Native Event
+        ↓ journal writer 添加 run_id / seq / recorded_at
+Journal Entry
+        ↓ append-only 持久化（可采用 JSONL 编码）
+Event Journal
+        ↓ ATIF projector
+ATIF Trajectory
+```
+
+nano 自己的 core 可以直接产生 Native Event，因此跳过前两步。这里的 JSONL 只是一种“每行一个 Journal Entry”的物理编码，append-only 只是写入策略；两者都不是新的 trajectory 语义模型。本文此前使用的“持久化 envelope”也不是独立领域概念，统一称为 **Journal Entry**。
+
+实测 stdout 与这些概念的对应关系如下：
+
+| Agent | 本文抓到的 Source Record | 与内部事件的距离 | 是 Journal Entry 吗 |
+|---|---|---|---|
+| Pi | `--mode json` 的 session/message/tool 行 | 大部分 event 行是 `AgentEvent` 的直接公开序列化；session header 是 CLI 协议记录 | 不是；另有未展示的持久化 harness entry 更接近 Journal Entry |
+| Claude Code | SDK `stream-json` 的 system/assistant/user/result message | 已是 SDK 公共协议，不能假定等同内部 event bus | 不是；实测还关闭了 session persistence |
+| Codex | `exec --json` 的 `ThreadEvent` | 是更底层 protocol 的裁剪投影 | 不是；本机 rollout JSONL 是另一种持久化产物，不是本文 stdout 来源 |
+| OpenCode | `run --format json` 的 step/tool/text 行 | 由内部 `message.part.updated` 再投影一次 | 不是；CLI 顶层 timestamp 不等于 journal 顺序元数据 |
+| Grok | `streaming-json` 的 `AcpLine` | 由 ACP update 归约而来 | 不是；只有 NDJSON 行序，没有 Journal Entry envelope |
 
 时间戳尤其不能从简化示例反推原始协议。实际情况是：
 
-| Agent | 事件 envelope 的统一时间 | 其他可用时间 | 本文建议的 ATIF 时间来源 |
+| Agent | Source Record 的统一时间 | 其他可用时间 | 本文建议的 ATIF 时间来源 |
 |---|---|---|---|
 | Pi | `AgentEvent` 没有 | session header 和 `AgentMessage.timestamp` 有；持久化 harness entry 另有 storage timestamp | 优先 message timestamp；工具事件由采集器补 receive time |
 | Claude Code | SDK stream 没有统一时间 | 本机 2.1.237 的 `assistant`/`user` message 有 ISO timestamp；`system`/`result` 没有，`result` 有 duration | 有 message timestamp 时采用，否则补 receive time |
@@ -30,7 +70,7 @@
 | OpenCode | 有 | `message.part.updated.properties.time`，message/tool state 也有 create/start/end | 直接使用原生毫秒时间 |
 | Grok `streaming-json` | 没有 | terminal event 有 usage，内部持久化层另有时序信息，但公开 reducer 未输出 | 由 JSONL 接收器补 receive time |
 
-因此 nanoPyCodeAgent 自己的持久化 native event 不应照抄任何一家公开流的缺口。推荐每条记录至少有严格递增的 `seq` 和 UTC `timestamp`：前者负责可靠排序，后者负责跨系统关联和投影 ATIF。墙上时钟可能回拨或让并发事件得到相同时间，不能只靠 timestamp 排序。
+因此 nanoPyCodeAgent 的 Journal Entry 不应照抄任何一家公开流的缺口。每条 Journal Entry 至少应有严格递增的 `seq` 和 UTC `recorded_at`：前者是 run 内排序的权威，后者表示 nano 接受/记录事实的时间。若 Source Record 另有可信时间，则在 Native Event 中保留为 `source_timestamp`；墙上时钟可能回拨或让并发事件得到相同时间，不能只靠任一种 timestamp 排序。
 
 ## 调研范围
 
@@ -243,7 +283,7 @@ type AgentEvent =
   | { type: "tool_execution_end"; toolCallId: string; toolName: string; result: any; isError: boolean };
 ```
 
-### 1.1 原生事件长什么样
+### 1.1 Pi AgentEvent 的公开序列化长什么样
 
 下面省略文本 delta，只保留一次工具调用和两次模型响应的权威完成事件：
 
@@ -265,7 +305,7 @@ type AgentEvent =
 - session header 有 ISO timestamp；
 - `turn_start`、`tool_execution_start/end` 的 `AgentEvent` envelope 没有 timestamp；
 - `UserMessage`、`AssistantMessage` 和 `ToolResultMessage` 的真实类型有 Unix 毫秒 `timestamp`，见 [`packages/ai/src/types.ts`](../../../references/pi/packages/ai/src/types.ts)；
-- Pi 新的持久化 harness entry 还有 storage-assigned timestamp，但那是另一层 journal，不是上述 UI event envelope。
+- Pi 新的持久化 harness entry 还有 storage-assigned timestamp，但那是另一层 journal，不是上述 Source Record。
 
 ### 1.2 对应 ATIF
 
@@ -337,7 +377,7 @@ Pi 是五者中最接近逐模型调用无损映射的一种：`turn_end.message
 
 Claude Code 的 SDK 输出类型见 [`src/entrypoints/sdk/coreSchemas.ts`](../../../references/claude-code/src/entrypoints/sdk/coreSchemas.ts)。Harbor 的 Claude Code adapter 使用 `--output-format=stream-json --print`，再将多行 SDK message 整理为 ATIF。
 
-### 2.1 原生事件长什么样
+### 2.1 Claude Code SDK Source Record 长什么样
 
 ```jsonl
 {"type":"system","subtype":"init","cwd":"/workspace","tools":["Read"],"model":"claude-sonnet-4","permissionMode":"bypassPermissions","uuid":"sys-1","session_id":"claude-session-1","apiKeySource":"ANTHROPIC_API_KEY","mcp_servers":[],"slash_commands":[],"output_style":"default","skills":[],"plugins":[],"claude_code_version":"2.x"}
@@ -378,7 +418,7 @@ SDK stream 没有所有事件统一具备的 timestamp。本机 2.1.237 的 `ass
       },
       "metrics": {"prompt_tokens": 120, "completion_tokens": 24, "cached_tokens": 0},
       "llm_call_count": 1,
-      "extra": {"native_message_id": "msg_tool_1", "timestamp_source": "assistant_message_or_receiver"}
+      "extra": {"source_message_id": "msg_tool_1", "timestamp_source": "assistant_message_or_receiver"}
     },
     {
       "step_id": 3,
@@ -388,7 +428,7 @@ SDK stream 没有所有事件统一具备的 timestamp。本机 2.1.237 的 `ass
       "message": "这是一个最小 Rust 程序，main 函数向标准输出打印 hello。",
       "metrics": {"prompt_tokens": 168, "completion_tokens": 31, "cached_tokens": 0},
       "llm_call_count": 1,
-      "extra": {"native_message_id": "msg_final_1", "timestamp_source": "assistant_message_or_receiver"}
+      "extra": {"source_message_id": "msg_final_1", "timestamp_source": "assistant_message_or_receiver"}
     }
   ],
   "final_metrics": {
@@ -415,7 +455,7 @@ SDK stream 没有所有事件统一具备的 timestamp。本机 2.1.237 的 `ass
 
 Codex `exec --json` 的真实事件定义见 [`codex-rs/exec/src/exec_events.rs`](../../../references/codex/codex-rs/exec/src/exec_events.rs)。顶层是 `ThreadEvent`：`thread.started`、`turn.started`、`item.started/updated/completed`、`turn.completed/failed` 和 `error`。
 
-### 3.1 原生事件长什么样
+### 3.1 Codex ThreadEvent Source Record 长什么样
 
 ```jsonl
 {"type":"thread.started","thread_id":"codex-thread-1"}
@@ -463,7 +503,7 @@ Codex `exec --json` 的真实事件定义见 [`codex-rs/exec/src/exec_events.rs`
       "source": "agent",
       "message": "这是一个最小 Rust 程序，main 函数向标准输出打印 hello。",
       "llm_call_count": 1,
-      "extra": {"native_item_id": "item_msg_1", "timestamp_source": "receiver", "usage_attribution": "unavailable"}
+      "extra": {"source_item_id": "item_msg_1", "timestamp_source": "receiver", "usage_attribution": "unavailable"}
     }
   ],
   "final_metrics": {
@@ -482,9 +522,9 @@ Codex `exec --json` 的真实事件定义见 [`codex-rs/exec/src/exec_events.rs`
 
 ## 四、OpenCode：事件更新的是 message part，工具本身是状态机
 
-OpenCode 当前 V2 SDK 类型见 [`packages/sdk/js/src/v2/gen/types.gen.ts`](../../../references/opencode/packages/sdk/js/src/v2/gen/types.gen.ts)，CLI 对这些事件的投影见 [`packages/opencode/src/cli/cmd/run.ts`](../../../references/opencode/packages/opencode/src/cli/cmd/run.ts)。内部核心事件是 `message.part.updated`，part 可以是 text、tool、step-start、step-finish 等；`opencode run --format json` 又把它投影为 `step_start/tool_use/step_finish/text` 并加顶层 timestamp。
+OpenCode 当前 V2 SDK 类型见 [`packages/sdk/js/src/v2/gen/types.gen.ts`](../../../references/opencode/packages/sdk/js/src/v2/gen/types.gen.ts)，CLI 对这些事件的投影见 [`packages/opencode/src/cli/cmd/run.ts`](../../../references/opencode/packages/opencode/src/cli/cmd/run.ts)。内部核心事件 `message.part.updated` 也通过 V2 SDK 事件协议暴露，因此它既是内部事件类型，也是 SDK 边界可观察的 Source Record；part 可以是 text、tool、step-start、step-finish 等。`opencode run --format json` 又把它投影为 `step_start/tool_use/step_finish/text` 并加顶层 timestamp。
 
-### 4.1 原生事件长什么样
+### 4.1 OpenCode SDK Source Record（message.part.updated）长什么样
 
 ```jsonl
 {"id":"evt-1","type":"message.part.updated","properties":{"sessionID":"oc-session-1","time":1787472001100,"part":{"id":"part-tool-1","sessionID":"oc-session-1","messageID":"msg-1","type":"tool","callID":"call-read-1","tool":"read","state":{"status":"running","input":{"filePath":"src/main.rs"},"title":"Read src/main.rs","metadata":{},"time":{"start":1787472001090}}}}}
@@ -524,7 +564,7 @@ OpenCode 当前 V2 SDK 类型见 [`packages/sdk/js/src/v2/gen/types.gen.ts`](../
       },
       "metrics": {"prompt_tokens": 120, "completion_tokens": 24, "cached_tokens": 0, "extra":{"estimated_cost_usd":0.00072,"cost_source":"opencode_model_catalog"}},
       "llm_call_count": 1,
-      "extra": {"native_message_id": "msg-1", "timestamp_source": "event"}
+      "extra": {"source_message_id": "msg-1", "timestamp_source": "event"}
     },
     {
       "step_id": 3,
@@ -533,7 +573,7 @@ OpenCode 当前 V2 SDK 类型见 [`packages/sdk/js/src/v2/gen/types.gen.ts`](../
       "message": "这是一个最小 Rust 程序，main 函数向标准输出打印 hello。",
       "metrics": {"prompt_tokens": 168, "completion_tokens": 31, "cached_tokens": 0, "extra":{"estimated_cost_usd":0.000969,"cost_source":"opencode_model_catalog"}},
       "llm_call_count": 1,
-      "extra": {"native_message_id": "msg-2", "timestamp_source": "event"}
+      "extra": {"source_message_id": "msg-2", "timestamp_source": "event"}
     }
   ]
 }
@@ -547,7 +587,7 @@ OpenCode 当前 V2 SDK 类型见 [`packages/sdk/js/src/v2/gen/types.gen.ts`](../
 
 Grok 的真实 `streaming-json` wire 定义见 [`xai-grok-pager/src/headless/reducer/acp.rs`](../../../references/grok-build/crates/codegen/xai-grok-pager/src/headless/reducer/acp.rs)，上游统一事件见同目录 [`mod.rs`](../../../references/grok-build/crates/codegen/xai-grok-pager/src/headless/reducer/mod.rs)。它把 ACP update 归约为 `text`、`thought`、`tool_call`、`tool_call_update`、`usage` 和 terminal `end` 等事件。
 
-### 5.1 原生事件长什么样
+### 5.1 Grok streaming-json Source Record 长什么样
 
 ```jsonl
 {"type":"thought","data":"I need to inspect the Rust entry point."}
@@ -586,7 +626,7 @@ Grok 的真实 `streaming-json` wire 定义见 [`xai-grok-pager/src/headless/red
       },
       "metrics": {"prompt_tokens": 120, "completion_tokens": 24, "cached_tokens": 0},
       "llm_call_count": 1,
-      "extra": {"native_message_id": "grok-msg-1", "timestamp_source": "receiver"}
+      "extra": {"source_message_id": "grok-msg-1", "timestamp_source": "receiver"}
     },
     {
       "step_id": 3,
@@ -595,7 +635,7 @@ Grok 的真实 `streaming-json` wire 定义见 [`xai-grok-pager/src/headless/red
       "message": "这是一个最小 Rust 程序，main 函数向标准输出打印 hello。",
       "metrics": {"prompt_tokens": 168, "completion_tokens": 31, "cached_tokens": 0},
       "llm_call_count": 1,
-      "extra": {"native_message_id": "grok-msg-2", "timestamp_source": "receiver"}
+      "extra": {"source_message_id": "grok-msg-2", "timestamp_source": "receiver"}
     }
   ]
 }
@@ -605,11 +645,11 @@ Grok 的转换是一个小型状态机：累积 thought/text delta；看到 `too
 
 ---
 
-## 六、五种原生结构与 ATIF 的内容差异
+## 六、五种 Source Record 与 ATIF 的内容差异
 
-从例子可以看到，“原生事件”和 ATIF 并非保存完全不同的事实。二者内容高度重叠，差异在组织方式和完成时机：
+从例子可以看到，Source Record 和 ATIF 并非保存完全不同的事实。二者内容高度重叠，差异在组织方式和完成时机；adapter 的职责是先将 Source Record 忠实归一化为 Native Event，而不是直接补造源协议没有提供的信息：
 
-| 原生事实 | Pi | Claude Code | Codex | OpenCode | Grok | ATIF 目标 |
+| 可观测事实 | Pi | Claude Code | Codex | OpenCode | Grok | ATIF 目标 |
 |---|---|---|---|---|---|---|
 | 模型响应边界 | `turn_end.message` | assistant `message.id` | 未直接暴露，只能从 item/turn 推断 | `messageID` + `step-finish` | `usage.messageId` | 一个 `source: agent` step |
 | 工具调用 ID | `toolCallId` | `tool_use.id` | item `id` | `callID` | `toolCallId` | `tool_calls[].tool_call_id` |
@@ -618,40 +658,43 @@ Grok 的转换是一个小型状态机：累积 thought/text delta；看到 `too
 | 逐调用 cost | 有 agent 计算值，通常非 provider 实扣 | message 无，result 有 agent-reported run 汇总 | 无 | 有 agent 计算值 | 视后端 usage 而定 | 只有来源可靠时写 `step.metrics.cost_usd`，否则进 `extra` |
 | 时间 | message 有，event 不统一 | 不统一 | 公开流无 | event/message/tool 均有 | 公开流无 | `step.timestamp`，可选 |
 
-ATIF 是**完成态快照**：它希望每个 step 已经有完整 message、tool calls、observation 和 metrics。原生事件则是**按时间追加的事实**：tool 先 started，后 completed；模型文本可能先 delta，后 completed；cost 甚至可能在 run 后异步补齐。两者可以由同一份事实生成，但不适合用同一个写入 API。
+ATIF 是**完成态快照**：它希望每个 step 已经有完整 message、tool calls、observation 和 metrics。Native Event 则是**按时间发生的事实**：tool 先 started，后 completed；模型文本可能先 delta，后 completed；cost 甚至可能在 run 后异步补齐。Journal Entry 为这些事实增加可靠顺序和记录时间，Event Journal 保存可重放的追加历史。ATIF 与 Event Journal 可以来自同一组事实，但不适合共用一个写入模型。
 
 ## 七、对 nanoPyCodeAgent 的具体建议
 
-### 7.1 native event 必须自带采集时间和顺序
+### 7.1 Journal Entry 必须提供记录时间和顺序
 
-建议持久化 envelope 采用类似结构：
+Native Event 不必自行分配持久化顺序。journal writer 接受 Native Event 后，将它包装成统一的 Journal Entry：
 
 ```json
 {
   "schema_version": 1,
   "run_id": "run-123",
   "seq": 17,
-  "timestamp": "2026-08-23T08:00:01.420Z",
+  "recorded_at": "2026-08-23T08:00:01.420Z",
   "type": "tool.completed",
   "payload": {
     "tool_call_id": "call-read-1",
     "tool_name": "read",
     "result": "fn main() { println!(\"hello\"); }",
     "is_error": false,
-    "duration_ms": 330
+    "duration_ms": 330,
+    "source_timestamp": null,
+    "timestamp_source": "receiver"
   }
 }
 ```
 
 语义约束应是：
 
-- `seq` 由 journal 写入器分配，严格递增，是 run 内排序的权威；
-- `timestamp` 是事件被 core 接受/写入时的 UTC wall-clock，使用 RFC 3339/ISO 8601；
+- `schema_version` 描述内部 Journal Entry/Native Event 契约，不是 ATIF schema version；
+- `seq` 由 journal writer 分配，严格递增，是 run 内排序的权威；
+- `recorded_at` 是 nano 接受/记录事件时的 UTC wall-clock，使用 RFC 3339/ISO 8601，并且每条 Journal Entry 都必须有；
+- `source_timestamp` 属于 Native Event payload，仅在 Source Record 提供可信原始时间时填写；缺失时保持 `null`，不能把 `recorded_at` 冒充成源端发生时间；
 - 精确耗时使用 `duration_ms` 或成对 start/end 事件，不用两个 wall-clock 相减作为唯一依据；
-- 从第三方流导入且没有原生时间时，仍写接收时间，并记录 `timestamp_source: receiver`；
-- 不要为缺失时间伪造“模型实际发生时间”。
+- ATIF `step.timestamp` 优先采用可信 `source_timestamp`，否则回退到 `recorded_at`，并在 `extra.timestamp_source` 记录来源。
 
-### 7.2 最小事件集应覆盖模型、工具和 run 终态
+### 7.2 Native Event 最小集合应覆盖模型、工具和 run 终态
 
 建议至少保留：
 
@@ -668,16 +711,18 @@ run.failed
 
 其中 `model.completed` 应保留 `message_id`、完整 content/tool calls、实际 model、stop reason、usage 和 provider response/generation ID。这样 ATIF converter 才能做到逐 inference 映射，避免 Codex 公开 JSONL 那种只能拿到 turn 汇总的损失。
 
-### 7.3 不要再设计一套“native trajectory”语义模型
+### 7.3 内部 Event Journal 与对外 ATIF Trajectory 是不同产物
 
-native 层保存上述 append-only events；对外 trajectory 直接投影 ATIF-v1.7。这样只有一份原始事实和一个公开评测格式，不会出现“原生 trajectory schema”与 ATIF 长期双向同步的问题。
+建议保留内部 Event Journal：journal writer 将每个 Journal Entry 追加保存，第一版可以采用“一行一个 Journal Entry”的 JSONL 编码。这个 JSONL 是内部事实日志，不定义 step、observation 或 final metrics，也不由 `--trajectory` 暴露。
 
-这是在看到真实事件与 ATIF 的对应关系后得到的**后续架构建议**，明确取代 [`agent_output_and_trajectory.md`](agent_output_and_trajectory.md) 第 8.4 节中“`--trajectory` 写 native JSONL、adapter 再转 ATIF”的旧建议。旧文档所列 stdout `--output-format` 契约仍然成立；被取代的只是 trajectory 持久格式边界。若 0.8.x 接受本节建议，内部 append-only event journal 不作为另一种公开 trajectory schema，而是恢复和诊断所用的原始事实层。
+对外 trajectory 只采用 ATIF-v1.7：ATIF projector 实时消费或事后重放 Event Journal，将多个 Native Event 折叠成完成态 step。`--trajectory PATH` 指向 ATIF 文件；它不指向内部 Event Journal。这样避免的是同时维护“native trajectory”和 ATIF 两套公开 trajectory 语义，而不是消灭所有内部 schema：Native Event/Journal Entry 仍有内部 schema，也仍需维护 Native Event → ATIF 的单向 projector。
 
-实现上可以边运行边追加 native JSONL；run 结束或需要 checkpoint 时，将当前事件折叠成完整 ATIF，并用临时文件加原子 rename 更新目标文件。若进程中断，native journal 仍保留到最后一条已落盘事件；ATIF 则保持最后一个完整快照。
+这是在看到 Source Record 与 ATIF 的对应关系后得到的**后续架构建议**，明确取代 [`agent_output_and_trajectory.md`](agent_output_and_trajectory.md) 第 8.4 节中“`--trajectory` 写 native trajectory JSONL、Harbor adapter 再转 ATIF”的旧建议。旧文档所列 stdout `--output-format` 契约仍然成立；被取代的只是 trajectory 的公开持久格式边界。
+
+实现上，Event Journal 可以边运行边追加 Journal Entry；run 结束或需要 checkpoint 时，将当前事实折叠成完整 ATIF，并用临时文件加原子 rename 更新 `--trajectory` 目标。若进程中断，Event Journal 仍保留到最后一条完整 Journal Entry；ATIF 则保持最后一个完整快照。
 
 ## 最终回答
 
-真实项目并没有一种统一的“agent 内部事件”：Pi 是 turn/message/tool event，Claude Code 是 SDK message，Codex 是 thread item，OpenCode 是 message part 状态机，Grok 是 ACP update 的公开归约。ATIF 的作用就是把这些不同形状折叠成统一的 user/agent step、tool call、observation 和 metrics。
+真实项目并没有一种统一的可观测 Source Record：Pi 是接近内部 `AgentEvent` 的 turn/message/tool 记录，Claude Code 是 SDK message，Codex 是 thread item，OpenCode CLI 是 message part 的公开投影，Grok 是 ACP update 的公开归约。adapter 先把这些不同形状归一化为 nano Native Event，journal writer 再生成 Journal Entry；ATIF projector 最后将 Event Journal 折叠成统一的 user/agent step、tool call、observation 和 metrics。
 
-此前示例若没有时间戳，不能理解为时间不重要。准确说法是：部分原始 event schema 确实不带统一 timestamp，部分把时间放在 message/tool payload，OpenCode 则直接在 event envelope 带时间。nano 自己实现时应统一补上 `seq + timestamp`，并在投影 ATIF 时记录时间来源；不能依赖 stdout 行序之外的隐含时钟，也不能为了让 ATIF 看起来完整而伪造原生时间。
+此前 Source Record 示例若没有时间戳，不能理解为时间不重要。准确说法是：部分源协议不带统一 timestamp，部分把时间放在 message/tool payload，OpenCode CLI 则在公开记录顶层补时间。nano 的 journal writer 应统一为 Journal Entry 分配 `seq + recorded_at`，同时保留可用的 `source_timestamp`；投影 ATIF 时记录选择了哪种时间，不能依赖 stdout 行序之外的隐含时钟，也不能为了让 ATIF 看起来完整而伪造源端发生时间。

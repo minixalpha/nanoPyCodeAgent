@@ -20,6 +20,22 @@ _Avoid_: Trajectory, session export
 A caller-facing Run Output that exposes a stable, selected sequence of Agent Run events as they occur.
 _Avoid_: Internal event bus, execution trace
 
+**Source Record**:
+An agent-specific record observed at a CLI, SDK, or protocol boundary and consumed by an adapter; it may already be a projection of the agent's internal state.
+_Avoid_: Native event, journal entry
+
+**Native Event**:
+An agent-independent runtime fact accepted by the core directly or normalized from a Source Record.
+_Avoid_: Source record, public event record, trajectory step
+
+**Journal Entry**:
+A Native Event together with the identity, ordering, and recording metadata required for durable history.
+_Avoid_: Persistence envelope, trajectory step
+
+**Event Journal**:
+A durable append-only sequence of Journal Entries for an Agent Run from which derived artifacts can be rebuilt.
+_Avoid_: Trajectory, session, public event stream
+
 **Partial Content**:
 An unfinished representation of a message, reasoning block, or tool input that is exposed before the logical content is complete.
 _Avoid_: Final message, completed event
@@ -39,6 +55,10 @@ _Avoid_: Run output, trajectory
 **Trajectory**:
 A task-scoped record of observations, actions, results, and outcome prepared for evaluation or offline analysis.
 _Avoid_: Execution trace, session, transcript
+
+**ATIF Trajectory**:
+A Trajectory represented by the Agent Trajectory Interchange Format and exposed as the runtime's public trajectory contract.
+_Avoid_: Event journal, native trajectory
 
 **Session**:
 Durable agent state that can span multiple runs and supports continuing or branching prior work.

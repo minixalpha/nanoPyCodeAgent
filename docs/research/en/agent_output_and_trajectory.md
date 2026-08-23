@@ -2,7 +2,7 @@
 
 > Generated from the Chinese source [`../zh-CN/agent_output_and_trajectory.md`](../zh-CN/agent_output_and_trajectory.md). Do not edit by hand.
 
-> **Later decision (2026-08-23):** This document's recommendation that `--trajectory` write native JSONL for a Harbor adapter to convert into ATIF has been superseded by [section 7.3 of `agent_events_to_atif_examples.md`](../zh-CN/agent_events_to_atif_examples.md#73-不要再设计一套native-trajectory语义模型). The current recommendation keeps an internal append-only event journal and projects the external trajectory directly to ATIF-v1.7. The `--output-format` stdout contract in this document remains unchanged.
+> **Later decision (2026-08-23):** This document's recommendation that `--trajectory` write a native trajectory JSONL for a Harbor adapter to convert into ATIF has been superseded by [section 7.3 of `agent_events_to_atif_examples.md`](../zh-CN/agent_events_to_atif_examples.md#73-内部-event-journal-与对外-atif-trajectory-是不同产物). The current recommendation keeps an internal append-only Event Journal, which may use JSONL encoding, while `--trajectory` writes only ATIF-v1.7; the Event Journal is not another trajectory. The `--output-format` stdout contract in this document remains unchanged.
 
 Surveyed on 2026-08-22.
 

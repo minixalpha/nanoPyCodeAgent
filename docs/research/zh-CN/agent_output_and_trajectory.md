@@ -2,7 +2,7 @@
 
 > 本文件为**中文源文件**（source of truth）；英文版 [`../en/agent_output_and_trajectory.md`](../en/agent_output_and_trajectory.md) 由其生成。
 
-> **后续决策（2026-08-23）：** 本文关于“`--trajectory` 写 native JSONL，再由 Harbor adapter 转 ATIF”的建议已被 [`agent_events_to_atif_examples.md` 第 7.3 节](agent_events_to_atif_examples.md#73-不要再设计一套native-trajectory语义模型) 取代。当前建议是内部保留 append-only event journal，对外 trajectory 直接投影 ATIF-v1.7；本文的 `--output-format` stdout 契约不受影响。
+> **后续决策（2026-08-23）：** 本文关于“`--trajectory` 写 native trajectory JSONL，再由 Harbor adapter 转 ATIF”的建议已被 [`agent_events_to_atif_examples.md` 第 7.3 节](agent_events_to_atif_examples.md#73-内部-event-journal-与对外-atif-trajectory-是不同产物) 取代。当前建议是内部保留 append-only Event Journal（可用 JSONL 编码），`--trajectory` 对外只写 ATIF-v1.7；Event Journal 不是另一种 trajectory。本文的 `--output-format` stdout 契约不受影响。
 
 调研时间：2026-08-22。
 
