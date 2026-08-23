@@ -1,5 +1,7 @@
 # Harbor adapter
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 This isolated workspace contains the nanoPyCodeAgent adapter for Terminal-Bench
 and other benchmarks run by Harbor. It is development infrastructure, not part
 of the end-user `nanoPyCodeAgent` package. Harbor is pinned to 0.21.0 in this
