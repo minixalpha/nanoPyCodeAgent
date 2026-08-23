@@ -10,17 +10,22 @@
 >
 > cost 能和原生存储格式或 trajectory 一起实现吗？
 
+## 相关调研
+
+OpenRouter 模型无关 API 的协议形状、agent 能力、endpoint 选型和 nano 接入边界，见 [OpenRouter 统一模型协议：能力、Cost 与 nanoPyCodeAgent 接入边界](openrouter_unified_protocol.md)。本文只展开 cost 的来源、补账和 trajectory 映射。
+
 ## 结论先行
 
-OpenRouter **有真实扣费数据**，而且比“token × 当前模型标价”的估算更可靠。但 nanoPyCodeAgent 当前走的是 Anthropic Messages 兼容端点，这个端点的 Anthropic 形状 `usage` 没有公开承诺 `cost` 字段，所以 `stream.get_final_message().usage` 通常只能看到 tokens。
+OpenRouter **有真实扣费数据**，而且比“token × 当前模型标价”的估算更可靠。OpenRouter Chat Completions 统一 API 会在完整 response 或最后一个 SSE event 中直接返回 `usage.cost`；但 nanoPyCodeAgent 当前走的是 Anthropic Messages 兼容端点，这个端点的 Anthropic 形状 `usage` 没有公开承诺 `cost` 字段，所以 `stream.get_final_message().usage` 通常只能看到 tokens。
 
-对 nano 最可靠的实现是：
+对 nano 最可靠的实现分为两条路径：
 
-1. 每次模型响应都从 HTTP header 捕获 `X-Generation-Id`；
-2. 将 generation ID 与 token usage 写入 `model.completed` Native Event，并由 journal writer 持久化为 Journal Entry；
-3. 调用 `GET /api/v1/generation?id=...` 获取该次请求的 `total_cost`；
-4. 产生一条 `model.cost_resolved` Native Event，由 journal writer 追加对应 Journal Entry，再投影到 ATIF `step.metrics.cost_usd`；
-5. `GET /api/v1/model/:author/:slug` 或 `GET /api/v1/models` 的价格表只作为预算/估算 fallback，不作为历史实际账单。
+1. 后续使用 Chat Completions transport 时，直接把 `usage.cost` 作为 resolved、`provider_reported` cost 写入 `model.completed` Native Event；
+2. 当前 Anthropic Messages transport 没有直接 cost 时，从 HTTP header 捕获 `X-Generation-Id`，先把 cost 标为 pending；
+3. 调用 `GET /api/v1/generation?id=...` 获取该次请求的 `total_cost`，再追加 `model.cost_resolved` Native Event；
+4. 两条路径都由 journal writer 持久化为 Journal Entry，再投影到 ATIF `step.metrics.cost_usd`；
+5. 所有 OpenRouter 请求都保留 generation ID，供缺失补账和对账；
+6. `GET /api/v1/model/:author/:slug` 或 `GET /api/v1/models` 的价格表只作为预算/估算 fallback，不作为历史实际账单。
 
 ## 一、为什么 OpenRouter 文档说有 cost，nano 响应里却没有
 
@@ -46,6 +51,8 @@ OpenRouter 的 [Usage Accounting](https://openrouter.ai/docs/cookbook/administra
 - `cost_details.upstream_inference_cost` 是上游 provider 推理成本；
 - streaming 时 usage 在最后一个 SSE event，非 streaming 时在完整响应；
 - 不再需要旧的 `usage: {include: true}` 或 `stream_options.include_usage` 参数。
+
+OpenRouter [FAQ](https://openrouter.ai/docs/faq) 说明 credits 的基础货币是美元，站点和 API 定价也以美元表示；因此普通 credits 请求可以把 provider-reported `usage.cost` 或 `data.total_cost` 映射为 ATIF `cost_usd`。内部事件仍应显式保存 `currency: "USD"` 与 source，不能仅靠目标字段名隐含币种和来源。
 
 但 nano 当前代码在 [`src/nanopycodeagent/agent.py`](../../../src/nanopycodeagent/agent.py) 中使用：
 
@@ -81,7 +88,7 @@ OpenRouter 的 [Anthropic Messages endpoint](https://openrouter.ai/docs/api/api-
 
 只有 `provider_reported` 可以直接回答“OpenRouter 这次实际记账多少”。其他值仍有观测价值，但不能无来源地混入同一个 total。
 
-## 二、真实 cost 的权威获取方式：Generation API
+## 二、Messages 兼容路径与审计 fallback：Generation API
 
 OpenRouter 为每次请求建立 generation record。官方 [Get a Generation](https://openrouter.ai/docs/api/api-reference/generations/get-generation) API 是：
 
@@ -110,7 +117,7 @@ Authorization: Bearer <OPENROUTER_API_KEY>
 }
 ```
 
-对普通 OpenRouter credits 请求，trajectory 应使用 `data.total_cost`：它表示这次 generation 实际记到 OpenRouter 账户的成本。`upstream_inference_cost` 不应替代它；Usage Accounting 文档明确说明，通过 Generation ID 查询时该字段只对 BYOK 请求可用，非 BYOK 通常为 `0` 或 `null`。
+当 response body 没有 `usage.cost` 时，trajectory 应使用 `data.total_cost`：它表示这次 generation 实际记到 OpenRouter 账户的成本。若 Chat Completions 已直接返回 `usage.cost`，Generation API 则用于缺失补账和审计。`upstream_inference_cost` 不应替代账户实际扣费；Usage Accounting 文档明确说明，通过 Generation ID 查询时该字段只对 BYOK 请求可用，非 BYOK 通常为 `0` 或 `null`。
 
 ### 2.1 generation ID 从哪里拿
 
@@ -193,7 +200,23 @@ estimated_cost =
 
 ### 4.1 Native Event 表达事实，Journal Entry 立即落盘
 
-模型响应完成时，core 先产生 `model.completed` Native Event；journal writer 添加持久化元数据并立即追加下面的 Journal Entry，不等待价格查询：
+若 Chat Completions response 或 terminal SSE event 已直接返回 `usage.cost`，`model.completed` 可以立即记录：
+
+```json
+{
+  "cost": {
+    "status": "resolved",
+    "amount": "0.00072",
+    "currency": "USD",
+    "source": "openrouter_response.usage.cost",
+    "kind": "provider_reported"
+  }
+}
+```
+
+这种情况不需要仅为取得 cost 再查询一次 Generation API，但仍应保存 generation ID 以便审计。
+
+若当前 Anthropic Messages response 没有 cost，模型响应完成时，core 先产生 `model.completed` Native Event；journal writer 添加持久化元数据并立即追加下面的 Journal Entry，不等待价格查询：
 
 ```json
 {
@@ -276,10 +299,11 @@ run 级 `final_metrics.total_cost_usd` 只有在所有应计费 model call 都 r
 推荐流程是：
 
 1. 模型完成立即落 `model.completed`；
-2. 在 run 收尾阶段按 generation ID 查询真实 cost；
-3. 使用有界 retry，因为 generation metadata 是异步可查的；
-4. 查询失败不改变 agent 任务成功/失败状态，只把 cost completeness 标成 partial；
-5. 最后原子写入完整 ATIF 快照。
+2. response 已带 `usage.cost` 时直接标为 resolved；
+3. cost 缺失时在 run 收尾阶段按 generation ID 查询真实 cost；
+4. 使用有界 retry，因为 generation metadata 是异步可查的；
+5. 查询失败不改变 agent 任务成功/失败状态，只把 cost completeness 标成 partial；
+6. 最后原子写入完整 ATIF 快照。
 
 若将来只需要尽快返回 CLI 结果，也可以让 cost enrichment 离线进行；Event Journal 中已有 generation ID，不会失去补账能力。
 
@@ -288,27 +312,24 @@ run 级 `final_metrics.total_cost_usd` 只有在所有应计费 model call 都 r
 cost 可以和 trajectory 同一期实现，但应拆成 provider-aware enrichment，而不是把 OpenRouter HTTP 逻辑写进 ATIF serializer：
 
 ```text
-Anthropic/OpenRouter response
-        ↓ core
-model.completed Native Event
-        ↓ journal writer
-model.completed Journal Entry ───────────────┐
-        ↓ generation_id                     │
-OpenRouter cost resolver
-        ↓
-model.cost_resolved Native Event             │
-        ↓ journal writer                     │
-model.cost_resolved Journal Entry ───────────┤
-                                             ↓
-                                      Event Journal
-                                             ↓
-                                      ATIF projector
+OpenRouter Chat response ─ usage.cost ─────────────┐
+                                                   ↓
+Anthropic Messages response ─ generation_id ─ cost resolver
+                                                   │
+                                                   ↓
+                              Native Event + Journal Entry
+                                                   │
+                                                   ↓
+                                            Event Journal
+                                                   │
+                                                   ↓
+                                            ATIF projector
 ```
 
 这也说明为什么 Native Event + Event Journal 比“直接边跑边拼 ATIF JSON”更稳：实际 cost 可能晚于模型响应到达，ATIF 是完成态文档，而 Event Journal 能自然表达 pending → resolved。
 
 ## 最终回答
 
-你用 OpenRouter 时，真实 cost 并不是算不出来；OpenRouter 本身有准确到 generation 的 `total_cost`。nano 当前看不到，主要因为它使用 Anthropic Messages 兼容协议，而该协议的 `usage` schema 没有承诺直接携带 cost。
+你用 OpenRouter 时，真实 cost 并不是算不出来。OpenRouter Chat Completions 统一 API 可以直接返回 `usage.cost`，OpenRouter 也有准确到 generation 的 `total_cost`。nano 当前看不到，主要因为它使用 Anthropic Messages 兼容协议，而该协议的 `usage` schema 没有承诺直接携带 cost。协议选型与迁移依据见 [OpenRouter 统一模型协议调研](openrouter_unified_protocol.md)。
 
-实现上应捕获 `X-Generation-Id`，调用 `/api/v1/generation` 回填 `total_cost`，将它作为 reported cost 写入 `model.cost_resolved` Native Event，再由 journal writer 持久化为 Journal Entry，最终投影到 ATIF。模型价格 API 也存在，但它更适合预算和 fallback estimation，不应覆盖 generation API 返回的真实扣费，也不应把当前价格估算冒充历史账单。
+实现上，后续 Chat Completions transport 应优先读取 `usage.cost`；当前 Messages transport 或提前断流等缺失场景则捕获 `X-Generation-Id`，调用 `/api/v1/generation` 回填 `total_cost`。两者都作为 provider-reported cost 进入 Native Event，再由 journal writer 持久化为 Journal Entry，最终投影到 ATIF。模型价格 API 也存在，但它更适合预算和 fallback estimation，不应覆盖 OpenRouter 返回的真实扣费，也不应把当前价格估算冒充历史账单。
