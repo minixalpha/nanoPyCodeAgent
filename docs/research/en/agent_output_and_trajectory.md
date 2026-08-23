@@ -1,27 +1,184 @@
-# Output Formats and Trajectory Design in Mainstream Code Agents
+# Run Output, Execution Traces, Task Trajectories, and Session Design in Mainstream Code Agents
 
 > Generated from the Chinese source [`../zh-CN/agent_output_and_trajectory.md`](../zh-CN/agent_output_and_trajectory.md). Do not edit by hand.
 
 Surveyed on 2026-08-22.
 
-[`benchmark_headless_interface.md`](benchmark_headless_interface.md) previously proposed the following interface, but did not fully define the wire protocol for each parameter:
+[`benchmark_headless_interface.md`](benchmark_headless_interface.md) previously proposed the following interface, but did not explain whether the two parameters control the same kind of artifact:
 
 ```text
 [--output-format text|stream-json]
 [--trajectory <path>]
 ```
 
-This document works backward from the current implementations of Pi, Claude Code, Codex, OpenCode, and Grok Build to determine how these concepts should be separated. The conclusions come first:
+Both parameters appear to concern “output,” but they actually belong to different planes. Before comparing Pi, Claude Code, Codex, OpenCode, and Grok Build, four questions must be answered:
 
-1. **`--output-format` selects the stdout representation; it is not file redirection.** Writing to a file remains the responsibility of the Shell's `>` operator or another explicit file parameter.
-2. **For nanoPyCodeAgent, the most natural semantics for `--trajectory PATH` are “enable trajectory recording and write it to PATH.”** It changes neither stdout nor `--output-format`.
-3. **`stream-json` should be defined as an NDJSON/JSONL event stream: every line is a complete, independently parseable JSON object.** It is not “one JSON document split into chunks,” nor does it inherently promise token-level increments.
-4. **The name `json` has no uniform industry meaning.** Claude Code and Grok use it to mean “emit one object at the end,” while Pi, Codex, and OpenCode use it to mean a JSONL event stream. Interface documentation must therefore specify the wire protocol rather than merely list enum names.
-5. **The stdout event stream, persistent session, debugging trace, benchmark trajectory, and telemetry are five distinct artifacts.** They can originate from the same internal event model, but should not share one ambiguous switch.
+1. What does this agent invocation deliver to a person or calling program?
+2. What actually happened inside the agent?
+3. How should a benchmark record the path the agent took to complete the task?
+4. What state will the agent use to resume context next time?
+
+These questions correspond to **run output, execution trace, trajectory, and session**, respectively. The document first distinguishes the four using one example run, then examines each project's implementation.
 
 ---
 
-## 1. Research Scope and Evidence Levels
+## 1. Four Artifacts from One Run
+
+Suppose the user asks the agent to:
+
+```text
+Fix the exception parser.py raises when tool arguments are empty, and run the relevant tests.
+```
+
+A typical execution might read the failing code, search for callers, modify the code, run tests, and finally answer the user. This document calls the bounded period from accepting that prompt until the agent stops autonomous work a **run**. One run may contain multiple model requests and multiple tool calls.
+
+### 1.1 Run Output: Public Output Delivered to the Caller
+
+Run output answers: **“What should this invocation expose externally?”** The caller may be a person at a terminal, a Shell script, a benchmark harness, an SDK, or a UI.
+
+The same result can have different representations. For example, `text` mode may emit only the final answer:
+
+```text
+Fixed empty tool-argument parsing and added a regression test. All 12 relevant tests pass.
+```
+
+At the end of the run, `json` mode may deliver a machine-readable **single result object**. It summarizes **how this run ultimately ended**, such as its final status, answer, stop reason, usage, and cost. It does not summarize the complete execution process or pack the trace, trajectory, or session into one JSON object:
+
+```json
+{"status":"completed","result":"Fixed empty tool-argument parsing and added a regression test. All 12 relevant tests pass.","usage":{"input_tokens":1200,"output_tokens":180}}
+```
+
+During the run, `stream-json` mode may publish a stable public event protocol. The example below uses **JSON Lines (JSONL)**, where every non-empty line is one complete JSON object. This format is also commonly called **Newline-Delimited JSON (NDJSON)**; `ND` means `Newline-Delimited`:
+
+```jsonl
+{"type":"tool.completed","tool":"pytest","is_error":false,"result":"12 passed"}
+{"type":"assistant.message","content":"Fixed empty tool-argument parsing and added a regression test. All 12 relevant tests pass."}
+{"type":"run.completed","status":"completed"}
+```
+
+Four output-protocol terms recur throughout the rest of this document:
+
+- **Single result object:** one JSON object emitted after the run ends, summarizing the run's final result. Fields vary by product, but commonly include the final answer, completed/failed status, stop reason, run/session ID, turn count, token usage, and cost. It usually does not contain step-by-step execution records.
+- **Public event stream:** a stable event protocol that the agent delivers to external callers in occurrence order during a run. It exposes only selected events suitable for long-term compatibility, such as tool starts/ends, complete assistant messages, and run termination. It is not a raw dump of the internal event bus or execution trace. Every CLI event stream examined here uses JSONL/NDJSON: one complete event object per line.
+- **Partial and delta:** a `partial` is an intermediate, unfinished state of a message, thinking block, or tool arguments; a `delta` is the small fragment newly added or changed relative to previously emitted content. A protocol may repeatedly emit cumulative partial snapshots, or emit only deltas for the consumer to assemble. The table's “partial / delta capability” asks one question: **does the public event stream expose fragments of logical content before that content is complete?**
+- **Terminal event:** a public-stream event that explicitly declares that the run ended with a state such as completed or failed, for example `run.completed` or `result`. It conveys more than EOF: EOF says only that stdout closed, which may result from normal exit, a crash, interruption, or truncation.
+
+Having a public event stream and having partial/delta output are therefore independent capabilities. A stream that emits `tool.completed` only after pytest finishes and then emits a complete `assistant.message` is still real-time, but it has no partial/delta capability. If answer generation instead emits `assistant.delta: "Fixed"` and then `assistant.delta: " successfully"`, it does expose content incrementally. With or without deltas, a normal shutdown can still use a terminal event to state that the entire run has ended.
+
+This document calls stdout's encoding and record boundaries its **transport format (wire format)**: whether stdout contains text, one JSON object, or one JSON object per line, and how records are separated. When the discussion also covers event types, ordering, termination, and error semantics, the document uses **output protocol**.
+
+Even when a public stream includes `tool.completed`, it remains **run output**, because it is an intentionally supported public contract for callers rather than a raw internal trace. **`--output-format` selects how this public output is encoded and framed.** It does not enable traces, save trajectories, or persist sessions.
+
+### 1.2 Execution Trace: Runtime Evidence for Troubleshooting
+
+An execution trace answers: **“What actually happened inside the agent?”** It is intended for agent developers and observability systems. Typical contents include:
+
+- Provider request and response metadata, retries, and backoff.
+- Model calls, tool scheduling, subprocesses, concurrent tasks, and timing.
+- Complete or redacted tool input/output, stderr, and exception stacks.
+- Parent-child span relationships, internal state transitions, and performance data.
+
+A debugging trace might contain facts like these:
+
+```text
+inference attempt=1 status=429 retry_after_ms=800
+inference attempt=2 request_id=req_2 latency_ms=1430
+tool call_id=t1 process_id=4312 stdout_bytes=824 exit_code=0
+```
+
+This information can explain latency or failure, but selecting `--output-format stream-json` should not cause all of it to enter stdout. A trace is usually more detailed, more sensitive, and more closely coupled to the current implementation. Its schema generally does not carry the same public compatibility promise as run output.
+
+Logs, metrics, and OpenTelemetry are ways to record or transport diagnostic signals, not additional categories of “user output” parallel to traces. An OpenTelemetry trace is itself one representation of an execution trace.
+
+### 1.3 Trajectory: The Execution Path Retained for Task Evaluation
+
+A trajectory answers: **“Through which observations and actions did the agent obtain this task result?”** It is usually scoped to one benchmark trial or task run and consumed by evaluation frameworks and offline analyzers.
+
+The same run might be organized into this trajectory:
+
+```jsonl
+{"step":1,"observation":"parser.py dereferences arguments when they are empty","action":{"tool":"search","query":"parse tool arguments"}}
+{"step":2,"observation":"found two callers and one missing null branch","action":{"tool":"edit","file":"parser.py"},"result":"added empty-argument handling"}
+{"step":3,"observation":"code updated","action":{"tool":"pytest","target":"tests/test_parser.py"},"result":"12 passed"}
+{"outcome":"completed","result":"bug fixed","usage":{"input_tokens":1200,"output_tokens":180}}
+```
+
+Trajectories and traces both describe execution, but make different trade-offs:
+
+- A trace stays close to runtime implementation and aims to reconstruct a failure scene. It may include every retry, internal queue, and raw payload.
+- A trajectory stays close to task semantics and supports comparison and attribution. It retains analytical fields such as observation, action, tool result, outcome, tokens, and cost.
+- A trajectory can be derived from a public event stream, trace, or session, but the converted artifact is the trajectory. Its source data does not change category merely because a trajectory was derived from it.
+
+A trajectory is usually fixed after the run ends. It may support visualization or offline replay, but **replay is not resume**: step records alone do not mean the agent can reconstruct the product state and continue the conversation.
+
+Nor can an entire session export simply be renamed a trajectory. A session may contain multiple runs, earlier tasks, branches, and compaction metadata. An adapter must first isolate the current task/trial boundary and then organize it into observations, actions, and outcomes.
+
+### 1.4 Session: Product State Persisted for Continued Work
+
+A session answers: **“From what state should the next invocation continue?”** It usually outlives a single run and may support continue, resume, fork, rewind, or compaction.
+
+A session may retain:
+
+- Session ID, working directory, model, and tool configuration.
+- User messages, assistant messages, tool calls, and results.
+- Stable entry/message IDs and parent relationships.
+- Compaction checkpoints, branches, permission decisions, and other recovery state.
+
+For example, after ending one process the user might run:
+
+```text
+agent --resume s1 -p "Also handle the case where arguments is missing."
+```
+
+The agent must reconstruct context from session `s1`. This is the session's defining capability and the boundary between a session and a trajectory: **whether the product can reliably continue, resume, or fork matters more than whether a file is named transcript, history, rollout, or JSONL.**
+
+Codex is the clearest example of how names can mislead. Its persistent session files are named `rollout-*.jsonl`, but `resume` continues them, `fork` derives new sessions from them, and `--ephemeral` disables them. This document therefore classifies a Codex rollout as a **session store**. The separate opt-in `rollout-trace` is the execution trace used for troubleshooting; the two are not the same file.
+
+---
+
+## 2. Classify by Lifecycle and Purpose, Not by Filename
+
+The minimum boundaries among the four concepts are:
+
+| Concept | Core question | Typical lifecycle | Primary consumer | Typical contents | Used for resume | Control plane |
+| --- | --- | --- | --- | --- | :-: | --- |
+| Run output | What does this invocation deliver externally? | One run | People, scripts, runners, SDKs, UIs | Final answer, public events, status, usage | No | `--output-format` |
+| Execution trace | What happened internally at runtime? | One run, process, or trace tree | Developers, observability platforms | Requests/responses, retries, spans, internal tools, exceptions | No | Debug / trace / telemetry configuration |
+| Trajectory | How did the agent complete this task? | One task / trial / run | Benchmarks, offline analyzers | Observations, actions, tool results, outcome, cost | Usually no | `--trajectory` or an adapter |
+| Session | From what state should the next invocation continue? | Multiple runs | The agent product itself | Recoverable transcript, stable IDs, branches, compaction, configuration | Yes | Session / resume / persistence configuration |
+
+One session can contain multiple runs. Each run produces its own output and may optionally record a trace and trajectory:
+
+```text
+session s1
+├─ run r1: initial fix task
+│  ├─ output o1 ───────────────> current caller
+│  ├─ execution trace t1 ──────> debugger / tracing backend
+│  └─ trajectory j1 ───────────> benchmark artifact
+└─ run r2: follow-up after resume
+   ├─ output o2
+   ├─ execution trace t2
+   └─ trajectory j2
+```
+
+Their data overlaps, but their compatibility promises differ. A reasonable implementation can project four artifacts from the same set of internal events. Here, “project” means selecting fields and transforming structure for each purpose, not copying every internal event:
+
+```text
+                         ┌─ text renderer ───────────────> stdout
+agent loop ─> canonical ├─ final JSON reducer ──────────> stdout
+              events     ├─ JSONL event serializer ─────> stdout
+                         ├─ trace recorder ──────────────> debug bundle / OTel
+                         ├─ trajectory projector ────────> requested artifact
+                         └─ session recorder ────────────> session store
+```
+
+The first three branches may emit different numbers of records, but all are run output. `--output-format` may select among only those three; it cannot also change trace, trajectory, or session persistence.
+
+---
+
+## 3. Research Scope and Core Conclusions
+
+### 3.1 Evidence Scope
 
 Before beginning the survey, we attempted to update the code under `references/`. The four accessible repositories were fast-forwarded to their latest remote commits. The remote for the third-party Claude Code mirror was no longer accessible, so it was not forcibly replaced.
 
@@ -35,65 +192,73 @@ Before beginning the survey, we attempted to update the code under `references/`
 
 The authoritative Claude Code contract is the current Anthropic [CLI reference](https://code.claude.com/docs/en/cli-usage), [headless documentation](https://code.claude.com/docs/en/headless), and [sessions documentation](https://code.claude.com/docs/en/sessions). The local `references/claude-code/README.md` also explicitly states that it is not an official Anthropic project, so this document does not treat internal fields from that snapshot as a current stable API.
 
----
+### 3.2 Core Conclusions
 
-## 2. First Separate Five Easily Confused Concepts
-
-A headless agent commonly needs all five output categories below. Their data overlaps, but their lifecycles, audiences, and compatibility promises differ.
-
-| Plane | Primary consumer | Typical medium | Primary purpose | Must support session recovery |
-| --- | --- | --- | --- | :-: |
-| CLI presentation | Human or one-off script | stdout text / single JSON object | Report the result of this run | No |
-| Live event protocol | Runner, SDK, UI | stdout NDJSON | Observe tool calls, messages, and usage in real time | No |
-| Session store | The agent itself | JSONL, SQLite, multi-file directory | continue / resume / fork / compaction | Yes |
-| Benchmark trajectory | Harbor, offline analyzer | JSONL, ATIF, etc. | Count steps, tokens, and costs, and attribute failures | Usually no |
-| Diagnostics / telemetry | Developer, observability platform | stderr, logs, spans, trace files | Troubleshooting, performance analysis, operational monitoring | No |
-
-This distinction explains an apparently contradictory fact: **an agent can emit live events to stdout with `stream-json` while simultaneously writing a separate, more complete and recoverable session into its own data directory.** The former is the protocol for this subprocess invocation; the latter is product state.
-
-The recommended internal structure is one event source feeding multiple projectors:
-
-```text
-                         ┌─ text renderer ───────────────> stdout
-agent loop ─> canonical ├─ final JSON reducer ──────────> stdout
-              events     ├─ NDJSON event serializer ────> stdout
-                         ├─ trajectory writer ───────────> requested file
-                         ├─ session recorder ────────────> session store
-                         └─ diagnostics / telemetry ─────> stderr / exporter
-```
-
-`--output-format` selects only one of the first three stdout projectors; `--trajectory` controls the fourth sink; if resume support is added later, the fifth session recorder should be designed separately. This prevents one parameter from simultaneously carrying three responsibilities: format, enablement, and path.
+1. **`--output-format` selects only the stdout representation of public run output.** It is not file redirection and does not control execution traces, trajectories, or sessions.
+2. **`text`, `json`, and `stream-json` describe three stdout transport formats.** `text` is final text, `json` is one result object at the end, and `stream-json` is a JSONL/NDJSON event sequence published line by line during the run.
+3. **`--trajectory PATH` should be an independent control plane.** When present, it creates a trajectory scoped to the current task run; `PATH` selects only the artifact location and does not change stdout.
+4. **A trajectory is not a simplified session.** A trajectory explains a task path for evaluation; a session restores product state. Resume requires a separate design for stable IDs, branches, compaction, and schema migration.
+5. **All five surveyed products implement sessions, but none provides a benchmark `--trajectory PATH` exactly equivalent to the interface proposed here.** A benchmark can derive a trajectory from a public event stream or session, but that does not make the source artifact a trajectory.
+6. **The name `json` has no uniform industry meaning.** Claude Code and Grok use it for a single result object; Pi, Codex, and OpenCode use it for a JSONL event stream. Documentation must therefore specify stdout's actual transport format and output semantics rather than list enum names alone.
 
 ---
 
-## 3. Interface Overview Across Five Projects
+## 4. Implementation Overview Across Five Projects
 
-The table below compares **actual wire protocols**, not each project's chosen terminology.
+### 4.1 What Is Delivered to the Caller: Text, One Result Object, or an Event Stream
 
-| Project | Human-readable text | Single aggregate JSON object | JSONL event stream | Partial / delta capability | Explicit terminal event | Persistent session |
-| --- | --- | --- | --- | --- | --- | --- |
-| Pi | Print mode | — | `--mode json` | `message_update` deltas | `agent_settled`; `agent_end` ends only one low-level run | JSONL by default; supports continue/resume/fork/`--no-session` |
-| Claude Code | `--output-format text` | `--output-format json` | `--output-format stream-json` | Add `--include-partial-messages` | `result` | JSONL by default; supports continue/resume/fork/`--no-session-persistence` |
-| Codex | `codex exec` default | — | `codex exec --json` | No public token-delta contract | `turn.completed` / `turn.failed`; interrupt is an exception | Rollout JSONL by default; supports `--ephemeral`, resume, and fork |
-| OpenCode | `opencode run --format default`, possibly with multiple completed text segments | `opencode export` is a separate command, not a run output mode | `opencode run --format json` | No; only coarser completion events | None; relies on EOF + exit code | SQLite + internal event table; supports continue/session/fork |
-| Grok Build | `--output-format plain`, writes text chunks as they are generated | `--output-format json` | `streaming-json`; also has a Messages-compatible stream | The native stream emits text/thought chunks by default; only the compatibility stream adds a partial flag, and some deltas remain coarse-grained | Native stream: `end` on success and `error` on failure; compatibility stream: `result` | Multi-file JSONL session by default; supports continue/resume/fork |
+First consider which **run output forms** each product provides. The table compares what actually appears on stdout rather than each product's format names. `—` means the output form is not provided.
 
-Three common patterns are visible in this table:
+| Project | Human-readable text | One result JSON after the run ends | Line-delimited events during the run (JSONL/NDJSON) |
+| --- | --- | --- | --- |
+| Pi | Print mode | — | `--mode json` |
+| Claude Code | `--output-format text` | `--output-format json` | `--output-format stream-json` |
+| Codex | `codex exec` default | — | `codex exec --json` |
+| OpenCode | `opencode run --format default`, possibly with multiple completed text segments | —; `opencode export` is a separate session-export command | `opencode run --format json` |
+| Grok Build | `--output-format plain`, writes text chunks as they are generated | `--output-format json` | `streaming-json`; also has a Messages-compatible stream |
+
+Now consider only the **public event stream** in the third column. The next two properties describe its content granularity and termination behavior; they are not additional output formats.
+
+| Project | Emits unfinished content early (partial / delta) | Explicitly declares the end of the whole run with an in-stream terminal event |
+| --- | --- | --- |
+| Pi | Yes; `message_update` provides deltas and `message_end` provides the complete message | Yes; `agent_settled`. `agent_end` ends only one low-level run |
+| Claude Code | Optional; add `--include-partial-messages` | Yes; `result` |
+| Codex | No; there is no public token/text-delta contract | Yes; `turn.completed` / `turn.failed`, except on interruption |
+| OpenCode | No; it emits only coarser completion events | No; relies on EOF + exit code |
+| Grok Build | Yes; the native stream emits text/thought chunks by default, while the Messages-compatible stream has a separate partial flag | Yes; native success is `end`, native failure is `error`, and the compatibility stream uses `result` |
+
+Three common patterns are visible in these tables:
 
 - Human-facing modes tend to put only the final answer on stdout and send progress and diagnostics to stderr.
 - Real-time machine-facing modes almost universally use “one object per line” JSONL rather than a long-lived JSON array.
-- Sessions are usually persisted automatically and managed by session ID; none of these projects treats `--output-format` as a session switch.
+- None of the products treats `--output-format` as a switch for sessions, traces, or trajectories.
 
 There are also two differences that cannot be inferred from “industry convention”:
 
 - `json` may mean either a single object or JSONL. Claude/Grok use the former; Pi/Codex/OpenCode use the latter.
-- “Streaming” may mean only **emitting events immediately as they occur**, or may additionally include text/thinking/tool-argument deltas at different granularities. Claude uses an extra flag to enable raw partials; Grok's native stream already includes text/thought chunks by default, while its extra flag changes only the framing of the Messages-compatible stream. This shows that “streaming” and “token-level” are not the same promise.
+- “Streaming” may mean only **emitting events immediately as they occur**, or may additionally include text/thinking/tool-argument deltas at different granularities. Claude uses an extra flag to enable raw partials; Grok's native stream already includes text/thought chunks by default, while its extra flag changes only the framing of the Messages-compatible stream. “Streaming” and “token-level” are therefore not the same promise.
+
+### 4.2 Execution Traces, Trajectories, and Sessions
+
+The next table compares the other three planes. “No dedicated trajectory” means there is no stable artifact interface scoped to one benchmark task/run; it does not mean an adapter cannot convert product data into a trajectory.
+
+| Project | Execution trace | Dedicated benchmark trajectory | Session: storage and primary contents |
+| --- | --- | --- | --- |
+| Pi | Hidden `/debug` can write TUI render lines and the latest messages sent to the model; not a stable headless trace protocol | None; can be derived from the JSON event stream or a session export | JSONL by default; header, messages, model/thinking changes, compaction, branch/custom entries; `id`/`parentId` form a tree and support continue/resume/fork |
+| Claude Code | `--debug` / `--debug-file` records diagnostic logs, with separate telemetry support; independent of stdout output format | None; runners such as Harbor can generate one after parsing `stream-json` | Transcript JSONL by default; messages, tool interactions, and recovery metadata; supports continue/resume/fork and optional disabled persistence |
+| Codex | Opt-in local `rollout-trace` bundle containing a manifest, raw events, prompts/responses, tool and terminal payloads, and offline reduced state; also OpenTelemetry | None; `rollout` is a session and `rollout-trace` is a debugging trace, neither is a benchmark trajectory interface | `rollout-*.jsonl` by default; session metadata, model-visible messages/reasoning, tool calls/outputs, and other recoverable items; supports resume/fork, disabled by `--ephemeral` |
+| OpenCode | Runtime logs and debug subcommands exist; no complete, stable, user-facing execution-trace artifact was found | None; `export` emits a materialized session snapshot | Session/message/part data and durable events/projections in a global SQLite database; supports continue/session/fork, with large tool output optionally stored separately |
+| Grok Build | `RUST_LOG` can write diagnostics to stderr and `GROK_LOG_FILE` to a file; internal logs and session trace exports also exist, none controlled by output format | No CLI parameter equivalent to the semantics proposed here | Session directory holds authoritative updates, model chat history, summary/plan/compaction/subagent and other recovery state; supports continue/resume/fork |
+
+The most important point is not that “everyone uses JSONL,” but who consumes each artifact: output is a stable public protocol, a trace is troubleshooting evidence, a trajectory is the task-evaluation path, and a session is product state that can be restored and forked.
 
 ---
 
-## 4. Designs by Project
+## 5. Designs by Project
 
-### 4.1 Pi: `json` Is an Event Stream, While the Session Is a Separate Tree-Shaped JSONL
+### 5.1 Pi: `json` Is an Event Stream, While the Session Is a Separate Tree-Shaped JSONL
+
+**Run output.**
 
 Pi's headless interface has three modes:
 
@@ -113,7 +278,17 @@ Here, `agent_end` must not be treated as the terminal event for the entire comma
 
 Pi also takes explicit control of stdout: protocol writes go through controlled raw stdout, while other ordinary output is redirected to stderr, and write backpressure is handled. This shows that “machine-mode stdout must not contain logs” is not merely documentation etiquette, but an implementation boundary.
 
+**Session.**
+
 Pi's session is a separate append-only JSONL file. It has a session header plus message, model-change, compaction, branch, and other entries carrying `id` / `parentId`; its history is therefore fundamentally a tree rather than a verbatim copy of stdout events. Switching branches merely moves the current leaf and does not delete the other branch. Compaction changes the active context sent to the model without erasing the original history.
+
+**Execution trace.**
+
+Pi's hidden `/debug` primarily writes TUI render lines and the latest messages sent to the model; it is not a stable headless trace.
+
+**Trajectory.**
+
+Pi has no dedicated benchmark trajectory. An evaluator can select task steps from the JSON event stream or an exported session and convert them into its own trajectory schema.
 
 **Lessons worth adopting:**
 
@@ -124,11 +299,13 @@ Pi's session is a separate append-only JSONL file. It has a session header plus 
 
 Source entry points: [JSON event stream documentation](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/docs/json.md), [RPC event reference](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/docs/rpc.md), [print mode](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/src/modes/print-mode.ts), and [session format](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/docs/session-format.md).
 
-### 4.2 Claude Code: The Clearest Separation of text, json, and stream-json
+### 5.2 Claude Code: The Clearest Separation of text, json, and stream-json
+
+**Run output.**
 
 Claude Code's public definitions most directly answer this document's naming question:
 
-| Format | Wire protocol |
+| Format | stdout transport format |
 | --- | --- |
 | `text` | Emit the final plain text after completion |
 | `json` | Emit **one** result object after completion, containing result, session ID, usage/cost, and other metadata |
@@ -139,22 +316,34 @@ By default, `stream-json` means “emit a message or event as soon as it is prod
 It also has two concepts that are easily confused with trajectory but are in fact entirely different:
 
 - `--input-format stream-json` controls stdin; it is not inferred implicitly from the output format.
-- `--replay-user-messages` is input-confirmation echoing for duplex clients, not a replay of an old session trajectory.
+- `--replay-user-messages` is input-confirmation echoing for duplex clients, not a replay of an old session's execution history into output.
+
+**Session.**
 
 Claude Code saves sessions by default under `~/.claude/projects/<encoded-cwd>/<session-id>.jsonl`. Continue, resume, and fork operate on this persistent state; stdout's text/json/stream-json setting affects only how the current invocation reports to its parent process. `--no-session-persistence` is also a separate switch.
 
 The local unofficial snapshot shows transcript entries with parent UUIDs, and stores the full contents of large tool results separately on disk while leaving a preview and path in the message. This further demonstrates that a session is a recoverable directed history, not a stdout event log. It also shows that both sessions and streams may contain complete tool arguments, results, and hook stdout/stderr, and must be treated as sensitive data.
 
+**Execution trace.**
+
+`--debug` / `--debug-file` records diagnostic logs independently of output format.
+
+**Trajectory.**
+
+Claude Code has no dedicated trajectory-path parameter. When Harbor parses `stream-json` and generates a benchmark record, it is projecting a trajectory from run output, not renaming the stdout stream as a trajectory.
+
 **Lessons worth adopting:**
 
-- The three output names map one-to-one to wire protocols, minimizing ambiguity.
+- The three output names map one-to-one to stdout transport formats, minimizing ambiguity.
 - Partial deltas are a separate capability rather than being inseparably bound to the name `stream-json`.
 - The terminal `result` aggregates status, final answer, session ID, turn, and usage/cost, so consumers do not need to scan the entire stream to calculate the final result.
 - Session persistence is fully orthogonal to stdout representation.
 
 Authoritative contracts: [CLI reference](https://code.claude.com/docs/en/cli-usage), [headless mode](https://code.claude.com/docs/en/headless), [sessions](https://code.claude.com/docs/en/sessions), and [custom session storage](https://code.claude.com/docs/en/agent-sdk/session-storage).
 
-### 4.3 Codex: Default Text, `--json` JSONL, and Automatically Persisted Rollouts
+### 5.3 Codex: Default Text, `--json` JSONL, and Automatically Persisted Rollouts
+
+**Run output.**
 
 `codex exec` does not have `--output-format`:
 
@@ -176,6 +365,8 @@ error
 
 An item's `type` then distinguishes agent messages, reasoning, command execution, file changes, MCP/collaboration tools, web searches, todos, and errors. A successful run normally ends with `turn.completed`, which contains usage; a failed run ends with `turn.failed`. The current interrupted path may have no terminal JSON event, so a reliable runner should still check EOF, exit code/signal, and stderr together.
 
+**Session.**
+
 Ordinary sessions are written automatically to:
 
 ```text
@@ -184,18 +375,28 @@ $CODEX_HOME/sessions/YYYY/MM/DD/rollout-<timestamp>-<thread-id>.jsonl
 
 Each line's outer envelope carries timestamp, ordinal, type, and payload, and every line is flushed after writing. Resume continues appending to the original rollout; fork creates a new thread ID and materializes the inherited history into a new rollout. The persistence policy retains messages, reasoning, tool calls/outputs, and other data needed for recovery, but filters many transient deltas, begin events, warnings, and UI events. A rollout is therefore not a mirror of stdout JSONL either.
 
-Codex further distinguishes a deeper, opt-in `rollout-trace`: it may record prompts, responses, tool I/O, and terminal output for local troubleshooting. It is not used for resume and is not a stable CLI trajectory interface. Beyond that there is OpenTelemetry. These three similarly named concepts have entirely different purposes.
+**Execution trace.**
+
+Codex separately implements an opt-in `rollout-trace`. Its local bundle stores `manifest.json`, ordered raw events, prompts/responses, tool I/O, terminal output, and payload references, and can reduce them offline into a semantic graph for a debugger. It has an independent `trace_id` while referencing the observed session's `rollout_id`, directly demonstrating that trace identity and session identity should not be conflated.
+
+`rollout-trace` is for local troubleshooting, not resume; OpenTelemetry is yet another observability output.
+
+**Trajectory.**
+
+Codex has no dedicated benchmark trajectory. Neither the session rollout nor `rollout-trace` is a stable benchmark-trajectory interface; evaluators must create a separate projection from public JSONL, the session rollout, or a trace.
 
 **Lessons worth adopting:**
 
 - The default mode strictly enforces “results on stdout, diagnostics on stderr.”
-- `--output-last-message` demonstrates that an “additional artifact sink” need not change the main output format.
+- `--output-last-message` demonstrates that an additional file sink need not change the main output format.
 - Rollouts use ordinals, flush line by line, and can repair a torn tail that lacks a final newline.
 - JSONL is a public integration surface actually consumed by the SDK, but the schema has no version number, so consumers must still tolerate unknown events, item types, and newly added fields.
 
-Source entry points: [exec CLI](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/cli.rs), [stdout contract](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/lib.rs), [exec events](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/exec_events.rs), and [rollout recorder](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/rollout/src/recorder.rs).
+Source and authoritative contract entry points: [OpenAI CLI reference](https://developers.openai.com/codex/cli/reference), [exec CLI](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/cli.rs), [stdout contract](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/lib.rs), [exec events](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/exec_events.rs), [rollout recorder](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/rollout/src/recorder.rs), and [rollout trace](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/rollout-trace/README.md).
 
-### 4.4 OpenCode: run's `json` Is Coarse-Grained JSONL, While Sessions Live in SQLite
+### 5.4 OpenCode: run's `json` Is Coarse-Grained JSONL, While Sessions Live in SQLite
+
+**Run output.**
 
 OpenCode's command is:
 
@@ -213,19 +414,31 @@ This keeps it very lightweight, but leaves automated consumers with three costs:
 2. The schema is unversioned and is projected ad hoc from internal session events.
 3. The name `--format json` does not reveal that it is a stream.
 
+**Session.**
+
 OpenCode's persistence layer differs even more from its CLI stream. Sessions, messages, parts, and internal durable events/projections primarily live in a global SQLite database; `--continue`, `--session`, and `--fork` determine which session is loaded or copied. `opencode export [sessionID]` is a separate command: it writes a materialized session snapshot as one pretty-printed JSON object to stdout, which the user can then redirect with the Shell. It cannot be treated as a final-object mode for `run --format json`.
 
 Large tool outputs have their previews truncated while the full contents are stored in tool-output files under the data directory. Streams, sessions, and exports cannot by default be regarded as having undergone complete secret redaction; `export --sanitize` performs only limited sanitization.
 
+**Execution trace.**
+
+OpenCode has conventional runtime logs and debug subcommands for configuration, LSP, files, snapshots, and related issues, but no public complete execution-trace artifact.
+
+**Trajectory.**
+
+OpenCode has no dedicated benchmark trajectory. The object emitted by `opencode export` remains a session snapshot; only after an adapter converts its task steps into an evaluation schema is the result a trajectory.
+
 **Lessons worth adopting:**
 
 - A CLI stream can project only semantic events useful to integrations instead of exposing every internal event.
-- Session storage can be implemented with SQLite while the wire protocol remains JSONL.
+- Session storage can be implemented with SQLite while the external transport format remains JSONL.
 - The counterexample is that terminal footers and schema versions are cheap, yet substantially reduce the cost of inferring runner state.
 
 Source entry points: [run command](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/opencode/src/cli/cmd/run.ts), [session tables](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/core/src/session/sql.ts), and [export command](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/opencode/src/cli/cmd/export.ts).
 
-### 4.5 Grok Build: The Most Complete Output Matrix, Plus Two Separate Session Logs
+### 5.5 Grok Build: The Most Complete Output Matrix, Plus Multi-Layer Session State
+
+**Run output.**
 
 Grok Build provides four headless formats:
 
@@ -241,9 +454,11 @@ The native stream has event types including text, thought, tool call/update, pla
 This matrix demonstrates two independent axes of extension:
 
 - **Time axis:** a final result object versus a real-time event stream.
-- **Schema axis:** the agent's own semantic events versus a wire format compatible with an external ecosystem.
+- **Schema axis:** the agent's own semantic events versus a transport format compatible with an external ecosystem.
 
 It also demonstrates the cost of a compatibility layer: the same internal event must maintain two public projections, some internal states cannot be mapped losslessly, and partial framing, usage, errors, and terminal results must each be defined independently. nanoPyCodeAgent does not need to duplicate this complexity before it has a concrete consumer.
+
+**Session.**
 
 Grok stores sessions by default under `~/.grok/sessions/<encoded-cwd>/<session-id>/`, distinguishing at least:
 
@@ -252,6 +467,14 @@ Grok stores sessions by default under `~/.grok/sessions/<encoded-cwd>/<session-i
 - Other state for summaries, plans, rewinds, signals, feedback, compaction, subagents, and more.
 
 The JSONL writer uses owner-only directories, append, and torn-tail repair. Continue/resume/fork operate on this session; output format remains only a stdout selection for the current headless invocation.
+
+**Execution trace.**
+
+In headless mode, `RUST_LOG` can write diagnostics to stderr and `GROK_LOG_FILE` can write them to a file. The product data directory also contains internal logs and session trace exports. These support troubleshooting or session analysis and are not output formats.
+
+**Trajectory.**
+
+Grok Build has no benchmark `--trajectory PATH` equivalent to the semantics proposed here. Evaluators still need to convert a public stream, session, or trace export.
 
 Grok's native `json` / `streaming-json` formats have another rule for usage/cost worth adopting: when the server has not reported the full cost, cost is omitted or marked incomplete rather than writing a missing value as 0. The Messages-compatible stream is constrained by its target schema, so some unknown values still fall back to 0, with the caveat explicitly documented. For nanoPyCodeAgent's own controllable native benchmark protocol, “unknown” and “free” must be separate states.
 
@@ -266,7 +489,7 @@ Source entry points: [headless guide](https://github.com/xai-org/grok-build/blob
 
 ---
 
-## 5. What Exactly Is `stream-json`?
+## 6. What Exactly Is `stream-json`?
 
 The recommended formal definition of `stream-json` is:
 
@@ -282,7 +505,7 @@ For example:
 {"schema_version":1,"type":"run.completed","run_id":"r1","sequence":4,"timestamp":"2026-08-22T10:00:02.010Z","status":"completed","result":"Done.","turns":1,"usage":{"input_tokens":120,"output_tokens":8}}
 ```
 
-### 5.1 How It Differs from Ordinary JSON
+### 6.1 How It Differs from Ordinary JSON
 
 | Dimension | `json` | `stream-json` |
 | --- | --- | --- |
@@ -293,9 +516,9 @@ For example:
 | Artifact after interruption | The entire document may be invalid or may never have been written | Earlier complete lines remain parseable, but the exit code must be consulted to identify abnormal termination |
 | Best suited for | Shell scripts and CI reading one result | Runners, real-time UIs, Harbor adapters, and observation of long-running tasks |
 
-It is also commonly called **NDJSON** or **JSON Lines / JSONL**. The recommendation here is to use `stream-json` as the CLI enum name and explicitly state in the documentation that “the wire format is NDJSON,” avoiding the misconception that `jsonl` is only appropriate for files.
+This document calls the format **JSON Lines (JSONL)**. It is also commonly called **Newline-Delimited JSON (NDJSON)**. Both names emphasize that newlines delimit records; neither implies that the data must be stored in a file. The recommendation is to use `stream-json` as the CLI enum name and explicitly document JSONL/NDJSON as its transport format.
 
-### 5.2 What It Does Not Automatically Promise
+### 6.2 What It Does Not Automatically Promise
 
 `stream-json` does not automatically imply:
 
@@ -310,9 +533,9 @@ If token-level deltas are needed later, the recommendation is to add `--include-
 
 ---
 
-## 6. What Should `--trajectory PATH` Mean?
+## 7. What Should `--trajectory PATH` Mean?
 
-Most of the five projects do not have a flag with this exact name because they already have product-level session stores by default: Pi, Claude, Codex, and Grok automatically save JSONL, while OpenCode automatically saves SQLite. Users continue/resume/fork by session ID instead of specifying a trajectory file for each run.
+None of the five products has a `--trajectory PATH` exactly matching the semantics proposed here. That is not because a session can substitute for a trajectory, but because these products first solve the problem of continuing interactive work: Pi, Claude, Codex, and Grok persist session files or directories, while OpenCode uses SQLite; users continue, resume, or fork by session ID. When a benchmark trajectory is needed, an integration commonly projects it from a public event stream or session.
 
 nanoPyCodeAgent does not currently have such a session system. Under that premise, the recommendation is:
 
@@ -322,8 +545,8 @@ nanoPyCodeAgent does not currently have such a session system. Under that premis
 
 It expresses two closely related, non-conflicting things at the same time:
 
-1. **Presence enables:** the trajectory artifact for this run is enabled only when the parameter is present.
-2. **Value chooses destination:** `PATH` is the file path for that artifact.
+1. **Presence enables:** a trajectory for this run is generated only when the parameter is present.
+2. **Value chooses destination:** `PATH` is the file path for that trajectory.
 
 It **should not**:
 
@@ -346,7 +569,7 @@ nanoPyCodeAgent -p "fix it" --output-format stream-json > events.jsonl
 nanoPyCodeAgent -p "fix it" --output-format text --trajectory run.jsonl
 ```
 
-The JSONL produced by the second and third commands **need not be identical**: the public stream should be stable, small, and safe, while the trajectory may contain more complete attribution fields and truncation metadata. Both should be projected from the same canonical event model to avoid inconsistent facts.
+The JSONL produced by the second and third commands **need not be identical**: the public stream should be stable, small, and safe, while the trajectory may contain more complete attribution fields and truncation metadata. Both should be projected from the same set of canonical internal events to avoid inconsistent facts.
 
 The path contract should also specify:
 
@@ -357,13 +580,13 @@ The path contract should also specify:
 - Readers should tolerate a final incomplete line left by a crash, but must not silently ignore a malformed line in the middle.
 - `--trajectory -` should not be allowed, because it would make the trajectory compete with the selected stdout formatter for the same protocol channel.
 
-If sessions become **automatically persisted by default** in the future, the semantics should be separated again: `--no-session-persistence` controls whether to save, `--session`/`--resume` control identity, and `--session-path` should be introduced only if overriding the default location is genuinely supported. Do not silently promote today's debug trajectory into tomorrow's resume format.
+If sessions become **automatically persisted by default** in the future, the semantics should remain separate: `--no-session-persistence` controls whether to save, `--session`/`--resume` control identity, and `--session-path` should be introduced only if overriding the default location is genuinely supported. Do not silently promote today's benchmark trajectory into tomorrow's resume format. Execution traces should likewise be controlled by separate debug/trace configuration rather than borrowing `--trajectory`.
 
 ---
 
-## 7. Recommended Contract for nanoPyCodeAgent
+## 8. Recommended Contract for nanoPyCodeAgent
 
-### 7.1 CLI
+### 8.1 CLI
 
 The recommendation is to expand the original two formats to three:
 
@@ -374,16 +597,17 @@ nanoPyCodeAgent [-p PROMPT | --prompt-file PATH | stdin]
                 [--trajectory PATH]
 ```
 
-| Option | stdout contract | Typical consumer |
+| `--output-format` value | stdout contract | Typical consumer |
 | --- | --- | --- |
 | `text` (default) | Final assistant text only; an empty result may produce empty stdout | Humans and the simplest benchmark runners |
 | `json` | Exactly one result object after run initialization; preflight failure may leave stdout empty; no interspersed logs | Shell, CI, one-off scripts |
 | `stream-json` | One event per line; graceful termination ends with a terminal event, otherwise EOF + nonzero exit/signal denotes an aborted stream | Harbor adapters, SDKs, real-time UIs |
-| `--trajectory PATH` | Does not change stdout; separately writes incremental JSONL | Offline attribution, benchmark reports, debugging |
+
+`--trajectory PATH` does not belong in the output-format table. It leaves the stdout contract above unchanged and separately writes incremental JSONL for benchmarks, offline statistics, and failure attribution.
 
 Diagnostics, retry notices, tracebacks, and human-facing progress must all go to stderr. The original API error may still appear on stderr to satisfy Harbor's error-classification requirements; machine-mode stdout must remain parseable at all times.
 
-### 7.2 Single `json` Result Object
+### 8.2 Single `json` Result Object
 
 It should contain at least:
 
@@ -408,9 +632,9 @@ The protocol's starting boundary must also be explicit: if **preflight** work su
 
 When usage/cost is missing, omit it or explicitly mark `usage_incomplete: true`; do not substitute 0 for unknown. Grok's completeness rule is better suited to benchmarks here than “always fill every cell in a numeric table.”
 
-If `--output-schema PATH` is added in the future, it should constrain the semantic contents of `result` rather than alter the transport envelope above. Codex and Grok both separate “structured model answer” from “CLI output protocol,” which is the correct boundary.
+If `--output-schema PATH` is added in the future, it should constrain the semantic contents of `result` rather than change the outer structure of the CLI result object. Codex and Grok both separate “structured model answer” from “CLI output protocol,” which is the correct boundary.
 
-### 7.3 Minimal `stream-json` Event Set
+### 8.3 Minimal `stream-json` Event Set
 
 The first version does not need to reproduce every event from all five projects. The recommended minimum set is:
 
@@ -445,7 +669,7 @@ Protocol rules:
 - Oversized tool output records should include a preview, original size, and truncated flag; storing the full text separately requires an explicit path and cleanup policy.
 - Token deltas can be added later through `assistant.delta` or a partial flag; `assistant.message` must not mean both a delta and a final snapshot.
 
-### 7.4 Trajectory Contents and Stability
+### 8.4 Trajectory Contents and Stability
 
 The purpose of a trajectory is to “explain why this run produced this result.” At minimum, it should support reconstruction of:
 
@@ -456,13 +680,13 @@ The purpose of a trajectory is to “explain why this run produced this result.�
 - The occurrence of compaction/truncation and the size of omitted contents.
 - Final status and result.
 
-The first version should, however, be explicitly labeled a **diagnostic/benchmark artifact, not resumable session**. Resume support additionally requires stable parent/entry IDs, branch semantics, model/tool configuration migration, post-compaction context recovery, and long-term schema migration. The session implementations in Pi, Claude, Codex, OpenCode, and Grok all show that this is far more than “read the JSONL back and continue.”
+The first version should, however, be explicitly labeled: **for benchmark/analysis use, not an execution trace or resumable session.** It need not collect every debugging detail such as provider retries, internal queues, and exception stacks; those belong in an execution trace. Resume support additionally requires stable parent/entry IDs, branch semantics, model/tool configuration migration, post-compaction context recovery, and long-term schema migration. The session implementations in Pi, Claude, Codex, OpenCode, and Grok all show that this is far more than “read the JSONL back and continue.”
 
 When Harbor requires ATIF, the recommendation is to convert the native trajectory into ATIF at the adapter layer instead of making the agent loop depend directly on a benchmark schema. Only if Harbor becomes the sole primary consumer would it be worth considering ATIF directly as the persistent format.
 
-### 7.5 Security and Data Volume
+### 8.5 Security and Data Volume
 
-The sessions/streams of all five projects may store or emit user prompts, reasoning, tool arguments, file contents, command output, environment paths, and provider metadata. Some projects sanitize recognizable secrets from commands or truncate large results, but none provides a universal guarantee that all secrets are removed.
+The traces, trajectories, sessions, and public streams of all five projects may store or emit user prompts, reasoning, tool arguments, file contents, command output, environment paths, and provider metadata. Some projects sanitize recognizable secrets from commands or truncate large results, but none provides a universal guarantee that all secrets are removed.
 
 The trajectory should therefore be treated as a sensitive file:
 
@@ -476,9 +700,9 @@ The trajectory should therefore be treated as a sensitive file:
 
 ---
 
-## 8. Final Recommendation
+## 9. Final Recommendation
 
-The final answers to the questions at the beginning of this document are:
+The final boundaries among the four concepts introduced at the beginning are:
 
 ```text
 --output-format text|json|stream-json
@@ -504,14 +728,26 @@ stream-json
 
 **Emits NDJSON during the run: one complete event object per line; on graceful termination, the last line is a terminal result, while abnormal termination may leave only a complete, still-parseable prefix.** Its difference from `json` is “one final snapshot” versus “an incrementally consumable event sequence,” not “whether output is written to a file.”
 
-These definitions follow the clear naming of Claude Code and Grok most closely, while incorporating Pi's delta/final separation, Codex's stdout/stderr boundary and additional artifact sink, OpenCode's semantic projection, and the common design across all projects of separating sessions from public event streams.
+```text
+execution trace
+```
+
+**Enabled through separate debug/trace configuration for troubleshooting and observability.** It may be more detailed and sensitive than public output and trajectories, and it does not promise resume support.
+
+```text
+session
+```
+
+**Managed through separate persistence/session/resume interfaces for continuing, forking, and compacting work across runs.** Codex's `rollout-*.jsonl` belongs to this category; the word rollout in its filename does not make it a trajectory.
+
+These definitions follow the clear naming of Claude Code and Grok most closely, while incorporating Pi's delta/final separation, Codex's stdout/stderr boundary and additional file sink, OpenCode's semantic projection, and the common design across all projects of separating sessions from public event streams.
 
 ---
 
-## 9. Reference Entry Points
+## 10. Reference Entry Points
 
 - Pi: [usage](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/docs/usage.md), [JSON event stream](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/docs/json.md), [RPC events](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/docs/rpc.md), [sessions](https://github.com/earendil-works/pi/blob/c49906ec77788625aacbdc53ebca6fbe65bd20f5/packages/coding-agent/docs/sessions.md)
 - Claude Code: [CLI reference](https://code.claude.com/docs/en/cli-usage), [headless mode](https://code.claude.com/docs/en/headless), [sessions](https://code.claude.com/docs/en/sessions), [session storage](https://code.claude.com/docs/en/agent-sdk/session-storage)
-- Codex: [exec CLI](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/cli.rs), [exec events](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/exec_events.rs), [rollout recorder](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/rollout/src/recorder.rs)
+- Codex: [OpenAI CLI reference](https://developers.openai.com/codex/cli/reference), [exec CLI](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/cli.rs), [exec events](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/exec/src/exec_events.rs), [rollout recorder](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/rollout/src/recorder.rs), [rollout trace](https://github.com/openai/codex/blob/4f39251a010a8bd7d692d25fb33832ff06f1635a/codex-rs/rollout-trace/README.md)
 - OpenCode: [run command](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/opencode/src/cli/cmd/run.ts), [export command](https://github.com/anomalyco/opencode/blob/e00890c67261a435cee6409366a68999a93393fd/packages/opencode/src/cli/cmd/export.ts)
 - Grok Build: [headless guide](https://github.com/xai-org/grok-build/blob/19d42e35c07a9c9244f03f6df0c4c353f970d4f9/crates/codegen/xai-grok-pager/docs/user-guide/14-headless-mode.md), [format enum](https://github.com/xai-org/grok-build/blob/19d42e35c07a9c9244f03f6df0c4c353f970d4f9/crates/codegen/xai-grok-pager/src/headless/cli.rs), [session export contract](https://github.com/xai-org/grok-build/blob/19d42e35c07a9c9244f03f6df0c4c353f970d4f9/crates/codegen/xai-grok-shell/src/session/export.rs)
