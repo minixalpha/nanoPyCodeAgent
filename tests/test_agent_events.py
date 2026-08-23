@@ -3,6 +3,7 @@
 from types import SimpleNamespace
 
 import httpx
+import pytest
 
 from nanopycodeagent import agent, settings
 from nanopycodeagent.event_journal import EventJournal
@@ -80,7 +81,7 @@ def test_headless_model_reply_is_journaled_without_changing_stdout(monkeypatch, 
     assert entries[-1].payload["outcome"] == "completed"
 
 
-def test_failed_tool_events_project_the_existing_tool_transcript(
+def test_failed_tool_events_project_the_existing_tool_output(
     monkeypatch, capsys, tmp_path
 ):
     missing = tmp_path / "missing.txt"
@@ -116,8 +117,17 @@ def test_failed_tool_events_project_the_existing_tool_transcript(
         "run.completed",
     ]
     first_model_call_id = entries[2].payload["model_call_id"]
+    first_model_completed = entries[3].payload
     started = entries[4].payload
     completed = entries[5].payload
+    expected_tool_call = {
+        "type": "tool_call",
+        "tool_call_id": "tool-1",
+        "tool_name": "read",
+        "input": {"path": str(missing)},
+    }
+    assert first_model_completed["content"] == [expected_tool_call]
+    assert first_model_completed["tool_calls"] == [expected_tool_call]
     assert started["model_call_id"] == first_model_call_id
     assert started["tool_call_id"] == "tool-1"
     assert started["tool_name"] == "read"
@@ -170,3 +180,45 @@ def test_interrupted_model_stream_preserves_partial_stdout_and_records_failure(
     assert failure["error_type"] == "ReadError"
     assert failure["message"] == "peer disconnected"
     assert failure["duration_ms"] >= 0
+
+
+def test_unexpected_tool_exception_is_completed_before_the_run_fails(
+    monkeypatch, capsys, tmp_path
+):
+    target = tmp_path / "notes.txt"
+    tool_reply = FakeStream(
+        [read_tool_use_block("tool-raises", path=str(target))],
+        stop_reason="tool_use",
+    )
+    patch_client(monkeypatch, FakeClient(FakeMessages([tool_reply])))
+
+    def raise_from_read(*args, **kwargs):
+        raise RuntimeError("disk disappeared")
+
+    monkeypatch.setattr(agent, "run_read", raise_from_read)
+
+    with pytest.raises(RuntimeError, match="disk disappeared"):
+        agent.run_headless("read notes")
+
+    captured = capsys.readouterr()
+    assert captured.out == f"[read] {target}\n"
+
+    entries = EventJournal.replay(_only_journal_path())
+    assert [entry.type for entry in entries] == [
+        "run.started",
+        "user.message",
+        "model.started",
+        "model.completed",
+        "tool.started",
+        "tool.completed",
+        "run.failed",
+    ]
+    tool_failure = entries[-2].payload
+    assert tool_failure["tool_call_id"] == "tool-raises"
+    assert tool_failure["result"] is None
+    assert tool_failure["is_error"] is True
+    assert tool_failure["error"] == {
+        "type": "RuntimeError",
+        "message": "disk disappeared",
+    }
+    assert tool_failure["duration_ms"] >= 0

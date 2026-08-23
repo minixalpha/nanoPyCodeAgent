@@ -61,7 +61,7 @@ MAX_TOKENS = 8192
 
 # How many model replies one headless task may spend before the run stops on
 # its own. The interactive loop needs no such cap — a human watching the
-# transcript can interrupt a model that keeps retrying the same command —
+# visible output can interrupt a model that keeps retrying the same command —
 # but an unattended run would keep paying for that loop until the API
 # refuses it.
 DEFAULT_MAX_TURNS = 50
@@ -119,10 +119,39 @@ def _json_value(value: object) -> JsonValue:
     raise TypeError(f"cannot represent {type(value).__name__} as event JSON")
 
 
-def _content_blocks(value: object) -> list[JsonValue]:
-    content = _json_value(value)
-    if not isinstance(content, list):
+def _native_content_blocks(value: object) -> list[JsonValue]:
+    """Normalize Anthropic response blocks into provider-neutral content."""
+    source_blocks = _json_value(value)
+    if not isinstance(source_blocks, list):
         raise TypeError("model response content must be a list")
+    content: list[JsonValue] = []
+    for source_block in source_blocks:
+        if not isinstance(source_block, dict):
+            raise TypeError("model response content blocks must be objects")
+        source_type = source_block.get("type")
+        if source_type == "text":
+            content.append({"type": "text", "text": source_block.get("text", "")})
+        elif source_type == "tool_use":
+            content.append(
+                {
+                    "type": "tool_call",
+                    "tool_call_id": source_block.get("id"),
+                    "tool_name": source_block.get("name"),
+                    "input": source_block.get("input"),
+                }
+            )
+        else:
+            # Preserve an unfamiliar block without declaring its SDK shape to
+            # be part of the core schema. A future transport can normalize a
+            # corresponding provider block into the same content vocabulary.
+            content.append(
+                {
+                    "type": "extension",
+                    "namespace": "anthropic",
+                    "source_type": source_type,
+                    "value": source_block,
+                }
+            )
     return content
 
 
@@ -138,7 +167,7 @@ def _response_header(stream: object, name: str) -> str | None:
 
 
 class _TextOutputProjector:
-    """Preserve the existing terminal transcript as a Native Event projection."""
+    """Preserve the existing text Run Output as a Native Event projection."""
 
     def __init__(self, reply_prefix: str) -> None:
         self._reply_prefix = reply_prefix
@@ -178,7 +207,9 @@ class _TextOutputProjector:
             else:
                 print_tool_use(f"[bash]$ {arguments['command']}")
         elif event.type == "tool.completed":
-            print_tool_output(str(event.payload["result"]))
+            result = event.payload["result"]
+            if isinstance(result, str):
+                print_tool_output(result)
 
 
 def _package_version() -> str:
@@ -216,28 +247,49 @@ def _run_one_tool(
         },
     )
     tool_started_ns = time.perf_counter_ns()
-    if block.name == "read":
-        path = block.input["path"]
-        output, is_error = run_read(
-            path,
-            offset=block.input.get("offset", 1),
-            limit=block.input.get("limit"),
+    try:
+        if block.name == "read":
+            path = block.input["path"]
+            output, is_error = run_read(
+                path,
+                offset=block.input.get("offset", 1),
+                limit=block.input.get("limit"),
+            )
+        elif block.name == "write":
+            path = block.input["path"]
+            content = block.input["content"]
+            output, is_error = run_write(path, content)
+        elif block.name == "edit":
+            path = block.input["path"]
+            old_text = block.input["old_text"]
+            new_text = block.input["new_text"]
+            output, is_error = run_edit(
+                path,
+                old_text,
+                new_text,
+                replace_all=block.input.get("replace_all", False),
+            )
+        else:  # bash — the only other tool offered
+            command = block.input["command"]
+            with Spinner("Running..."):
+                output, is_error = run_bash(command)
+    except BaseException as exc:
+        emitter.emit(
+            "tool.completed",
+            {
+                "model_call_id": model_call_id,
+                "tool_call_id": block.id,
+                "tool_name": block.name,
+                "result": None,
+                "is_error": True,
+                "error": {"type": type(exc).__name__, "message": str(exc)},
+                "duration_ms": (time.perf_counter_ns() - tool_started_ns)
+                / 1_000_000,
+                "source_timestamp": utc_now(),
+                "timestamp_source": "core",
+            },
         )
-    elif block.name == "write":
-        path = block.input["path"]
-        content = block.input["content"]
-        output, is_error = run_write(path, content)
-    elif block.name == "edit":
-        path = block.input["path"]
-        old_text = block.input["old_text"]
-        new_text = block.input["new_text"]
-        output, is_error = run_edit(
-            path, old_text, new_text, replace_all=block.input.get("replace_all", False)
-        )
-    else:  # bash — the only other tool offered
-        command = block.input["command"]
-        with Spinner("Running..."):
-            output, is_error = run_bash(command)
+        raise
     emitter.emit(
         "tool.completed",
         {
@@ -413,15 +465,11 @@ def _run_model_loop(
             message = stream.get_final_message()
             generation_id = _response_header(stream, "x-generation-id")
 
-        content = _content_blocks(message.content)
+        content = _native_content_blocks(message.content)
         tool_calls = [
-            {
-                "tool_call_id": item.get("id"),
-                "tool_name": item.get("name"),
-                "input": item.get("input"),
-            }
+            item
             for item in content
-            if isinstance(item, dict) and item.get("type") == "tool_use"
+            if isinstance(item, dict) and item.get("type") == "tool_call"
         ]
         provider_response_id = getattr(message, "id", None)
         usage = _json_value(getattr(message, "usage", None))

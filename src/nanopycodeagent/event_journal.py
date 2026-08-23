@@ -41,16 +41,64 @@ type JsonValue = (
 type JsonObject = dict[str, JsonValue]
 type EventSubscriber = Callable[[NativeEvent], None]
 
-_IDENTITY_FIELDS = frozenset(
+_NON_TRUNCATABLE_FIELDS = frozenset(
     {
+        "error_type",
         "generation_id",
         "message_id",
+        "mode",
+        "model",
         "model_call_id",
+        "outcome",
         "provider_response_id",
+        "source_timestamp",
+        "stop_reason",
+        "timestamp_source",
         "tool_call_id",
         "tool_name",
     }
 )
+
+_REQUIRED_PAYLOAD_FIELDS = {
+    "run.started": frozenset({"mode", "model", "max_turns", "source_timestamp"}),
+    "user.message": frozenset({"message_id", "content", "source_timestamp"}),
+    "model.started": frozenset({"model_call_id", "model", "source_timestamp"}),
+    "model.output_delta": frozenset(
+        {"model_call_id", "delta", "source_timestamp"}
+    ),
+    "model.completed": frozenset(
+        {
+            "model_call_id",
+            "message_id",
+            "content",
+            "tool_calls",
+            "model",
+            "stop_reason",
+            "usage",
+            "provider_response_id",
+            "generation_id",
+            "duration_ms",
+            "source_timestamp",
+        }
+    ),
+    "tool.started": frozenset(
+        {"tool_call_id", "tool_name", "input", "source_timestamp"}
+    ),
+    "tool.completed": frozenset(
+        {
+            "tool_call_id",
+            "tool_name",
+            "result",
+            "is_error",
+            "duration_ms",
+            "source_timestamp",
+        }
+    ),
+    "run.completed": frozenset({"outcome", "duration_ms", "source_timestamp"}),
+    "run.failed": frozenset(
+        {"error_type", "message", "duration_ms", "source_timestamp"}
+    ),
+}
 
 
 def utc_now() -> str:
@@ -58,16 +106,115 @@ def utc_now() -> str:
     return datetime.now(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
-def _validate_recorded_at(value: str) -> None:
+def _validate_rfc3339_utc(value: str, field: str) -> None:
     if re.fullmatch(
         r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z",
         value,
     ) is None:
-        raise ValueError("Journal Entry recorded_at must be RFC 3339 UTC")
+        raise ValueError(f"{field} must be RFC 3339 UTC")
     try:
         datetime.fromisoformat(value.removesuffix("Z") + "+00:00")
     except ValueError as exc:
-        raise ValueError("Journal Entry recorded_at must be RFC 3339 UTC") from exc
+        raise ValueError(f"{field} must be RFC 3339 UTC") from exc
+
+
+def _validate_recorded_at(value: str) -> None:
+    _validate_rfc3339_utc(value, "Journal Entry recorded_at")
+
+
+def _require_string(payload: JsonObject, field: str, event_type: str) -> str:
+    value = payload[field]
+    if not isinstance(value, str) or not value:
+        raise ValueError(f"{event_type}.{field} must be a non-empty string")
+    return value
+
+
+def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
+    required = _REQUIRED_PAYLOAD_FIELDS[event_type]
+    missing = sorted(required.difference(payload))
+    if missing:
+        raise ValueError(
+            f"{event_type} missing required fields: {', '.join(missing)}"
+        )
+
+    source_timestamp = payload["source_timestamp"]
+    if source_timestamp is not None:
+        if not isinstance(source_timestamp, str):
+            raise ValueError(f"{event_type}.source_timestamp must be RFC 3339 UTC")
+        _validate_rfc3339_utc(
+            source_timestamp,
+            f"{event_type}.source_timestamp",
+        )
+
+    for field in ("message_id", "model_call_id", "tool_call_id", "tool_name"):
+        if field in payload:
+            _require_string(payload, field, event_type)
+
+    if "duration_ms" in payload:
+        duration = payload["duration_ms"]
+        if (
+            not isinstance(duration, int | float)
+            or isinstance(duration, bool)
+            or duration < 0
+        ):
+            raise ValueError(f"{event_type}.duration_ms must be non-negative")
+
+    if event_type == "run.started":
+        if payload["mode"] not in {"interactive", "headless"}:
+            raise ValueError("run.started.mode must be interactive or headless")
+        _require_string(payload, "model", event_type)
+        max_turns = payload["max_turns"]
+        if max_turns is not None and (
+            not isinstance(max_turns, int)
+            or isinstance(max_turns, bool)
+            or max_turns < 1
+        ):
+            raise ValueError("run.started.max_turns must be positive or null")
+    elif event_type == "model.started":
+        _require_string(payload, "model", event_type)
+    elif event_type == "model.output_delta":
+        if not isinstance(payload["delta"], str):
+            raise ValueError("model.output_delta.delta must be a string")
+    elif event_type == "model.completed":
+        _require_string(payload, "model", event_type)
+        if not isinstance(payload["content"], list):
+            raise ValueError("model.completed.content must be a list")
+        if not isinstance(payload["tool_calls"], list):
+            raise ValueError("model.completed.tool_calls must be a list")
+        if payload["stop_reason"] is not None and not isinstance(
+            payload["stop_reason"], str
+        ):
+            raise ValueError("model.completed.stop_reason must be a string or null")
+        if payload["usage"] is not None and not isinstance(payload["usage"], dict):
+            raise ValueError("model.completed.usage must be an object or null")
+        for field in ("provider_response_id", "generation_id"):
+            value = payload[field]
+            if value is not None and (not isinstance(value, str) or not value):
+                raise ValueError(f"model.completed.{field} must be a string or null")
+    elif event_type == "tool.started":
+        if not isinstance(payload["input"], dict):
+            raise ValueError("tool.started.input must be an object")
+    elif event_type == "tool.completed":
+        result = payload["result"]
+        if result is not None and not isinstance(result, str):
+            raise ValueError("tool.completed.result must be a string or null")
+        if not isinstance(payload["is_error"], bool):
+            raise ValueError("tool.completed.is_error must be a boolean")
+        if result is None and not isinstance(payload.get("error"), dict):
+            raise ValueError("tool.completed.error is required when result is null")
+    elif event_type == "run.completed":
+        if payload["outcome"] not in {"completed", "max_turns_exhausted"}:
+            raise ValueError("run.completed.outcome is unsupported")
+    elif event_type == "run.failed":
+        _require_string(payload, "error_type", event_type)
+        if not isinstance(payload["message"], str):
+            raise ValueError("run.failed.message must be a string")
+
+    timestamp_source = payload.get("timestamp_source")
+    if timestamp_source is not None and (
+        not isinstance(timestamp_source, str) or not timestamp_source
+    ):
+        raise ValueError(f"{event_type}.timestamp_source must be a string")
 
 
 @dataclass(frozen=True, slots=True)
@@ -84,6 +231,7 @@ class NativeEvent:
             json.dumps(self.payload, allow_nan=False)
         except (TypeError, ValueError) as exc:
             raise ValueError("Native Event payload must be valid JSON") from exc
+        _validate_native_payload(self.type, self.payload)
 
     def to_dict(self) -> JsonObject:
         """Return the version-one wire representation of this fact."""
@@ -207,7 +355,7 @@ def _truncate_strings(
         return {
             key: (
                 item
-                if key in _IDENTITY_FIELDS
+                if key in _NON_TRUNCATABLE_FIELDS
                 else _truncate_strings(
                     item,
                     path=f"{path}/{_json_pointer_part(key)}",
@@ -255,7 +403,10 @@ class EventJournal:
         if max_string_chars < 1:
             raise ValueError("max_string_chars must be positive")
         if directory is None:
-            directory = settings.SETTINGS_PATH.parent / "journals"
+            config_root = settings.SETTINGS_PATH.parent
+            config_root.mkdir(mode=0o700, parents=True, exist_ok=True)
+            config_root.chmod(0o700)
+            directory = config_root / "journals"
         directory.mkdir(mode=0o700, parents=True, exist_ok=True)
         directory.chmod(0o700)
         path = directory / f"{run_id}.jsonl"
