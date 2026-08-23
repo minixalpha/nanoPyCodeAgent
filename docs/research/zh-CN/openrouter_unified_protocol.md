@@ -1,6 +1,6 @@
 # OpenRouter 统一模型协议：能力、Cost 与 nanoPyCodeAgent 接入边界
 
-> 本文件为**中文源文件**（source of truth）；对应英文版应完整生成到 `../en/openrouter_unified_protocol.md`，当前尚未生成。
+> 本文件为**中文源文件**（source of truth）；英文版 [`../en/openrouter_unified_protocol.md`](../en/openrouter_unified_protocol.md) 由其生成。
 
 调研时间：2026-08-23。
 

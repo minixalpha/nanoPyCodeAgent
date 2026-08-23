@@ -1,6 +1,6 @@
 # Pi、Claude Code、Codex、OpenCode 与 Grok 的 Source Record、内部事件与 ATIF 如何对应
 
-> 本文件为**中文源文件**（source of truth）；对应英文版应完整生成到 `../en/agent_events_to_atif_examples.md`，当前尚未生成。
+> 本文件为**中文源文件**（source of truth）；英文版 [`../en/agent_events_to_atif_examples.md`](../en/agent_events_to_atif_examples.md) 由其生成。
 
 调研时间：2026-08-23。
 

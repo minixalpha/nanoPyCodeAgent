@@ -1,6 +1,6 @@
 # OpenRouter 的真实 Cost、价格 API 与 Trajectory 记账方案
 
-> 本文件为**中文源文件**（source of truth）；对应英文版应完整生成到 `../en/openrouter_cost_accounting.md`，当前尚未生成。
+> 本文件为**中文源文件**（source of truth）；英文版 [`../en/openrouter_cost_accounting.md`](../en/openrouter_cost_accounting.md) 由其生成。
 
 调研时间：2026-08-23。
 
