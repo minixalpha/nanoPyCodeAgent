@@ -192,6 +192,7 @@ name = "nanopycodeagent"
 source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
+    { name = "httpx" },
 ]
 
 [package.dev-dependencies]
@@ -200,7 +201,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "anthropic", specifier = ">=0.112.0" }]
+requires-dist = [
+    { name = "anthropic", specifier = ">=0.112.0" },
+    { name = "httpx", specifier = ">=0.25.0" },
+]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.1.1" }]
