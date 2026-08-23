@@ -57,9 +57,22 @@ class FakeStream:
     tools.
     """
 
-    def __init__(self, content, stop_reason="end_turn"):
+    def __init__(
+        self,
+        content,
+        stop_reason="end_turn",
+        *,
+        message_id="msg-test",
+        model="test-model",
+        usage=None,
+        response_headers=None,
+    ):
         self._content = content
         self._stop_reason = stop_reason
+        self._message_id = message_id
+        self._model = model
+        self._usage = usage
+        self.response = SimpleNamespace(headers=response_headers or {})
 
     def __enter__(self):
         return self
@@ -78,7 +91,13 @@ class FakeStream:
         return _gen()
 
     def get_final_message(self):
-        return SimpleNamespace(content=self._content, stop_reason=self._stop_reason)
+        return SimpleNamespace(
+            id=self._message_id,
+            content=self._content,
+            model=self._model,
+            stop_reason=self._stop_reason,
+            usage=self._usage,
+        )
 
 
 class FakeMessages:
