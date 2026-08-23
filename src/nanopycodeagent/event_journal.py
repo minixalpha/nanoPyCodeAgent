@@ -129,6 +129,72 @@ def _require_string(payload: JsonObject, field: str, event_type: str) -> str:
     return value
 
 
+def _validate_tool_call(value: JsonValue, field: str) -> JsonObject:
+    if not isinstance(value, dict):
+        raise ValueError(f"{field} items must be objects")
+    if value.get("type") != "tool_call":
+        raise ValueError(f"{field} items must have type tool_call")
+    for name in ("tool_call_id", "tool_name"):
+        item = value.get(name)
+        if not isinstance(item, str) or not item:
+            raise ValueError(f"{field}.{name} must be a non-empty string")
+    if not isinstance(value.get("input"), dict):
+        raise ValueError(f"{field}.input must be an object")
+    return value
+
+
+def _validate_model_content(content: list[JsonValue]) -> list[JsonObject]:
+    tool_calls: list[JsonObject] = []
+    for block in content:
+        if not isinstance(block, dict):
+            raise ValueError("model.completed.content items must be objects")
+        block_type = block.get("type")
+        if block_type == "text":
+            if not isinstance(block.get("text"), str):
+                raise ValueError("model.completed.content.text must be a string")
+        elif block_type == "tool_call":
+            tool_calls.append(
+                _validate_tool_call(block, "model.completed.content")
+            )
+        elif block_type == "extension":
+            namespace = block.get("namespace")
+            if not isinstance(namespace, str) or not namespace:
+                raise ValueError(
+                    "model.completed.content.extension namespace must be a string"
+                )
+            source_type = block.get("source_type")
+            if source_type is not None and not isinstance(source_type, str):
+                raise ValueError(
+                    "model.completed.content.extension source_type is invalid"
+                )
+            if "value" not in block:
+                raise ValueError(
+                    "model.completed.content.extension value is required"
+                )
+        else:
+            raise ValueError(f"unsupported model content type: {block_type}")
+    return tool_calls
+
+
+def _validate_usage(usage: JsonObject) -> None:
+    for field in ("input_tokens", "output_tokens"):
+        if field not in usage:
+            raise ValueError(f"model.completed.usage.{field} is required")
+    for field in (
+        "input_tokens",
+        "output_tokens",
+        "cache_read_input_tokens",
+        "cache_creation_input_tokens",
+    ):
+        if field not in usage:
+            continue
+        value = usage[field]
+        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+            raise ValueError(
+                f"model.completed.usage.{field} must be non-negative"
+            )
+
+
 def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
     required = _REQUIRED_PAYLOAD_FIELDS[event_type]
     missing = sorted(required.difference(payload))
@@ -181,12 +247,23 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             raise ValueError("model.completed.content must be a list")
         if not isinstance(payload["tool_calls"], list):
             raise ValueError("model.completed.tool_calls must be a list")
+        content_tool_calls = _validate_model_content(payload["content"])
+        tool_calls = [
+            _validate_tool_call(item, "model.completed.tool_calls")
+            for item in payload["tool_calls"]
+        ]
+        if tool_calls != content_tool_calls:
+            raise ValueError(
+                "model.completed.tool_calls must match content tool calls"
+            )
         if payload["stop_reason"] is not None and not isinstance(
             payload["stop_reason"], str
         ):
             raise ValueError("model.completed.stop_reason must be a string or null")
         if payload["usage"] is not None and not isinstance(payload["usage"], dict):
             raise ValueError("model.completed.usage must be an object or null")
+        if isinstance(payload["usage"], dict):
+            _validate_usage(payload["usage"])
         for field in ("provider_response_id", "generation_id"):
             value = payload[field]
             if value is not None and (not isinstance(value, str) or not value):

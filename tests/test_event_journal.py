@@ -252,3 +252,47 @@ def test_native_event_contract_rejects_missing_fields_and_untrusted_measurements
                 "source_timestamp": "yesterday",
             },
         )
+
+
+def test_model_completed_contract_validates_nested_content_and_usage():
+    payload = {
+        "model_call_id": "model-1",
+        "message_id": "message-1",
+        "content": [],
+        "tool_calls": [],
+        "model": "test-model",
+        "stop_reason": "end_turn",
+        "usage": {"input_tokens": 10, "output_tokens": 2},
+        "provider_response_id": "message-1",
+        "generation_id": None,
+        "duration_ms": 25,
+        "source_timestamp": "2026-08-23T08:00:00.000Z",
+    }
+
+    with pytest.raises(ValueError, match="content items must be objects"):
+        NativeEvent("model.completed", payload | {"content": [42]})
+
+    with pytest.raises(ValueError, match="tool_call_id must be a non-empty string"):
+        invalid_call = {"type": "tool_call", "tool_name": "read", "input": {}}
+        NativeEvent(
+            "model.completed",
+            payload | {"content": [invalid_call], "tool_calls": [invalid_call]},
+        )
+
+    with pytest.raises(ValueError, match="usage.input_tokens must be non-negative"):
+        NativeEvent(
+            "model.completed",
+            payload | {"usage": {"input_tokens": "10", "output_tokens": 2}},
+        )
+
+    with pytest.raises(ValueError, match="tool_calls must match content tool calls"):
+        valid_call = {
+            "type": "tool_call",
+            "tool_call_id": "tool-1",
+            "tool_name": "read",
+            "input": {"path": "README.md"},
+        }
+        NativeEvent(
+            "model.completed",
+            payload | {"content": [valid_call], "tool_calls": []},
+        )
