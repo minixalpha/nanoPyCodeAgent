@@ -138,6 +138,11 @@ provider:
 | A future adapter normalizes a Source Record with trustworthy time | The adapter copies the upstream time; it does not replace it with adapter receive time. |
 | A future adapter receives a Source Record without trustworthy time | It writes `null`; the Journal writer still preserves receive time in `recorded_at`. |
 
+Native Event v1 explicitly rejects `timestamp_source`. A future ATIF projector
+may record whether it ultimately selected `source_timestamp` or `recorded_at`
+in ATIF `extra`, but that is a projection decision rather than a Native Event
+runtime fact.
+
 ## Event catalog
 
 v1 supports nine event types:

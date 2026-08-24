@@ -115,6 +115,8 @@ Event emitter 必须先把事件追加到 Journal，再交给 live projector。�
 | 未来 adapter 从带可信时间的 Source Record 归一化事件 | 复制上游时间，不改写成 adapter 的接收时间。 |
 | 未来 adapter 的 Source Record 没有可信时间 | 写 `null`；Journal writer 的接收时间仍由 `recorded_at` 保存。 |
 
+Native Event v1 明确拒绝 `timestamp_source`。未来 ATIF projector 可以在 ATIF `extra` 中记录它最终选择了 `source_timestamp` 还是 `recorded_at`，但这属于投影决策，不是 Native Event 运行事实。
+
 ## 事件目录
 
 v1 支持九种事件：

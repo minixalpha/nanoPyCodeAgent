@@ -204,6 +204,8 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
         raise ValueError(
             f"{event_type} missing required fields: {', '.join(missing)}"
         )
+    if "timestamp_source" in payload:
+        raise ValueError(f"{event_type}.timestamp_source is not supported")
 
     source_timestamp = payload["source_timestamp"]
     if source_timestamp is not None:

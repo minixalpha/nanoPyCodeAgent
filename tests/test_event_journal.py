@@ -282,6 +282,45 @@ def test_native_event_contract_rejects_missing_fields_and_untrusted_measurements
         )
 
 
+def test_native_event_contract_rejects_removed_timestamp_source():
+    with pytest.raises(ValueError, match="timestamp_source is not supported"):
+        NativeEvent(
+            "run.completed",
+            {
+                "outcome": "completed",
+                "duration_ms": 10,
+                "source_timestamp": "2026-08-23T08:00:00.000Z",
+                "timestamp_source": "core",
+            },
+        )
+
+
+def test_replay_rejects_removed_timestamp_source(tmp_path):
+    path = tmp_path / "removed-timestamp-source.jsonl"
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "run_id": "run-removed-timestamp-source",
+                "seq": 1,
+                "recorded_at": "2026-08-23T08:00:00.001Z",
+                "type": "run.completed",
+                "payload": {
+                    "outcome": "completed",
+                    "duration_ms": 10,
+                    "source_timestamp": "2026-08-23T08:00:00.000Z",
+                    "timestamp_source": "core",
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="timestamp_source is not supported"):
+        EventJournal.replay(path)
+
+
 @pytest.mark.parametrize(
     "producer",
     [
