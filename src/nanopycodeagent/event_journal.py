@@ -50,17 +50,19 @@ _NON_TRUNCATABLE_FIELDS = frozenset(
         "model",
         "model_call_id",
         "outcome",
+        "producer",
         "provider_response_id",
         "source_timestamp",
         "stop_reason",
-        "timestamp_source",
         "tool_call_id",
         "tool_name",
     }
 )
 
 _REQUIRED_PAYLOAD_FIELDS = {
-    "run.started": frozenset({"mode", "model", "max_turns", "source_timestamp"}),
+    "run.started": frozenset(
+        {"mode", "model", "max_turns", "producer", "source_timestamp"}
+    ),
     "user.message": frozenset({"message_id", "content", "source_timestamp"}),
     "model.started": frozenset({"model_call_id", "model", "source_timestamp"}),
     "model.output_delta": frozenset(
@@ -229,6 +231,15 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
         if payload["mode"] not in {"interactive", "headless"}:
             raise ValueError("run.started.mode must be interactive or headless")
         _require_string(payload, "model", event_type)
+        producer = payload["producer"]
+        if not isinstance(producer, dict):
+            raise ValueError("run.started.producer must be an object")
+        for field in ("name", "version"):
+            value = producer.get(field)
+            if not isinstance(value, str) or not value:
+                raise ValueError(
+                    f"run.started.producer.{field} must be a non-empty string"
+                )
         max_turns = payload["max_turns"]
         if max_turns is not None and (
             not isinstance(max_turns, int)
@@ -286,13 +297,6 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
         _require_string(payload, "error_type", event_type)
         if not isinstance(payload["message"], str):
             raise ValueError("run.failed.message must be a string")
-
-    timestamp_source = payload.get("timestamp_source")
-    if timestamp_source is not None and (
-        not isinstance(timestamp_source, str) or not timestamp_source
-    ):
-        raise ValueError(f"{event_type}.timestamp_source must be a string")
-
 
 @dataclass(frozen=True, slots=True)
 class NativeEvent:

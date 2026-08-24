@@ -80,8 +80,7 @@ Event emitter 必须先把事件追加到 Journal，再交给 live projector。�
     "result": "file contents",
     "is_error": false,
     "duration_ms": 3.72,
-    "source_timestamp": "2026-08-23T08:00:01.419Z",
-    "timestamp_source": "core"
+    "source_timestamp": "2026-08-23T08:00:01.419Z"
   }
 }
 ```
@@ -98,16 +97,23 @@ Event emitter 必须先把事件追加到 Journal，再交给 live projector。�
 
 `seq` 是 run 内排序的唯一权威。`recorded_at` 可能相同，也可能受墙上时钟调整影响，消费者不得仅按时间戳重排。
 
-## 所有事件共有的时间字段
+## 所有事件共有的来源时间字段
 
 每种 v1 事件的 payload 都包含：
 
 | 字段 | 必需 | 类型 | 含义 |
 |---|---:|---|---|
-| `source_timestamp` | 是 | RFC 3339 UTC string 或 `null` | 事实在来源处发生或被观察到的时间。nano core 会写当前 UTC；无法恢复可信来源时间的 adapter 可以写 `null`。 |
-| `timestamp_source` | 否 | non-empty string | `source_timestamp` 的来源。nano core 当前固定写 `"core"`。 |
+| `source_timestamp` | 是 | RFC 3339 UTC string 或 `null` | Native Event producer 所知道的事实发生时间。nano core 在事件边界采时；adapter 只复制上游 Source Record 的可信时间；无法确定时写 `null`。 |
 
 `source_timestamp` 属于 Native Event，`recorded_at` 属于 Journal Entry。两者表达不同阶段，不得互相替代。
+
+这里的 producer 是产生 Native Event 的组件，不是模型供应商：
+
+| producer 情况 | `source_timestamp` |
+|---|---|
+| 当前 nano core 直接产生事件 | core 在 user、model、tool 或 run 的对应事件边界读取 UTC。 |
+| 未来 adapter 从带可信时间的 Source Record 归一化事件 | 复制上游时间，不改写成 adapter 的接收时间。 |
+| 未来 adapter 的 Source Record 没有可信时间 | 写 `null`；Journal writer 的接收时间仍由 `recorded_at` 保存。 |
 
 ## 事件目录
 
@@ -132,8 +138,13 @@ v1 支持九种事件：
 | `mode` | `"interactive"` 或 `"headless"` | 本次运行模式。 |
 | `model` | non-empty string | 请求使用的模型标识。 |
 | `max_turns` | positive integer 或 `null` | 最大模型调用轮数；interactive 当前为 `null`。 |
+| `producer` | object | 产生 Native Event 的程序身份；必须包含 non-empty string `name` 和 `version`。nano core 写入 `{ "name": "nanoPyCodeAgent", "version": <package version> }`。 |
 
 该事件必须是 nano core 产生的第一个事件。它只说明 Agent Run 已开始，不表示模型请求已经发出。
+
+`producer.version` 来自安装包元数据。hatch-vcs 构建的开发版本通常包含 Git revision；直接从未安装的源码运行、无法读取包元数据时写 `"unknown"`。`producer` 是 run 级溯源信息，不随字符串大小上限截断。
+
+`producer.version` 与 Journal Entry 的 `schema_version` 正交：前者回答“哪个 nanoPyCodeAgent 构建产生了这次运行”，后者回答“reader 应按哪个 wire schema 解析每条记录”。消费者不得用其中一个推断另一个。
 
 ### `user.message`
 
@@ -311,8 +322,8 @@ Journal 可能包含超大模型文本、工具输入和工具结果。writer �
 
 ```text
 error_type, generation_id, message_id, mode, model, model_call_id,
-outcome, provider_response_id, source_timestamp, stop_reason,
-timestamp_source, tool_call_id, tool_name
+outcome, producer, provider_response_id, source_timestamp, stop_reason,
+tool_call_id, tool_name
 ```
 
 截断表示 Journal 已丢失该字段的尾部，消费者不得把保留前缀当作完整值。
@@ -360,6 +371,7 @@ Journal 明确记录：
 - 完整模型输出、流式文本和工具调用；
 - 完整工具输入和返回给模型的工具结果；
 - provider message/generation ID、stop reason 和 usage；
+- 产生本次运行的程序名称和包版本；
 - 错误类型、错误消息和各阶段耗时。
 
 因此它可能通过 prompt、模型输出、shell command、文件内容或工具结果间接包含源码、路径、credential 或其他秘密。`0700`/`0600` 只是本机最小访问控制，不等于脱敏、加密或秘密扫描。不得默认上传、公开或作为普通诊断附件分享 Journal。
@@ -390,6 +402,10 @@ Journal file path、run ID、recorded timestamp 和其他 envelope 元数据不�
 ## 版本与兼容性
 
 v1 reader 对未知 `schema_version` 和未知事件类型 fail closed。兼容性规则是：
+
+`schema_version` 管理协议兼容性，`run.started.producer.version` 只提供生产者溯源。修复 producer 实现但不改变 wire contract 时，只改变包版本，不提升 schema；改变必需字段、类型或语义时才按以下规则提升 schema。
+
+`producer` 必需字段在 v1 首次合并和发布前完成，因此属于初始 v1 contract，不构成已发布协议的兼容性变更。以下规则适用于 v1 发布后的演进。
 
 - 增加不改变既有含义的可选 payload 字段，可以保持 `schema_version = 1`；旧 reader 会忽略自己不理解的附加语义。
 - provider-specific model content 应优先放进 `extension` block，而不是增加新的 block type。

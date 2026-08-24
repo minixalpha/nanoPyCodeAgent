@@ -1,5 +1,6 @@
 """End-to-end event and text-projection tests for the agent loop."""
 
+from importlib.metadata import version
 from types import SimpleNamespace
 
 import httpx
@@ -55,6 +56,13 @@ def test_headless_model_reply_is_journaled_without_changing_stdout(monkeypatch, 
         "run.completed",
     ]
     assert [entry.seq for entry in entries] == [1, 2, 3, 4, 5, 6]
+    assert all("timestamp_source" not in entry.payload for entry in entries)
+
+    started_run = entries[0].payload
+    assert started_run["producer"] == {
+        "name": "nanoPyCodeAgent",
+        "version": version("nanoPyCodeAgent"),
+    }
 
     user = entries[1].payload
     assert user["content"] == "fix it"
@@ -133,13 +141,14 @@ def test_failed_tool_events_project_the_existing_tool_output(
     assert started["tool_name"] == "read"
     assert started["input"] == {"path": str(missing)}
     assert started["source_timestamp"].endswith("Z")
-    assert started["timestamp_source"] == "core"
+    assert "timestamp_source" not in started
     assert completed["model_call_id"] == first_model_call_id
     assert completed["tool_call_id"] == "tool-1"
     assert completed["tool_name"] == "read"
     assert completed["result"] == f"[file not found: {missing}]"
     assert completed["is_error"] is True
     assert completed["duration_ms"] >= 0
+    assert "timestamp_source" not in completed
 
 
 def test_interrupted_model_stream_preserves_partial_stdout_and_records_failure(
@@ -180,6 +189,7 @@ def test_interrupted_model_stream_preserves_partial_stdout_and_records_failure(
     assert failure["error_type"] == "ReadError"
     assert failure["message"] == "peer disconnected"
     assert failure["duration_ms"] >= 0
+    assert "timestamp_source" not in failure
 
 
 def test_unexpected_tool_exception_is_completed_before_the_run_fails(

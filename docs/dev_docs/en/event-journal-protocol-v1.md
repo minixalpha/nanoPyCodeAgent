@@ -98,8 +98,7 @@ Each JSONL line has this top-level shape:
     "result": "file contents",
     "is_error": false,
     "duration_ms": 3.72,
-    "source_timestamp": "2026-08-23T08:00:01.419Z",
-    "timestamp_source": "core"
+    "source_timestamp": "2026-08-23T08:00:01.419Z"
   }
 }
 ```
@@ -118,18 +117,26 @@ Each JSONL line has this top-level shape:
 may be equal or affected by wall-clock adjustments, so consumers MUST NOT
 reorder entries solely by timestamp.
 
-## Time fields shared by all events
+## Source-time field shared by all events
 
 Every v1 event payload contains:
 
 | Field | Required | Type | Meaning |
 |---|---:|---|---|
-| `source_timestamp` | yes | RFC 3339 UTC string or `null` | When the fact occurred or was observed at its source. nano core writes current UTC; an adapter that cannot recover a trustworthy source time may write `null`. |
-| `timestamp_source` | no | non-empty string | The source of `source_timestamp`. nano core currently writes `"core"`. |
+| `source_timestamp` | yes | RFC 3339 UTC string or `null` | The fact occurrence time known by the Native Event producer. nano core timestamps the event boundary; an adapter copies only trustworthy time from an upstream Source Record; when no such time is known it writes `null`. |
 
 `source_timestamp` belongs to the Native Event, while `recorded_at` belongs to
 the Journal Entry. They describe different stages and cannot substitute for one
 another.
+
+Here producer means the component that creates the Native Event, not the model
+provider:
+
+| Producer case | `source_timestamp` |
+|---|---|
+| Current nano core produces the event directly | Core reads UTC at the corresponding user, model, tool, or run event boundary. |
+| A future adapter normalizes a Source Record with trustworthy time | The adapter copies the upstream time; it does not replace it with adapter receive time. |
+| A future adapter receives a Source Record without trustworthy time | It writes `null`; the Journal writer still preserves receive time in `recorded_at`. |
 
 ## Event catalog
 
@@ -154,9 +161,21 @@ v1 supports nine event types:
 | `mode` | `"interactive"` or `"headless"` | The run mode. |
 | `model` | non-empty string | Requested model identifier. |
 | `max_turns` | positive integer or `null` | Maximum number of model-call turns; currently `null` in interactive mode. |
+| `producer` | object | Identity of the program producing Native Events. It MUST contain non-empty string fields `name` and `version`. nano core writes `{ "name": "nanoPyCodeAgent", "version": <package version> }`. |
 
 This MUST be the first event produced by nano core. It says that the Agent Run
 has begun, not that a model request has already been sent.
+
+`producer.version` comes from installed package metadata. Development versions
+built by hatch-vcs normally include a Git revision. When running directly from
+an uninstalled source tree and package metadata is unavailable, core writes
+`"unknown"`. `producer` is run-level provenance and is not subject to the
+string-size truncation limit.
+
+`producer.version` is orthogonal to the Journal Entry `schema_version`: the
+former answers which nanoPyCodeAgent build produced the run; the latter tells a
+reader which wire schema parses each entry. Consumers MUST NOT infer either one
+from the other.
 
 ### `user.message`
 
@@ -365,8 +384,8 @@ truncated, preserving correlation and schema validity:
 
 ```text
 error_type, generation_id, message_id, mode, model, model_call_id,
-outcome, provider_response_id, source_timestamp, stop_reason,
-timestamp_source, tool_call_id, tool_name
+outcome, producer, provider_response_id, source_timestamp, stop_reason,
+tool_call_id, tool_name
 ```
 
 Truncation means that the Journal has lost the tail of that field. Consumers
@@ -426,7 +445,8 @@ The Journal explicitly records:
 - the current user input;
 - complete model output, streaming text, and tool calls;
 - complete tool input and the tool result returned to the model;
-- provider message/generation IDs, stop reason, and usage; and
+- provider message/generation IDs, stop reason, and usage;
+- the program name and package version that produced the run; and
 - error type, error message, and stage durations.
 
 It may therefore contain source code, paths, credentials, or other secrets
@@ -469,6 +489,17 @@ stable user-output contract. External programs SHOULD NOT treat
 
 A v1 reader fails closed on an unknown `schema_version` or event type. The
 compatibility rules are:
+
+`schema_version` governs protocol compatibility, while
+`run.started.producer.version` provides producer provenance only. A producer
+implementation fix that leaves the wire contract unchanged changes only the
+package version, not the schema. A required field, type, or semantic change
+increments the schema according to the rules below.
+
+The required `producer` field was finalized before the first merge and release
+of v1, so it belongs to the initial v1 contract and is not a compatibility
+change to a released protocol. The following rules govern evolution after v1
+is released.
 
 - An optional payload field that does not change existing meaning MAY be added
   while retaining `schema_version = 1`; an old reader ignores semantics it does

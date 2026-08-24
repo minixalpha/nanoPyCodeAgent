@@ -243,7 +243,6 @@ def _run_one_tool(
             "tool_name": block.name,
             "input": tool_input,
             "source_timestamp": utc_now(),
-            "timestamp_source": "core",
         },
     )
     tool_started_ns = time.perf_counter_ns()
@@ -286,7 +285,6 @@ def _run_one_tool(
                 "duration_ms": (time.perf_counter_ns() - tool_started_ns)
                 / 1_000_000,
                 "source_timestamp": utc_now(),
-                "timestamp_source": "core",
             },
         )
         raise
@@ -300,7 +298,6 @@ def _run_one_tool(
             "is_error": is_error,
             "duration_ms": (time.perf_counter_ns() - tool_started_ns) / 1_000_000,
             "source_timestamp": utc_now(),
-            "timestamp_source": "core",
         },
     )
     return {
@@ -368,8 +365,11 @@ def _run_exchange(
                 "mode": "headless" if max_turns is not None else "interactive",
                 "model": model,
                 "max_turns": max_turns,
+                "producer": {
+                    "name": "nanoPyCodeAgent",
+                    "version": _package_version(),
+                },
                 "source_timestamp": utc_now(),
-                "timestamp_source": "core",
             },
         )
         user_content = messages[-1]["content"]
@@ -379,7 +379,6 @@ def _run_exchange(
                 "message_id": f"user-{uuid.uuid4()}",
                 "content": _json_value(user_content),
                 "source_timestamp": utc_now(),
-                "timestamp_source": "core",
             },
         )
         try:
@@ -400,7 +399,6 @@ def _run_exchange(
                     "duration_ms": (time.perf_counter_ns() - run_started_ns)
                     / 1_000_000,
                     "source_timestamp": utc_now(),
-                    "timestamp_source": "core",
                 },
             )
             raise
@@ -410,7 +408,6 @@ def _run_exchange(
                 "outcome": "completed" if finished else "max_turns_exhausted",
                 "duration_ms": (time.perf_counter_ns() - run_started_ns) / 1_000_000,
                 "source_timestamp": utc_now(),
-                "timestamp_source": "core",
             },
         )
         return finished
@@ -438,7 +435,6 @@ def _run_model_loop(
                 "model_call_id": model_call_id,
                 "model": model,
                 "source_timestamp": utc_now(),
-                "timestamp_source": "core",
             },
         )
         model_started_ns = time.perf_counter_ns()
@@ -459,7 +455,6 @@ def _run_model_loop(
                         "model_call_id": model_call_id,
                         "delta": text,
                         "source_timestamp": utc_now(),
-                        "timestamp_source": "core",
                     },
                 )
             message = stream.get_final_message()
@@ -487,7 +482,6 @@ def _run_model_loop(
             "generation_id": generation_id,
             "duration_ms": (time.perf_counter_ns() - model_started_ns) / 1_000_000,
             "source_timestamp": utc_now(),
-            "timestamp_source": "core",
         }
         emitter.emit("model.completed", payload)
 

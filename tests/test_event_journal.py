@@ -16,6 +16,7 @@ def _run_started_event():
             "mode": "headless",
             "model": "test-model",
             "max_turns": 50,
+            "producer": {"name": "nanoPyCodeAgent", "version": "0.8.0"},
             "source_timestamp": "2026-08-23T08:00:00.000Z",
         },
     )
@@ -175,6 +176,22 @@ def test_large_strings_are_truncated_only_in_the_persisted_entry(tmp_path):
     assert EventJournal.replay(path) == [entry]
 
 
+def test_producer_identity_is_not_truncated(tmp_path):
+    with EventJournal.create(
+        "run-producer-version",
+        directory=tmp_path,
+        clock=lambda: "2026-08-23T08:00:00.000Z",
+        max_string_chars=4,
+    ) as journal:
+        entry = journal.append(_run_started_event())
+
+    assert entry.payload["producer"] == {
+        "name": "nanoPyCodeAgent",
+        "version": "0.8.0",
+    }
+    assert entry.truncation is None
+
+
 def test_replay_ignores_only_a_trailing_partial_entry(tmp_path):
     with EventJournal.create(
         "run-interrupted",
@@ -229,6 +246,17 @@ def test_replay_rejects_non_increasing_sequence_numbers(tmp_path):
 
 
 def test_native_event_contract_rejects_missing_fields_and_untrusted_measurements():
+    with pytest.raises(ValueError, match="run.started missing required fields: producer"):
+        NativeEvent(
+            "run.started",
+            {
+                "mode": "headless",
+                "model": "test-model",
+                "max_turns": 50,
+                "source_timestamp": "2026-08-23T08:00:00.000Z",
+            },
+        )
+
     with pytest.raises(ValueError, match="model.completed missing required fields"):
         NativeEvent("model.completed", {})
 
@@ -250,6 +278,30 @@ def test_native_event_contract_rejects_missing_fields_and_untrusted_measurements
                 "message": "failed",
                 "duration_ms": 1,
                 "source_timestamp": "yesterday",
+            },
+        )
+
+
+@pytest.mark.parametrize(
+    "producer",
+    [
+        None,
+        {},
+        {"name": "nanoPyCodeAgent"},
+        {"name": "", "version": "0.8.0"},
+        {"name": "nanoPyCodeAgent", "version": ""},
+    ],
+)
+def test_run_started_requires_valid_producer_identity(producer):
+    with pytest.raises(ValueError, match="run.started.producer"):
+        NativeEvent(
+            "run.started",
+            {
+                "mode": "headless",
+                "model": "test-model",
+                "max_turns": 50,
+                "producer": producer,
+                "source_timestamp": "2026-08-23T08:00:00.000Z",
             },
         )
 
