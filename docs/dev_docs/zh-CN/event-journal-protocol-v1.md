@@ -1,6 +1,6 @@
 # Event Journal 实现协议 v1
 
-> 本文件为**手写中文源文件**（source of truth）；英文版
+> 本文件为**中文源文件**（source of truth）；英文版
 > [`../en/event-journal-protocol-v1.md`](../en/event-journal-protocol-v1.md)
 > 由其生成。
 
@@ -13,7 +13,7 @@
 | 领域术语 | [`CONTEXT.md`](../../../CONTEXT.md) |
 | 核心实现 | [`event_journal.py`](../../../src/nanopycodeagent/event_journal.py) |
 | 事件生产与文本投影 | [`agent.py`](../../../src/nanopycodeagent/agent.py) |
-| 行为测试 | [`test_event_journal.py`](../../../tests/test_event_journal.py)、[`test_agent.py`](../../../tests/test_agent.py) |
+| 行为测试 | [`test_event_journal.py`](../../../tests/test_event_journal.py)、[`test_agent_events.py`](../../../tests/test_agent_events.py)、[`test_agent.py`](../../../tests/test_agent.py) |
 
 ## 文档定位
 
@@ -409,4 +409,5 @@ Event Journal v1 是内部协议，并不承诺跨 nanoPyCodeAgent 大版本永�
 | Anthropic block 到 provider-neutral content 的归一化 | [`agent.py`](../../../src/nanopycodeagent/agent.py) |
 | Native Event 到现有 stdout 的文本投影 | [`agent.py`](../../../src/nanopycodeagent/agent.py) |
 | envelope、顺序、权限、截断、partial tail 和 schema 测试 | [`test_event_journal.py`](../../../tests/test_event_journal.py) |
-| 事件生命周期及 stdout 回归测试 | [`test_agent.py`](../../../tests/test_agent.py) |
+| 事件生命周期及精确 stdout 投影回归测试 | [`test_agent_events.py`](../../../tests/test_agent_events.py) |
+| 原有 agent loop 与 stdout 行为测试 | [`test_agent.py`](../../../tests/test_agent.py) |

@@ -13,7 +13,7 @@
 | Domain terminology | [`CONTEXT.md`](../../../CONTEXT.md) |
 | Core implementation | [`event_journal.py`](../../../src/nanopycodeagent/event_journal.py) |
 | Event production and text projection | [`agent.py`](../../../src/nanopycodeagent/agent.py) |
-| Behavioral tests | [`test_event_journal.py`](../../../tests/test_event_journal.py), [`test_agent.py`](../../../tests/test_agent.py) |
+| Behavioral tests | [`test_event_journal.py`](../../../tests/test_event_journal.py), [`test_agent_events.py`](../../../tests/test_agent_events.py), [`test_agent.py`](../../../tests/test_agent.py) |
 
 ## Document classification
 
@@ -498,4 +498,5 @@ misinterpreted.
 | Anthropic block normalization into provider-neutral content | [`agent.py`](../../../src/nanopycodeagent/agent.py) |
 | Native Event projection into existing stdout text | [`agent.py`](../../../src/nanopycodeagent/agent.py) |
 | Envelope, ordering, permissions, truncation, partial-tail, and schema tests | [`test_event_journal.py`](../../../tests/test_event_journal.py) |
-| Event lifecycle and stdout regression tests | [`test_agent.py`](../../../tests/test_agent.py) |
+| Event lifecycle and exact stdout-projection regression tests | [`test_agent_events.py`](../../../tests/test_agent_events.py) |
+| Existing agent-loop and stdout behavior tests | [`test_agent.py`](../../../tests/test_agent.py) |

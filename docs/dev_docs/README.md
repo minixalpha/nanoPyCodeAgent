@@ -8,7 +8,7 @@ choice is costly to reverse or otherwise surprising.
 
 System-design documents are bilingual and split by language:
 
-- [`zh-CN/`](zh-CN/) — **hand-written Chinese source** (source of truth)
+- [`zh-CN/`](zh-CN/) — **Chinese source** (source of truth)
 - [`en/`](en/) — **English, generated from the Chinese source** (do not edit by
   hand)
 
