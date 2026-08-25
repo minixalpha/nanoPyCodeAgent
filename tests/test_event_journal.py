@@ -6,7 +6,7 @@ import stat
 import pytest
 
 from nanopycodeagent import settings
-from nanopycodeagent.event_journal import EventJournal, NativeEvent
+from nanopycodeagent.event_journal import EventJournal, JournalEntry, NativeEvent
 
 
 def _run_started_event():
@@ -192,6 +192,47 @@ def test_producer_identity_is_not_truncated(tmp_path):
     assert entry.truncation is None
 
 
+def test_model_content_types_remain_replayable_at_the_smallest_limit(tmp_path):
+    tool_call = {
+        "type": "tool_call",
+        "tool_call_id": "tool-1",
+        "tool_name": "read",
+        "input": {"path": "README.md"},
+    }
+    event = NativeEvent(
+        "model.completed",
+        {
+            "model_call_id": "model-1",
+            "message_id": "message-1",
+            "content": [{"type": "text", "text": "hello"}, tool_call],
+            "tool_calls": [tool_call],
+            "model": "test-model",
+            "stop_reason": "tool_use",
+            "usage": None,
+            "provider_response_id": None,
+            "generation_id": None,
+            "duration_ms": 25,
+            "source_timestamp": "2026-08-23T08:00:00.000Z",
+        },
+    )
+
+    with EventJournal.create(
+        "run-content-types",
+        directory=tmp_path,
+        clock=lambda: "2026-08-23T08:00:00.000Z",
+        max_string_chars=1,
+    ) as journal:
+        entry = journal.append(event)
+        path = journal.path
+
+    assert [block["type"] for block in entry.payload["content"]] == [
+        "text",
+        "tool_call",
+    ]
+    assert entry.payload["tool_calls"][0]["type"] == "tool_call"
+    assert EventJournal.replay(path) == [entry]
+
+
 def test_replay_ignores_only_a_trailing_partial_entry(tmp_path):
     with EventJournal.create(
         "run-interrupted",
@@ -278,6 +319,94 @@ def test_native_event_contract_rejects_missing_fields_and_untrusted_measurements
                 "message": "failed",
                 "duration_ms": 1,
                 "source_timestamp": "yesterday",
+            },
+        )
+
+
+@pytest.mark.parametrize("content", [("not", "json"), {1: "not-json"}])
+def test_native_event_contract_rejects_non_json_values(content):
+    with pytest.raises(ValueError, match="JSON data types|keys must be strings"):
+        NativeEvent(
+            "user.message",
+            {
+                "message_id": "user-1",
+                "content": content,
+                "source_timestamp": "2026-08-23T08:00:00.000Z",
+            },
+        )
+
+
+def test_journal_entry_rejects_boolean_schema_version():
+    with pytest.raises(ValueError, match="unsupported Journal Entry schema"):
+        JournalEntry.from_dict(
+            {
+                "schema_version": True,
+                "run_id": "run-1",
+                "seq": 1,
+                "recorded_at": "2026-08-23T08:00:00.000Z",
+                "type": "user.message",
+                "payload": {
+                    "message_id": "user-1",
+                    "content": "hello",
+                    "source_timestamp": "2026-08-23T08:00:00.000Z",
+                },
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    "truncation",
+    [
+        {"fields": "not-a-list"},
+        {"fields": [{1: "not-json"}]},
+        {"fields": [{}]},
+        {
+            "fields": [
+                {"path": "/content", "original_chars": 1, "retained_chars": 1}
+            ]
+        },
+    ],
+)
+def test_journal_entry_rejects_invalid_truncation_metadata(truncation):
+    with pytest.raises(ValueError, match="Journal Entry truncation"):
+        JournalEntry.from_dict(
+            {
+                "schema_version": 1,
+                "run_id": "run-1",
+                "seq": 1,
+                "recorded_at": "2026-08-23T08:00:00.000Z",
+                "type": "user.message",
+                "payload": {
+                    "message_id": "user-1",
+                    "content": "h",
+                    "source_timestamp": "2026-08-23T08:00:00.000Z",
+                },
+                "truncation": truncation,
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    ("is_error", "error"),
+    [
+        (False, {"type": "RuntimeError", "message": "failed"}),
+        (True, {}),
+        (True, {"type": "", "message": "failed"}),
+        (True, {"type": "RuntimeError", "message": None}),
+    ],
+)
+def test_tool_completed_rejects_invalid_null_result(is_error, error):
+    with pytest.raises(ValueError, match="tool.completed"):
+        NativeEvent(
+            "tool.completed",
+            {
+                "tool_call_id": "tool-1",
+                "tool_name": "read",
+                "result": None,
+                "is_error": is_error,
+                "error": error,
+                "duration_ms": 10,
+                "source_timestamp": "2026-08-23T08:00:00.000Z",
             },
         )
 

@@ -459,6 +459,7 @@ def _run_model_loop(
                 )
             message = stream.get_final_message()
             generation_id = _response_header(stream, "x-generation-id")
+            model_completed_ns = time.perf_counter_ns()
 
         content = _native_content_blocks(message.content)
         tool_calls = [
@@ -480,7 +481,7 @@ def _run_model_loop(
                 str(provider_response_id) if provider_response_id is not None else None
             ),
             "generation_id": generation_id,
-            "duration_ms": (time.perf_counter_ns() - model_started_ns) / 1_000_000,
+            "duration_ms": (model_completed_ns - model_started_ns) / 1_000_000,
             "source_timestamp": utc_now(),
         }
         emitter.emit("model.completed", payload)

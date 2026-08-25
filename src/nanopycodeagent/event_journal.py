@@ -197,6 +197,32 @@ def _validate_usage(usage: JsonObject) -> None:
             )
 
 
+def _validate_json_value(value: object, field: str) -> None:
+    if value is None or isinstance(value, bool | int | float | str):
+        return
+    if isinstance(value, list):
+        for index, item in enumerate(value):
+            _validate_json_value(item, f"{field}[{index}]")
+        return
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if not isinstance(key, str):
+                raise ValueError(f"{field} object keys must be strings")
+            _validate_json_value(item, f"{field}.{key}")
+        return
+    raise ValueError(f"{field} must use only JSON data types")
+
+
+def _validate_tool_error(error: JsonValue) -> None:
+    if not isinstance(error, dict):
+        raise ValueError("tool.completed.error is required when result is null")
+    error_type = error.get("type")
+    if not isinstance(error_type, str) or not error_type:
+        raise ValueError("tool.completed.error.type must be a non-empty string")
+    if not isinstance(error.get("message"), str):
+        raise ValueError("tool.completed.error.message must be a string")
+
+
 def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
     required = _REQUIRED_PAYLOAD_FIELDS[event_type]
     missing = sorted(required.difference(payload))
@@ -290,8 +316,12 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             raise ValueError("tool.completed.result must be a string or null")
         if not isinstance(payload["is_error"], bool):
             raise ValueError("tool.completed.is_error must be a boolean")
-        if result is None and not isinstance(payload.get("error"), dict):
-            raise ValueError("tool.completed.error is required when result is null")
+        if result is None:
+            if payload["is_error"] is not True:
+                raise ValueError(
+                    "tool.completed.is_error must be true when result is null"
+                )
+            _validate_tool_error(payload.get("error"))
     elif event_type == "run.completed":
         if payload["outcome"] not in {"completed", "max_turns_exhausted"}:
             raise ValueError("run.completed.outcome is unsupported")
@@ -310,6 +340,9 @@ class NativeEvent:
     def __post_init__(self) -> None:
         if self.type not in EVENT_TYPES:
             raise ValueError(f"unsupported Native Event type: {self.type}")
+        if not isinstance(self.payload, dict):
+            raise ValueError("Native Event payload must be a JSON object")
+        _validate_json_value(self.payload, "Native Event payload")
         try:
             json.dumps(self.payload, allow_nan=False)
         except (TypeError, ValueError) as exc:
@@ -377,7 +410,11 @@ class JournalEntry:
         event_type = value.get("type")
         payload = value.get("payload")
         truncation = value.get("truncation")
-        if schema_version != SCHEMA_VERSION:
+        if (
+            not isinstance(schema_version, int)
+            or isinstance(schema_version, bool)
+            or schema_version != SCHEMA_VERSION
+        ):
             raise ValueError(f"unsupported Journal Entry schema: {schema_version}")
         if not isinstance(run_id, str) or not run_id:
             raise ValueError("Journal Entry run_id must be a non-empty string")
@@ -388,8 +425,8 @@ class JournalEntry:
         _validate_recorded_at(recorded_at)
         if not isinstance(event_type, str) or not isinstance(payload, dict):
             raise ValueError("Journal Entry must contain a Native Event")
-        if truncation is not None and not isinstance(truncation, dict):
-            raise ValueError("Journal Entry truncation must be an object")
+        if truncation is not None:
+            _validate_truncation(truncation)
         event = NativeEvent(event_type, payload)
         return cls(
             schema_version=schema_version,
@@ -404,6 +441,43 @@ class JournalEntry:
 
 def _json_pointer_part(value: str) -> str:
     return value.replace("~", "~0").replace("/", "~1")
+
+
+def _validate_truncation(value: object) -> None:
+    if not isinstance(value, dict):
+        raise ValueError("Journal Entry truncation must be an object")
+    _validate_json_value(value, "Journal Entry truncation")
+    fields = value.get("fields")
+    if not isinstance(fields, list) or not fields:
+        raise ValueError("Journal Entry truncation.fields must be a non-empty list")
+    for item in fields:
+        if not isinstance(item, dict):
+            raise ValueError("Journal Entry truncation fields must be objects")
+        path = item.get("path")
+        original_chars = item.get("original_chars")
+        retained_chars = item.get("retained_chars")
+        if not isinstance(path, str) or not path.startswith("/"):
+            raise ValueError(
+                "Journal Entry truncation field path must be a JSON Pointer"
+            )
+        if (
+            not isinstance(original_chars, int)
+            or isinstance(original_chars, bool)
+            or not isinstance(retained_chars, int)
+            or isinstance(retained_chars, bool)
+            or retained_chars < 0
+            or original_chars <= retained_chars
+        ):
+            raise ValueError("Journal Entry truncation character counts are invalid")
+
+
+def _is_non_truncatable_field(path: str, key: str) -> bool:
+    if key in _NON_TRUNCATABLE_FIELDS:
+        return True
+    return (
+        key == "type"
+        and re.fullmatch(r"/(?:content|tool_calls)/\d+", path) is not None
+    )
 
 
 def _truncate_strings(
@@ -438,7 +512,7 @@ def _truncate_strings(
         return {
             key: (
                 item
-                if key in _NON_TRUNCATABLE_FIELDS
+                if _is_non_truncatable_field(path, key)
                 else _truncate_strings(
                     item,
                     path=f"{path}/{_json_pointer_part(key)}",

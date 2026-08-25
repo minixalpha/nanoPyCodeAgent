@@ -25,7 +25,9 @@ def _only_journal_path():
     return paths[0]
 
 
-def test_headless_model_reply_is_journaled_without_changing_stdout(monkeypatch, capsys):
+def test_headless_model_reply_is_journaled_without_changing_stdout(
+    monkeypatch, capsys
+):
     usage = SimpleNamespace(
         input_tokens=12,
         output_tokens=3,
@@ -87,6 +89,31 @@ def test_headless_model_reply_is_journaled_without_changing_stdout(monkeypatch, 
     assert completed["duration_ms"] >= 0
     assert completed["source_timestamp"].endswith("Z")
     assert entries[-1].payload["outcome"] == "completed"
+
+
+def test_model_duration_ends_before_local_response_normalization(monkeypatch):
+    reply = FakeStream([text_block("done")], message_id="msg-provider-1")
+    patch_client(monkeypatch, FakeClient(FakeMessages([reply])))
+    clock_calls = []
+
+    def monotonic_ns():
+        clock_calls.append(None)
+        return len(clock_calls) * 1_000_000
+
+    original_normalize = agent._native_content_blocks
+
+    def normalize_after_model_timing(value):
+        assert len(clock_calls) == 3
+        return original_normalize(value)
+
+    monkeypatch.setattr(agent.time, "perf_counter_ns", monotonic_ns)
+    monkeypatch.setattr(agent, "_native_content_blocks", normalize_after_model_timing)
+
+    assert agent.run_headless("fix it") == 0
+
+    entries = EventJournal.replay(_only_journal_path())
+    completed = next(entry for entry in entries if entry.type == "model.completed")
+    assert completed.payload["duration_ms"] == 1
 
 
 def test_failed_tool_events_project_the_existing_tool_output(
