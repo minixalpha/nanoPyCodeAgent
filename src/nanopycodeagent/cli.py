@@ -55,6 +55,12 @@ def _build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--trajectory",
+        type=Path,
+        metavar="PATH",
+        help="write this headless run as an ATIF-v1.7 JSON file",
+    )
+    parser.add_argument(
         "--version",
         action="version",
         version=f"nanoPyCodeAgent {_package_version()}",
@@ -94,6 +100,22 @@ def _read_task(args: argparse.Namespace, parser: argparse.ArgumentParser) -> str
     return task
 
 
+def _trajectory_path(
+    value: Path | None,
+    parser: argparse.ArgumentParser,
+) -> Path | None:
+    if value is None:
+        return None
+    if value == Path("-"):
+        parser.error("--trajectory PATH must be a file, not stdout")
+    path = value.expanduser()
+    if path.exists() or path.is_symlink():
+        parser.error(f"trajectory path already exists: {path}")
+    if not path.parent.is_dir():
+        parser.error(f"trajectory parent directory does not exist: {path.parent}")
+    return path
+
+
 def main(argv: list[str] | None = None) -> int:
     """Parse the command line and run, returning the process exit code."""
     parser = _build_parser()
@@ -103,5 +125,12 @@ def main(argv: list[str] | None = None) -> int:
 
     task = _read_task(args, parser)
     if task is None:
+        if args.trajectory is not None:
+            parser.error("--trajectory requires a headless task")
         return run()
-    return run_headless(task, max_turns=args.max_turns)
+    trajectory_path = _trajectory_path(args.trajectory, parser)
+    return run_headless(
+        task,
+        max_turns=args.max_turns,
+        trajectory_path=trajectory_path,
+    )

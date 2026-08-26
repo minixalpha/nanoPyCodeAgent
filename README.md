@@ -45,6 +45,20 @@ printf "%s" "$TASK" | nanoPyCodeAgent
 The task is carried out in the current directory. `--max-turns N` caps how
 many model replies one run may spend (50 by default).
 
+Add `--trajectory PATH` to save that headless Agent Run as one complete
+[ATIF-v1.7](https://www.harborframework.com/docs/agents/trajectory-format)
+JSON document without changing stdout:
+
+```bash
+nanoPyCodeAgent -p "read README.md and summarize it" \
+  --trajectory ./trajectory.json
+```
+
+The option creates the requested file with owner-only permissions (`0600`)
+after the run reaches a terminal state. It refuses to overwrite an existing
+path. Trajectories may contain the task, model replies, tool arguments, and
+tool results, so treat them as sensitive data.
+
 A run like this exits `0` whenever the agent actually ran — including when it
 gave up or ran out of turns with the task unfinished, which is for whatever
 checks the result to judge. A non-zero exit means the run could not happen at
