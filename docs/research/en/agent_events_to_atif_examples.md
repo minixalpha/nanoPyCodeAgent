@@ -679,8 +679,7 @@ Native Events do not need to allocate persistence order themselves. After accept
     "result": "fn main() { println!(\"hello\"); }",
     "is_error": false,
     "duration_ms": 330,
-    "source_timestamp": null,
-    "timestamp_source": "receiver"
+    "source_timestamp": null
   }
 }
 ```
@@ -690,7 +689,7 @@ The semantic constraints should be:
 - `schema_version` describes the internal Journal Entry and Native Event contract, not the ATIF schema version.
 - `seq` is allocated by the journal writer, strictly increases, and is authoritative ordering within a run.
 - `recorded_at` is the UTC wall-clock time when nano accepted or recorded the event, uses RFC 3339/ISO 8601, and is required on every Journal Entry.
-- `source_timestamp` belongs to the Native Event payload and is set only when a Source Record provides reliable source time. When absent, keep it `null`; never present `recorded_at` as source occurrence time.
+- `source_timestamp` belongs to the Native Event payload. nano core timestamps the fact boundary; an adapter copies it only when a Source Record provides reliable source time, otherwise leaving it `null`. Never present `recorded_at` as source occurrence time.
 - Precise duration uses `duration_ms` or paired start/end events rather than relying only on subtraction between two wall-clock values.
 - ATIF `step.timestamp` prefers reliable `source_timestamp`, otherwise falls back to `recorded_at`, and records the choice in `extra.timestamp_source`.
 

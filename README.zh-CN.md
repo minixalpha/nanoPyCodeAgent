@@ -49,6 +49,11 @@ printf "%s" "$TASK" | nanoPyCodeAgent
 完,那该由检查结果的一方去判定。非零退出码表示这次运行根本没能进行:`1` 是缺少
 凭据或 API 持续失败,`2` 是命令行用错了。
 
+每次 Agent Run 还会在 `~/.nanoPyCodeAgent/journals/` 下写入可重放的内部 Event
+Journal。这些 JSONL 文件可能包含提示词、模型回复、仓库内容和工具结果,应按敏感
+数据处理;目录只允许当前用户访问(`0700`),每个文件的权限为 `0600`。Journal 既
+不是公开 run output,也不是 trajectory,目前还不会自动轮转。
+
 #### 运行某个分支或标签版本
 
 直接从 GitHub 运行未发布的分支,或某个具体的发布标签:

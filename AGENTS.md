@@ -37,6 +37,10 @@ The **only** exception is documentation explicitly designated as Chinese:
 Everything outside that list — including code under `src/`, this file, and all
 other docs — is English.
 
+Do not label a document as `hand-written` unless its contents are actually
+authored and maintained by humans. For agent-authored source-of-truth documents,
+use wording such as `Chinese source` instead.
+
 ### Bilingual research notes
 
 Research notes are bilingual:

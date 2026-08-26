@@ -21,6 +21,8 @@ and turns them into an exit code.
 
 import os
 import sys
+import time
+import uuid
 from importlib.metadata import PackageNotFoundError, version
 
 try:
@@ -39,6 +41,14 @@ from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
 from .bash_tool import BASH_TOOL, run_bash
 from .edit_tool import EDIT_TOOL, edit_preview, run_edit
+from .event_journal import (
+    EventEmitter,
+    EventJournal,
+    JsonObject,
+    JsonValue,
+    NativeEvent,
+    utc_now,
+)
 from .read_tool import READ_TOOL, run_read
 from .settings import load_settings_env
 from .terminal import Spinner, print_tool_output, print_tool_use
@@ -51,7 +61,7 @@ MAX_TOKENS = 8192
 
 # How many model replies one headless task may spend before the run stops on
 # its own. The interactive loop needs no such cap — a human watching the
-# transcript can interrupt a model that keeps retrying the same command —
+# visible output can interrupt a model that keeps retrying the same command —
 # but an unattended run would keep paying for that loop until the API
 # refuses it.
 DEFAULT_MAX_TURNS = 50
@@ -88,6 +98,120 @@ HEADLESS_SYSTEM_PROMPT = (
 TOOLS = [READ_TOOL, WRITE_TOOL, EDIT_TOOL, BASH_TOOL]
 
 
+def _json_value(value: object) -> JsonValue:
+    """Convert an SDK value into the provider-neutral event representation."""
+    if value is None or isinstance(value, bool | int | float | str):
+        return value
+    if isinstance(value, dict):
+        return {str(key): _json_value(item) for key, item in value.items()}
+    if isinstance(value, list | tuple):
+        return [_json_value(item) for item in value]
+    model_dump = getattr(value, "model_dump", None)
+    if callable(model_dump):
+        return _json_value(model_dump(mode="json", exclude_none=True))
+    attributes = getattr(value, "__dict__", None)
+    if isinstance(attributes, dict):
+        return {
+            key: _json_value(item)
+            for key, item in attributes.items()
+            if not key.startswith("_")
+        }
+    raise TypeError(f"cannot represent {type(value).__name__} as event JSON")
+
+
+def _native_content_blocks(value: object) -> list[JsonValue]:
+    """Normalize Anthropic response blocks into provider-neutral content."""
+    source_blocks = _json_value(value)
+    if not isinstance(source_blocks, list):
+        raise TypeError("model response content must be a list")
+    content: list[JsonValue] = []
+    for source_block in source_blocks:
+        if not isinstance(source_block, dict):
+            raise TypeError("model response content blocks must be objects")
+        source_type = source_block.get("type")
+        if source_type == "text":
+            content.append({"type": "text", "text": source_block.get("text", "")})
+        elif source_type == "tool_use":
+            content.append(
+                {
+                    "type": "tool_call",
+                    "tool_call_id": source_block.get("id"),
+                    "tool_name": source_block.get("name"),
+                    "input": source_block.get("input"),
+                }
+            )
+        else:
+            # Preserve an unfamiliar block without declaring its SDK shape to
+            # be part of the core schema. A future transport can normalize a
+            # corresponding provider block into the same content vocabulary.
+            content.append(
+                {
+                    "type": "extension",
+                    "namespace": "anthropic",
+                    "source_type": source_type,
+                    "value": source_block,
+                }
+            )
+    return content
+
+
+def _response_header(stream: object, name: str) -> str | None:
+    response = getattr(stream, "response", None)
+    headers = getattr(response, "headers", None)
+    if headers is None:
+        return None
+    value = headers.get(name)
+    if value is None:
+        value = headers.get(name.title())
+    return str(value) if value is not None else None
+
+
+class _TextOutputProjector:
+    """Preserve the existing text Run Output as a Native Event projection."""
+
+    def __init__(self, reply_prefix: str) -> None:
+        self._reply_prefix = reply_prefix
+        self._model_calls_with_text: set[str] = set()
+
+    def __call__(self, event: NativeEvent) -> None:
+        if event.type == "model.output_delta":
+            model_call_id = str(event.payload["model_call_id"])
+            if model_call_id not in self._model_calls_with_text:
+                if self._reply_prefix:
+                    print(self._reply_prefix, end="", flush=True)
+                self._model_calls_with_text.add(model_call_id)
+            print(str(event.payload["delta"]), end="", flush=True)
+        elif event.type == "model.completed":
+            model_call_id = str(event.payload["model_call_id"])
+            if model_call_id in self._model_calls_with_text:
+                print()
+        elif event.type == "tool.started":
+            tool_name = str(event.payload["tool_name"])
+            arguments = event.payload["input"]
+            if not isinstance(arguments, dict):
+                raise TypeError("tool input event payload must be an object")
+            if tool_name == "read":
+                print_tool_use(f"[read] {arguments['path']}")
+            elif tool_name == "write":
+                content = str(arguments["content"])
+                print_tool_use(
+                    f"[write] {arguments['path']}\n{content_preview(content)}"
+                )
+            elif tool_name == "edit":
+                old_text = str(arguments["old_text"])
+                new_text = str(arguments["new_text"])
+                print_tool_use(
+                    f"[edit] {arguments['path']}\n"
+                    f"{edit_preview(old_text, new_text)}"
+                )
+            else:
+                print_tool_use(f"[bash]$ {arguments['command']}")
+        elif event.type == "tool.completed":
+            result = event.payload["result"]
+            if isinstance(result, str):
+                print_tool_output(result)
+
+
 def _package_version() -> str:
     """Return the installed package version.
 
@@ -102,39 +226,80 @@ def _package_version() -> str:
         return "unknown"
 
 
-def _run_one_tool(block: ToolUseBlock) -> ToolResultBlockParam:
-    """Execute one ``tool_use`` block, echoing the call and its output."""
-    if block.name == "read":
-        path = block.input["path"]
-        print_tool_use(f"[read] {path}")
-        output, is_error = run_read(
-            path,
-            offset=block.input.get("offset", 1),
-            limit=block.input.get("limit"),
+def _run_one_tool(
+    block: ToolUseBlock,
+    emitter: EventEmitter,
+    model_call_id: str,
+) -> ToolResultBlockParam:
+    """Execute one ``tool_use`` block and emit its runtime facts."""
+    tool_input = _json_value(block.input)
+    if not isinstance(tool_input, dict):
+        raise TypeError("tool input must be an object")
+    emitter.emit(
+        "tool.started",
+        {
+            "model_call_id": model_call_id,
+            "tool_call_id": block.id,
+            "tool_name": block.name,
+            "input": tool_input,
+            "source_timestamp": utc_now(),
+        },
+    )
+    tool_started_ns = time.perf_counter_ns()
+    try:
+        if block.name == "read":
+            path = block.input["path"]
+            output, is_error = run_read(
+                path,
+                offset=block.input.get("offset", 1),
+                limit=block.input.get("limit"),
+            )
+        elif block.name == "write":
+            path = block.input["path"]
+            content = block.input["content"]
+            output, is_error = run_write(path, content)
+        elif block.name == "edit":
+            path = block.input["path"]
+            old_text = block.input["old_text"]
+            new_text = block.input["new_text"]
+            output, is_error = run_edit(
+                path,
+                old_text,
+                new_text,
+                replace_all=block.input.get("replace_all", False),
+            )
+        else:  # bash — the only other tool offered
+            command = block.input["command"]
+            with Spinner("Running..."):
+                output, is_error = run_bash(command)
+    except BaseException as exc:
+        emitter.emit(
+            "tool.completed",
+            {
+                "model_call_id": model_call_id,
+                "tool_call_id": block.id,
+                "tool_name": block.name,
+                "result": None,
+                "is_error": True,
+                "error": {"type": type(exc).__name__, "message": str(exc)},
+                "duration_ms": (time.perf_counter_ns() - tool_started_ns)
+                / 1_000_000,
+                "source_timestamp": utc_now(),
+            },
         )
-    elif block.name == "write":
-        path = block.input["path"]
-        content = block.input["content"]
-        # The echo folds the content: the terminal shows where the write
-        # goes and how it starts, not hundreds of lines.
-        print_tool_use(f"[write] {path}\n{content_preview(content)}")
-        output, is_error = run_write(path, content)
-    elif block.name == "edit":
-        path = block.input["path"]
-        old_text = block.input["old_text"]
-        new_text = block.input["new_text"]
-        # The echo folds both sides into a small -/+ diff: the terminal
-        # shows what is being swapped, not the whole strings again.
-        print_tool_use(f"[edit] {path}\n{edit_preview(old_text, new_text)}")
-        output, is_error = run_edit(
-            path, old_text, new_text, replace_all=block.input.get("replace_all", False)
-        )
-    else:  # bash — the only other tool offered
-        command = block.input["command"]
-        print_tool_use(f"[bash]$ {command}")
-        with Spinner("Running..."):
-            output, is_error = run_bash(command)
-    print_tool_output(output)
+        raise
+    emitter.emit(
+        "tool.completed",
+        {
+            "model_call_id": model_call_id,
+            "tool_call_id": block.id,
+            "tool_name": block.name,
+            "result": output,
+            "is_error": is_error,
+            "duration_ms": (time.perf_counter_ns() - tool_started_ns) / 1_000_000,
+            "source_timestamp": utc_now(),
+        },
+    )
     return {
         "type": "tool_result",
         "tool_use_id": block.id,
@@ -189,12 +354,90 @@ def _run_exchange(
     False when ``max_turns`` replies were spent while it was still calling
     them — the caller decides what an exhausted budget means.
     """
+    run_id = f"run-{uuid.uuid4()}"
+    run_started_ns = time.perf_counter_ns()
+    projector = _TextOutputProjector(reply_prefix)
+    with EventJournal.create(run_id) as journal:
+        emitter = EventEmitter(journal, projector)
+        emitter.emit(
+            "run.started",
+            {
+                "mode": "headless" if max_turns is not None else "interactive",
+                "model": model,
+                "max_turns": max_turns,
+                "producer": {
+                    "name": "nanoPyCodeAgent",
+                    "version": _package_version(),
+                },
+                "source_timestamp": utc_now(),
+            },
+        )
+        user_content = messages[-1]["content"]
+        emitter.emit(
+            "user.message",
+            {
+                "message_id": f"user-{uuid.uuid4()}",
+                "content": _json_value(user_content),
+                "source_timestamp": utc_now(),
+            },
+        )
+        try:
+            finished = _run_model_loop(
+                client,
+                model,
+                messages,
+                system,
+                emitter=emitter,
+                max_turns=max_turns,
+            )
+        except BaseException as exc:
+            emitter.emit(
+                "run.failed",
+                {
+                    "error_type": type(exc).__name__,
+                    "message": str(exc),
+                    "duration_ms": (time.perf_counter_ns() - run_started_ns)
+                    / 1_000_000,
+                    "source_timestamp": utc_now(),
+                },
+            )
+            raise
+        emitter.emit(
+            "run.completed",
+            {
+                "outcome": "completed" if finished else "max_turns_exhausted",
+                "duration_ms": (time.perf_counter_ns() - run_started_ns) / 1_000_000,
+                "source_timestamp": utc_now(),
+            },
+        )
+        return finished
+
+
+def _run_model_loop(
+    client: anthropic.Anthropic,
+    model: str,
+    messages: list[MessageParam],
+    system: str,
+    *,
+    emitter: EventEmitter,
+    max_turns: int | None,
+) -> bool:
+    """Run model replies and tool calls for an already-started Agent Run."""
     turns = 0
     while True:
         # A spinner marks the wait for the reply; the first streamed
         # token replaces it with the reply prefix. A tool-only reply
         # streams no text, so the prefix is skipped for it entirely.
-        replied = False
+        model_call_id = f"model-{uuid.uuid4()}"
+        emitter.emit(
+            "model.started",
+            {
+                "model_call_id": model_call_id,
+                "model": model,
+                "source_timestamp": utc_now(),
+            },
+        )
+        model_started_ns = time.perf_counter_ns()
         # Stream the reply so text shows up as it is generated, then grab
         # the accumulated message for the conversation history.
         with Spinner() as spinner, client.messages.stream(
@@ -205,15 +448,43 @@ def _run_exchange(
             messages=messages,
         ) as stream:
             for text in stream.text_stream:
-                if not replied:
-                    spinner.stop()
-                    if reply_prefix:
-                        print(reply_prefix, end="", flush=True)
-                    replied = True
-                print(text, end="", flush=True)
+                spinner.stop()
+                emitter.emit(
+                    "model.output_delta",
+                    {
+                        "model_call_id": model_call_id,
+                        "delta": text,
+                        "source_timestamp": utc_now(),
+                    },
+                )
             message = stream.get_final_message()
-        if replied:
-            print()
+            generation_id = _response_header(stream, "x-generation-id")
+            model_completed_ns = time.perf_counter_ns()
+
+        content = _native_content_blocks(message.content)
+        tool_calls = [
+            item
+            for item in content
+            if isinstance(item, dict) and item.get("type") == "tool_call"
+        ]
+        provider_response_id = getattr(message, "id", None)
+        usage = _json_value(getattr(message, "usage", None))
+        payload: JsonObject = {
+            "model_call_id": model_call_id,
+            "message_id": str(provider_response_id or model_call_id),
+            "content": content,
+            "tool_calls": tool_calls,
+            "model": str(getattr(message, "model", None) or model),
+            "stop_reason": getattr(message, "stop_reason", None),
+            "usage": usage,
+            "provider_response_id": (
+                str(provider_response_id) if provider_response_id is not None else None
+            ),
+            "generation_id": generation_id,
+            "duration_ms": (model_completed_ns - model_started_ns) / 1_000_000,
+            "source_timestamp": utc_now(),
+        }
+        emitter.emit("model.completed", payload)
 
         turns += 1
         messages.append({"role": "assistant", "content": message.content})
@@ -226,7 +497,9 @@ def _run_exchange(
         # Every tool_use block needs a matching tool_result in the next
         # user message, or the API rejects the request.
         results = [
-            _run_one_tool(block) for block in message.content if block.type == "tool_use"
+            _run_one_tool(block, emitter, model_call_id)
+            for block in message.content
+            if block.type == "tool_use"
         ]
         messages.append({"role": "user", "content": results})
 

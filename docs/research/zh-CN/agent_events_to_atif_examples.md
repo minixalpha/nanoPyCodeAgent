@@ -679,8 +679,7 @@ Native Event 不必自行分配持久化顺序。journal writer 接受 Native Ev
     "result": "fn main() { println!(\"hello\"); }",
     "is_error": false,
     "duration_ms": 330,
-    "source_timestamp": null,
-    "timestamp_source": "receiver"
+    "source_timestamp": null
   }
 }
 ```
@@ -690,7 +689,7 @@ Native Event 不必自行分配持久化顺序。journal writer 接受 Native Ev
 - `schema_version` 描述内部 Journal Entry/Native Event 契约，不是 ATIF schema version；
 - `seq` 由 journal writer 分配，严格递增，是 run 内排序的权威；
 - `recorded_at` 是 nano 接受/记录事件时的 UTC wall-clock，使用 RFC 3339/ISO 8601，并且每条 Journal Entry 都必须有；
-- `source_timestamp` 属于 Native Event payload，仅在 Source Record 提供可信原始时间时填写；缺失时保持 `null`，不能把 `recorded_at` 冒充成源端发生时间；
+- `source_timestamp` 属于 Native Event payload；nano core 在事实边界采时，adapter 仅在 Source Record 提供可信原始时间时复制，无法确定时保持 `null`，不能把 `recorded_at` 冒充成源端发生时间；
 - 精确耗时使用 `duration_ms` 或成对 start/end 事件，不用两个 wall-clock 相减作为唯一依据；
 - ATIF `step.timestamp` 优先采用可信 `source_timestamp`，否则回退到 `recorded_at`，并在 `extra.timestamp_source` 记录来源。
 

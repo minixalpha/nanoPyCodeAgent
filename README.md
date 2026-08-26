@@ -51,6 +51,12 @@ checks the result to judge. A non-zero exit means the run could not happen at
 all: `1` for missing credentials or an API that kept refusing, `2` for a
 misused command line.
 
+Every Agent Run also writes a replayable internal Event Journal under
+`~/.nanoPyCodeAgent/journals/`. These JSONL files can contain prompts, model
+replies, repository content, and tool results, so treat them as sensitive;
+the directory is user-only (`0700`) and each file is `0600`. Journals are not
+public run output or trajectories, and they are not rotated automatically yet.
+
 #### Run a branch or tagged version
 
 Run an unreleased branch or a specific release tag straight from GitHub:
