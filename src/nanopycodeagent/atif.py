@@ -24,6 +24,42 @@ def _timestamp(entry: JournalEntry) -> tuple[str, str]:
     return entry.recorded_at, "recorded_at"
 
 
+def _journal_truncation(
+    entry: JournalEntry,
+    *path_prefixes: str,
+) -> JsonObject | None:
+    """Return truncation facts relevant to fields projected from ``entry``."""
+    if entry.truncation is None:
+        return None
+    fields = entry.truncation["fields"]
+    assert isinstance(fields, list)
+    if path_prefixes:
+        fields = [
+            field
+            for field in fields
+            if isinstance(field, dict)
+            and isinstance(field.get("path"), str)
+            and any(
+                field["path"] == prefix
+                or str(field["path"]).startswith(f"{prefix}/")
+                for prefix in path_prefixes
+            )
+        ]
+    if not fields:
+        return None
+    return {"fields": fields}
+
+
+def _add_journal_truncation(
+    extra: JsonObject,
+    entry: JournalEntry,
+    *path_prefixes: str,
+) -> None:
+    truncation = _journal_truncation(entry, *path_prefixes)
+    if truncation is not None:
+        extra["journal_truncation"] = truncation
+
+
 def _message(content: JsonValue) -> str | list[JsonObject]:
     if isinstance(content, str):
         return content
@@ -112,6 +148,7 @@ def _step_extra(
         extra["started_at"] = started_at
         extra["started_at_source"] = started_source
     extra["timestamp_source"] = timestamp_source
+    _add_journal_truncation(extra, entry, "/content")
     return extra
 
 
@@ -126,7 +163,7 @@ def _tool_calls_and_observation(
     assert isinstance(native_tool_calls, list)
     tool_calls: list[JsonObject] = []
     results: list[JsonObject] = []
-    for native_tool_call in native_tool_calls:
+    for tool_call_index, native_tool_call in enumerate(native_tool_calls):
         assert isinstance(native_tool_call, dict)
         tool_call_id = native_tool_call["tool_call_id"]
         assert isinstance(tool_call_id, str)
@@ -145,6 +182,15 @@ def _tool_calls_and_observation(
                 "started_at": started_at,
                 "timestamp_source": timestamp_source,
             }
+        tool_call_extra = tool_call.setdefault("extra", {})
+        assert isinstance(tool_call_extra, dict)
+        _add_journal_truncation(
+            tool_call_extra,
+            entry,
+            f"/tool_calls/{tool_call_index}/input",
+        )
+        if not tool_call_extra:
+            tool_call.pop("extra")
         tool_calls.append(tool_call)
 
         completed = tool_completions.get(tool_call_id)
@@ -163,6 +209,7 @@ def _tool_calls_and_observation(
         }
         if "error" in completed_payload:
             result_extra["error"] = completed_payload["error"]
+        _add_journal_truncation(result_extra, completed)
         results.append(
             {
                 "source_call_id": tool_call_id,
@@ -212,16 +259,18 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
         payload = entry.payload
         if entry.type == "user.message":
             timestamp, timestamp_source = _timestamp(entry)
+            extra: JsonObject = {
+                "message_id": payload["message_id"],
+                "timestamp_source": timestamp_source,
+            }
+            _add_journal_truncation(extra, entry, "/content")
             steps.append(
                 {
                     "step_id": len(steps) + 1,
                     "timestamp": timestamp,
                     "source": "user",
                     "message": _message(payload["content"]),
-                    "extra": {
-                        "message_id": payload["message_id"],
-                        "timestamp_source": timestamp_source,
-                    },
+                    "extra": extra,
                 }
             )
         elif entry.type == "model.started":
@@ -271,6 +320,23 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
         timestamp_entry = deltas[-1] if deltas else started
         timestamp, timestamp_source = _timestamp(timestamp_entry)
         started_at, started_at_source = _timestamp(started)
+        extra: JsonObject = {
+            "model_call_id": model_call_id,
+            "incomplete": True,
+            "started_at": started_at,
+            "started_at_source": started_at_source,
+            "timestamp_source": timestamp_source,
+        }
+        truncated_deltas = [
+            {
+                "journal_seq": delta.seq,
+                "truncation": delta.truncation,
+            }
+            for delta in deltas
+            if delta.truncation is not None
+        ]
+        if truncated_deltas:
+            extra["journal_truncations"] = truncated_deltas
         steps.append(
             {
                 "step_id": len(steps) + 1,
@@ -279,13 +345,7 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
                 "model_name": started.payload["model"],
                 "message": "".join(str(delta.payload["delta"]) for delta in deltas),
                 "llm_call_count": 1,
-                "extra": {
-                    "model_call_id": model_call_id,
-                    "incomplete": True,
-                    "started_at": started_at,
-                    "started_at_source": started_at_source,
-                    "timestamp_source": timestamp_source,
-                },
+                "extra": extra,
             }
         )
 
@@ -307,6 +367,7 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
     else:
         terminal_data["error_type"] = terminal_payload["error_type"]
         terminal_data["message"] = terminal_payload["message"]
+    _add_journal_truncation(terminal_data, terminal)
 
     trajectory: JsonObject = {
         "schema_version": ATIF_SCHEMA_VERSION,

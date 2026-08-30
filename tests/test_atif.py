@@ -338,6 +338,153 @@ def test_tool_lifecycle_is_folded_into_the_originating_agent_step(tmp_path):
     }
 
 
+def test_projection_preserves_journal_truncation_metadata(tmp_path):
+    recorded_at = iter(
+        [f"2026-08-26T09:30:00.00{index}Z" for index in range(1, 8)]
+    )
+    with EventJournal.create(
+        "run-atif-truncated",
+        directory=tmp_path,
+        clock=lambda: next(recorded_at),
+        max_string_chars=4,
+    ) as journal:
+        events = [
+            NativeEvent(
+                "run.started",
+                {
+                    "mode": "headless",
+                    "model": "model-a",
+                    "max_turns": 5,
+                    "producer": {"name": "nanoPyCodeAgent", "version": "0.8.0"},
+                    "source_timestamp": "2026-08-26T09:30:00.000Z",
+                },
+            ),
+            NativeEvent(
+                "user.message",
+                {
+                    "message_id": "user-truncated",
+                    "content": "abcdefghij",
+                    "source_timestamp": "2026-08-26T09:30:00.010Z",
+                },
+            ),
+            NativeEvent(
+                "model.started",
+                {
+                    "model_call_id": "model-truncated",
+                    "model": "model-a",
+                    "source_timestamp": "2026-08-26T09:30:00.020Z",
+                },
+            ),
+            NativeEvent(
+                "model.completed",
+                {
+                    "model_call_id": "model-truncated",
+                    "message_id": "message-truncated",
+                    "content": [
+                        {"type": "text", "text": "klmnopqrst"},
+                        {
+                            "type": "tool_call",
+                            "tool_call_id": "tool-truncated",
+                            "tool_name": "read",
+                            "input": {"path": "uvwxyzabcd"},
+                        },
+                    ],
+                    "tool_calls": [
+                        {
+                            "type": "tool_call",
+                            "tool_call_id": "tool-truncated",
+                            "tool_name": "read",
+                            "input": {"path": "uvwxyzabcd"},
+                        }
+                    ],
+                    "model": "model-a",
+                    "stop_reason": "tool_use",
+                    "usage": None,
+                    "provider_response_id": "provider-truncated",
+                    "generation_id": None,
+                    "duration_ms": 10,
+                    "source_timestamp": "2026-08-26T09:30:00.030Z",
+                },
+            ),
+            NativeEvent(
+                "tool.started",
+                {
+                    "model_call_id": "model-truncated",
+                    "tool_call_id": "tool-truncated",
+                    "tool_name": "read",
+                    "input": {"path": "uvwxyzabcd"},
+                    "source_timestamp": "2026-08-26T09:30:00.040Z",
+                },
+            ),
+            NativeEvent(
+                "tool.completed",
+                {
+                    "model_call_id": "model-truncated",
+                    "tool_call_id": "tool-truncated",
+                    "tool_name": "read",
+                    "result": "0123456789",
+                    "is_error": False,
+                    "duration_ms": 5,
+                    "source_timestamp": "2026-08-26T09:30:00.050Z",
+                },
+            ),
+            NativeEvent(
+                "run.completed",
+                {
+                    "outcome": "completed",
+                    "duration_ms": 20,
+                    "source_timestamp": "2026-08-26T09:30:00.060Z",
+                },
+            ),
+        ]
+        for event in events:
+            journal.append(event)
+
+    trajectory = project_atif(
+        EventJournal.replay(tmp_path / "run-atif-truncated.jsonl")
+    )
+    user_step, agent_step = trajectory["steps"]
+    assert user_step["message"] == "abcd"
+    assert user_step["extra"]["journal_truncation"] == {
+        "fields": [
+            {"path": "/content", "original_chars": 10, "retained_chars": 4}
+        ]
+    }
+    assert agent_step["message"] == "klmn"
+    assert agent_step["extra"]["journal_truncation"] == {
+        "fields": [
+            {
+                "path": "/content/0/text",
+                "original_chars": 10,
+                "retained_chars": 4,
+            },
+            {
+                "path": "/content/1/input/path",
+                "original_chars": 10,
+                "retained_chars": 4,
+            },
+        ]
+    }
+    tool_call = agent_step["tool_calls"][0]
+    assert tool_call["arguments"] == {"path": "uvwx"}
+    assert tool_call["extra"]["journal_truncation"] == {
+        "fields": [
+            {
+                "path": "/tool_calls/0/input/path",
+                "original_chars": 10,
+                "retained_chars": 4,
+            }
+        ]
+    }
+    result = agent_step["observation"]["results"][0]
+    assert result["content"] == "0123"
+    assert result["extra"]["journal_truncation"] == {
+        "fields": [
+            {"path": "/result", "original_chars": 10, "retained_chars": 4}
+        ]
+    }
+
+
 def test_atif_file_is_owner_only_complete_json_and_never_overwrites(tmp_path):
     trajectory_path = tmp_path / "trajectory.json"
     expected = project_atif(_journal_entries(tmp_path))
