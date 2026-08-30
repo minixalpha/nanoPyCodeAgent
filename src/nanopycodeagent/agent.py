@@ -24,6 +24,7 @@ import sys
 import time
 import uuid
 from importlib.metadata import PackageNotFoundError, version
+from pathlib import Path
 
 try:
     # Importing readline routes input() through a line editor that redraws the
@@ -39,6 +40,7 @@ import anthropic
 import httpx
 from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
+from .atif import project_atif, write_atif
 from .bash_tool import BASH_TOOL, run_bash
 from .edit_tool import EDIT_TOOL, edit_preview, run_edit
 from .event_journal import (
@@ -346,6 +348,7 @@ def _run_exchange(
     *,
     max_turns: int | None = None,
     reply_prefix: str = "\nAgent> ",
+    trajectory_path: Path | None = None,
 ) -> bool:
     """Reply to the conversation so far, running tools until the model stops.
 
@@ -402,14 +405,22 @@ def _run_exchange(
                 },
             )
             raise
-        emitter.emit(
-            "run.completed",
-            {
-                "outcome": "completed" if finished else "max_turns_exhausted",
-                "duration_ms": (time.perf_counter_ns() - run_started_ns) / 1_000_000,
-                "source_timestamp": utc_now(),
-            },
-        )
+        else:
+            emitter.emit(
+                "run.completed",
+                {
+                    "outcome": "completed" if finished else "max_turns_exhausted",
+                    "duration_ms": (time.perf_counter_ns() - run_started_ns)
+                    / 1_000_000,
+                    "source_timestamp": utc_now(),
+                },
+            )
+        finally:
+            if trajectory_path is not None:
+                write_atif(
+                    project_atif(EventJournal.replay(journal.path)),
+                    trajectory_path,
+                )
         return finished
 
 
@@ -545,7 +556,12 @@ def run() -> int:
     return 0
 
 
-def run_headless(task: str, *, max_turns: int = DEFAULT_MAX_TURNS) -> int:
+def run_headless(
+    task: str,
+    *,
+    max_turns: int = DEFAULT_MAX_TURNS,
+    trajectory_path: Path | None = None,
+) -> int:
     """Work ``task`` to completion without a user, and return the exit code.
 
     The exit code answers one question — did the *harness* fail, or did the
@@ -578,6 +594,7 @@ def run_headless(task: str, *, max_turns: int = DEFAULT_MAX_TURNS) -> int:
             HEADLESS_SYSTEM_PROMPT,
             max_turns=max_turns,
             reply_prefix="",
+            trajectory_path=trajectory_path,
         )
     except (anthropic.APIError, httpx.HTTPError) as exc:
         # Printed verbatim on purpose: a harness classifies a failed run by

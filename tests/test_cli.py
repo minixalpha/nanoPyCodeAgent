@@ -7,6 +7,8 @@ a task that merely went badly has to come back as 0.
 """
 
 import io
+import json
+from types import SimpleNamespace
 
 import anthropic
 import httpx
@@ -89,6 +91,79 @@ def test_banner_stays_off_stdout_in_a_headless_run(monkeypatch, capsys):
     captured = capsys.readouterr()
     assert "nanoPyCodeAgent v" not in captured.out  # stdout carries the run
     assert "nanoPyCodeAgent v" in captured.err  # the banner still lands in logs
+
+
+def test_trajectory_path_writes_atif_without_changing_headless_stdout(
+    monkeypatch, tmp_path, capsys
+):
+    messages = FakeMessages([[text_block("done")]])
+    patch_client(monkeypatch, FakeClient(messages))
+    trajectory_path = tmp_path / "trajectory.json"
+
+    assert cli.main(
+        ["-p", "say hi", "--trajectory", str(trajectory_path)]
+    ) == 0
+
+    assert capsys.readouterr().out == "done\n"
+    trajectory = json.loads(trajectory_path.read_text(encoding="utf-8"))
+    assert trajectory["schema_version"] == "ATIF-v1.7"
+    assert trajectory["steps"][0]["message"] == "say hi"
+    assert trajectory["steps"][1]["message"] == "done"
+    assert trajectory["extra"]["terminal"]["outcome"] == "completed"
+
+
+def test_headless_run_without_trajectory_does_not_create_public_json(
+    monkeypatch, tmp_path, capsys
+):
+    monkeypatch.chdir(tmp_path)
+    messages = FakeMessages([[text_block("done")]])
+    patch_client(monkeypatch, FakeClient(messages))
+
+    assert cli.main(["-p", "say hi"]) == 0
+
+    assert capsys.readouterr().out == "done\n"
+    assert list(tmp_path.glob("*.json")) == []
+
+
+def test_partial_model_usage_is_not_reported_as_complete_trajectory_totals(
+    monkeypatch, tmp_path, capsys
+):
+    first_usage = SimpleNamespace(input_tokens=10, output_tokens=2)
+    first = FakeStream(
+        [tool_use_block("tu_usage", "echo one")],
+        stop_reason="tool_use",
+        usage=first_usage,
+    )
+    second = FakeStream([text_block("done")], usage=None)
+    patch_client(monkeypatch, FakeClient(FakeMessages([first, second])))
+    trajectory_path = tmp_path / "trajectory.json"
+
+    assert cli.main(
+        ["-p", "say hi", "--trajectory", str(trajectory_path)]
+    ) == 0
+
+    trajectory = json.loads(trajectory_path.read_text(encoding="utf-8"))
+    assert trajectory["final_metrics"] == {
+        "total_steps": 3,
+        "extra": {"usage_complete": False},
+    }
+
+
+def test_existing_trajectory_is_rejected_before_the_agent_run(
+    monkeypatch, tmp_path, capsys
+):
+    messages = FakeMessages([[text_block("should not run")]])
+    patch_client(monkeypatch, FakeClient(messages))
+    trajectory_path = tmp_path / "trajectory.json"
+    trajectory_path.write_text("keep me", encoding="utf-8")
+
+    with pytest.raises(SystemExit) as excinfo:
+        cli.main(["-p", "say hi", "--trajectory", str(trajectory_path)])
+
+    assert excinfo.value.code == cli.EXIT_USAGE
+    assert "trajectory path already exists" in capsys.readouterr().err
+    assert trajectory_path.read_text(encoding="utf-8") == "keep me"
+    assert messages.calls == []
 
 
 def test_no_task_on_a_terminal_starts_an_interactive_session(monkeypatch, capsys):
@@ -181,6 +256,52 @@ def test_stream_transport_error_is_reported_verbatim_and_exits_non_zero(
     captured = capsys.readouterr()
     assert "partial reply" in captured.out
     assert "API error: peer disconnected" in captured.err
+
+
+def test_failed_headless_run_writes_partial_atif_trajectory(
+    monkeypatch, tmp_path, capsys
+):
+    class DisconnectingStream(FakeStream):
+        @property
+        def text_stream(self):
+            def _gen():
+                yield "partial reply"
+                raise httpx.ReadError(
+                    "peer disconnected",
+                    request=httpx.Request(
+                        "POST", "https://api.anthropic.com/v1/messages"
+                    ),
+                )
+
+            return _gen()
+
+    messages = FakeMessages([DisconnectingStream([])])
+    patch_client(monkeypatch, FakeClient(messages))
+    trajectory_path = tmp_path / "failed-trajectory.json"
+
+    assert cli.main(
+        ["-p", "say hi", "--trajectory", str(trajectory_path)]
+    ) == 1
+
+    captured = capsys.readouterr()
+    assert captured.out == "partial reply"
+    assert "API error: peer disconnected" in captured.err
+    trajectory = json.loads(trajectory_path.read_text(encoding="utf-8"))
+    assert trajectory["steps"][1]["message"] == "partial reply"
+    assert trajectory["steps"][1]["extra"]["incomplete"] is True
+    terminal = trajectory["extra"]["terminal"]
+    terminal_summary = {
+        key: terminal[key]
+        for key in ("status", "error_type", "message", "timestamp_source")
+    }
+    assert terminal_summary == {
+        "status": "failed",
+        "error_type": "ReadError",
+        "message": "peer disconnected",
+        "timestamp_source": "source_timestamp",
+    }
+    assert terminal["duration_ms"] >= 0
+    assert terminal["timestamp"].endswith("Z")
 
 
 def test_empty_task_is_a_usage_error(monkeypatch):

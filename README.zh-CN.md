@@ -45,6 +45,19 @@ printf "%s" "$TASK" | nanoPyCodeAgent
 任务在当前目录下执行。`--max-turns N` 限制一次运行最多花费多少轮模型回复(默认
 50 轮)。
 
+增加 `--trajectory PATH` 可以把这次 headless Agent Run 保存为一份完整的
+[ATIF-v1.7](https://www.harborframework.com/docs/agents/trajectory-format) JSON
+文档,同时不改变 stdout:
+
+```bash
+nanoPyCodeAgent -p "read README.md and summarize it" \
+  --trajectory ./trajectory.json
+```
+
+run 到达终态后,该选项才会以仅当前用户可读写的权限(`0600`)创建目标文件;如果
+目标已存在则拒绝覆盖。trajectory 可能包含任务、模型回复、工具参数和工具结果,
+应按敏感数据处理。
+
 只要 agent 真的跑起来了,退出码就是 `0`——包括它放弃了、或者轮数用尽而任务没做
 完,那该由检查结果的一方去判定。非零退出码表示这次运行根本没能进行:`1` 是缺少
 凭据或 API 持续失败,`2` 是命令行用错了。
