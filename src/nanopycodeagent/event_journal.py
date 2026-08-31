@@ -13,6 +13,7 @@ import re
 import threading
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Callable, Mapping
 
@@ -28,6 +29,7 @@ EVENT_TYPES = frozenset(
         "model.started",
         "model.output_delta",
         "model.completed",
+        "model.cost_resolved",
         "tool.started",
         "tool.completed",
         "run.completed",
@@ -82,6 +84,9 @@ _REQUIRED_PAYLOAD_FIELDS = {
             "duration_ms",
             "source_timestamp",
         }
+    ),
+    "model.cost_resolved": frozenset(
+        {"generation_id", "amount", "currency", "source", "source_timestamp"}
     ),
     "tool.started": frozenset(
         {"tool_call_id", "tool_name", "input", "source_timestamp"}
@@ -307,6 +312,53 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             value = payload[field]
             if value is not None and (not isinstance(value, str) or not value):
                 raise ValueError(f"model.completed.{field} must be a string or null")
+        cost = payload.get("cost")
+        if cost is not None:
+            if not isinstance(cost, dict):
+                raise ValueError("model.completed.cost must be an object")
+            status = cost.get("status")
+            if status not in {"resolved", "pending", "unknown"}:
+                raise ValueError("model.completed.cost.status is unsupported")
+            if status == "resolved":
+                for field in ("amount", "currency", "source", "kind"):
+                    value = cost.get(field)
+                    if not isinstance(value, str) or not value:
+                        raise ValueError(
+                            f"model.completed.cost.{field} must be a string"
+                        )
+                try:
+                    amount = Decimal(str(cost["amount"]))
+                except InvalidOperation as exc:
+                    raise ValueError(
+                        "model.completed.cost.amount must be decimal"
+                    ) from exc
+                if not amount.is_finite() or amount < 0:
+                    raise ValueError(
+                        "model.completed.cost.amount must be non-negative"
+                    )
+            elif status == "pending":
+                source = cost.get("source")
+                if not isinstance(source, str) or not source:
+                    raise ValueError(
+                        "model.completed.cost.source must be a string"
+                    )
+    elif event_type == "model.cost_resolved":
+        _require_string(payload, "generation_id", event_type)
+        _require_string(payload, "amount", event_type)
+        _require_string(payload, "currency", event_type)
+        _require_string(payload, "source", event_type)
+        try:
+            amount = Decimal(str(payload["amount"]))
+        except InvalidOperation as exc:
+            raise ValueError("model.cost_resolved.amount must be decimal") from exc
+        if not amount.is_finite() or amount < 0:
+            raise ValueError("model.cost_resolved.amount must be non-negative")
+        for field in ("model", "provider_name"):
+            value = payload.get(field)
+            if value is not None and (not isinstance(value, str) or not value):
+                raise ValueError(
+                    f"model.cost_resolved.{field} must be a string"
+                )
     elif event_type == "tool.started":
         if not isinstance(payload["input"], dict):
             raise ValueError("tool.started.input must be an object")

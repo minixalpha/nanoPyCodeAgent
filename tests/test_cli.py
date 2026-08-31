@@ -145,7 +145,11 @@ def test_partial_model_usage_is_not_reported_as_complete_trajectory_totals(
     trajectory = json.loads(trajectory_path.read_text(encoding="utf-8"))
     assert trajectory["final_metrics"] == {
         "total_steps": 3,
-        "extra": {"usage_complete": False},
+        "extra": {
+            "usage_complete": False,
+            "known_cost_usd": 0.0,
+            "cost_is_partial": True,
+        },
     }
 
 

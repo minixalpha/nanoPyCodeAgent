@@ -128,6 +128,7 @@ v1 支持九种事件：
 | `model.started` | 一次模型调用开始。 |
 | `model.output_delta` | 模型流式产生一段文本。 |
 | `model.completed` | 一次模型调用成功完成，最终消息和 usage 已可用。 |
+| `model.cost_resolved` | provider 的异步账单查询已解析一次模型调用的真实 cost。 |
 | `tool.started` | 一个工具调用开始。 |
 | `tool.completed` | 一个工具调用以正常结果、工具级错误或异常结束。 |
 | `run.completed` | Agent Run 正常结束，包括达到轮次上限。 |
@@ -188,6 +189,7 @@ interactive 模式下，每次用户输入建立一个新的 Agent Run 和 Journ
 | `usage` | object 或 `null` | 本次模型调用的 token usage；schema 见下文。 |
 | `provider_response_id` | non-empty string 或 `null` | provider 原始 response/message ID。 |
 | `generation_id` | non-empty string 或 `null` | provider generation ID；当前从 `x-generation-id` response header 读取。 |
+| `cost` | object（可选） | 本次调用的真实 cost 状态；schema 见下文。旧版 v1 entry 可以没有该字段。 |
 | `duration_ms` | non-negative number | 从开始请求到完整消息和响应头可用的耗时。 |
 
 `content` 支持以下 block：
@@ -209,7 +211,22 @@ interactive 模式下，每次用户输入建立一个新的 Agent Run 和 Journ
 | `cache_read_input_tokens` | 否 | non-negative integer | 从 prompt cache 读取的输入 token 数。 |
 | `cache_creation_input_tokens` | 否 | non-negative integer | 写入 prompt cache 的输入 token 数。 |
 
-provider 返回的其他 JSON usage 字段可以原样保留。v1 不根据 usage 或价格目录计算 cost。
+provider 返回的其他 JSON usage 字段可以原样保留。v1 不根据 token usage 或价格目录估算 cost。
+
+`cost.status` 为 `resolved`、`pending` 或 `unknown`。响应直接带有真实 cost 时，`resolved` 同时记录 decimal string `amount`、`currency: "USD"`、`source: "provider_response.usage.cost"` 和 `kind: "provider_reported"`；有 generation ID 但响应未带 cost 时记录 `pending`；没有可补账身份时记录 `unknown`。未知 cost 不能写成零。
+
+### `model.cost_resolved`
+
+| 字段 | 类型 | 含义 |
+|---|---|---|
+| `generation_id` | non-empty string | 与 `model.completed` 关联的 provider generation ID。 |
+| `amount` | non-negative finite decimal string | provider 报告的实际金额。 |
+| `currency` | non-empty string | 金额币种；OpenRouter 当前为 `USD`。 |
+| `source` | non-empty string | 事实来源；generation 查询当前为 `provider_generation.total_cost`。 |
+| `model` | non-empty string（可选） | generation 记录返回的实际模型。 |
+| `provider_name` | non-empty string（可选） | generation 记录返回的上游 provider。 |
+
+该事件只追加、不修改先前的 `model.completed`。查询地址由当前 Anthropic SDK base URL 同源派生为 `v1/generation`，不会按 provider 名称把 credential 发送到另一个固定渠道。实现已用 OpenRouter 验证；其他兼容 provider 不提供 generation ID 或该查询接口时保持未知。查询失败不产生该事件，也不改变 run 的成功或失败终态。
 
 ### `tool.started`
 
@@ -372,7 +389,7 @@ Journal 明确记录：
 - 本次用户输入；
 - 完整模型输出、流式文本和工具调用；
 - 完整工具输入和返回给模型的工具结果；
-- provider message/generation ID、stop reason 和 usage；
+- provider message/generation ID、stop reason、usage 和真实 cost；
 - 产生本次运行的程序名称和包版本；
 - 错误类型、错误消息和各阶段耗时。
 
@@ -384,7 +401,7 @@ v1 没有专门记录：
 - 完整 provider request、HTTP header 或 SDK 原始 response；
 - system prompt 和发给模型的完整历史快照；
 - spinner、ANSI 颜色、提示符、banner 等 stdout 表现细节；
-- token cost 或价格目录解析结果；
+- 价格目录或由 token 数估算的 cost；
 - session 身份、跨 run 父子关系；
 - ATIF trajectory 或 public `stream-json` 记录。
 

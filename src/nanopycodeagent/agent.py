@@ -42,6 +42,11 @@ from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
 from .atif import project_atif, write_atif
 from .bash_tool import BASH_TOOL, run_bash
+from .cost import (
+    pending_cost,
+    resolve_generation_cost,
+    usage_cost,
+)
 from .edit_tool import EDIT_TOOL, edit_preview, run_edit
 from .event_journal import (
     EventEmitter,
@@ -394,6 +399,7 @@ def _run_exchange(
                 max_turns=max_turns,
             )
         except BaseException as exc:
+            _reconcile_costs(client, journal, emitter)
             emitter.emit(
                 "run.failed",
                 {
@@ -406,6 +412,7 @@ def _run_exchange(
             )
             raise
         else:
+            _reconcile_costs(client, journal, emitter)
             emitter.emit(
                 "run.completed",
                 {
@@ -492,6 +499,8 @@ def _run_model_loop(
                 str(provider_response_id) if provider_response_id is not None else None
             ),
             "generation_id": generation_id,
+            "cost": usage_cost(usage if isinstance(usage, dict) else None)
+            or pending_cost(generation_id),
             "duration_ms": (model_completed_ns - model_started_ns) / 1_000_000,
             "source_timestamp": utc_now(),
         }
@@ -513,6 +522,40 @@ def _run_model_loop(
             if block.type == "tool_use"
         ]
         messages.append({"role": "user", "content": results})
+
+
+def _reconcile_costs(
+    client: anthropic.Anthropic,
+    journal: EventJournal,
+    emitter: EventEmitter,
+) -> None:
+    """Append resolved OpenRouter costs without affecting the run outcome."""
+    base_url = getattr(client, "base_url", "")
+    api_key = client.api_key
+    if not isinstance(api_key, str) or not api_key:
+        return
+    entries = EventJournal.replay(journal.path)
+    already_resolved = {
+        str(entry.payload["generation_id"])
+        for entry in entries
+        if entry.type == "model.cost_resolved"
+    }
+    for entry in entries:
+        if entry.type != "model.completed":
+            continue
+        generation_id = entry.payload.get("generation_id")
+        cost = entry.payload.get("cost")
+        if (
+            not isinstance(generation_id, str)
+            or generation_id in already_resolved
+            or not isinstance(cost, dict)
+            or cost.get("status") != "pending"
+        ):
+            continue
+        resolved = resolve_generation_cost(base_url, generation_id, api_key)
+        if resolved is not None:
+            resolved["source_timestamp"] = utc_now()
+            emitter.emit("model.cost_resolved", resolved)
 
 
 def run() -> int:

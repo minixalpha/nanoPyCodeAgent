@@ -116,6 +116,43 @@ def test_model_duration_ends_before_local_response_normalization(monkeypatch):
     assert completed.payload["duration_ms"] == 1
 
 
+def test_openrouter_cost_is_reconciled_before_run_completion(monkeypatch):
+    reply = FakeStream(
+        [text_block("done")],
+        usage=SimpleNamespace(input_tokens=10, output_tokens=2),
+        response_headers={"x-generation-id": "gen-cost-1"},
+    )
+    client = FakeClient(
+        FakeMessages([reply]),
+        base_url="https://openrouter.ai/api/v1",
+    )
+    patch_client(monkeypatch, client)
+    monkeypatch.setattr(
+        agent,
+        "resolve_generation_cost",
+        lambda base_url, generation_id, api_key: {
+            "generation_id": generation_id,
+            "amount": "0.00072",
+            "currency": "USD",
+            "source": "provider_generation.total_cost",
+        },
+    )
+
+    assert agent.run_headless("fix it") == 0
+
+    entries = EventJournal.replay(_only_journal_path())
+    assert [entry.type for entry in entries[-3:]] == [
+        "model.completed",
+        "model.cost_resolved",
+        "run.completed",
+    ]
+    assert entries[-3].payload["cost"] == {
+        "status": "pending",
+        "source": "provider_generation",
+    }
+    assert entries[-2].payload["amount"] == "0.00072"
+
+
 def test_failed_tool_events_project_the_existing_tool_output(
     monkeypatch, capsys, tmp_path
 ):
