@@ -11,8 +11,9 @@ import httpx
 
 from .event_journal import JsonObject
 
-DEFAULT_ATTEMPTS = 3
-DEFAULT_RETRY_DELAYS = (0.25, 0.5)
+DEFAULT_ATTEMPTS = 6
+DEFAULT_RETRY_DELAYS = (1.0, 2.0, 4.0, 8.0, 15.0)
+RETRYABLE_HTTP_STATUSES = frozenset({404, 408, 409, 429, 500, 502, 503, 504})
 
 
 def generation_url(base_url: object) -> str | None:
@@ -61,6 +62,7 @@ def resolve_generation_cost(
     attempts: int = DEFAULT_ATTEMPTS,
     request: Callable[..., httpx.Response] = httpx.get,
     sleep: Callable[[float], None] = time.sleep,
+    diagnostics: list[JsonObject] | None = None,
 ) -> JsonObject | None:
     """Query the configured provider's generation endpoint with bounded retry.
 
@@ -69,6 +71,8 @@ def resolve_generation_cost(
     """
     endpoint = generation_url(base_url)
     if endpoint is None:
+        if diagnostics is not None:
+            diagnostics.append({"attempt": 0, "status": "unsupported_endpoint"})
         return None
     for attempt in range(attempts):
         try:
@@ -78,8 +82,24 @@ def resolve_generation_cost(
                 headers={"Authorization": f"Bearer {api_key}"},
                 timeout=10.0,
             )
-            response.raise_for_status()
-            data = response.json().get("data")
+            if response.status_code >= 400:
+                if diagnostics is not None:
+                    diagnostics.append(
+                        {
+                            "attempt": attempt + 1,
+                            "status": "http_error",
+                            "http_status": response.status_code,
+                        }
+                    )
+                if response.status_code not in RETRYABLE_HTTP_STATUSES:
+                    return None
+                raise httpx.HTTPStatusError(
+                    "retryable generation lookup response",
+                    request=response.request,
+                    response=response,
+                )
+            body = response.json()
+            data = body.get("data") if isinstance(body, dict) else None
             if isinstance(data, dict) and data.get("total_cost") is not None:
                 amount = Decimal(str(data["total_cost"]))
                 if amount.is_finite() and amount >= 0:
@@ -96,10 +116,36 @@ def resolve_generation_cost(
                         value = data.get(source)
                         if isinstance(value, str) and value:
                             result[target] = value
+                    if diagnostics is not None:
+                        diagnostics.append(
+                            {
+                                "attempt": attempt + 1,
+                                "status": "resolved",
+                                "http_status": response.status_code,
+                            }
+                        )
                     return result
-        except Exception:
-            # Enrichment must never replace the agent's real task outcome.
+            if diagnostics is not None:
+                diagnostics.append(
+                    {
+                        "attempt": attempt + 1,
+                        "status": "cost_unavailable",
+                        "http_status": response.status_code,
+                    }
+                )
+        except httpx.HTTPStatusError:
+            # Retryable HTTP failures were recorded before raising.
             pass
+        except Exception as exc:
+            # Enrichment must never replace the agent's real task outcome.
+            if diagnostics is not None:
+                diagnostics.append(
+                    {
+                        "attempt": attempt + 1,
+                        "status": "request_error",
+                        "error_type": type(exc).__name__,
+                    }
+                )
         if attempt < attempts - 1:
             sleep(DEFAULT_RETRY_DELAYS[min(attempt, len(DEFAULT_RETRY_DELAYS) - 1)])
     return None

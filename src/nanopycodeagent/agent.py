@@ -399,7 +399,7 @@ def _run_exchange(
                 max_turns=max_turns,
             )
         except BaseException as exc:
-            _reconcile_costs(client, journal, emitter)
+            cost_reconciliation = _reconcile_costs(client, journal, emitter)
             emitter.emit(
                 "run.failed",
                 {
@@ -407,18 +407,28 @@ def _run_exchange(
                     "message": str(exc),
                     "duration_ms": (time.perf_counter_ns() - run_started_ns)
                     / 1_000_000,
+                    **(
+                        {"cost_reconciliation": cost_reconciliation}
+                        if cost_reconciliation
+                        else {}
+                    ),
                     "source_timestamp": utc_now(),
                 },
             )
             raise
         else:
-            _reconcile_costs(client, journal, emitter)
+            cost_reconciliation = _reconcile_costs(client, journal, emitter)
             emitter.emit(
                 "run.completed",
                 {
                     "outcome": "completed" if finished else "max_turns_exhausted",
                     "duration_ms": (time.perf_counter_ns() - run_started_ns)
                     / 1_000_000,
+                    **(
+                        {"cost_reconciliation": cost_reconciliation}
+                        if cost_reconciliation
+                        else {}
+                    ),
                     "source_timestamp": utc_now(),
                 },
             )
@@ -528,12 +538,13 @@ def _reconcile_costs(
     client: anthropic.Anthropic,
     journal: EventJournal,
     emitter: EventEmitter,
-) -> None:
+) -> list[JsonObject]:
     """Append resolved OpenRouter costs without affecting the run outcome."""
     base_url = getattr(client, "base_url", "")
     api_key = client.api_key
     if not isinstance(api_key, str) or not api_key:
-        return
+        return []
+    outcomes: list[JsonObject] = []
     entries = EventJournal.replay(journal.path)
     already_resolved = {
         str(entry.payload["generation_id"])
@@ -552,10 +563,24 @@ def _reconcile_costs(
             or cost.get("status") != "pending"
         ):
             continue
-        resolved = resolve_generation_cost(base_url, generation_id, api_key)
+        diagnostics: list[JsonObject] = []
+        resolved = resolve_generation_cost(
+            base_url,
+            generation_id,
+            api_key,
+            diagnostics=diagnostics,
+        )
         if resolved is not None:
             resolved["source_timestamp"] = utc_now()
             emitter.emit("model.cost_resolved", resolved)
+        outcomes.append(
+            {
+                "generation_id": generation_id,
+                "status": "resolved" if resolved is not None else "unresolved",
+                "attempts": diagnostics,
+            }
+        )
+    return outcomes
 
 
 def run() -> int:

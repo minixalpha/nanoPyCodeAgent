@@ -125,6 +125,41 @@ def _validate_rfc3339_utc(value: str, field: str) -> None:
         raise ValueError(f"{field} must be RFC 3339 UTC") from exc
 
 
+def _validate_cost_reconciliation(payload: JsonObject, event_type: str) -> None:
+    outcomes = payload.get("cost_reconciliation")
+    if outcomes is None:
+        return
+    if not isinstance(outcomes, list):
+        raise ValueError(f"{event_type}.cost_reconciliation must be a list")
+    for index, outcome in enumerate(outcomes):
+        field = f"{event_type}.cost_reconciliation[{index}]"
+        if not isinstance(outcome, dict):
+            raise ValueError(f"{field} must be an object")
+        generation_id = outcome.get("generation_id")
+        if not isinstance(generation_id, str) or not generation_id:
+            raise ValueError(f"{field}.generation_id must be a string")
+        if outcome.get("status") not in {"resolved", "unresolved"}:
+            raise ValueError(f"{field}.status is unsupported")
+        attempts = outcome.get("attempts")
+        if not isinstance(attempts, list):
+            raise ValueError(f"{field}.attempts must be a list")
+        for attempt_index, attempt in enumerate(attempts):
+            attempt_field = f"{field}.attempts[{attempt_index}]"
+            if not isinstance(attempt, dict):
+                raise ValueError(f"{attempt_field} must be an object")
+            number = attempt.get("attempt")
+            if not isinstance(number, int) or isinstance(number, bool) or number < 0:
+                raise ValueError(f"{attempt_field}.attempt must be non-negative")
+            if attempt.get("status") not in {
+                "resolved",
+                "cost_unavailable",
+                "http_error",
+                "request_error",
+                "unsupported_endpoint",
+            }:
+                raise ValueError(f"{attempt_field}.status is unsupported")
+
+
 def _validate_recorded_at(value: str) -> None:
     _validate_rfc3339_utc(value, "Journal Entry recorded_at")
 
@@ -377,10 +412,12 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
     elif event_type == "run.completed":
         if payload["outcome"] not in {"completed", "max_turns_exhausted"}:
             raise ValueError("run.completed.outcome is unsupported")
+        _validate_cost_reconciliation(payload, event_type)
     elif event_type == "run.failed":
         _require_string(payload, "error_type", event_type)
         if not isinstance(payload["message"], str):
             raise ValueError("run.failed.message must be a string")
+        _validate_cost_reconciliation(payload, event_type)
 
 @dataclass(frozen=True, slots=True)
 class NativeEvent:

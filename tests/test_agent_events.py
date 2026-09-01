@@ -42,6 +42,11 @@ def test_headless_model_reply_is_journaled_without_changing_stdout(
         response_headers={"x-generation-id": "gen-1"},
     )
     patch_client(monkeypatch, FakeClient(FakeMessages([reply])))
+    monkeypatch.setattr(
+        agent,
+        "resolve_generation_cost",
+        lambda *args, **kwargs: None,
+    )
 
     assert agent.run_headless("fix it") == 0
 
@@ -130,7 +135,7 @@ def test_openrouter_cost_is_reconciled_before_run_completion(monkeypatch):
     monkeypatch.setattr(
         agent,
         "resolve_generation_cost",
-        lambda base_url, generation_id, api_key: {
+        lambda base_url, generation_id, api_key, **kwargs: {
             "generation_id": generation_id,
             "amount": "0.00072",
             "currency": "USD",
@@ -151,6 +156,58 @@ def test_openrouter_cost_is_reconciled_before_run_completion(monkeypatch):
         "source": "provider_generation",
     }
     assert entries[-2].payload["amount"] == "0.00072"
+    assert entries[-1].payload["cost_reconciliation"] == [
+        {
+            "generation_id": "gen-cost-1",
+            "status": "resolved",
+            "attempts": [],
+        }
+    ]
+
+
+def test_unresolved_cost_diagnostics_are_persisted_on_run_terminal(monkeypatch):
+    reply = FakeStream(
+        [text_block("done")],
+        usage=SimpleNamespace(input_tokens=10, output_tokens=2),
+        response_headers={"x-generation-id": "gen-cost-1"},
+    )
+    patch_client(
+        monkeypatch,
+        FakeClient(FakeMessages([reply]), base_url="https://openrouter.ai/api"),
+    )
+
+    def unresolved(base_url, generation_id, api_key, *, diagnostics):
+        diagnostics.extend(
+            [
+                {"attempt": 1, "status": "http_error", "http_status": 404},
+                {
+                    "attempt": 2,
+                    "status": "request_error",
+                    "error_type": "ReadTimeout",
+                },
+            ]
+        )
+        return None
+
+    monkeypatch.setattr(agent, "resolve_generation_cost", unresolved)
+
+    assert agent.run_headless("fix it") == 0
+
+    terminal = EventJournal.replay(_only_journal_path())[-1]
+    assert terminal.payload["cost_reconciliation"] == [
+        {
+            "generation_id": "gen-cost-1",
+            "status": "unresolved",
+            "attempts": [
+                {"attempt": 1, "status": "http_error", "http_status": 404},
+                {
+                    "attempt": 2,
+                    "status": "request_error",
+                    "error_type": "ReadTimeout",
+                },
+            ],
+        }
+    ]
 
 
 def test_failed_tool_events_project_the_existing_tool_output(

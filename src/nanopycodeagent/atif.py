@@ -401,6 +401,9 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
     else:
         terminal_data["error_type"] = terminal_payload["error_type"]
         terminal_data["message"] = terminal_payload["message"]
+    cost_reconciliation = terminal_payload.get("cost_reconciliation")
+    if isinstance(cost_reconciliation, list):
+        terminal_data["cost_reconciliation"] = cost_reconciliation
     _add_journal_truncation(terminal_data, terminal)
 
     trajectory: JsonObject = {

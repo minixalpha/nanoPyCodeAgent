@@ -223,6 +223,29 @@ def test_resolved_and_missing_costs_project_as_partial_metrics(tmp_path):
     assert trajectory["final_metrics"]["total_cost_usd"] == 0.00072
 
 
+def test_cost_reconciliation_diagnostics_project_to_terminal_extra(tmp_path):
+    entries = _journal_entries(tmp_path)
+    entries[-1].payload["cost_reconciliation"] = [
+        {
+            "generation_id": "generation-1",
+            "status": "unresolved",
+            "attempts": [
+                {"attempt": 1, "status": "http_error", "http_status": 404}
+            ],
+        }
+    ]
+
+    assert project_atif(entries)["extra"]["terminal"]["cost_reconciliation"] == [
+        {
+            "generation_id": "generation-1",
+            "status": "unresolved",
+            "attempts": [
+                {"attempt": 1, "status": "http_error", "http_status": 404}
+            ],
+        }
+    ]
+
+
 def test_tool_lifecycle_is_folded_into_the_originating_agent_step(tmp_path):
     recorded_at = iter(
         [f"2026-08-26T09:00:00.00{index}Z" for index in range(1, 8)]

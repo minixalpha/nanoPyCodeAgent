@@ -228,6 +228,8 @@ provider 返回的其他 JSON usage 字段可以原样保留。v1 不根据 toke
 
 该事件只追加、不修改先前的 `model.completed`。查询地址由当前 Anthropic SDK base URL 同源派生为 `v1/generation`，不会按 provider 名称把 credential 发送到另一个固定渠道。实现已用 OpenRouter 验证；其他兼容 provider 不提供 generation ID 或该查询接口时保持未知。查询失败不产生该事件，也不改变 run 的成功或失败终态。
 
+`run.completed` 与 `run.failed` 可以带可选的 `cost_reconciliation` array。每项包含 `generation_id`、最终 `status`（`resolved` 或 `unresolved`）和 `attempts`；attempt 只保存序号、结果分类，以及适用时的 HTTP 状态码或异常类型，不保存 credential 或响应正文。该字段为现有终态增加诊断信息，不改变终态语义，因此属于 v1 兼容的可选 payload 扩展。
+
 ### `tool.started`
 
 | 字段 | 必需 | 类型 | 含义 |
