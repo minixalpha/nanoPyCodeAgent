@@ -42,6 +42,11 @@ def test_headless_model_reply_is_journaled_without_changing_stdout(
         response_headers={"x-generation-id": "gen-1"},
     )
     patch_client(monkeypatch, FakeClient(FakeMessages([reply])))
+    monkeypatch.setattr(
+        agent,
+        "resolve_generation_cost",
+        lambda *args, **kwargs: None,
+    )
 
     assert agent.run_headless("fix it") == 0
 
@@ -114,6 +119,113 @@ def test_model_duration_ends_before_local_response_normalization(monkeypatch):
     entries = EventJournal.replay(_only_journal_path())
     completed = next(entry for entry in entries if entry.type == "model.completed")
     assert completed.payload["duration_ms"] == 1
+
+
+@pytest.mark.parametrize(
+    ("api_key", "auth_token", "expected_credential"),
+    [
+        ("sk-api", None, "sk-api"),
+        (None, "sk-auth", "sk-auth"),
+    ],
+)
+def test_openrouter_cost_is_reconciled_before_run_completion(
+    monkeypatch, api_key, auth_token, expected_credential
+):
+    reply = FakeStream(
+        [text_block("done")],
+        usage=SimpleNamespace(input_tokens=10, output_tokens=2),
+        response_headers={"x-generation-id": "gen-cost-1"},
+    )
+    client = FakeClient(
+        FakeMessages([reply]),
+        base_url="https://openrouter.ai/api/v1",
+        api_key=api_key,
+        auth_token=auth_token,
+    )
+    patch_client(monkeypatch, client)
+    credentials = []
+
+    def resolved(base_url, generation_id, credential, **kwargs):
+        credentials.append(credential)
+        return {
+            "generation_id": generation_id,
+            "amount": "0.00072",
+            "currency": "USD",
+            "source": "provider_generation.total_cost",
+        }
+
+    monkeypatch.setattr(
+        agent,
+        "resolve_generation_cost",
+        resolved,
+    )
+
+    assert agent.run_headless("fix it") == 0
+
+    entries = EventJournal.replay(_only_journal_path())
+    assert [entry.type for entry in entries[-3:]] == [
+        "model.completed",
+        "model.cost_resolved",
+        "run.completed",
+    ]
+    assert entries[-3].payload["cost"] == {
+        "status": "pending",
+        "source": "provider_generation",
+    }
+    assert entries[-2].payload["amount"] == "0.00072"
+    assert credentials == [expected_credential]
+    assert entries[-1].payload["cost_reconciliation"] == [
+        {
+            "generation_id": "gen-cost-1",
+            "status": "resolved",
+            "attempts": [],
+        }
+    ]
+
+
+def test_unresolved_cost_diagnostics_are_persisted_on_run_terminal(monkeypatch):
+    reply = FakeStream(
+        [text_block("done")],
+        usage=SimpleNamespace(input_tokens=10, output_tokens=2),
+        response_headers={"x-generation-id": "gen-cost-1"},
+    )
+    patch_client(
+        monkeypatch,
+        FakeClient(FakeMessages([reply]), base_url="https://openrouter.ai/api"),
+    )
+
+    def unresolved(base_url, generation_id, api_key, *, diagnostics):
+        diagnostics.extend(
+            [
+                {"attempt": 1, "status": "http_error", "http_status": 404},
+                {
+                    "attempt": 2,
+                    "status": "request_error",
+                    "error_type": "ReadTimeout",
+                },
+            ]
+        )
+        return None
+
+    monkeypatch.setattr(agent, "resolve_generation_cost", unresolved)
+
+    assert agent.run_headless("fix it") == 0
+
+    terminal = EventJournal.replay(_only_journal_path())[-1]
+    assert terminal.payload["cost_reconciliation"] == [
+        {
+            "generation_id": "gen-cost-1",
+            "status": "unresolved",
+            "attempts": [
+                {"attempt": 1, "status": "http_error", "http_status": 404},
+                {
+                    "attempt": 2,
+                    "status": "request_error",
+                    "error_type": "ReadTimeout",
+                },
+            ],
+        }
+    ]
 
 
 def test_failed_tool_events_project_the_existing_tool_output(

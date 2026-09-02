@@ -178,6 +178,74 @@ def test_completed_journal_projects_atif_user_model_usage_and_terminal_state(
     }
 
 
+def test_resolved_and_missing_costs_project_as_partial_metrics(tmp_path):
+    entries = _journal_entries(tmp_path)
+    completed = next(entry for entry in entries if entry.type == "model.completed")
+    completed.payload["cost"] = {
+        "status": "pending",
+        "source": "provider_generation",
+    }
+    terminal = entries.pop()
+    entries.append(
+        JournalEntry(
+            schema_version=1,
+            run_id=completed.run_id,
+            seq=terminal.seq,
+            recorded_at=terminal.recorded_at,
+            type="model.cost_resolved",
+            payload={
+                "generation_id": "generation-1",
+                "amount": "0.00072",
+                "currency": "USD",
+                "source": "provider_generation.total_cost",
+                "source_timestamp": terminal.payload["source_timestamp"],
+            },
+        )
+    )
+    entries.append(
+        JournalEntry(
+            schema_version=1,
+            run_id=terminal.run_id,
+            seq=terminal.seq + 1,
+            recorded_at=terminal.recorded_at,
+            type=terminal.type,
+            payload=terminal.payload,
+        )
+    )
+
+    trajectory = project_atif(entries)
+    assert trajectory["steps"][1]["metrics"]["cost_usd"] == 0.00072
+    assert trajectory["steps"][1]["metrics"]["extra"] == {
+        "cache_creation_input_tokens": 2,
+        "cost_source": "provider_generation.total_cost",
+        "generation_id": "generation-1",
+    }
+    assert trajectory["final_metrics"]["total_cost_usd"] == 0.00072
+
+
+def test_cost_reconciliation_diagnostics_project_to_terminal_extra(tmp_path):
+    entries = _journal_entries(tmp_path)
+    entries[-1].payload["cost_reconciliation"] = [
+        {
+            "generation_id": "generation-1",
+            "status": "unresolved",
+            "attempts": [
+                {"attempt": 1, "status": "http_error", "http_status": 404}
+            ],
+        }
+    ]
+
+    assert project_atif(entries)["extra"]["terminal"]["cost_reconciliation"] == [
+        {
+            "generation_id": "generation-1",
+            "status": "unresolved",
+            "attempts": [
+                {"attempt": 1, "status": "http_error", "http_status": 404}
+            ],
+        }
+    ]
+
+
 def test_tool_lifecycle_is_folded_into_the_originating_agent_step(tmp_path):
     recorded_at = iter(
         [f"2026-08-26T09:00:00.00{index}Z" for index in range(1, 8)]

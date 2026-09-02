@@ -6,6 +6,7 @@ import json
 import os
 import tempfile
 from collections.abc import Sequence
+from decimal import Decimal
 from pathlib import Path
 
 from .event_journal import JsonObject, JsonValue, JournalEntry, SCHEMA_VERSION
@@ -254,6 +255,12 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
         for entry in entries
         if entry.type == "tool.completed"
     }
+    resolved_costs = {
+        str(entry.payload["generation_id"]): entry.payload
+        for entry in entries
+        if entry.type == "model.cost_resolved"
+    }
+    cost_states: list[tuple[str | None, Decimal | None]] = []
     terminal: JournalEntry | None = None
     for entry in entries[1:]:
         payload = entry.payload
@@ -298,6 +305,33 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
                 "extra": _step_extra(entry, model_starts.get(model_call_id)),
             }
             metrics = _metrics(usage)
+            generation_id = payload["generation_id"]
+            assert generation_id is None or isinstance(generation_id, str)
+            cost = payload.get("cost")
+            resolved_cost = (
+                resolved_costs.get(generation_id)
+                if generation_id is not None
+                else None
+            )
+            if (
+                resolved_cost is None
+                and isinstance(cost, dict)
+                and cost.get("status") == "resolved"
+            ):
+                resolved_cost = cost
+            amount: Decimal | None = None
+            if isinstance(resolved_cost, dict):
+                amount = Decimal(str(resolved_cost["amount"]))
+                if metrics is None:
+                    metrics = {}
+                metrics["cost_usd"] = float(amount)
+                metrics_extra = metrics.setdefault("extra", {})
+                assert isinstance(metrics_extra, dict)
+                metrics_extra["cost_source"] = resolved_cost["source"]
+                if generation_id is not None:
+                    metrics_extra["generation_id"] = generation_id
+            if isinstance(cost, dict) or resolved_cost is not None:
+                cost_states.append((generation_id, amount))
             if metrics is not None:
                 step["metrics"] = metrics
             tool_calls, observation = _tool_calls_and_observation(
@@ -367,6 +401,9 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
     else:
         terminal_data["error_type"] = terminal_payload["error_type"]
         terminal_data["message"] = terminal_payload["message"]
+    cost_reconciliation = terminal_payload.get("cost_reconciliation")
+    if isinstance(cost_reconciliation, list):
+        terminal_data["cost_reconciliation"] = cost_reconciliation
     _add_journal_truncation(terminal_data, terminal)
 
     trajectory: JsonObject = {
@@ -407,6 +444,25 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
         )
     elif llm_steps:
         final_metrics["extra"] = {"usage_complete": False}
+    if cost_states:
+        known_cost = sum(
+            (amount for _, amount in cost_states if amount is not None),
+            Decimal(0),
+        )
+        if all(amount is not None for _, amount in cost_states):
+            final_metrics["total_cost_usd"] = float(known_cost)
+        else:
+            final_extra = final_metrics.setdefault("extra", {})
+            assert isinstance(final_extra, dict)
+            final_extra["known_cost_usd"] = float(known_cost)
+            final_extra["cost_is_partial"] = True
+            missing = [
+                generation_id
+                for generation_id, amount in cost_states
+                if amount is None and generation_id is not None
+            ]
+            if missing:
+                final_extra["missing_generation_ids"] = missing
     return trajectory
 
 

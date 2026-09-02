@@ -492,6 +492,14 @@ stable user-output contract. External programs SHOULD NOT treat
 
 ## Versioning and compatibility
 
+A terminal `run.completed` or `run.failed` payload may include an optional
+`cost_reconciliation` array. Each item contains a `generation_id`, a final
+`resolved` or `unresolved` status, and an `attempts` list. Attempts retain only
+their ordinal, outcome classification, and, when applicable, an HTTP status or
+exception type; credentials and response bodies are never stored. This adds
+diagnostics without changing terminal-event semantics and is therefore a
+v1-compatible optional payload extension.
+
 A v1 reader fails closed on an unknown `schema_version` or event type. The
 compatibility rules are:
 

@@ -13,6 +13,7 @@ import re
 import threading
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Callable, Mapping
 
@@ -28,6 +29,7 @@ EVENT_TYPES = frozenset(
         "model.started",
         "model.output_delta",
         "model.completed",
+        "model.cost_resolved",
         "tool.started",
         "tool.completed",
         "run.completed",
@@ -83,6 +85,9 @@ _REQUIRED_PAYLOAD_FIELDS = {
             "source_timestamp",
         }
     ),
+    "model.cost_resolved": frozenset(
+        {"generation_id", "amount", "currency", "source", "source_timestamp"}
+    ),
     "tool.started": frozenset(
         {"tool_call_id", "tool_name", "input", "source_timestamp"}
     ),
@@ -118,6 +123,41 @@ def _validate_rfc3339_utc(value: str, field: str) -> None:
         datetime.fromisoformat(value.removesuffix("Z") + "+00:00")
     except ValueError as exc:
         raise ValueError(f"{field} must be RFC 3339 UTC") from exc
+
+
+def _validate_cost_reconciliation(payload: JsonObject, event_type: str) -> None:
+    outcomes = payload.get("cost_reconciliation")
+    if outcomes is None:
+        return
+    if not isinstance(outcomes, list):
+        raise ValueError(f"{event_type}.cost_reconciliation must be a list")
+    for index, outcome in enumerate(outcomes):
+        field = f"{event_type}.cost_reconciliation[{index}]"
+        if not isinstance(outcome, dict):
+            raise ValueError(f"{field} must be an object")
+        generation_id = outcome.get("generation_id")
+        if not isinstance(generation_id, str) or not generation_id:
+            raise ValueError(f"{field}.generation_id must be a string")
+        if outcome.get("status") not in {"resolved", "unresolved"}:
+            raise ValueError(f"{field}.status is unsupported")
+        attempts = outcome.get("attempts")
+        if not isinstance(attempts, list):
+            raise ValueError(f"{field}.attempts must be a list")
+        for attempt_index, attempt in enumerate(attempts):
+            attempt_field = f"{field}.attempts[{attempt_index}]"
+            if not isinstance(attempt, dict):
+                raise ValueError(f"{attempt_field} must be an object")
+            number = attempt.get("attempt")
+            if not isinstance(number, int) or isinstance(number, bool) or number < 0:
+                raise ValueError(f"{attempt_field}.attempt must be non-negative")
+            if attempt.get("status") not in {
+                "resolved",
+                "cost_unavailable",
+                "http_error",
+                "request_error",
+                "unsupported_endpoint",
+            }:
+                raise ValueError(f"{attempt_field}.status is unsupported")
 
 
 def _validate_recorded_at(value: str) -> None:
@@ -307,6 +347,53 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             value = payload[field]
             if value is not None and (not isinstance(value, str) or not value):
                 raise ValueError(f"model.completed.{field} must be a string or null")
+        cost = payload.get("cost")
+        if cost is not None:
+            if not isinstance(cost, dict):
+                raise ValueError("model.completed.cost must be an object")
+            status = cost.get("status")
+            if status not in {"resolved", "pending", "unknown"}:
+                raise ValueError("model.completed.cost.status is unsupported")
+            if status == "resolved":
+                for field in ("amount", "currency", "source", "kind"):
+                    value = cost.get(field)
+                    if not isinstance(value, str) or not value:
+                        raise ValueError(
+                            f"model.completed.cost.{field} must be a string"
+                        )
+                try:
+                    amount = Decimal(str(cost["amount"]))
+                except InvalidOperation as exc:
+                    raise ValueError(
+                        "model.completed.cost.amount must be decimal"
+                    ) from exc
+                if not amount.is_finite() or amount < 0:
+                    raise ValueError(
+                        "model.completed.cost.amount must be non-negative"
+                    )
+            elif status == "pending":
+                source = cost.get("source")
+                if not isinstance(source, str) or not source:
+                    raise ValueError(
+                        "model.completed.cost.source must be a string"
+                    )
+    elif event_type == "model.cost_resolved":
+        _require_string(payload, "generation_id", event_type)
+        _require_string(payload, "amount", event_type)
+        _require_string(payload, "currency", event_type)
+        _require_string(payload, "source", event_type)
+        try:
+            amount = Decimal(str(payload["amount"]))
+        except InvalidOperation as exc:
+            raise ValueError("model.cost_resolved.amount must be decimal") from exc
+        if not amount.is_finite() or amount < 0:
+            raise ValueError("model.cost_resolved.amount must be non-negative")
+        for field in ("model", "provider_name"):
+            value = payload.get(field)
+            if value is not None and (not isinstance(value, str) or not value):
+                raise ValueError(
+                    f"model.cost_resolved.{field} must be a string"
+                )
     elif event_type == "tool.started":
         if not isinstance(payload["input"], dict):
             raise ValueError("tool.started.input must be an object")
@@ -325,10 +412,12 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
     elif event_type == "run.completed":
         if payload["outcome"] not in {"completed", "max_turns_exhausted"}:
             raise ValueError("run.completed.outcome is unsupported")
+        _validate_cost_reconciliation(payload, event_type)
     elif event_type == "run.failed":
         _require_string(payload, "error_type", event_type)
         if not isinstance(payload["message"], str):
             raise ValueError("run.failed.message must be a string")
+        _validate_cost_reconciliation(payload, event_type)
 
 @dataclass(frozen=True, slots=True)
 class NativeEvent:

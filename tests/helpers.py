@@ -121,10 +121,18 @@ class FakeMessages:
 
 
 class FakeClient:
-    def __init__(self, messages, *, api_key="sk-test", auth_token=None):
+    def __init__(
+        self,
+        messages,
+        *,
+        api_key="sk-test",
+        auth_token=None,
+        base_url="https://api.anthropic.com",
+    ):
         self.messages = messages
         self.api_key = api_key
         self.auth_token = auth_token
+        self.base_url = base_url
 
 
 def patch_client(monkeypatch, client):
