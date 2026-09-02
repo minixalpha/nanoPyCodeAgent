@@ -97,6 +97,7 @@ put the values under an `env` object. Empty or whitespace-only values are ignore
 {
   "env": {
     "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_AUTH_TOKEN": "",
     "ANTHROPIC_BASE_URL": "",
     "ANTHROPIC_MODEL": ""
   }
@@ -105,7 +106,8 @@ put the values under an `env` object. Empty or whitespace-only values are ignore
 
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | Yes | — | Your Anthropic API key, or the key for a third-party / proxy service. |
+| `ANTHROPIC_API_KEY` | One credential required | — | Your Anthropic API key, or an API key accepted by a third-party service. |
+| `ANTHROPIC_AUTH_TOKEN` | One credential required | — | A bearer token used instead of `ANTHROPIC_API_KEY`; OpenRouter recommends this mode for its Anthropic-compatible endpoint. |
 | `ANTHROPIC_BASE_URL` | No | `https://api.anthropic.com` | Point the SDK at a non-official / proxy endpoint. Leave it unset to use the official API — an empty value breaks requests. |
 | `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Override the model. An empty or whitespace-only value falls back to the default. |
 

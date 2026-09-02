@@ -541,8 +541,8 @@ def _reconcile_costs(
 ) -> list[JsonObject]:
     """Append resolved OpenRouter costs without affecting the run outcome."""
     base_url = getattr(client, "base_url", "")
-    api_key = client.api_key
-    if not isinstance(api_key, str) or not api_key:
+    credential = client.api_key or client.auth_token
+    if not isinstance(credential, str) or not credential:
         return []
     outcomes: list[JsonObject] = []
     entries = EventJournal.replay(journal.path)
@@ -567,7 +567,7 @@ def _reconcile_costs(
         resolved = resolve_generation_cost(
             base_url,
             generation_id,
-            api_key,
+            credential,
             diagnostics=diagnostics,
         )
         if resolved is not None:

@@ -121,7 +121,16 @@ def test_model_duration_ends_before_local_response_normalization(monkeypatch):
     assert completed.payload["duration_ms"] == 1
 
 
-def test_openrouter_cost_is_reconciled_before_run_completion(monkeypatch):
+@pytest.mark.parametrize(
+    ("api_key", "auth_token", "expected_credential"),
+    [
+        ("sk-api", None, "sk-api"),
+        (None, "sk-auth", "sk-auth"),
+    ],
+)
+def test_openrouter_cost_is_reconciled_before_run_completion(
+    monkeypatch, api_key, auth_token, expected_credential
+):
     reply = FakeStream(
         [text_block("done")],
         usage=SimpleNamespace(input_tokens=10, output_tokens=2),
@@ -130,17 +139,25 @@ def test_openrouter_cost_is_reconciled_before_run_completion(monkeypatch):
     client = FakeClient(
         FakeMessages([reply]),
         base_url="https://openrouter.ai/api/v1",
+        api_key=api_key,
+        auth_token=auth_token,
     )
     patch_client(monkeypatch, client)
-    monkeypatch.setattr(
-        agent,
-        "resolve_generation_cost",
-        lambda base_url, generation_id, api_key, **kwargs: {
+    credentials = []
+
+    def resolved(base_url, generation_id, credential, **kwargs):
+        credentials.append(credential)
+        return {
             "generation_id": generation_id,
             "amount": "0.00072",
             "currency": "USD",
             "source": "provider_generation.total_cost",
-        },
+        }
+
+    monkeypatch.setattr(
+        agent,
+        "resolve_generation_cost",
+        resolved,
     )
 
     assert agent.run_headless("fix it") == 0
@@ -156,6 +173,7 @@ def test_openrouter_cost_is_reconciled_before_run_completion(monkeypatch):
         "source": "provider_generation",
     }
     assert entries[-2].payload["amount"] == "0.00072"
+    assert credentials == [expected_credential]
     assert entries[-1].payload["cost_reconciliation"] == [
         {
             "generation_id": "gen-cost-1",

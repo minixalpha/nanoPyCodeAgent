@@ -92,6 +92,7 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCode
 {
   "env": {
     "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_AUTH_TOKEN": "",
     "ANTHROPIC_BASE_URL": "",
     "ANTHROPIC_MODEL": ""
   }
@@ -100,7 +101,8 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCode
 
 | 变量 | 是否必填 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | 是 | 无 | 你的 Anthropic API key,或第三方/代理服务的 key。 |
+| `ANTHROPIC_API_KEY` | 两种凭据任选其一 | 无 | 你的 Anthropic API key,或第三方服务接受的 API key。 |
+| `ANTHROPIC_AUTH_TOKEN` | 两种凭据任选其一 | 无 | 代替 `ANTHROPIC_API_KEY` 使用的 bearer token;OpenRouter 的 Anthropic-compatible endpoint 推荐这种方式。 |
 | `ANTHROPIC_BASE_URL` | 否 | `https://api.anthropic.com` | 将 SDK 指向非官方/代理 endpoint。使用官方 API 时保持不设置;留空值会导致请求失败。 |
 | `ANTHROPIC_MODEL` | 否 | `claude-sonnet-4-6` | 覆盖默认模型。空值或纯空白会回退到默认值。 |
 
