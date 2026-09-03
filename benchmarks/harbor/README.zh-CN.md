@@ -34,11 +34,18 @@ uv run --project benchmarks/harbor harbor run \
 如需安装已经发布到 PyPI 的版本，请使用
 `--agent-kwarg version=<released-version>` 代替 `git_ref`。这两个版本参数互斥；
 如果都未提供，adapter 会安装最新发布版本。为了让 benchmark 结果可复现，请始终
-提供其中一个参数。
+提供其中一个参数。`git_ref` 最好使用完整的 40 位 commit SHA；Harbor 可能把
+`83e6271` 这样的无引号短 SHA 解析成数字。如果需要使用短 revision，请通过
+`--agent-kwarg 'git_ref="83e6271"'` 保留其字符串类型。
 
 adapter 通过 stdin 发送任务指令，在 task 容器的当前目录中运行 agent，并把合并后
 的 stdout/stderr 保存到 `/logs/agent/nanopycodeagent.txt`。它默认沿用 CLI 的 50
 轮限制；可以通过 `--agent-kwarg max_turns=20` 覆盖此设置。
+
+adapter 还会要求 agent 将 ATIF-v1.7 trajectory 直接写入
+`/logs/agent/trajectory.json`。Harbor 会把该文件作为 trial 的原生 ATIF 输出采集，
+并将 prompt、completion、cache token 和 cost 汇总回填到 agent result。trajectory
+缺失、无效或指标不完整时会保留明确诊断；未知 usage 或 cost 不会被记成零。
 
 `ANTHROPIC_MODEL` 的优先级高于 Harbor 的 `--model`。未设置该环境变量时，adapter
 会移除 `--model` 中的第一个 provider 前缀。Harbor 原生的 provider 凭证和已经配置

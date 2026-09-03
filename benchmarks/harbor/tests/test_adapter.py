@@ -1,10 +1,12 @@
 """Contract tests for the repository-local Harbor installed-agent adapter."""
 
 import asyncio
+import json
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from harbor.models.agent.context import AgentContext
 
 from harbor_adapter import NanoPyCodeAgent
 
@@ -24,6 +26,32 @@ class RecordingEnvironment:
 
 def make_adapter(tmp_path: Path, **kwargs) -> NanoPyCodeAgent:
     return NanoPyCodeAgent(logs_dir=tmp_path, **kwargs)
+
+
+def write_trajectory(tmp_path: Path, final_metrics: dict) -> None:
+    (tmp_path / "trajectory.json").write_text(
+        json.dumps(
+            {
+                "schema_version": "ATIF-v1.7",
+                "session_id": "run-1",
+                "trajectory_id": "run-1",
+                "agent": {
+                    "name": "nanoPyCodeAgent",
+                    "version": "0.8.0",
+                    "model_name": "test-model",
+                },
+                "steps": [
+                    {
+                        "step_id": 1,
+                        "source": "user",
+                        "message": "fix it",
+                    }
+                ],
+                "final_metrics": final_metrics,
+            }
+        ),
+        encoding="utf-8",
+    )
 
 
 def test_install_pins_the_requested_release_and_checks_its_version(tmp_path):
@@ -67,6 +95,14 @@ def test_install_source_rejects_ambiguous_or_blank_pins(tmp_path):
         make_adapter(tmp_path, git_ref="  ")
 
 
+def test_install_source_rejects_a_revision_coerced_to_a_number(tmp_path):
+    with pytest.raises(
+        ValueError,
+        match="use a full commit SHA or quote an abbreviated revision",
+    ):
+        make_adapter(tmp_path, git_ref=float("inf"))
+
+
 def test_run_pipes_the_instruction_and_forwards_anthropic_configuration(tmp_path):
     instruction = 'fix "quoted" input; echo $TOKEN\nthen run the tests'
     adapter = make_adapter(
@@ -88,6 +124,7 @@ def test_run_pipes_the_instruction_and_forwards_anthropic_configuration(tmp_path
     assert instruction not in command
     assert 'printf "%s" "$harbor_nanopycodeagent_instruction_' in command
     assert "nanoPyCodeAgent --max-turns 20" in command
+    assert "--trajectory /logs/agent/trajectory.json" in command
     assert command.endswith("2>&1 | tee /logs/agent/nanopycodeagent.txt")
 
     run_env = run_call["env"]
@@ -123,3 +160,105 @@ def test_run_normalizes_harbor_provider_configuration_for_the_anthropic_sdk(
     assert run_env["ANTHROPIC_BASE_URL"] == "https://openrouter.example/api"
     assert run_env["ANTHROPIC_MODEL"] == "deepseek/deepseek-v4-flash-0731"
     assert "OPENROUTER_API_KEY" not in run_env
+
+
+def test_adapter_declares_atif_support_and_populates_complete_context(tmp_path):
+    adapter = make_adapter(tmp_path)
+    write_trajectory(
+        tmp_path,
+        {
+            "total_prompt_tokens": 120,
+            "total_completion_tokens": 30,
+            "total_cached_tokens": 20,
+            "total_cost_usd": 0.0042,
+            "total_steps": 1,
+        },
+    )
+    context = AgentContext()
+
+    adapter.populate_context_post_run(context)
+
+    assert adapter.SUPPORTS_ATIF is True
+    assert context.n_input_tokens == 120
+    assert context.n_output_tokens == 30
+    assert context.n_cache_tokens == 20
+    assert context.cost_usd == 0.0042
+    assert context.metadata == {
+        "trajectory": {
+            "format": "ATIF-v1.7",
+            "status": "complete",
+            "total_steps": 1,
+        }
+    }
+
+
+def test_partial_trajectory_preserves_known_values_and_completeness(tmp_path):
+    adapter = make_adapter(tmp_path)
+    write_trajectory(
+        tmp_path,
+        {
+            "total_steps": 1,
+            "extra": {
+                "usage_complete": False,
+                "known_cost_usd": 0.001,
+                "cost_is_partial": True,
+                "missing_generation_ids": ["generation-1"],
+            },
+        },
+    )
+    context = AgentContext()
+
+    adapter.populate_context_post_run(context)
+
+    assert context.n_input_tokens is None
+    assert context.n_output_tokens is None
+    assert context.n_cache_tokens is None
+    assert context.cost_usd is None
+    assert context.metadata == {
+        "trajectory": {
+            "format": "ATIF-v1.7",
+            "status": "partial",
+            "total_steps": 1,
+            "usage_complete": False,
+            "cost_is_partial": True,
+            "known_cost_usd": 0.001,
+            "missing_generation_ids": ["generation-1"],
+        }
+    }
+
+
+@pytest.mark.parametrize(
+    ("contents", "expected_status"),
+    [
+        (None, "missing"),
+        ("not JSON", "invalid"),
+        (
+            json.dumps(
+                {
+                    "schema_version": "ATIF-v1.6",
+                    "agent": {"name": "agent", "version": "1"},
+                    "steps": [
+                        {"step_id": 1, "source": "user", "message": "task"}
+                    ],
+                }
+            ),
+            "invalid",
+        ),
+    ],
+)
+def test_missing_or_invalid_trajectory_records_a_diagnostic(
+    tmp_path,
+    contents,
+    expected_status,
+):
+    adapter = make_adapter(tmp_path)
+    if contents is not None:
+        (tmp_path / "trajectory.json").write_text(contents, encoding="utf-8")
+    context = AgentContext()
+
+    adapter.populate_context_post_run(context)
+
+    diagnostic = context.metadata["trajectory"]
+    assert diagnostic["format"] == "ATIF-v1.7"
+    assert diagnostic["status"] == expected_status
+    assert ("error" in diagnostic) is (expected_status == "invalid")
