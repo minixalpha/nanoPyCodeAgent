@@ -9,13 +9,13 @@ workspace's lockfile.
 
 ## Run a benchmark
 
-Set the same `ANTHROPIC_*` environment variables used by the CLI. For a
-third-party or proxy endpoint, set all three explicitly:
+Set the connection credentials used by the CLI. For a third-party or proxy
+endpoint, configure the API key and base URL; select the model with Harbor's
+`--model` option shown below:
 
 ```bash
 export ANTHROPIC_API_KEY="..."
 export ANTHROPIC_BASE_URL="https://gateway.example"
-export ANTHROPIC_MODEL="provider-model-name"
 ```
 
 From the repository root, run Harbor through this workspace and pin the agent
@@ -51,10 +51,13 @@ ATIF output and backfills prompt, completion, cache-token, and cost totals into
 the agent result. Missing, invalid, or partial trajectories remain explicitly
 diagnosed; unknown usage or cost is not reported as zero.
 
-`ANTHROPIC_MODEL` takes precedence over Harbor's `--model`. When it is absent,
-the adapter strips the first provider prefix from `--model`. Harbor-native
-provider credentials and configured base URLs are also normalized to the
-`ANTHROPIC_*` variables expected by nanoPyCodeAgent's SDK.
+By default, the adapter strips the first provider prefix from `--model` and
+passes the result to nanoPyCodeAgent as `ANTHROPIC_MODEL`. Set
+`ANTHROPIC_MODEL` only when a custom endpoint requires an actual model name that
+differs from Harbor's `provider/model` identity; this explicit override takes
+precedence. Harbor-native provider credentials and configured base URLs are
+also normalized to the `ANTHROPIC_*` variables expected by nanoPyCodeAgent's
+SDK.
 
 ## Test the adapter
 

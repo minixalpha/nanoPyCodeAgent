@@ -9,13 +9,12 @@
 
 ## 运行 benchmark
 
-设置与 CLI 相同的 `ANTHROPIC_*` 环境变量。使用第三方或代理 endpoint 时，显式
-设置以下三个变量：
+设置 CLI 使用的连接凭据。使用第三方或代理 endpoint 时，配置 API key 和 base
+URL；模型由下方 Harbor 命令中的 `--model` 选择：
 
 ```bash
 export ANTHROPIC_API_KEY="..."
 export ANTHROPIC_BASE_URL="https://gateway.example"
-export ANTHROPIC_MODEL="provider-model-name"
 ```
 
 从仓库根目录通过这个 workspace 运行 Harbor，并固定安装到 task 容器中的 agent：
@@ -47,9 +46,11 @@ adapter 还会要求 agent 将 ATIF-v1.7 trajectory 直接写入
 并将 prompt、completion、cache token 和 cost 汇总回填到 agent result。trajectory
 缺失、无效或指标不完整时会保留明确诊断；未知 usage 或 cost 不会被记成零。
 
-`ANTHROPIC_MODEL` 的优先级高于 Harbor 的 `--model`。未设置该环境变量时，adapter
-会移除 `--model` 中的第一个 provider 前缀。Harbor 原生的 provider 凭证和已经配置
-的 base URL 也会转换为 nanoPyCodeAgent SDK 所需的 `ANTHROPIC_*` 变量。
+默认情况下，adapter 会移除 `--model` 中的第一个 provider 前缀，并将结果作为
+`ANTHROPIC_MODEL` 传给 nanoPyCodeAgent。只有自定义 endpoint 要求的实际模型名与
+Harbor 的 `provider/model` 身份不同时，才显式设置 `ANTHROPIC_MODEL`；该覆盖值优先。
+Harbor 原生的 provider 凭证和已经配置的 base URL 也会转换为 nanoPyCodeAgent SDK
+所需的 `ANTHROPIC_*` 变量。
 
 ## 测试 adapter
 
