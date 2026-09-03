@@ -13,17 +13,20 @@ from harbor.agents.installed.base import (
 from harbor.agents.model_connection import ModelConnectionSpec
 from harbor.environments.base import BaseEnvironment
 from harbor.models.agent.context import AgentContext
+from harbor.models.trajectories.trajectory import Trajectory
 
 _DEFAULT_MAX_TURNS = 50
 _PACKAGE_NAME = "nanoPyCodeAgent"
 _REPOSITORY_URL = "https://github.com/minixalpha/nanoPyCodeAgent.git"
 _UV_VERSION = "0.9.11"
 _PATH_SETUP = 'export PATH="$HOME/.local/bin:$PATH"; '
+_TRAJECTORY_PATH = "/logs/agent/trajectory.json"
 
 
 class NanoPyCodeAgent(BaseInstalledAgent):
     """Install and run nanoPyCodeAgent inside a Harbor task environment."""
 
+    SUPPORTS_ATIF = True
     MODEL_CONNECTION = ModelConnectionSpec(
         api_key_envs=("ANTHROPIC_API_KEY",),
         base_url_envs=("ANTHROPIC_BASE_URL",),
@@ -39,6 +42,11 @@ class NanoPyCodeAgent(BaseInstalledAgent):
 
     def __init__(self, *args, git_ref: str | None = None, **kwargs):
         if git_ref is not None:
+            if not isinstance(git_ref, str):
+                raise ValueError(
+                    "git_ref must be a string; use a full commit SHA or quote "
+                    "an abbreviated revision in --agent-kwarg"
+                )
             git_ref = git_ref.strip()
             if not git_ref:
                 raise ValueError("git_ref must not be blank")
@@ -131,7 +139,70 @@ class NanoPyCodeAgent(BaseInstalledAgent):
                 f"unset {instruction_env_var}; "
                 f'printf "%s" "${instruction_shell_var}" | '
                 f"nanoPyCodeAgent {cli_flags} "
+                f"--trajectory {_TRAJECTORY_PATH} "
                 "2>&1 | tee /logs/agent/nanopycodeagent.txt"
             ),
             env=env,
         )
+
+    @override
+    def populate_context_post_run(self, context: AgentContext) -> None:
+        trajectory_path = self.logs_dir / "trajectory.json"
+        try:
+            trajectory = Trajectory.model_validate_json(
+                trajectory_path.read_text(encoding="utf-8")
+            )
+            if trajectory.schema_version != "ATIF-v1.7":
+                raise ValueError(
+                    f"expected ATIF-v1.7, got {trajectory.schema_version}"
+                )
+        except FileNotFoundError:
+            self._record_trajectory_diagnostic(context, "missing")
+            self.logger.warning("No ATIF trajectory found at %s", trajectory_path)
+            return
+        except (OSError, UnicodeError, ValueError) as exc:
+            self._record_trajectory_diagnostic(
+                context,
+                "invalid",
+                error=f"{type(exc).__name__}: {exc}",
+            )
+            self.logger.warning(
+                "Failed to read ATIF trajectory at %s: %s",
+                trajectory_path,
+                exc,
+            )
+            return
+
+        metrics = trajectory.final_metrics
+        extra = metrics.extra if metrics and metrics.extra else {}
+        is_partial = extra.get("usage_complete") is False or (
+            extra.get("cost_is_partial") is True
+        )
+        self._record_trajectory_diagnostic(
+            context,
+            "partial" if is_partial else "complete",
+            total_steps=len(trajectory.steps),
+            usage_complete=extra.get("usage_complete"),
+            cost_is_partial=extra.get("cost_is_partial"),
+            known_cost_usd=extra.get("known_cost_usd"),
+            missing_generation_ids=extra.get("missing_generation_ids"),
+        )
+        if metrics is None:
+            return
+        context.n_input_tokens = metrics.total_prompt_tokens
+        context.n_output_tokens = metrics.total_completion_tokens
+        context.n_cache_tokens = metrics.total_cached_tokens
+        context.cost_usd = metrics.total_cost_usd
+
+    @staticmethod
+    def _record_trajectory_diagnostic(
+        context: AgentContext,
+        status: str,
+        **details: object,
+    ) -> None:
+        context.metadata = context.metadata or {}
+        context.metadata["trajectory"] = {
+            "format": "ATIF-v1.7",
+            "status": status,
+            **{key: value for key, value in details.items() if value is not None},
+        }
