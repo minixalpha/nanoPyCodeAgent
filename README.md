@@ -38,38 +38,12 @@ to confirm — the shape a script or a benchmark harness needs:
 
 ```bash
 nanoPyCodeAgent -p "add a --version flag and run the tests"
-nanoPyCodeAgent --prompt-file task.md
-printf "%s" "$TASK" | nanoPyCodeAgent
 ```
 
-The task is carried out in the current directory. `--max-turns N` caps how
-many model replies one run may spend (50 by default).
-
-Add `--trajectory PATH` to save that headless Agent Run as one complete
-[ATIF-v1.7](https://www.harborframework.com/docs/agents/trajectory-format)
-JSON document without changing stdout:
-
-```bash
-nanoPyCodeAgent -p "read README.md and summarize it" \
-  --trajectory ./trajectory.json
-```
-
-The option creates the requested file with owner-only permissions (`0600`)
-after the run reaches a terminal state. It refuses to overwrite an existing
-path. Trajectories may contain the task, model replies, tool arguments, and
-tool results, so treat them as sensitive data.
-
-A run like this exits `0` whenever the agent actually ran — including when it
-gave up or ran out of turns with the task unfinished, which is for whatever
-checks the result to judge. A non-zero exit means the run could not happen at
-all: `1` for missing credentials or an API that kept refusing, `2` for a
-misused command line.
-
-Every Agent Run also writes a replayable internal Event Journal under
-`~/.nanoPyCodeAgent/journals/`. These JSONL files can contain prompts, model
-replies, repository content, and tool results, so treat them as sensitive;
-the directory is user-only (`0700`) and each file is `0600`. Journals are not
-public run output or trajectories, and they are not rotated automatically yet.
+The task runs in the current directory and the command exits when the run
+ends. See the [complete CLI reference](docs/user_docs/en/cli_reference.md) for
+all task input methods, options, exit statuses, trajectory output, and Event
+Journal behavior.
 
 #### Run a branch or tagged version
 
@@ -85,31 +59,11 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCode
 
 ### Configuration
 
-Credentials and the model come from two sources: **environment variables** and
-an optional user-level config file at `~/.nanoPyCodeAgent/settings.json`.
-Environment variables take precedence — the config file only fills in keys you
-have not set in the environment.
-
-The config file mirrors [Claude Code's settings](https://code.claude.com/docs/en/settings):
-put the values under an `env` object. Empty or whitespace-only values are ignored.
-
-```json
-{
-  "env": {
-    "ANTHROPIC_API_KEY": "",
-    "ANTHROPIC_AUTH_TOKEN": "",
-    "ANTHROPIC_BASE_URL": "",
-    "ANTHROPIC_MODEL": ""
-  }
-}
-```
-
-| Variable | Required | Default | Description |
-| --- | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | One credential required | — | Your Anthropic API key, or an API key accepted by a third-party service. |
-| `ANTHROPIC_AUTH_TOKEN` | One credential required | — | A bearer token used instead of `ANTHROPIC_API_KEY`; OpenRouter recommends this mode for its Anthropic-compatible endpoint. |
-| `ANTHROPIC_BASE_URL` | No | `https://api.anthropic.com` | Point the SDK at a non-official / proxy endpoint. Leave it unset to use the official API — an empty value breaks requests. |
-| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Override the model. An empty or whitespace-only value falls back to the default. |
+Set `ANTHROPIC_API_KEY` or `ANTHROPIC_AUTH_TOKEN` before running the agent.
+You can also configure the endpoint and model through environment variables or
+`~/.nanoPyCodeAgent/settings.json`. See the [configuration reference](docs/user_docs/en/configuration.md)
+for supported variables, defaults, file format, precedence, and empty-value
+handling.
 
 ### How to Update
 
