@@ -1,7 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "job_name": "tb21-flash0731-pilot20-20260906",
-  "job_id": "f81da209-ce59-4970-a5f4-32c8fee2bfaa",
+  "run_date": "2026-09-06",
+  "scope": "Single-attempt, first-20-task pilot baseline; not the full Terminal-Bench 2.1 score.",
   "experiment": {
     "agent_ref": "2b8309794cb9e00cb4d3b08baf1e4733153105e0",
     "harbor_version": "0.21.0",
@@ -50,88 +51,40 @@
       "reasoning_effort": "not explicitly set"
     }
   },
-  "started_at": "2026-09-06T16:41:41.721662",
-  "finished_at": "2026-09-06T18:32:51.295051",
-  "job_duration_sec": 6669.573,
-  "planned_trials": 20,
-  "completed_trials": 20,
   "agent_versions": [
     "0.8.1.dev3+g2b8309794"
   ],
-  "passed_trials": 8,
-  "failed_reward_trials": 12,
-  "unscored_trials": 0,
-  "exception_counts": {
-    "AgentTimeoutError": 1
+  "job_duration_sec": 6669.573,
+  "scores": {
+    "planned_trials": 20,
+    "completed_trials": 20,
+    "passed_trials": 8,
+    "failed_reward_trials": 12,
+    "unscored_trials": 0,
+    "exception_counts": {
+      "AgentTimeoutError": 1
+    },
+    "pass_rate_over_planned": 0.4,
+    "passes_without_harbor_exception": 7,
+    "pass_rate_without_harbor_exception_over_planned": 0.35
   },
-  "pass_rate_over_planned": 0.4,
-  "known_cost_usd": 0.11053603,
-  "cost_complete": false,
-  "total_cost_usd": null,
-  "post_run_reconciliation": {
-    "known_cost_usd": 0.119200332,
-    "cost_complete": true,
-    "total_cost_usd": 0.119200332,
-    "incomplete_cost_tasks": [],
-    "resolved_generations": 18,
-    "receipt_file": "jobs/tb21-flash0731-pilot20-20260906-record/generation-receipts.json"
-  },
-  "task_manifest_matches": true,
-  "observed_usage_totals": {
+  "usage": {
     "total_prompt_tokens": 6207708,
     "total_cached_tokens": 5362944,
-    "total_completion_tokens": 331041
+    "total_completion_tokens": 331041,
+    "complete": true
   },
-  "observed_usage_complete": true,
-  "artifacts": {
-    "config.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906/config.json",
-      "sha256": "a83de26c5a9c36bca81d16b76a5bdcebf31a1a15e64335b4c9d6b10b389afb06"
-    },
-    "lock.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906/lock.json",
-      "sha256": "43351fe936aa44f20a2658b7efb4d180806c95571c8137afba4cfef21111425d"
-    },
-    "result.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906/result.json",
-      "sha256": "95a4e8f88fc91f41078ec1d4346d664ae9e2e91276855af1d9074c0b015c8ae2"
-    },
-    "manifest.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906-record/manifest.json",
-      "sha256": "6112ce3b556d269af7860ba461b5b391667266006317e0bbc3010fd788289698"
-    },
-    "run-status.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906-record/run-status.json",
-      "sha256": "69a2f90c2f662ec8464ae49540eda43b62f7a703f2dddecd8582e26537e7ce05"
-    },
-    "generation-ledger.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906-record/generation-ledger.json",
-      "sha256": "c111b0886df4d9c914df08d27c8249ed77fa8303a88379f9b0a96609878c7bd0"
-    },
-    "generation-receipts.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906-record/generation-receipts.json",
-      "sha256": "e5ccbb2c9171f8f57383aeb92e5660045be2c881c117ae80366bcf3e6a707c77"
-    },
-    "environment.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906-record/environment.json",
-      "sha256": "80b7cd65577e168497b7346e4543e1e2c10644cae7505dcadc6d076d00954921"
-    },
-    "task-resources.json": {
-      "path": "jobs/tb21-flash0731-pilot20-20260906-record/task-resources.json",
-      "sha256": "4d88f7194ea08ee81c191a837d0b8c97de13a8fcfd05314f27c8f5fd0786f8ac"
-    }
+  "cost": {
+    "currency": "USD",
+    "source": "OpenRouter generation total_cost for recorded model calls",
+    "original_harbor_aggregate_usd": 0.045695378,
+    "native_trajectory_known_subtotal_usd": 0.11053603,
+    "native_cost_complete": false,
+    "reconciled_total_usd": 0.119200332,
+    "reconciled_cost_complete": true,
+    "supplemental_receipt_count": 18,
+    "includes_recorded_calls_after_timeout": true
   },
-  "recorded_at": "2026-09-06T10:41:40.220705+00:00",
-  "scope": "Single-attempt, first-20-task pilot baseline; not the full Terminal-Bench 2.1 score.",
-  "field_semantics": {
-    "original_metrics": "Top-level cost fields and per-trial n_*_tokens/cost_usd preserve native Harbor/ATIF completeness. Use post_run_reconciliation.total_cost_usd for the reconciled cost.",
-    "cost_completeness": "All 267 distinct model generations recorded in the final ATIF files have a provider cost. This is the generation API cost, not a reconciliation of the entire OpenRouter account balance.",
-    "input_tokens": "Prompt totals include cached tokens; do not add the cached count again.",
-    "timezones": "Job start/finish are Harbor host local time in Asia/Shanghai. Per-trial timestamps and journal timestamps include UTC offsets.",
-    "exceptions_and_rewards": "Exception counts overlap reward counts. A reward of 1 with AgentTimeoutError remains in the Harbor score and is excluded only from passes_without_harbor_exception."
-  },
-  "passes_without_harbor_exception": 7,
-  "pass_rate_without_harbor_exception_over_planned": 0.35,
   "model_replies": 267,
   "tool_calls": 329,
   "last_model_stop_reason_counts": {
@@ -160,601 +113,27 @@
     "supplemental_receipts": 18,
     "per_generation_cost_and_usage_sums_match_trial_and_job_totals": true
   },
-  "billing_receipts": {
-    "endpoint": "https://openrouter.ai/api/v1/generation",
-    "receipts": {
-      "gen-1788685602-GlDfIiZXs40PUnpDNfPJ": {
-        "trial_name": "kv-store-grpc__dqLAUiN",
-        "generation_id": "gen-1788685602-GlDfIiZXs40PUnpDNfPJ",
-        "checked_at": "2026-09-06T09:34:59.329414+00:00",
-        "http_status": 200,
-        "total_cost": 0.000115407,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:06:42.501Z",
-        "native_tokens_prompt": 7499,
-        "native_tokens_completion": 400,
-        "native_tokens_reasoning": 313,
-        "native_tokens_cached": 7168,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788686537-dsELnUfpjogNQb8smewA": {
-        "trial_name": "openssl-selfsigned-cert__JwfLCdA",
-        "generation_id": "gen-1788686537-dsELnUfpjogNQb8smewA",
-        "checked_at": "2026-09-06T09:34:59.330117+00:00",
-        "http_status": 200,
-        "total_cost": 9.8685e-05,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:22:17.963Z",
-        "native_tokens_prompt": 1761,
-        "native_tokens_completion": 216,
-        "native_tokens_reasoning": 147,
-        "native_tokens_cached": 0,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788685674-fAJYNS3qZBWyh3drGCzC": {
-        "trial_name": "pypi-server__8aBFdk3",
-        "generation_id": "gen-1788685674-fAJYNS3qZBWyh3drGCzC",
-        "checked_at": "2026-09-06T09:34:59.330711+00:00",
-        "http_status": 200,
-        "total_cost": 9.3357e-05,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:07:54.503Z",
-        "native_tokens_prompt": 6175,
-        "native_tokens_completion": 305,
-        "native_tokens_reasoning": 123,
-        "native_tokens_cached": 5888,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788685678-dnCZcHbcqJn0BPU0Il1e": {
-        "trial_name": "pypi-server__8aBFdk3",
-        "generation_id": "gen-1788685678-dnCZcHbcqJn0BPU0Il1e",
-        "checked_at": "2026-09-06T09:35:00.620498+00:00",
-        "http_status": 200,
-        "total_cost": 8.766e-05,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:07:58.368Z",
-        "native_tokens_prompt": 6496,
-        "native_tokens_completion": 286,
-        "native_tokens_reasoning": 168,
-        "native_tokens_cached": 6400,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788685681-BVnuLppHQUbrZ5lpfK22": {
-        "trial_name": "pypi-server__8aBFdk3",
-        "generation_id": "gen-1788685681-BVnuLppHQUbrZ5lpfK22",
-        "checked_at": "2026-09-06T09:35:00.624779+00:00",
-        "http_status": 200,
-        "total_cost": 0.000109404,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:08:01.551Z",
-        "native_tokens_prompt": 6954,
-        "native_tokens_completion": 401,
-        "native_tokens_reasoning": 11,
-        "native_tokens_cached": 6656,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788685218-cS1AxXJEtP5K1VI5i5RG": {
-        "trial_name": "schemelike-metacircular-eval__8jh8oF9",
-        "generation_id": "gen-1788685218-cS1AxXJEtP5K1VI5i5RG",
-        "checked_at": "2026-09-06T09:35:00.870222+00:00",
-        "http_status": 200,
-        "total_cost": 0.001322064,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:00:18.887Z",
-        "native_tokens_prompt": 39824,
-        "native_tokens_completion": 8192,
-        "native_tokens_reasoning": 7367,
-        "native_tokens_cached": 33536,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788686016-PQohhBeliaFe9eN0TBt9": {
-        "trial_name": "torch-pipeline-parallelism__9DcJ62N",
-        "generation_id": "gen-1788686016-PQohhBeliaFe9eN0TBt9",
-        "checked_at": "2026-09-06T09:35:01.928079+00:00",
-        "http_status": 200,
-        "total_cost": 0.00124686,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:13:36.703Z",
-        "native_tokens_prompt": 11324,
-        "native_tokens_completion": 8192,
-        "native_tokens_reasoning": 8405,
-        "native_tokens_cached": 0,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788688060-hqneaWMRlup0WOo5EB4A": {
-        "trial_name": "caffe-cifar-10__87rkBtY",
-        "generation_id": "gen-1788688060-hqneaWMRlup0WOo5EB4A",
-        "checked_at": "2026-09-06T10:31:53.799607+00:00",
-        "http_status": 200,
-        "total_cost": 0.000824661,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:47:40.131Z",
-        "native_tokens_prompt": 8905,
-        "native_tokens_completion": 8192,
-        "native_tokens_reasoning": 7275,
-        "native_tokens_cached": 8704,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": [
-          {
-            "trial_name": "caffe-cifar-10__87rkBtY",
-            "generation_id": "gen-1788688060-hqneaWMRlup0WOo5EB4A",
-            "checked_at": "2026-09-06T09:49:15.026777+00:00",
-            "http_status": 404
-          }
-        ]
-      },
-      "gen-1788687435-QjE8VzeUu3ns7rWbJyUV": {
-        "trial_name": "log-summary-date-ranges__ie3GKJH",
-        "generation_id": "gen-1788687435-QjE8VzeUu3ns7rWbJyUV",
-        "checked_at": "2026-09-06T09:49:15.027688+00:00",
-        "http_status": 200,
-        "total_cost": 8.3781e-05,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:37:15.564Z",
-        "native_tokens_prompt": 5061,
-        "native_tokens_completion": 346,
-        "native_tokens_reasoning": 44,
-        "native_tokens_cached": 4864,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788687437-oEllYIXxLorDtUO9AuNh": {
-        "trial_name": "log-summary-date-ranges__ie3GKJH",
-        "generation_id": "gen-1788687437-oEllYIXxLorDtUO9AuNh",
-        "checked_at": "2026-09-06T09:49:15.029090+00:00",
-        "http_status": 200,
-        "total_cost": 9.3654e-05,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:37:17.818Z",
-        "native_tokens_prompt": 5788,
-        "native_tokens_completion": 297,
-        "native_tokens_reasoning": 154,
-        "native_tokens_cached": 5376,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788687440-9TfKhbzXltHXw2yhodC1": {
-        "trial_name": "log-summary-date-ranges__ie3GKJH",
-        "generation_id": "gen-1788687440-9TfKhbzXltHXw2yhodC1",
-        "checked_at": "2026-09-06T09:49:16.355425+00:00",
-        "http_status": 200,
-        "total_cost": 9.5832e-05,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:37:20.899Z",
-        "native_tokens_prompt": 6116,
-        "native_tokens_completion": 362,
-        "native_tokens_reasoning": 57,
-        "native_tokens_cached": 5888,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788687257-MD3FKunNQJ7jnfgNIQy1": {
-        "trial_name": "regex-chess__YkjJNdb",
-        "generation_id": "gen-1788687257-MD3FKunNQJ7jnfgNIQy1",
-        "checked_at": "2026-09-06T09:49:16.367743+00:00",
-        "http_status": 200,
-        "total_cost": 0.000809829,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:34:17.227Z",
-        "native_tokens_prompt": 3865,
-        "native_tokens_completion": 8192,
-        "native_tokens_reasoning": 8240,
-        "native_tokens_cached": 2816,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788687719-iI7ipZ5sFjMZB4RVLPnP": {
-        "trial_name": "regex-log__UP5eHJY",
-        "generation_id": "gen-1788687719-iI7ipZ5sFjMZB4RVLPnP",
-        "checked_at": "2026-09-06T09:49:16.384578+00:00",
-        "http_status": 200,
-        "total_cost": 0.00081279,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:41:59.585Z",
-        "native_tokens_prompt": 1678,
-        "native_tokens_completion": 8192,
-        "native_tokens_reasoning": 6577,
-        "native_tokens_cached": 0,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788688816-FQRavJ7rgsoDy4RTnLwB": {
-        "trial_name": "mteb-leaderboard__kQM5sTV",
-        "generation_id": "gen-1788688816-FQRavJ7rgsoDy4RTnLwB",
-        "checked_at": "2026-09-06T10:31:53.800249+00:00",
-        "http_status": 200,
-        "total_cost": 0.000593352,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T10:00:16.318Z",
-        "native_tokens_prompt": 53492,
-        "native_tokens_completion": 634,
-        "native_tokens_reasoning": 309,
-        "native_tokens_cached": 51968,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788688643-q2NHYlGNh8R31sxGpGJu": {
-        "trial_name": "path-tracing__vWuAmPQ",
-        "generation_id": "gen-1788688643-q2NHYlGNh8R31sxGpGJu",
-        "checked_at": "2026-09-06T10:31:53.801808+00:00",
-        "http_status": 200,
-        "total_cost": 0.001394831,
-        "provider_name": "Baidu",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T09:57:23.377Z",
-        "native_tokens_prompt": 107627,
-        "native_tokens_completion": 1510,
-        "native_tokens_reasoning": 38,
-        "native_tokens_cached": 103424,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788690062-IoJHsxDZDbOerDRgFFO4": {
-        "trial_name": "pytorch-model-recovery__ftekj4v",
-        "generation_id": "gen-1788690062-IoJHsxDZDbOerDRgFFO4",
-        "checked_at": "2026-09-06T10:31:55.164404+00:00",
-        "http_status": 200,
-        "total_cost": 0.000361161,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T10:21:02.514Z",
-        "native_tokens_prompt": 24501,
-        "native_tokens_completion": 1388,
-        "native_tokens_reasoning": 1509,
-        "native_tokens_cached": 24064,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788690071-mTtFIa1ud6cMeSqOT5aI": {
-        "trial_name": "pytorch-model-recovery__ftekj4v",
-        "generation_id": "gen-1788690071-mTtFIa1ud6cMeSqOT5aI",
-        "checked_at": "2026-09-06T10:31:55.254688+00:00",
-        "http_status": 200,
-        "total_cost": 0.000427329,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T10:21:11.382Z",
-        "native_tokens_prompt": 28151,
-        "native_tokens_completion": 1015,
-        "native_tokens_reasoning": 938,
-        "native_tokens_cached": 25856,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      },
-      "gen-1788690615-MZxqjQeopSlBndazGddU": {
-        "trial_name": "merge-diff-arc-agi-task__w5sZoRS",
-        "generation_id": "gen-1788690615-MZxqjQeopSlBndazGddU",
-        "checked_at": "2026-09-06T10:37:15.713411+00:00",
-        "http_status": 200,
-        "total_cost": 9.3645e-05,
-        "provider_name": "Relace",
-        "model": "deepseek/deepseek-v4-flash-20260731",
-        "created_at": "2026-09-06T10:30:15.668Z",
-        "native_tokens_prompt": 1787,
-        "native_tokens_completion": 147,
-        "native_tokens_reasoning": 21,
-        "native_tokens_cached": 0,
-        "is_byok": false,
-        "cancelled": false,
-        "previous_checks": []
-      }
-    }
-  },
-  "timeout_observation": {
-    "trial_name": "pytorch-model-recovery__ftekj4v",
-    "agent_execution": {
-      "started_at": "2026-09-06T10:05:32.041241Z",
-      "finished_at": "2026-09-06T10:20:32.049299Z"
-    },
-    "exception_occurred_at": "2026-09-06T10:20:32.070628Z",
-    "exception_message": "Agent execution timed out after 900.0 seconds",
-    "verifier": {
-      "started_at": "2026-09-06T10:20:33.407603Z",
-      "finished_at": "2026-09-06T10:28:38.929172Z"
-    },
-    "model_events_after_timeout": [
-      {
-        "seq": 130,
-        "type": "model.started",
-        "recorded_at": "2026-09-06T10:21:00.799Z",
-        "model_call_id": "model-1e6c87ca-5761-46f2-b619-322f710fde3c",
-        "generation_id": null
-      },
-      {
-        "seq": 131,
-        "type": "model.completed",
-        "recorded_at": "2026-09-06T10:21:10.997Z",
-        "model_call_id": "model-1e6c87ca-5761-46f2-b619-322f710fde3c",
-        "generation_id": "gen-1788690062-IoJHsxDZDbOerDRgFFO4"
-      },
-      {
-        "seq": 134,
-        "type": "model.started",
-        "recorded_at": "2026-09-06T10:21:11.145Z",
-        "model_call_id": "model-8aef3572-dc50-4e7b-9c23-1c2e620aee18",
-        "generation_id": null
-      },
-      {
-        "seq": 145,
-        "type": "model.completed",
-        "recorded_at": "2026-09-06T10:21:18.697Z",
-        "model_call_id": "model-8aef3572-dc50-4e7b-9c23-1c2e620aee18",
-        "generation_id": "gen-1788690071-mTtFIa1ud6cMeSqOT5aI"
-      }
-    ],
-    "native_terminal": {
-      "status": "failed",
-      "duration_ms": 1062320.821075,
-      "timestamp": "2026-09-06T10:23:15.406Z",
-      "timestamp_source": "source_timestamp",
-      "error_type": "KeyError",
-      "message": "'path'"
-    },
-    "last_tool_name": "edit",
-    "last_tool_argument_keys": [
-      "new_text",
-      "old_text"
-    ],
-    "native_trajectory_matches_independent_backup": true,
-    "interpretation": "Two new model calls started after the Harbor timeout, while the verifier was running. The later native terminal records KeyError for a missing edit path. Reward 1 is retained but excluded from passes without a Harbor exception. The timeout did not promptly stop the container agent; the late trajectory was not reflected in original Harbor metrics.",
-    "evidence": {
-      "filtered_journal_metrics": {
-        "path": "jobs/tb21-flash0731-pilot20-20260906-record/recovered-metrics.json",
-        "sha256": "f6d234d15a3032f67ce352f27152c237ccd4329e68ef847d5b24b74a54848c22"
-      },
-      "agent_log": {
-        "path": "jobs/tb21-flash0731-pilot20-20260906/pytorch-model-recovery__ftekj4v/agent/nanopycodeagent.txt",
-        "sha256": "00c1cac5de4c981d3c477f48e2c2c04c27e1766a3f8429da9c15f2aca33a5e38"
-      }
-    }
+  "metric_semantics": {
+    "input_tokens": "Prompt totals include cached tokens; do not add cached tokens again.",
+    "exceptions_and_rewards": "Exception counts overlap reward counts. A reward of 1 with AgentTimeoutError remains in the Harbor score and is excluded only from passes_without_harbor_exception.",
+    "cost_completeness": "All 267 distinct model generations recorded in the final ATIF files have a provider cost. This is the generation API cost, not a reconciliation of the entire OpenRouter account balance.",
+    "original_harbor_metrics": "The timed-out task has null original Harbor usage. Final ATIF usage is included in this record. Native partial costs remain distinct from reconciled costs."
   },
   "environment": {
-    "docker": {
-      "ServerVersion": "29.7.2",
-      "OperatingSystem": "Omarchy",
-      "OSType": "linux",
-      "Architecture": "x86_64",
-      "NCPU": 18,
-      "MemTotal": 33229209600,
-      "Driver": "overlayfs"
-    },
-    "images": {
-      "alexgshaw/caffe-cifar-10:20260403": {
-        "Id": "sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215",
-        "RepoDigests": [
-          "alexgshaw/caffe-cifar-10@sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/circuit-fibsqrt:20251031": {
-        "Id": "sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a",
-        "RepoDigests": [
-          "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/dna-assembly:20251031": {
-        "Id": "sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569",
-        "RepoDigests": [
-          "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/kv-store-grpc:20251031": {
-        "Id": "sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791",
-        "RepoDigests": [
-          "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/llm-inference-batching-scheduler:20251031": {
-        "Id": "sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774",
-        "RepoDigests": [
-          "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/log-summary-date-ranges:20251031": {
-        "Id": "sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51",
-        "RepoDigests": [
-          "alexgshaw/log-summary-date-ranges@sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/merge-diff-arc-agi-task:20251031": {
-        "Id": "sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4",
-        "RepoDigests": [
-          "alexgshaw/merge-diff-arc-agi-task@sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/model-extraction-relu-logits:20251031": {
-        "Id": "sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce",
-        "RepoDigests": [
-          "alexgshaw/model-extraction-relu-logits@sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/mteb-leaderboard:20260430": {
-        "Id": "sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4",
-        "RepoDigests": [
-          "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/openssl-selfsigned-cert:20251031": {
-        "Id": "sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12",
-        "RepoDigests": [
-          "alexgshaw/openssl-selfsigned-cert@sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/path-tracing:20251031": {
-        "Id": "sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482",
-        "RepoDigests": [
-          "alexgshaw/path-tracing@sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/pypi-server:20251031": {
-        "Id": "sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276",
-        "RepoDigests": [
-          "alexgshaw/pypi-server@sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/pytorch-model-recovery:20260430": {
-        "Id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
-        "RepoDigests": [
-          "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/qemu-alpine-ssh:20251031": {
-        "Id": "sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964",
-        "RepoDigests": [
-          "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/regex-chess:20251031": {
-        "Id": "sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c",
-        "RepoDigests": [
-          "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/regex-log:20251031": {
-        "Id": "sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9",
-        "RepoDigests": [
-          "alexgshaw/regex-log@sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/schemelike-metacircular-eval:20251031": {
-        "Id": "sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db",
-        "RepoDigests": [
-          "alexgshaw/schemelike-metacircular-eval@sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/torch-pipeline-parallelism:20251031": {
-        "Id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
-        "RepoDigests": [
-          "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/torch-tensor-parallelism:20251031": {
-        "Id": "sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690",
-        "RepoDigests": [
-          "alexgshaw/torch-tensor-parallelism@sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      },
-      "alexgshaw/write-compressor:20251031": {
-        "Id": "sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1",
-        "RepoDigests": [
-          "alexgshaw/write-compressor@sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1"
-        ],
-        "Os": "linux",
-        "Architecture": "amd64"
-      }
-    },
+    "docker_version": "29.7.2",
     "container_dependency_lock": "The adapter pins agent source, but uv tool install resolves container dependencies without a lockfile."
   },
   "trials": [
     {
       "task": "terminal-bench/write-compressor",
       "task_ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
-      "trial_name": "write-compressor__uxxegWA",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T08:41:42.173144Z",
-      "finished_at": "2026-09-06T08:58:20.021244Z",
       "duration_sec": 997.848,
       "environment_setup_sec": 23.339,
       "agent_setup_sec": 51.79,
       "agent_execution_sec": 894.707,
       "verifier_sec": 16.8,
-      "agent_execution_started": true,
-      "n_input_tokens": 3883,
-      "n_cache_tokens": 0,
-      "n_output_tokens": 8300,
-      "cost_usd": 0.00102374,
-      "known_cost_usd": 0.00102374,
-      "cost_is_partial": null,
-      "usage_complete": true,
-      "trajectory_status": "complete",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 3,
       "model_steps": 2,
       "model_stop_reasons": {
@@ -766,25 +145,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": null,
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/write-compressor__uxxegWA/result.json",
-        "result_sha256": "7d877f7a42a3690dcf9e8ae50c2cfe39db7a1480dbe078191954bc8b585303ae",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/write-compressor__uxxegWA/agent/trajectory.json",
-        "trajectory_sha256": "a5230a4ddf1fc19b0214530dea14affc48a7983f03d4caf45ba68f8de8f5d3ec",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.00102374,
-      "post_run_cost_usd": 0.00102374,
-      "atif_final_metrics": {
-        "total_steps": 3,
-        "total_prompt_tokens": 3883,
-        "total_completion_tokens": 8300,
-        "total_cached_tokens": 0,
-        "total_cost_usd": 0.00102374
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -802,42 +162,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/write-compressor@sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1"
+      ],
+      "usage": {
+        "total_prompt_tokens": 3883,
+        "total_cached_tokens": 0,
+        "total_completion_tokens": 8300,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.00102374,
+        "native_known_subtotal_usd": 0.00102374,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.00102374,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/torch-tensor-parallelism",
       "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
-      "trial_name": "torch-tensor-parallelism__sMNH8pc",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T08:41:42.113382Z",
-      "finished_at": "2026-09-06T09:03:13.258878Z",
       "duration_sec": 1291.145,
       "environment_setup_sec": 16.158,
       "agent_setup_sec": 55.845,
       "agent_execution_sec": 897.597,
       "verifier_sec": 309.328,
-      "agent_execution_started": true,
-      "n_input_tokens": 1760,
-      "n_cache_tokens": 0,
-      "n_output_tokens": 8192,
-      "cost_usd": 0.00081648,
-      "known_cost_usd": 0.00081648,
-      "cost_is_partial": null,
-      "usage_complete": true,
-      "trajectory_status": "complete",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 2,
       "model_steps": 1,
       "model_stop_reasons": {
@@ -848,25 +210,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": null,
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/torch-tensor-parallelism__sMNH8pc/result.json",
-        "result_sha256": "f3e4edfd923969587103db908d220658894b5d06b058558c23ea49c490bf574c",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/torch-tensor-parallelism__sMNH8pc/agent/trajectory.json",
-        "trajectory_sha256": "fe766e0fb4796612f2f2db6c124061ccbc9be6af87038bcbda17c89888f9fd55",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.00081648,
-      "post_run_cost_usd": 0.00081648,
-      "atif_final_metrics": {
-        "total_steps": 2,
-        "total_prompt_tokens": 1760,
-        "total_completion_tokens": 8192,
-        "total_cached_tokens": 0,
-        "total_cost_usd": 0.00081648
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -884,42 +227,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/torch-tensor-parallelism@sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1760,
+        "total_cached_tokens": 0,
+        "total_completion_tokens": 8192,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.00081648,
+        "native_known_subtotal_usd": 0.00081648,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.00081648,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/schemelike-metacircular-eval",
       "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
-      "trial_name": "schemelike-metacircular-eval__8jh8oF9",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T08:58:21.297791Z",
-      "finished_at": "2026-09-06T09:03:23.938749Z",
       "duration_sec": 302.641,
       "environment_setup_sec": 10.443,
       "agent_setup_sec": 47.033,
       "agent_execution_sec": 214.927,
       "verifier_sec": 19.097,
-      "agent_execution_started": true,
-      "n_input_tokens": 281398,
-      "n_cache_tokens": 240384,
-      "n_output_tokens": 16279,
-      "cost_usd": null,
-      "known_cost_usd": 0.004152132,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 15,
       "model_steps": 14,
       "model_stop_reasons": {
@@ -931,28 +276,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788685218-cS1AxXJEtP5K1VI5i5RG"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/schemelike-metacircular-eval__8jh8oF9/result.json",
-        "result_sha256": "6c26f26eed2c19cbbf783181487fd72016ee9d73a549d7753d9e4ab3bcba4cf8",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/schemelike-metacircular-eval__8jh8oF9/agent/trajectory.json",
-        "trajectory_sha256": "dc412b6cdce58924ec7cf7120c7825b7669196e46aacb5aa35ae26fc09756f11",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788685218-cS1AxXJEtP5K1VI5i5RG"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.005474196,
-      "post_run_cost_usd": 0.005474196,
-      "atif_final_metrics": {
-        "total_steps": 15,
-        "total_prompt_tokens": 281398,
-        "total_completion_tokens": 16279,
-        "total_cached_tokens": 240384
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 2400.0
@@ -970,42 +293,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/schemelike-metacircular-eval@sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db"
+      ],
+      "usage": {
+        "total_prompt_tokens": 281398,
+        "total_cached_tokens": 240384,
+        "total_completion_tokens": 16279,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.004152132,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.005474196,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/kv-store-grpc",
       "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
-      "trial_name": "kv-store-grpc__dqLAUiN",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:03:14.464203Z",
-      "finished_at": "2026-09-06T09:08:37.355073Z",
       "duration_sec": 322.891,
       "environment_setup_sec": 9.818,
       "agent_setup_sec": 45.45,
       "agent_execution_sec": 240.844,
       "verifier_sec": 15.581,
-      "agent_execution_started": true,
-      "n_input_tokens": 63118,
-      "n_cache_tokens": 56576,
-      "n_output_tokens": 5284,
-      "cost_usd": null,
-      "known_cost_usd": 0.001163727,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 12,
       "model_steps": 11,
       "model_stop_reasons": {
@@ -1017,28 +342,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788685602-GlDfIiZXs40PUnpDNfPJ"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/kv-store-grpc__dqLAUiN/result.json",
-        "result_sha256": "af0d4cc08c4f5d15657ef0f8fb2cd91b85ac0af21a320f76b90e94b2146c6c38",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/kv-store-grpc__dqLAUiN/agent/trajectory.json",
-        "trajectory_sha256": "a6377eb730c6f7f3ffe9e786db762060d01eee9f6f86569d712c86b549b2706e",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788685602-GlDfIiZXs40PUnpDNfPJ"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.001279134,
-      "post_run_cost_usd": 0.001279134,
-      "atif_final_metrics": {
-        "total_steps": 12,
-        "total_prompt_tokens": 63118,
-        "total_completion_tokens": 5284,
-        "total_cached_tokens": 56576
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1056,42 +359,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
+      ],
+      "usage": {
+        "total_prompt_tokens": 63118,
+        "total_cached_tokens": 56576,
+        "total_completion_tokens": 5284,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.001163727,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001279134,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/pypi-server",
       "task_ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
-      "trial_name": "pypi-server__8aBFdk3",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:03:25.066396Z",
-      "finished_at": "2026-09-06T09:10:44.967811Z",
       "duration_sec": 439.901,
       "environment_setup_sec": 14.965,
       "agent_setup_sec": 48.326,
       "agent_execution_sec": 348.216,
       "verifier_sec": 17.27,
-      "agent_execution_started": true,
-      "n_input_tokens": 57454,
-      "n_cache_tokens": 49664,
-      "n_output_tokens": 4067,
-      "cost_usd": null,
-      "known_cost_usd": 0.000873135,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 14,
       "model_steps": 13,
       "model_stop_reasons": {
@@ -1103,32 +408,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788685674-fAJYNS3qZBWyh3drGCzC",
-        "gen-1788685678-dnCZcHbcqJn0BPU0Il1e",
-        "gen-1788685681-BVnuLppHQUbrZ5lpfK22"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/pypi-server__8aBFdk3/result.json",
-        "result_sha256": "e6e505b4e629dc98195e445d08afa525b95fa55356cb634dc10a218603647d2d",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/pypi-server__8aBFdk3/agent/trajectory.json",
-        "trajectory_sha256": "dca5697b30caa8d35ff4fc79ec5d4f2c9352c86bfbe896aa7ceb520aa9e8c420",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788685674-fAJYNS3qZBWyh3drGCzC",
-        "gen-1788685678-dnCZcHbcqJn0BPU0Il1e",
-        "gen-1788685681-BVnuLppHQUbrZ5lpfK22"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.001163556,
-      "post_run_cost_usd": 0.001163556,
-      "atif_final_metrics": {
-        "total_steps": 14,
-        "total_prompt_tokens": 57454,
-        "total_completion_tokens": 4067,
-        "total_cached_tokens": 49664
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1146,42 +425,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/pypi-server@sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276"
+      ],
+      "usage": {
+        "total_prompt_tokens": 57454,
+        "total_cached_tokens": 49664,
+        "total_completion_tokens": 4067,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000873135,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001163556,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/dna-assembly",
       "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
-      "trial_name": "dna-assembly__XLhLMqA",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:08:38.564651Z",
-      "finished_at": "2026-09-06T09:11:54.668185Z",
       "duration_sec": 196.104,
       "environment_setup_sec": 11.225,
       "agent_setup_sec": 64.118,
       "agent_execution_sec": 89.476,
       "verifier_sec": 19.949,
-      "agent_execution_started": true,
-      "n_input_tokens": 11210,
-      "n_cache_tokens": 4608,
-      "n_output_tokens": 8422,
-      "cost_usd": 0.001096542,
-      "known_cost_usd": 0.001096542,
-      "cost_is_partial": null,
-      "usage_complete": true,
-      "trajectory_status": "complete",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 4,
       "model_steps": 3,
       "model_stop_reasons": {
@@ -1193,25 +474,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": null,
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/dna-assembly__XLhLMqA/result.json",
-        "result_sha256": "e33760a6793c5246053bd6fbf1ec97cb3dd08404c2b211abfd87617df6bb12e9",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/dna-assembly__XLhLMqA/agent/trajectory.json",
-        "trajectory_sha256": "f45571825606cd17efc2bc95f9c4ce753a8eec2d8313d3269e014034077eff28",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.001096542,
-      "post_run_cost_usd": 0.001096542,
-      "atif_final_metrics": {
-        "total_steps": 4,
-        "total_prompt_tokens": 11210,
-        "total_completion_tokens": 8422,
-        "total_cached_tokens": 4608,
-        "total_cost_usd": 0.001096542
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 1800.0
@@ -1229,42 +491,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+      ],
+      "usage": {
+        "total_prompt_tokens": 11210,
+        "total_cached_tokens": 4608,
+        "total_completion_tokens": 8422,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.001096542,
+        "native_known_subtotal_usd": 0.001096542,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.001096542,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/torch-pipeline-parallelism",
       "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
-      "trial_name": "torch-pipeline-parallelism__9DcJ62N",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:10:46.233119Z",
-      "finished_at": "2026-09-06T09:21:09.490022Z",
       "duration_sec": 623.257,
       "environment_setup_sec": 10.773,
       "agent_setup_sec": 58.536,
       "agent_execution_sec": 246.984,
       "verifier_sec": 294.771,
-      "agent_execution_started": true,
-      "n_input_tokens": 20503,
-      "n_cache_tokens": 6400,
-      "n_output_tokens": 16322,
-      "cost_usd": null,
-      "known_cost_usd": 0.000914355,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 6,
       "model_steps": 5,
       "model_stop_reasons": {
@@ -1276,28 +540,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788686016-PQohhBeliaFe9eN0TBt9"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/torch-pipeline-parallelism__9DcJ62N/result.json",
-        "result_sha256": "f94da0f0e866847d2d9e823661fc40f3c868c93d30797b62cfbf289be102a988",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/torch-pipeline-parallelism__9DcJ62N/agent/trajectory.json",
-        "trajectory_sha256": "caffe9c44221a892c76896f923aaf70527d6c7bf299e444c717f5b47d65c2218",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788686016-PQohhBeliaFe9eN0TBt9"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.002161215,
-      "post_run_cost_usd": 0.002161215,
-      "atif_final_metrics": {
-        "total_steps": 6,
-        "total_prompt_tokens": 20503,
-        "total_completion_tokens": 16322,
-        "total_cached_tokens": 6400
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1315,42 +557,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "usage": {
+        "total_prompt_tokens": 20503,
+        "total_cached_tokens": 6400,
+        "total_completion_tokens": 16322,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000914355,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.002161215,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/qemu-alpine-ssh",
       "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
-      "trial_name": "qemu-alpine-ssh__jBNhMAS",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:11:55.926460Z",
-      "finished_at": "2026-09-06T09:35:43.189936Z",
       "duration_sec": 1427.263,
       "environment_setup_sec": 52.811,
       "agent_setup_sec": 55.145,
       "agent_execution_sec": 1275.131,
       "verifier_sec": 32.84,
-      "agent_execution_started": true,
-      "n_input_tokens": 629706,
-      "n_cache_tokens": 562688,
-      "n_output_tokens": 28569,
-      "cost_usd": 0.011533989,
-      "known_cost_usd": 0.011533989,
-      "cost_is_partial": null,
-      "usage_complete": true,
-      "trajectory_status": "complete",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 33,
       "model_steps": 32,
       "model_stop_reasons": {
@@ -1362,25 +606,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": null,
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/qemu-alpine-ssh__jBNhMAS/result.json",
-        "result_sha256": "4e5c4708791c060159e56c78aad4b5ef8206394ca218012ec3d5e04b48369e6f",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/qemu-alpine-ssh__jBNhMAS/agent/trajectory.json",
-        "trajectory_sha256": "1582529b059a0844cd6528e2a76ce3c1a0e0d7ca931673e32e33e34d054c4e53",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.011533989,
-      "post_run_cost_usd": 0.011533989,
-      "atif_final_metrics": {
-        "total_steps": 33,
-        "total_prompt_tokens": 629706,
-        "total_completion_tokens": 28569,
-        "total_cached_tokens": 562688,
-        "total_cost_usd": 0.011533989
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1398,42 +623,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+      ],
+      "usage": {
+        "total_prompt_tokens": 629706,
+        "total_cached_tokens": 562688,
+        "total_completion_tokens": 28569,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.011533989,
+        "native_known_subtotal_usd": 0.011533989,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.011533989,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/openssl-selfsigned-cert",
       "task_ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
-      "trial_name": "openssl-selfsigned-cert__JwfLCdA",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:21:10.691631Z",
-      "finished_at": "2026-09-06T09:32:55.440998Z",
       "duration_sec": 704.749,
       "environment_setup_sec": 1.094,
       "agent_setup_sec": 64.867,
       "agent_execution_sec": 606.816,
       "verifier_sec": 20.749,
-      "agent_execution_started": true,
-      "n_input_tokens": 67161,
-      "n_cache_tokens": 58880,
-      "n_output_tokens": 5854,
-      "cost_usd": null,
-      "known_cost_usd": 0.00133074,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 15,
       "model_steps": 14,
       "model_stop_reasons": {
@@ -1445,28 +672,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788686537-dsELnUfpjogNQb8smewA"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/openssl-selfsigned-cert__JwfLCdA/result.json",
-        "result_sha256": "b8eb55f060f4601069c4797af512bf622b0aeaf049e6c6fb2d958ad7fb7ed247",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/openssl-selfsigned-cert__JwfLCdA/agent/trajectory.json",
-        "trajectory_sha256": "add95369348beadd1cbc347607df596dae2f3d8f7e4f33598c21c71d43c84a76",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788686537-dsELnUfpjogNQb8smewA"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.001429425,
-      "post_run_cost_usd": 0.001429425,
-      "atif_final_metrics": {
-        "total_steps": 15,
-        "total_prompt_tokens": 67161,
-        "total_completion_tokens": 5854,
-        "total_cached_tokens": 58880
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1484,42 +689,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/openssl-selfsigned-cert@sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12"
+      ],
+      "usage": {
+        "total_prompt_tokens": 67161,
+        "total_cached_tokens": 58880,
+        "total_completion_tokens": 5854,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.00133074,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001429425,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/regex-chess",
       "task_ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
-      "trial_name": "regex-chess__YkjJNdb",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:32:56.556238Z",
-      "finished_at": "2026-09-06T09:36:27.799793Z",
       "duration_sec": 211.244,
       "environment_setup_sec": 20.093,
       "agent_setup_sec": 56.755,
       "agent_execution_sec": 97.597,
       "verifier_sec": 25.654,
-      "agent_execution_started": true,
-      "n_input_tokens": 8806,
-      "n_cache_tokens": 4608,
-      "n_output_tokens": 8337,
-      "cost_usd": null,
-      "known_cost_usd": 0.000170883,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 4,
       "model_steps": 3,
       "model_stop_reasons": {
@@ -1531,28 +738,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788687257-MD3FKunNQJ7jnfgNIQy1"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/regex-chess__YkjJNdb/result.json",
-        "result_sha256": "aaff433ad8f8881bbec356a95be7535241942830f23fc38332362feeb8b4cbe2",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/regex-chess__YkjJNdb/agent/trajectory.json",
-        "trajectory_sha256": "13fc16f66eaff3e51dba6fafb17a720f2774c2fa821b0696a1f8e963c3216155",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788687257-MD3FKunNQJ7jnfgNIQy1"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.000980712,
-      "post_run_cost_usd": 0.000980712,
-      "atif_final_metrics": {
-        "total_steps": 4,
-        "total_prompt_tokens": 8806,
-        "total_completion_tokens": 8337,
-        "total_cached_tokens": 4608
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 3600.0
@@ -1570,42 +755,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
+      ],
+      "usage": {
+        "total_prompt_tokens": 8806,
+        "total_cached_tokens": 4608,
+        "total_completion_tokens": 8337,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000170883,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.000980712,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/log-summary-date-ranges",
       "task_ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
-      "trial_name": "log-summary-date-ranges__ie3GKJH",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:35:44.796120Z",
-      "finished_at": "2026-09-06T09:40:03.192065Z",
       "duration_sec": 258.396,
       "environment_setup_sec": 17.598,
       "agent_setup_sec": 63.549,
       "agent_execution_sec": 141.315,
       "verifier_sec": 24.715,
-      "agent_execution_started": true,
-      "n_input_tokens": 26448,
-      "n_cache_tokens": 21504,
-      "n_output_tokens": 2139,
-      "cost_usd": null,
-      "known_cost_usd": 0.000335259,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 7,
       "model_steps": 6,
       "model_stop_reasons": {
@@ -1617,32 +804,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788687435-QjE8VzeUu3ns7rWbJyUV",
-        "gen-1788687437-oEllYIXxLorDtUO9AuNh",
-        "gen-1788687440-9TfKhbzXltHXw2yhodC1"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/log-summary-date-ranges__ie3GKJH/result.json",
-        "result_sha256": "3eae790ba9606edf6b8d9976a4e37713f30bbcb8f5b801f1a5ec3aecd537db83",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/log-summary-date-ranges__ie3GKJH/agent/trajectory.json",
-        "trajectory_sha256": "103c988d0d5415c42c7a442c010f8e9ced80c13153ce2c0281a8e8f7fcc57f57",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788687435-QjE8VzeUu3ns7rWbJyUV",
-        "gen-1788687437-oEllYIXxLorDtUO9AuNh",
-        "gen-1788687440-9TfKhbzXltHXw2yhodC1"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.000608526,
-      "post_run_cost_usd": 0.000608526,
-      "atif_final_metrics": {
-        "total_steps": 7,
-        "total_prompt_tokens": 26448,
-        "total_completion_tokens": 2139,
-        "total_cached_tokens": 21504
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1660,42 +821,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/log-summary-date-ranges@sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51"
+      ],
+      "usage": {
+        "total_prompt_tokens": 26448,
+        "total_cached_tokens": 21504,
+        "total_completion_tokens": 2139,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000335259,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.000608526,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/model-extraction-relu-logits",
       "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
-      "trial_name": "model-extraction-relu-logits__gA257ac",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:36:29.031531Z",
-      "finished_at": "2026-09-06T09:40:28.268313Z",
       "duration_sec": 239.237,
       "environment_setup_sec": 18.103,
       "agent_setup_sec": 62.323,
       "agent_execution_sec": 125.088,
       "verifier_sec": 22.47,
-      "agent_execution_started": true,
-      "n_input_tokens": 3593,
-      "n_cache_tokens": 1536,
-      "n_output_tokens": 8263,
-      "cost_usd": 0.000850059,
-      "known_cost_usd": 0.000850059,
-      "cost_is_partial": null,
-      "usage_complete": true,
-      "trajectory_status": "complete",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 3,
       "model_steps": 2,
       "model_stop_reasons": {
@@ -1707,25 +870,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": null,
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/model-extraction-relu-logits__gA257ac/result.json",
-        "result_sha256": "72a10a74138249222708cb06b4f1321c072d4ed7e1640a24eb9dd58262d5975b",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/model-extraction-relu-logits__gA257ac/agent/trajectory.json",
-        "trajectory_sha256": "b2aed78056a5104ad05295ba52fc06bf04bff8d6d3571f7168aa15d82220bccf",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.000850059,
-      "post_run_cost_usd": 0.000850059,
-      "atif_final_metrics": {
-        "total_steps": 3,
-        "total_prompt_tokens": 3593,
-        "total_completion_tokens": 8263,
-        "total_cached_tokens": 1536,
-        "total_cost_usd": 0.000850059
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1743,42 +887,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/model-extraction-relu-logits@sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce"
+      ],
+      "usage": {
+        "total_prompt_tokens": 3593,
+        "total_cached_tokens": 1536,
+        "total_completion_tokens": 8263,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.000850059,
+        "native_known_subtotal_usd": 0.000850059,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.000850059,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/path-tracing",
       "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
-      "trial_name": "path-tracing__vWuAmPQ",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:40:04.355506Z",
-      "finished_at": "2026-09-06T10:00:57.619290Z",
       "duration_sec": 1253.264,
       "environment_setup_sec": 51.665,
       "agent_setup_sec": 73.305,
       "agent_execution_sec": 1094.855,
       "verifier_sec": 22.153,
-      "agent_execution_started": true,
-      "n_input_tokens": 1509032,
-      "n_cache_tokens": 1232896,
-      "n_output_tokens": 57337,
-      "cost_usd": null,
-      "known_cost_usd": 0.028175957,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 40,
       "model_steps": 39,
       "model_stop_reasons": {
@@ -1790,28 +936,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788688643-q2NHYlGNh8R31sxGpGJu"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/path-tracing__vWuAmPQ/result.json",
-        "result_sha256": "59b37b8d6057255ed4860ce9ca95cc662737a0f6b00ea28a2cde0d9b90acd0bd",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/path-tracing__vWuAmPQ/agent/trajectory.json",
-        "trajectory_sha256": "19432fb9e39c9a73568727aeba4f6ef30b26b333dd62497b03b61f1e1770ecd1",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788688643-q2NHYlGNh8R31sxGpGJu"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.029570788,
-      "post_run_cost_usd": 0.029570788,
-      "atif_final_metrics": {
-        "total_steps": 40,
-        "total_prompt_tokens": 1509032,
-        "total_completion_tokens": 57337,
-        "total_cached_tokens": 1232896
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 1800.0
@@ -1829,42 +953,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/path-tracing@sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1509032,
+        "total_cached_tokens": 1232896,
+        "total_completion_tokens": 57337,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.028175957,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.029570788,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/regex-log",
       "task_ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a",
-      "trial_name": "regex-log__UP5eHJY",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:40:30.755365Z",
-      "finished_at": "2026-09-06T09:44:53.510525Z",
       "duration_sec": 262.755,
       "environment_setup_sec": 9.555,
       "agent_setup_sec": 78.023,
       "agent_execution_sec": 139.469,
       "verifier_sec": 24.414,
-      "agent_execution_started": true,
-      "n_input_tokens": 1678,
-      "n_cache_tokens": 0,
-      "n_output_tokens": 8192,
-      "cost_usd": null,
-      "known_cost_usd": 0.0,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 2,
       "model_steps": 1,
       "model_stop_reasons": {
@@ -1875,28 +1001,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788687719-iI7ipZ5sFjMZB4RVLPnP"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/regex-log__UP5eHJY/result.json",
-        "result_sha256": "c3c6006aaa93997086ac8650946504b63c86b57a82b627d0d214f30a89b5e660",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/regex-log__UP5eHJY/agent/trajectory.json",
-        "trajectory_sha256": "0352d3158fc2b1a7a955fd930a48a787afe988191e722ad5ebc509494320c401",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788687719-iI7ipZ5sFjMZB4RVLPnP"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.00081279,
-      "post_run_cost_usd": 0.00081279,
-      "atif_final_metrics": {
-        "total_steps": 2,
-        "total_prompt_tokens": 1678,
-        "total_completion_tokens": 8192,
-        "total_cached_tokens": 0
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -1914,42 +1018,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/regex-log@sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1678,
+        "total_cached_tokens": 0,
+        "total_completion_tokens": 8192,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.0,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.00081279,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/caffe-cifar-10",
       "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
-      "trial_name": "caffe-cifar-10__87rkBtY",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:44:54.713452Z",
-      "finished_at": "2026-09-06T09:49:41.739790Z",
       "duration_sec": 287.026,
       "environment_setup_sec": 29.026,
       "agent_setup_sec": 81.375,
       "agent_execution_sec": 148.88,
       "verifier_sec": 16.462,
-      "agent_execution_started": true,
-      "n_input_tokens": 32608,
-      "n_cache_tokens": 28416,
-      "n_output_tokens": 13508,
-      "cost_usd": null,
-      "known_cost_usd": 0.000835443,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 7,
       "model_steps": 6,
       "model_stop_reasons": {
@@ -1961,28 +1067,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788688060-hqneaWMRlup0WOo5EB4A"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/caffe-cifar-10__87rkBtY/result.json",
-        "result_sha256": "a34493c83c3f17c157954767fa4c4e41bc4ab46e679cddeb2f3904ad2eb2acd2",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/caffe-cifar-10__87rkBtY/agent/trajectory.json",
-        "trajectory_sha256": "1f8762d66d000a5c1008980c7f0b3c496ac46f44500dd38d28159eb4073d860e",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788688060-hqneaWMRlup0WOo5EB4A"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.001660104,
-      "post_run_cost_usd": 0.001660104,
-      "atif_final_metrics": {
-        "total_steps": 7,
-        "total_prompt_tokens": 32608,
-        "total_completion_tokens": 13508,
-        "total_cached_tokens": 28416
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 3600.0
@@ -2000,42 +1084,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/caffe-cifar-10@sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215"
+      ],
+      "usage": {
+        "total_prompt_tokens": 32608,
+        "total_cached_tokens": 28416,
+        "total_completion_tokens": 13508,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000835443,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001660104,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/mteb-leaderboard",
       "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
-      "trial_name": "mteb-leaderboard__kQM5sTV",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T09:49:43.052256Z",
-      "finished_at": "2026-09-06T10:03:20.180097Z",
       "duration_sec": 817.128,
       "environment_setup_sec": 39.904,
       "agent_setup_sec": 46.632,
       "agent_execution_sec": 696.035,
       "verifier_sec": 18.241,
-      "agent_execution_started": true,
-      "n_input_tokens": 1398130,
-      "n_cache_tokens": 1263360,
-      "n_output_tokens": 24576,
-      "cost_usd": null,
-      "known_cost_usd": 0.019053378,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 51,
       "model_steps": 50,
       "model_stop_reasons": {
@@ -2046,28 +1132,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "max_turns_exhausted",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788688816-FQRavJ7rgsoDy4RTnLwB"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/mteb-leaderboard__kQM5sTV/result.json",
-        "result_sha256": "058bf9181eca308386daf96e1448a9cc2c79f1a163369fdcb2450cad28733de0",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/mteb-leaderboard__kQM5sTV/agent/trajectory.json",
-        "trajectory_sha256": "84f8d93db5813b6a4859463407b4bd5bf4a9eacfba896e7e93274d4a110e6b47",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788688816-FQRavJ7rgsoDy4RTnLwB"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.01964673,
-      "post_run_cost_usd": 0.01964673,
-      "atif_final_metrics": {
-        "total_steps": 51,
-        "total_prompt_tokens": 1398130,
-        "total_completion_tokens": 24576,
-        "total_cached_tokens": 1263360
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 3600.0
@@ -2085,42 +1149,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1398130,
+        "total_cached_tokens": 1263360,
+        "total_completion_tokens": 24576,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.019053378,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.01964673,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/llm-inference-batching-scheduler",
       "task_ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
-      "trial_name": "llm-inference-batching-scheduler__TrmwwNe",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T10:00:58.838938Z",
-      "finished_at": "2026-09-06T10:24:55.041046Z",
       "duration_sec": 1436.202,
       "environment_setup_sec": 9.968,
       "agent_setup_sec": 49.465,
       "agent_execution_sec": 1348.893,
       "verifier_sec": 16.748,
-      "agent_execution_started": true,
-      "n_input_tokens": 1598946,
-      "n_cache_tokens": 1394688,
-      "n_output_tokens": 70297,
-      "cost_usd": 0.029323242,
-      "known_cost_usd": 0.029323242,
-      "cost_is_partial": null,
-      "usage_complete": true,
-      "trajectory_status": "complete",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 30,
       "model_steps": 29,
       "model_stop_reasons": {
@@ -2132,25 +1198,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": null,
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/llm-inference-batching-scheduler__TrmwwNe/result.json",
-        "result_sha256": "1c0b6258edcc35f92fe5ea9dd0c8f915732b649d507a5e4653f8443e985bfa57",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/llm-inference-batching-scheduler__TrmwwNe/agent/trajectory.json",
-        "trajectory_sha256": "426285fdc598a8fe50f9f8f9d5b840f2ec7cff7e0f125613dba1ab9163aba102",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.029323242,
-      "post_run_cost_usd": 0.029323242,
-      "atif_final_metrics": {
-        "total_steps": 30,
-        "total_prompt_tokens": 1598946,
-        "total_completion_tokens": 70297,
-        "total_cached_tokens": 1394688,
-        "total_cost_usd": 0.029323242
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 1800.0
@@ -2168,42 +1215,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1598946,
+        "total_cached_tokens": 1394688,
+        "total_completion_tokens": 70297,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.029323242,
+        "native_known_subtotal_usd": 0.029323242,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.029323242,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/pytorch-model-recovery",
       "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
-      "trial_name": "pytorch-model-recovery__ftekj4v",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": "AgentTimeoutError",
-      "started_at": "2026-09-06T10:03:21.464653Z",
-      "finished_at": "2026-09-06T10:28:51.368667Z",
       "duration_sec": 1529.904,
       "environment_setup_sec": 67.384,
       "agent_setup_sec": 63.186,
       "agent_execution_sec": 900.008,
       "verifier_sec": 485.522,
-      "agent_execution_started": true,
-      "n_input_tokens": null,
-      "n_cache_tokens": null,
-      "n_output_tokens": null,
-      "cost_usd": null,
-      "known_cost_usd": 0.005660289,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "missing",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": true,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": false,
-        "n_cache_tokens": false,
-        "n_output_tokens": false,
-        "cost_usd": true
-      },
       "steps": 21,
       "model_steps": 20,
       "model_stop_reasons": {
@@ -2214,30 +1263,6 @@
       "terminal_status": "failed",
       "terminal_outcome": null,
       "terminal_error_type": "KeyError",
-      "missing_generation_ids": [
-        "gen-1788690062-IoJHsxDZDbOerDRgFFO4",
-        "gen-1788690071-mTtFIa1ud6cMeSqOT5aI"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/pytorch-model-recovery__ftekj4v/result.json",
-        "result_sha256": "f8e70e657e8f1994959d93b1d3d46d8236296139a890da0bee943fe6ccf48150",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/pytorch-model-recovery__ftekj4v/agent/trajectory.json",
-        "trajectory_sha256": "d4ccf101540d146556ae29e0c3d7fac2e6d4127a19eae63b4714b755053b5518",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788690062-IoJHsxDZDbOerDRgFFO4",
-        "gen-1788690071-mTtFIa1ud6cMeSqOT5aI"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.006448779,
-      "post_run_cost_usd": 0.006448779,
-      "atif_final_metrics": {
-        "total_steps": 21,
-        "total_prompt_tokens": 354313,
-        "total_completion_tokens": 19527,
-        "total_cached_tokens": 312576
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -2255,42 +1280,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+      ],
+      "usage": {
+        "total_prompt_tokens": 354313,
+        "total_cached_tokens": 312576,
+        "total_completion_tokens": 19527,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.005660289,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.006448779,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": false,
+          "n_cache_tokens": false,
+          "n_output_tokens": false,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": true
       }
     },
     {
       "task": "terminal-bench/circuit-fibsqrt",
       "task_ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
-      "trial_name": "circuit-fibsqrt__758KQCh",
-      "status": "finished",
       "reward": 0.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T10:24:56.914074Z",
-      "finished_at": "2026-09-06T10:29:58.529059Z",
       "duration_sec": 301.615,
       "environment_setup_sec": 16.123,
       "agent_setup_sec": 46.034,
       "agent_execution_sec": 205.079,
       "verifier_sec": 23.154,
-      "agent_execution_started": true,
-      "n_input_tokens": 7590,
-      "n_cache_tokens": 2304,
-      "n_output_tokens": 8808,
-      "cost_usd": 0.001051326,
-      "known_cost_usd": 0.001051326,
-      "cost_is_partial": null,
-      "usage_complete": true,
-      "trajectory_status": "complete",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 3,
       "model_steps": 2,
       "model_stop_reasons": {
@@ -2302,25 +1329,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": null,
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/circuit-fibsqrt__758KQCh/result.json",
-        "result_sha256": "6d9360cab76c50a8d3a4f8168509af72b151ae2723615140f9138d1c1aa5a123",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/circuit-fibsqrt__758KQCh/agent/trajectory.json",
-        "trajectory_sha256": "8bc143ba6f59ba6ef2218cb890d1000ca4227ecce556a82252a0ddff9b9270be",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.001051326,
-      "post_run_cost_usd": 0.001051326,
-      "atif_final_metrics": {
-        "total_steps": 3,
-        "total_prompt_tokens": 7590,
-        "total_completion_tokens": 8808,
-        "total_cached_tokens": 2304,
-        "total_cost_usd": 0.001051326
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 3600.0
@@ -2338,42 +1346,44 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+      ],
+      "usage": {
+        "total_prompt_tokens": 7590,
+        "total_cached_tokens": 2304,
+        "total_completion_tokens": 8808,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.001051326,
+        "native_known_subtotal_usd": 0.001051326,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.001051326,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     },
     {
       "task": "terminal-bench/merge-diff-arc-agi-task",
       "task_ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
-      "trial_name": "merge-diff-arc-agi-task__w5sZoRS",
-      "status": "finished",
       "reward": 1.0,
-      "agent_version": "0.8.1.dev3+g2b8309794",
       "exception_type": null,
-      "started_at": "2026-09-06T10:28:53.861023Z",
-      "finished_at": "2026-09-06T10:32:51.291945Z",
       "duration_sec": 237.431,
       "environment_setup_sec": 14.434,
       "agent_setup_sec": 66.768,
       "agent_execution_sec": 123.169,
       "verifier_sec": 21.67,
-      "agent_execution_started": true,
-      "n_input_tokens": 130371,
-      "n_cache_tokens": 121856,
-      "n_output_tokens": 8768,
-      "cost_usd": null,
-      "known_cost_usd": 0.002175354,
-      "cost_is_partial": true,
-      "usage_complete": true,
-      "trajectory_status": "partial",
-      "trajectory_valid": true,
-      "model_metrics_source": "native trajectory",
-      "trajectory_arrived_after_missing_diagnostic": false,
-      "trajectory_validation_errors": [],
-      "metrics_match": {
-        "n_input_tokens": true,
-        "n_cache_tokens": true,
-        "n_output_tokens": true,
-        "cost_usd": true
-      },
       "steps": 15,
       "model_steps": 14,
       "model_stop_reasons": {
@@ -2385,28 +1395,6 @@
       "terminal_status": "completed",
       "terminal_outcome": "completed",
       "terminal_error_type": null,
-      "missing_generation_ids": [
-        "gen-1788690615-MZxqjQeopSlBndazGddU"
-      ],
-      "artifacts": {
-        "result": "jobs/tb21-flash0731-pilot20-20260906/merge-diff-arc-agi-task__w5sZoRS/result.json",
-        "result_sha256": "afcd91b2f225a6f4882cafe499b8c396488e3a717201ebd9c3287b6772ca25e2",
-        "trajectory": "jobs/tb21-flash0731-pilot20-20260906/merge-diff-arc-agi-task__w5sZoRS/agent/trajectory.json",
-        "trajectory_sha256": "880b1bcdce351f4879dfefaa8d92ad666bc11c0cd7ba4465460328c318473b17",
-        "native_trajectory_present": true
-      },
-      "post_run_resolved_generations": [
-        "gen-1788690615-MZxqjQeopSlBndazGddU"
-      ],
-      "post_run_unresolved_generations": [],
-      "post_run_known_cost_usd": 0.002268999,
-      "post_run_cost_usd": 0.002268999,
-      "atif_final_metrics": {
-        "total_steps": 15,
-        "total_prompt_tokens": 130371,
-        "total_completion_tokens": 8768,
-        "total_cached_tokens": 121856
-      },
       "task_limits_and_environment": {
         "agent": {
           "timeout_sec": 900.0
@@ -2424,9 +1412,54 @@
           "allow_internet": true,
           "mcp_servers": []
         }
+      },
+      "task_image_digests": [
+        "alexgshaw/merge-diff-arc-agi-task@sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4"
+      ],
+      "usage": {
+        "total_prompt_tokens": 130371,
+        "total_cached_tokens": 121856,
+        "total_completion_tokens": 8768,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.002175354,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.002268999,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
       }
     }
   ],
+  "timeout_observation": {
+    "task": "terminal-bench/pytorch-model-recovery",
+    "time_reference": "Seconds since Harbor agent execution started",
+    "timeout_at_sec": 900.029,
+    "verifier_started_at_sec": 901.366,
+    "model_calls_started_after_timeout_at_sec": [
+      928.758,
+      939.104
+    ],
+    "native_failure_recorded_at_sec": 1063.365,
+    "verifier_finished_at_sec": 1386.888,
+    "last_tool_name": "edit",
+    "last_tool_argument_keys": [
+      "new_text",
+      "old_text"
+    ],
+    "native_terminal_error": "KeyError",
+    "interpretation": "Two new model calls started after the Harbor timeout, while the verifier was running. The later native terminal records KeyError for a missing edit path. Reward 1 is retained but excluded from passes without a Harbor exception. The timeout did not promptly stop the container agent; the late trajectory was not reflected in original Harbor metrics."
+  },
   "follow_up_plan": [
     "Handle max_tokens explicitly and evaluate the per-response reasoning/output budget.",
     "Make missing tool arguments recoverable without crashing stdout event projection.",
@@ -2434,35 +1467,11 @@
     "Support separate delayed cost reconciliation without replacing incomplete values with zero.",
     "After fixes, rerun these same 20 task hashes under a new agent revision and job name; use that pilot to budget the full 89-task run."
   ],
-  "raw_artifact_archive": {
-    "path": "jobs/tb21-flash0731-pilot20-20260906-artifacts.tar.gz",
-    "sha256": "680a59abb6d80b8f2d12b5c164219475eee6acf8665ee84f96d9211785fd2dc2",
-    "size_bytes": 861842,
-    "availability": "Local workspace archive under git-ignored jobs/; not uploaded or committed. This JSON summary and supplemental billing receipts are versioned.",
-    "contents": [
-      "Harbor job with credential redactions listed below",
-      "Task manifest",
-      "Full derived summary",
-      "Generation cost ledger",
-      "Supplemental receipts",
-      "Environment metadata",
-      "Filtered timeout timeline",
-      "Independent trajectory backup",
-      "One-off run and analysis scripts"
-    ],
-    "redactions": [
-      {
-        "path": "jobs/tb21-flash0731-pilot20-20260906/torch-pipeline-parallelism__9DcJ62N/agent/nanopycodeagent.txt",
-        "original_sha256": "c2cd573b34a1a76f5452463037301c2bfc302c9e42eae181efd60a2ef4b577c9",
-        "archived_sha256": "b43413be32f7c43f2793237d02d2be726b8586efd3b890d696bd1be46bbc7560",
-        "reason": "Runtime credential appeared in captured agent output; replaced only in archive copies. Local originals have mode 0600."
-      },
-      {
-        "path": "jobs/tb21-flash0731-pilot20-20260906/torch-pipeline-parallelism__9DcJ62N/agent/trajectory.json",
-        "original_sha256": "caffe9c44221a892c76896f923aaf70527d6c7bf299e444c717f5b47d65c2218",
-        "archived_sha256": "8e776cf8055026812c76402ab44e8037ea84f92a84952ec74eac2ce86f15e0c2",
-        "reason": "Runtime credential appeared in captured agent output; replaced only in archive copies. Local originals have mode 0600."
-      }
-    ]
+  "local_artifacts": {
+    "archive_path": "jobs/tb21-flash0731-pilot20-20260906-artifacts.tar.gz",
+    "archive_sha256": "680a59abb6d80b8f2d12b5c164219475eee6acf8665ee84f96d9211785fd2dc2",
+    "archive_size_bytes": 861842,
+    "availability": "Local git-ignored archive; not uploaded. Raw logs, detailed receipts, request identifiers, exact event times, host hardware information, and per-file redaction checksums are kept in local records.",
+    "archive_credentials_redacted": true
   }
 }
