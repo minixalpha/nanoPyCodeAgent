@@ -1,0 +1,1477 @@
+{
+  "schema_version": 2,
+  "job_name": "tb21-flash0731-pilot20-20260906",
+  "run_date": "2026-09-06",
+  "scope": "Single-attempt, first-20-task pilot baseline; not the full Terminal-Bench 2.1 score.",
+  "experiment": {
+    "agent_ref": "2b8309794cb9e00cb4d3b08baf1e4733153105e0",
+    "harbor_version": "0.21.0",
+    "dataset": "terminal-bench/terminal-bench-2-1",
+    "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+    "dataset_size": 89,
+    "model": "openrouter/deepseek/deepseek-v4-flash-0731",
+    "endpoint": "https://openrouter.ai/api",
+    "provider_routing": "No request-level override; account settings apply",
+    "command": [
+      "harbor",
+      "run",
+      "--dataset",
+      "terminal-bench/terminal-bench-2-1@sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+      "--n-tasks",
+      "20",
+      "--agent",
+      "harbor_adapter:NanoPyCodeAgent",
+      "--agent-kwarg",
+      "git_ref=2b8309794cb9e00cb4d3b08baf1e4733153105e0",
+      "--agent-kwarg",
+      "max_turns=50",
+      "--model",
+      "openrouter/deepseek/deepseek-v4-flash-0731",
+      "--env",
+      "docker",
+      "--n-concurrent",
+      "2",
+      "--n-attempts",
+      "1",
+      "--max-retries",
+      "0",
+      "--job-name",
+      "tb21-flash0731-pilot20-20260906"
+    ],
+    "limits": {
+      "n_tasks": 20,
+      "selection": "first 20 entries in the pinned dataset list",
+      "n_attempts": 1,
+      "n_concurrent": 2,
+      "max_turns": 50,
+      "max_tokens_per_response": 8192,
+      "harbor_max_retries": 0,
+      "sdk_retries": "Anthropic SDK defaults; Harbor max-retries does not disable SDK retries.",
+      "temperature": "not explicitly set",
+      "reasoning_effort": "not explicitly set"
+    }
+  },
+  "agent_versions": [
+    "0.8.1.dev3+g2b8309794"
+  ],
+  "job_duration_sec": 6669.573,
+  "scores": {
+    "planned_trials": 20,
+    "completed_trials": 20,
+    "passed_trials": 8,
+    "failed_reward_trials": 12,
+    "unscored_trials": 0,
+    "exception_counts": {
+      "AgentTimeoutError": 1
+    },
+    "pass_rate_over_planned": 0.4,
+    "passes_without_harbor_exception": 7,
+    "pass_rate_without_harbor_exception_over_planned": 0.35
+  },
+  "usage": {
+    "total_prompt_tokens": 6207708,
+    "total_cached_tokens": 5362944,
+    "total_completion_tokens": 331041,
+    "complete": true
+  },
+  "cost": {
+    "currency": "USD",
+    "source": "OpenRouter generation total_cost for recorded model calls",
+    "original_harbor_aggregate_usd": 0.045695378,
+    "native_trajectory_known_subtotal_usd": 0.11053603,
+    "native_cost_complete": false,
+    "reconciled_total_usd": 0.119200332,
+    "reconciled_cost_complete": true,
+    "supplemental_receipt_count": 18,
+    "includes_recorded_calls_after_timeout": true
+  },
+  "model_replies": 267,
+  "tool_calls": 329,
+  "last_model_stop_reason_counts": {
+    "max_tokens": 11,
+    "end_turn": 7,
+    "tool_use": 2
+  },
+  "harbor_original_aggregate": {
+    "n_completed_trials": 20,
+    "n_errored_trials": 1,
+    "n_running_trials": 0,
+    "n_pending_trials": 0,
+    "n_cancelled_trials": 0,
+    "n_retries": 0,
+    "n_input_tokens": 5853395,
+    "n_cache_tokens": 5050368,
+    "n_output_tokens": 311514,
+    "cost_usd": 0.045695378
+  },
+  "validation": {
+    "task_names_and_hashes_match_planned_manifest": true,
+    "valid_atif_files": 20,
+    "trials_matching_original_harbor_metrics": 19,
+    "native_partial_cost_trajectories": 13,
+    "distinct_priced_generations": 267,
+    "supplemental_receipts": 18,
+    "per_generation_cost_and_usage_sums_match_trial_and_job_totals": true
+  },
+  "metric_semantics": {
+    "input_tokens": "Prompt totals include cached tokens; do not add cached tokens again.",
+    "exceptions_and_rewards": "Exception counts overlap reward counts. A reward of 1 with AgentTimeoutError remains in the Harbor score and is excluded only from passes_without_harbor_exception.",
+    "cost_completeness": "All 267 distinct model generations recorded in the final ATIF files have a provider cost. This is the generation API cost, not a reconciliation of the entire OpenRouter account balance.",
+    "original_harbor_metrics": "The timed-out task has null original Harbor usage. Final ATIF usage is included in this record. Native partial costs remain distinct from reconciled costs."
+  },
+  "environment": {
+    "docker_version": "29.7.2",
+    "container_dependency_lock": "The adapter pins agent source, but uv tool install resolves container dependencies without a lockfile."
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/write-compressor",
+      "task_ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 997.848,
+      "environment_setup_sec": 23.339,
+      "agent_setup_sec": 51.79,
+      "agent_execution_sec": 894.707,
+      "verifier_sec": 16.8,
+      "steps": 3,
+      "model_steps": 2,
+      "model_stop_reasons": {
+        "tool_use": 1,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 2,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/write-compressor:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/write-compressor@sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1"
+      ],
+      "usage": {
+        "total_prompt_tokens": 3883,
+        "total_cached_tokens": 0,
+        "total_completion_tokens": 8300,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.00102374,
+        "native_known_subtotal_usd": 0.00102374,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.00102374,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 1291.145,
+      "environment_setup_sec": 16.158,
+      "agent_setup_sec": 55.845,
+      "agent_execution_sec": 897.597,
+      "verifier_sec": 309.328,
+      "steps": 2,
+      "model_steps": 1,
+      "model_stop_reasons": {
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 0,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/torch-tensor-parallelism:20251031",
+          "cpus": 1,
+          "memory_mb": 8192,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/torch-tensor-parallelism@sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1760,
+        "total_cached_tokens": 0,
+        "total_completion_tokens": 8192,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.00081648,
+        "native_known_subtotal_usd": 0.00081648,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.00081648,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 302.641,
+      "environment_setup_sec": 10.443,
+      "agent_setup_sec": 47.033,
+      "agent_execution_sec": 214.927,
+      "verifier_sec": 19.097,
+      "steps": 15,
+      "model_steps": 14,
+      "model_stop_reasons": {
+        "tool_use": 13,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 39,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 2400.0
+        },
+        "verifier": {
+          "timeout_sec": 2400.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/schemelike-metacircular-eval:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/schemelike-metacircular-eval@sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db"
+      ],
+      "usage": {
+        "total_prompt_tokens": 281398,
+        "total_cached_tokens": 240384,
+        "total_completion_tokens": 16279,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.004152132,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.005474196,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "reward": 1.0,
+      "exception_type": null,
+      "duration_sec": 322.891,
+      "environment_setup_sec": 9.818,
+      "agent_setup_sec": 45.45,
+      "agent_execution_sec": 240.844,
+      "verifier_sec": 15.581,
+      "steps": 12,
+      "model_steps": 11,
+      "model_stop_reasons": {
+        "tool_use": 10,
+        "end_turn": 1
+      },
+      "last_model_stop_reason": "end_turn",
+      "tool_calls": 11,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/kv-store-grpc:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
+      ],
+      "usage": {
+        "total_prompt_tokens": 63118,
+        "total_cached_tokens": 56576,
+        "total_completion_tokens": 5284,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.001163727,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001279134,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/pypi-server",
+      "task_ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+      "reward": 1.0,
+      "exception_type": null,
+      "duration_sec": 439.901,
+      "environment_setup_sec": 14.965,
+      "agent_setup_sec": 48.326,
+      "agent_execution_sec": 348.216,
+      "verifier_sec": 17.27,
+      "steps": 14,
+      "model_steps": 13,
+      "model_stop_reasons": {
+        "tool_use": 12,
+        "end_turn": 1
+      },
+      "last_model_stop_reason": "end_turn",
+      "tool_calls": 15,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/pypi-server:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/pypi-server@sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276"
+      ],
+      "usage": {
+        "total_prompt_tokens": 57454,
+        "total_cached_tokens": 49664,
+        "total_completion_tokens": 4067,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000873135,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001163556,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/dna-assembly",
+      "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 196.104,
+      "environment_setup_sec": 11.225,
+      "agent_setup_sec": 64.118,
+      "agent_execution_sec": 89.476,
+      "verifier_sec": 19.949,
+      "steps": 4,
+      "model_steps": 3,
+      "model_stop_reasons": {
+        "tool_use": 2,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 3,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 1800.0
+        },
+        "verifier": {
+          "timeout_sec": 1800.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/dna-assembly:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+      ],
+      "usage": {
+        "total_prompt_tokens": 11210,
+        "total_cached_tokens": 4608,
+        "total_completion_tokens": 8422,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.001096542,
+        "native_known_subtotal_usd": 0.001096542,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.001096542,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 623.257,
+      "environment_setup_sec": 10.773,
+      "agent_setup_sec": 58.536,
+      "agent_execution_sec": 246.984,
+      "verifier_sec": 294.771,
+      "steps": 6,
+      "model_steps": 5,
+      "model_stop_reasons": {
+        "tool_use": 4,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 7,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/torch-pipeline-parallelism:20251031",
+          "cpus": 1,
+          "memory_mb": 8192,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "usage": {
+        "total_prompt_tokens": 20503,
+        "total_cached_tokens": 6400,
+        "total_completion_tokens": 16322,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000914355,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.002161215,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+      "reward": 1.0,
+      "exception_type": null,
+      "duration_sec": 1427.263,
+      "environment_setup_sec": 52.811,
+      "agent_setup_sec": 55.145,
+      "agent_execution_sec": 1275.131,
+      "verifier_sec": 32.84,
+      "steps": 33,
+      "model_steps": 32,
+      "model_stop_reasons": {
+        "tool_use": 31,
+        "end_turn": 1
+      },
+      "last_model_stop_reason": "end_turn",
+      "tool_calls": 37,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/qemu-alpine-ssh:20251031",
+          "cpus": 1,
+          "memory_mb": 4096,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+      ],
+      "usage": {
+        "total_prompt_tokens": 629706,
+        "total_cached_tokens": 562688,
+        "total_completion_tokens": 28569,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.011533989,
+        "native_known_subtotal_usd": 0.011533989,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.011533989,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/openssl-selfsigned-cert",
+      "task_ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
+      "reward": 1.0,
+      "exception_type": null,
+      "duration_sec": 704.749,
+      "environment_setup_sec": 1.094,
+      "agent_setup_sec": 64.867,
+      "agent_execution_sec": 606.816,
+      "verifier_sec": 20.749,
+      "steps": 15,
+      "model_steps": 14,
+      "model_stop_reasons": {
+        "tool_use": 13,
+        "end_turn": 1
+      },
+      "last_model_stop_reason": "end_turn",
+      "tool_calls": 14,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/openssl-selfsigned-cert:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/openssl-selfsigned-cert@sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12"
+      ],
+      "usage": {
+        "total_prompt_tokens": 67161,
+        "total_cached_tokens": 58880,
+        "total_completion_tokens": 5854,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.00133074,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001429425,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/regex-chess",
+      "task_ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 211.244,
+      "environment_setup_sec": 20.093,
+      "agent_setup_sec": 56.755,
+      "agent_execution_sec": 97.597,
+      "verifier_sec": 25.654,
+      "steps": 4,
+      "model_steps": 3,
+      "model_stop_reasons": {
+        "tool_use": 2,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 2,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 3600.0
+        },
+        "verifier": {
+          "timeout_sec": 3600.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/regex-chess:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
+      ],
+      "usage": {
+        "total_prompt_tokens": 8806,
+        "total_cached_tokens": 4608,
+        "total_completion_tokens": 8337,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000170883,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.000980712,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/log-summary-date-ranges",
+      "task_ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+      "reward": 1.0,
+      "exception_type": null,
+      "duration_sec": 258.396,
+      "environment_setup_sec": 17.598,
+      "agent_setup_sec": 63.549,
+      "agent_execution_sec": 141.315,
+      "verifier_sec": 24.715,
+      "steps": 7,
+      "model_steps": 6,
+      "model_stop_reasons": {
+        "tool_use": 5,
+        "end_turn": 1
+      },
+      "last_model_stop_reason": "end_turn",
+      "tool_calls": 8,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/log-summary-date-ranges:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/log-summary-date-ranges@sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51"
+      ],
+      "usage": {
+        "total_prompt_tokens": 26448,
+        "total_cached_tokens": 21504,
+        "total_completion_tokens": 2139,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000335259,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.000608526,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 239.237,
+      "environment_setup_sec": 18.103,
+      "agent_setup_sec": 62.323,
+      "agent_execution_sec": 125.088,
+      "verifier_sec": 22.47,
+      "steps": 3,
+      "model_steps": 2,
+      "model_stop_reasons": {
+        "tool_use": 1,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 1,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/model-extraction-relu-logits:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/model-extraction-relu-logits@sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce"
+      ],
+      "usage": {
+        "total_prompt_tokens": 3593,
+        "total_cached_tokens": 1536,
+        "total_completion_tokens": 8263,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.000850059,
+        "native_known_subtotal_usd": 0.000850059,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.000850059,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/path-tracing",
+      "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 1253.264,
+      "environment_setup_sec": 51.665,
+      "agent_setup_sec": 73.305,
+      "agent_execution_sec": 1094.855,
+      "verifier_sec": 22.153,
+      "steps": 40,
+      "model_steps": 39,
+      "model_stop_reasons": {
+        "tool_use": 38,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 39,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 1800.0
+        },
+        "verifier": {
+          "timeout_sec": 1800.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/path-tracing:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/path-tracing@sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1509032,
+        "total_cached_tokens": 1232896,
+        "total_completion_tokens": 57337,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.028175957,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.029570788,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/regex-log",
+      "task_ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 262.755,
+      "environment_setup_sec": 9.555,
+      "agent_setup_sec": 78.023,
+      "agent_execution_sec": 139.469,
+      "verifier_sec": 24.414,
+      "steps": 2,
+      "model_steps": 1,
+      "model_stop_reasons": {
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 0,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/regex-log:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/regex-log@sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1678,
+        "total_cached_tokens": 0,
+        "total_completion_tokens": 8192,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.0,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.00081279,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 287.026,
+      "environment_setup_sec": 29.026,
+      "agent_setup_sec": 81.375,
+      "agent_execution_sec": 148.88,
+      "verifier_sec": 16.462,
+      "steps": 7,
+      "model_steps": 6,
+      "model_stop_reasons": {
+        "tool_use": 5,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 10,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 3600.0
+        },
+        "verifier": {
+          "timeout_sec": 1200.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/caffe-cifar-10:20260403",
+          "cpus": 4,
+          "memory_mb": 8192,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/caffe-cifar-10@sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215"
+      ],
+      "usage": {
+        "total_prompt_tokens": 32608,
+        "total_cached_tokens": 28416,
+        "total_completion_tokens": 13508,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.000835443,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.001660104,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 817.128,
+      "environment_setup_sec": 39.904,
+      "agent_setup_sec": 46.632,
+      "agent_execution_sec": 696.035,
+      "verifier_sec": 18.241,
+      "steps": 51,
+      "model_steps": 50,
+      "model_stop_reasons": {
+        "tool_use": 50
+      },
+      "last_model_stop_reason": "tool_use",
+      "tool_calls": 72,
+      "terminal_status": "completed",
+      "terminal_outcome": "max_turns_exhausted",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 3600.0
+        },
+        "verifier": {
+          "timeout_sec": 3600.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/mteb-leaderboard:20260430",
+          "cpus": 1,
+          "memory_mb": 8192,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1398130,
+        "total_cached_tokens": 1263360,
+        "total_completion_tokens": 24576,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.019053378,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.01964673,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "task_ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+      "reward": 1.0,
+      "exception_type": null,
+      "duration_sec": 1436.202,
+      "environment_setup_sec": 9.968,
+      "agent_setup_sec": 49.465,
+      "agent_execution_sec": 1348.893,
+      "verifier_sec": 16.748,
+      "steps": 30,
+      "model_steps": 29,
+      "model_stop_reasons": {
+        "tool_use": 28,
+        "end_turn": 1
+      },
+      "last_model_stop_reason": "end_turn",
+      "tool_calls": 30,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 1800.0
+        },
+        "verifier": {
+          "timeout_sec": 1800.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+      ],
+      "usage": {
+        "total_prompt_tokens": 1598946,
+        "total_cached_tokens": 1394688,
+        "total_completion_tokens": 70297,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.029323242,
+        "native_known_subtotal_usd": 0.029323242,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.029323242,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "reward": 1.0,
+      "exception_type": "AgentTimeoutError",
+      "duration_sec": 1529.904,
+      "environment_setup_sec": 67.384,
+      "agent_setup_sec": 63.186,
+      "agent_execution_sec": 900.008,
+      "verifier_sec": 485.522,
+      "steps": 21,
+      "model_steps": 20,
+      "model_stop_reasons": {
+        "tool_use": 20
+      },
+      "last_model_stop_reason": "tool_use",
+      "tool_calls": 22,
+      "terminal_status": "failed",
+      "terminal_outcome": null,
+      "terminal_error_type": "KeyError",
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/pytorch-model-recovery:20260430",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+      ],
+      "usage": {
+        "total_prompt_tokens": 354313,
+        "total_cached_tokens": 312576,
+        "total_completion_tokens": 19527,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.005660289,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.006448779,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": false,
+          "n_cache_tokens": false,
+          "n_output_tokens": false,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": true
+      }
+    },
+    {
+      "task": "terminal-bench/circuit-fibsqrt",
+      "task_ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+      "reward": 0.0,
+      "exception_type": null,
+      "duration_sec": 301.615,
+      "environment_setup_sec": 16.123,
+      "agent_setup_sec": 46.034,
+      "agent_execution_sec": 205.079,
+      "verifier_sec": 23.154,
+      "steps": 3,
+      "model_steps": 2,
+      "model_stop_reasons": {
+        "tool_use": 1,
+        "max_tokens": 1
+      },
+      "last_model_stop_reason": "max_tokens",
+      "tool_calls": 2,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 3600.0
+        },
+        "verifier": {
+          "timeout_sec": 3600.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/circuit-fibsqrt:20251031",
+          "cpus": 1,
+          "memory_mb": 2048,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+      ],
+      "usage": {
+        "total_prompt_tokens": 7590,
+        "total_cached_tokens": 2304,
+        "total_completion_tokens": 8808,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": 0.001051326,
+        "native_known_subtotal_usd": 0.001051326,
+        "native_cost_is_partial": false,
+        "reconciled_total_usd": 0.001051326,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    },
+    {
+      "task": "terminal-bench/merge-diff-arc-agi-task",
+      "task_ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
+      "reward": 1.0,
+      "exception_type": null,
+      "duration_sec": 237.431,
+      "environment_setup_sec": 14.434,
+      "agent_setup_sec": 66.768,
+      "agent_execution_sec": 123.169,
+      "verifier_sec": 21.67,
+      "steps": 15,
+      "model_steps": 14,
+      "model_stop_reasons": {
+        "tool_use": 13,
+        "end_turn": 1
+      },
+      "last_model_stop_reason": "end_turn",
+      "tool_calls": 15,
+      "terminal_status": "completed",
+      "terminal_outcome": "completed",
+      "terminal_error_type": null,
+      "task_limits_and_environment": {
+        "agent": {
+          "timeout_sec": 900.0
+        },
+        "verifier": {
+          "timeout_sec": 900.0
+        },
+        "environment": {
+          "build_timeout_sec": 600.0,
+          "docker_image": "alexgshaw/merge-diff-arc-agi-task:20251031",
+          "cpus": 1,
+          "memory_mb": 4096,
+          "storage_mb": 10240,
+          "gpus": 0,
+          "allow_internet": true,
+          "mcp_servers": []
+        }
+      },
+      "task_image_digests": [
+        "alexgshaw/merge-diff-arc-agi-task@sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4"
+      ],
+      "usage": {
+        "total_prompt_tokens": 130371,
+        "total_cached_tokens": 121856,
+        "total_completion_tokens": 8768,
+        "complete": true
+      },
+      "cost": {
+        "native_total_usd": null,
+        "native_known_subtotal_usd": 0.002175354,
+        "native_cost_is_partial": true,
+        "reconciled_total_usd": 0.002268999,
+        "reconciled_cost_complete": true
+      },
+      "validation": {
+        "atif_valid": true,
+        "original_harbor_metrics_match": {
+          "n_input_tokens": true,
+          "n_cache_tokens": true,
+          "n_output_tokens": true,
+          "cost_usd": true
+        },
+        "trajectory_arrived_after_missing_diagnostic": false
+      }
+    }
+  ],
+  "timeout_observation": {
+    "task": "terminal-bench/pytorch-model-recovery",
+    "time_reference": "Seconds since Harbor agent execution started",
+    "timeout_at_sec": 900.029,
+    "verifier_started_at_sec": 901.366,
+    "model_calls_started_after_timeout_at_sec": [
+      928.758,
+      939.104
+    ],
+    "native_failure_recorded_at_sec": 1063.365,
+    "verifier_finished_at_sec": 1386.888,
+    "last_tool_name": "edit",
+    "last_tool_argument_keys": [
+      "new_text",
+      "old_text"
+    ],
+    "native_terminal_error": "KeyError",
+    "interpretation": "Two new model calls started after the Harbor timeout, while the verifier was running. The later native terminal records KeyError for a missing edit path. Reward 1 is retained but excluded from passes without a Harbor exception. The timeout did not promptly stop the container agent; the late trajectory was not reflected in original Harbor metrics."
+  },
+  "follow_up_plan": [
+    "Handle max_tokens explicitly and evaluate the per-response reasoning/output budget.",
+    "Make missing tool arguments recoverable without crashing stdout event projection.",
+    "Stop the container agent before verification on timeout and collect the final trajectory reliably.",
+    "Support separate delayed cost reconciliation without replacing incomplete values with zero.",
+    "After fixes, rerun these same 20 task hashes under a new agent revision and job name; use that pilot to budget the full 89-task run."
+  ],
+  "local_artifacts": {
+    "archive_path": "jobs/tb21-flash0731-pilot20-20260906-artifacts.tar.gz",
+    "archive_sha256": "680a59abb6d80b8f2d12b5c164219475eee6acf8665ee84f96d9211785fd2dc2",
+    "archive_size_bytes": 861842,
+    "availability": "Local git-ignored archive; not uploaded. Raw logs, detailed receipts, request identifiers, exact event times, host hardware information, and per-file redaction checksums are kept in local records.",
+    "archive_credentials_redacted": true
+  }
+}
