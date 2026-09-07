@@ -1,5 +1,8 @@
 # Event Journal Implementation Protocol v1
 
+> This page preserves the historical v1 contract. The current writer uses
+> [v2](event-journal-protocol-v2.md); the reader still supports v1.
+
 > Generated from the Chinese source
 > [`../zh-CN/event-journal-protocol-v1.md`](../zh-CN/event-journal-protocol-v1.md).
 > Do not edit by hand.

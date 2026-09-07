@@ -54,6 +54,7 @@ from .event_journal import (
     JsonObject,
     JsonValue,
     NativeEvent,
+    RunOutcome,
     utc_now,
 )
 from .read_tool import READ_TOOL, run_read
@@ -65,6 +66,11 @@ from .write_tool import WRITE_TOOL, content_preview, run_write
 # the config file.
 DEFAULT_MODEL = "claude-sonnet-4-6"
 MAX_TOKENS = 8192
+
+_TRUNCATION_NOTICE = (
+    "[response truncated: reached max_tokens; stopped without finishing the task. "
+    "Tool calls from this response were not executed.]"
+)
 
 # How many model replies one headless task may spend before the run stops on
 # its own. The interactive loop needs no such cap — a human watching the
@@ -192,6 +198,8 @@ class _TextOutputProjector:
             model_call_id = str(event.payload["model_call_id"])
             if model_call_id in self._model_calls_with_text:
                 print()
+            if event.payload["stop_reason"] == "max_tokens":
+                print(_TRUNCATION_NOTICE, file=sys.stderr)
         elif event.type == "tool.started":
             tool_name = str(event.payload["tool_name"])
             arguments = event.payload["input"]
@@ -354,13 +362,13 @@ def _run_exchange(
     max_turns: int | None = None,
     reply_prefix: str = "\nAgent> ",
     trajectory_path: Path | None = None,
-) -> bool:
+) -> RunOutcome:
     """Reply to the conversation so far, running tools until the model stops.
 
-    Appends every assistant reply and tool result to ``messages`` in place.
-    Returns True when the model ended a reply without asking for tools, and
-    False when ``max_turns`` replies were spent while it was still calling
-    them — the caller decides what an exhausted budget means.
+    Appends assistant replies and tool results to ``messages`` in place.
+    A truncated reply retains only its text and a notice in request history;
+    the original response is kept in the journal. Returns the stopping outcome,
+    distinguishing completion, turn-budget exhaustion, and response truncation.
     """
     run_id = f"run-{uuid.uuid4()}"
     run_started_ns = time.perf_counter_ns()
@@ -390,7 +398,7 @@ def _run_exchange(
             },
         )
         try:
-            finished = _run_model_loop(
+            outcome = _run_model_loop(
                 client,
                 model,
                 messages,
@@ -421,7 +429,7 @@ def _run_exchange(
             emitter.emit(
                 "run.completed",
                 {
-                    "outcome": "completed" if finished else "max_turns_exhausted",
+                    "outcome": outcome,
                     "duration_ms": (time.perf_counter_ns() - run_started_ns)
                     / 1_000_000,
                     **(
@@ -438,7 +446,7 @@ def _run_exchange(
                     project_atif(EventJournal.replay(journal.path)),
                     trajectory_path,
                 )
-        return finished
+        return outcome
 
 
 def _run_model_loop(
@@ -449,7 +457,7 @@ def _run_model_loop(
     *,
     emitter: EventEmitter,
     max_turns: int | None,
-) -> bool:
+) -> RunOutcome:
     """Run model replies and tool calls for an already-started Agent Run."""
     turns = 0
     while True:
@@ -517,13 +525,27 @@ def _run_model_loop(
         emitter.emit("model.completed", payload)
 
         turns += 1
+        if message.stop_reason == "max_tokens":
+            # Do not execute partial tool calls or replay them without results.
+            # Thinking may also be cut off before its signature arrives. Keep
+            # visible text and an explicit notice for the next interactive turn.
+            text = "".join(
+                block.text for block in message.content if block.type == "text"
+            )
+            messages.append(
+                {
+                    "role": "assistant",
+                    "content": (f"{text}\n\n" if text else "") + _TRUNCATION_NOTICE,
+                }
+            )
+            return "response_truncated"
         messages.append({"role": "assistant", "content": message.content})
         if message.stop_reason != "tool_use":
-            return True
+            return "completed"
         if max_turns is not None and turns >= max_turns:
             # Stop before running the tools: their results would only be
             # useful to a reply this budget can no longer pay for.
-            return False
+            return "max_turns_exhausted"
         # Every tool_use block needs a matching tool_result in the next
         # user message, or the API rejects the request.
         results = [
@@ -655,7 +677,7 @@ def run_headless(
 
     messages: list[MessageParam] = [{"role": "user", "content": task}]
     try:
-        finished = _run_exchange(
+        outcome = _run_exchange(
             client,
             model,
             messages,
@@ -671,7 +693,7 @@ def run_headless(
         # swallowing it, throws that away.
         print(f"API error: {exc}", file=sys.stderr)
         return 1
-    if not finished:
+    if outcome == "max_turns_exhausted":
         turns = "turn" if max_turns == 1 else "turns"
         print(
             f"[stopped after {max_turns} {turns} without finishing the task]",

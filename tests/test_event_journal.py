@@ -54,7 +54,7 @@ def test_journal_entry_wraps_the_native_event_with_ordering_metadata(tmp_path):
         },
     }
     assert entry.to_dict() == {
-        "schema_version": 1,
+        "schema_version": 2,
         "run_id": "run-123",
         "seq": 1,
         "recorded_at": "2026-08-23T08:00:01.420Z",
@@ -336,11 +336,12 @@ def test_native_event_contract_rejects_non_json_values(content):
         )
 
 
-def test_journal_entry_rejects_boolean_schema_version():
+@pytest.mark.parametrize("schema_version", [True, 0, 3, "2"])
+def test_journal_entry_rejects_unsupported_schema_version(schema_version):
     with pytest.raises(ValueError, match="unsupported Journal Entry schema"):
         JournalEntry.from_dict(
             {
-                "schema_version": True,
+                "schema_version": schema_version,
                 "run_id": "run-1",
                 "seq": 1,
                 "recorded_at": "2026-08-23T08:00:00.000Z",

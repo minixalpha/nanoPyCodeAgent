@@ -1,5 +1,7 @@
 # Event Journal 实现协议 v1
 
+> 此页保留历史 v1 契约；当前 writer 使用 [v2](event-journal-protocol-v2.md)，reader 仍支持 v1。
+
 > 本文件为**中文源文件**（source of truth）；英文版
 > [`../en/event-journal-protocol-v1.md`](../en/event-journal-protocol-v1.md)
 > 由其生成。
