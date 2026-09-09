@@ -70,10 +70,16 @@ nanoPyCodeAgent -p "fix the failing tests"
 工具,这些工具不会执行,因为已经没有下一轮回复可以使用工具结果。达到上限时,命令
 会在 stderr 打印诊断,但仍属于一次正常的 headless 退出。
 
+每次回复还受独立的 8192 生成 token 固定上限约束。如果 provider 返回
+`stop_reason="max_tokens"`,agent 会停止本次 run,向 stderr 打印截断诊断,并跳过该
+回复中的所有工具调用。已输出的文本会保留,trajectory 的终态 outcome 记录为
+`response_truncated`。Headless 模式仍退出 `0`,不会自动重试或续写。交互模式会
+返回 `You>`,会话历史中保留部分文本和截断提示,用户可以在后续消息中继续对话。
+
 ## 输出通道
 
 Headless run 期间,stdout 包含流式模型文本以及回显的工具调用和工具结果。启动 banner、
-轮数上限诊断和 API 错误写入 stderr。调用方因此可以捕获 run output,同时保留运行
+预算上限诊断和 API 错误写入 stderr。调用方因此可以捕获 run output,同时保留运行
 诊断。
 
 `--trajectory` 不会改变 stdout。目前没有 JSON 或 JSONL stdout 模式。

@@ -9,7 +9,12 @@ from collections.abc import Sequence
 from decimal import Decimal
 from pathlib import Path
 
-from .event_journal import JsonObject, JsonValue, JournalEntry, SCHEMA_VERSION
+from .event_journal import (
+    SUPPORTED_SCHEMA_VERSIONS,
+    JsonObject,
+    JsonValue,
+    JournalEntry,
+)
 
 ATIF_SCHEMA_VERSION = "ATIF-v1.7"
 
@@ -226,7 +231,9 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
     """Fold a complete headless Event Journal into one ATIF-v1.7 document."""
     if not entries:
         raise AtifProjectionError("cannot project an empty Event Journal")
-    if any(entry.schema_version != SCHEMA_VERSION for entry in entries):
+    if any(
+        entry.schema_version not in SUPPORTED_SCHEMA_VERSIONS for entry in entries
+    ):
         raise AtifProjectionError("unsupported Event Journal schema")
     run_ids = {entry.run_id for entry in entries}
     if len(run_ids) != 1:

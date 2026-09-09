@@ -15,12 +15,15 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Callable, Mapping
+from typing import Callable, Literal, Mapping
 
 from . import settings
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+SUPPORTED_SCHEMA_VERSIONS = frozenset({1, 2})
 DEFAULT_MAX_STRING_CHARS = 100_000
+
+type RunOutcome = Literal["completed", "max_turns_exhausted", "response_truncated"]
 
 EVENT_TYPES = frozenset(
     {
@@ -410,7 +413,9 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
                 )
             _validate_tool_error(payload.get("error"))
     elif event_type == "run.completed":
-        if payload["outcome"] not in {"completed", "max_turns_exhausted"}:
+        if payload["outcome"] not in {
+            "completed", "max_turns_exhausted", "response_truncated"
+        }:
             raise ValueError("run.completed.outcome is unsupported")
         _validate_cost_reconciliation(payload, event_type)
     elif event_type == "run.failed":
@@ -421,7 +426,7 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
 
 @dataclass(frozen=True, slots=True)
 class NativeEvent:
-    """One version-one runtime fact produced by the agent core."""
+    """One runtime fact produced by the agent core."""
 
     type: str
     payload: JsonObject
@@ -439,7 +444,7 @@ class NativeEvent:
         _validate_native_payload(self.type, self.payload)
 
     def to_dict(self) -> JsonObject:
-        """Return the version-one wire representation of this fact."""
+        """Return the wire representation of this fact."""
         return {"type": self.type, "payload": self.payload}
 
 
@@ -491,7 +496,7 @@ class JournalEntry:
 
     @classmethod
     def from_dict(cls, value: Mapping[str, object]) -> JournalEntry:
-        """Validate and rebuild one version-one Journal Entry."""
+        """Validate and rebuild one supported Journal Entry."""
         schema_version = value.get("schema_version")
         run_id = value.get("run_id")
         seq = value.get("seq")
@@ -502,7 +507,7 @@ class JournalEntry:
         if (
             not isinstance(schema_version, int)
             or isinstance(schema_version, bool)
-            or schema_version != SCHEMA_VERSION
+            or schema_version not in SUPPORTED_SCHEMA_VERSIONS
         ):
             raise ValueError(f"unsupported Journal Entry schema: {schema_version}")
         if not isinstance(run_id, str) or not run_id:
@@ -517,6 +522,12 @@ class JournalEntry:
         if truncation is not None:
             _validate_truncation(truncation)
         event = NativeEvent(event_type, payload)
+        if (
+            schema_version == 1
+            and event.type == "run.completed"
+            and event.payload["outcome"] == "response_truncated"
+        ):
+            raise ValueError("response_truncated requires Journal Entry schema 2")
         return cls(
             schema_version=schema_version,
             run_id=run_id,

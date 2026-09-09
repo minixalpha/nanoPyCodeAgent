@@ -79,10 +79,18 @@ calls. If reply `N` still requests tools, those tools are not run because no
 reply remains to consume their results. Reaching the limit prints a diagnostic
 to stderr but is still a normal headless exit.
 
+Each reply has a separate fixed limit of 8192 generated tokens. If the provider
+returns `stop_reason="max_tokens"`, the agent stops that run, prints a truncation
+diagnostic to stderr, and skips all tools from that reply. It preserves partial
+text and records `response_truncated` as the trajectory terminal outcome.
+Headless mode still exits `0`; it does not retry or continue automatically.
+Interactive mode returns to `You>` with the partial text and a truncation notice
+in conversation history, so a later user message can continue the conversation.
+
 ## Output channels
 
 During a headless run, stdout carries the streamed model text plus echoed tool
-calls and tool results. The startup banner, turn-limit diagnostic, and API
+calls and tool results. The startup banner, budget-limit diagnostics, and API
 errors go to stderr. This separation lets callers capture the run output while
 retaining operational diagnostics.
 
