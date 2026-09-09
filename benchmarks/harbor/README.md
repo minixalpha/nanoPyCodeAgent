@@ -45,6 +45,14 @@ container's current directory, and saves combined stdout/stderr to
 `/logs/agent/nanopycodeagent.txt`. It uses the CLI's 50-turn default; override
 that with `--agent-kwarg max_turns=20`.
 
+For the per-reply generation limit, pass `--agent-kwarg max_tokens=32768`.
+This becomes `--max-tokens 32768` in the container and overrides the forwarded
+`ANTHROPIC_MAX_TOKENS` environment variable. When omitted, the adapter sends no
+token flag, so the installed agent's environment/settings/default applies
+(32768 in the version introducing this option). Older releases require omitting
+the new option. The effective budget is recorded in the startup log and in
+`agent.extra.max_tokens` in the ATIF trajectory.
+
 The adapter also asks the agent to write an ATIF-v1.7 trajectory directly to
 `/logs/agent/trajectory.json`. Harbor collects that file as the trial's native
 ATIF output and backfills prompt, completion, cache-token, and cost totals into

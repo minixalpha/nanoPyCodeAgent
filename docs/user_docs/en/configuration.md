@@ -24,6 +24,10 @@ The settings file is loaded before the Anthropic client is created and before
 the model is selected, so the same precedence applies in interactive and
 headless modes.
 
+The per-reply generation limit also accepts `--max-tokens N`. For this setting,
+the order is **CLI > environment > settings file > 32768**. It is resolved once
+at startup and applies to every model reply in that invocation.
+
 ## Supported settings
 
 | Variable | Required | Default | Description |
@@ -32,13 +36,14 @@ headless modes.
 | `ANTHROPIC_AUTH_TOKEN` | One credential is required | none | Bearer token used for services that authenticate with `Authorization: Bearer`, such as OpenRouter's Anthropic-compatible endpoint. |
 | `ANTHROPIC_BASE_URL` | No | `https://api.anthropic.com` | Base URL used by the Anthropic SDK. Set it for a compatible proxy or third-party endpoint; leave it unset for the official API. |
 | `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Model passed to every Messages API call. |
+| `ANTHROPIC_MAX_TOKENS` | No | `32768` | Positive integer controlling the generated tokens per model reply. Overridden by `--max-tokens`. |
 
 At least one of `ANTHROPIC_API_KEY` or `ANTHROPIC_AUTH_TOKEN` must provide a
 usable credential. If neither is available, the command reports the missing
 credentials on stderr and exits with status `1` before starting an Agent Run.
 
 The settings-file loader accepts any key whose name begins with `ANTHROPIC_`.
-The four variables above are the nanoPyCodeAgent configuration contract;
+The five variables above are the nanoPyCodeAgent configuration contract;
 additional variables are interpreted, if at all, by the installed Anthropic
 Python SDK and can change with that dependency.
 
@@ -83,7 +88,8 @@ the `env` field in [Claude Code settings](https://code.claude.com/docs/en/settin
     "ANTHROPIC_API_KEY": "",
     "ANTHROPIC_AUTH_TOKEN": "",
     "ANTHROPIC_BASE_URL": "",
-    "ANTHROPIC_MODEL": ""
+    "ANTHROPIC_MODEL": "",
+    "ANTHROPIC_MAX_TOKENS": ""
   }
 }
 ```
@@ -96,7 +102,8 @@ rest empty or remove their keys. For example:
   "env": {
     "ANTHROPIC_AUTH_TOKEN": "your-token",
     "ANTHROPIC_BASE_URL": "https://example.com/anthropic",
-    "ANTHROPIC_MODEL": "provider/model-name"
+    "ANTHROPIC_MODEL": "provider/model-name",
+    "ANTHROPIC_MAX_TOKENS": "32768"
   }
 }
 ```
@@ -143,6 +150,12 @@ supply it:
 ```bash
 unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN ANTHROPIC_BASE_URL ANTHROPIC_MODEL
 ```
+
+For `ANTHROPIC_MAX_TOKENS`, a final environment value that is empty, non-integer,
+zero, or negative is a usage error (exit `2`) before any model request. A valid
+CLI override takes precedence even over an invalid budget in the environment.
+Settings-file entries follow the string-only and placeholder rules above;
+write the budget as `"32768"`, not a JSON number.
 
 ## Precedence example
 

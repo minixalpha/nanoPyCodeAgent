@@ -10,7 +10,7 @@ task.
 ## Synopsis
 
 ```text
-nanoPyCodeAgent [-h] [-p TEXT | --prompt-file PATH] [--max-turns N]
+nanoPyCodeAgent [-h] [-p TEXT | --prompt-file PATH] [--max-turns N] [--max-tokens N]
                 [--trajectory PATH] [--version]
 ```
 
@@ -71,6 +71,7 @@ working directory.
 | `-p TEXT`, `--prompt TEXT` | — | Run `TEXT` as one headless task. |
 | `--prompt-file PATH` | — | Read one headless task from a UTF-8 file. The file must be readable and contain a non-empty task. |
 | `--max-turns N` | `50` | Allow at most `N` model replies in a headless run. `N` must be an integer of at least `1`. |
+| `--max-tokens N` | `ANTHROPIC_MAX_TOKENS` or `32768` | Maximum generated tokens per model reply in either mode. `N` must be a positive integer; the CLI value overrides environment and settings-file values. |
 | `--trajectory PATH` | disabled | Write the headless run as one ATIF-v1.7 JSON document. See [Trajectory output](#trajectory-output). |
 | `--version` | — | Print `nanoPyCodeAgent VERSION` and exit successfully. |
 
@@ -79,7 +80,14 @@ calls. If reply `N` still requests tools, those tools are not run because no
 reply remains to consume their results. Reaching the limit prints a diagnostic
 to stderr but is still a normal headless exit.
 
-Each reply has a separate fixed limit of 8192 generated tokens. If the provider
+Each reply has a separate generation limit, defaulting to **32768** tokens.
+Use `--max-tokens 65536` to override it for one invocation; use
+`ANTHROPIC_MAX_TOKENS` in the environment or settings file for a persistent
+default. The provider must accept the requested limit for the chosen model.
+The limit applies to the whole generated reply, including thinking where the
+provider counts it; it is not a guaranteed amount of visible answer text.
+
+If the provider
 returns `stop_reason="max_tokens"`, the agent stops that run, prints a truncation
 diagnostic to stderr, and skips all tools from that reply. It preserves partial
 text and records `response_truncated` as the trajectory terminal outcome.
@@ -103,7 +111,7 @@ stdout mode.
 | --- | --- |
 | `0` | Help or version output completed; an interactive session ended normally; or a headless run started and returned control, even if the model gave up, left work incomplete, or exhausted `--max-turns`. |
 | `1` | A runtime or infrastructure failure prevented a normal run, including missing API credentials or an Anthropic/HTTP API failure. |
-| `2` | Command-line usage was invalid, including conflicting or empty task input, an invalid turn limit, an unreadable prompt file, or an invalid trajectory destination. |
+| `2` | Command-line usage or the generation-budget setting was invalid, including conflicting or empty task input, an invalid turn or token limit, an unreadable prompt file, or an invalid trajectory destination. |
 
 Exit status `0` does not certify that a headless task succeeded. A script or
 benchmark must inspect the resulting workspace or run its own verifier.
@@ -126,6 +134,11 @@ stdout. Its task, model replies, tool arguments, tool results, timing, usage,
 cost information when available, and terminal state describe a single Agent
 Run. A caught API failure after the run has started produces a partial
 trajectory with a failed terminal state.
+
+The startup banner and `run.started.max_tokens` in the Journal record the
+effective per-reply limit. ATIF exposes it as `agent.extra.max_tokens`, separately
+from actual token usage. Older journals without this field still export;
+their trajectories omit the unknown limit.
 
 The path contract is:
 

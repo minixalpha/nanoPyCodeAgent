@@ -6,7 +6,10 @@ import pytest
 
 from nanopycodeagent import settings
 
-_MANAGED_ENV = ("ANTHROPIC_API_KEY", "ANTHROPIC_BASE_URL", "ANTHROPIC_MODEL")
+_MANAGED_ENV = (
+    "ANTHROPIC_API_KEY", "ANTHROPIC_BASE_URL", "ANTHROPIC_MODEL",
+    "ANTHROPIC_MAX_TOKENS",
+)
 
 
 @pytest.fixture(autouse=True)

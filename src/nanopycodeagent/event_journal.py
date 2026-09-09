@@ -299,6 +299,15 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             raise ValueError(f"{event_type}.duration_ms must be non-negative")
 
     if event_type == "run.started":
+        # Optional so journals written before configurable budgets still replay.
+        if "max_tokens" in payload:
+            max_tokens = payload["max_tokens"]
+            if (
+                not isinstance(max_tokens, int)
+                or isinstance(max_tokens, bool)
+                or max_tokens < 1
+            ):
+                raise ValueError("run.started.max_tokens must be a positive integer")
         if payload["mode"] not in {"interactive", "headless"}:
             raise ValueError("run.started.mode must be interactive or headless")
         _require_string(payload, "model", event_type)
