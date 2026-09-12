@@ -29,18 +29,19 @@ def _journal_entries():
 
 
 @pytest.mark.parametrize("max_turns", [1, 5])
+@pytest.mark.parametrize("max_tokens", [8192, 32768])
 @pytest.mark.parametrize("content", [
     [text_block("Partial answer")],
     [ThinkingBlock(type="thinking", thinking="Still analyzing", signature="")],
     [],
 ])
 def test_truncation_stops_with_usage_cost_and_distinct_terminal(
-    monkeypatch, tmp_path, capsys, content, max_turns
+    monkeypatch, tmp_path, capsys, content, max_turns, max_tokens
 ):
     reply = FakeStream(
         content,
         stop_reason="max_tokens",
-        usage=SimpleNamespace(input_tokens=10, output_tokens=8192),
+        usage=SimpleNamespace(input_tokens=10, output_tokens=max_tokens),
         response_headers={"x-generation-id": "gen-truncated"},
     )
     messages = FakeMessages([reply])
@@ -60,11 +61,12 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     trajectory_path = tmp_path / "trajectory.json"
     assert cli.main([
         "-p", "fix it", "--max-turns", str(max_turns),
+        "--max-tokens", str(max_tokens),
         "--trajectory", str(trajectory_path),
     ]) == 0
 
     assert len(messages.calls) == 1
-    assert messages.kwargs[0]["max_tokens"] == 8192
+    assert messages.kwargs[0]["max_tokens"] == max_tokens
     captured = capsys.readouterr()
     assert captured.out == ("Partial answer\n" if content and content[0].type == "text" else "")
     assert "response truncated" in captured.err
@@ -78,7 +80,7 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     assert entries[-1].payload["outcome"] == "response_truncated"
     completed = next(entry for entry in entries if entry.type == "model.completed")
     assert completed.payload["stop_reason"] == "max_tokens"
-    assert completed.payload["usage"]["output_tokens"] == 8192
+    assert completed.payload["usage"]["output_tokens"] == max_tokens
     assert completed.payload["content"] == agent._native_content_blocks(content)
     assert not any(entry.type.startswith("tool.") for entry in entries)
 
@@ -87,7 +89,8 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     assert trajectory["extra"]["terminal"]["outcome"] == "response_truncated"
     assert trajectory["steps"][1]["extra"]["stop_reason"] == "max_tokens"
     assert trajectory["final_metrics"]["total_prompt_tokens"] == 10
-    assert trajectory["final_metrics"]["total_completion_tokens"] == 8192
+    assert trajectory["agent"]["extra"]["max_tokens"] == max_tokens
+    assert trajectory["final_metrics"]["total_completion_tokens"] == max_tokens
     assert trajectory["final_metrics"]["total_cost_usd"] == 0.01
 
 
@@ -162,10 +165,11 @@ def test_sdk_stream_with_partial_tool_json_preserves_truncation(
     ) as client:
         patch_client(monkeypatch, client)
         assert agent.run_headless(
-            "write a file", trajectory_path=tmp_path / "trajectory.json"
+            "write a file", max_tokens=65536, trajectory_path=tmp_path / "trajectory.json"
         ) == 0
 
     assert len(requests) == 1
+    assert json.loads(requests[0].content)["max_tokens"] == 65536
     assert "response truncated" in capsys.readouterr().err
     entries = _journal_entries()
     assert entries[-1].payload["outcome"] == "response_truncated"

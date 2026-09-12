@@ -9,7 +9,7 @@
 ## 命令格式
 
 ```text
-nanoPyCodeAgent [-h] [-p TEXT | --prompt-file PATH] [--max-turns N]
+nanoPyCodeAgent [-h] [-p TEXT | --prompt-file PATH] [--max-turns N] [--max-tokens N]
                 [--trajectory PATH] [--version]
 ```
 
@@ -63,6 +63,7 @@ nanoPyCodeAgent -p "fix the failing tests"
 | `-p TEXT`、`--prompt TEXT` | 无 | 把 `TEXT` 作为一次 headless 任务运行。 |
 | `--prompt-file PATH` | 无 | 从 UTF-8 文件读取一次 headless 任务;文件必须可读并包含非空任务。 |
 | `--max-turns N` | `50` | 一次 headless run 最多允许 `N` 轮模型回复;`N` 必须是大于或等于 `1` 的整数。 |
+| `--max-tokens N` | `ANTHROPIC_MAX_TOKENS` 或 `32768` | 两种模式下每次模型回复的最大生成 token 数。`N` 必须是正整数；CLI 值优先于环境变量与 settings 文件。 |
 | `--trajectory PATH` | 禁用 | 把 headless run 写成一份 ATIF-v1.7 JSON 文档;参见[Trajectory 输出](#trajectory-输出)。 |
 | `--version` | 无 | 打印 `nanoPyCodeAgent VERSION` 并成功退出。 |
 
@@ -70,7 +71,13 @@ nanoPyCodeAgent -p "fix the failing tests"
 工具,这些工具不会执行,因为已经没有下一轮回复可以使用工具结果。达到上限时,命令
 会在 stderr 打印诊断,但仍属于一次正常的 headless 退出。
 
-每次回复还受独立的 8192 生成 token 固定上限约束。如果 provider 返回
+每次回复还受独立的生成上限约束，默认为 **32768** tokens。可用
+`--max-tokens 65536` 覆盖本次调用，或通过环境变量、settings 文件中的
+`ANTHROPIC_MAX_TOKENS` 设置持久默认值。所选模型与 provider 必须接受该上限。
+它限制整次生成；provider 将 thinking 计入生成预算时，thinking 也占用这一上限，
+因此它不保证相同数量的可见回答文本。
+
+如果 provider 返回
 `stop_reason="max_tokens"`,agent 会停止本次 run,向 stderr 打印截断诊断,并跳过该
 回复中的所有工具调用。已输出的文本会保留,trajectory 的终态 outcome 记录为
 `response_truncated`。Headless 模式仍退出 `0`,不会自动重试或续写。交互模式会
@@ -90,7 +97,7 @@ Headless run 期间,stdout 包含流式模型文本以及回显的工具调用�
 | --- | --- |
 | `0` | help 或 version 输出完成;交互会话正常结束;或者 headless run 已经启动并交回控制权,即使模型放弃、工作未完成或用尽了 `--max-turns`。 |
 | `1` | runtime 或基础设施故障阻止了正常运行,包括缺少 API 凭据或 Anthropic/HTTP API 失败。 |
-| `2` | 命令行用法无效,包括任务输入冲突或为空、轮数上限无效、prompt file 无法读取,或者 trajectory 目标无效。 |
+| `2` | 命令行用法无效,包括任务输入冲突或为空、轮数或生成 token 上限无效、prompt file 无法读取,或者 trajectory 目标无效。 |
 
 退出状态 `0` 不证明 headless 任务成功。脚本或 benchmark 必须检查产生的 workspace,
 或者运行自己的 verifier。CLI 未处理的意外故障也可能让进程以非零状态和 traceback
@@ -110,6 +117,10 @@ nanoPyCodeAgent -p "read README.md and summarize it" \
 Trajectory 是独立 artifact,不会替代或重定向 stdout。它描述单次 Agent Run 的任务、
 模型回复、工具参数、工具结果、时间、用量、可获得的成本信息和终态。如果 run 启动后
 发生被捕获的 API 失败,仍会产生带失败终态的 partial trajectory。
+
+启动提示和 Journal 的 `run.started.max_tokens` 记录最终生效的单次生成上限;
+ATIF 将它保存在 `agent.extra.max_tokens` 中。这是请求预算,实际消耗仍由 usage
+字段记录。旧 Journal 没有预算信息时,转换后的 ATIF 会省略此字段。
 
 路径契约如下:
 

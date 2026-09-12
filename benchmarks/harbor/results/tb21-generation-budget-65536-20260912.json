@@ -1,0 +1,1449 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-12T17:19:18.073195+00:00",
+  "purpose": "Generation-budget diagnostics: 24 attempts over 19 distinct tasks, including separate infrastructure and recorder retries. This is not a single leaderboard run or a controlled budget-only comparison.",
+  "agent_ref": "7a610cbf87ee3ac27f8cdb8a4329076f210dee8d",
+  "baseline_agent_ref": "2b8309794cb9e00cb4d3b08baf1e4733153105e0",
+  "baseline_result": "benchmarks/harbor/results/tb21-flash0731-pilot20-20260906.json",
+  "wheel_sha256": "91996b1d4c70af8062318a38b3af9235c85d93c9685e10ac1323f3bef3625425",
+  "model": "openrouter/deepseek/deepseek-v4-flash-0731",
+  "dataset": "terminal-bench/terminal-bench-2-1",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "configuration": {
+    "max_tokens": 65536,
+    "project_default_max_tokens": 32768,
+    "max_turns": 50,
+    "agent_execution_limit_seconds": 3600,
+    "finalization_grace_seconds": 120,
+    "harbor_outer_limit_seconds": 3780,
+    "agent_setup_limit_seconds": 1080,
+    "verifier_limits": "Native task deadlines",
+    "maximum_simultaneous_trials": 2,
+    "automatic_harbor_retries": 0
+  },
+  "observations": {
+    "remaining18_initial": {
+      "attempts": 18,
+      "passed": 5,
+      "scored_zero": 8,
+      "unscored": 5
+    },
+    "remaining18_baseline_passed": 8,
+    "supplemental_attempts_on_remaining18": 5,
+    "supplemental_new_passes": 0,
+    "any_max_tokens_stop": false,
+    "any_agent_deadline": false,
+    "tasks_using_more_than_32768_in_a_reply": [
+      "schemelike-metacircular-eval",
+      "regex-chess",
+      "dna-assembly"
+    ],
+    "passing_tasks_using_more_than_32768_in_a_reply": [],
+    "tasks_with_missing_or_malformed_tool_inputs_raising_KeyError": [
+      "circuit-fibsqrt",
+      "qemu-alpine-ssh",
+      "llm-inference-batching-scheduler",
+      "dna-assembly"
+    ],
+    "native_trajectories": 20,
+    "reconstructed_trajectories": 1,
+    "no_trajectory_before_agent_setup_completed": 3
+  },
+  "billing_known_lower_bound_usd": 0.280588638,
+  "billing_total_usd": null,
+  "billing_limit": "Tensor-parallelism billing lookup returned 404 on three checks. Separate receipts price the interrupted Scheme and scheduler requests without repairing missing native usage. The failed DNA TLS bootstrap received no response headers. Unknown usage and cost are not imputed as zero.",
+  "comparison_limits": [
+    "The 8192 baseline used another source revision and native task deadlines; dependencies, sampling, cache, and backend were not fixed.",
+    "All 18 initial task refs and cached image digests match the baseline. Instrumentation and installation changes are recorded per group.",
+    "The initial scheduler failed inside periodic stack dumping; its subsequent control avoided SIGSEGV but failed on malformed tool input.",
+    "The first cached DNA bootstrap omitted CA certificates; a public HTTPS probe confirmed the omission and a further trial restored original system dependencies.",
+    "The QEMU setup retry recorded reward zero after verifier dependency installation failed; pytest did not run.",
+    "regex-log was not rerun at 65536. Its two prior passes used 32768 and are excluded from this file.",
+    "Full local HTTP bodies and Journals are not uploaded; only diagnostic metadata is published."
+  ],
+  "experiments": [
+    {
+      "kind": "compressor",
+      "job": "tb21-compressor-65536-3600s-trace-20260912-7a610cb",
+      "purpose": "One compressor trial at 65536; the maximum reply was below 32768.",
+      "local_record": "jobs/tb21-compressor-65536-3600s-trace-20260912-7a610cb-record",
+      "counts": {
+        "attempts": 1,
+        "passed": 1,
+        "scored_zero": 0,
+        "unscored": 0
+      },
+      "billing_known_cost_usd": 0.018819072,
+      "billing_cost_complete": true,
+      "workflow_sha256": {
+        "run.py": "ffd0714f620c499a65da5c07fde9fdd4beb09f078616cf0de7f73a6092353379",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "diagnostic_runner.py": "9a83b3c0915d8daae53e5654096c9e312d3ab11d594cb36e851be982dc852654",
+        "status.py": "c1ae99b78f05efdcb37fff325ab0309d1b3d763741bb6372b674e373b3c78ebe",
+        "checkpoint_artifacts.py": "17785880a6ed1941fb49d92df3388ec76e36eba2def4e3989e3e9efa6494d874",
+        "analyze.py": "ed5be7c419a88ff96278f916aa0fdfd7ea77d5ecdf37890361e7ae0035692819",
+        "monitor.py": "af316ea66ab85681408d5cf5dc76fcae4531cee970952b3cf06999bf3763b9c6",
+        "checkpoint_when_needed.py": "c86a508b0802b788f510953f5d0c66730960c2922673ddda4acc8acee33cc477"
+      },
+      "trials": [
+        {
+          "task": "terminal-bench/write-compressor",
+          "task_ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+          "trial": "write-compressor__hzfqDFs",
+          "reward": 1.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.976,
+            "agent_setup": 278.203,
+            "agent_execution": 1976.369,
+            "verifier": 169.073
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "passed",
+          "model_calls_started": 32,
+          "model_calls_completed": 32,
+          "tool_calls": 32,
+          "max_reply_output_tokens": 32073,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 33,
+            "total_prompt_tokens": 1528746,
+            "total_completion_tokens": 59563,
+            "total_cached_tokens": 1471744,
+            "total_cost_usd": 0.018819072
+          },
+          "billing_known_cost_usd": 0.018819072,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.018819072,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-compressor-65536-3600s-trace-20260912-7a610cb/write-compressor__hzfqDFs/agent/trajectory.json",
+          "finding": "All three tests passed; output is 2263 bytes. Peak reply 32073 does not establish that doubling 32768 was necessary; this execution exceeded the original 900-second deadline."
+        }
+      ]
+    },
+    {
+      "kind": "initial18",
+      "job": "tb21-remaining18-65536-3600s-trace-20260912-7a610cb",
+      "purpose": "One initial attempt for each of the other 18 pilot tasks.",
+      "local_record": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb-record",
+      "counts": {
+        "attempts": 18,
+        "passed": 5,
+        "scored_zero": 8,
+        "unscored": 5
+      },
+      "billing_known_cost_usd": 0.242647727,
+      "billing_cost_complete": false,
+      "workflow_sha256": {
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "diagnostic_runner.py": "7619be9e15e514490fec10ac10c35cc9cc27c8f6dab0f7593462c25480761160",
+        "status.py": "c1ae99b78f05efdcb37fff325ab0309d1b3d763741bb6372b674e373b3c78ebe",
+        "run.py": "d168f5148c8c9d4a7e4bf62cca133e4d123df87c799c563ffc0f71e7922b56b6",
+        "monitor.py": "fad87a820be21b8187740d2a5a2f1b8e81550c34a4c8caa1e106335389215610"
+      },
+      "trials": [
+        {
+          "task": "terminal-bench/torch-tensor-parallelism",
+          "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+          "trial": "torch-tensor-parallelism__EEWJenL",
+          "reward": null,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.079,
+            "agent_setup": 1038.105,
+            "agent_execution": 427.656,
+            "verifier": 900.074
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "RemoteProtocolError",
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "RemoteProtocolError",
+          "model_calls_started": 1,
+          "model_calls_completed": 0,
+          "tool_calls": 0,
+          "max_reply_output_tokens": null,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": null,
+          "usage_complete": false,
+          "cost_complete": false,
+          "final_metrics": {
+            "total_steps": 2,
+            "extra": {
+              "usage_complete": false
+            }
+          },
+          "billing_known_cost_usd": 0.0,
+          "billing_cost_complete": false,
+          "billing_total_cost_usd": null,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": true,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 1,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/torch-tensor-parallelism__EEWJenL/agent/trajectory.json",
+          "finding": "The first response stream ended in RemoteProtocolError before any completed reply or tool call. Verifier dependency installation separately timed out after 900 seconds; no official score. Billing returned 404 on three checks, leaving usage and cost unknown."
+        },
+        {
+          "task": "terminal-bench/schemelike-metacircular-eval",
+          "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+          "trial": "schemelike-metacircular-eval__Xuw2yU4",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.074,
+            "agent_setup": 877.31,
+            "agent_execution": 1803.98,
+            "verifier": 26.426
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "RemoteProtocolError",
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "RemoteProtocolError",
+          "model_calls_started": 19,
+          "model_calls_completed": 18,
+          "tool_calls": 22,
+          "max_reply_output_tokens": 38496,
+          "replies_exceeding_32768": 1,
+          "last_stop_reason": "tool_use",
+          "usage_complete": false,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 20,
+            "extra": {
+              "usage_complete": false
+            },
+            "total_cost_usd": 0.021944872
+          },
+          "billing_known_cost_usd": 0.023049472,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.023049472,
+          "supplemental_cost_usd": 0.0011046,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 1,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/schemelike-metacircular-eval__Xuw2yU4/agent/trajectory.json",
+          "finding": "Reply 19 ended in RemoteProtocolError after 18 complete replies. The interpreter passed only 4 of 63 subcases. Reply 6 completed normally with 38496 output tokens; the eventual interruption did not report max_tokens."
+        },
+        {
+          "task": "terminal-bench/kv-store-grpc",
+          "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+          "trial": "kv-store-grpc__fGX6VEa",
+          "reward": 0.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.073,
+            "agent_setup": 152.627,
+            "agent_execution": 563.006,
+            "verifier": 59.378
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "verifier_failed",
+          "model_calls_started": 17,
+          "model_calls_completed": 17,
+          "tool_calls": 16,
+          "max_reply_output_tokens": 2772,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 18,
+            "total_prompt_tokens": 120910,
+            "total_completion_tokens": 11085,
+            "total_cached_tokens": 112384,
+            "total_cost_usd": 0.002126912
+          },
+          "billing_known_cost_usd": 0.002126912,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.002126912,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/kv-store-grpc__fGX6VEa/agent/trajectory.json",
+          "finding": "SetValRequest lacks the required value field. Five of seven tests passed, including service availability; the agent completed normally."
+        },
+        {
+          "task": "terminal-bench/pypi-server",
+          "task_ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+          "trial": "pypi-server__cbM9sLf",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.991,
+            "agent_setup": 610.047,
+            "agent_execution": 315.517,
+            "verifier": 34.26
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "passed",
+          "model_calls_started": 15,
+          "model_calls_completed": 15,
+          "tool_calls": 17,
+          "max_reply_output_tokens": 695,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 16,
+            "total_prompt_tokens": 72990,
+            "total_completion_tokens": 5216,
+            "total_cached_tokens": 64512,
+            "total_cost_usd": 0.001272496
+          },
+          "billing_known_cost_usd": 0.001272496,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.001272496,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/pypi-server__cbM9sLf/agent/trajectory.json",
+          "finding": "The official API test passed after installing the task package from the local PyPI server."
+        },
+        {
+          "task": "terminal-bench/dna-assembly",
+          "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+          "trial": "dna-assembly__HVY9Uhs",
+          "reward": null,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.965,
+            "agent_setup": 349.923,
+            "agent_execution": null,
+            "verifier": null
+          },
+          "terminal_outcome": null,
+          "exception_type": "NetworkConnectionError",
+          "failure_category": "NetworkConnectionError",
+          "last_stop_reason": null,
+          "usage_complete": false,
+          "cost_complete": false,
+          "final_metrics": null,
+          "verifier_timed_out": false,
+          "runtime": null,
+          "trajectory_source": null,
+          "worker_exit_code": null,
+          "local_trajectory": null,
+          "finding": "Setup failed while downloading uv with a TLS error before model execution; no trajectory or official score."
+        },
+        {
+          "task": "terminal-bench/torch-pipeline-parallelism",
+          "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+          "trial": "torch-pipeline-parallelism__gmVo6Cp",
+          "reward": null,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.999,
+            "agent_setup": 323.847,
+            "agent_execution": 1831.106,
+            "verifier": 900.003
+          },
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "exception_type": "VerifierTimeoutError",
+          "failure_category": "VerifierTimeoutError",
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "tool_calls": 56,
+          "max_reply_output_tokens": 22329,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 2711266,
+            "total_completion_tokens": 65109,
+            "total_cached_tokens": 2645248,
+            "total_cost_usd": 0.029011424
+          },
+          "billing_known_cost_usd": 0.029011424,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.029011424,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": true,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/torch-pipeline-parallelism__gmVo6Cp/agent/trajectory.json",
+          "finding": "Verifier timed out after 900 seconds while installing Torch/CUDA dependencies; no official test result. Agent independently exhausted 50 rounds without max_tokens truncation."
+        },
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+          "trial": "qemu-alpine-ssh__SeNa8Uy",
+          "reward": null,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.046,
+            "agent_setup": 41.51,
+            "agent_execution": null,
+            "verifier": null
+          },
+          "terminal_outcome": null,
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "NonZeroAgentExitCodeError",
+          "last_stop_reason": null,
+          "usage_complete": false,
+          "cost_complete": false,
+          "final_metrics": null,
+          "verifier_timed_out": false,
+          "runtime": null,
+          "trajectory_source": null,
+          "worker_exit_code": null,
+          "local_trajectory": null,
+          "finding": "APT dependency installation returned HTTP 404 before model execution; no trajectory or official score."
+        },
+        {
+          "task": "terminal-bench/openssl-selfsigned-cert",
+          "task_ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
+          "trial": "openssl-selfsigned-cert__RtV3EKQ",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.943,
+            "agent_setup": 105.513,
+            "agent_execution": 185.436,
+            "verifier": 229.946
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "passed",
+          "model_calls_started": 8,
+          "model_calls_completed": 8,
+          "tool_calls": 9,
+          "max_reply_output_tokens": 2800,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 9,
+            "total_prompt_tokens": 29649,
+            "total_completion_tokens": 5069,
+            "total_cached_tokens": 25856,
+            "total_cost_usd": 0.000764088
+          },
+          "billing_known_cost_usd": 0.000764088,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.000764088,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/openssl-selfsigned-cert__RtV3EKQ/agent/trajectory.json",
+          "finding": "All six official certificate tests passed."
+        },
+        {
+          "task": "terminal-bench/regex-chess",
+          "task_ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+          "trial": "regex-chess__Lwdnros",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.992,
+            "agent_setup": 676.077,
+            "agent_execution": 2315.577,
+            "verifier": 41.16
+          },
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "max_turns_exhausted",
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "tool_calls": 50,
+          "max_reply_output_tokens": 60483,
+          "replies_exceeding_32768": 1,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 7074131,
+            "total_completion_tokens": 165188,
+            "total_cached_tokens": 6823680,
+            "total_cost_usd": 0.081484747
+          },
+          "billing_known_cost_usd": 0.081484747,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.081484747,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/regex-chess__Lwdnros/agent/trajectory.json",
+          "finding": "Regex length check passed, but all three game tests failed. At the starting position, the produced move set contained an empty string instead of a legal successor FEN. Agent exhausted 50 rounds without generation truncation."
+        },
+        {
+          "task": "terminal-bench/log-summary-date-ranges",
+          "task_ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+          "trial": "log-summary-date-ranges__U3uovPo",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.065,
+            "agent_setup": 89.586,
+            "agent_execution": 47.348,
+            "verifier": 42.298
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "passed",
+          "model_calls_started": 8,
+          "model_calls_completed": 8,
+          "tool_calls": 9,
+          "max_reply_output_tokens": 1392,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 9,
+            "total_prompt_tokens": 42313,
+            "total_completion_tokens": 3457,
+            "total_cached_tokens": 31744,
+            "total_cost_usd": 0.000869217
+          },
+          "billing_known_cost_usd": 0.000869217,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.000869217,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/log-summary-date-ranges__U3uovPo/agent/trajectory.json",
+          "finding": "Summary file exists and its structure and counts match the expected output."
+        },
+        {
+          "task": "terminal-bench/model-extraction-relu-logits",
+          "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+          "trial": "model-extraction-relu-logits__b7NJtqL",
+          "reward": null,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.022,
+            "agent_setup": 294.463,
+            "agent_execution": null,
+            "verifier": null
+          },
+          "terminal_outcome": null,
+          "exception_type": "NetworkConnectionError",
+          "failure_category": "NetworkConnectionError",
+          "last_stop_reason": null,
+          "usage_complete": false,
+          "cost_complete": false,
+          "final_metrics": null,
+          "verifier_timed_out": false,
+          "runtime": null,
+          "trajectory_source": null,
+          "worker_exit_code": null,
+          "local_trajectory": null,
+          "finding": "Setup failed before model execution: curl 35 SSL_ERROR_SYSCALL while fetching the uv installer from astral.sh:443."
+        },
+        {
+          "task": "terminal-bench/path-tracing",
+          "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+          "trial": "path-tracing__XRchuVa",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.996,
+            "agent_setup": 96.189,
+            "agent_execution": 1378.18,
+            "verifier": 30.223
+          },
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "max_turns_exhausted",
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "tool_calls": 59,
+          "max_reply_output_tokens": 32227,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 6616150,
+            "total_completion_tokens": 140239,
+            "total_cached_tokens": 6472960,
+            "total_cost_usd": 0.068679374
+          },
+          "billing_known_cost_usd": 0.068679374,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.068679374,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/path-tracing__XRchuVa/agent/trajectory.json",
+          "finding": "The required image.c was absent, causing file existence, compilation, dependency, output, and image similarity checks to fail. Agent exhausted 50 rounds; maximum reply was 32227 tokens with no truncation."
+        },
+        {
+          "task": "terminal-bench/caffe-cifar-10",
+          "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+          "trial": "caffe-cifar-10__ZNW82kp",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.009,
+            "agent_setup": 138.782,
+            "agent_execution": 1804.535,
+            "verifier": 39.622
+          },
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "max_turns_exhausted",
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "tool_calls": 55,
+          "max_reply_output_tokens": 9316,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 1470151,
+            "total_completion_tokens": 28776,
+            "total_cached_tokens": 1427712,
+            "total_cost_usd": 0.015421336
+          },
+          "billing_known_cost_usd": 0.015421336,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.015421336,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/caffe-cifar-10__ZNW82kp/agent/trajectory.json",
+          "finding": "Only the prototxt existence check passed. Caffe binary and trained model were missing. The final tool result reported g++ not found and make exit 2; no model round remained to repair the build."
+        },
+        {
+          "task": "terminal-bench/mteb-leaderboard",
+          "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+          "trial": "mteb-leaderboard__3RsuVW3",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.063,
+            "agent_setup": 569.825,
+            "agent_execution": 1020.893,
+            "verifier": 32.494
+          },
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "max_turns_exhausted",
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "tool_calls": 66,
+          "max_reply_output_tokens": 2747,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 2077822,
+            "total_completion_tokens": 26702,
+            "total_cached_tokens": 1988864,
+            "total_cost_usd": 0.009200885
+          },
+          "billing_known_cost_usd": 0.009200885,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.009200885,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/mteb-leaderboard__3RsuVW3/agent/trajectory.json",
+          "finding": "The required /app/result.txt was absent after 50 rounds. Maximum reply output was 2747 tokens; no generation truncation."
+        },
+        {
+          "task": "terminal-bench/llm-inference-batching-scheduler",
+          "task_ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+          "trial": "llm-inference-batching-scheduler__GsQKU8C",
+          "reward": 0.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.069,
+            "agent_setup": 155.134,
+            "agent_execution": 121.43,
+            "verifier": 17.387
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "WorkerExitedWithoutTerminal",
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "recorder_stack_dump_crash",
+          "model_calls_started": 6,
+          "model_calls_completed": 5,
+          "tool_calls": 7,
+          "max_reply_output_tokens": 11697,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": false,
+          "cost_complete": false,
+          "final_metrics": {
+            "total_steps": 7,
+            "extra": {
+              "usage_complete": false,
+              "known_cost_usd": 0.0,
+              "cost_is_partial": true,
+              "missing_generation_ids": [
+                "gen-1789230328-MxcYwnNZB26ftfj6dnwg",
+                "gen-1789230330-I1ms4VSVAjhnReMgJuI5",
+                "gen-1789230332-l0dpTOZ919v1w6WP272g",
+                "gen-1789230398-WypjWjLrpy3b2DqK2jO4",
+                "gen-1789230419-6dZmVHEFcE9bBFxtKCU1"
+              ]
+            }
+          },
+          "billing_known_cost_usd": 0.003683803,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.003683803,
+          "supplemental_cost_usd": 0.003683803,
+          "atif_valid": true,
+          "native_journal_projection_matches": null,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "reconstructed",
+          "worker_exit_code": -11,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/llm-inference-batching-scheduler__GsQKU8C/agent/trajectory.json",
+          "finding": "Python worker received SIGSEGV in periodic traceback dumping after 120.794 seconds; the output plans were not produced. No generation or agent deadline was reached."
+        },
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+          "trial": "pytorch-model-recovery__svZHN3t",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.028,
+            "agent_setup": 118.715,
+            "agent_execution": 76.719,
+            "verifier": 367.559
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "passed",
+          "model_calls_started": 6,
+          "model_calls_completed": 6,
+          "tool_calls": 5,
+          "max_reply_output_tokens": 6015,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 7,
+            "total_prompt_tokens": 51231,
+            "total_completion_tokens": 9187,
+            "total_cached_tokens": 37632,
+            "total_cost_usd": 0.001677349
+          },
+          "billing_known_cost_usd": 0.001677349,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.001677349,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.12 (main, Mar 16 2026, 23:05:54) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/pytorch-model-recovery__svZHN3t/agent/trajectory.json",
+          "finding": "Weights remained unchanged; the recovered model exists, loads the weights, matches the state dict, and meets the loss check."
+        },
+        {
+          "task": "terminal-bench/circuit-fibsqrt",
+          "task_ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+          "trial": "circuit-fibsqrt__hKj963g",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 2.187,
+            "agent_setup": 114.441,
+            "agent_execution": 124.08,
+            "verifier": 16.726
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "KeyError",
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "KeyError",
+          "model_calls_started": 8,
+          "model_calls_completed": 8,
+          "tool_calls": 8,
+          "max_reply_output_tokens": 10454,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 9,
+            "total_prompt_tokens": 108626,
+            "total_completion_tokens": 16166,
+            "total_cached_tokens": 88576,
+            "total_cost_usd": 0.002826103
+          },
+          "billing_known_cost_usd": 0.002826103,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.002826103,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 1,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/circuit-fibsqrt__hKj963g/agent/trajectory.json",
+          "finding": "Gates file exists and meets size constraints but computes incorrect sqrt/fibonacci outputs. After 8 completed replies, a complete tool_use response with an empty bash input caused KeyError(command) in the native ConsoleRenderer, stopping further repair."
+        },
+        {
+          "task": "terminal-bench/merge-diff-arc-agi-task",
+          "task_ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
+          "trial": "merge-diff-arc-agi-task__sgijZ9d",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.925,
+            "agent_setup": 197.749,
+            "agent_execution": 94.481,
+            "verifier": 18.215
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "passed",
+          "model_calls_started": 14,
+          "model_calls_completed": 14,
+          "tool_calls": 16,
+          "max_reply_output_tokens": 5137,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 15,
+            "total_prompt_tokens": 151490,
+            "total_completion_tokens": 11460,
+            "total_cached_tokens": 124672,
+            "total_cost_usd": 0.002580521
+          },
+          "billing_known_cost_usd": 0.002580521,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.002580521,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-remaining18-65536-3600s-trace-20260912-7a610cb/merge-diff-arc-agi-task__sgijZ9d/agent/trajectory.json",
+          "finding": "Repository initialization, both fetched bundles, algo.py, map function, and the expected map output all passed."
+        }
+      ]
+    },
+    {
+      "kind": "setup_retry",
+      "job": "tb21-setup-retry-65536-3600s-trace-20260912-7a610cb",
+      "purpose": "Retry three tasks that never entered initial model execution. Cached uv and wheel bypassed APT; periodic stack dumps were removed. Omitting CA certificates invalidated the DNA retry.",
+      "local_record": "jobs/tb21-setup-retry-65536-3600s-trace-20260912-7a610cb-record",
+      "counts": {
+        "attempts": 3,
+        "passed": 0,
+        "scored_zero": 3,
+        "unscored": 0
+      },
+      "billing_known_cost_usd": 0.005875884,
+      "billing_cost_complete": false,
+      "workflow_sha256": {
+        "diagnostic_runner.py": "c423d7ba5322b676c73192dbe52d30110f8a91a6eaada5a85151cc456d046635",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "monitor.py": "fad87a820be21b8187740d2a5a2f1b8e81550c34a4c8caa1e106335389215610",
+        "status.py": "c1ae99b78f05efdcb37fff325ab0309d1b3d763741bb6372b674e373b3c78ebe",
+        "cached_adapter.py": "f76d86eaa4ebc0692f29b8c561b23da5ca25e12a280b6ed4507c6e899423d5cc",
+        "run.py": "ff0ba0a512ff8bd6d94e4e2c9e8b18d321461426a5937ad66e2283147c292262"
+      },
+      "trials": [
+        {
+          "task": "terminal-bench/dna-assembly",
+          "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+          "trial": "dna-assembly__R4FTx8r",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.038,
+            "agent_setup": 19.665,
+            "agent_execution": 5.615,
+            "verifier": 51.77
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "APIConnectionError",
+          "exception_type": "UnknownApiError",
+          "failure_category": "APIConnectionError",
+          "model_calls_started": 1,
+          "model_calls_completed": 0,
+          "tool_calls": 0,
+          "max_reply_output_tokens": null,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": null,
+          "usage_complete": false,
+          "cost_complete": false,
+          "final_metrics": {
+            "total_steps": 2,
+            "extra": {
+              "usage_complete": false
+            }
+          },
+          "billing_known_cost_usd": 0.0,
+          "billing_cost_complete": false,
+          "billing_total_cost_usd": null,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.14.0 (main, Nov 19 2025, 22:48:15) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 1,
+          "local_trajectory": "jobs/tb21-setup-retry-65536-3600s-trace-20260912-7a610cb/dna-assembly__R4FTx8r/agent/trajectory.json",
+          "finding": "Incomplete cached bootstrap omitted system CA certificates. All three connection attempts failed before response headers; no model reply or tool call. The same-image public HTTPS probe failed certificate verification before CA installation and returned 200 afterward."
+        },
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+          "trial": "qemu-alpine-ssh__fUdBS9i",
+          "reward": 0.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.02,
+            "agent_setup": 19.381,
+            "agent_execution": 33.772,
+            "verifier": 5.796
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "KeyError",
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "KeyError",
+          "model_calls_started": 3,
+          "model_calls_completed": 3,
+          "tool_calls": 4,
+          "max_reply_output_tokens": 1606,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 4,
+            "total_prompt_tokens": 6587,
+            "total_completion_tokens": 2975,
+            "total_cached_tokens": 3328,
+            "total_cost_usd": 0.000486679
+          },
+          "billing_known_cost_usd": 0.000486679,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.000486679,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.14.0 (main, Nov 19 2025, 22:48:15) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 1,
+          "local_trajectory": "jobs/tb21-setup-retry-65536-3600s-trace-20260912-7a610cb/qemu-alpine-ssh__fUdBS9i/agent/trajectory.json",
+          "finding": "After three complete replies, an empty bash input caused KeyError(command). Separately, verifier bootstrap failed fetching libcurl4 with HTTP 404; pytest did not run even though test.sh recorded reward 0."
+        },
+        {
+          "task": "terminal-bench/model-extraction-relu-logits",
+          "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+          "trial": "model-extraction-relu-logits__szFsvGz",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.011,
+            "agent_setup": 9.404,
+            "agent_execution": 206.431,
+            "verifier": 39.091
+          },
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "exception_type": null,
+          "failure_category": "verifier_failed",
+          "model_calls_started": 14,
+          "model_calls_completed": 14,
+          "tool_calls": 14,
+          "max_reply_output_tokens": 15040,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 15,
+            "total_prompt_tokens": 390191,
+            "total_completion_tokens": 26752,
+            "total_cached_tokens": 345344,
+            "total_cost_usd": 0.005389205
+          },
+          "billing_known_cost_usd": 0.005389205,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.005389205,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 0,
+          "local_trajectory": "jobs/tb21-setup-retry-65536-3600s-trace-20260912-7a610cb/model-extraction-relu-logits__szFsvGz/agent/trajectory.json",
+          "finding": "Agent completed normally; the verifier rejected the recovered matrix because row 11 did not match."
+        }
+      ]
+    },
+    {
+      "kind": "scheduler_control",
+      "job": "tb21-scheduler-recorder-retry-65536-3600s-trace-20260913-7a610cb",
+      "purpose": "Repeat the scheduler after its recorder stack-dump crash, keeping the original installer and removing only the periodic stack timer.",
+      "local_record": "jobs/tb21-scheduler-recorder-retry-65536-3600s-trace-20260913-7a610cb-record",
+      "counts": {
+        "attempts": 1,
+        "passed": 0,
+        "scored_zero": 1,
+        "unscored": 0
+      },
+      "billing_known_cost_usd": 0.008719663,
+      "billing_cost_complete": true,
+      "workflow_sha256": {
+        "diagnostic_runner.py": "c423d7ba5322b676c73192dbe52d30110f8a91a6eaada5a85151cc456d046635",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "monitor.py": "fad87a820be21b8187740d2a5a2f1b8e81550c34a4c8caa1e106335389215610",
+        "status.py": "c1ae99b78f05efdcb37fff325ab0309d1b3d763741bb6372b674e373b3c78ebe",
+        "run.py": "487f002347e3b829348f8724d6b91ca231357597f9c1810b192c33462fbca218"
+      },
+      "trials": [
+        {
+          "task": "terminal-bench/llm-inference-batching-scheduler",
+          "task_ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+          "trial": "llm-inference-batching-scheduler__BzoMMdJ",
+          "reward": 0.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 1.028,
+            "agent_setup": 37.429,
+            "agent_execution": 341.522,
+            "verifier": 17.336
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "KeyError",
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "KeyError",
+          "model_calls_started": 15,
+          "model_calls_completed": 15,
+          "tool_calls": 17,
+          "max_reply_output_tokens": 11062,
+          "replies_exceeding_32768": 0,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 16,
+            "total_prompt_tokens": 490667,
+            "total_completion_tokens": 47732,
+            "total_cached_tokens": 427264,
+            "total_cost_usd": 0.008719663
+          },
+          "billing_known_cost_usd": 0.008719663,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.008719663,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.7 (main, Aug 15 2025, 22:13:55) [GCC 12.2.0]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 1,
+          "local_trajectory": "jobs/tb21-scheduler-recorder-retry-65536-3600s-trace-20260913-7a610cb/llm-inference-batching-scheduler__BzoMMdJ/agent/trajectory.json",
+          "finding": "No SIGSEGV after removing periodic stack dumps. After 15 complete replies, empty write arguments raised KeyError; required output plans were absent."
+        }
+      ]
+    },
+    {
+      "kind": "dna_corrected",
+      "job": "tb21-dna-bootstrap-retry-65536-3600s-trace-20260913-7a610cb",
+      "purpose": "Restore all original system dependencies, then use the cached uv and wheel without periodic stack dumps. A same-image public HTTPS probe confirmed the preceding missing-CA failure.",
+      "local_record": "jobs/tb21-dna-bootstrap-retry-65536-3600s-trace-20260913-7a610cb-record",
+      "counts": {
+        "attempts": 1,
+        "passed": 0,
+        "scored_zero": 1,
+        "unscored": 0
+      },
+      "billing_known_cost_usd": 0.004526292,
+      "billing_cost_complete": true,
+      "workflow_sha256": {
+        "diagnostic_runner.py": "c423d7ba5322b676c73192dbe52d30110f8a91a6eaada5a85151cc456d046635",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "monitor.py": "fad87a820be21b8187740d2a5a2f1b8e81550c34a4c8caa1e106335389215610",
+        "status.py": "c1ae99b78f05efdcb37fff325ab0309d1b3d763741bb6372b674e373b3c78ebe",
+        "cached_adapter.py": "c5f3c4cb6946bd0ed400bce0a9658bb4f949cfc343ea0cf9431255676daf0551",
+        "run.py": "d919ff5f42adb23ac178cd47f158325fb5ac3eb7f4b5d67602d21073df574f05"
+      },
+      "trials": [
+        {
+          "task": "terminal-bench/dna-assembly",
+          "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+          "trial": "dna-assembly__sP5PGwn",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "phase_seconds": {
+            "environment_setup": 0.927,
+            "agent_setup": 177.132,
+            "agent_execution": 239.843,
+            "verifier": 18.639
+          },
+          "terminal_outcome": null,
+          "terminal_error_type": "KeyError",
+          "exception_type": "NonZeroAgentExitCodeError",
+          "failure_category": "KeyError",
+          "model_calls_started": 3,
+          "model_calls_completed": 3,
+          "tool_calls": 3,
+          "max_reply_output_tokens": 35730,
+          "replies_exceeding_32768": 1,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": {
+            "total_steps": 4,
+            "total_prompt_tokens": 12103,
+            "total_completion_tokens": 35966,
+            "total_cached_tokens": 5888,
+            "total_cost_usd": 0.004526292
+          },
+          "billing_known_cost_usd": 0.004526292,
+          "billing_cost_complete": true,
+          "billing_total_cost_usd": 0.004526292,
+          "supplemental_cost_usd": 0.0,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "runtime": {
+            "python": "3.13.9 (main, Nov 19 2025, 22:47:49) [Clang 21.1.4 ]",
+            "packages": {
+              "nanopycodeagent": "0.8.1.dev16+g7a610cbf8.d20260909",
+              "anthropic": "1.5.0",
+              "httpx": "0.28.1",
+              "httpx2": "2.12.0",
+              "pydantic": "2.13.5"
+            },
+            "sdk_http_module": "httpx2"
+          },
+          "trajectory_source": "native",
+          "worker_exit_code": 1,
+          "local_trajectory": "jobs/tb21-dna-bootstrap-retry-65536-3600s-trace-20260913-7a610cb/dna-assembly__sP5PGwn/agent/trajectory.json",
+          "finding": "After restoring system dependencies, three model replies completed. The largest reply used 35730 output tokens, including 35625 reported thinking tokens, and ended in tool_use. Missing required tool input raised KeyError; primers.fasta was absent."
+        }
+      ]
+    }
+  ]
+}

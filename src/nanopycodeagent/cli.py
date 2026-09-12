@@ -17,6 +17,7 @@ import sys
 from pathlib import Path
 
 from .agent import DEFAULT_MAX_TURNS, _package_version, run, run_headless
+from .settings import DEFAULT_MAX_TOKENS, resolve_max_tokens
 
 # Reserved by argparse for a misuse of the command line itself, and used here
 # for the same: a task that cannot be read is a mistake in how the agent was
@@ -52,6 +53,15 @@ def _build_parser() -> argparse.ArgumentParser:
         help=(
             "stop a headless run after this many model replies "
             f"(default: {DEFAULT_MAX_TURNS})"
+        ),
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        metavar="N",
+        help=(
+            "maximum generated tokens per model reply in either mode "
+            f"(default: ANTHROPIC_MAX_TOKENS or {DEFAULT_MAX_TOKENS})"
         ),
     )
     parser.add_argument(
@@ -122,15 +132,20 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.max_turns < 1:
         parser.error("--max-turns must be at least 1")
+    try:
+        max_tokens = resolve_max_tokens(args.max_tokens)
+    except ValueError as exc:
+        parser.error(str(exc))
 
     task = _read_task(args, parser)
     if task is None:
         if args.trajectory is not None:
             parser.error("--trajectory requires a headless task")
-        return run()
+        return run(max_tokens=max_tokens)
     trajectory_path = _trajectory_path(args.trajectory, parser)
     return run_headless(
         task,
         max_turns=args.max_turns,
+        max_tokens=max_tokens,
         trajectory_path=trajectory_path,
     )

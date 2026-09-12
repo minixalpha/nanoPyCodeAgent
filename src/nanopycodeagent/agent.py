@@ -58,14 +58,13 @@ from .event_journal import (
     utc_now,
 )
 from .read_tool import READ_TOOL, run_read
-from .settings import load_settings_env
+from .settings import DEFAULT_MAX_TOKENS, load_settings_env, resolve_max_tokens
 from .terminal import Spinner, print_tool_output, print_tool_use
 from .write_tool import WRITE_TOOL, content_preview, run_write
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor
 # the config file.
 DEFAULT_MODEL = "claude-sonnet-4-6"
-MAX_TOKENS = 8192
 
 _TRUNCATION_NOTICE = (
     "[response truncated: reached max_tokens; stopped without finishing the task. "
@@ -360,6 +359,7 @@ def _run_exchange(
     system: str,
     *,
     max_turns: int | None = None,
+    max_tokens: int = DEFAULT_MAX_TOKENS,
     reply_prefix: str = "\nAgent> ",
     trajectory_path: Path | None = None,
 ) -> RunOutcome:
@@ -381,6 +381,7 @@ def _run_exchange(
                 "mode": "headless" if max_turns is not None else "interactive",
                 "model": model,
                 "max_turns": max_turns,
+                "max_tokens": max_tokens,
                 "producer": {
                     "name": "nanoPyCodeAgent",
                     "version": _package_version(),
@@ -405,6 +406,7 @@ def _run_exchange(
                 system,
                 emitter=emitter,
                 max_turns=max_turns,
+                max_tokens=max_tokens,
             )
         except BaseException as exc:
             cost_reconciliation = _reconcile_costs(client, journal, emitter)
@@ -457,6 +459,7 @@ def _run_model_loop(
     *,
     emitter: EventEmitter,
     max_turns: int | None,
+    max_tokens: int,
 ) -> RunOutcome:
     """Run model replies and tool calls for an already-started Agent Run."""
     turns = 0
@@ -478,7 +481,7 @@ def _run_model_loop(
         # the accumulated message for the conversation history.
         with Spinner() as spinner, client.messages.stream(
             model=model,
-            max_tokens=MAX_TOKENS,
+            max_tokens=max_tokens,
             system=system,
             tools=TOOLS,
             messages=messages,
@@ -605,20 +608,22 @@ def _reconcile_costs(
     return outcomes
 
 
-def run() -> int:
+def run(*, max_tokens: int | None = None) -> int:
     """Start the read → ask → answer loop until the user types ``/exit``.
 
     A reply may include tool calls; they are executed and their results
     fed back to the model until it finishes the turn without tool use.
     Returns the process exit code.
     """
+    max_tokens = resolve_max_tokens(max_tokens)
     client = _create_client()
     if client is None:
         return 1
 
     model = _resolve_model()
     print(
-        f"nanoPyCodeAgent v{_package_version()} — model {model} "
+        f"nanoPyCodeAgent v{_package_version()} — model {model}, "
+        f"max tokens {max_tokens} "
         "(set ANTHROPIC_MODEL to override)."
     )
     print("Type a message to chat, or /exit to quit.")
@@ -640,7 +645,7 @@ def run() -> int:
             break
 
         messages.append({"role": "user", "content": user_input})
-        _run_exchange(client, model, messages, SYSTEM_PROMPT)
+        _run_exchange(client, model, messages, SYSTEM_PROMPT, max_tokens=max_tokens)
 
     print("Bye!")
     return 0
@@ -650,6 +655,7 @@ def run_headless(
     task: str,
     *,
     max_turns: int = DEFAULT_MAX_TURNS,
+    max_tokens: int | None = None,
     trajectory_path: Path | None = None,
 ) -> int:
     """Work ``task`` to completion without a user, and return the exit code.
@@ -662,6 +668,7 @@ def run_headless(
     scores the result. Only a run that could not happen at all — no
     credentials, an API that keeps refusing — exits non-zero.
     """
+    max_tokens = resolve_max_tokens(max_tokens)
     client = _create_client()
     if client is None:
         return 1
@@ -671,7 +678,7 @@ def run_headless(
     # model's prose and the echoed tool calls, nothing else.
     print(
         f"nanoPyCodeAgent v{_package_version()} — model {model}, "
-        f"max turns {max_turns}",
+        f"max turns {max_turns}, max tokens {max_tokens}",
         file=sys.stderr,
     )
 
@@ -683,6 +690,7 @@ def run_headless(
             messages,
             HEADLESS_SYSTEM_PROMPT,
             max_turns=max_turns,
+            max_tokens=max_tokens,
             reply_prefix="",
             trajectory_path=trajectory_path,
         )
