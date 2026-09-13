@@ -190,10 +190,13 @@ def _tool_calls_and_observation(
             }
         tool_call_extra = tool_call.setdefault("extra", {})
         assert isinstance(tool_call_extra, dict)
+        for field in ("input_error", "input_json", "raw_input"):
+            if field in native_tool_call:
+                tool_call_extra[field] = native_tool_call[field]
         _add_journal_truncation(
             tool_call_extra,
             entry,
-            f"/tool_calls/{tool_call_index}/input",
+            f"/tool_calls/{tool_call_index}",
         )
         if not tool_call_extra:
             tool_call.pop("extra")

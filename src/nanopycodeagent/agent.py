@@ -19,10 +19,12 @@ has no one to restart it, so it catches API errors, reports them verbatim,
 and turns them into an exit code.
 """
 
+import json
 import os
 import sys
 import time
 import uuid
+from copy import copy
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
@@ -41,13 +43,13 @@ import httpx
 from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
 from .atif import project_atif, write_atif
-from .bash_tool import BASH_TOOL, run_bash
+from .bash_tool import run_bash
 from .cost import (
     pending_cost,
     resolve_generation_cost,
     usage_cost,
 )
-from .edit_tool import EDIT_TOOL, edit_preview, run_edit
+from .edit_tool import edit_preview, run_edit
 from .event_journal import (
     EventEmitter,
     EventJournal,
@@ -57,10 +59,11 @@ from .event_journal import (
     RunOutcome,
     utc_now,
 )
-from .read_tool import READ_TOOL, run_read
+from .read_tool import run_read
 from .settings import DEFAULT_MAX_TOKENS, load_settings_env, resolve_max_tokens
 from .terminal import Spinner, print_tool_output, print_tool_use
-from .write_tool import WRITE_TOOL, content_preview, run_write
+from .tool_validation import TOOLS, tool_input_error
+from .write_tool import content_preview, run_write
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor
 # the config file.
@@ -106,10 +109,6 @@ HEADLESS_SYSTEM_PROMPT = (
     "run. "
 ) + _TOOL_GUIDANCE
 
-# Every tool offered to the model on each request.
-TOOLS = [READ_TOOL, WRITE_TOOL, EDIT_TOOL, BASH_TOOL]
-
-
 def _json_value(value: object) -> JsonValue:
     """Convert an SDK value into the provider-neutral event representation."""
     if value is None or isinstance(value, bool | int | float | str):
@@ -144,12 +143,19 @@ def _native_content_blocks(value: object) -> list[JsonValue]:
         if source_type == "text":
             content.append({"type": "text", "text": source_block.get("text", "")})
         elif source_type == "tool_use":
+            arguments = source_block.get("input")
             content.append(
                 {
                     "type": "tool_call",
                     "tool_call_id": source_block.get("id"),
                     "tool_name": source_block.get("name"),
-                    "input": source_block.get("input"),
+                    # Journal/ATIF require object arguments. Keep rejected
+                    # non-object input separately instead of discarding it.
+                    "input": arguments if isinstance(arguments, dict) else {},
+                    **(
+                        {"raw_input": arguments}
+                        if not isinstance(arguments, dict) else {}
+                    ),
                 }
             )
         else:
@@ -202,9 +208,12 @@ class _TextOutputProjector:
         elif event.type == "tool.started":
             tool_name = str(event.payload["tool_name"])
             arguments = event.payload["input"]
-            if not isinstance(arguments, dict):
-                raise TypeError("tool input event payload must be an object")
-            if tool_name == "read":
+            error = event.payload.get("input_error") or tool_input_error(
+                tool_name, arguments
+            )
+            if error:
+                print_tool_use(f"[{tool_name}] (invalid arguments; not executed)")
+            elif tool_name == "read":
                 print_tool_use(f"[read] {arguments['path']}")
             elif tool_name == "write":
                 content = str(arguments["content"])
@@ -218,7 +227,7 @@ class _TextOutputProjector:
                     f"[edit] {arguments['path']}\n"
                     f"{edit_preview(old_text, new_text)}"
                 )
-            else:
+            elif tool_name == "bash":
                 print_tool_use(f"[bash]$ {arguments['command']}")
         elif event.type == "tool.completed":
             result = event.payload["result"]
@@ -244,24 +253,28 @@ def _run_one_tool(
     block: ToolUseBlock,
     emitter: EventEmitter,
     model_call_id: str,
+    *,
+    input_error: str | None = None,
 ) -> ToolResultBlockParam:
     """Execute one ``tool_use`` block and emit its runtime facts."""
     tool_input = _json_value(block.input)
-    if not isinstance(tool_input, dict):
-        raise TypeError("tool input must be an object")
+    input_error = input_error or tool_input_error(block.name, tool_input)
     emitter.emit(
         "tool.started",
         {
             "model_call_id": model_call_id,
             "tool_call_id": block.id,
             "tool_name": block.name,
-            "input": tool_input,
+            "input": tool_input if isinstance(tool_input, dict) else {},
+            **({"input_error": input_error} if input_error else {}),
             "source_timestamp": utc_now(),
         },
     )
     tool_started_ns = time.perf_counter_ns()
     try:
-        if block.name == "read":
+        if input_error:
+            output, is_error = input_error, True
+        elif block.name == "read":
             path = block.input["path"]
             output, is_error = run_read(
                 path,
@@ -282,7 +295,7 @@ def _run_one_tool(
                 new_text,
                 replace_all=block.input.get("replace_all", False),
             )
-        else:  # bash — the only other tool offered
+        else:  # bash; unknown names have already been rejected
             command = block.input["command"]
             with Spinner("Running..."):
                 output, is_error = run_bash(command)
@@ -310,6 +323,10 @@ def _run_one_tool(
             "tool_name": block.name,
             "result": output,
             "is_error": is_error,
+            **(
+                {"error": {"type": "ToolInputError", "message": input_error}}
+                if input_error else {}
+            ),
             "duration_ms": (time.perf_counter_ns() - tool_started_ns) / 1_000_000,
             "source_timestamp": utc_now(),
         },
@@ -486,21 +503,53 @@ def _run_model_loop(
             tools=TOOLS,
             messages=messages,
         ) as stream:
-            for text in stream.text_stream:
-                spinner.stop()
-                emitter.emit(
-                    "model.output_delta",
-                    {
-                        "model_call_id": model_call_id,
-                        "delta": text,
-                        "source_timestamp": utc_now(),
-                    },
-                )
+            input_json: dict[int, list[str]] = {}
+            for event in stream:
+                if event.type == "text":
+                    spinner.stop()
+                    emitter.emit(
+                        "model.output_delta",
+                        {
+                            "model_call_id": model_call_id,
+                            "delta": event.text,
+                            "source_timestamp": utc_now(),
+                        },
+                    )
+                elif (
+                    event.type == "content_block_delta"
+                    and event.delta.type == "input_json_delta"
+                ):
+                    input_json.setdefault(event.index, []).append(
+                        event.delta.partial_json
+                    )
             message = stream.get_final_message()
             generation_id = _response_header(stream, "x-generation-id")
             model_completed_ns = time.perf_counter_ns()
 
         content = _native_content_blocks(message.content)
+        input_errors: dict[str, str] = {}
+        invalid_json_ids: set[str] = set()
+        for index, block in enumerate(message.content):
+            if block.type != "tool_use":
+                continue
+            error = tool_input_error(block.name, block.input)
+            if index in input_json:
+                raw_json = "".join(input_json[index])
+                try:
+                    json.loads(raw_json)
+                except json.JSONDecodeError:
+                    # The SDK parses partial JSON while streaming. Even a
+                    # complete-looking dict is not permission to execute an
+                    # unfinished call after a provider reports tool_use.
+                    error = (
+                        "Invalid tool argument JSON: incomplete or malformed. "
+                        "Resend a complete JSON object."
+                    )
+                    invalid_json_ids.add(block.id)
+                    content[index]["input_json"] = raw_json
+            if error:
+                input_errors[block.id] = error
+                content[index]["input_error"] = error
         tool_calls = [
             item
             for item in content
@@ -542,7 +591,15 @@ def _run_model_loop(
                 }
             )
             return "response_truncated"
-        messages.append({"role": "assistant", "content": message.content})
+        request_content = []
+        for block in message.content:
+            if block.type == "tool_use" and (
+                block.id in invalid_json_ids or not isinstance(block.input, dict)
+            ):
+                block = copy(block)
+                block.input = {}
+            request_content.append(block)
+        messages.append({"role": "assistant", "content": request_content})
         if message.stop_reason != "tool_use":
             return "completed"
         if max_turns is not None and turns >= max_turns:
@@ -552,7 +609,10 @@ def _run_model_loop(
         # Every tool_use block needs a matching tool_result in the next
         # user message, or the API rejects the request.
         results = [
-            _run_one_tool(block, emitter, model_call_id)
+            _run_one_tool(
+                block, emitter, model_call_id,
+                input_error=input_errors.get(block.id),
+            )
             for block in message.content
             if block.type == "tool_use"
         ]
