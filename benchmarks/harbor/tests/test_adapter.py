@@ -114,6 +114,7 @@ def test_run_pipes_the_instruction_and_forwards_anthropic_configuration(tmp_path
             "ANTHROPIC_MODEL": "deepseek/deepseek-v4-flash-0731",
         },
         max_turns=20,
+        max_tokens=65536,
     )
     environment = RecordingEnvironment()
 
@@ -124,6 +125,7 @@ def test_run_pipes_the_instruction_and_forwards_anthropic_configuration(tmp_path
     assert instruction not in command
     assert 'printf "%s" "$harbor_nanopycodeagent_instruction_' in command
     assert "nanoPyCodeAgent --max-turns 20" in command
+    assert "--max-tokens 65536" in command
     assert "--trajectory /logs/agent/trajectory.json" in command
     assert command.endswith("2>&1 | tee /logs/agent/nanopycodeagent.txt")
 
@@ -160,6 +162,21 @@ def test_run_normalizes_harbor_provider_configuration_for_the_anthropic_sdk(
     assert run_env["ANTHROPIC_BASE_URL"] == "https://openrouter.example/api"
     assert run_env["ANTHROPIC_MODEL"] == "deepseek/deepseek-v4-flash-0731"
     assert "OPENROUTER_API_KEY" not in run_env
+    assert "--max-tokens" not in environment.calls[-1]["command"]
+
+
+def test_run_forwards_the_environment_budget_without_forcing_a_cli_default(tmp_path):
+    adapter = make_adapter(tmp_path, extra_env={"ANTHROPIC_MAX_TOKENS": "16384"})
+    environment = RecordingEnvironment()
+    asyncio.run(adapter.run("fix it", environment, SimpleNamespace()))
+    assert environment.calls[-1]["env"]["ANTHROPIC_MAX_TOKENS"] == "16384"
+    assert "--max-tokens" not in environment.calls[-1]["command"]
+
+
+@pytest.mark.parametrize("value", [0, -1, True, "bad", 3.5])
+def test_adapter_rejects_invalid_generation_budgets(tmp_path, value):
+    with pytest.raises(ValueError, match="max_tokens"):
+        make_adapter(tmp_path, max_tokens=value)
 
 
 def test_adapter_declares_atif_support_and_populates_complete_context(tmp_path):

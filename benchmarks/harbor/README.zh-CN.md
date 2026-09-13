@@ -41,6 +41,12 @@ adapter 通过 stdin 发送任务指令，在 task 容器的当前目录中运�
 的 stdout/stderr 保存到 `/logs/agent/nanopycodeagent.txt`。它默认沿用 CLI 的 50
 轮限制；可以通过 `--agent-kwarg max_turns=20` 覆盖此设置。
 
+每次回复的生成上限可通过 `--agent-kwarg max_tokens=32768` 指定，它会转换为容器内的
+`--max-tokens 32768`，优先于透传的 `ANTHROPIC_MAX_TOKENS` 环境变量。未指定时，
+adapter 不添加该 flag，沿用已安装 agent 的环境变量／配置文件／默认值（引入该参数的
+版本默认为 32768）。安装旧版本时需省略新参数。生效预算会记录到启动日志和 ATIF
+trajectory 的 `agent.extra.max_tokens`。
+
 adapter 还会要求 agent 将 ATIF-v1.7 trajectory 直接写入
 `/logs/agent/trajectory.json`。Harbor 会把该文件作为 trial 的原生 ATIF 输出采集，
 并将 prompt、completion、cache token 和 cost 汇总回填到 agent result。trajectory

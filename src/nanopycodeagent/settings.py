@@ -10,6 +10,26 @@ import os
 from pathlib import Path
 
 SETTINGS_PATH = Path.home() / ".nanoPyCodeAgent" / "settings.json"
+DEFAULT_MAX_TOKENS = 32768
+
+
+def resolve_max_tokens(override: int | None = None) -> int:
+    """Resolve the per-reply limit: explicit value, environment, file, default."""
+    if override is not None:
+        if isinstance(override, bool) or not isinstance(override, int) or override < 1:
+            raise ValueError("--max-tokens must be a positive integer")
+        return override
+    load_settings_env()
+    value = os.environ.get("ANTHROPIC_MAX_TOKENS")
+    if value is None:
+        return DEFAULT_MAX_TOKENS
+    try:
+        limit = int(value)
+    except ValueError:
+        raise ValueError("ANTHROPIC_MAX_TOKENS must be a positive integer") from None
+    if limit < 1:
+        raise ValueError("ANTHROPIC_MAX_TOKENS must be a positive integer")
+    return limit
 
 
 def load_settings_env(path: Path | None = None) -> None:

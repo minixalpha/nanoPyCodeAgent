@@ -37,7 +37,8 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             cli="--max-turns",
             type="int",
             default=_DEFAULT_MAX_TURNS,
-        )
+        ),
+        CliFlag("max_tokens", cli="--max-tokens", type="int"),
     ]
 
     def __init__(self, *args, git_ref: str | None = None, **kwargs):
@@ -54,6 +55,9 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             raise ValueError("version and git_ref are mutually exclusive")
         self._git_ref = git_ref
         super().__init__(*args, **kwargs)
+        max_tokens = self._resolved_flags.get("max_tokens")
+        if max_tokens is not None and max_tokens < 1:
+            raise ValueError("max_tokens must be a positive integer")
 
     @staticmethod
     @override
@@ -112,6 +116,9 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             model = self.model_name.split("/", 1)[-1]
         if model:
             env["ANTHROPIC_MODEL"] = model
+        max_tokens = self._get_env("ANTHROPIC_MAX_TOKENS")
+        if max_tokens is not None:
+            env["ANTHROPIC_MAX_TOKENS"] = max_tokens
         return env
 
     @override

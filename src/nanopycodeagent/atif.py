@@ -424,6 +424,11 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
             "extra": {
                 "mode": run_payload["mode"],
                 "max_turns": run_payload["max_turns"],
+                **(
+                    {"max_tokens": run_payload["max_tokens"]}
+                    if "max_tokens" in run_payload
+                    else {}
+                ),
             },
         },
         "steps": steps,

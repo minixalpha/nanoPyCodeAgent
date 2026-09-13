@@ -21,6 +21,10 @@ nanoPyCodeAgent 不加载项目 `.env` 文件,没有项目级 settings 文件,�
 Settings 文件在 Anthropic client 创建和模型选择之前加载,所以交互模式与 headless
 模式遵循同一套优先级。
 
+单次回复的生成上限还支持 `--max-tokens N`。此设置的优先级为
+**CLI > 环境变量 > 配置文件 > 32768**。启动时解析一次,本次调用中的每次模型回复
+都使用同一上限。
+
 ## 支持的设置
 
 | 变量 | 是否必需 | 默认值 | 说明 |
@@ -29,11 +33,12 @@ Settings 文件在 Anthropic client 创建和模型选择之前加载,所以交�
 | `ANTHROPIC_AUTH_TOKEN` | 两种凭据至少提供一种 | 无 | 需要以 `Authorization: Bearer` 认证的服务所使用的 bearer token,例如 OpenRouter 的 Anthropic-compatible endpoint。 |
 | `ANTHROPIC_BASE_URL` | 否 | `https://api.anthropic.com` | Anthropic SDK 使用的 base URL。兼容的 proxy 或第三方 endpoint 需要设置此项;使用官方 API 时保持未设置。 |
 | `ANTHROPIC_MODEL` | 否 | `claude-sonnet-4-6` | 每次 Messages API 调用所使用的模型。 |
+| `ANTHROPIC_MAX_TOKENS` | 否 | `32768` | 控制每次模型回复生成 token 数的正整数,可由 `--max-tokens` 覆盖。 |
 
 `ANTHROPIC_API_KEY` 与 `ANTHROPIC_AUTH_TOKEN` 中至少要有一个提供可用凭据。两者都
 不可用时,命令会在 stderr 报告缺少凭据,并在 Agent Run 启动前以状态 `1` 退出。
 
-Settings 文件 loader 接受名称以 `ANTHROPIC_` 开头的任何键。上面的四个变量是
+Settings 文件 loader 接受名称以 `ANTHROPIC_` 开头的任何键。上面的五个变量是
 nanoPyCodeAgent 的配置契约;其他变量是否生效由安装的 Anthropic Python SDK 决定,
 并可能随着该依赖变化。
 
@@ -76,7 +81,8 @@ nanoPyCodeAgent -p "run the test suite"
     "ANTHROPIC_API_KEY": "",
     "ANTHROPIC_AUTH_TOKEN": "",
     "ANTHROPIC_BASE_URL": "",
-    "ANTHROPIC_MODEL": ""
+    "ANTHROPIC_MODEL": "",
+    "ANTHROPIC_MAX_TOKENS": ""
   }
 }
 ```
@@ -88,7 +94,8 @@ nanoPyCodeAgent -p "run the test suite"
   "env": {
     "ANTHROPIC_AUTH_TOKEN": "your-token",
     "ANTHROPIC_BASE_URL": "https://example.com/anthropic",
-    "ANTHROPIC_MODEL": "provider/model-name"
+    "ANTHROPIC_MODEL": "provider/model-name",
+    "ANTHROPIC_MAX_TOKENS": "32768"
   }
 }
 ```
@@ -128,6 +135,10 @@ chmod 600 ~/.nanoPyCodeAgent/settings.json
 ```bash
 unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN ANTHROPIC_BASE_URL ANTHROPIC_MODEL
 ```
+
+`ANTHROPIC_MAX_TOKENS` 的最终环境值为空、非整数、零或负数时,会在任何模型请求前
+报用法错误并以状态 `2` 退出。有效的 CLI 覆盖值优先于环境中的非法预算值。
+配置文件仍遵循上述字符串与占位符规则;预算应写成 `"32768"`,而不是 JSON 数字。
 
 ## 优先级示例
 
