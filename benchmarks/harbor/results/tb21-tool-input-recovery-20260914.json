@@ -1,0 +1,3541 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-14T18:59:07.143845+00:00",
+  "purpose": "Evaluate recoverable tool input errors with targeted reruns, preserved environment failures, and an independent rerun of the original 20 tasks.",
+  "agent_ref": "27a9503157534f61a995b3f06fda6c0a7ed6a6ee",
+  "model": "openrouter/deepseek/deepseek-v4-flash-0731",
+  "dataset": "terminal-bench/terminal-bench-2-1",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "clean_pass_definition": "Reward 1 with a native completed outcome, no Harbor or native error, and no agent deadline. The separately resumed scheduler verification is not an uninterrupted Harbor trial.",
+  "configuration": {
+    "max_tokens": 65536,
+    "project_default_max_tokens": 32768,
+    "max_turns": 50,
+    "agent_execution_limit_seconds": 3600,
+    "finalization_grace_seconds": 120,
+    "harbor_outer_limit_seconds": 3780,
+    "agent_setup_limit_seconds": 3600,
+    "original_interrupted_group_setup_limit_seconds": 1080,
+    "maximum_simultaneous_trials": 2,
+    "automatic_harbor_retries": 0,
+    "attempts_per_task_per_job": 1,
+    "verifier_limits": "Native task deadlines"
+  },
+  "baseline_results": [
+    "benchmarks/harbor/results/tb21-flash0731-pilot20-20260906.json",
+    "benchmarks/harbor/results/tb21-generation-budget-65536-20260912.json"
+  ],
+  "validation": {
+    "core_locked_sdk_0_112_0": 276,
+    "core_benchmark_sdk_1_5_0": 276,
+    "harbor_adapter": 22,
+    "independent_review": "No findings.",
+    "source_ref": "27a9503157534f61a995b3f06fda6c0a7ed6a6ee"
+  },
+  "recorded_response_replays": [
+    {
+      "task": "terminal-bench/circuit-fibsqrt",
+      "source_trial": "circuit-fibsqrt__hKj963g",
+      "source_body_sha256": "4c5d44e8be4c111cf6db19cb04e958e94303d143e6017f4d5caba9f3d52fb325",
+      "model_requests_mocked": 3,
+      "rejected_calls": 1,
+      "corrected_call_succeeded": true,
+      "terminal": "completed",
+      "live_model_calls": 0,
+      "tools_stubbed": true
+    },
+    {
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "source_trial": "qemu-alpine-ssh__fUdBS9i",
+      "source_body_sha256": "c4f274ad61fb585e3197ab9c455ec23c58d88d0828263978427ade9468140589",
+      "model_requests_mocked": 3,
+      "rejected_calls": 1,
+      "corrected_call_succeeded": true,
+      "terminal": "completed",
+      "live_model_calls": 0,
+      "tools_stubbed": true
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "source_trial": "llm-inference-batching-scheduler__BzoMMdJ",
+      "source_body_sha256": "c95b39f9956a33e50416b89c0f5e2c46d6b82b3d3753c55a2bf272acade981cd",
+      "model_requests_mocked": 3,
+      "rejected_calls": 1,
+      "corrected_call_succeeded": true,
+      "terminal": "completed",
+      "live_model_calls": 0,
+      "tools_stubbed": true
+    },
+    {
+      "task": "terminal-bench/dna-assembly",
+      "source_trial": "dna-assembly__sP5PGwn",
+      "source_body_sha256": "ebf39fdbe39da335464b9191defde650ffa40941e0ec55667c027cdb75f90ee9",
+      "model_requests_mocked": 3,
+      "rejected_calls": 1,
+      "corrected_call_succeeded": true,
+      "terminal": "completed",
+      "live_model_calls": 0,
+      "tools_stubbed": true
+    }
+  ],
+  "user_interrupted_batch": {
+    "job": "tb21-tool-input-recovery-targeted5-20260913",
+    "paused_at": "2026-09-13T13:27:01.971312+00:00",
+    "local_record": "jobs/tb21-tool-input-recovery-targeted5-20260913-record",
+    "pre_model_environment_failures": [
+      {
+        "trial": "qemu-alpine-ssh__e8b6js3",
+        "cause": "APT package HTTP 404",
+        "model_calls": 0
+      },
+      {
+        "trial": "dna-assembly__armd4Bq",
+        "cause": "Agent installation exceeded 1080 seconds",
+        "model_calls": 0
+      }
+    ],
+    "interrupted_during_installation": {
+      "trial": "pytorch-model-recovery__YryRGRU",
+      "model_calls": 0
+    },
+    "never_started": [
+      "circuit-fibsqrt"
+    ],
+    "completed_agent_with_resumed_verification": {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "task_ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+      "trial": "llm-inference-batching-scheduler__A2FfSLh",
+      "reward": 1.0,
+      "terminal_outcome": "completed",
+      "model_calls_started": 47,
+      "model_calls_completed": 47,
+      "tool_calls": 53,
+      "max_reply_output_tokens": 61571,
+      "final_metrics": {
+        "total_steps": 48,
+        "total_prompt_tokens": 2556515,
+        "total_completion_tokens": 119981,
+        "total_cached_tokens": 2450176,
+        "total_cost_usd": 0.0191573
+      },
+      "argument_error_count": 1,
+      "argument_error_tools": {
+        "bash": 1
+      },
+      "malformed_json_rejections": 1,
+      "argument_errors_followed_by_model_call": 1,
+      "argument_errors_followed_by_successful_same_tool": 1,
+      "atif_valid": true,
+      "native_journal_projection_matches": true,
+      "journal_truncated_entries": 0,
+      "all_requests_use_65536": true,
+      "complete_model_streams": 47,
+      "kind": "verification_resumed_after_user_pause",
+      "local_trajectory": "jobs/tb21-tool-input-recovery-targeted5-20260913-record/interrupted-container-logs/llm-inference-batching-scheduler__a2ffslh__env-main-1/trajectory.json",
+      "runtime_packages": {
+        "nanopycodeagent": "0.8.1.dev25+g27a950315",
+        "anthropic": "1.5.0",
+        "httpx": "0.28.1",
+        "httpx2": "2.12.0",
+        "pydantic": "2.13.5"
+      },
+      "official_test_summary": {
+        "tests": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1789390548.9881704,
+        "stop": 1789390549.0480113
+      },
+      "official_verifier": {
+        "started_at": "2026-09-14T12:55:05.529774+00:00",
+        "finished_at": "2026-09-14T12:55:51.312649+00:00",
+        "verifier_limit_seconds": 1800,
+        "live_model_calls": 0,
+        "official_test_hashes": {
+          "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cost_model_for_tests.py": "d3e810a99d40327fb8317f6512d879c52c6aeebdf5dcdc0c5e117c7df61c9ab9",
+          "test.sh": "005f980332355e2fe143d4ff4aac11828adf070594bbe7055399c238f06953ca",
+          "test_outputs.py": "80b06b7c4ba0db28832b767d48be74bb462d7f5df5798d9cb58c4f1160d96ffa"
+        },
+        "exit_code": 0
+      },
+      "comparison_limit": "The agent completed before the user-requested pause. Its unchanged artifacts passed the official verifier after resumption, without additional model calls. This is not an uninterrupted Harbor trial and is separate from the fresh 20-task experiment.",
+      "agent_and_finalization_seconds": 800.311,
+      "usage_complete": true,
+      "billing_cost_complete": true,
+      "billing_total_cost_usd": 0.0191573
+    }
+  },
+  "qemu_dependency_cache": {
+    "package_count": 20,
+    "manifest_sha256": "604dda83406a336999c246fe9bdf808ce588808bef9133bfe06065ab5f1ab70c",
+    "packages": [
+      {
+        "filename": "perl-base_5.32.1-4+deb11u5_amd64.deb",
+        "size": 1628988,
+        "sha256": "ada191fcb45092c9f1ad6b22f99683686d0013d475f3862cd70d0c11e82ffda5"
+      },
+      {
+        "filename": "perl-modules-5.32_5.32.1-4+deb11u5_all.deb",
+        "size": 2823424,
+        "sha256": "fb6770bd430cfa83601ab6e240d5f31d9bd91ab74c0b1f5f10d39a3e1604923f"
+      },
+      {
+        "filename": "libgdbm6_1.19-2_amd64.deb",
+        "size": 64852,
+        "sha256": "e54cfe4d8b8f209bb7df31a404ce040f7c2f9b1045114a927a7e1061cdf90727"
+      },
+      {
+        "filename": "libgdbm-compat4_1.19-2_amd64.deb",
+        "size": 44744,
+        "sha256": "e62caed68b0ffaa03b5fa539d6fdc08c4151f66236d5878949bead0b71b7bb09"
+      },
+      {
+        "filename": "libperl5.32_5.32.1-4+deb11u5_amd64.deb",
+        "size": 4102112,
+        "sha256": "d5ee0eb7e80357207a435f3db98271d70a4bd160756dbaee93b9634d6a293a3c"
+      },
+      {
+        "filename": "perl_5.32.1-4+deb11u5_amd64.deb",
+        "size": 293632,
+        "sha256": "70a3557dd306c3c5c6a2cda71dc4d3013aa8684bdc4b117f441a841eb76be5fc"
+      },
+      {
+        "filename": "less_551-2+deb11u2_amd64.deb",
+        "size": 135828,
+        "sha256": "57aad1d58d304f3d1e41b014be6cf620f547d98132304353186c3cc5791778a4"
+      },
+      {
+        "filename": "ca-certificates_20250419~deb12u1~deb11u1_all.deb",
+        "size": 174888,
+        "sha256": "a588acf469f96e272fe3e83225f68ddcda72a95e2dd139086d5edc165d3939e3"
+      },
+      {
+        "filename": "libldap-2.4-2_2.4.57+dfsg-3+deb11u1_amd64.deb",
+        "size": 232196,
+        "sha256": "3d79ee84c42c1d1b58a6e0d7debc7e3c8444147b84412b8248a7789809bc3163"
+      },
+      {
+        "filename": "libnghttp2-14_1.43.0-1+deb11u3_amd64.deb",
+        "size": 77576,
+        "sha256": "431588c3b1bebec3adb36a7e505113222f302f340bd99d4b5ea1a429068cecd2"
+      },
+      {
+        "filename": "librtmp1_2.4+20151223.gitfa8646d.1-2+b2_amd64.deb",
+        "size": 60824,
+        "sha256": "e1f69020dc2c466e421ec6a58406b643be8b5c382abf0f8989011c1d3df91c87"
+      },
+      {
+        "filename": "libssh2-1_1.9.0-2+deb11u1_amd64.deb",
+        "size": 155648,
+        "sha256": "4e8f5c1bce75c2006309e1dcb952675d5760c9f7445b20c8d57c14e760fe7e07"
+      },
+      {
+        "filename": "libcurl4_7.74.0-1.3+deb11u16_amd64.deb",
+        "size": 347388,
+        "sha256": "f37d02d28b454b7a311d75dd366129a907fcbf3bfebacbf4029d8cdda25b75bd"
+      },
+      {
+        "filename": "curl_7.74.0-1.3+deb11u16_amd64.deb",
+        "size": 271568,
+        "sha256": "c953d4b4e56b38032da27a24a6cb2a0fbf2c6307ee23c419ccba80e44200bc6a"
+      },
+      {
+        "filename": "libcurl3-gnutls_7.74.0-1.3+deb11u16_amd64.deb",
+        "size": 344060,
+        "sha256": "2864b18a9beba8e1f7452879b292043c3cfd09a5df0aacf8b6a723ff90810940"
+      },
+      {
+        "filename": "liberror-perl_0.17029-1_all.deb",
+        "size": 30992,
+        "sha256": "594083f3588e82b725f2b0532c0fc85f7c9e306fcac26ba4401572d214d90c72"
+      },
+      {
+        "filename": "git-man_1%3a2.30.2-1+deb11u5_all.deb",
+        "size": 1830536,
+        "sha256": "35502107222e8892b94df45b1548f466ad3d1264582fe8d3bd3c1018ca77919a"
+      },
+      {
+        "filename": "git_1%3a2.30.2-1+deb11u5_amd64.deb",
+        "size": 5568184,
+        "sha256": "03fbc9ed1a40f226cc0d5d2cdbbb6fbd47d6b82115c3b694da3b005a52c9a76c"
+      },
+      {
+        "filename": "libldap-common_2.4.57+dfsg-3+deb11u1_all.deb",
+        "size": 95800,
+        "sha256": "ffa2e83a690a551c0d3b77c29f606758df177b056abe4514f6e8286dc344ea5c"
+      },
+      {
+        "filename": "patch_2.7.6-7_amd64.deb",
+        "size": 127848,
+        "sha256": "8c6d49b771530dbe26d7bd060582dc7d2b4eeb603a20789debc1ef4bbbc4ef67"
+      }
+    ],
+    "method": "Download the same packages selected by the original APT index from official Debian URLs, verify SHA256 and size, and copy into the container APT cache after apt-get update, whose Docker cleanup hook otherwise removes cached archives. Installation uses the original package names and versions."
+  },
+  "pytorch_verifier_cache": {
+    "purpose": "Pre-download the unchanged official PyTorch verifier dependencies after the first targeted verifier exceeded 900 seconds downloading wheels. The official test command and deadline remain unchanged.",
+    "requirements": [
+      "pytest==8.4.1",
+      "torch==2.7.1",
+      "pytest-json-ctrf==0.3.5"
+    ],
+    "python": "3.13",
+    "tests_executed_during_preparation": false,
+    "uv_version": "0.9.5",
+    "packages": [
+      {
+        "name": "filelock",
+        "version": "3.32.6"
+      },
+      {
+        "name": "fsspec",
+        "version": "2026.7.0"
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.0"
+      },
+      {
+        "name": "Jinja2",
+        "version": "3.1.6"
+      },
+      {
+        "name": "MarkupSafe",
+        "version": "3.0.3"
+      },
+      {
+        "name": "mpmath",
+        "version": "1.3.0"
+      },
+      {
+        "name": "networkx",
+        "version": "3.6.1"
+      },
+      {
+        "name": "nvidia-cublas-cu12",
+        "version": "12.6.4.1"
+      },
+      {
+        "name": "nvidia-cuda-cupti-cu12",
+        "version": "12.6.80"
+      },
+      {
+        "name": "nvidia-cuda-nvrtc-cu12",
+        "version": "12.6.77"
+      },
+      {
+        "name": "nvidia-cuda-runtime-cu12",
+        "version": "12.6.77"
+      },
+      {
+        "name": "nvidia-cudnn-cu12",
+        "version": "9.5.1.17"
+      },
+      {
+        "name": "nvidia-cufft-cu12",
+        "version": "11.3.0.4"
+      },
+      {
+        "name": "nvidia-cufile-cu12",
+        "version": "1.11.1.6"
+      },
+      {
+        "name": "nvidia-curand-cu12",
+        "version": "10.3.7.77"
+      },
+      {
+        "name": "nvidia-cusolver-cu12",
+        "version": "11.7.1.2"
+      },
+      {
+        "name": "nvidia-cusparse-cu12",
+        "version": "12.5.4.2"
+      },
+      {
+        "name": "nvidia-cusparselt-cu12",
+        "version": "0.6.3"
+      },
+      {
+        "name": "nvidia-nccl-cu12",
+        "version": "2.26.2"
+      },
+      {
+        "name": "nvidia-nvjitlink-cu12",
+        "version": "12.6.85"
+      },
+      {
+        "name": "nvidia-nvtx-cu12",
+        "version": "12.6.77"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.6.0"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "pytest",
+        "version": "8.4.1"
+      },
+      {
+        "name": "pytest-json-ctrf",
+        "version": "0.3.5"
+      },
+      {
+        "name": "setuptools",
+        "version": "84.0.0"
+      },
+      {
+        "name": "sympy",
+        "version": "1.14.0"
+      },
+      {
+        "name": "torch",
+        "version": "2.7.1"
+      },
+      {
+        "name": "triton",
+        "version": "3.3.1"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      }
+    ],
+    "archive": "verifier-cache.tar.gz",
+    "archive_bytes": 3116827828,
+    "archive_sha256": "fb9b4516c0956e7fe042cbcf2df046ab517fb2ccc0af1ce4e3f567f8af76a6bb",
+    "cache_links": "Absolute links within the wheel cache become relative links to the unchanged archive contents.",
+    "original_image_check": {
+      "checked_at": "2026-09-14T13:46:12.683461+00:00",
+      "exit_code": 0,
+      "elapsed_seconds": 74.614,
+      "image": "alexgshaw/pytorch-model-recovery:20260430",
+      "uv": "0.9.5",
+      "dependency_resolution": "offline after installing Python 3.13",
+      "check": "pytest --version -p torch: import Torch and initialize pytest without running task tests",
+      "task_tests_run": false
+    }
+  },
+  "comparison_limits": [
+    "The 8192 baseline used another source revision and native agent deadlines. Historical 65536 trials covered 19 distinct tasks in multiple jobs; regex-log was not rerun at 65536.",
+    "All 20 task refs and cached image digests match the original pilot. Cached uv and reported SDK/http/Pydantic versions are fixed; historical dependency resolution was not locked.",
+    "The setup-only deadline increased after DNA failed before any model call. A separate QEMU retry uses verified original APT package caches after repeated installation HTTP 404. Earlier failures are retained, and model/verifier deadlines are unchanged.",
+    "The first PyTorch targeted agent completed normally, but its official verifier exceeded 900 seconds downloading Torch/CUDA. A separate rerun and the fresh20 use a checked uv 0.9.5 cache of unchanged official dependencies. Original failures remain recorded; no task tests ran during cache preparation and native verifier limits stay unchanged.",
+    "The scheduler agent completed before the pause. Its unchanged output passed the official verifier after resumption with no new model calls; this is separate from an uninterrupted Harbor result and from the fresh 20-task run.",
+    "Sampling, routing, cache, and backend remain uncontrolled. Score changes alone do not establish causality.",
+    "A later successful call of the same tool is an observed recovery indicator, not proof that the exact original operation was corrected.",
+    "Recorded-response replays stub subsequent model replies and tool execution. They show changed handling of identical bad inputs, not task success.",
+    "Per-reply output maxima refer to completed native replies only. Known token sums include completed replies from interrupted trials; separate provider receipt usage does not repair an incomplete native response.",
+    "ConnectTimeout failures before response headers and generation IDs are counted separately as connection attempts, before a model generation request is sent. Unknown usage and cost remain unknown. Raw model output, Journals, request identifiers, and detailed billing receipts remain private local artifacts."
+  ],
+  "experiments": [
+    {
+      "kind": "targeted4",
+      "job": "tb21-tool-input-recovery-targeted4-20260914",
+      "local_record": "jobs/tb21-tool-input-recovery-targeted4-20260914-record",
+      "agent_ref": "27a9503157534f61a995b3f06fda6c0a7ed6a6ee",
+      "wheel_sha256": "30a82e3bcb2d68a9232c25c9364e9ba08bae4e5ef56ac3fca6a73a8028dc1b1b",
+      "counts": {
+        "planned": 4,
+        "finished": 4,
+        "passed": 1,
+        "clean_passed": 0,
+        "failed": 1,
+        "unscored": 2,
+        "argument_errors": 0,
+        "argument_errors_followed_by_model_call": 0,
+        "argument_errors_followed_by_successful_same_tool": 0,
+        "model_calls_started": 119,
+        "model_calls_completed": 119
+      },
+      "known_tokens": {
+        "total_prompt_tokens": 8185961,
+        "total_cached_tokens": 6258176,
+        "total_completion_tokens": 272877
+      },
+      "known_tokens_semantics": "Sum of completed-reply metrics projected from preserved Journals, including completed replies in interrupted trials; excludes incomplete responses and separate provider receipt usage.",
+      "usage_complete": true,
+      "billing_known_cost_usd": 0.196416556,
+      "billing_total_cost_usd": 0.196416556,
+      "billing_cost_complete": true,
+      "workflow_sha256": {
+        "diagnostic_runner.py": "c423d7ba5322b676c73192dbe52d30110f8a91a6eaada5a85151cc456d046635",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "cached_adapter.py": "54f36ee67b26e483132b619900c1e51f90375ff82aee895b553b2616349b34bc",
+        "status.py": "c1ae99b78f05efdcb37fff325ab0309d1b3d763741bb6372b674e373b3c78ebe",
+        "monitor.py": "fad87a820be21b8187740d2a5a2f1b8e81550c34a4c8caa1e106335389215610",
+        "run.py": "26eb76ba8445e2a0ea1d6cfbca3579c3b7e314ce8941a3d5d9a3efbffa073394"
+      },
+      "method": "Reuse corrected DNA bootstrap with original system dependencies and cached uv; pin reported SDK/http/Pydantic versions to the previous 65536 trials. Retry system dependency installation at most three times on HTTP 404 within the configured setup deadline; do not retry whole tasks. Increase only the installation deadline to 3600s after the targeted DNA setup exceeded 1080s; keep model and verifier budgets unchanged. Reuse supervisor and passive HTTP recorder with periodic stack dumps disabled.",
+      "agent_setup_limit_seconds": 3600.0,
+      "image_comparison": [
+        {
+          "task": "terminal-bench/dna-assembly",
+          "image": "alexgshaw/dna-assembly:20251031",
+          "image_id": "sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569",
+          "repo_digests": [
+            "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "image": "alexgshaw/qemu-alpine-ssh:20251031",
+          "image_id": "sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964",
+          "repo_digests": [
+            "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "image": "alexgshaw/pytorch-model-recovery:20260430",
+          "image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+          "repo_digests": [
+            "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/circuit-fibsqrt",
+          "image": "alexgshaw/circuit-fibsqrt:20251031",
+          "image_id": "sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a",
+          "repo_digests": [
+            "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+          ],
+          "same_digests": true
+        }
+      ],
+      "monitoring_change": null,
+      "circuit_finalization_diagnosis": null,
+      "trials": [
+        {
+          "task": "terminal-bench/dna-assembly",
+          "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+          "trial": "dna-assembly__X72Rxhb",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "failure_category": "max_turns_exhausted",
+          "phase_seconds": {
+            "environment_setup": 0.942,
+            "agent_setup": 57.173,
+            "agent_execution": 3533.714,
+            "verifier": 25.869
+          },
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "model_http_request_count": 50,
+          "tool_calls": 64,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 50,
+          "max_reply_output_tokens": 18091,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 4243328,
+            "total_cached_tokens": 2761728,
+            "total_completion_tokens": 145180
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 4243328,
+            "total_completion_tokens": 145180,
+            "total_cached_tokens": 2761728,
+            "total_cost_usd": 0.114686727
+          },
+          "billing_known_cost_usd": 0.114686727,
+          "billing_total_cost_usd": 0.114686727,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 50,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-targeted4-20260914/dna-assembly__X72Rxhb/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 3529.801,
+            "started_at": "2026-09-14T12:57:21.507017+00:00",
+            "finished_at": "2026-09-14T13:56:14.697003+00:00"
+          },
+          "official_test_summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789394201.1831346,
+            "stop": 1789394201.205387
+          }
+        },
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+          "trial": "qemu-alpine-ssh__WVjvfSm",
+          "reward": null,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": "NonZeroAgentExitCodeError",
+          "terminal_outcome": null,
+          "failure_category": "NonZeroAgentExitCodeError",
+          "phase_seconds": {
+            "environment_setup": 0.985,
+            "agent_setup": 19.528,
+            "agent_execution": null,
+            "verifier": null
+          },
+          "model_calls_started": 0,
+          "model_calls_completed": 0,
+          "tool_calls": 0,
+          "last_stop_reason": null,
+          "usage_complete": true,
+          "cost_complete": true,
+          "final_metrics": null,
+          "billing_known_cost_usd": 0,
+          "billing_total_cost_usd": 0,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "clean_pass": false,
+          "verifier_timed_out": false,
+          "no_model_call_reason": "Agent installation did not finish",
+          "local_trajectory": null,
+          "trajectory_source": null,
+          "runtime_packages": null,
+          "execution_control": {},
+          "official_test_summary": null
+        },
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+          "trial": "pytorch-model-recovery__gUG4sXt",
+          "reward": null,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": "VerifierTimeoutError",
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "VerifierTimeoutError",
+          "phase_seconds": {
+            "environment_setup": 1.047,
+            "agent_setup": 37.831,
+            "agent_execution": 473.825,
+            "verifier": 900.857
+          },
+          "model_calls_started": 20,
+          "model_calls_completed": 20,
+          "model_http_request_count": 20,
+          "tool_calls": 21,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 20,
+          "max_reply_output_tokens": 8053,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 431735,
+            "total_cached_tokens": 395264,
+            "total_completion_tokens": 24238
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 21,
+            "total_prompt_tokens": 431735,
+            "total_completion_tokens": 24238,
+            "total_cached_tokens": 395264,
+            "total_cost_usd": 0.010239212
+          },
+          "billing_known_cost_usd": 0.010239212,
+          "billing_total_cost_usd": 0.010239212,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": true,
+          "verifier_timeout_stage": "before_pytest_session_start",
+          "all_requests_use_65536": true,
+          "complete_model_streams": 20,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-targeted4-20260914/pytorch-model-recovery__gUG4sXt/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 471.945,
+            "started_at": "2026-09-14T12:57:35.017098+00:00",
+            "finished_at": "2026-09-14T13:05:28.262084+00:00"
+          },
+          "official_test_summary": null
+        },
+        {
+          "task": "terminal-bench/circuit-fibsqrt",
+          "task_ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+          "trial": "circuit-fibsqrt__BZcFmGC",
+          "reward": 1.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": "NonZeroAgentExitCodeError",
+          "terminal_outcome": null,
+          "terminal_error_type": "KeyboardInterrupt",
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.02,
+            "agent_setup": 40.816,
+            "agent_execution": 3713.876,
+            "verifier": 120.161
+          },
+          "model_calls_started": 49,
+          "model_calls_completed": 49,
+          "model_http_request_count": 49,
+          "tool_calls": 51,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 49,
+          "max_reply_output_tokens": 12298,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 3510898,
+            "total_cached_tokens": 3101184,
+            "total_completion_tokens": 103459
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 50,
+            "total_prompt_tokens": 3510898,
+            "total_completion_tokens": 103459,
+            "total_cached_tokens": 3101184,
+            "total_cost_usd": 0.071490617
+          },
+          "billing_known_cost_usd": 0.071490617,
+          "billing_total_cost_usd": 0.071490617,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 49,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-targeted4-20260914/circuit-fibsqrt__BZcFmGC/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": true,
+            "forced_kill": false,
+            "exit_code": 130,
+            "elapsed_seconds": 3713.335,
+            "started_at": "2026-09-14T13:21:25.745715+00:00",
+            "finished_at": "2026-09-14T14:23:19.032819+00:00",
+            "interrupt_sent_at": "2026-09-14T14:21:25.698771+00:00"
+          },
+          "official_test_summary": {
+            "tests": 3,
+            "passed": 3,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789395916.4584723,
+            "stop": 1789395919.9017293
+          }
+        }
+      ]
+    },
+    {
+      "kind": "qemu-cache-retry",
+      "job": "tb21-tool-input-recovery-qemu-cache-retry-20260914",
+      "local_record": "jobs/tb21-tool-input-recovery-qemu-cache-retry-20260914-record",
+      "agent_ref": "27a9503157534f61a995b3f06fda6c0a7ed6a6ee",
+      "wheel_sha256": "30a82e3bcb2d68a9232c25c9364e9ba08bae4e5ef56ac3fca6a73a8028dc1b1b",
+      "counts": {
+        "planned": 1,
+        "finished": 1,
+        "passed": 1,
+        "clean_passed": 1,
+        "failed": 0,
+        "unscored": 0,
+        "argument_errors": 0,
+        "argument_errors_followed_by_model_call": 0,
+        "argument_errors_followed_by_successful_same_tool": 0,
+        "model_calls_started": 48,
+        "model_calls_completed": 48
+      },
+      "known_tokens": {
+        "total_prompt_tokens": 1368346,
+        "total_cached_tokens": 1245696,
+        "total_completion_tokens": 26080
+      },
+      "known_tokens_semantics": "Sum of completed-reply metrics projected from preserved Journals, including completed replies in interrupted trials; excludes incomplete responses and separate provider receipt usage.",
+      "usage_complete": true,
+      "billing_known_cost_usd": 0.025246592,
+      "billing_total_cost_usd": 0.025246592,
+      "billing_cost_complete": true,
+      "workflow_sha256": {
+        "diagnostic_runner.py": "c423d7ba5322b676c73192dbe52d30110f8a91a6eaada5a85151cc456d046635",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "cached_adapter.py": "714ff81cf02b22043f49636a1b434a2626a6641b615129cbf8c731822e729be1",
+        "status.py": "31baddb6ba4c6ac37e8e401ff0f77c0e512f29f97fb7a52462963025f81a341e",
+        "monitor.py": "c9e0ef3a074365de123726e31592298abc506ce7fe6a6657248c02e9f7dfaf13",
+        "run.py": "3e43820a9375913d41afbe8e31a2c24620a9652c4d068cc5b7b81ea51ea950c4"
+      },
+      "method": "Reuse corrected DNA bootstrap with original system dependencies and cached uv; pin reported SDK/http/Pydantic versions to the previous 65536 trials. Retry system dependency installation at most three times on HTTP 404 within the configured setup deadline; do not retry whole tasks. Increase only the installation deadline to 3600s after the targeted DNA setup exceeded 1080s; keep model and verifier budgets unchanged. For QEMU only, preload 20 original dependency packages into the APT cache, verified against the original signed APT index by SHA256 and size, after intermittent HTTP 404 persisted across installation retries. Package versions and installation commands stay unchanged. Reuse supervisor and passive HTTP recorder with periodic stack dumps disabled.",
+      "agent_setup_limit_seconds": 3600.0,
+      "image_comparison": [
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "image": "alexgshaw/qemu-alpine-ssh:20251031",
+          "image_id": "sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964",
+          "repo_digests": [
+            "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+          ],
+          "same_digests": true
+        }
+      ],
+      "monitoring_change": null,
+      "circuit_finalization_diagnosis": null,
+      "trials": [
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+          "trial": "qemu-alpine-ssh__pQxg8uS",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.016,
+            "agent_setup": 36.316,
+            "agent_execution": 1104.681,
+            "verifier": 316.98
+          },
+          "model_calls_started": 48,
+          "model_calls_completed": 48,
+          "model_http_request_count": 48,
+          "tool_calls": 56,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 48,
+          "max_reply_output_tokens": 4336,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1368346,
+            "total_cached_tokens": 1245696,
+            "total_completion_tokens": 26080
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 49,
+            "total_prompt_tokens": 1368346,
+            "total_completion_tokens": 26080,
+            "total_cached_tokens": 1245696,
+            "total_cost_usd": 0.025246592
+          },
+          "billing_known_cost_usd": 0.025246592,
+          "billing_total_cost_usd": 0.025246592,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 48,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-qemu-cache-retry-20260914/qemu-alpine-ssh__pQxg8uS/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 1104.191,
+            "started_at": "2026-09-14T13:57:37.074168+00:00",
+            "finished_at": "2026-09-14T14:16:01.134387+00:00"
+          },
+          "official_test_summary": {
+            "tests": 1,
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789395678.5319016,
+            "stop": 1789395678.8344207
+          }
+        }
+      ]
+    },
+    {
+      "kind": "pytorch-cache-retry",
+      "job": "tb21-tool-input-recovery-pytorch-cache-retry-20260914",
+      "local_record": "jobs/tb21-tool-input-recovery-pytorch-cache-retry-20260914-record",
+      "agent_ref": "27a9503157534f61a995b3f06fda6c0a7ed6a6ee",
+      "wheel_sha256": "30a82e3bcb2d68a9232c25c9364e9ba08bae4e5ef56ac3fca6a73a8028dc1b1b",
+      "counts": {
+        "planned": 1,
+        "finished": 1,
+        "passed": 1,
+        "clean_passed": 1,
+        "failed": 0,
+        "unscored": 0,
+        "argument_errors": 0,
+        "argument_errors_followed_by_model_call": 0,
+        "argument_errors_followed_by_successful_same_tool": 0,
+        "model_calls_started": 8,
+        "model_calls_completed": 8
+      },
+      "known_tokens": {
+        "total_prompt_tokens": 72487,
+        "total_cached_tokens": 67328,
+        "total_completion_tokens": 8897
+      },
+      "known_tokens_semantics": "Sum of completed-reply metrics projected from preserved Journals, including completed replies in interrupted trials; excludes incomplete responses and separate provider receipt usage.",
+      "usage_complete": true,
+      "billing_known_cost_usd": 0.002185116,
+      "billing_total_cost_usd": 0.002185116,
+      "billing_cost_complete": true,
+      "workflow_sha256": {
+        "diagnostic_runner.py": "c423d7ba5322b676c73192dbe52d30110f8a91a6eaada5a85151cc456d046635",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "cached_adapter.py": "cb3d90577e8744214c6455db36cb241d937cdd2f3029df476216ae9894a3bfb7",
+        "status.py": "31baddb6ba4c6ac37e8e401ff0f77c0e512f29f97fb7a52462963025f81a341e",
+        "monitor.py": "c9e0ef3a074365de123726e31592298abc506ce7fe6a6657248c02e9f7dfaf13",
+        "run.py": "b4cd2b211a8abe8396241c6e95e192045a7f0cac42fd7cf0cea708f484e208bb"
+      },
+      "method": "Reuse corrected DNA bootstrap with original system dependencies and cached uv; pin reported SDK/http/Pydantic versions to the previous 65536 trials. Retry system dependency installation at most three times on HTTP 404 within the configured setup deadline; do not retry whole tasks. Increase only the installation deadline to 3600s after the targeted DNA setup exceeded 1080s; keep model and verifier budgets unchanged. For QEMU only, preload 20 original dependency packages into the APT cache, verified against the original signed APT index by SHA256 and size, after intermittent HTTP 404 persisted across installation retries. Package versions and installation commands stay unchanged. For PyTorch recovery only, preload a checked uv 0.9.5 wheel cache of the unchanged official verifier requirements after its targeted verifier timed out downloading Torch/CUDA. The task tests and native verifier deadline stay unchanged; no test is run during cache preparation. Reuse supervisor and passive HTTP recorder with periodic stack dumps disabled.",
+      "agent_setup_limit_seconds": 3600.0,
+      "image_comparison": [
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "image": "alexgshaw/pytorch-model-recovery:20260430",
+          "image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+          "repo_digests": [
+            "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+          ],
+          "same_digests": true
+        }
+      ],
+      "monitoring_change": null,
+      "circuit_finalization_diagnosis": null,
+      "trials": [
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+          "trial": "pytorch-model-recovery__PR5H3Vv",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.032,
+            "agent_setup": 432.773,
+            "agent_execution": 139.975,
+            "verifier": 23.182
+          },
+          "model_calls_started": 8,
+          "model_calls_completed": 8,
+          "model_http_request_count": 8,
+          "tool_calls": 8,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 8,
+          "max_reply_output_tokens": 5597,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 72487,
+            "total_cached_tokens": 67328,
+            "total_completion_tokens": 8897
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 9,
+            "total_prompt_tokens": 72487,
+            "total_completion_tokens": 8897,
+            "total_cached_tokens": 67328,
+            "total_cost_usd": 0.002185116
+          },
+          "billing_known_cost_usd": 0.002185116,
+          "billing_total_cost_usd": 0.002185116,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 8,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pytorch-cache-retry-20260914/pytorch-model-recovery__PR5H3Vv/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 139.399,
+            "started_at": "2026-09-14T14:33:00.934054+00:00",
+            "finished_at": "2026-09-14T14:35:20.333189+00:00"
+          },
+          "official_test_summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789396539.4684052,
+            "stop": 1789396543.6063733
+          }
+        }
+      ]
+    },
+    {
+      "kind": "pilot20",
+      "job": "tb21-tool-input-recovery-pilot20-20260914",
+      "local_record": "jobs/tb21-tool-input-recovery-pilot20-20260914-record",
+      "agent_ref": "27a9503157534f61a995b3f06fda6c0a7ed6a6ee",
+      "wheel_sha256": "30a82e3bcb2d68a9232c25c9364e9ba08bae4e5ef56ac3fca6a73a8028dc1b1b",
+      "counts": {
+        "planned": 20,
+        "finished": 20,
+        "passed": 10,
+        "clean_passed": 9,
+        "failed": 9,
+        "unscored": 1,
+        "argument_errors": 0,
+        "argument_errors_followed_by_model_call": 0,
+        "argument_errors_followed_by_successful_same_tool": 0,
+        "model_calls_started": 491,
+        "model_calls_completed": 487
+      },
+      "known_tokens": {
+        "total_prompt_tokens": 21991162,
+        "total_cached_tokens": 18119936,
+        "total_completion_tokens": 724013
+      },
+      "known_tokens_semantics": "Sum of completed-reply metrics projected from preserved Journals, including completed replies in interrupted trials; excludes incomplete responses and separate provider receipt usage.",
+      "usage_complete": false,
+      "billing_known_cost_usd": 0.462175819,
+      "billing_total_cost_usd": 0.462175819,
+      "billing_cost_complete": true,
+      "workflow_sha256": {
+        "diagnostic_runner.py": "c423d7ba5322b676c73192dbe52d30110f8a91a6eaada5a85151cc456d046635",
+        "diagnostic_adapter.py": "6b00af9113e2010f0f149509ba94a48c525aa408725c2742d38698d52940f95f",
+        "cached_adapter.py": "cb3d90577e8744214c6455db36cb241d937cdd2f3029df476216ae9894a3bfb7",
+        "status.py": "31baddb6ba4c6ac37e8e401ff0f77c0e512f29f97fb7a52462963025f81a341e",
+        "monitor.py": "c9e0ef3a074365de123726e31592298abc506ce7fe6a6657248c02e9f7dfaf13",
+        "run.py": "4894b24e755c14b6bcc8990c4fa5c01192273965f2658aeedd5537c4e5d7b360"
+      },
+      "method": "Reuse corrected DNA bootstrap with original system dependencies and cached uv; pin reported SDK/http/Pydantic versions to the previous 65536 trials. Retry system dependency installation at most three times on HTTP 404 within the configured setup deadline; do not retry whole tasks. Increase only the installation deadline to 3600s after the targeted DNA setup exceeded 1080s; keep model and verifier budgets unchanged. For QEMU only, preload 20 original dependency packages into the APT cache, verified against the original signed APT index by SHA256 and size, after intermittent HTTP 404 persisted across installation retries. Package versions and installation commands stay unchanged. For PyTorch recovery only, preload a checked uv 0.9.5 wheel cache of the unchanged official verifier requirements after its targeted verifier timed out downloading Torch/CUDA. The task tests and native verifier deadline stay unchanged; no test is run during cache preparation. Reuse supervisor and passive HTTP recorder with periodic stack dumps disabled.",
+      "agent_setup_limit_seconds": 3600.0,
+      "image_comparison": [
+        {
+          "task": "terminal-bench/write-compressor",
+          "image": "alexgshaw/write-compressor:20251031",
+          "image_id": "sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1",
+          "repo_digests": [
+            "alexgshaw/write-compressor@sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/write-compressor@sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/torch-tensor-parallelism",
+          "image": "alexgshaw/torch-tensor-parallelism:20251031",
+          "image_id": "sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690",
+          "repo_digests": [
+            "alexgshaw/torch-tensor-parallelism@sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/torch-tensor-parallelism@sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/schemelike-metacircular-eval",
+          "image": "alexgshaw/schemelike-metacircular-eval:20251031",
+          "image_id": "sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db",
+          "repo_digests": [
+            "alexgshaw/schemelike-metacircular-eval@sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/schemelike-metacircular-eval@sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/kv-store-grpc",
+          "image": "alexgshaw/kv-store-grpc:20251031",
+          "image_id": "sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791",
+          "repo_digests": [
+            "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/pypi-server",
+          "image": "alexgshaw/pypi-server:20251031",
+          "image_id": "sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276",
+          "repo_digests": [
+            "alexgshaw/pypi-server@sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/pypi-server@sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/dna-assembly",
+          "image": "alexgshaw/dna-assembly:20251031",
+          "image_id": "sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569",
+          "repo_digests": [
+            "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/torch-pipeline-parallelism",
+          "image": "alexgshaw/torch-pipeline-parallelism:20251031",
+          "image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
+          "repo_digests": [
+            "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "image": "alexgshaw/qemu-alpine-ssh:20251031",
+          "image_id": "sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964",
+          "repo_digests": [
+            "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/openssl-selfsigned-cert",
+          "image": "alexgshaw/openssl-selfsigned-cert:20251031",
+          "image_id": "sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12",
+          "repo_digests": [
+            "alexgshaw/openssl-selfsigned-cert@sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/openssl-selfsigned-cert@sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/regex-chess",
+          "image": "alexgshaw/regex-chess:20251031",
+          "image_id": "sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c",
+          "repo_digests": [
+            "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/log-summary-date-ranges",
+          "image": "alexgshaw/log-summary-date-ranges:20251031",
+          "image_id": "sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51",
+          "repo_digests": [
+            "alexgshaw/log-summary-date-ranges@sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/log-summary-date-ranges@sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/model-extraction-relu-logits",
+          "image": "alexgshaw/model-extraction-relu-logits:20251031",
+          "image_id": "sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce",
+          "repo_digests": [
+            "alexgshaw/model-extraction-relu-logits@sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/model-extraction-relu-logits@sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/path-tracing",
+          "image": "alexgshaw/path-tracing:20251031",
+          "image_id": "sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482",
+          "repo_digests": [
+            "alexgshaw/path-tracing@sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/path-tracing@sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/regex-log",
+          "image": "alexgshaw/regex-log:20251031",
+          "image_id": "sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9",
+          "repo_digests": [
+            "alexgshaw/regex-log@sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/regex-log@sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/caffe-cifar-10",
+          "image": "alexgshaw/caffe-cifar-10:20260403",
+          "image_id": "sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215",
+          "repo_digests": [
+            "alexgshaw/caffe-cifar-10@sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/caffe-cifar-10@sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/mteb-leaderboard",
+          "image": "alexgshaw/mteb-leaderboard:20260430",
+          "image_id": "sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4",
+          "repo_digests": [
+            "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/llm-inference-batching-scheduler",
+          "image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+          "image_id": "sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774",
+          "repo_digests": [
+            "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "image": "alexgshaw/pytorch-model-recovery:20260430",
+          "image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+          "repo_digests": [
+            "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/circuit-fibsqrt",
+          "image": "alexgshaw/circuit-fibsqrt:20251031",
+          "image_id": "sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a",
+          "repo_digests": [
+            "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+          ],
+          "same_digests": true
+        },
+        {
+          "task": "terminal-bench/merge-diff-arc-agi-task",
+          "image": "alexgshaw/merge-diff-arc-agi-task:20251031",
+          "image_id": "sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4",
+          "repo_digests": [
+            "alexgshaw/merge-diff-arc-agi-task@sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4"
+          ],
+          "baseline_repo_digests": [
+            "alexgshaw/merge-diff-arc-agi-task@sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4"
+          ],
+          "same_digests": true
+        }
+      ],
+      "monitoring_change": {
+        "recorded_at": "2026-09-14T18:39:20.825573+00:00",
+        "reason": "Three detailed in-container probes exceeded 25 seconds while the container was near its original 2 GiB memory limit.",
+        "original_monitor_stopped": true,
+        "orphaned_probes_found_and_stopped": 0,
+        "replacement": "Read finished trial metadata on the host and Docker container state only; do not parse agent HTTP bodies or Journals inside the container.",
+        "agent_or_test_settings_changed": false,
+        "limitation": "The earlier probes may have added memory pressure; the extent of their effect is unknown."
+      },
+      "circuit_finalization_diagnosis": {
+        "last_complete_reply_at": "2026-09-14T18:46:26.965Z",
+        "last_stop_reason": "end_turn",
+        "completed_model_replies": 50,
+        "deadline_interrupt_at": "2026-09-14T18:47:05.171496+00:00",
+        "interrupted_phase": "post-loop provider cost reconciliation",
+        "native_terminal_event_present": false,
+        "native_export_exception": "AtifProjectionError",
+        "native_export_message": "Event Journal has no terminal event",
+        "trajectory_source": "reconstructed",
+        "reconstruction_semantics": "The experiment wrapper projects the preserved Journal with a synthetic DiagnosticDeadlineExceeded terminal event; no native terminal event or native trajectory is claimed.",
+        "finalization_block_unchanged_from_parent": true,
+        "model_generated_tool_program_also_had_KeyError": true,
+        "keyerror_semantics": "A Gate-object KeyError was tool program output, not an agent argument-validation crash."
+      },
+      "trials": [
+        {
+          "task": "terminal-bench/write-compressor",
+          "task_ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+          "trial": "write-compressor__57zjZZ2",
+          "reward": 1.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 0.947,
+            "agent_setup": 132.401,
+            "agent_execution": 1856.955,
+            "verifier": 22.721
+          },
+          "model_calls_started": 28,
+          "model_calls_completed": 28,
+          "model_http_request_count": 28,
+          "tool_calls": 28,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 28,
+          "max_reply_output_tokens": 27845,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1323267,
+            "total_cached_tokens": 942336,
+            "total_completion_tokens": 64152
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 29,
+            "total_prompt_tokens": 1323267,
+            "total_completion_tokens": 64152,
+            "total_cached_tokens": 942336,
+            "total_cost_usd": 0.035040982
+          },
+          "billing_known_cost_usd": 0.035040982,
+          "billing_total_cost_usd": 0.035040982,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 28,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/write-compressor__57zjZZ2/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 1855.401,
+            "started_at": "2026-09-14T14:40:06.691945+00:00",
+            "finished_at": "2026-09-14T15:11:03.110608+00:00"
+          },
+          "official_test_summary": {
+            "tests": 3,
+            "passed": 3,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789398686.3182354,
+            "stop": 1789398686.4833848
+          }
+        },
+        {
+          "task": "terminal-bench/torch-tensor-parallelism",
+          "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+          "trial": "torch-tensor-parallelism__FdBwaP5",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "verifier_failed",
+          "phase_seconds": {
+            "environment_setup": 0.977,
+            "agent_setup": 240.184,
+            "agent_execution": 1143.546,
+            "verifier": 606.049
+          },
+          "model_calls_started": 35,
+          "model_calls_completed": 35,
+          "model_http_request_count": 35,
+          "tool_calls": 34,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 35,
+          "max_reply_output_tokens": 20243,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1103425,
+            "total_cached_tokens": 883200,
+            "total_completion_tokens": 38064
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 36,
+            "total_prompt_tokens": 1103425,
+            "total_completion_tokens": 38064,
+            "total_cached_tokens": 883200,
+            "total_cost_usd": 0.024594145
+          },
+          "billing_known_cost_usd": 0.024594145,
+          "billing_total_cost_usd": 0.024594145,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 35,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/torch-tensor-parallelism__FdBwaP5/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 1141.971,
+            "started_at": "2026-09-14T14:41:54.469964+00:00",
+            "finished_at": "2026-09-14T15:00:57.468085+00:00"
+          },
+          "official_test_summary": {
+            "tests": 3,
+            "passed": 1,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789398629.5207684,
+            "stop": 1789398663.6756363
+          }
+        },
+        {
+          "task": "terminal-bench/schemelike-metacircular-eval",
+          "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+          "trial": "schemelike-metacircular-eval__CJJvMtU",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": "NonZeroAgentExitCodeError",
+          "terminal_outcome": null,
+          "terminal_error_type": "RemoteProtocolError",
+          "failure_category": "RemoteProtocolError",
+          "phase_seconds": {
+            "environment_setup": 1.142,
+            "agent_setup": 53.235,
+            "agent_execution": 1374.177,
+            "verifier": 20.69
+          },
+          "model_calls_started": 18,
+          "model_calls_completed": 17,
+          "model_http_request_count": 18,
+          "tool_calls": 39,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 18,
+          "max_reply_output_tokens": 146,
+          "last_stop_reason": "tool_use",
+          "usage_complete": false,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 289516,
+            "total_cached_tokens": 91648,
+            "total_completion_tokens": 1867
+          },
+          "supplemental_billing_receipts": [
+            {
+              "total_cost": 0.008693141,
+              "native_tokens_prompt": 23857,
+              "native_tokens_completion": 42707,
+              "native_tokens_reasoning": 42707,
+              "native_tokens_cached": 0,
+              "cancelled": true,
+              "native_reply_completed": false
+            }
+          ],
+          "final_metrics": {
+            "total_steps": 19,
+            "extra": {
+              "usage_complete": false
+            },
+            "total_cost_usd": 0.011805219
+          },
+          "billing_known_cost_usd": 0.02049836,
+          "billing_total_cost_usd": 0.02049836,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 17,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/schemelike-metacircular-eval__CJJvMtU/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 1,
+            "elapsed_seconds": 1372.376,
+            "started_at": "2026-09-14T15:12:14.059760+00:00",
+            "finished_at": "2026-09-14T15:35:07.634866+00:00"
+          },
+          "official_test_summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789400126.450264,
+            "stop": 1789400129.0521998
+          }
+        },
+        {
+          "task": "terminal-bench/kv-store-grpc",
+          "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+          "trial": "kv-store-grpc__bdTCL7k",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 0.991,
+            "agent_setup": 76.136,
+            "agent_execution": 303.562,
+            "verifier": 27.576
+          },
+          "model_calls_started": 11,
+          "model_calls_completed": 11,
+          "model_http_request_count": 11,
+          "tool_calls": 12,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 11,
+          "max_reply_output_tokens": 1245,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 53277,
+            "total_cached_tokens": 36352,
+            "total_completion_tokens": 4308
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 12,
+            "total_prompt_tokens": 53277,
+            "total_completion_tokens": 4308,
+            "total_cached_tokens": 36352,
+            "total_cost_usd": 0.001771507
+          },
+          "billing_known_cost_usd": 0.001771507,
+          "billing_total_cost_usd": 0.001771507,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 11,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/kv-store-grpc__bdTCL7k/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 302.394,
+            "started_at": "2026-09-14T15:12:56.609379+00:00",
+            "finished_at": "2026-09-14T15:17:59.589901+00:00"
+          },
+          "official_test_summary": {
+            "tests": 7,
+            "passed": 7,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789399107.781019,
+            "stop": 1789399107.8403146
+          }
+        },
+        {
+          "task": "terminal-bench/pypi-server",
+          "task_ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+          "trial": "pypi-server__bTuaU7q",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.011,
+            "agent_setup": 38.299,
+            "agent_execution": 422.223,
+            "verifier": 95.305
+          },
+          "model_calls_started": 12,
+          "model_calls_completed": 12,
+          "model_http_request_count": 12,
+          "tool_calls": 16,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 12,
+          "max_reply_output_tokens": 2376,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 82163,
+            "total_cached_tokens": 9984,
+            "total_completion_tokens": 7154
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 13,
+            "total_prompt_tokens": 82163,
+            "total_completion_tokens": 7154,
+            "total_cached_tokens": 9984,
+            "total_cost_usd": 0.006022195
+          },
+          "billing_known_cost_usd": 0.006022195,
+          "billing_total_cost_usd": 0.006022195,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 12,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/pypi-server__bTuaU7q/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 421.62,
+            "started_at": "2026-09-14T15:19:19.620308+00:00",
+            "finished_at": "2026-09-14T15:26:21.263714+00:00"
+          },
+          "official_test_summary": {
+            "tests": 1,
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789399673.917614,
+            "stop": 1789399677.2665184
+          }
+        },
+        {
+          "task": "terminal-bench/dna-assembly",
+          "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+          "trial": "dna-assembly__2Ekrc5R",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": "UnknownApiError",
+          "terminal_outcome": null,
+          "terminal_error_type": "APIStatusError",
+          "failure_category": "APIStatusError",
+          "phase_seconds": {
+            "environment_setup": 0.98,
+            "agent_setup": 138.978,
+            "agent_execution": 388.114,
+            "verifier": 32.118
+          },
+          "model_calls_started": 2,
+          "model_calls_completed": 1,
+          "model_http_request_count": 2,
+          "tool_calls": 2,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 2,
+          "max_reply_output_tokens": 117,
+          "last_stop_reason": "tool_use",
+          "usage_complete": false,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1871,
+            "total_cached_tokens": 0,
+            "total_completion_tokens": 117
+          },
+          "supplemental_billing_receipts": [
+            {
+              "total_cost": 0,
+              "native_tokens_prompt": 3680,
+              "native_tokens_completion": 10787,
+              "native_tokens_reasoning": 10787,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": false
+            }
+          ],
+          "final_metrics": {
+            "total_steps": 3,
+            "extra": {
+              "usage_complete": false
+            },
+            "total_cost_usd": 0.000127098
+          },
+          "billing_known_cost_usd": 0.000127098,
+          "billing_total_cost_usd": 0.000127098,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 1,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/dna-assembly__2Ekrc5R/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 1,
+            "elapsed_seconds": 387.357,
+            "started_at": "2026-09-14T15:30:29.702367+00:00",
+            "finished_at": "2026-09-14T15:36:57.308430+00:00"
+          },
+          "official_test_summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789400250.0242982,
+            "stop": 1789400250.0481493
+          }
+        },
+        {
+          "task": "terminal-bench/torch-pipeline-parallelism",
+          "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+          "trial": "torch-pipeline-parallelism__NjFmYa2",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "failure_category": "max_turns_exhausted",
+          "phase_seconds": {
+            "environment_setup": 0.978,
+            "agent_setup": 89.696,
+            "agent_execution": 2282.455,
+            "verifier": 395.774
+          },
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "model_http_request_count": 50,
+          "tool_calls": 49,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 50,
+          "max_reply_output_tokens": 16221,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1800681,
+            "total_cached_tokens": 1520896,
+            "total_completion_tokens": 53954
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 1800681,
+            "total_completion_tokens": 53954,
+            "total_cached_tokens": 1520896,
+            "total_cost_usd": 0.028030215
+          },
+          "billing_known_cost_usd": 0.028030215,
+          "billing_total_cost_usd": 0.028030215,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 50,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/torch-pipeline-parallelism__NjFmYa2/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 2283.289,
+            "started_at": "2026-09-14T15:37:12.535495+00:00",
+            "finished_at": "2026-09-14T16:15:14.468563+00:00"
+          },
+          "official_test_summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789402801.9720635,
+            "stop": 1789402909.7827365
+          }
+        },
+        {
+          "task": "terminal-bench/qemu-alpine-ssh",
+          "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+          "trial": "qemu-alpine-ssh__gDLWFkv",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.0,
+            "agent_setup": 37.273,
+            "agent_execution": 944.041,
+            "verifier": 36.847
+          },
+          "model_calls_started": 41,
+          "model_calls_completed": 41,
+          "model_http_request_count": 42,
+          "tool_calls": 47,
+          "pre_connection_timeout_count": 1,
+          "generation_request_count": 41,
+          "max_reply_output_tokens": 4322,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 964722,
+            "total_cached_tokens": 870912,
+            "total_completion_tokens": 30207
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 42,
+            "total_prompt_tokens": 964722,
+            "total_completion_tokens": 30207,
+            "total_cached_tokens": 870912,
+            "total_cost_usd": 0.019837024
+          },
+          "billing_known_cost_usd": 0.019837024,
+          "billing_total_cost_usd": 0.019837024,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 41,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/qemu-alpine-ssh__gDLWFkv/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 943.22,
+            "started_at": "2026-09-14T15:38:21.514052+00:00",
+            "finished_at": "2026-09-14T15:54:04.957560+00:00"
+          },
+          "official_test_summary": {
+            "tests": 1,
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789401282.2062144,
+            "stop": 1789401282.5095472
+          }
+        },
+        {
+          "task": "terminal-bench/openssl-selfsigned-cert",
+          "task_ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
+          "trial": "openssl-selfsigned-cert__sG4cgWM",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 0.989,
+            "agent_setup": 111.314,
+            "agent_execution": 267.354,
+            "verifier": 25.897
+          },
+          "model_calls_started": 15,
+          "model_calls_completed": 15,
+          "model_http_request_count": 15,
+          "tool_calls": 14,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 15,
+          "max_reply_output_tokens": 1749,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 90889,
+            "total_cached_tokens": 63488,
+            "total_completion_tokens": 9190
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 16,
+            "total_prompt_tokens": 90889,
+            "total_completion_tokens": 9190,
+            "total_cached_tokens": 63488,
+            "total_cost_usd": 0.003475489
+          },
+          "billing_known_cost_usd": 0.003475489,
+          "billing_total_cost_usd": 0.003475489,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 15,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/openssl-selfsigned-cert__sG4cgWM/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 267.197,
+            "started_at": "2026-09-14T15:56:47.603441+00:00",
+            "finished_at": "2026-09-14T16:01:14.359414+00:00"
+          },
+          "official_test_summary": {
+            "tests": 6,
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789401700.8642244,
+            "stop": 1789401700.977473
+          }
+        },
+        {
+          "task": "terminal-bench/regex-chess",
+          "task_ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+          "trial": "regex-chess__fCi889r",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "failure_category": "max_turns_exhausted",
+          "phase_seconds": {
+            "environment_setup": 1.0,
+            "agent_setup": 251.443,
+            "agent_execution": 2634.818,
+            "verifier": 49.035
+          },
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "model_http_request_count": 50,
+          "tool_calls": 51,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 50,
+          "max_reply_output_tokens": 38286,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 5856494,
+            "total_cached_tokens": 5706240,
+            "total_completion_tokens": 159259
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 5856494,
+            "total_completion_tokens": 159259,
+            "total_cached_tokens": 5706240,
+            "total_cost_usd": 0.097369176
+          },
+          "billing_known_cost_usd": 0.097369176,
+          "billing_total_cost_usd": 0.097369176,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 50,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/regex-chess__fCi889r/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 2635.359,
+            "started_at": "2026-09-14T16:06:08.532754+00:00",
+            "finished_at": "2026-09-14T16:50:02.766051+00:00"
+          },
+          "official_test_summary": {
+            "tests": 4,
+            "passed": 1,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789404644.259886,
+            "stop": 1789404652.4901717
+          }
+        },
+        {
+          "task": "terminal-bench/log-summary-date-ranges",
+          "task_ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+          "trial": "log-summary-date-ranges__zjB5yXQ",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.119,
+            "agent_setup": 185.054,
+            "agent_execution": 89.495,
+            "verifier": 28.226
+          },
+          "model_calls_started": 8,
+          "model_calls_completed": 8,
+          "model_http_request_count": 8,
+          "tool_calls": 10,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 8,
+          "max_reply_output_tokens": 1007,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 65815,
+            "total_cached_tokens": 0,
+            "total_completion_tokens": 2871
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 9,
+            "total_prompt_tokens": 65815,
+            "total_completion_tokens": 2871,
+            "total_cached_tokens": 0,
+            "total_cost_usd": 0.004257278
+          },
+          "billing_known_cost_usd": 0.004257278,
+          "billing_total_cost_usd": 0.004257278,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 8,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/log-summary-date-ranges__zjB5yXQ/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 88.257,
+            "started_at": "2026-09-14T16:25:11.549932+00:00",
+            "finished_at": "2026-09-14T16:26:40.464257+00:00"
+          },
+          "official_test_summary": {
+            "tests": 2,
+            "passed": 2,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789403229.388808,
+            "stop": 1789403229.4008687
+          }
+        },
+        {
+          "task": "terminal-bench/model-extraction-relu-logits",
+          "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+          "trial": "model-extraction-relu-logits__Re3YH5b",
+          "reward": null,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": "VerifierTimeoutError",
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "VerifierTimeoutError",
+          "phase_seconds": {
+            "environment_setup": 1.009,
+            "agent_setup": 59.552,
+            "agent_execution": 1895.901,
+            "verifier": 900.024
+          },
+          "model_calls_started": 27,
+          "model_calls_completed": 27,
+          "model_http_request_count": 27,
+          "tool_calls": 27,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 27,
+          "max_reply_output_tokens": 36420,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1654237,
+            "total_cached_tokens": 1398784,
+            "total_completion_tokens": 83389
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 28,
+            "total_prompt_tokens": 1654237,
+            "total_completion_tokens": 83389,
+            "total_cached_tokens": 1398784,
+            "total_cost_usd": 0.031342956
+          },
+          "billing_known_cost_usd": 0.031342956,
+          "billing_total_cost_usd": 0.031342956,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": true,
+          "verifier_timeout_stage": "after_pytest_session_start",
+          "all_requests_use_65536": true,
+          "complete_model_streams": 27,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/model-extraction-relu-logits__Re3YH5b/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 1895.294,
+            "started_at": "2026-09-14T16:28:22.482020+00:00",
+            "finished_at": "2026-09-14T16:59:57.801488+00:00"
+          },
+          "official_test_summary": null
+        },
+        {
+          "task": "terminal-bench/path-tracing",
+          "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+          "trial": "path-tracing__zzZYzJB",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": "UnknownApiError",
+          "terminal_outcome": null,
+          "terminal_error_type": "APIStatusError",
+          "failure_category": "APIStatusError",
+          "phase_seconds": {
+            "environment_setup": 0.974,
+            "agent_setup": 104.933,
+            "agent_execution": 1862.202,
+            "verifier": 30.483
+          },
+          "model_calls_started": 32,
+          "model_calls_completed": 31,
+          "model_http_request_count": 32,
+          "tool_calls": 31,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 32,
+          "max_reply_output_tokens": 9574,
+          "last_stop_reason": "tool_use",
+          "usage_complete": false,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1960309,
+            "total_cached_tokens": 1270016,
+            "total_completion_tokens": 79153
+          },
+          "supplemental_billing_receipts": [
+            {
+              "total_cost": 0,
+              "native_tokens_prompt": 48962,
+              "native_tokens_completion": 89,
+              "native_tokens_reasoning": 89,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": false
+            }
+          ],
+          "final_metrics": {
+            "total_steps": 33,
+            "extra": {
+              "usage_complete": false
+            },
+            "total_cost_usd": 0.055366852
+          },
+          "billing_known_cost_usd": 0.055366852,
+          "billing_total_cost_usd": 0.055366852,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 31,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/path-tracing__zzZYzJB/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 1,
+            "elapsed_seconds": 1861.648,
+            "started_at": "2026-09-14T16:52:50.657628+00:00",
+            "finished_at": "2026-09-14T17:23:52.305647+00:00"
+          },
+          "official_test_summary": {
+            "tests": 5,
+            "passed": 0,
+            "failed": 5,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789406663.0298913,
+            "stop": 1789406663.457909
+          }
+        },
+        {
+          "task": "terminal-bench/regex-log",
+          "task_ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a",
+          "trial": "regex-log__J73zVku",
+          "reward": 1.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 0.989,
+            "agent_setup": 43.9,
+            "agent_execution": 264.877,
+            "verifier": 22.065
+          },
+          "model_calls_started": 5,
+          "model_calls_completed": 5,
+          "model_http_request_count": 5,
+          "tool_calls": 4,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 5,
+          "max_reply_output_tokens": 13542,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 69471,
+            "total_cached_tokens": 0,
+            "total_completion_tokens": 16449
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 6,
+            "total_prompt_tokens": 69471,
+            "total_completion_tokens": 16449,
+            "total_cached_tokens": 0,
+            "total_cost_usd": 0.006796389
+          },
+          "billing_known_cost_usd": 0.006796389,
+          "billing_total_cost_usd": 0.006796389,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 5,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/regex-log__J73zVku/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 264.352,
+            "started_at": "2026-09-14T17:15:57.788981+00:00",
+            "finished_at": "2026-09-14T17:20:22.140961+00:00"
+          },
+          "official_test_summary": {
+            "tests": 1,
+            "passed": 1,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789406444.8393474,
+            "stop": 1789406444.8510358
+          }
+        },
+        {
+          "task": "terminal-bench/caffe-cifar-10",
+          "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+          "trial": "caffe-cifar-10__gWhbTjc",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "verifier_failed",
+          "phase_seconds": {
+            "environment_setup": 1.021,
+            "agent_setup": 44.564,
+            "agent_execution": 909.205,
+            "verifier": 16.067
+          },
+          "model_calls_started": 29,
+          "model_calls_completed": 29,
+          "model_http_request_count": 29,
+          "tool_calls": 38,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 29,
+          "max_reply_output_tokens": 8792,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 732567,
+            "total_cached_tokens": 605440,
+            "total_completion_tokens": 27273
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 30,
+            "total_prompt_tokens": 732567,
+            "total_completion_tokens": 27273,
+            "total_cached_tokens": 605440,
+            "total_cost_usd": 0.013053599
+          },
+          "billing_known_cost_usd": 0.013053599,
+          "billing_total_cost_usd": 0.013053599,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 29,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/caffe-cifar-10__gWhbTjc/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 908.677,
+            "started_at": "2026-09-14T17:21:43.058714+00:00",
+            "finished_at": "2026-09-14T17:36:51.735367+00:00"
+          },
+          "official_test_summary": {
+            "tests": 6,
+            "passed": 2,
+            "failed": 4,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789407428.3698657,
+            "stop": 1789407428.4345121
+          }
+        },
+        {
+          "task": "terminal-bench/mteb-leaderboard",
+          "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+          "trial": "mteb-leaderboard__hqhasBH",
+          "reward": 0.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "max_turns_exhausted",
+          "terminal_error_type": null,
+          "failure_category": "max_turns_exhausted",
+          "phase_seconds": {
+            "environment_setup": 1.068,
+            "agent_setup": 43.838,
+            "agent_execution": 1238.846,
+            "verifier": 18.935
+          },
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "model_http_request_count": 50,
+          "tool_calls": 66,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 50,
+          "max_reply_output_tokens": 2195,
+          "last_stop_reason": "tool_use",
+          "usage_complete": true,
+          "cost_complete": false,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 1019591,
+            "total_cached_tokens": 926976,
+            "total_completion_tokens": 18086
+          },
+          "supplemental_billing_receipts": [
+            {
+              "total_cost": 9.9346e-05,
+              "native_tokens_prompt": 11213,
+              "native_tokens_completion": 146,
+              "native_tokens_reasoning": 146,
+              "native_tokens_cached": 10240,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000156227,
+              "native_tokens_prompt": 11898,
+              "native_tokens_completion": 497,
+              "native_tokens_reasoning": 26,
+              "native_tokens_cached": 11008,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000164775,
+              "native_tokens_prompt": 12905,
+              "native_tokens_completion": 459,
+              "native_tokens_reasoning": 306,
+              "native_tokens_cached": 11776,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 7.9924e-05,
+              "native_tokens_prompt": 13409,
+              "native_tokens_completion": 127,
+              "native_tokens_reasoning": 127,
+              "native_tokens_cached": 12800,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 8.9035e-05,
+              "native_tokens_prompt": 13899,
+              "native_tokens_completion": 182,
+              "native_tokens_reasoning": 62,
+              "native_tokens_cached": 13312,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 7.9614e-05,
+              "native_tokens_prompt": 14533,
+              "native_tokens_completion": 81,
+              "native_tokens_reasoning": 80,
+              "native_tokens_cached": 13824,
+              "cancelled": false,
+              "native_reply_completed": true
+            }
+          ],
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 1019591,
+            "total_completion_tokens": 18086,
+            "total_cached_tokens": 926976,
+            "extra": {
+              "known_cost_usd": 0.009456104,
+              "cost_is_partial": true,
+              "missing_generation_count": 6
+            }
+          },
+          "billing_known_cost_usd": 0.010125025,
+          "billing_total_cost_usd": 0.010125025,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 50,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/mteb-leaderboard__hqhasBH/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 1238.304,
+            "started_at": "2026-09-14T17:25:20.730233+00:00",
+            "finished_at": "2026-09-14T17:45:59.034345+00:00"
+          },
+          "official_test_summary": {
+            "tests": 2,
+            "passed": 0,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789407978.6175883,
+            "stop": 1789407978.636591
+          }
+        },
+        {
+          "task": "terminal-bench/llm-inference-batching-scheduler",
+          "task_ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+          "trial": "llm-inference-batching-scheduler__S95o8Jv",
+          "reward": 0.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": "NonZeroAgentExitCodeError",
+          "terminal_outcome": null,
+          "terminal_error_type": "RemoteProtocolError",
+          "failure_category": "RemoteProtocolError",
+          "phase_seconds": {
+            "environment_setup": 1.031,
+            "agent_setup": 27.395,
+            "agent_execution": 316.075,
+            "verifier": 125.997
+          },
+          "model_calls_started": 3,
+          "model_calls_completed": 2,
+          "model_http_request_count": 3,
+          "tool_calls": 4,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 3,
+          "max_reply_output_tokens": 152,
+          "last_stop_reason": "tool_use",
+          "usage_complete": false,
+          "cost_complete": false,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 7377,
+            "total_cached_tokens": 1280,
+            "total_completion_tokens": 263
+          },
+          "supplemental_billing_receipts": [
+            {
+              "total_cost": 0.000177205,
+              "native_tokens_prompt": 2642,
+              "native_tokens_completion": 152,
+              "native_tokens_reasoning": 12,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000219003,
+              "native_tokens_prompt": 4735,
+              "native_tokens_completion": 111,
+              "native_tokens_reasoning": 16,
+              "native_tokens_cached": 1280,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.002562331,
+              "native_tokens_prompt": 9300,
+              "native_tokens_completion": 11832,
+              "native_tokens_reasoning": 11157,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": false
+            }
+          ],
+          "final_metrics": {
+            "total_steps": 4,
+            "extra": {
+              "usage_complete": false,
+              "known_cost_usd": 0.0,
+              "cost_is_partial": true,
+              "missing_generation_count": 2
+            }
+          },
+          "billing_known_cost_usd": 0.002958539,
+          "billing_total_cost_usd": 0.002958539,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 2,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/llm-inference-batching-scheduler__S95o8Jv/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 1,
+            "elapsed_seconds": 315.48,
+            "started_at": "2026-09-14T17:37:50.239483+00:00",
+            "finished_at": "2026-09-14T17:43:05.719652+00:00"
+          },
+          "official_test_summary": null
+        },
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+          "trial": "pytorch-model-recovery__ApaiVSr",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.017,
+            "agent_setup": 95.286,
+            "agent_execution": 254.25,
+            "verifier": 18.128
+          },
+          "model_calls_started": 8,
+          "model_calls_completed": 8,
+          "model_http_request_count": 8,
+          "tool_calls": 9,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 8,
+          "max_reply_output_tokens": 3764,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 77679,
+            "total_cached_tokens": 39168,
+            "total_completion_tokens": 12265
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 9,
+            "total_prompt_tokens": 77679,
+            "total_completion_tokens": 12265,
+            "total_cached_tokens": 39168,
+            "total_cost_usd": 0.004378786
+          },
+          "billing_known_cost_usd": 0.004378786,
+          "billing_total_cost_usd": 0.004378786,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 8,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/pytorch-model-recovery__ApaiVSr/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 253.667,
+            "started_at": "2026-09-14T17:47:01.006974+00:00",
+            "finished_at": "2026-09-14T17:51:14.673206+00:00"
+          },
+          "official_test_summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789408288.5147834,
+            "stop": 1789408292.9676368
+          }
+        },
+        {
+          "task": "terminal-bench/circuit-fibsqrt",
+          "task_ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+          "trial": "circuit-fibsqrt__avtHMJx",
+          "reward": 1.0,
+          "baseline_reward": 0.0,
+          "same_task_ref": true,
+          "exception_type": "NonZeroAgentExitCodeError",
+          "terminal_outcome": null,
+          "terminal_error_type": "DiagnosticDeadlineExceeded",
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 0.953,
+            "agent_setup": 33.061,
+            "agent_execution": 3600.979,
+            "verifier": 59.49
+          },
+          "model_calls_started": 50,
+          "model_calls_completed": 50,
+          "model_http_request_count": 50,
+          "tool_calls": 56,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 50,
+          "max_reply_output_tokens": 49175,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": false,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 4590472,
+            "total_cached_tokens": 3533312,
+            "total_completion_tokens": 101102
+          },
+          "supplemental_billing_receipts": [
+            {
+              "total_cost": 0.000244755,
+              "native_tokens_prompt": 94324,
+              "native_tokens_completion": 58,
+              "native_tokens_reasoning": 58,
+              "native_tokens_cached": 93184,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.00056385,
+              "native_tokens_prompt": 94915,
+              "native_tokens_completion": 2051,
+              "native_tokens_reasoning": 1508,
+              "native_tokens_cached": 94208,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.00034931,
+              "native_tokens_prompt": 96994,
+              "native_tokens_completion": 273,
+              "native_tokens_reasoning": 272,
+              "native_tokens_cached": 94720,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000293778,
+              "native_tokens_prompt": 97286,
+              "native_tokens_completion": 513,
+              "native_tokens_reasoning": 373,
+              "native_tokens_cached": 96768,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000248721,
+              "native_tokens_prompt": 97816,
+              "native_tokens_completion": 239,
+              "native_tokens_reasoning": 129,
+              "native_tokens_cached": 97280,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000430519,
+              "native_tokens_prompt": 98220,
+              "native_tokens_completion": 1329,
+              "native_tokens_reasoning": 441,
+              "native_tokens_cached": 97792,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000294334,
+              "native_tokens_prompt": 99579,
+              "native_tokens_completion": 165,
+              "native_tokens_reasoning": 164,
+              "native_tokens_cached": 98048,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000319544,
+              "native_tokens_prompt": 99966,
+              "native_tokens_completion": 596,
+              "native_tokens_reasoning": 383,
+              "native_tokens_cached": 99328,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.00025092,
+              "native_tokens_prompt": 100591,
+              "native_tokens_completion": 153,
+              "native_tokens_reasoning": 153,
+              "native_tokens_cached": 99840,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000419334,
+              "native_tokens_prompt": 100926,
+              "native_tokens_completion": 1188,
+              "native_tokens_reasoning": 911,
+              "native_tokens_cached": 100352,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000282242,
+              "native_tokens_prompt": 102142,
+              "native_tokens_completion": 149,
+              "native_tokens_reasoning": 149,
+              "native_tokens_cached": 100864,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000236687,
+              "native_tokens_prompt": 102319,
+              "native_tokens_completion": 155,
+              "native_tokens_reasoning": 155,
+              "native_tokens_cached": 101888,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000269585,
+              "native_tokens_prompt": 102653,
+              "native_tokens_completion": 318,
+              "native_tokens_reasoning": 22,
+              "native_tokens_cached": 102144,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.00038222,
+              "native_tokens_prompt": 103238,
+              "native_tokens_completion": 862,
+              "native_tokens_reasoning": 463,
+              "native_tokens_cached": 102400,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.01369168,
+              "native_tokens_prompt": 104108,
+              "native_tokens_completion": 563,
+              "native_tokens_reasoning": 193,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.00630894,
+              "native_tokens_prompt": 104690,
+              "native_tokens_completion": 153,
+              "native_tokens_reasoning": 83,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000322014,
+              "native_tokens_prompt": 104873,
+              "native_tokens_completion": 214,
+              "native_tokens_reasoning": 145,
+              "native_tokens_cached": 103168,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.006034828,
+              "native_tokens_prompt": 105135,
+              "native_tokens_completion": 123,
+              "native_tokens_reasoning": 123,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.006124118,
+              "native_tokens_prompt": 106054,
+              "native_tokens_completion": 337,
+              "native_tokens_reasoning": 71,
+              "native_tokens_cached": 0,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000351007,
+              "native_tokens_prompt": 106408,
+              "native_tokens_completion": 367,
+              "native_tokens_reasoning": 87,
+              "native_tokens_cached": 104704,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000237915,
+              "native_tokens_prompt": 106794,
+              "native_tokens_completion": 75,
+              "native_tokens_reasoning": 75,
+              "native_tokens_cached": 106240,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000390802,
+              "native_tokens_prompt": 107005,
+              "native_tokens_completion": 813,
+              "native_tokens_reasoning": 424,
+              "native_tokens_cached": 105984,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000353018,
+              "native_tokens_prompt": 107835,
+              "native_tokens_completion": 564,
+              "native_tokens_reasoning": 468,
+              "native_tokens_cached": 106752,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000316296,
+              "native_tokens_prompt": 108522,
+              "native_tokens_completion": 121,
+              "native_tokens_reasoning": 121,
+              "native_tokens_cached": 106752,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000275791,
+              "native_tokens_prompt": 108797,
+              "native_tokens_completion": 289,
+              "native_tokens_reasoning": 114,
+              "native_tokens_cached": 108288,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.00037773,
+              "native_tokens_prompt": 109516,
+              "native_tokens_completion": 726,
+              "native_tokens_reasoning": 386,
+              "native_tokens_cached": 108544,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000501714,
+              "native_tokens_prompt": 110568,
+              "native_tokens_completion": 850,
+              "native_tokens_reasoning": 282,
+              "native_tokens_cached": 107776,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000437905,
+              "native_tokens_prompt": 111532,
+              "native_tokens_completion": 983,
+              "native_tokens_reasoning": 726,
+              "native_tokens_cached": 110336,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000308266,
+              "native_tokens_prompt": 112696,
+              "native_tokens_completion": 170,
+              "native_tokens_reasoning": 170,
+              "native_tokens_cached": 111360,
+              "cancelled": false,
+              "native_reply_completed": true
+            },
+            {
+              "total_cost": 0.000367166,
+              "native_tokens_prompt": 112934,
+              "native_tokens_completion": 847,
+              "native_tokens_reasoning": 183,
+              "native_tokens_cached": 112640,
+              "cancelled": false,
+              "native_reply_completed": true
+            }
+          ],
+          "final_metrics": {
+            "total_steps": 51,
+            "total_prompt_tokens": 4590472,
+            "total_completion_tokens": 101102,
+            "total_cached_tokens": 3533312,
+            "extra": {
+              "known_cost_usd": 0.051620591,
+              "cost_is_partial": true,
+              "missing_generation_count": 30
+            }
+          },
+          "billing_known_cost_usd": 0.09260558,
+          "billing_total_cost_usd": 0.09260558,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "reconstructed_journal_projection_matches": true,
+          "clean_pass": false,
+          "atif_valid": true,
+          "native_journal_projection_matches": null,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 50,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/circuit-fibsqrt__avtHMJx/agent/trajectory.json",
+          "trajectory_source": "reconstructed",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": true,
+            "forced_kill": false,
+            "exit_code": 1,
+            "elapsed_seconds": 3600.218,
+            "started_at": "2026-09-14T17:47:05.170100+00:00",
+            "finished_at": "2026-09-14T18:47:05.387778+00:00",
+            "interrupt_sent_at": "2026-09-14T18:47:05.171496+00:00"
+          },
+          "official_test_summary": {
+            "tests": 3,
+            "passed": 3,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789411641.9229126,
+            "stop": 1789411685.7599814
+          }
+        },
+        {
+          "task": "terminal-bench/merge-diff-arc-agi-task",
+          "task_ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
+          "trial": "merge-diff-arc-agi-task__ZkfGvPf",
+          "reward": 1.0,
+          "baseline_reward": 1.0,
+          "same_task_ref": true,
+          "exception_type": null,
+          "terminal_outcome": "completed",
+          "terminal_error_type": null,
+          "failure_category": "passed",
+          "phase_seconds": {
+            "environment_setup": 1.008,
+            "agent_setup": 45.998,
+            "agent_execution": 327.054,
+            "verifier": 16.319
+          },
+          "model_calls_started": 17,
+          "model_calls_completed": 17,
+          "model_http_request_count": 17,
+          "tool_calls": 19,
+          "pre_connection_timeout_count": 0,
+          "generation_request_count": 17,
+          "max_reply_output_tokens": 5518,
+          "last_stop_reason": "end_turn",
+          "usage_complete": true,
+          "cost_complete": true,
+          "known_completed_reply_tokens": {
+            "total_prompt_tokens": 247339,
+            "total_cached_tokens": 219904,
+            "total_completion_tokens": 14890
+          },
+          "supplemental_billing_receipts": [],
+          "final_metrics": {
+            "total_steps": 18,
+            "total_prompt_tokens": 247339,
+            "total_completion_tokens": 14890,
+            "total_cached_tokens": 219904,
+            "total_cost_usd": 0.004524624
+          },
+          "billing_known_cost_usd": 0.004524624,
+          "billing_total_cost_usd": 0.004524624,
+          "billing_cost_complete": true,
+          "argument_error_count": 0,
+          "argument_error_tools": {},
+          "malformed_json_rejections": 0,
+          "argument_errors_followed_by_model_call": 0,
+          "argument_errors_followed_by_successful_same_tool": 0,
+          "clean_pass": true,
+          "atif_valid": true,
+          "native_journal_projection_matches": true,
+          "journal_truncated_entries": 0,
+          "verifier_timed_out": false,
+          "all_requests_use_65536": true,
+          "complete_model_streams": 17,
+          "local_trajectory": "jobs/tb21-tool-input-recovery-pilot20-20260914/merge-diff-arc-agi-task__ZkfGvPf/agent/trajectory.json",
+          "trajectory_source": "native",
+          "runtime_packages": {
+            "nanopycodeagent": "0.8.1.dev25+g27a950315",
+            "anthropic": "1.5.0",
+            "httpx": "0.28.1",
+            "httpx2": "2.12.0",
+            "pydantic": "2.13.5"
+          },
+          "execution_control": {
+            "execution_limit_seconds": 3600,
+            "finalization_grace_seconds": 120,
+            "deadline_reached": false,
+            "forced_kill": false,
+            "exit_code": 0,
+            "elapsed_seconds": 326.532,
+            "started_at": "2026-09-14T17:52:33.416588+00:00",
+            "finished_at": "2026-09-14T17:57:59.948543+00:00"
+          },
+          "official_test_summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1789408696.8872302,
+            "stop": 1789408696.9054453
+          }
+        }
+      ]
+    }
+  ],
+  "comparisons": {
+    "original_8192_pilot": {
+      "attempts": 20,
+      "passed": 8,
+      "passed_without_harbor_exception": 7
+    },
+    "previous_65536_initial18": {
+      "attempts": 18,
+      "passed": 5,
+      "scored_zero": 8,
+      "unscored": 5
+    },
+    "fresh20": {
+      "planned": 20,
+      "finished": 20,
+      "passed": 10,
+      "clean_passed": 9,
+      "failed": 9,
+      "unscored": 1,
+      "argument_errors": 0,
+      "argument_errors_followed_by_model_call": 0,
+      "argument_errors_followed_by_successful_same_tool": 0,
+      "model_calls_started": 491,
+      "model_calls_completed": 487
+    },
+    "fresh_matching18": {
+      "attempts": 18,
+      "passed": 8,
+      "clean_passed": 7,
+      "scored_zero": 9,
+      "unscored": 1
+    },
+    "fresh_vs_8192": {
+      "reward_gains": [
+        "terminal-bench/write-compressor",
+        "terminal-bench/regex-log",
+        "terminal-bench/circuit-fibsqrt"
+      ],
+      "reward_regressions": [
+        "terminal-bench/llm-inference-batching-scheduler"
+      ],
+      "previous_passes_now_unscored": []
+    }
+  },
+  "billing_known_lower_bound_usd": 0.705181383,
+  "billing_total_usd": 0.705181383
+}
