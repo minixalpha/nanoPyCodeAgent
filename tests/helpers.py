@@ -10,6 +10,15 @@ import json
 from types import SimpleNamespace
 
 import anthropic
+import anthropic._base_client
+
+
+def sdk_http_module():
+    """Use the SDK's transport family when mocking its real streaming client."""
+    return (
+        getattr(anthropic._base_client, "httpx", None)
+        or anthropic._base_client.httpx2
+    )
 
 
 def text_block(text):
@@ -79,6 +88,10 @@ class FakeStream:
 
     def __exit__(self, *exc_info):
         return False
+
+    def __iter__(self):
+        for text in self.text_stream:
+            yield SimpleNamespace(type="text", text=text)
 
     @property
     def text_stream(self):

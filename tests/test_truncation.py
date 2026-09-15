@@ -4,7 +4,6 @@ import json
 from types import SimpleNamespace
 
 import anthropic
-import httpx
 import pytest
 from anthropic.types import ThinkingBlock
 
@@ -17,6 +16,7 @@ from helpers import (
     FakeStream,
     patch_client,
     patch_client_and_input,
+    sdk_http_module,
     text_block,
     write_tool_use_block,
 )
@@ -132,6 +132,7 @@ def test_sdk_stream_with_partial_tool_json_preserves_truncation(
     monkeypatch, tmp_path, capsys
 ):
     """Use the real SDK accumulator with an input JSON delta cut mid-string."""
+    httpx = sdk_http_module()
     events = [
         {"type": "message_start", "message": {
             "id": "msg-truncated", "type": "message", "role": "assistant",
