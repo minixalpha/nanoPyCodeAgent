@@ -16,6 +16,35 @@ def test_projector_output_passes_harbor_atif_validator():
     assert validator.validate(trajectory), validator.get_errors()
 
 
+@pytest.mark.parametrize("resolved", [False, True])
+def test_recovered_stream_v3_passes_harbor_atif_validator(tmp_path, resolved):
+    fixture = Path(__file__).parent / "fixtures" / "atif-journal-v1.jsonl"
+    with EventJournal.create("run-recovered", directory=tmp_path) as journal:
+        for entry in EventJournal.replay(fixture):
+            if entry.type == "model.started":
+                journal.append(NativeEvent("model.started", entry.payload | {
+                    "model_call_id": "failed-attempt",
+                }))
+                journal.append(NativeEvent("model.failed", {
+                    "model_call_id": "failed-attempt", "error_type": "RemoteProtocolError",
+                    "message": "interrupted", "generation_id": "gen-interrupted",
+                    "duration_ms": 10, "will_retry": True, "retry_delay_seconds": 1,
+                    "source_timestamp": entry.payload["source_timestamp"],
+                }))
+            if entry.type == "run.completed" and resolved:
+                journal.append(NativeEvent("model.cost_resolved", {
+                    "generation_id": "gen-interrupted", "amount": "0.02",
+                    "currency": "USD", "source": "test",
+                    "source_timestamp": entry.payload["source_timestamp"],
+                }))
+            journal.append(NativeEvent(entry.type, entry.payload))
+    trajectory = project_atif(EventJournal.replay(journal.path))
+    validator = TrajectoryValidator()
+    assert validator.validate(trajectory), validator.get_errors()
+    assert trajectory["steps"][1]["extra"]["incomplete"] is True
+    assert trajectory["final_metrics"]["extra"]["usage_complete"] is False
+
+
 @pytest.mark.parametrize("content", [
     [{"type": "text", "text": "Partial answer"}],
     [{"type": "extension", "namespace": "anthropic", "source_type": "thinking",

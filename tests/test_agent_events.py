@@ -293,6 +293,7 @@ def test_failed_tool_events_project_the_existing_tool_output(
 def test_interrupted_model_stream_preserves_partial_stdout_and_records_failure(
     monkeypatch, capsys
 ):
+    monkeypatch.setattr(agent, "STREAM_RETRY_DELAYS", ())
     class DisconnectingStream(FakeStream):
         @property
         def text_stream(self):
@@ -322,6 +323,7 @@ def test_interrupted_model_stream_preserves_partial_stdout_and_records_failure(
         "user.message",
         "model.started",
         "model.output_delta",
+        "model.failed",
         "run.failed",
     ]
     failure = entries[-1].payload

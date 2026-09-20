@@ -95,6 +95,21 @@ Headless mode still exits `0`; it does not retry or continue automatically.
 Interactive mode returns to `You>` with the partial text and a truncation notice
 in conversation history, so a later user message can continue the conversation.
 
+## Interrupted responses
+
+Both modes retry response-body read errors, read timeouts, and remote protocol
+errors at most twice, waiting 1 and 2 seconds. Retries use the same conversation;
+completed tools are not rerun, and partial replies and tool arguments are not
+added to request history. Failed attempts do not consume `--max-turns`, but may
+still incur provider charges. Each attempt remains in the Journal and trajectory.
+
+No new retry is scheduled beyond 300 seconds after the first interruption of
+that reply. This window does not cancel an in-flight request: the SDK timeout
+and any external run deadline still apply. Failures before a response stream
+opens remain subject to the SDK's own retry policy. Authentication errors,
+invalid requests, programming errors, and user interrupts are not retried by
+this recovery loop. Exhausted transport failures exit headless mode with `1`.
+
 ## Output channels
 
 During a headless run, stdout carries the streamed model text plus echoed tool

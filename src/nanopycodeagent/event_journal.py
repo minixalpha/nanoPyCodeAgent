@@ -19,8 +19,8 @@ from typing import Callable, Literal, Mapping
 
 from . import settings
 
-SCHEMA_VERSION = 2
-SUPPORTED_SCHEMA_VERSIONS = frozenset({1, 2})
+SCHEMA_VERSION = 3
+SUPPORTED_SCHEMA_VERSIONS = frozenset({1, 2, 3})
 DEFAULT_MAX_STRING_CHARS = 100_000
 
 type RunOutcome = Literal["completed", "max_turns_exhausted", "response_truncated"]
@@ -32,6 +32,7 @@ EVENT_TYPES = frozenset(
         "model.started",
         "model.output_delta",
         "model.completed",
+        "model.failed",
         "model.cost_resolved",
         "tool.started",
         "tool.completed",
@@ -90,6 +91,10 @@ _REQUIRED_PAYLOAD_FIELDS = {
     ),
     "model.cost_resolved": frozenset(
         {"generation_id", "amount", "currency", "source", "source_timestamp"}
+    ),
+    "model.failed": frozenset(
+        {"model_call_id", "error_type", "message", "generation_id", "duration_ms",
+         "will_retry", "retry_delay_seconds", "source_timestamp"}
     ),
     "tool.started": frozenset(
         {"tool_call_id", "tool_name", "input", "source_timestamp"}
@@ -332,6 +337,18 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
     elif event_type == "model.output_delta":
         if not isinstance(payload["delta"], str):
             raise ValueError("model.output_delta.delta must be a string")
+    elif event_type == "model.failed":
+        _require_string(payload, "error_type", event_type)
+        if not isinstance(payload["message"], str):
+            raise ValueError("model.failed.message must be a string")
+        generation_id = payload["generation_id"]
+        if generation_id is not None and (not isinstance(generation_id, str) or not generation_id):
+            raise ValueError("model.failed.generation_id must be a string or null")
+        if not isinstance(payload["will_retry"], bool):
+            raise ValueError("model.failed.will_retry must be a boolean")
+        delay = payload["retry_delay_seconds"]
+        if not isinstance(delay, int | float) or isinstance(delay, bool) or delay < 0:
+            raise ValueError("model.failed.retry_delay_seconds must be non-negative")
     elif event_type == "model.completed":
         _require_string(payload, "model", event_type)
         if not isinstance(payload["content"], list):
@@ -531,6 +548,8 @@ class JournalEntry:
         if truncation is not None:
             _validate_truncation(truncation)
         event = NativeEvent(event_type, payload)
+        if schema_version < 3 and event.type == "model.failed":
+            raise ValueError("model.failed requires Journal Entry schema 3")
         if (
             schema_version == 1
             and event.type == "run.completed"

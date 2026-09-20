@@ -298,6 +298,53 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
             model_call_id = payload["model_call_id"]
             assert isinstance(model_call_id, str)
             model_deltas.setdefault(model_call_id, []).append(entry)
+        elif entry.type == "model.failed":
+            model_call_id = str(payload["model_call_id"])
+            started = model_starts[model_call_id]
+            completed_model_calls.add(model_call_id)
+            timestamp, timestamp_source = _timestamp(entry)
+            started_at, started_at_source = _timestamp(started)
+            deltas = model_deltas.get(model_call_id, [])
+            extra: JsonObject = {
+                **payload,
+                "incomplete": True,
+                "started_at": started_at,
+                "started_at_source": started_at_source,
+                "timestamp_source": timestamp_source,
+            }
+            _add_journal_truncation(extra, entry)
+            truncated_deltas = [
+                {"journal_seq": delta.seq, "truncation": delta.truncation}
+                for delta in deltas if delta.truncation is not None
+            ]
+            if truncated_deltas:
+                extra["journal_truncations"] = truncated_deltas
+            step: JsonObject = {
+                "step_id": len(steps) + 1,
+                "timestamp": timestamp,
+                "source": "agent",
+                "model_name": started.payload["model"],
+                "message": "".join(str(delta.payload["delta"]) for delta in deltas),
+                "llm_call_count": 1,
+                "extra": extra,
+            }
+            generation_id = payload["generation_id"]
+            assert generation_id is None or isinstance(generation_id, str)
+            resolved_cost = resolved_costs.get(generation_id)
+            amount = None
+            if resolved_cost is not None:
+                amount = Decimal(str(resolved_cost["amount"]))
+                step["metrics"] = {
+                    "cost_usd": float(amount),
+                    "extra": {
+                        "cost_source": resolved_cost["source"],
+                        "generation_id": generation_id,
+                    },
+                }
+            # An interrupted generation may still be billed. Its missing usage
+            # and unresolved cost must survive a successful retry.
+            cost_states.append((generation_id, amount))
+            steps.append(step)
         elif entry.type == "model.completed":
             model_call_id = payload["model_call_id"]
             assert isinstance(model_call_id, str)
@@ -447,7 +494,10 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
     llm_steps = [step for step in steps if step.get("llm_call_count") == 1]
     final_metrics = trajectory["final_metrics"]
     assert isinstance(final_metrics, dict)
-    if llm_steps and len(step_metrics) == len(llm_steps):
+    if llm_steps and len(step_metrics) == len(llm_steps) and all(
+        all(field in metrics for field in ("prompt_tokens", "completion_tokens", "cached_tokens"))
+        for metrics in step_metrics
+    ):
         final_metrics["total_prompt_tokens"] = sum(
             int(metrics["prompt_tokens"]) for metrics in step_metrics
         )

@@ -3,7 +3,8 @@
 > 本文件为**中文源文件**（source of truth）；英文版
 > [`../en/event-journal-protocol-v2.md`](../en/event-journal-protocol-v2.md) 由其生成。
 
-v2 已实现，是当前 writer 使用的内部 Journal 协议，`schema_version = 2`。
+v2 已实现，使用 `schema_version = 2`。当前 writer 已升级到
+[v3](../en/event-journal-protocol-v3.md)，本文保留 v2 的协议定义。
 本文完整定义相对 [v1](event-journal-protocol-v1.md) 的变化；未列出的 envelope、
 事件类型、字段、校验、排序、持久化与投影规则沿用 v1。公开 trajectory 仍为 ATIF-v1.7。
 
