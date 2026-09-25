@@ -238,6 +238,7 @@ def test_api_error_is_reported_verbatim_and_exits_non_zero(monkeypatch, capsys):
 def test_stream_transport_error_is_reported_verbatim_and_exits_non_zero(
     monkeypatch, capsys
 ):
+    monkeypatch.setattr("nanopycodeagent.agent.STREAM_RETRY_DELAYS", ())
     class DisconnectingStream(FakeStream):
         @property
         def text_stream(self):
@@ -265,6 +266,7 @@ def test_stream_transport_error_is_reported_verbatim_and_exits_non_zero(
 def test_failed_headless_run_writes_partial_atif_trajectory(
     monkeypatch, tmp_path, capsys
 ):
+    monkeypatch.setattr("nanopycodeagent.agent.STREAM_RETRY_DELAYS", ())
     class DisconnectingStream(FakeStream):
         @property
         def text_stream(self):

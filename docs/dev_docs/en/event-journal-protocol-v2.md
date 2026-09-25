@@ -4,8 +4,9 @@
 > [`../zh-CN/event-journal-protocol-v2.md`](../zh-CN/event-journal-protocol-v2.md).
 > Do not edit by hand.
 
-v2 is implemented and is the internal Journal protocol used by the current
-writer, with `schema_version = 2`. This document defines all changes relative
+v2 is implemented with `schema_version = 2`. The current writer has moved to
+[v3](event-journal-protocol-v3.md); this document preserves the v2 protocol.
+This document defines all changes relative
 to [v1](event-journal-protocol-v1.md). Envelope, event types, fields, validation,
 ordering, persistence, and projection rules not listed here follow v1. Public
 trajectories remain ATIF-v1.7.

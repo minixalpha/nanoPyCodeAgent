@@ -39,3 +39,5 @@ jobs:
         # --frozen installs exactly what uv.lock pins and fails if the lock has
         # drifted from pyproject.toml, so CI tests the declared dependencies.
         run: uv run --frozen pytest
+      - name: Test the httpx2 SDK transport
+        run: uv run --with anthropic==1.5.0 pytest

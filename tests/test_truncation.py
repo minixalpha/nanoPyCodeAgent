@@ -75,7 +75,7 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     assert reconciled == ["gen-truncated"]
 
     entries = _journal_entries()
-    assert all(entry.schema_version == 2 for entry in entries)
+    assert all(entry.schema_version == 3 for entry in entries)
     assert entries[-1].type == "run.completed"
     assert entries[-1].payload["outcome"] == "response_truncated"
     completed = next(entry for entry in entries if entry.type == "model.completed")
@@ -182,7 +182,7 @@ def test_sdk_stream_with_partial_tool_json_preserves_truncation(
     assert "observation" not in trajectory["steps"][1]
 
 
-@pytest.mark.parametrize("schema_version", [1, 2])
+@pytest.mark.parametrize("schema_version", [1, 2, 3])
 @pytest.mark.parametrize("outcome", ["completed", "max_turns_exhausted", "response_truncated"])
 def test_journal_outcome_versions(schema_version, outcome):
     record = {

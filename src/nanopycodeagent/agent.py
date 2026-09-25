@@ -11,12 +11,10 @@ or overwrite them, an ``edit`` tool to replace part of one, and a ``bash``
 tool to run shell commands; every call and its output are echoed to the
 terminal as they happen.
 
-The interactive loop handles only the happy path: anything unexpected — a
-network error, a Ctrl-C mid-turn — crashes the session, and restarting it is
-the recovery. That trade keeps the core flow readable; the hardened variant
-it replaced is preserved at the ``hardened-agent-loop`` tag. A headless run
-has no one to restart it, so it catches API errors, reports them verbatim,
-and turns them into an exit code.
+Both modes retry interrupted response streams before changing conversation
+history or running tools. Other unexpected failures and Ctrl-C mid-turn still
+end an interactive session. Headless mode catches exhausted API/transport
+errors, reports them verbatim, and turns them into an exit code.
 """
 
 import json
@@ -39,7 +37,6 @@ except ImportError:  # pragma: no cover - platform without readline
     pass
 
 import anthropic
-import httpx
 from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 
 from .atif import project_atif, write_atif
@@ -63,11 +60,17 @@ from .read_tool import run_read
 from .settings import DEFAULT_MAX_TOKENS, load_settings_env, resolve_max_tokens
 from .terminal import Spinner, print_tool_output, print_tool_use
 from .tool_validation import TOOLS, tool_input_error
+from .transport import HTTP_ERRORS, RETRYABLE_STREAM_ERRORS
 from .write_tool import content_preview, run_write
 
 # The model used when ANTHROPIC_MODEL is set in neither the environment nor
 # the config file.
 DEFAULT_MODEL = "claude-sonnet-4-6"
+
+# The SDK retries failures before streaming begins. Recover interrupted response
+# bodies here, before committing a reply to history or executing any of its tools.
+STREAM_RETRY_DELAYS = (1.0, 2.0)
+STREAM_RETRY_WINDOW_SECONDS = 300.0
 
 _TRUNCATION_NOTICE = (
     "[response truncated: reached max_tokens; stopped without finishing the task. "
@@ -205,6 +208,14 @@ class _TextOutputProjector:
                 print()
             if event.payload["stop_reason"] == "max_tokens":
                 print(_TRUNCATION_NOTICE, file=sys.stderr)
+        elif event.type == "model.failed" and event.payload["will_retry"]:
+            if str(event.payload["model_call_id"]) in self._model_calls_with_text:
+                print()
+            print(
+                f"[response interrupted: {event.payload['error_type']}; "
+                f"retrying in {event.payload['retry_delay_seconds']:g}s]",
+                file=sys.stderr,
+            )
         elif event.type == "tool.started":
             tool_name = str(event.payload["tool_name"])
             arguments = event.payload["input"]
@@ -480,6 +491,8 @@ def _run_model_loop(
 ) -> RunOutcome:
     """Run model replies and tool calls for an already-started Agent Run."""
     turns = 0
+    retries = 0
+    retry_deadline = None
     while True:
         # A spinner marks the wait for the reply; the first streamed
         # token replaces it with the reply prefix. A tool-only reply
@@ -496,35 +509,73 @@ def _run_model_loop(
         model_started_ns = time.perf_counter_ns()
         # Stream the reply so text shows up as it is generated, then grab
         # the accumulated message for the conversation history.
-        with Spinner() as spinner, client.messages.stream(
-            model=model,
-            max_tokens=max_tokens,
-            system=system,
-            tools=TOOLS,
-            messages=messages,
-        ) as stream:
-            input_json: dict[int, list[str]] = {}
-            for event in stream:
-                if event.type == "text":
-                    spinner.stop()
-                    emitter.emit(
-                        "model.output_delta",
-                        {
-                            "model_call_id": model_call_id,
-                            "delta": event.text,
-                            "source_timestamp": utc_now(),
-                        },
-                    )
-                elif (
-                    event.type == "content_block_delta"
-                    and event.delta.type == "input_json_delta"
-                ):
-                    input_json.setdefault(event.index, []).append(
-                        event.delta.partial_json
-                    )
-            message = stream.get_final_message()
-            generation_id = _response_header(stream, "x-generation-id")
-            model_completed_ns = time.perf_counter_ns()
+        generation_id = None
+        stream_entered = False
+        try:
+            with Spinner() as spinner, client.messages.stream(
+                model=model,
+                max_tokens=max_tokens,
+                system=system,
+                tools=TOOLS,
+                messages=messages,
+            ) as stream:
+                stream_entered = True
+                generation_id = _response_header(stream, "x-generation-id")
+                input_json: dict[int, list[str]] = {}
+                for event in stream:
+                    if event.type == "text":
+                        spinner.stop()
+                        emitter.emit(
+                            "model.output_delta",
+                            {
+                                "model_call_id": model_call_id,
+                                "delta": event.text,
+                                "source_timestamp": utc_now(),
+                            },
+                        )
+                    elif (
+                        event.type == "content_block_delta"
+                        and event.delta.type == "input_json_delta"
+                    ):
+                        input_json.setdefault(event.index, []).append(
+                            event.delta.partial_json
+                        )
+                message = stream.get_final_message()
+                model_completed_ns = time.perf_counter_ns()
+        except (anthropic.APIError, *HTTP_ERRORS) as exc:
+            now = time.monotonic()
+            if retry_deadline is None:
+                retry_deadline = now + STREAM_RETRY_WINDOW_SECONDS
+            delay = STREAM_RETRY_DELAYS[retries] if retries < len(STREAM_RETRY_DELAYS) else 0
+            will_retry = (
+                stream_entered
+                and isinstance(exc, RETRYABLE_STREAM_ERRORS)
+                and retries < len(STREAM_RETRY_DELAYS)
+                and now + delay <= retry_deadline
+            )
+            emitter.emit(
+                "model.failed",
+                {
+                    "model_call_id": model_call_id,
+                    "error_type": type(exc).__name__,
+                    "message": str(exc),
+                    "generation_id": generation_id,
+                    "duration_ms": (time.perf_counter_ns() - model_started_ns) / 1_000_000,
+                    "will_retry": will_retry,
+                    "retry_delay_seconds": delay if will_retry else 0,
+                    "source_timestamp": utc_now(),
+                },
+            )
+            if not will_retry:
+                raise
+            # The window limits when another retry may start. An in-flight
+            # attempt retains the SDK timeout and any external run deadline.
+            time.sleep(delay)
+            retries += 1
+            continue
+
+        retries = 0
+        retry_deadline = None
 
         content = _native_content_blocks(message.content)
         input_errors: dict[str, str] = {}
@@ -637,10 +688,14 @@ def _reconcile_costs(
         if entry.type == "model.cost_resolved"
     }
     for entry in entries:
-        if entry.type != "model.completed":
+        if entry.type not in {"model.completed", "model.failed"}:
             continue
         generation_id = entry.payload.get("generation_id")
-        cost = entry.payload.get("cost")
+        cost = (
+            pending_cost(generation_id)
+            if entry.type == "model.failed"
+            else entry.payload.get("cost")
+        )
         if (
             not isinstance(generation_id, str)
             or generation_id in already_resolved
@@ -754,7 +809,7 @@ def run_headless(
             reply_prefix="",
             trajectory_path=trajectory_path,
         )
-    except (anthropic.APIError, httpx.HTTPError) as exc:
+    except (anthropic.APIError, *HTTP_ERRORS) as exc:
         # Printed verbatim on purpose: a harness classifies a failed run by
         # pattern-matching this text (rate limit, overloaded, context length,
         # …) to decide whether retrying is worth anything. Rewording it, or
