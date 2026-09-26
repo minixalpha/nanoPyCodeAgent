@@ -39,6 +39,7 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             default=_DEFAULT_MAX_TURNS,
         ),
         CliFlag("max_tokens", cli="--max-tokens", type="int"),
+        CliFlag("time_budget_seconds", cli="--time-budget-seconds", type="int"),
     ]
 
     def __init__(self, *args, git_ref: str | None = None, **kwargs):

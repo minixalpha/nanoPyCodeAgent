@@ -23,7 +23,9 @@ SCHEMA_VERSION = 3
 SUPPORTED_SCHEMA_VERSIONS = frozenset({1, 2, 3})
 DEFAULT_MAX_STRING_CHARS = 100_000
 
-type RunOutcome = Literal["completed", "max_turns_exhausted", "response_truncated"]
+type RunOutcome = Literal[
+    "completed", "max_turns_exhausted", "time_budget_exhausted", "response_truncated"
+]
 
 EVENT_TYPES = frozenset(
     {
@@ -440,7 +442,7 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             _validate_tool_error(payload.get("error"))
     elif event_type == "run.completed":
         if payload["outcome"] not in {
-            "completed", "max_turns_exhausted", "response_truncated"
+            "completed", "max_turns_exhausted", "time_budget_exhausted", "response_truncated"
         }:
             raise ValueError("run.completed.outcome is unsupported")
         _validate_cost_reconciliation(payload, event_type)

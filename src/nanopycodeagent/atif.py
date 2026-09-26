@@ -479,6 +479,11 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
                     if "max_tokens" in run_payload
                     else {}
                 ),
+                **(
+                    {"time_budget_seconds": run_payload["time_budget_seconds"]}
+                    if "time_budget_seconds" in run_payload
+                    else {}
+                ),
             },
         },
         "steps": steps,

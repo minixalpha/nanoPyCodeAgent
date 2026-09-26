@@ -65,6 +65,15 @@ def _build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--time-budget-seconds",
+        type=int,
+        metavar="N",
+        help=(
+            "stop a headless run after this many seconds of wall-clock time, "
+            "telling the model how much remains; default: no time budget"
+        ),
+    )
+    parser.add_argument(
         "--trajectory",
         type=Path,
         metavar="PATH",
@@ -132,6 +141,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.max_turns < 1:
         parser.error("--max-turns must be at least 1")
+    if args.time_budget_seconds is not None and args.time_budget_seconds < 1:
+        parser.error("--time-budget-seconds must be at least 1")
     try:
         max_tokens = resolve_max_tokens(args.max_tokens)
     except ValueError as exc:
@@ -147,5 +158,6 @@ def main(argv: list[str] | None = None) -> int:
         task,
         max_turns=args.max_turns,
         max_tokens=max_tokens,
+        time_budget_seconds=args.time_budget_seconds,
         trajectory_path=trajectory_path,
     )

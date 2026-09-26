@@ -84,6 +84,40 @@ _TRUNCATION_NOTICE = (
 # refuses it.
 DEFAULT_MAX_TURNS = 50
 
+# A headless run may also be given a wall-clock budget. When it is, the loop
+# tells the model how much time is left and stops before the harness's own
+# timeout can kill the process with nothing written. The last stretch is
+# reserved so the model still has room to write the task's output file.
+_FINALIZATION_RESERVE_SECONDS = 180
+_FINALIZATION_RESERVE_FRACTION = 0.15
+
+
+def _format_duration(total_seconds: float) -> str:
+    total = max(0, int(total_seconds))
+    return f"{total // 60}:{total % 60:02d}"
+
+
+def _time_budget_note(
+    *, turn: int, elapsed: float, budget: float, remaining: float
+) -> str:
+    """The wall-clock reminder appended to the system prompt for one turn."""
+    if remaining <= max(
+        _FINALIZATION_RESERVE_FRACTION * budget, _FINALIZATION_RESERVE_SECONDS
+    ):
+        return (
+            f"[time budget] Turn {turn}. Only {_format_duration(remaining)} of "
+            f"{_format_duration(budget)} left. Stop investigating now. If the "
+            "task names an output file, write your best answer to it, verify "
+            "it exists, then reply with a short summary and no further tool "
+            "calls."
+        )
+    return (
+        f"[time budget] Turn {turn}. Elapsed {_format_duration(elapsed)} of "
+        f"{_format_duration(budget)}; {_format_duration(remaining)} remaining. "
+        "This is a hard wall-clock limit: the run stops when it expires. Keep "
+        "any required output file up to date and reserve time to finish."
+    )
+
 # Shared by both system prompts: which tool to reach for is the same question
 # whoever is asking.
 _TOOL_GUIDANCE = (
@@ -388,6 +422,7 @@ def _run_exchange(
     *,
     max_turns: int | None = None,
     max_tokens: int = DEFAULT_MAX_TOKENS,
+    time_budget_seconds: int | None = None,
     reply_prefix: str = "\nAgent> ",
     trajectory_path: Path | None = None,
 ) -> RunOutcome:
@@ -406,10 +441,15 @@ def _run_exchange(
         emitter.emit(
             "run.started",
             {
-                "mode": "headless" if max_turns is not None else "interactive",
+                "mode": (
+                    "headless"
+                    if max_turns is not None or time_budget_seconds is not None
+                    else "interactive"
+                ),
                 "model": model,
                 "max_turns": max_turns,
                 "max_tokens": max_tokens,
+                "time_budget_seconds": time_budget_seconds,
                 "producer": {
                     "name": "nanoPyCodeAgent",
                     "version": _package_version(),
@@ -435,6 +475,7 @@ def _run_exchange(
                 emitter=emitter,
                 max_turns=max_turns,
                 max_tokens=max_tokens,
+                time_budget_seconds=time_budget_seconds,
             )
         except BaseException as exc:
             cost_reconciliation = _reconcile_costs(client, journal, emitter)
@@ -488,12 +529,30 @@ def _run_model_loop(
     emitter: EventEmitter,
     max_turns: int | None,
     max_tokens: int,
+    time_budget_seconds: int | None = None,
 ) -> RunOutcome:
     """Run model replies and tool calls for an already-started Agent Run."""
     turns = 0
     retries = 0
     retry_deadline = None
+    deadline = (
+        time.monotonic() + time_budget_seconds
+        if time_budget_seconds is not None and time_budget_seconds > 0
+        else None
+    )
     while True:
+        if deadline is not None:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                return "time_budget_exhausted"
+            turn_system = system + "\n\n" + _time_budget_note(
+                turn=turns + 1,
+                elapsed=time_budget_seconds - remaining,
+                budget=time_budget_seconds,
+                remaining=remaining,
+            )
+        else:
+            turn_system = system
         # A spinner marks the wait for the reply; the first streamed
         # token replaces it with the reply prefix. A tool-only reply
         # streams no text, so the prefix is skipped for it entirely.
@@ -515,7 +574,7 @@ def _run_model_loop(
             with Spinner() as spinner, client.messages.stream(
                 model=model,
                 max_tokens=max_tokens,
-                system=system,
+                system=turn_system,
                 tools=TOOLS,
                 messages=messages,
             ) as stream:
@@ -657,6 +716,10 @@ def _run_model_loop(
             # Stop before running the tools: their results would only be
             # useful to a reply this budget can no longer pay for.
             return "max_turns_exhausted"
+        if deadline is not None and deadline - time.monotonic() <= 0:
+            # The reply consumed the remaining budget; its tool results would
+            # only be useful to a turn this run can no longer afford.
+            return "time_budget_exhausted"
         # Every tool_use block needs a matching tool_result in the next
         # user message, or the API rejects the request.
         results = [
@@ -771,6 +834,7 @@ def run_headless(
     *,
     max_turns: int = DEFAULT_MAX_TURNS,
     max_tokens: int | None = None,
+    time_budget_seconds: int | None = None,
     trajectory_path: Path | None = None,
 ) -> int:
     """Work ``task`` to completion without a user, and return the exit code.
@@ -793,7 +857,8 @@ def run_headless(
     # model's prose and the echoed tool calls, nothing else.
     print(
         f"nanoPyCodeAgent v{_package_version()} — model {model}, "
-        f"max turns {max_turns}, max tokens {max_tokens}",
+        f"max turns {max_turns}, max tokens {max_tokens}, "
+        f"time budget {time_budget_seconds if time_budget_seconds else 'none'}",
         file=sys.stderr,
     )
 
@@ -806,6 +871,7 @@ def run_headless(
             HEADLESS_SYSTEM_PROMPT,
             max_turns=max_turns,
             max_tokens=max_tokens,
+            time_budget_seconds=time_budget_seconds,
             reply_prefix="",
             trajectory_path=trajectory_path,
         )
@@ -820,6 +886,12 @@ def run_headless(
         turns = "turn" if max_turns == 1 else "turns"
         print(
             f"[stopped after {max_turns} {turns} without finishing the task]",
+            file=sys.stderr,
+        )
+    elif outcome == "time_budget_exhausted":
+        print(
+            f"[stopped after the {time_budget_seconds}s time budget without "
+            "finishing the task]",
             file=sys.stderr,
         )
     return 0
