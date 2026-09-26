@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-26T13:24:25.932705+00:00",
+  "purpose": "Re-run the six tasks that scored reward 0 in tb21-stream-recovery-pilot20-20260921 with a different model (deepseek/deepseek-v4.1-flash) to see whether they were model-limited.",
+  "agent_ref": "1386df48ef9c84d7b65c33fcf0f903fad7036a79",
+  "agent_version": "0.8.1.dev30+g1386df48e",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash",
+  "dataset": "terminal-bench/terminal-bench-2-1",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "selection": "The six tasks with reward 0 in the 2026-09-21 stream-recovery 20-task run, with their pinned task refs.",
+  "configuration": {
+    "max_tokens": 65536,
+    "project_default_max_tokens": 32768,
+    "max_turns": 50,
+    "agent_execution_limit_seconds": 3600,
+    "finalization_grace_seconds": 120,
+    "harbor_outer_limit_seconds": 3780,
+    "agent_setup_limit_seconds": 3600,
+    "maximum_simultaneous_trials": 2,
+    "automatic_harbor_retries": 0,
+    "attempts_per_task": 1,
+    "verifier_limits": "Native task deadlines",
+    "dependency_constraints": [
+      "anthropic==1.5.0",
+      "httpx==0.28.1",
+      "httpx2==2.12.0",
+      "pydantic==2.13.5"
+    ]
+  },
+  "baseline": {
+    "job": "tb21-stream-recovery-pilot20-20260921",
+    "model": "openrouter/deepseek/deepseek-v4-flash-0731",
+    "note": "All six selected tasks scored reward 0 in that run."
+  },
+  "totals": {
+    "passed": 4,
+    "scored_zero": 2,
+    "unscored": 0,
+    "model_attempts": 206,
+    "input_tokens": 8122046,
+    "cache_tokens": 7444992,
+    "output_tokens": 219443,
+    "cost_usd": 0.278759041
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "reward": 1.0,
+      "outcome": "completed",
+      "model_replies": 17,
+      "input_tokens": 128200,
+      "cache_tokens": 113024,
+      "output_tokens": 7949,
+      "cost_usd": 0.008440065,
+      "tool_calls": 18
+    },
+    {
+      "task": "terminal-bench/dna-assembly",
+      "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+      "reward": 1.0,
+      "outcome": "completed",
+      "model_replies": 34,
+      "input_tokens": 1694676,
+      "cache_tokens": 1604352,
+      "output_tokens": 73976,
+      "cost_usd": 0.069021966,
+      "tool_calls": 33
+    },
+    {
+      "task": "terminal-bench/log-summary-date-ranges",
+      "task_ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+      "reward": 1.0,
+      "outcome": "completed",
+      "model_replies": 6,
+      "input_tokens": 45656,
+      "cache_tokens": 36992,
+      "output_tokens": 2315,
+      "cost_usd": 0.005224672,
+      "tool_calls": 8
+    },
+    {
+      "task": "terminal-bench/circuit-fibsqrt",
+      "task_ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+      "reward": 1.0,
+      "outcome": "completed",
+      "model_replies": 49,
+      "input_tokens": 2932772,
+      "cache_tokens": 2639232,
+      "output_tokens": 64148,
+      "cost_usd": 0.080010864,
+      "tool_calls": 51
+    },
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "reward": 0.0,
+      "outcome": "max_turns_exhausted",
+      "model_replies": 50,
+      "input_tokens": 1525280,
+      "cache_tokens": 1385344,
+      "output_tokens": 41545,
+      "cost_usd": 0.065742942,
+      "tool_calls": 71
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "reward": 0.0,
+      "outcome": "max_turns_exhausted",
+      "model_replies": 50,
+      "input_tokens": 1795462,
+      "cache_tokens": 1666048,
+      "output_tokens": 29510,
+      "cost_usd": 0.050318532,
+      "tool_calls": 76
+    }
+  ],
+  "superseded_run": {
+    "job": "tb21-v4flash-6task-20260925",
+    "model": "openrouter/deepseek/deepseek-v4-flash",
+    "status": "aborted by the operator before completion; not an experiment result."
+  },
+  "comparison_limits": "Single attempt per task; routing, sampling, cache and provider backend are uncontrolled. This is a one-off model comparison, not a controlled estimate of a model-ability difference."
+}
