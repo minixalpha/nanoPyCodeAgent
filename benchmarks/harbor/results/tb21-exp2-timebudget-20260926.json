@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-26T16:41:12.564300+00:00",
+  "purpose": "Experiment 2: add an agent wall-clock time budget (budget injection plus stop-on-deadline) on top of Experiment 1, for the two tasks that still scored reward 0 in tb21-v41flash-6task-20260925.",
+  "agent_ref": "eb77fd578a3b08582f3f6958858c0756b66d58dc",
+  "agent_version": "0.8.1.dev34+geb77fd578",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash",
+  "dataset": "terminal-bench/terminal-bench-2-1",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "selection": "The two tasks that still scored reward 0 in tb21-v41flash-6task-20260925 (caffe-cifar-10, mteb-leaderboard) with their pinned task refs.",
+  "configuration": {
+    "max_turns": 100,
+    "time_budget_seconds": 3420,
+    "previous_max_turns": 50,
+    "max_tokens": 65536,
+    "project_default_max_tokens": 32768,
+    "agent_execution_limit_seconds": 3480,
+    "finalization_grace_seconds": 120,
+    "harbor_outer_limit_seconds": null,
+    "agent_setup_limit_seconds": null,
+    "timeout_compliance": "Leaderboard-compliant: no Harbor agent/verifier timeout override and no setup timeout override; the effective agent timeout is the task-native 3600s. The agent self-limits at 3480s inside it.",
+    "maximum_simultaneous_trials": 2,
+    "automatic_harbor_retries": 0,
+    "attempts_per_task": 1,
+    "verifier_limits": "Native task deadlines",
+    "dependency_constraints": [
+      "anthropic==1.5.0",
+      "httpx==0.28.1",
+      "httpx2==2.12.0",
+      "pydantic==2.13.5"
+    ]
+  },
+  "baseline": {
+    "job": "tb21-v41flash-6task-20260925",
+    "max_turns": 50,
+    "note": "Both re-run tasks scored reward 0 there by exhausting 50 turns (max_turns_exhausted)."
+  },
+  "totals": {
+    "planned": 2,
+    "finished": 2,
+    "passed": 2,
+    "scored_zero": 0,
+    "unscored": 0,
+    "model_attempts": 111,
+    "input_tokens": 2919588,
+    "cache_tokens": 1408,
+    "output_tokens": 57873,
+    "cost_usd": 0.856032128
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "reward": 1.0,
+      "outcome": "completed",
+      "duration_seconds": 2656.9,
+      "model_replies": 61,
+      "tool_calls": 70,
+      "input_tokens": 1326596,
+      "cache_tokens": 1408,
+      "output_tokens": 27327,
+      "cost_usd": 0.374407898,
+      "deadline_reached": false,
+      "forced_kill": false,
+      "trajectory_source": "native",
+      "started_at": "2026-09-26T15:43:24.927Z"
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "reward": 1.0,
+      "outcome": "completed",
+      "duration_seconds": 864.7,
+      "model_replies": 50,
+      "tool_calls": 59,
+      "input_tokens": 1592992,
+      "cache_tokens": 0,
+      "output_tokens": 30546,
+      "cost_usd": 0.48162423,
+      "deadline_reached": false,
+      "forced_kill": false,
+      "trajectory_source": "native",
+      "started_at": "2026-09-26T15:42:58.375Z"
+    }
+  ],
+  "comparison_limits": "Single attempt per task; routing, sampling, cache and provider backend are uncontrolled, so this is a targeted diagnostic, not a controlled estimate of pass-rate improvement.",
+  "artifacts": {
+    "raw_trials": "jobs/tb21-exp2-timebudget-20260926",
+    "record": "jobs/tb21-exp2-timebudget-20260926-record",
+    "note": "Raw trials and record live in Git-ignored jobs/ and are not uploaded."
+  }
+}
