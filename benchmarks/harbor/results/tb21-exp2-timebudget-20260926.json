@@ -88,5 +88,40 @@
     "raw_trials": "jobs/tb21-exp2-timebudget-20260926",
     "record": "jobs/tb21-exp2-timebudget-20260926-record",
     "note": "Raw trials and record live in Git-ignored jobs/ and are not uploaded."
+  },
+  "provider_routing": {
+    "by_provider": {
+      "DeepInfra": {
+        "replies": 23,
+        "input_tokens": 209149,
+        "cache_read_tokens": 1408,
+        "output_tokens": 9613
+      },
+      "Together": {
+        "replies": 48,
+        "input_tokens": 1477246,
+        "cache_read_tokens": 0,
+        "output_tokens": 22297
+      },
+      "Relace": {
+        "replies": 10,
+        "input_tokens": 209067,
+        "cache_read_tokens": 0,
+        "output_tokens": 5079
+      },
+      "Parasail": {
+        "replies": 29,
+        "input_tokens": 1021931,
+        "cache_read_tokens": 0,
+        "output_tokens": 20280
+      },
+      "StreamLake": {
+        "replies": 1,
+        "input_tokens": 2195,
+        "cache_read_tokens": 0,
+        "output_tokens": 604
+      }
+    },
+    "note": "Routing is uncontrolled. DeepInfra was the only provider reporting cache reads in both runs; its cache reads per reply collapsed from ~29116 (Experiment 1) to ~61 (Experiment 2), consistent with the per-turn system-prompt change invalidating the prefix cache."
   }
 }
