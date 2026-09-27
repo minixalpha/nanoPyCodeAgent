@@ -100,7 +100,7 @@ def _format_duration(total_seconds: float) -> str:
 def _time_budget_note(
     *, turn: int, elapsed: float, budget: float, remaining: float
 ) -> str:
-    """The wall-clock reminder appended to the system prompt for one turn."""
+    """The wall-clock reminder appended to the conversation for one turn."""
     if remaining <= max(
         _FINALIZATION_RESERVE_FRACTION * budget, _FINALIZATION_RESERVE_SECONDS
     ):
@@ -119,7 +119,13 @@ def _time_budget_note(
     )
 
 
-def _append_budget_note(messages: list[MessageParam], note: str) -> None:
+def _append_budget_note(
+    messages: list[MessageParam],
+    note: str,
+    *,
+    emitter: EventEmitter,
+    model_call_id: str,
+) -> None:
     """Append a wall-clock reminder to the tail of the conversation.
 
     The reminder goes into the most recent user message — the initial task, or
@@ -134,6 +140,15 @@ def _append_budget_note(messages: list[MessageParam], note: str) -> None:
         last["content"] = f"{content}\n\n{note}"
     else:
         content.append({"type": "text", "text": note})
+    emitter.emit(
+        "input.injected",
+        {
+            "model_call_id": model_call_id,
+            "content": note,
+            "reason": "time_budget",
+            "source_timestamp": utc_now(),
+        },
+    )
 
 # Shared by both system prompts: which tool to reach for is the same question
 # whoever is asking.
@@ -558,6 +573,7 @@ def _run_model_loop(
         else None
     )
     while True:
+        model_call_id = f"model-{uuid.uuid4()}"
         if deadline is not None:
             remaining = deadline - time.monotonic()
             if remaining <= 0:
@@ -570,11 +586,12 @@ def _run_model_loop(
                     budget=time_budget_seconds,
                     remaining=remaining,
                 ),
+                emitter=emitter,
+                model_call_id=model_call_id,
             )
         # A spinner marks the wait for the reply; the first streamed
         # token replaces it with the reply prefix. A tool-only reply
         # streams no text, so the prefix is skipped for it entirely.
-        model_call_id = f"model-{uuid.uuid4()}"
         emitter.emit(
             "model.started",
             {
@@ -734,20 +751,22 @@ def _run_model_loop(
             # Stop before running the tools: their results would only be
             # useful to a reply this budget can no longer pay for.
             return "max_turns_exhausted"
-        if deadline is not None and deadline - time.monotonic() <= 0:
-            # The reply consumed the remaining budget; its tool results would
-            # only be useful to a turn this run can no longer afford.
-            return "time_budget_exhausted"
         # Every tool_use block needs a matching tool_result in the next
         # user message, or the API rejects the request.
-        results = [
-            _run_one_tool(
-                block, emitter, model_call_id,
-                input_error=input_errors.get(block.id),
+        results = []
+        for block in message.content:
+            if block.type != "tool_use":
+                continue
+            if deadline is not None and time.monotonic() >= deadline:
+                # The reply or a preceding tool consumed the remaining time.
+                # Stop the run without starting another tool or model call.
+                return "time_budget_exhausted"
+            results.append(
+                _run_one_tool(
+                    block, emitter, model_call_id,
+                    input_error=input_errors.get(block.id),
+                )
             )
-            for block in message.content
-            if block.type == "tool_use"
-        ]
         messages.append({"role": "user", "content": results})
 
 

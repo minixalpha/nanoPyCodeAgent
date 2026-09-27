@@ -208,7 +208,7 @@ def test_interrupted_generation_cost_is_reconciled_without_inventing_usage(monke
     assert "total_prompt_tokens" not in final
 
 
-@pytest.mark.parametrize("schema", [1, 2, 3])
+@pytest.mark.parametrize("schema", [1, 2, 3, 4])
 def test_failed_attempt_requires_v3_schema(schema):
     record = {
         "schema_version": schema, "run_id": "run-1", "seq": 1,

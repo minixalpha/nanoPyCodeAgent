@@ -75,7 +75,7 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     assert reconciled == ["gen-truncated"]
 
     entries = _journal_entries()
-    assert all(entry.schema_version == 3 for entry in entries)
+    assert all(entry.schema_version == 4 for entry in entries)
     assert entries[-1].type == "run.completed"
     assert entries[-1].payload["outcome"] == "response_truncated"
     completed = next(entry for entry in entries if entry.type == "model.completed")
@@ -182,16 +182,19 @@ def test_sdk_stream_with_partial_tool_json_preserves_truncation(
     assert "observation" not in trajectory["steps"][1]
 
 
-@pytest.mark.parametrize("schema_version", [1, 2, 3])
-@pytest.mark.parametrize("outcome", ["completed", "max_turns_exhausted", "response_truncated"])
+@pytest.mark.parametrize("schema_version", [1, 2, 3, 4])
+@pytest.mark.parametrize("outcome", [
+    "completed", "max_turns_exhausted", "response_truncated", "time_budget_exhausted",
+])
 def test_journal_outcome_versions(schema_version, outcome):
     record = {
         "schema_version": schema_version, "run_id": "run-1", "seq": 1,
         "recorded_at": "2026-09-07T00:00:00.000Z", "type": "run.completed",
         "payload": {"outcome": outcome, "duration_ms": 1, "source_timestamp": None},
     }
-    if schema_version == 1 and outcome == "response_truncated":
-        with pytest.raises(ValueError, match="requires Journal Entry schema 2"):
+    minimum_version = {"response_truncated": 2, "time_budget_exhausted": 4}.get(outcome, 1)
+    if schema_version < minimum_version:
+        with pytest.raises(ValueError, match=f"requires Journal Entry schema {minimum_version}"):
             JournalEntry.from_dict(record)
     else:
         assert JournalEntry.from_dict(record).to_dict() == record

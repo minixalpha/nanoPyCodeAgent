@@ -3,8 +3,10 @@
 > 本文件为中文源；英文版本
 > [`../en/event-journal-protocol-v3.md`](../en/event-journal-protocol-v3.md) 由其生成。
 
-当前 writer 写入 `schema_version = 3`。Reader 和 ATIF projector 继续兼容
-v1、v2；公开轨迹仍为 ATIF-v1.7。除下述新增事件和投影行为外，
+v3 使用 `schema_version = 3`。当前 writer 已升级到
+[v4](event-journal-protocol-v4.md)，本文保留 v3 的协议定义。
+v3 reader 和 ATIF projector 继续兼容 v1、v2；公开轨迹仍为 ATIF-v1.7。
+除下述新增事件和投影行为外，
 [v2](event-journal-protocol-v2.md) 的其他契约保持有效。
 
 ## 模型尝试失败

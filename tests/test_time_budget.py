@@ -6,6 +6,8 @@ stop on its own before that harness timeout kills the process with nothing
 written.
 """
 
+import json
+
 import pytest
 
 from nanopycodeagent import agent, cli, settings
@@ -148,6 +150,106 @@ def test_without_a_budget_the_system_prompt_is_unchanged(monkeypatch):
     entries = _journal_entries()
     assert entries[0].payload["time_budget_seconds"] is None
     assert entries[-1].payload["outcome"] == "completed"
+    assert not any(entry.type == "input.injected" for entry in entries)
+
+
+@pytest.mark.parametrize("tool_seconds", [1, 2])
+def test_deadline_is_checked_before_each_tool(monkeypatch, tmp_path, tool_seconds):
+    clock = FakeTime()
+    monkeypatch.setattr(agent, "time", clock)
+    executions = []
+
+    def run_bash(command):
+        executions.append(command)
+        clock.advance(tool_seconds)
+        return "first result", False
+
+    monkeypatch.setattr(agent, "run_bash", run_bash)
+    messages = FakeMessages([
+        FakeStream([
+            tool_use_block("call-1", "first"),
+            text_block("then another command"),
+            tool_use_block("call-2", "second"),
+        ], stop_reason="tool_use"),
+    ])
+    patch_client(monkeypatch, FakeClient(messages))
+    trajectory_path = tmp_path / "trajectory.json"
+
+    assert agent.run_headless(
+        "task", time_budget_seconds=1, trajectory_path=trajectory_path
+    ) == 0
+
+    assert executions == ["first"]
+    assert len(messages.calls) == 1
+    entries = _journal_entries()
+    assert entries[-1].payload["outcome"] == "time_budget_exhausted"
+    tool_events = [entry for entry in entries if entry.type.startswith("tool.")]
+    assert [(entry.type, entry.payload["tool_call_id"]) for entry in tool_events] == [
+        ("tool.started", "call-1"), ("tool.completed", "call-1"),
+    ]
+    trajectory = json.loads(trajectory_path.read_text())
+    assert trajectory["extra"]["terminal"]["outcome"] == "time_budget_exhausted"
+    model_step = next(step for step in trajectory["steps"] if step["source"] == "agent")
+    assert [call["tool_call_id"] for call in model_step["tool_calls"]] == ["call-1", "call-2"]
+    assert [result["source_call_id"] for result in model_step["observation"]["results"]] == ["call-1"]
+
+
+@pytest.mark.parametrize("structured_task", [False, True])
+def test_budget_reminders_survive_journal_and_atif(monkeypatch, tmp_path, structured_task):
+    clock = FakeTime()
+    monkeypatch.setattr(agent, "time", clock)
+    monkeypatch.setattr(agent, "run_bash", _fake_bash([]))
+    messages = AdvancingFakeMessages([
+        FakeStream([tool_use_block("call-1", "first")], stop_reason="tool_use"),
+        FakeStream([tool_use_block("call-2", "second")], stop_reason="tool_use"),
+        FakeStream([text_block("done")]),
+    ], clock, 450)
+    task = [{"type": "text", "text": "task"}] if structured_task else "task"
+    trajectory_path = tmp_path / "trajectory.json"
+
+    assert agent._run_exchange(
+        FakeClient(messages), "test-model", [{"role": "user", "content": task}],
+        agent.HEADLESS_SYSTEM_PROMPT, max_turns=10, time_budget_seconds=1000,
+        trajectory_path=trajectory_path,
+    ) == "completed"
+
+    notes = []
+    for call in messages.calls:
+        content = call[-1]["content"]
+        notes.append(content.split("\n\n")[-1] if isinstance(content, str) else content[-1]["text"])
+    assert len(notes) == 3
+    assert "Elapsed 0:00" in notes[0]
+    assert "Elapsed 7:30" in notes[1]
+    assert "Stop investigating now" in notes[2]
+    assert "write your best answer to it" in notes[2]
+
+    entries = _journal_entries()
+    user_entry = next(entry for entry in entries if entry.type == "user.message")
+    assert user_entry.payload["content"] == (
+        [{"type": "text", "text": "task"}] if structured_task else "task"
+    )
+    reminders = [entry for entry in entries if entry.type == "input.injected"]
+    assert [entry.payload["content"] for entry in reminders] == notes
+    for entry in reminders:
+        following = entries[entries.index(entry) + 1]
+        assert following.type == "model.started"
+        assert entry.payload["model_call_id"] == following.payload["model_call_id"]
+        assert entry.payload["reason"] == "time_budget"
+
+    trajectory = json.loads(trajectory_path.read_text())
+    steps = trajectory["steps"]
+    assert [step["source"] for step in steps] == [
+        "user", "user", "agent", "user", "agent", "user", "agent",
+    ]
+    injected = [step for step in steps if step.get("extra", {}).get("injected")]
+    assert [step["message"] for step in injected] == notes
+    for step, entry in zip(injected, reminders, strict=True):
+        assert step["extra"]["model_call_id"] == entry.payload["model_call_id"]
+        assert step["extra"]["reason"] == "time_budget"
+    for index, tool_id in ((2, "call-1"), (4, "call-2")):
+        result = steps[index]["observation"]["results"][0]
+        assert result["source_call_id"] == tool_id
+        assert result["content"] == "ok"
 
 
 @pytest.mark.parametrize("value", ["0", "-3"])

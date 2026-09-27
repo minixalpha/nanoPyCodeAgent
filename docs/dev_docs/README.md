@@ -33,6 +33,9 @@ They complement, rather than replace:
 - Event Journal Protocol v2 (response truncation):
   [English](en/event-journal-protocol-v2.md) |
   [Chinese](zh-CN/event-journal-protocol-v2.md)
-- Event Journal Protocol v3 (current; failed model attempts):
+- Event Journal Protocol v3 (failed model attempts):
   [English](en/event-journal-protocol-v3.md) |
   [Chinese](zh-CN/event-journal-protocol-v3.md)
+- Event Journal Protocol v4 (current; time budgets and injected input):
+  [English](en/event-journal-protocol-v4.md) |
+  [Chinese](zh-CN/event-journal-protocol-v4.md)
