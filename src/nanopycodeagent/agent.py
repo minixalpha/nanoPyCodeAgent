@@ -118,6 +118,23 @@ def _time_budget_note(
         "any required output file up to date and reserve time to finish."
     )
 
+
+def _append_budget_note(messages: list[MessageParam], note: str) -> None:
+    """Append a wall-clock reminder to the tail of the conversation.
+
+    The reminder goes into the most recent user message — the initial task, or
+    the tool results — rather than the system prompt. Rewriting the system
+    prompt each turn changes the very first tokens of every request and defeats
+    the provider's prefix cache; appending to the tail keeps each request an
+    extension of the previous one, so the cached prefix survives.
+    """
+    last = messages[-1]
+    content = last["content"]
+    if isinstance(content, str):
+        last["content"] = f"{content}\n\n{note}"
+    else:
+        content.append({"type": "text", "text": note})
+
 # Shared by both system prompts: which tool to reach for is the same question
 # whoever is asking.
 _TOOL_GUIDANCE = (
@@ -545,14 +562,15 @@ def _run_model_loop(
             remaining = deadline - time.monotonic()
             if remaining <= 0:
                 return "time_budget_exhausted"
-            turn_system = system + "\n\n" + _time_budget_note(
-                turn=turns + 1,
-                elapsed=time_budget_seconds - remaining,
-                budget=time_budget_seconds,
-                remaining=remaining,
+            _append_budget_note(
+                messages,
+                _time_budget_note(
+                    turn=turns + 1,
+                    elapsed=time_budget_seconds - remaining,
+                    budget=time_budget_seconds,
+                    remaining=remaining,
+                ),
             )
-        else:
-            turn_system = system
         # A spinner marks the wait for the reply; the first streamed
         # token replaces it with the reply prefix. A tool-only reply
         # streams no text, so the prefix is skipped for it entirely.
@@ -574,7 +592,7 @@ def _run_model_loop(
             with Spinner() as spinner, client.messages.stream(
                 model=model,
                 max_tokens=max_tokens,
-                system=turn_system,
+                system=system,
                 tools=TOOLS,
                 messages=messages,
             ) as stream:

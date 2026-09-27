@@ -54,6 +54,20 @@ def _journal_entries():
     return EventJournal.replay(paths[0])
 
 
+def _texts(messages):
+    """All text carried by a snapshot of the message list."""
+    out = []
+    for message in messages:
+        content = message["content"]
+        if isinstance(content, str):
+            out.append(content)
+        else:
+            for block in content:
+                if isinstance(block, dict) and block.get("type") == "text":
+                    out.append(block["text"])
+    return "\n".join(out)
+
+
 def _fake_bash(executions):
     def run_bash(command):
         executions.append(command)
@@ -99,11 +113,16 @@ def test_time_budget_is_injected_and_stops_the_run(monkeypatch, capsys):
     assert len(messages.calls) == 3
     assert executions == ["echo one", "echo two"]
 
-    assert "Elapsed 0:00 of 16:40; 16:40 remaining" in messages.kwargs[0]["system"]
-    assert "Elapsed 7:30 of 16:40; 9:10 remaining" in messages.kwargs[1]["system"]
-    final_system = messages.kwargs[2]["system"]
-    assert "Only 1:40 of 16:40 left" in final_system
-    assert "Stop investigating now" in final_system
+    # The reminder must not touch the system prompt: keeping it constant is what
+    # lets the provider reuse its prefix cache. It rides at the tail instead.
+    systems = [call["system"] for call in messages.kwargs]
+    assert len(set(systems)) == 1
+    assert "[time budget]" not in systems[0]
+    assert "Elapsed 0:00 of 16:40; 16:40 remaining" in _texts(messages.calls[0])
+    assert "Elapsed 7:30 of 16:40; 9:10 remaining" in _texts(messages.calls[1])
+    final_text = _texts(messages.calls[2])
+    assert "Only 1:40 of 16:40 left" in final_text
+    assert "Stop investigating now" in final_text
 
     captured = capsys.readouterr()
     assert "1000s time budget" in captured.err
@@ -125,6 +144,7 @@ def test_without_a_budget_the_system_prompt_is_unchanged(monkeypatch):
     assert cli.main(["-p", "just answer", "--max-turns", "5"]) == 0
 
     assert "[time budget]" not in messages.kwargs[0]["system"]
+    assert "[time budget]" not in _texts(messages.calls[0])
     entries = _journal_entries()
     assert entries[0].payload["time_budget_seconds"] is None
     assert entries[-1].payload["outcome"] == "completed"
