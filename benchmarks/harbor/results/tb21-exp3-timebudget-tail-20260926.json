@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-27T15:00:55.652126+00:00",
+  "purpose": "Experiment 3: same as Experiment 2 but the budget reminder is appended to the conversation tail instead of the system prompt, to keep provider prefix caching working. Two tasks, one trial each.",
+  "agent_ref": "83e5c064d4c6e421fc08a90bbd84d2d23b6bb3cf",
+  "agent_version": "0.8.1.dev37+g83e5c064d",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash",
+  "dataset": "terminal-bench/terminal-bench-2-1",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "selection": "The two tasks that still scored reward 0 in tb21-v41flash-6task-20260925 (caffe-cifar-10, mteb-leaderboard) with their pinned task refs.",
+  "configuration": {
+    "max_turns": 100,
+    "time_budget_seconds": 3420,
+    "previous_max_turns": 50,
+    "max_tokens": 65536,
+    "project_default_max_tokens": 32768,
+    "agent_execution_limit_seconds": 3480,
+    "finalization_grace_seconds": 120,
+    "harbor_outer_limit_seconds": null,
+    "agent_setup_limit_seconds": null,
+    "timeout_compliance": "Leaderboard-compliant: no Harbor agent/verifier timeout override and no setup timeout override; the effective agent timeout is the task-native 3600s. The agent self-limits at 3480s inside it.",
+    "maximum_simultaneous_trials": 2,
+    "automatic_harbor_retries": 0,
+    "attempts_per_task": 1,
+    "verifier_limits": "Native task deadlines",
+    "dependency_constraints": [
+      "anthropic==1.5.0",
+      "httpx==0.28.1",
+      "httpx2==2.12.0",
+      "pydantic==2.13.5"
+    ]
+  },
+  "baseline": {
+    "job": "tb21-v41flash-6task-20260925",
+    "max_turns": 50,
+    "note": "Both re-run tasks scored reward 0 there by exhausting 50 turns (max_turns_exhausted)."
+  },
+  "totals": {
+    "planned": 2,
+    "finished": 2,
+    "passed": 2,
+    "scored_zero": 0,
+    "unscored": 0,
+    "model_attempts": 159,
+    "input_tokens": 108646,
+    "cache_tokens": 8410880,
+    "output_tokens": 86787,
+    "cost_usd": 0.18695358
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "reward": 1.0,
+      "outcome": "completed",
+      "duration_seconds": 3333.4,
+      "model_replies": 59,
+      "tool_calls": 72,
+      "input_tokens": 24842,
+      "cache_tokens": 1520384,
+      "output_tokens": 26593,
+      "cost_usd": 0.048236604,
+      "deadline_reached": false,
+      "forced_kill": false,
+      "trajectory_source": "native",
+      "started_at": "2026-09-27T13:47:58.276Z"
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "reward": 1.0,
+      "outcome": "max_turns_exhausted",
+      "duration_seconds": 1364.9,
+      "model_replies": 100,
+      "tool_calls": 112,
+      "input_tokens": 83804,
+      "cache_tokens": 6890496,
+      "output_tokens": 60194,
+      "cost_usd": 0.138716976,
+      "deadline_reached": false,
+      "forced_kill": false,
+      "trajectory_source": "native",
+      "started_at": "2026-09-27T13:47:47.144Z"
+    }
+  ],
+  "comparison_limits": "Single attempt per task; routing, sampling, cache and provider backend are uncontrolled, so this is a targeted diagnostic, not a controlled estimate of pass-rate improvement.",
+  "artifacts": {
+    "raw_trials": "jobs/tb21-exp3-timebudget-tail-20260926",
+    "record": "jobs/tb21-exp3-timebudget-tail-20260926-record",
+    "note": "Raw trials and record live in Git-ignored jobs/ and are not uploaded."
+  },
+  "provider_routing": {
+    "by_provider": {
+      "CoreWeave": {
+        "replies": 1,
+        "input_tokens": 1575,
+        "cache_read_tokens": 0,
+        "output_tokens": 168
+      },
+      "Parasail": {
+        "replies": 157,
+        "input_tokens": 105565,
+        "cache_read_tokens": 8410880,
+        "output_tokens": 86417
+      },
+      "Together": {
+        "replies": 1,
+        "input_tokens": 1506,
+        "cache_read_tokens": 0,
+        "output_tokens": 202
+      }
+    },
+    "note": "Routing is uncontrolled. The budget reminder is appended to the conversation tail, so the system prompt stays constant. Parasail handled 157 of 159 replies with ~53572 cache reads per reply; in Experiment 2 the reminder changed the system prompt every turn and Parasail reported 0 cache reads."
+  }
+}
