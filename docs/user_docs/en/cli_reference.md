@@ -90,7 +90,10 @@ With `--time-budget-seconds`, reminders also report remaining time. Finalization
 guidance starts when either the reply reserve or the time reserve is reached;
 the time reserve is the larger of 180 seconds and 15% of the configured budget.
 The deadline interrupts in-flight model/tool work, and retries must fit in the
-remaining time. An interrupted bash command's process group is terminated.
+remaining time. An interrupted bash command's process group is terminated;
+Linux also terminates other members of the command's session. Cleanup closes
+output pipes without waiting for detached children, with up to one second to
+reap the direct child.
 The outcome is `time_budget_exhausted`, with exit status `0`. Cost reconciliation
 then has a separate shared 30-second limit before trajectory writing; unresolved
 costs remain pending. Leave room for this finalization inside an external timeout.

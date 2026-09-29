@@ -12,8 +12,10 @@ The ordinary CLI and Harbor defaults remain 50 replies and 32768 output tokens.
 
 Configured wall-clock budgets interrupt blocking model streams and tool work
 using a POSIX main-thread timer. Socket and bash timeouts also use the remaining
-budget. Bash interruptions terminate the command's process group; normal exits
-preserve background services. Stream retries must fit inside the remaining
+budget. Bash interruptions terminate the command's process group and, on Linux,
+other members of its session. Cleanup closes output pipes instead of waiting
+for detached descendants to close them; reaping the direct child is limited to
+one second. Normal exits preserve background services. Stream retries must fit inside the remaining
 budget. Cost reconciliation has a separate shared 30-second cap, after which
 unresolved costs remain pending and the native Journal/ATIF can be finalized.
 Callers with an existing real-time alarm, non-main threads, and platforms
@@ -65,10 +67,29 @@ These small repeated samples can reveal regressions but do not establish a
 general optimal default. Provider load, cache state, and sampling remain
 sources of variation despite a fixed endpoint.
 
-## Local validation before live trials
+## Revision during live trials
 
-The pinned benchmark environment passes 351 tests across the main package and
+The original treatment (`847cc9895`) exposed a subprocess cleanup defect during
+its second Caffe trial. The model invoked `timeout 600 wget ...`; GNU `timeout`
+created another process group. Killing the shell's group at 120 seconds left
+that child holding the output pipes, so the subsequent unbounded `communicate()`
+waited for it. This observation blocks pilot20 independently of reward.
+
+The repair kills other members of the command's session on Linux, closes the
+pipe readers without draining them, and bounds direct-child reaping. The first
+two treatment repetitions remain preserved as superseded evidence; the third
+was cancelled before launch. The three originally planned control repetitions
+remain the comparison baseline. All three treatment repetitions will run again
+with the repaired, committed wheel and the same provider/configuration. They
+will be evaluated together against the same registered gate. This revision
+changes the originally alternating execution order; it does not select the
+best treatment trials or discard the defect from the report.
+
+## Local validation
+
+The pinned benchmark environment passes 354 tests across the main package and
 Harbor adapter. Tests cover early turn-based finalization, stable system
 prompts, reminder journaling, stalled streams, real long-running commands,
-child-process termination, preservation of background services after normal
+child-process termination (including GNU `timeout` creating another process
+group), bounded cleanup with detached pipe holders, preservation of background services after normal
 exit, bounded retries, bounded cost reconciliation, and ATIF compatibility.

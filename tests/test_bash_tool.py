@@ -5,7 +5,11 @@ every case finishes quickly.
 """
 
 from nanopycodeagent import bash_tool
+from nanopycodeagent.deadline import DeadlineExceeded, wall_clock_limit
+import pytest
 import shlex
+import shutil
+import sys
 import time
 
 
@@ -84,3 +88,33 @@ def test_normal_exit_preserves_background_service(tmp_path):
     assert not is_error
     time.sleep(0.3)
     assert target.exists()
+
+
+@pytest.mark.skipif(sys.platform != "linux" or not shutil.which("timeout"),
+                    reason="requires Linux and GNU timeout")
+@pytest.mark.parametrize("deadline", [False, True])
+def test_timeout_stops_children_in_another_process_group(tmp_path, deadline):
+    target = tmp_path / "must-not-exist"
+    child = f"sleep 0.8; touch {shlex.quote(str(target))}"
+    command = f"timeout 5 bash -c {shlex.quote(child)}; true"
+    started = time.monotonic()
+    if deadline:
+        with pytest.raises(DeadlineExceeded), wall_clock_limit(0.1):
+            bash_tool.run_bash(command)
+    else:
+        output, is_error = bash_tool.run_bash(command, timeout_seconds=0.1)
+        assert is_error and "timed out" in output
+    assert time.monotonic() - started < 0.6
+    time.sleep(0.9)
+    assert not target.exists()
+
+
+@pytest.mark.skipif(sys.platform != "linux" or not shutil.which("setsid"),
+                    reason="requires Linux and setsid")
+def test_timeout_does_not_drain_pipes_held_by_detached_child():
+    started = time.monotonic()
+    output, is_error = bash_tool.run_bash(
+        "setsid bash -c 'sleep 0.8' & wait", timeout_seconds=0.1,
+    )
+    assert is_error and "timed out" in output
+    assert time.monotonic() - started < 0.6

@@ -5,6 +5,7 @@ result string: stdout, then labelled stderr, then the exit code when non-zero.
 """
 
 import os
+from pathlib import Path
 import signal
 import subprocess
 
@@ -38,6 +39,41 @@ BASH_TOOL: ToolParam = {
 }
 
 
+def _stop_command(process: subprocess.Popen) -> None:
+    """Stop a timed-out command without draining pipes held by descendants."""
+    if os.name == "posix":
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        # GNU timeout and job control can move children to another process
+        # group in the command's session. On Linux, stop those children too.
+        proc = Path("/proc")
+        if proc.is_dir():
+            for entry in proc.iterdir():
+                if not entry.name.isdecimal():
+                    continue
+                try:
+                    fields = (entry / "stat").read_text().rpartition(")")[2].split()
+                    if int(fields[3]) == process.pid:
+                        os.kill(int(entry.name), signal.SIGKILL)
+                except (OSError, ValueError, IndexError):
+                    continue
+    try:
+        process.kill()
+    except ProcessLookupError:
+        pass
+    # A detached descendant can still hold either pipe open. Closing our
+    # readers makes teardown independent of that descendant's lifetime.
+    for pipe in (process.stdout, process.stderr):
+        if pipe is not None:
+            pipe.close()
+    try:
+        process.wait(timeout=1)
+    except subprocess.TimeoutExpired:
+        pass
+
+
 def run_bash(command: str, *, timeout_seconds: float | None = None) -> tuple[str, bool]:
     """Run ``command`` with ``bash -c`` and return ``(output, is_error)``.
 
@@ -50,8 +86,9 @@ def run_bash(command: str, *, timeout_seconds: float | None = None) -> tuple[str
     user's keystrokes.
 
     Background children inherit output pipes unless redirected. On POSIX,
-    timeouts and interruptions kill the command's process group; a normally
-    completed command leaves background services available to later tools.
+    timeouts and interruptions kill the command's process group (and other
+    members of its session on Linux). A normally completed command leaves
+    background services available to later tools.
     Text mode translates ``\\r`` to ``\\n`` (universal newlines).
     """
     timeout = BASH_TIMEOUT_SECONDS if timeout_seconds is None else min(
@@ -59,7 +96,7 @@ def run_bash(command: str, *, timeout_seconds: float | None = None) -> tuple[str
     )
     if timeout <= 0:
         return "[command not started: time budget exhausted]", True
-    with subprocess.Popen(
+    process = subprocess.Popen(
             ["bash", "-c", command],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -67,21 +104,18 @@ def run_bash(command: str, *, timeout_seconds: float | None = None) -> tuple[str
             errors="replace",
             stdin=subprocess.DEVNULL,
             start_new_session=os.name == "posix",
-    ) as process:
-        try:
-            stdout, stderr = process.communicate(timeout=timeout)
-        except BaseException as exc:
-            try:
-                if os.name == "posix":
-                    os.killpg(process.pid, signal.SIGKILL)
-                else:
-                    process.kill()
-            except ProcessLookupError:
-                pass
-            process.communicate()
-            if isinstance(exc, subprocess.TimeoutExpired):
-                return f"[command timed out after {timeout:g} seconds]", True
-            raise
+    )
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except BaseException as exc:
+        _stop_command(process)
+        if isinstance(exc, subprocess.TimeoutExpired):
+            return f"[command timed out after {timeout:g} seconds]", True
+        raise
+    finally:
+        for pipe in (process.stdout, process.stderr):
+            if pipe is not None:
+                pipe.close()
 
     parts = []
     if stdout := stdout.rstrip("\n"):
