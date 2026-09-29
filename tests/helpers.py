@@ -7,6 +7,7 @@ into the loop.
 """
 
 import json
+from copy import deepcopy
 from types import SimpleNamespace
 
 import anthropic
@@ -125,7 +126,7 @@ class FakeMessages:
         self.kwargs = []  # full kwargs passed to each stream() call
 
     def stream(self, **kwargs):
-        self.calls.append(list(kwargs["messages"]))  # freeze history at call time
+        self.calls.append(deepcopy(kwargs["messages"]))
         self.kwargs.append(kwargs)
         item = self._script.pop(0)
         if isinstance(item, FakeStream):

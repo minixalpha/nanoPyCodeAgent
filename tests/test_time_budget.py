@@ -7,6 +7,8 @@ written.
 """
 
 import json
+import signal
+import time
 
 import pytest
 
@@ -71,7 +73,7 @@ def _texts(messages):
 
 
 def _fake_bash(executions):
-    def run_bash(command):
+    def run_bash(command, **kwargs):
         executions.append(command)
         return "ok", False
 
@@ -119,12 +121,12 @@ def test_time_budget_is_injected_and_stops_the_run(monkeypatch, capsys):
     # lets the provider reuse its prefix cache. It rides at the tail instead.
     systems = [call["system"] for call in messages.kwargs]
     assert len(set(systems)) == 1
-    assert "[time budget]" not in systems[0]
+    assert "[runtime budget]" not in systems[0]
     assert "Elapsed 0:00 of 16:40; 16:40 remaining" in _texts(messages.calls[0])
     assert "Elapsed 7:30 of 16:40; 9:10 remaining" in _texts(messages.calls[1])
     final_text = _texts(messages.calls[2])
     assert "Only 1:40 of 16:40 left" in final_text
-    assert "Stop investigating now" in final_text
+    assert "Finalize now" in final_text
 
     captured = capsys.readouterr()
     assert "1000s time budget" in captured.err
@@ -136,7 +138,7 @@ def test_time_budget_is_injected_and_stops_the_run(monkeypatch, capsys):
     assert entries[-1].payload["outcome"] == "time_budget_exhausted"
 
 
-def test_without_a_budget_the_system_prompt_is_unchanged(monkeypatch):
+def test_turn_only_budget_is_injected_without_changing_system(monkeypatch):
     clock = FakeTime()
     monkeypatch.setattr(agent, "time", clock)
     monkeypatch.setattr(agent, "run_bash", _fake_bash([]))
@@ -145,12 +147,12 @@ def test_without_a_budget_the_system_prompt_is_unchanged(monkeypatch):
 
     assert cli.main(["-p", "just answer", "--max-turns", "5"]) == 0
 
-    assert "[time budget]" not in messages.kwargs[0]["system"]
-    assert "[time budget]" not in _texts(messages.calls[0])
+    assert "[runtime budget]" not in messages.kwargs[0]["system"]
+    assert "Turn 1 of 5" in _texts(messages.calls[0])
     entries = _journal_entries()
     assert entries[0].payload["time_budget_seconds"] is None
     assert entries[-1].payload["outcome"] == "completed"
-    assert not any(entry.type == "input.injected" for entry in entries)
+    assert [entry.payload["reason"] for entry in entries if entry.type == "input.injected"] == ["turn_budget"]
 
 
 @pytest.mark.parametrize("tool_seconds", [1, 2])
@@ -159,7 +161,7 @@ def test_deadline_is_checked_before_each_tool(monkeypatch, tmp_path, tool_second
     monkeypatch.setattr(agent, "time", clock)
     executions = []
 
-    def run_bash(command):
+    def run_bash(command, **kwargs):
         executions.append(command)
         clock.advance(tool_seconds)
         return "first result", False
@@ -209,9 +211,9 @@ def test_budget_reminders_survive_journal_and_atif(monkeypatch, tmp_path, struct
 
     assert agent._run_exchange(
         FakeClient(messages), "test-model", [{"role": "user", "content": task}],
-        agent.HEADLESS_SYSTEM_PROMPT, max_turns=10, time_budget_seconds=1000,
+        agent.HEADLESS_SYSTEM_PROMPT, max_turns=100, time_budget_seconds=1000,
         trajectory_path=trajectory_path,
-    ) == "completed"
+    ) == "time_budget_exhausted"
 
     notes = []
     for call in messages.calls:
@@ -220,8 +222,8 @@ def test_budget_reminders_survive_journal_and_atif(monkeypatch, tmp_path, struct
     assert len(notes) == 3
     assert "Elapsed 0:00" in notes[0]
     assert "Elapsed 7:30" in notes[1]
-    assert "Stop investigating now" in notes[2]
-    assert "write your best answer to it" in notes[2]
+    assert "Finalize now" in notes[2]
+    assert "Complete and save the required deliverables" in notes[2]
 
     entries = _journal_entries()
     user_entry = next(entry for entry in entries if entry.type == "user.message")
@@ -269,5 +271,107 @@ def test_finalization_note_escalates_below_the_reserve():
     late = agent._time_budget_note(
         turn=9, elapsed=990, budget=1000, remaining=10
     )
-    assert "remaining" in early and "Stop investigating now" not in early
-    assert "Stop investigating now" in late
+    assert "remaining" in early and "Finalize now" not in early
+    assert "Finalize now" in late
+
+
+def test_turn_budget_finalizes_while_time_is_plentiful():
+    early = agent._time_budget_note(turn=90, max_turns=100, elapsed=1200, budget=3420, remaining=2220)
+    late = agent._time_budget_note(turn=91, max_turns=100, elapsed=1210, budget=3420, remaining=2210)
+    assert "Finalize now" not in early
+    assert "10 replies remaining including this one" in late
+    assert "Finalize now" in late
+    assert "its tool calls will not execute" in late
+
+
+def test_stalled_stream_is_closed_and_journaled_at_deadline(monkeypatch, tmp_path):
+    closed = []
+
+    class StalledStream(FakeStream):
+        def __iter__(self):
+            yield from super().__iter__()
+            time.sleep(10)
+
+        def __exit__(self, *args):
+            closed.append(True)
+
+    messages = FakeMessages([StalledStream([text_block("partial")])])
+    patch_client(monkeypatch, FakeClient(messages))
+    trajectory = tmp_path / "trajectory.json"
+    started = time.monotonic()
+    assert agent.run_headless("task", time_budget_seconds=0.1, trajectory_path=trajectory) == 0
+    assert time.monotonic() - started < 2
+    assert closed == [True]
+    events = _journal_entries()
+    failed = next(e for e in events if e.type == "model.failed")
+    assert failed.payload["error_type"] == "DeadlineExceeded"
+    assert failed.payload["will_retry"] is False
+    assert events[-1].payload["outcome"] == "time_budget_exhausted"
+    assert json.loads(trajectory.read_text())["extra"]["terminal"]["outcome"] == "time_budget_exhausted"
+    assert signal.getitimer(signal.ITIMER_REAL)[0] == 0
+
+
+def test_budget_interrupts_a_real_long_command(monkeypatch):
+    messages = FakeMessages([FakeStream([tool_use_block("slow", "sleep 10")], stop_reason="tool_use")])
+    patch_client(monkeypatch, FakeClient(messages))
+    started = time.monotonic()
+    assert agent.run_headless("task", time_budget_seconds=0.1) == 0
+    assert time.monotonic() - started < 2
+    events = _journal_entries()
+    completed = next(e for e in events if e.type == "tool.completed")
+    assert completed.payload["is_error"] is True
+    assert events[-1].payload["outcome"] == "time_budget_exhausted"
+
+
+def test_retry_delay_cannot_spend_the_remaining_budget(monkeypatch):
+    import httpx
+    from test_stream_recovery import BrokenStream
+
+    sleeps = []
+    monkeypatch.setattr(agent.time, "sleep", sleeps.append)
+    messages = FakeMessages([BrokenStream(httpx.ReadError("interrupted"))])
+    patch_client(monkeypatch, FakeClient(messages))
+    assert agent.run_headless("task", time_budget_seconds=0.5) == 0
+    assert sleeps == []
+    assert len(messages.calls) == 1
+    assert _journal_entries()[-1].payload["outcome"] == "time_budget_exhausted"
+
+
+def test_cost_reconciliation_has_one_shared_finalization_budget(monkeypatch, tmp_path):
+    calls = []
+
+    def stalled_lookup(*args, **kwargs):
+        calls.append(args[1])
+        time.sleep(10)
+
+    monkeypatch.setattr(agent, "resolve_generation_cost", stalled_lookup)
+    monkeypatch.setattr(agent, "_COST_RECONCILIATION_SECONDS", 0.1)
+    messages = FakeMessages([
+        FakeStream([tool_use_block("one", "true")], stop_reason="tool_use", response_headers={"x-generation-id": "gen-one"}),
+        FakeStream([text_block("done")], response_headers={"x-generation-id": "gen-two"}),
+    ])
+    patch_client(monkeypatch, FakeClient(messages))
+    started = time.monotonic()
+    trajectory = tmp_path / "trajectory.json"
+    assert agent.run_headless("task", time_budget_seconds=10, trajectory_path=trajectory) == 0
+    assert time.monotonic() - started < 2
+    assert calls == ["gen-one"]
+    assert _journal_entries()[-1].payload["outcome"] == "completed"
+    assert json.loads(trajectory.read_text())["final_metrics"]["extra"]["cost_is_partial"] is True
+
+
+def test_unbudgeted_interactive_exchange_has_no_reminders(monkeypatch):
+    messages = FakeMessages([[text_block("done")]])
+    assert agent._run_exchange(FakeClient(messages), "test", [{"role": "user", "content": "hi"}], agent.SYSTEM_PROMPT) == "completed"
+    assert not any(e.type == "input.injected" for e in _journal_entries())
+
+
+def test_deadline_restores_handler_after_interruption():
+    from nanopycodeagent.deadline import DeadlineExceeded, wall_clock_limit
+
+    handler = signal.getsignal(signal.SIGALRM)
+    with pytest.raises(DeadlineExceeded):
+        with wall_clock_limit(0.02):
+            time.sleep(10)
+    assert signal.getsignal(signal.SIGALRM) == handler
+    assert signal.getitimer(signal.ITIMER_REAL) == (0, 0)

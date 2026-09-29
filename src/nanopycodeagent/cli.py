@@ -18,6 +18,7 @@ from pathlib import Path
 
 from .agent import DEFAULT_MAX_TURNS, _package_version, run, run_headless
 from .settings import DEFAULT_MAX_TOKENS, resolve_max_tokens
+from .deadline import check_deadline_support
 
 # Reserved by argparse for a misuse of the command line itself, and used here
 # for the same: a task that cannot be read is a mistake in how the agent was
@@ -69,8 +70,9 @@ def _build_parser() -> argparse.ArgumentParser:
         type=int,
         metavar="N",
         help=(
-            "stop a headless run after this many seconds of wall-clock time, "
-            "telling the model how much remains; default: no time budget"
+            "limit headless task work to this many wall-clock seconds "
+            "(POSIX main thread), with up to 30 additional seconds for cost "
+            "reconciliation before saving the trajectory; default: no time budget"
         ),
     )
     parser.add_argument(
@@ -152,7 +154,14 @@ def main(argv: list[str] | None = None) -> int:
     if task is None:
         if args.trajectory is not None:
             parser.error("--trajectory requires a headless task")
+        if args.time_budget_seconds is not None:
+            parser.error("--time-budget-seconds requires a headless task")
         return run(max_tokens=max_tokens)
+    if args.time_budget_seconds is not None:
+        try:
+            check_deadline_support()
+        except ValueError as exc:
+            parser.error(str(exc))
     trajectory_path = _trajectory_path(args.trajectory, parser)
     return run_headless(
         task,

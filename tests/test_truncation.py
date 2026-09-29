@@ -87,7 +87,7 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     trajectory = json.loads(trajectory_path.read_text())
     assert trajectory["schema_version"] == "ATIF-v1.7"
     assert trajectory["extra"]["terminal"]["outcome"] == "response_truncated"
-    assert trajectory["steps"][1]["extra"]["stop_reason"] == "max_tokens"
+    assert next(step for step in trajectory["steps"] if step["source"] == "agent")["extra"]["stop_reason"] == "max_tokens"
     assert trajectory["final_metrics"]["total_prompt_tokens"] == 10
     assert trajectory["agent"]["extra"]["max_tokens"] == max_tokens
     assert trajectory["final_metrics"]["total_completion_tokens"] == max_tokens
@@ -178,8 +178,8 @@ def test_sdk_stream_with_partial_tool_json_preserves_truncation(
     assert completed.payload["tool_calls"][0]["input"] == {}
     assert not any(entry.type.startswith("tool.") for entry in entries)
     trajectory = json.loads((tmp_path / "trajectory.json").read_text())
-    assert trajectory["steps"][1]["tool_calls"][0]["arguments"] == {}
-    assert "observation" not in trajectory["steps"][1]
+    assert next(step for step in trajectory["steps"] if step["source"] == "agent")["tool_calls"][0]["arguments"] == {}
+    assert "observation" not in next(step for step in trajectory["steps"] if step["source"] == "agent")
 
 
 @pytest.mark.parametrize("schema_version", [1, 2, 3, 4])
