@@ -10,7 +10,7 @@
 
 ```text
 nanoPyCodeAgent [-h] [-p TEXT | --prompt-file PATH] [--max-turns N] [--max-tokens N]
-                [--trajectory PATH] [--version]
+                [--time-budget-seconds N] [--trajectory PATH] [--version]
 ```
 
 ## 模式与任务输入
@@ -24,7 +24,8 @@ nanoPyCodeAgent
 ```
 
 输入 `/exit`,或在 `You>` 提示符下按 Ctrl-D 或 Ctrl-C,都可以正常结束会话。
-`--max-turns` 不限制交互会话中的 exchange。交互模式不能使用 `--trajectory`。
+`--max-turns` 不限制交互会话中的 exchange。交互模式不能使用 `--trajectory`
+或 `--time-budget-seconds`。
 
 ### Headless 模式
 
@@ -64,12 +65,24 @@ nanoPyCodeAgent -p "fix the failing tests"
 | `--prompt-file PATH` | 无 | 从 UTF-8 文件读取一次 headless 任务;文件必须可读并包含非空任务。 |
 | `--max-turns N` | `50` | 一次 headless run 最多允许 `N` 轮模型回复;`N` 必须是大于或等于 `1` 的整数。 |
 | `--max-tokens N` | `ANTHROPIC_MAX_TOKENS` 或 `32768` | 两种模式下每次模型回复的最大生成 token 数。`N` 必须是正整数；CLI 值优先于环境变量与 settings 文件。 |
+| `--time-budget-seconds N` | 禁用 | 将 headless 解题工作限制在 `N` 秒墙钟时间内。`N` 必须是正整数；要求 POSIX 主线程且没有已启用的实时信号定时器。 |
 | `--trajectory PATH` | 禁用 | 把 headless run 写成一份 ATIF-v1.7 JSON 文档;参见[Trajectory 输出](#trajectory-输出)。 |
 | `--version` | 无 | 打印 `nanoPyCodeAgent VERSION` 并成功退出。 |
 
 `--max-turns` 统计模型回复,只含 tool call 的回复也计入。如果第 `N` 个回复仍然请求
 工具,这些工具不会执行,因为已经没有下一轮回复可以使用工具结果。达到上限时,命令
 会在 stderr 打印诊断,但仍属于一次正常的 headless 退出。
+
+每次新回复前，模型都会收到剩余回复次数提醒。剩余 10 次回复时（包含即将开始的
+这次），提醒要求保存必要产物、执行必要验证并以总结结束。系统提示保持固定，
+动态提醒追加到对话尾部。
+
+指定 `--time-budget-seconds` 后，提醒也会报告剩余时间。轮数或时间任一进入保留
+窗口就提示收尾；时间窗口取 180 秒与总预算 15% 中的较大值。截止时间会中断正在
+进行的模型／工具工作，重试等待也必须落在剩余时间内。被中断的 bash 命令会终止
+整个进程组。终态为 `time_budget_exhausted`，退出码仍为 `0`。随后费用补查有独立、
+共享的 30 秒上限，再写出轨迹；无法补齐的费用保持 pending。外部时限需要为这些
+收尾工作留出空间。
 
 每次回复还受独立的生成上限约束，默认为 **32768** tokens。可用
 `--max-tokens 65536` 覆盖本次调用，或通过环境变量、settings 文件中的
@@ -93,7 +106,8 @@ nanoPyCodeAgent -p "fix the failing tests"
 从该轮首次中断起超过 300 秒后，不再安排新的重试。这个窗口不会取消进行中的
 请求：SDK 超时和外部执行期限仍然有效。响应流打开前的失败由 SDK 自身的重试
 策略处理。这个恢复循环不会重试认证失败、无效请求、程序错误或用户中断。
-传输重试耗尽时，headless 模式退出码为 `1`。
+配置墙钟预算后，正在进行的请求和重试等待也受预算约束。传输重试耗尽时，headless
+模式退出码为 `1`；因墙钟预算停止时退出 `0`，并记录独立的预算耗尽终态。
 
 ## 输出通道
 

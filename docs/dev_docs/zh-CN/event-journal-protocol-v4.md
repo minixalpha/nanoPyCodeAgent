@@ -10,20 +10,24 @@
 ## 时间预算终态
 
 `run.completed.payload.outcome` 新增 `time_budget_exhausted`，表示 core 在启动
-下一次模型调用或工具调用前发现 wall-clock 预算已耗尽。原有 `completed`、
+下一次模型调用或工具调用前、模型返回后或执行期间发现 wall-clock 预算已耗尽。原有 `completed`、
 `max_turns_exhausted`、`response_truncated` 的含义保持不变。
 
 配置了时间预算的 headless run 使用单调时钟计算截止时间。检查发生在每次模型
 尝试之前，以及同一回复中每一个工具执行之前。一个工具耗尽剩余预算后，后续工具
-不会启动。正在进行的模型或工具调用不会因此被中止，仍可能超过截止时间。
-回复截断和轮数预算的既有优先级保持不变；无需继续工作的完整最终回复仍可正常结束。
+不会启动。POSIX 主线程中的实时信号定时器会中断正在进行的模型或工具工作；不支持
+该定时器、非主线程或已有实时定时器时，显式拒绝配置时间预算。模型回复在期限之后
+返回时，即使不再请求工具，也记录时间预算耗尽。模型流被中断时记录不重试的
+`model.failed`，错误类型为 `DeadlineExceeded`；被中断工具以带错误的
+`tool.completed` 记录。已输出的部分内容不会伪装成完整模型回复。
 
 `run.started` 的可选字段 `time_budget_seconds` 记录配置的正整数秒数；未配置时
 为 null。旧 Journal 可以不包含该字段。ATIF 将其保留在
 `agent.extra.time_budget_seconds`。
 
 预算耗尽以 `run.completed` 正常收尾，headless 退出码为 `0`，费用补查和轨迹写入
-仍会执行。ATIF 的 `extra.terminal.status` 为 `completed`，
+仍会执行；时间预算 run 的费用补查另有共享的 30 秒上限，未补齐费用保持 pending，
+随后写出轨迹。ATIF 的 `extra.terminal.status` 为 `completed`，
 `extra.terminal.outcome` 为 `time_budget_exhausted`。消费者必须检查 outcome，
 不能仅凭 status 推断任务完成。
 
@@ -40,13 +44,16 @@
 | --- | --- | --- |
 | `model_call_id` | 非空字符串 | 即将使用该输入的模型尝试标识，与紧随其后的 `model.started` 对应。 |
 | `content` | 字符串 | 本次追加的完整文本，不是整个对话或工具结果的副本。 |
-| `reason` | 非空字符串 | 注入原因；时间预算提醒使用 `time_budget`。 |
+| `reason` | 非空字符串 | 注入原因；配置时间预算时使用 `time_budget`，只有轮数预算时使用 `turn_budget`。 |
 | `source_timestamp` | RFC 3339 UTC 或 null | 注入发生时间。 |
 
 配置时间预算时，每次模型尝试（包括重试）都会将提醒追加到最近的用户消息尾部，
 然后在 `model.started` 之前记录该事件。首次提醒追加到任务文本，后续提醒追加到
 工具结果之后；重试时追加到同一个消息尾部。系统提示保持不变。每次追加都单独
-记录，包括要求停止调查并写入输出文件的最终阶段警告。原始用户输入和工具结果
+记录。只有轮数预算时，每次新的回复前追加提醒，传输重试沿用原提醒。剩余 10 次
+回复（含即将开始的回复），或剩余时间不大于 `max(180 秒, 总预算 × 15%)` 时，
+提醒要求完成并保存必要产物、执行必要验证并总结结束；同时说明最后一次回复中的
+工具不会执行。原始用户输入和工具结果
 不会在 Journal 中被改写。
 
 ATIF 按 Journal 顺序为每个 `input.injected` 创建一个 `source = "user"` 的

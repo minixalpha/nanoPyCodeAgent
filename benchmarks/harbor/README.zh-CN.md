@@ -41,6 +41,11 @@ adapter 通过 stdin 发送任务指令，在 task 容器的当前目录中运�
 的 stdout/stderr 保存到 `/logs/agent/nanopycodeagent.txt`。它默认沿用 CLI 的 50
 轮限制；可以通过 `--agent-kwarg max_turns=20` 覆盖此设置。
 
+可用 `--agent-kwarg time_budget_seconds=N` 限制解题时间，并在时间或轮数接近耗尽时
+提醒模型收尾。预算应落在每题原生时限内，至少预留 30 秒费用补查时间，以及轨迹写入
+和 harness 开销。例如，本轮原生 3600 秒的针对性实验使用 3420 秒；该值不能用于
+900 秒题目。adapter 不会自动推导时间预算。
+
 每次回复的生成上限可通过 `--agent-kwarg max_tokens=32768` 指定，它会转换为容器内的
 `--max-tokens 32768`，优先于透传的 `ANTHROPIC_MAX_TOKENS` 环境变量。未指定时，
 adapter 不添加该 flag，沿用已安装 agent 的环境变量／配置文件／默认值（引入该参数的

@@ -5,24 +5,28 @@
 > Do not edit by hand.
 
 The current writer emits `schema_version = 4` for all runs. Readers and the
-ATIF projector continue to accept v1, v2, and v3. Public trajectories remain
+ATIF projector continue to accept v1, v2, and v3; public trajectories remain
 ATIF-v1.7. All contracts from [v3](event-journal-protocol-v3.md) still apply
 except for the changes below.
 
 ## Time budget outcome
 
 `run.completed.payload.outcome` adds `time_budget_exhausted`: the core observed
-an exhausted wall-clock budget before starting another model or tool call.
-The meanings of `completed`, `max_turns_exhausted`, and `response_truncated`
-remain unchanged.
+an exhausted wall-clock budget before another model or tool call, after a
+model response, or during execution. The meanings of `completed`,
+`max_turns_exhausted`, and `response_truncated` remain unchanged.
 
 A headless run with a time budget computes its deadline using a monotonic
 clock. It checks before each model attempt and before executing every tool
 in a reply. After one tool consumes the remaining budget, subsequent tools
-do not start. An in-flight model or tool call is not interrupted and may
-outlast the deadline. Existing precedence for response truncation and the
-turn budget is unchanged; a complete final reply needing no further work
-can still end normally.
+do not start. A real-time signal timer on a POSIX main thread interrupts
+in-flight model or tool work. Configuring a time budget is explicitly rejected
+when the timer is unsupported, execution is outside the main thread, or an
+existing real-time timer is active. A model reply returned after the deadline
+records time-budget exhaustion even if it requests no further tools. An
+interrupted model stream records a non-retried `model.failed` with error type
+`DeadlineExceeded`; an interrupted tool records `tool.completed` with an error.
+Partial output is not presented as a complete model response.
 
 The optional `run.started.time_budget_seconds` field records the configured
 positive integer number of seconds, or null when no budget is configured.
@@ -30,10 +34,12 @@ Older journals may omit this field. ATIF preserves it in
 `agent.extra.time_budget_seconds`.
 
 Budget exhaustion finalizes normally with `run.completed` and headless exit
-code `0`; cost reconciliation and trajectory writing still run. ATIF records
-`extra.terminal.status = "completed"` and
-`extra.terminal.outcome = "time_budget_exhausted"`. Consumers must inspect
-the outcome rather than infer task completion from status alone.
+code `0`; cost reconciliation and trajectory writing still run. For a
+time-budgeted run, cost reconciliation has a separate shared 30-second limit.
+Unresolved costs remain pending, and the trajectory is then written. ATIF
+records `extra.terminal.status = "completed"` and
+`extra.terminal.outcome = "time_budget_exhausted"`. Consumers must inspect the
+outcome rather than infer task completion from status alone.
 
 `model.completed` retains all tools requested by the reply. Only tools that
 actually execute have `tool.started`, `tool.completed`, and corresponding
@@ -50,16 +56,21 @@ payload fields are:
 | --- | --- | --- |
 | `model_call_id` | nonempty string | The upcoming model attempt that will use this input, matching the immediately following `model.started`. |
 | `content` | string | The complete text appended this time, not a copy of the whole conversation or tool results. |
-| `reason` | nonempty string | Reason for injection; time budget reminders use `time_budget`. |
+| `reason` | nonempty string | Reason for injection: `time_budget` when a time budget is configured, or `turn_budget` when only the reply count is limited. |
 | `source_timestamp` | RFC 3339 UTC or null | Time of injection. |
 
 With a time budget configured, every model attempt, including retries, appends
 a reminder to the most recent user message and records this event before
 `model.started`. The first reminder follows the task text, subsequent reminders
 follow tool results, and retries append to the same message. The system prompt
-stays unchanged. Each addition is recorded separately, including the final
-warning to stop investigating and write the output file. Original user input
-and tool results are not rewritten in the Journal.
+stays unchanged. Each addition is recorded separately. With only a turn budget,
+a reminder is appended before each new reply; transport retries reuse that
+reminder. When 10 replies remain (including the upcoming reply), or remaining
+time is no greater than `max(180 seconds, total budget * 15%)`, the reminder
+instructs the model to complete and save required deliverables, perform
+necessary checks, and summarize and stop. It also states that tools requested
+by the final allowed reply will not execute. Original user input and tool
+results are not rewritten in the Journal.
 
 ATIF creates a `source = "user"` step for each `input.injected` in Journal
 order, with the reminder text in `message`. Here, user denotes the role in the
