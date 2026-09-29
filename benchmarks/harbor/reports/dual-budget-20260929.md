@@ -50,10 +50,14 @@ and endpoint-specific restrictions in its
 The treatment must score reward 1 and end as native `completed` on all six
 targeted trials, with no supervisor deadline, forced kill, or reconstructed
 trajectory. Provider auditing must succeed. Compare per-task cost and duration
-against the repeated control before proceeding; investigate a material
-regression rather than selecting the best run. If the gate passes, run the
+against the repeated control before proceeding: a per-task mean cost or
+duration above 1.5 times its control mean holds the pipeline for investigation.
+Incomplete cost/provider receipts also hold the pipeline. Do not select the
+best run. If the gate passes, run the
 original pinned pilot20 selection once with the same model and provider, 100
-replies, and task-specific budgets inside each native timeout. Historical
+replies, and task-specific budgets of native timeout minus 180 seconds. Its
+supervisor interrupts at native timeout minus 120 seconds and retains 120
+seconds of grace. Historical
 pilot20 used another model/routing configuration and is not a controlled
 estimate of this implementation's effect.
 
