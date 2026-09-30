@@ -274,12 +274,17 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
     terminal: JournalEntry | None = None
     for entry in entries[1:]:
         payload = entry.payload
-        if entry.type == "user.message":
+        if entry.type in {"user.message", "input.injected"}:
             timestamp, timestamp_source = _timestamp(entry)
-            extra: JsonObject = {
-                "message_id": payload["message_id"],
-                "timestamp_source": timestamp_source,
-            }
+            extra: JsonObject = {"timestamp_source": timestamp_source}
+            if entry.type == "input.injected":
+                extra.update({
+                    "injected": True,
+                    "model_call_id": payload["model_call_id"],
+                    "reason": payload["reason"],
+                })
+            else:
+                extra["message_id"] = payload["message_id"]
             _add_journal_truncation(extra, entry, "/content")
             steps.append(
                 {
@@ -477,6 +482,11 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
                 **(
                     {"max_tokens": run_payload["max_tokens"]}
                     if "max_tokens" in run_payload
+                    else {}
+                ),
+                **(
+                    {"time_budget_seconds": run_payload["time_budget_seconds"]}
+                    if "time_budget_seconds" in run_payload
                     else {}
                 ),
             },

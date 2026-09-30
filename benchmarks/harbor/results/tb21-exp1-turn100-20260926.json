@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-26T15:39:43.242545+00:00",
+  "purpose": "Experiment 1: raise the headless max_turns from 50 to 100 for the two tasks that still scored reward 0 in tb21-v41flash-6task-20260925.",
+  "agent_ref": "41476d451a16f6455f806f2b038b3d798537da01",
+  "agent_version": "0.8.1.dev32+g41476d451",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash",
+  "dataset": "terminal-bench/terminal-bench-2-1",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "selection": "The two tasks that still scored reward 0 in tb21-v41flash-6task-20260925 (caffe-cifar-10, mteb-leaderboard) with their pinned task refs.",
+  "configuration": {
+    "max_turns": 100,
+    "previous_max_turns": 50,
+    "max_tokens": 65536,
+    "project_default_max_tokens": 32768,
+    "agent_execution_limit_seconds": 3480,
+    "finalization_grace_seconds": 120,
+    "harbor_outer_limit_seconds": null,
+    "agent_setup_limit_seconds": null,
+    "timeout_compliance": "Leaderboard-compliant: no Harbor agent/verifier timeout override and no setup timeout override; the effective agent timeout is the task-native 3600s. The agent self-limits at 3480s inside it.",
+    "maximum_simultaneous_trials": 2,
+    "automatic_harbor_retries": 0,
+    "attempts_per_task": 1,
+    "verifier_limits": "Native task deadlines",
+    "dependency_constraints": [
+      "anthropic==1.5.0",
+      "httpx==0.28.1",
+      "httpx2==2.12.0",
+      "pydantic==2.13.5"
+    ]
+  },
+  "baseline": {
+    "job": "tb21-v41flash-6task-20260925",
+    "max_turns": 50,
+    "note": "Both re-run tasks scored reward 0 there by exhausting 50 turns (max_turns_exhausted)."
+  },
+  "totals": {
+    "planned": 2,
+    "finished": 2,
+    "passed": 2,
+    "scored_zero": 0,
+    "unscored": 0,
+    "model_attempts": 139,
+    "input_tokens": 340804,
+    "cache_tokens": 4289280,
+    "output_tokens": 73799,
+    "cost_usd": 0.094087476
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "reward": 1.0,
+      "outcome": "DiagnosticDeadlineExceeded",
+      "duration_seconds": 3600.0,
+      "model_replies": 69,
+      "tool_calls": 77,
+      "input_tokens": 181427,
+      "cache_tokens": 2203008,
+      "output_tokens": 41101,
+      "cost_usd": 0.039895559,
+      "deadline_reached": true,
+      "forced_kill": true,
+      "trajectory_source": "reconstructed",
+      "started_at": "2026-09-26T14:36:51.471Z"
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "reward": 1.0,
+      "outcome": "completed",
+      "duration_seconds": 1666.3,
+      "model_replies": 70,
+      "tool_calls": 90,
+      "input_tokens": 159377,
+      "cache_tokens": 2086272,
+      "output_tokens": 32698,
+      "cost_usd": 0.054191917,
+      "deadline_reached": false,
+      "forced_kill": false,
+      "trajectory_source": "native",
+      "started_at": "2026-09-26T14:36:37.295Z"
+    }
+  ],
+  "comparison_limits": "Single attempt per task; routing, sampling, cache and provider backend are uncontrolled, so this is a targeted diagnostic, not a controlled estimate of pass-rate improvement.",
+  "artifacts": {
+    "raw_trials": "jobs/tb21-exp1-turn100-20260926",
+    "record": "jobs/tb21-exp1-turn100-20260926-record",
+    "note": "Raw trials and record live in Git-ignored jobs/ and are not uploaded."
+  },
+  "provider_routing": {
+    "by_provider": {
+      "DeepInfra": {
+        "replies": 121,
+        "input_tokens": 140692,
+        "cache_read_tokens": 3523072,
+        "output_tokens": 66677
+      },
+      "Parasail": {
+        "replies": 2,
+        "input_tokens": 100123,
+        "cache_read_tokens": 0,
+        "output_tokens": 582
+      },
+      "(unresolved)": {
+        "replies": 15,
+        "input_tokens": 98130,
+        "cache_read_tokens": 766208,
+        "output_tokens": 6293
+      },
+      "Together": {
+        "replies": 1,
+        "input_tokens": 1859,
+        "cache_read_tokens": 0,
+        "output_tokens": 247
+      }
+    },
+    "note": "Routing is uncontrolled. DeepInfra was the only provider reporting cache reads in both runs; its cache reads per reply collapsed from ~29116 (Experiment 1) to ~61 (Experiment 2), consistent with the per-turn system-prompt change invalidating the prefix cache."
+  }
+}

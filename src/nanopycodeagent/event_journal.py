@@ -19,16 +19,19 @@ from typing import Callable, Literal, Mapping
 
 from . import settings
 
-SCHEMA_VERSION = 3
-SUPPORTED_SCHEMA_VERSIONS = frozenset({1, 2, 3})
+SCHEMA_VERSION = 4
+SUPPORTED_SCHEMA_VERSIONS = frozenset({1, 2, 3, 4})
 DEFAULT_MAX_STRING_CHARS = 100_000
 
-type RunOutcome = Literal["completed", "max_turns_exhausted", "response_truncated"]
+type RunOutcome = Literal[
+    "completed", "max_turns_exhausted", "time_budget_exhausted", "response_truncated"
+]
 
 EVENT_TYPES = frozenset(
     {
         "run.started",
         "user.message",
+        "input.injected",
         "model.started",
         "model.output_delta",
         "model.completed",
@@ -58,6 +61,7 @@ _NON_TRUNCATABLE_FIELDS = frozenset(
         "outcome",
         "producer",
         "provider_response_id",
+        "reason",
         "source_timestamp",
         "stop_reason",
         "tool_call_id",
@@ -70,6 +74,9 @@ _REQUIRED_PAYLOAD_FIELDS = {
         {"mode", "model", "max_turns", "producer", "source_timestamp"}
     ),
     "user.message": frozenset({"message_id", "content", "source_timestamp"}),
+    "input.injected": frozenset(
+        {"model_call_id", "content", "reason", "source_timestamp"}
+    ),
     "model.started": frozenset({"model_call_id", "model", "source_timestamp"}),
     "model.output_delta": frozenset(
         {"model_call_id", "delta", "source_timestamp"}
@@ -332,6 +339,10 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             or max_turns < 1
         ):
             raise ValueError("run.started.max_turns must be positive or null")
+    elif event_type == "input.injected":
+        _require_string(payload, "reason", event_type)
+        if not isinstance(payload["content"], str):
+            raise ValueError("input.injected.content must be a string")
     elif event_type == "model.started":
         _require_string(payload, "model", event_type)
     elif event_type == "model.output_delta":
@@ -440,7 +451,7 @@ def _validate_native_payload(event_type: str, payload: JsonObject) -> None:
             _validate_tool_error(payload.get("error"))
     elif event_type == "run.completed":
         if payload["outcome"] not in {
-            "completed", "max_turns_exhausted", "response_truncated"
+            "completed", "max_turns_exhausted", "time_budget_exhausted", "response_truncated"
         }:
             raise ValueError("run.completed.outcome is unsupported")
         _validate_cost_reconciliation(payload, event_type)
@@ -548,8 +559,16 @@ class JournalEntry:
         if truncation is not None:
             _validate_truncation(truncation)
         event = NativeEvent(event_type, payload)
+        if schema_version < 4 and event.type == "input.injected":
+            raise ValueError("input.injected requires Journal Entry schema 4")
         if schema_version < 3 and event.type == "model.failed":
             raise ValueError("model.failed requires Journal Entry schema 3")
+        if (
+            schema_version < 4
+            and event.type == "run.completed"
+            and event.payload["outcome"] == "time_budget_exhausted"
+        ):
+            raise ValueError("time_budget_exhausted requires Journal Entry schema 4")
         if (
             schema_version == 1
             and event.type == "run.completed"

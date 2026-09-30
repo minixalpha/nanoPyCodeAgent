@@ -49,7 +49,8 @@ def test_prompt_argument_runs_the_task_and_exits_zero(monkeypatch, capsys):
 
     assert cli.main(["-p", "say hi"]) == 0
 
-    assert messages.calls[0] == [{"role": "user", "content": "say hi"}]
+    assert messages.calls[0][0]["role"] == "user"
+    assert messages.calls[0][0]["content"].startswith("say hi\n\n[runtime budget]")
     # The headless prompt goes out, not the conversational one.
     assert messages.kwargs[0]["system"] == agent.HEADLESS_SYSTEM_PROMPT
     out = capsys.readouterr().out
@@ -68,7 +69,8 @@ def test_stdin_pipe_is_taken_as_the_task(monkeypatch, capsys):
 
     assert cli.main([]) == 0
 
-    assert messages.calls[0] == [{"role": "user", "content": "fix the bug"}]
+    assert messages.calls[0][0]["role"] == "user"
+    assert messages.calls[0][0]["content"].startswith("fix the bug\n\n[runtime budget]")
 
 
 def test_prompt_file_is_read_as_the_task(monkeypatch, tmp_path, capsys):
@@ -79,7 +81,8 @@ def test_prompt_file_is_read_as_the_task(monkeypatch, tmp_path, capsys):
 
     assert cli.main(["--prompt-file", str(task_file)]) == 0
 
-    assert messages.calls[0] == [{"role": "user", "content": "port the parser"}]
+    assert messages.calls[0][0]["role"] == "user"
+    assert messages.calls[0][0]["content"].startswith("port the parser\n\n[runtime budget]")
 
 
 def test_banner_stays_off_stdout_in_a_headless_run(monkeypatch, capsys):
@@ -108,7 +111,7 @@ def test_trajectory_path_writes_atif_without_changing_headless_stdout(
     trajectory = json.loads(trajectory_path.read_text(encoding="utf-8"))
     assert trajectory["schema_version"] == "ATIF-v1.7"
     assert trajectory["steps"][0]["message"] == "say hi"
-    assert trajectory["steps"][1]["message"] == "done"
+    assert next(step for step in trajectory["steps"] if step["source"] == "agent")["message"] == "done"
     assert trajectory["extra"]["terminal"]["outcome"] == "completed"
 
 
@@ -144,7 +147,7 @@ def test_partial_model_usage_is_not_reported_as_complete_trajectory_totals(
 
     trajectory = json.loads(trajectory_path.read_text(encoding="utf-8"))
     assert trajectory["final_metrics"] == {
-        "total_steps": 3,
+        "total_steps": 5,
         "extra": {
             "usage_complete": False,
             "known_cost_usd": 0.0,
@@ -293,8 +296,8 @@ def test_failed_headless_run_writes_partial_atif_trajectory(
     assert captured.out == "partial reply"
     assert "API error: peer disconnected" in captured.err
     trajectory = json.loads(trajectory_path.read_text(encoding="utf-8"))
-    assert trajectory["steps"][1]["message"] == "partial reply"
-    assert trajectory["steps"][1]["extra"]["incomplete"] is True
+    assert next(step for step in trajectory["steps"] if step["source"] == "agent")["message"] == "partial reply"
+    assert next(step for step in trajectory["steps"] if step["source"] == "agent")["extra"]["incomplete"] is True
     terminal = trajectory["extra"]["terminal"]
     terminal_summary = {
         key: terminal[key]

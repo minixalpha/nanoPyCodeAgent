@@ -45,6 +45,13 @@ container's current directory, and saves combined stdout/stderr to
 `/logs/agent/nanopycodeagent.txt`. It uses the CLI's 50-turn default; override
 that with `--agent-kwarg max_turns=20`.
 
+Use `--agent-kwarg time_budget_seconds=N` to bound task work and remind the model
+to finalize before either time or replies run out. Choose a budget inside each
+task's native timeout, reserving at least 30 seconds for cost reconciliation
+plus trajectory writing and harness overhead. For example, the 3600-second
+targeted experiments use 3420 seconds; that value does not fit a 900-second task.
+No time budget is inferred automatically by the adapter.
+
 For the per-reply generation limit, pass `--agent-kwarg max_tokens=32768`.
 This becomes `--max-tokens 32768` in the container and overrides the forwarded
 `ANTHROPIC_MAX_TOKENS` environment variable. When omitted, the adapter sends no

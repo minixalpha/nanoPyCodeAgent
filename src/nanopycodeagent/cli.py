@@ -18,6 +18,7 @@ from pathlib import Path
 
 from .agent import DEFAULT_MAX_TURNS, _package_version, run, run_headless
 from .settings import DEFAULT_MAX_TOKENS, resolve_max_tokens
+from .deadline import check_deadline_support
 
 # Reserved by argparse for a misuse of the command line itself, and used here
 # for the same: a task that cannot be read is a mistake in how the agent was
@@ -62,6 +63,16 @@ def _build_parser() -> argparse.ArgumentParser:
         help=(
             "maximum generated tokens per model reply in either mode "
             f"(default: ANTHROPIC_MAX_TOKENS or {DEFAULT_MAX_TOKENS})"
+        ),
+    )
+    parser.add_argument(
+        "--time-budget-seconds",
+        type=int,
+        metavar="N",
+        help=(
+            "limit headless task work to this many wall-clock seconds "
+            "(POSIX main thread), with up to 30 additional seconds for cost "
+            "reconciliation before saving the trajectory; default: no time budget"
         ),
     )
     parser.add_argument(
@@ -132,6 +143,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.max_turns < 1:
         parser.error("--max-turns must be at least 1")
+    if args.time_budget_seconds is not None and args.time_budget_seconds < 1:
+        parser.error("--time-budget-seconds must be at least 1")
     try:
         max_tokens = resolve_max_tokens(args.max_tokens)
     except ValueError as exc:
@@ -141,11 +154,19 @@ def main(argv: list[str] | None = None) -> int:
     if task is None:
         if args.trajectory is not None:
             parser.error("--trajectory requires a headless task")
+        if args.time_budget_seconds is not None:
+            parser.error("--time-budget-seconds requires a headless task")
         return run(max_tokens=max_tokens)
+    if args.time_budget_seconds is not None:
+        try:
+            check_deadline_support()
+        except ValueError as exc:
+            parser.error(str(exc))
     trajectory_path = _trajectory_path(args.trajectory, parser)
     return run_headless(
         task,
         max_turns=args.max_turns,
         max_tokens=max_tokens,
+        time_budget_seconds=args.time_budget_seconds,
         trajectory_path=trajectory_path,
     )

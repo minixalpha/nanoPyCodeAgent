@@ -47,6 +47,7 @@ from .cost import (
     usage_cost,
 )
 from .edit_tool import edit_preview, run_edit
+from .deadline import DeadlineExceeded, check_deadline_support, wall_clock_limit
 from .event_journal import (
     EventEmitter,
     EventJournal,
@@ -84,6 +85,91 @@ _TRUNCATION_NOTICE = (
 # refuses it.
 DEFAULT_MAX_TURNS = 50
 
+# A headless run may also be given a wall-clock budget. When it is, the loop
+# tells the model how much time is left and stops before the harness's own
+# timeout can kill the process with nothing written. The last stretch is
+# reserved so the model still has room to write the task's output file.
+_FINALIZATION_RESERVE_SECONDS = 180
+_FINALIZATION_RESERVE_FRACTION = 0.15
+_FINALIZATION_RESERVE_TURNS = 10
+_COST_RECONCILIATION_SECONDS = 30
+
+
+def _format_duration(total_seconds: float) -> str:
+    total = max(0, int(total_seconds))
+    return f"{total // 60}:{total % 60:02d}"
+
+
+def _time_budget_note(
+    *, turn: int, elapsed: float, budget: float | None, remaining: float | None,
+    max_turns: int | None = None,
+) -> str:
+    """Tell the model about both limits before either prevents finalization."""
+    replies_left = None if max_turns is None else max_turns - turn + 1
+    turn_note = f"Turn {turn}. " if max_turns is None else (
+        f"Turn {turn} of {max_turns}; {replies_left} replies remaining including "
+        "this one. The last reply must be a final summary: its tool calls "
+        "will not execute. "
+    )
+    time_low = remaining is not None and remaining <= max(
+        _FINALIZATION_RESERVE_FRACTION * budget, _FINALIZATION_RESERVE_SECONDS
+    )
+    note = "[runtime budget] " + turn_note
+    if remaining is not None:
+        note += (
+            f"Only {_format_duration(remaining)} of {_format_duration(budget)} left. "
+            if time_low else
+            f"Elapsed {_format_duration(elapsed)} of {_format_duration(budget)}; "
+            f"{_format_duration(remaining)} remaining. "
+        )
+    if time_low or (replies_left is not None and replies_left <= _FINALIZATION_RESERVE_TURNS):
+        note += (
+            "Finalize now. Stop investigating new approaches. Complete and save "
+            "the required deliverables, perform only the necessary checks, then "
+            "reply with a short summary and no further tool calls. If incomplete, "
+            "save useful progress and state the remaining limitation honestly."
+        )
+    else:
+        note += (
+            "Keep required deliverables up to date. Once the requirements are "
+            "satisfied and checked, finish immediately; unused budget is not "
+            "a reason to continue investigating."
+        )
+    return note
+
+
+def _append_budget_note(
+    messages: list[MessageParam],
+    note: str,
+    *,
+    emitter: EventEmitter,
+    model_call_id: str,
+    reason: str = "time_budget",
+) -> None:
+    """Append a wall-clock reminder to the tail of the conversation.
+
+    The reminder goes into the most recent user message — the initial task, or
+    the tool results — rather than the system prompt. Rewriting the system
+    prompt each turn changes the very first tokens of every request and defeats
+    the provider's prefix cache; appending to the tail keeps each request an
+    extension of the previous one, so the cached prefix survives.
+    """
+    last = messages[-1]
+    content = last["content"]
+    if isinstance(content, str):
+        last["content"] = f"{content}\n\n{note}"
+    else:
+        content.append({"type": "text", "text": note})
+    emitter.emit(
+        "input.injected",
+        {
+            "model_call_id": model_call_id,
+            "content": note,
+            "reason": reason,
+            "source_timestamp": utc_now(),
+        },
+    )
+
 # Shared by both system prompts: which tool to reach for is the same question
 # whoever is asking.
 _TOOL_GUIDANCE = (
@@ -109,7 +195,10 @@ HEADLESS_SYSTEM_PROMPT = (
     "out. Work the task through to the end, then check the result with the "
     "tools instead of assuming it worked. When it is done, answer with a "
     "short summary and no further tool calls: that reply is what ends the "
-    "run. "
+    "run. Runtime budget reminders report remaining time and model replies; "
+    "when either is running low, prioritize saving the required deliverables, "
+    "necessary verification, and a final summary. Do not start optional work "
+    "after the requirements are satisfied. "
 ) + _TOOL_GUIDANCE
 
 def _json_value(value: object) -> JsonValue:
@@ -266,6 +355,7 @@ def _run_one_tool(
     model_call_id: str,
     *,
     input_error: str | None = None,
+    remaining_seconds: float | None = None,
 ) -> ToolResultBlockParam:
     """Execute one ``tool_use`` block and emit its runtime facts."""
     tool_input = _json_value(block.input)
@@ -309,7 +399,10 @@ def _run_one_tool(
         else:  # bash; unknown names have already been rejected
             command = block.input["command"]
             with Spinner("Running..."):
-                output, is_error = run_bash(command)
+                output, is_error = run_bash(command, **(
+                    {"timeout_seconds": remaining_seconds}
+                    if remaining_seconds is not None else {}
+                ))
     except BaseException as exc:
         emitter.emit(
             "tool.completed",
@@ -388,6 +481,7 @@ def _run_exchange(
     *,
     max_turns: int | None = None,
     max_tokens: int = DEFAULT_MAX_TOKENS,
+    time_budget_seconds: int | None = None,
     reply_prefix: str = "\nAgent> ",
     trajectory_path: Path | None = None,
 ) -> RunOutcome:
@@ -399,6 +493,8 @@ def _run_exchange(
     distinguishing completion, turn-budget exhaustion, and response truncation.
     """
     run_id = f"run-{uuid.uuid4()}"
+    if time_budget_seconds is not None:
+        check_deadline_support()
     run_started_ns = time.perf_counter_ns()
     projector = _TextOutputProjector(reply_prefix)
     with EventJournal.create(run_id) as journal:
@@ -406,10 +502,15 @@ def _run_exchange(
         emitter.emit(
             "run.started",
             {
-                "mode": "headless" if max_turns is not None else "interactive",
+                "mode": (
+                    "headless"
+                    if max_turns is not None or time_budget_seconds is not None
+                    else "interactive"
+                ),
                 "model": model,
                 "max_turns": max_turns,
                 "max_tokens": max_tokens,
+                "time_budget_seconds": time_budget_seconds,
                 "producer": {
                     "name": "nanoPyCodeAgent",
                     "version": _package_version(),
@@ -435,9 +536,13 @@ def _run_exchange(
                 emitter=emitter,
                 max_turns=max_turns,
                 max_tokens=max_tokens,
+                time_budget_seconds=time_budget_seconds,
             )
         except BaseException as exc:
-            cost_reconciliation = _reconcile_costs(client, journal, emitter)
+            cost_reconciliation = _reconcile_costs(
+                client, journal, emitter,
+                max_seconds=_COST_RECONCILIATION_SECONDS if time_budget_seconds else None,
+            )
             emitter.emit(
                 "run.failed",
                 {
@@ -455,7 +560,10 @@ def _run_exchange(
             )
             raise
         else:
-            cost_reconciliation = _reconcile_costs(client, journal, emitter)
+            cost_reconciliation = _reconcile_costs(
+                client, journal, emitter,
+                max_seconds=_COST_RECONCILIATION_SECONDS if time_budget_seconds else None,
+            )
             emitter.emit(
                 "run.completed",
                 {
@@ -488,16 +596,41 @@ def _run_model_loop(
     emitter: EventEmitter,
     max_turns: int | None,
     max_tokens: int,
+    time_budget_seconds: int | None = None,
 ) -> RunOutcome:
     """Run model replies and tool calls for an already-started Agent Run."""
     turns = 0
     retries = 0
     retry_deadline = None
+    deadline = (
+        time.monotonic() + time_budget_seconds
+        if time_budget_seconds is not None and time_budget_seconds > 0
+        else None
+    )
     while True:
+        model_call_id = f"model-{uuid.uuid4()}"
+        remaining = None
+        if deadline is not None:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                return "time_budget_exhausted"
+        if deadline is not None or (max_turns is not None and retries == 0):
+            _append_budget_note(
+                messages,
+                _time_budget_note(
+                    turn=turns + 1,
+                    elapsed=time_budget_seconds - remaining if deadline is not None else 0,
+                    budget=time_budget_seconds,
+                    remaining=remaining,
+                    max_turns=max_turns,
+                ),
+                emitter=emitter,
+                model_call_id=model_call_id,
+                reason="time_budget" if deadline is not None else "turn_budget",
+            )
         # A spinner marks the wait for the reply; the first streamed
         # token replaces it with the reply prefix. A tool-only reply
         # streams no text, so the prefix is skipped for it entirely.
-        model_call_id = f"model-{uuid.uuid4()}"
         emitter.emit(
             "model.started",
             {
@@ -512,12 +645,13 @@ def _run_model_loop(
         generation_id = None
         stream_entered = False
         try:
-            with Spinner() as spinner, client.messages.stream(
+            with wall_clock_limit(remaining), Spinner() as spinner, client.messages.stream(
                 model=model,
                 max_tokens=max_tokens,
                 system=system,
                 tools=TOOLS,
                 messages=messages,
+                **({"timeout": remaining} if remaining is not None else {}),
             ) as stream:
                 stream_entered = True
                 generation_id = _response_header(stream, "x-generation-id")
@@ -542,17 +676,28 @@ def _run_model_loop(
                         )
                 message = stream.get_final_message()
                 model_completed_ns = time.perf_counter_ns()
+        except DeadlineExceeded as exc:
+            emitter.emit("model.failed", {
+                "model_call_id": model_call_id,
+                "error_type": type(exc).__name__, "message": str(exc),
+                "generation_id": generation_id,
+                "duration_ms": (time.perf_counter_ns() - model_started_ns) / 1_000_000,
+                "will_retry": False, "retry_delay_seconds": 0,
+                "source_timestamp": utc_now(),
+            })
+            return "time_budget_exhausted"
         except (anthropic.APIError, *HTTP_ERRORS) as exc:
             now = time.monotonic()
             if retry_deadline is None:
                 retry_deadline = now + STREAM_RETRY_WINDOW_SECONDS
             delay = STREAM_RETRY_DELAYS[retries] if retries < len(STREAM_RETRY_DELAYS) else 0
-            will_retry = (
+            retryable = (
                 stream_entered
                 and isinstance(exc, RETRYABLE_STREAM_ERRORS)
                 and retries < len(STREAM_RETRY_DELAYS)
                 and now + delay <= retry_deadline
             )
+            will_retry = retryable and (deadline is None or now + delay < deadline)
             emitter.emit(
                 "model.failed",
                 {
@@ -567,9 +712,10 @@ def _run_model_loop(
                 },
             )
             if not will_retry:
+                if deadline is not None and (now >= deadline or (retryable and now + delay >= deadline)):
+                    return "time_budget_exhausted"
                 raise
-            # The window limits when another retry may start. An in-flight
-            # attempt retains the SDK timeout and any external run deadline.
+            # The retry delay fits inside both the recovery window and budget.
             time.sleep(delay)
             retries += 1
             continue
@@ -628,6 +774,8 @@ def _run_model_loop(
         emitter.emit("model.completed", payload)
 
         turns += 1
+        if deadline is not None and time.monotonic() >= deadline:
+            return "time_budget_exhausted"
         if message.stop_reason == "max_tokens":
             # Do not execute partial tool calls or replay them without results.
             # Thinking may also be cut off before its signature arrives. Keep
@@ -659,14 +807,25 @@ def _run_model_loop(
             return "max_turns_exhausted"
         # Every tool_use block needs a matching tool_result in the next
         # user message, or the API rejects the request.
-        results = [
-            _run_one_tool(
-                block, emitter, model_call_id,
-                input_error=input_errors.get(block.id),
-            )
-            for block in message.content
-            if block.type == "tool_use"
-        ]
+        results = []
+        for block in message.content:
+            if block.type != "tool_use":
+                continue
+            if deadline is not None and time.monotonic() >= deadline:
+                # The reply or a preceding tool consumed the remaining time.
+                # Stop the run without starting another tool or model call.
+                return "time_budget_exhausted"
+            remaining = None if deadline is None else deadline - time.monotonic()
+            try:
+                with wall_clock_limit(remaining):
+                    result = _run_one_tool(
+                        block, emitter, model_call_id,
+                        input_error=input_errors.get(block.id),
+                        remaining_seconds=remaining,
+                    )
+            except DeadlineExceeded:
+                return "time_budget_exhausted"
+            results.append(result)
         messages.append({"role": "user", "content": results})
 
 
@@ -674,6 +833,8 @@ def _reconcile_costs(
     client: anthropic.Anthropic,
     journal: EventJournal,
     emitter: EventEmitter,
+    *,
+    max_seconds: float | None = None,
 ) -> list[JsonObject]:
     """Append resolved OpenRouter costs without affecting the run outcome."""
     base_url = getattr(client, "base_url", "")
@@ -681,6 +842,7 @@ def _reconcile_costs(
     if not isinstance(credential, str) or not credential:
         return []
     outcomes: list[JsonObject] = []
+    deadline = None if max_seconds is None else time.monotonic() + max_seconds
     entries = EventJournal.replay(journal.path)
     already_resolved = {
         str(entry.payload["generation_id"])
@@ -704,12 +866,17 @@ def _reconcile_costs(
         ):
             continue
         diagnostics: list[JsonObject] = []
-        resolved = resolve_generation_cost(
-            base_url,
-            generation_id,
-            credential,
-            diagnostics=diagnostics,
-        )
+        if deadline is not None and time.monotonic() >= deadline:
+            break
+        try:
+            with wall_clock_limit(None if deadline is None else deadline - time.monotonic()):
+                resolved = resolve_generation_cost(
+                    base_url, generation_id, credential, diagnostics=diagnostics,
+                )
+        except DeadlineExceeded:
+            outcomes.append({"generation_id": generation_id, "status": "unresolved",
+                             "attempts": diagnostics, "reason": "finalization_deadline"})
+            break
         if resolved is not None:
             resolved["source_timestamp"] = utc_now()
             emitter.emit("model.cost_resolved", resolved)
@@ -771,6 +938,7 @@ def run_headless(
     *,
     max_turns: int = DEFAULT_MAX_TURNS,
     max_tokens: int | None = None,
+    time_budget_seconds: int | None = None,
     trajectory_path: Path | None = None,
 ) -> int:
     """Work ``task`` to completion without a user, and return the exit code.
@@ -793,7 +961,8 @@ def run_headless(
     # model's prose and the echoed tool calls, nothing else.
     print(
         f"nanoPyCodeAgent v{_package_version()} — model {model}, "
-        f"max turns {max_turns}, max tokens {max_tokens}",
+        f"max turns {max_turns}, max tokens {max_tokens}, "
+        f"time budget {time_budget_seconds if time_budget_seconds else 'none'}",
         file=sys.stderr,
     )
 
@@ -806,6 +975,7 @@ def run_headless(
             HEADLESS_SYSTEM_PROMPT,
             max_turns=max_turns,
             max_tokens=max_tokens,
+            time_budget_seconds=time_budget_seconds,
             reply_prefix="",
             trajectory_path=trajectory_path,
         )
@@ -820,6 +990,12 @@ def run_headless(
         turns = "turn" if max_turns == 1 else "turns"
         print(
             f"[stopped after {max_turns} {turns} without finishing the task]",
+            file=sys.stderr,
+        )
+    elif outcome == "time_budget_exhausted":
+        print(
+            f"[stopped after the {time_budget_seconds}s time budget without "
+            "finishing the task]",
             file=sys.stderr,
         )
     return 0

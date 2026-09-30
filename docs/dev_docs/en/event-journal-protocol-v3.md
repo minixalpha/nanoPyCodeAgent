@@ -4,10 +4,12 @@
 > [`../zh-CN/event-journal-protocol-v3.md`](../zh-CN/event-journal-protocol-v3.md).
 > Do not edit by hand.
 
-The current writer emits `schema_version = 3`. Readers and the ATIF projector
-continue to accept v1 and v2. Public trajectories remain ATIF-v1.7.
-All contracts from [v2](event-journal-protocol-v2.md) still apply except for the
-additional event and projection behavior described here.
+v3 uses `schema_version = 3`. The current writer has moved to
+[v4](event-journal-protocol-v4.md); this document preserves the v3 protocol.
+v3 readers and the ATIF projector continue to accept v1 and v2. Public
+trajectories remain ATIF-v1.7. All contracts from
+[v2](event-journal-protocol-v2.md) still apply except for the additional event
+and projection behavior described here.
 
 ## Failed model attempts
 

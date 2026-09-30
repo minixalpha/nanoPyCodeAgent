@@ -16,6 +16,36 @@ def test_projector_output_passes_harbor_atif_validator():
     assert validator.validate(trajectory), validator.get_errors()
 
 
+def test_time_budget_v4_passes_harbor_atif_validator(tmp_path):
+    fixture = Path(__file__).parent / "fixtures" / "atif-journal-v1.jsonl"
+    note = "[time budget] Stop investigating now. Write your best answer to the output file."
+    with EventJournal.create("run-budgeted", directory=tmp_path) as journal:
+        for entry in EventJournal.replay(fixture):
+            if entry.type == "model.started":
+                journal.append(NativeEvent("input.injected", {
+                    "model_call_id": entry.payload["model_call_id"],
+                    "content": note,
+                    "reason": "time_budget",
+                    "source_timestamp": entry.payload["source_timestamp"],
+                }))
+            payload = entry.payload
+            if entry.type == "run.completed":
+                payload = payload | {"outcome": "time_budget_exhausted"}
+            journal.append(NativeEvent(entry.type, payload))
+
+    entries = EventJournal.replay(journal.path)
+    assert all(entry.schema_version == 4 for entry in entries)
+    trajectory = project_atif(entries)
+    validator = TrajectoryValidator()
+    assert validator.validate(trajectory), validator.get_errors()
+    assert trajectory["extra"]["terminal"]["outcome"] == "time_budget_exhausted"
+    reminder = trajectory["steps"][1]
+    assert reminder["source"] == "user"
+    assert reminder["message"] == note
+    assert reminder["extra"]["injected"] is True
+    assert reminder["extra"]["model_call_id"] == trajectory["steps"][2]["extra"]["model_call_id"]
+
+
 @pytest.mark.parametrize("resolved", [False, True])
 def test_recovered_stream_v3_passes_harbor_atif_validator(tmp_path, resolved):
     fixture = Path(__file__).parent / "fixtures" / "atif-journal-v1.jsonl"

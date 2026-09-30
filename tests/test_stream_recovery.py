@@ -51,8 +51,8 @@ def test_transport_families_recover_and_preserve_failed_attempt(
     failed = [e for e in entries() if e.type == "model.failed"]
     assert len(failed) == 1 and failed[0].payload["will_retry"] is True
     trajectory = json.loads(trajectory_path.read_text())
-    assert [s["message"] for s in trajectory["steps"]] == ["task", "partial", "done"]
-    assert trajectory["steps"][1]["extra"]["incomplete"] is True
+    assert [s["message"] for s in trajectory["steps"] if not s.get("extra", {}).get("injected")] == ["task", "partial", "done"]
+    assert next(step for step in trajectory["steps"] if step["source"] == "agent")["extra"]["incomplete"] is True
     assert trajectory["extra"]["terminal"]["outcome"] == "completed"
     assert trajectory["final_metrics"]["extra"]["usage_complete"] is False
     assert trajectory["final_metrics"]["extra"]["cost_is_partial"] is True
@@ -181,7 +181,7 @@ def test_sdk_stream_retry_discards_partial_tool_and_does_not_replay_work(monkeyp
     failed = next(e for e in entries() if e.type == "model.failed")
     assert failed.payload["generation_id"] == "gen-2"
     trajectory = json.loads(trajectory_path.read_text())
-    assert [s["extra"].get("incomplete", False) for s in trajectory["steps"]] == [False, False, True, False, False]
+    assert [s["extra"].get("incomplete", False) for s in trajectory["steps"] if not s.get("extra", {}).get("injected")] == [False, False, True, False, False]
 
 
 def test_interrupted_generation_cost_is_reconciled_without_inventing_usage(monkeypatch, tmp_path):
@@ -208,7 +208,7 @@ def test_interrupted_generation_cost_is_reconciled_without_inventing_usage(monke
     assert "total_prompt_tokens" not in final
 
 
-@pytest.mark.parametrize("schema", [1, 2, 3])
+@pytest.mark.parametrize("schema", [1, 2, 3, 4])
 def test_failed_attempt_requires_v3_schema(schema):
     record = {
         "schema_version": schema, "run_id": "run-1", "seq": 1,

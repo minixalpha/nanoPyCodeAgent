@@ -54,6 +54,8 @@ def test_headless_model_reply_is_journaled_without_changing_stdout(
     assert captured.out == "done\n"
 
     entries = EventJournal.replay(_only_journal_path())
+    assert [entry.seq for entry in entries] == list(range(1, len(entries) + 1))
+    entries = [entry for entry in entries if entry.type != "input.injected"]
     assert [entry.type for entry in entries] == [
         "run.started",
         "user.message",
@@ -62,7 +64,6 @@ def test_headless_model_reply_is_journaled_without_changing_stdout(
         "model.completed",
         "run.completed",
     ]
-    assert [entry.seq for entry in entries] == [1, 2, 3, 4, 5, 6]
     assert all("timestamp_source" not in entry.payload for entry in entries)
 
     started_run = entries[0].payload
@@ -117,6 +118,8 @@ def test_model_duration_ends_before_local_response_normalization(monkeypatch):
     assert agent.run_headless("fix it") == 0
 
     entries = EventJournal.replay(_only_journal_path())
+    assert [entry.seq for entry in entries] == list(range(1, len(entries) + 1))
+    entries = [entry for entry in entries if entry.type != "input.injected"]
     completed = next(entry for entry in entries if entry.type == "model.completed")
     assert completed.payload["duration_ms"] == 1
 
@@ -163,6 +166,8 @@ def test_openrouter_cost_is_reconciled_before_run_completion(
     assert agent.run_headless("fix it") == 0
 
     entries = EventJournal.replay(_only_journal_path())
+    assert [entry.seq for entry in entries] == list(range(1, len(entries) + 1))
+    entries = [entry for entry in entries if entry.type != "input.injected"]
     assert [entry.type for entry in entries[-3:]] == [
         "model.completed",
         "model.cost_resolved",
@@ -251,6 +256,8 @@ def test_failed_tool_events_project_the_existing_tool_output(
     )
 
     entries = EventJournal.replay(_only_journal_path())
+    assert [entry.seq for entry in entries] == list(range(1, len(entries) + 1))
+    entries = [entry for entry in entries if entry.type != "input.injected"]
     assert [entry.type for entry in entries] == [
         "run.started",
         "user.message",
@@ -318,6 +325,8 @@ def test_interrupted_model_stream_preserves_partial_stdout_and_records_failure(
     assert "API error: peer disconnected" in captured.err
 
     entries = EventJournal.replay(_only_journal_path())
+    assert [entry.seq for entry in entries] == list(range(1, len(entries) + 1))
+    entries = [entry for entry in entries if entry.type != "input.injected"]
     assert [entry.type for entry in entries] == [
         "run.started",
         "user.message",
@@ -355,6 +364,8 @@ def test_unexpected_tool_exception_is_completed_before_the_run_fails(
     assert captured.out == f"[read] {target}\n"
 
     entries = EventJournal.replay(_only_journal_path())
+    assert [entry.seq for entry in entries] == list(range(1, len(entries) + 1))
+    entries = [entry for entry in entries if entry.type != "input.injected"]
     assert [entry.type for entry in entries] == [
         "run.started",
         "user.message",

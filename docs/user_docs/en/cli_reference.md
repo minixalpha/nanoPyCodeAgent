@@ -11,7 +11,7 @@ task.
 
 ```text
 nanoPyCodeAgent [-h] [-p TEXT | --prompt-file PATH] [--max-turns N] [--max-tokens N]
-                [--trajectory PATH] [--version]
+                [--time-budget-seconds N] [--trajectory PATH] [--version]
 ```
 
 ## Modes and task input
@@ -27,7 +27,7 @@ nanoPyCodeAgent
 
 Enter `/exit`, press Ctrl-D, or press Ctrl-C at the `You>` prompt to end the
 session normally. `--max-turns` does not limit interactive exchanges.
-`--trajectory` is not available in interactive mode.
+`--trajectory` and `--time-budget-seconds` are not available in interactive mode.
 
 ### Headless mode
 
@@ -72,6 +72,7 @@ working directory.
 | `--prompt-file PATH` | — | Read one headless task from a UTF-8 file. The file must be readable and contain a non-empty task. |
 | `--max-turns N` | `50` | Allow at most `N` model replies in a headless run. `N` must be an integer of at least `1`. |
 | `--max-tokens N` | `ANTHROPIC_MAX_TOKENS` or `32768` | Maximum generated tokens per model reply in either mode. `N` must be a positive integer; the CLI value overrides environment and settings-file values. |
+| `--time-budget-seconds N` | disabled | Limit headless task work to `N` wall-clock seconds. `N` must be a positive integer; requires a POSIX main thread without an active real-time alarm. |
 | `--trajectory PATH` | disabled | Write the headless run as one ATIF-v1.7 JSON document. See [Trajectory output](#trajectory-output). |
 | `--version` | — | Print `nanoPyCodeAgent VERSION` and exit successfully. |
 
@@ -79,6 +80,23 @@ working directory.
 calls. If reply `N` still requests tools, those tools are not run because no
 reply remains to consume their results. Reaching the limit prints a diagnostic
 to stderr but is still a normal headless exit.
+
+Before each new reply, the model receives a reminder of the remaining replies.
+At 10 remaining replies (including the upcoming reply), it is instructed to
+save required deliverables, perform necessary checks, and finish with a summary.
+The system prompt remains fixed; reminders are appended to the conversation.
+
+With `--time-budget-seconds`, reminders also report remaining time. Finalization
+guidance starts when either the reply reserve or the time reserve is reached;
+the time reserve is the larger of 180 seconds and 15% of the configured budget.
+The deadline interrupts in-flight model/tool work, and retries must fit in the
+remaining time. An interrupted bash command's process group is terminated;
+Linux also terminates other members of the command's session. Cleanup closes
+output pipes without waiting for detached children, with up to one second to
+reap the direct child.
+The outcome is `time_budget_exhausted`, with exit status `0`. Cost reconciliation
+then has a separate shared 30-second limit before trajectory writing; unresolved
+costs remain pending. Leave room for this finalization inside an external timeout.
 
 Each reply has a separate generation limit, defaulting to **32768** tokens.
 Use `--max-tokens 65536` to override it for one invocation; use
@@ -108,7 +126,9 @@ that reply. This window does not cancel an in-flight request: the SDK timeout
 and any external run deadline still apply. Failures before a response stream
 opens remain subject to the SDK's own retry policy. Authentication errors,
 invalid requests, programming errors, and user interrupts are not retried by
-this recovery loop. Exhausted transport failures exit headless mode with `1`.
+this recovery loop. A configured wall-clock budget also bounds in-flight
+requests and retry waits. Exhausted transport failures exit headless mode with
+`1`; stopping for the wall-clock budget exits `0` with its distinct outcome.
 
 ## Output channels
 

@@ -54,7 +54,7 @@ def test_journal_entry_wraps_the_native_event_with_ordering_metadata(tmp_path):
         },
     }
     assert entry.to_dict() == {
-        "schema_version": 3,
+        "schema_version": 4,
         "run_id": "run-123",
         "seq": 1,
         "recorded_at": "2026-08-23T08:00:01.420Z",
@@ -103,6 +103,28 @@ def test_jsonl_journal_replays_entries_in_append_order(tmp_path):
     assert [entry.type for entry in entries] == ["user.message", "run.completed"]
     assert entries[0].payload["content"] == "hello"
     assert path.read_bytes().count(b"\n") == 2
+
+
+@pytest.mark.parametrize("schema_version", [1, 2, 3, 4])
+def test_injected_input_requires_v4_schema(schema_version):
+    record = {
+        "schema_version": schema_version,
+        "run_id": "run-1",
+        "seq": 1,
+        "recorded_at": "2026-09-27T00:00:00.000Z",
+        "type": "input.injected",
+        "payload": {
+            "model_call_id": "model-1",
+            "content": "[time budget] Stop investigating now.",
+            "reason": "time_budget",
+            "source_timestamp": None,
+        },
+    }
+    if schema_version < 4:
+        with pytest.raises(ValueError, match="input.injected requires Journal Entry schema 4"):
+            JournalEntry.from_dict(record)
+    else:
+        assert JournalEntry.from_dict(record).to_dict() == record
 
 
 def test_journal_storage_is_restricted_to_the_current_user(tmp_path):
@@ -336,7 +358,7 @@ def test_native_event_contract_rejects_non_json_values(content):
         )
 
 
-@pytest.mark.parametrize("schema_version", [True, 0, 4, "2"])
+@pytest.mark.parametrize("schema_version", [True, 0, 5, "2"])
 def test_journal_entry_rejects_unsupported_schema_version(schema_version):
     with pytest.raises(ValueError, match="unsupported Journal Entry schema"):
         JournalEntry.from_dict(

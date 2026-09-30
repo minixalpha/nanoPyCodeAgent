@@ -69,7 +69,7 @@ def test_invalid_calls_are_reported_without_executing(
 
     assert agent.run_headless("work", trajectory_path=trajectory_path) == 0
 
-    result, = messages.calls[1][-1]["content"]
+    result, = [block for block in messages.calls[1][-1]["content"] if block["type"] == "tool_result"]
     assert result["tool_use_id"] == "bad" and result["is_error"] is True
     assert diagnostic in result["content"]
     assert "not executed" in capsys.readouterr().out
@@ -79,7 +79,7 @@ def test_invalid_calls_are_reported_without_executing(
     assert completed.payload["error"]["type"] == "ToolInputError"
     assert entries[-1].payload["outcome"] == "completed"
     trajectory = json.loads(trajectory_path.read_text())
-    step = trajectory["steps"][1]
+    step = next(step for step in trajectory["steps"] if step["source"] == "agent")
     observation, = step["observation"]["results"]
     assert observation["source_call_id"] == "bad"
     assert observation["extra"]["is_error"] is True
@@ -113,7 +113,7 @@ def test_model_corrects_bad_call_and_keeps_successful_sibling(
         assert agent.run_headless("work", max_turns=3) == 0
 
     assert target.read_text() == "corrected"
-    results = messages.calls[1][-1]["content"]
+    results = [block for block in messages.calls[1][-1]["content"] if block["type"] == "tool_result"]
     assert [r["tool_use_id"] for r in results] == ["good", "bad"]
     assert [r["is_error"] for r in results] == [False, True]
     assert messages.calls[2][-1]["content"][0]["is_error"] is False
@@ -220,7 +220,7 @@ def test_real_sdk_bad_input_is_rejected_and_corrected(
     assert requests[1]["messages"][-2]["content"][0]["input"] == {}
     assert requests[2]["messages"][-1]["content"][0]["is_error"] is False
     trajectory = json.loads(trajectory_path.read_text())
-    call = trajectory["steps"][1]["tool_calls"][0]
+    call = next(step for step in trajectory["steps"] if step["source"] == "agent")["tool_calls"][0]
     if bad_json.startswith("{") and bad_json != "{}":
         assert call["extra"]["input_json"] == bad_json
         assert "JSON" in rejected["content"]
