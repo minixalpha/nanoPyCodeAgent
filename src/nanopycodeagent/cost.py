@@ -15,6 +15,66 @@ DEFAULT_ATTEMPTS = 6
 DEFAULT_RETRY_DELAYS = (1.0, 2.0, 4.0, 8.0, 15.0)
 RETRYABLE_HTTP_STATUSES = frozenset({404, 408, 409, 429, 500, 502, 503, 504})
 
+# Static price lists in USD per million tokens for providers that return token
+# usage but not a per-request cost. DeepSeek's official endpoint is the current
+# case: it reports ``input_tokens``, ``output_tokens``, and cache token counts,
+# but no ``cost`` field and no generation id, so the existing usage and
+# generation reconciliation paths cannot resolve a cost. Update these numbers
+# when the provider changes its pricing. DeepSeek's cache-write price is zero.
+_TOKEN_PRICES: dict[str, dict[str, Decimal]] = {
+    "deepseek-flash": {
+        "input": Decimal("0.3"),
+        "output": Decimal("1.2"),
+        "cache_read": Decimal("0.006"),
+        "cache_write": Decimal("0"),
+    },
+}
+_TOKENS_PER_PRICE_UNIT = Decimal(1_000_000)
+
+
+def estimated_cost(model: object, usage: JsonObject | None) -> JsonObject | None:
+    """Estimate a USD cost from token usage for a priced, non-reporting model.
+
+    Returns ``None`` when the model has no local price list or the usage does
+    not carry the integer token counts the estimate needs. The result is marked
+    ``kind: estimated`` so it stays distinguishable from a provider-reported or
+    reconciled cost. Call this only after :func:`usage_cost` fails, so an
+    explicit provider cost always wins.
+    """
+    if not isinstance(model, str) or not isinstance(usage, dict):
+        return None
+    prices = _TOKEN_PRICES.get(model)
+    if prices is None:
+        return None
+    if "input_tokens" not in usage or "output_tokens" not in usage:
+        return None
+    counts: dict[str, int] = {}
+    for field in (
+        "input_tokens",
+        "output_tokens",
+        "cache_read_input_tokens",
+        "cache_creation_input_tokens",
+    ):
+        value = usage.get(field, 0)
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            return None
+        counts[field] = value
+    amount = (
+        Decimal(counts["input_tokens"]) * prices["input"]
+        + Decimal(counts["cache_read_input_tokens"]) * prices["cache_read"]
+        + Decimal(counts["cache_creation_input_tokens"]) * prices["cache_write"]
+        + Decimal(counts["output_tokens"]) * prices["output"]
+    ) / _TOKENS_PER_PRICE_UNIT
+    if not amount.is_finite() or amount < 0:
+        return None
+    return {
+        "status": "resolved",
+        "amount": str(amount),
+        "currency": "USD",
+        "source": "token_estimate.deepseek",
+        "kind": "estimated",
+    }
+
 
 def generation_url(base_url: object) -> str | None:
     """Build the provider-local generation endpoint from an SDK base URL."""
