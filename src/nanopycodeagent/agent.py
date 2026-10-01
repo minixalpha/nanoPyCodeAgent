@@ -42,6 +42,7 @@ from anthropic.types import MessageParam, ToolResultBlockParam, ToolUseBlock
 from .atif import project_atif, write_atif
 from .bash_tool import run_bash
 from .cost import (
+    estimated_cost,
     pending_cost,
     resolve_generation_cost,
     usage_cost,
@@ -767,6 +768,10 @@ def _run_model_loop(
             ),
             "generation_id": generation_id,
             "cost": usage_cost(usage if isinstance(usage, dict) else None)
+            or estimated_cost(
+                str(getattr(message, "model", None) or model),
+                usage if isinstance(usage, dict) else None,
+            )
             or pending_cost(generation_id),
             "duration_ms": (model_completed_ns - model_started_ns) / 1_000_000,
             "source_timestamp": utc_now(),

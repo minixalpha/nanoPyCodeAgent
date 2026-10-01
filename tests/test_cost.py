@@ -4,6 +4,7 @@ import httpx
 import pytest
 
 from nanopycodeagent.cost import (
+    estimated_cost,
     generation_url,
     pending_cost,
     resolve_generation_cost,
@@ -37,6 +38,52 @@ def test_usage_cost_preserves_provider_reported_decimal():
         "status": "pending",
         "source": "provider_generation",
     }
+
+
+def test_estimated_cost_prices_deepseek_flash_token_usage():
+    assert estimated_cost(
+        "deepseek-flash",
+        {
+            "input_tokens": 5719,
+            "output_tokens": 2203,
+            "cache_read_input_tokens": 25600,
+            "cache_creation_input_tokens": 0,
+        },
+    ) == {
+        "status": "resolved",
+        "amount": "0.0045129",
+        "currency": "USD",
+        "source": "token_estimate.deepseek",
+        "kind": "estimated",
+    }
+
+
+def test_estimated_cost_defaults_absent_cache_counts_to_zero():
+    # A minimal DeepSeek-style usage object still prices without cache fields.
+    assert estimated_cost(
+        "deepseek-flash", {"input_tokens": 1000, "output_tokens": 1000}
+    ) == {
+        "status": "resolved",
+        "amount": "0.0015",
+        "currency": "USD",
+        "source": "token_estimate.deepseek",
+        "kind": "estimated",
+    }
+
+
+@pytest.mark.parametrize(
+    ("model", "usage"),
+    [
+        ("unknown-model", {"input_tokens": 1, "output_tokens": 1}),
+        ("deepseek-flash", None),
+        ("deepseek-flash", {}),
+        ("deepseek-flash", {"input_tokens": 1}),
+        ("deepseek-flash", {"input_tokens": 1, "output_tokens": True}),
+        ("deepseek-flash", {"input_tokens": -1, "output_tokens": 1}),
+    ],
+)
+def test_estimated_cost_is_unknown_without_a_price_or_valid_counts(model, usage):
+    assert estimated_cost(model, usage) is None
 
 
 def test_generation_resolution_retries_until_cost_is_available():

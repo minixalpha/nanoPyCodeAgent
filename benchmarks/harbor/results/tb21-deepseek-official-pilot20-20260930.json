@@ -1,0 +1,387 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-01T12:28:08.216679+00:00",
+  "job_name": "tb21-deepseek-official-pilot20-20260930",
+  "run_date": "2026-09-30",
+  "scope": "Single-attempt provider switch of the 20-task pilot set from OpenRouter to the DeepSeek official Anthropic-compatible endpoint; not a full Terminal-Bench 2.1 score or a controlled causal comparison.",
+  "experiment": {
+    "agent_ref": "e75cacb6a780314471ff12655ecb6fe414109ee4",
+    "wheel_sha256": "2be853f2dcbaef286295aacfbc2c074455d41b8531d7d585fdc727eeecaa9d73",
+    "harbor_version": "0.21.0",
+    "dataset": "terminal-bench/terminal-bench-2-1",
+    "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+    "model": "deepseek/deepseek-flash",
+    "endpoint": "https://api.deepseek.com/anthropic",
+    "api": "Anthropic Messages",
+    "model_settings_source": "~/.nanoPyCodeAgent/settings.json",
+    "limits": {
+      "n_tasks": 20,
+      "n_attempts": 1,
+      "n_concurrent": 2,
+      "max_turns": 100,
+      "max_tokens_per_response": 65536,
+      "time_budget": "native task timeout - 180s, computed per task",
+      "harbor_max_retries": 0,
+      "harbor_timeout_overrides": false,
+      "openrouter_provider_pin": null,
+      "http_recorder": null,
+      "temperature": "not explicitly set",
+      "reasoning_effort": "not explicitly set"
+    }
+  },
+  "scores": {
+    "planned_trials": 20,
+    "scored_trials": 18,
+    "passed_trials": 16,
+    "failed_reward_trials": 2,
+    "unscored_trials": 2,
+    "exception_counts": {
+      "VerifierTimeoutError": 1,
+      "NonZeroAgentExitCodeError": 1
+    },
+    "harbor_eval_mean": 0.8,
+    "pass_rate_over_planned": 0.8,
+    "pass_rate_over_scored": 0.8888888888888888
+  },
+  "usage": {
+    "total_prompt_tokens": 30933108,
+    "total_cached_tokens": 30586240,
+    "total_cache_write_tokens": 0,
+    "total_uncached_input_tokens": 346868,
+    "total_completion_tokens": 891020,
+    "complete": true
+  },
+  "cost": {
+    "currency": "USD",
+    "method": "token_estimate.deepseek",
+    "source": "static DeepSeek official price table",
+    "prices_per_million_tokens": {
+      "input": "0.3",
+      "output": "1.2",
+      "cache_read": "0.006",
+      "cache_write": "0"
+    },
+    "token_estimated_total_usd": "1.35680184",
+    "reported_by_provider": false,
+    "note": "DeepSeek's official API returns token usage but no per-request cost, no generation id, and no usage/billing endpoint. This total is computed from token usage, not reported by the provider.",
+    "account_balance_snapshots_cny": [
+      {
+        "label": "before",
+        "at": "2026-09-30T14:05:18.075037+00:00",
+        "is_available": true,
+        "balance_infos": [
+          {
+            "currency": "CNY",
+            "total_balance": "106.63",
+            "granted_balance": "0.00",
+            "topped_up_balance": "106.63"
+          }
+        ]
+      },
+      {
+        "label": "after",
+        "at": "2026-09-30T16:14:44.312896+00:00",
+        "is_available": true,
+        "balance_infos": [
+          {
+            "currency": "CNY",
+            "total_balance": "102.01",
+            "granted_balance": "0.00",
+            "topped_up_balance": "102.01"
+          }
+        ]
+      }
+    ],
+    "account_balance_delta_cny": "4.62",
+    "account_balance_caveat": "The interactive assistant session used the same DeepSeek account during the run, so the balance delta is an upper bound, not an isolated run cost."
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 3600,
+      "usage": {
+        "prompt_tokens": 932801,
+        "cache_read_tokens": 914048,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 18753,
+        "completion_tokens": 25539
+      },
+      "estimated_cost_usd": "0.041756988"
+    },
+    {
+      "task": "terminal-bench/circuit-fibsqrt",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 3600,
+      "usage": {
+        "prompt_tokens": 972406,
+        "cache_read_tokens": 963328,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 9078,
+        "completion_tokens": 64174
+      },
+      "estimated_cost_usd": "0.085512168"
+    },
+    {
+      "task": "terminal-bench/dna-assembly",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 1800,
+      "usage": {
+        "prompt_tokens": 2356256,
+        "cache_read_tokens": 2331008,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 25248,
+        "completion_tokens": 88429
+      },
+      "estimated_cost_usd": "0.127675248"
+    },
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 32653,
+        "cache_read_tokens": 29568,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 3085,
+        "completion_tokens": 2825
+      },
+      "estimated_cost_usd": "0.004492908"
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 1800,
+      "usage": {
+        "prompt_tokens": 1079376,
+        "cache_read_tokens": 1061248,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 18128,
+        "completion_tokens": 52222
+      },
+      "estimated_cost_usd": "0.074472288"
+    },
+    {
+      "task": "terminal-bench/log-summary-date-ranges",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 27223,
+        "cache_read_tokens": 22656,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 4567,
+        "completion_tokens": 1777
+      },
+      "estimated_cost_usd": "0.003638436"
+    },
+    {
+      "task": "terminal-bench/merge-diff-arc-agi-task",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 274857,
+        "cache_read_tokens": 260224,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 14633,
+        "completion_tokens": 16171
+      },
+      "estimated_cost_usd": "0.025356444"
+    },
+    {
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 538556,
+        "cache_read_tokens": 526592,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 11964,
+        "completion_tokens": 29094
+      },
+      "estimated_cost_usd": "0.041661552"
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 3600,
+      "usage": {
+        "prompt_tokens": 1719176,
+        "cache_read_tokens": 1680128,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 39048,
+        "completion_tokens": 29412
+      },
+      "estimated_cost_usd": "0.057089568"
+    },
+    {
+      "task": "terminal-bench/openssl-selfsigned-cert",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 40143,
+        "cache_read_tokens": 37120,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 3023,
+        "completion_tokens": 3902
+      },
+      "estimated_cost_usd": "0.00581202"
+    },
+    {
+      "task": "terminal-bench/path-tracing",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 1800,
+      "usage": {
+        "prompt_tokens": 1140749,
+        "cache_read_tokens": 1084672,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 56077,
+        "completion_tokens": 35038
+      },
+      "estimated_cost_usd": "0.065376732"
+    },
+    {
+      "task": "terminal-bench/pypi-server",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 110863,
+        "cache_read_tokens": 105216,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 5647,
+        "completion_tokens": 5713
+      },
+      "estimated_cost_usd": "0.009180996"
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "reward": 0.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 1481698,
+        "cache_read_tokens": 1460352,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 21346,
+        "completion_tokens": 44263
+      },
+      "estimated_cost_usd": "0.068281512"
+    },
+    {
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "reward": null,
+      "exception_type": "NonZeroAgentExitCodeError",
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 0,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 0,
+        "completion_tokens": 0
+      },
+      "estimated_cost_usd": "0.000"
+    },
+    {
+      "task": "terminal-bench/regex-chess",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 3600,
+      "usage": {
+        "prompt_tokens": 6867208,
+        "cache_read_tokens": 6828288,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 38920,
+        "completion_tokens": 122473
+      },
+      "estimated_cost_usd": "0.199613328"
+    },
+    {
+      "task": "terminal-bench/regex-log",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 435322,
+        "cache_read_tokens": 429824,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 5498,
+        "completion_tokens": 62276
+      },
+      "estimated_cost_usd": "0.078959544"
+    },
+    {
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 2400,
+      "usage": {
+        "prompt_tokens": 11204578,
+        "cache_read_tokens": 11154688,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 49890,
+        "completion_tokens": 192178
+      },
+      "estimated_cost_usd": "0.312508728"
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "reward": null,
+      "exception_type": "VerifierTimeoutError",
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 1334231,
+        "cache_read_tokens": 1318656,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 15575,
+        "completion_tokens": 62393
+      },
+      "estimated_cost_usd": "0.087456036"
+    },
+    {
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "reward": 0.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 168404,
+        "cache_read_tokens": 164992,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 3412,
+        "completion_tokens": 18918
+      },
+      "estimated_cost_usd": "0.024715152"
+    },
+    {
+      "task": "terminal-bench/write-compressor",
+      "reward": 1.0,
+      "exception_type": null,
+      "native_agent_timeout_seconds": 900,
+      "usage": {
+        "prompt_tokens": 216608,
+        "cache_read_tokens": 213632,
+        "cache_write_tokens": 0,
+        "uncached_input_tokens": 2976,
+        "completion_tokens": 34223
+      },
+      "estimated_cost_usd": "0.043242192"
+    }
+  ],
+  "qemu_alpine_ssh_retry": {
+    "job": "tb21-deepseek-official-qemu-retry-20260930",
+    "exception_type": "NonZeroAgentExitCodeError",
+    "retry": "The tracked 404 retry fired on attempts 1/3 and 2/3 and still failed.",
+    "finding": "The pinned Debian bullseye-security index references .deb versions that are no longer in the pool; the 404 is deterministic, so a retry alone cannot fix this task. The historical fix preloads a verified .deb cache from the original APT index."
+  },
+  "comparison_limits": "The OpenRouter pilot20 runs used provider pinning, a different snapshot date, and different instrumentation. Two exceptions here are infrastructure failures (apt 404 and a verifier timeout), not model failures."
+}

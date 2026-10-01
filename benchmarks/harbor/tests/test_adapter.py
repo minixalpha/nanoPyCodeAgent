@@ -6,6 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from harbor.agents.installed.base import NonZeroAgentExitCodeError
 from harbor.models.agent.context import AgentContext
 
 from harbor_adapter import NanoPyCodeAgent
@@ -101,6 +102,79 @@ def test_install_source_rejects_a_revision_coerced_to_a_number(tmp_path):
         match="use a full commit SHA or quote an abbreviated revision",
     ):
         make_adapter(tmp_path, git_ref=float("inf"))
+
+
+def test_setup_retries_a_transient_404_and_then_succeeds(tmp_path, monkeypatch):
+    import harbor_adapter.adapter as adapter_module
+
+    adapter = make_adapter(tmp_path)
+    attempts = []
+    sleeps = []
+
+    async def fake_sleep(delay):
+        sleeps.append(delay)
+
+    async def flaky(environment, dependencies):
+        attempts.append(dependencies)
+        if len(attempts) < 3:
+            raise NonZeroAgentExitCodeError(
+                "Command failed (exit 100): apt-get install -y curl\n"
+                "E: Failed to fetch http://deb.debian.org/.../curl.deb 404 Not Found"
+            )
+
+    monkeypatch.setattr(adapter, "ensure_system_dependencies", flaky)
+    monkeypatch.setattr(adapter_module.asyncio, "sleep", fake_sleep)
+
+    asyncio.run(adapter._ensure_system_dependencies(RecordingEnvironment()))
+
+    assert len(attempts) == 3
+    assert sleeps == [2.0, 4.0]
+
+
+def test_setup_does_not_retry_a_non_404_failure(tmp_path, monkeypatch):
+    import harbor_adapter.adapter as adapter_module
+
+    adapter = make_adapter(tmp_path)
+    attempts = []
+    sleeps = []
+
+    async def fake_sleep(delay):
+        sleeps.append(delay)
+
+    async def failing(environment, dependencies):
+        attempts.append(dependencies)
+        raise NonZeroAgentExitCodeError("Command failed (exit 1): false")
+
+    monkeypatch.setattr(adapter, "ensure_system_dependencies", failing)
+    monkeypatch.setattr(adapter_module.asyncio, "sleep", fake_sleep)
+
+    with pytest.raises(NonZeroAgentExitCodeError):
+        asyncio.run(adapter._ensure_system_dependencies(RecordingEnvironment()))
+
+    assert len(attempts) == 1
+    assert sleeps == []
+
+
+def test_setup_gives_up_after_the_last_retry(tmp_path, monkeypatch):
+    import harbor_adapter.adapter as adapter_module
+
+    adapter = make_adapter(tmp_path)
+    attempts = []
+
+    async def fake_sleep(delay):
+        pass
+
+    async def always_404(environment, dependencies):
+        attempts.append(dependencies)
+        raise NonZeroAgentExitCodeError("E: 404 Not Found")
+
+    monkeypatch.setattr(adapter, "ensure_system_dependencies", always_404)
+    monkeypatch.setattr(adapter_module.asyncio, "sleep", fake_sleep)
+
+    with pytest.raises(NonZeroAgentExitCodeError):
+        asyncio.run(adapter._ensure_system_dependencies(RecordingEnvironment()))
+
+    assert len(attempts) == 3
 
 
 def test_run_pipes_the_instruction_and_forwards_anthropic_configuration(tmp_path):

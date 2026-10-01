@@ -1,5 +1,6 @@
 """Harbor adapter for running nanoPyCodeAgent in benchmark containers."""
 
+import asyncio
 import re
 import shlex
 import uuid
@@ -8,6 +9,7 @@ from typing import override
 from harbor.agents.installed.base import (
     BaseInstalledAgent,
     CliFlag,
+    NonZeroAgentExitCodeError,
     with_prompt_template,
 )
 from harbor.agents.model_connection import ModelConnectionSpec
@@ -16,6 +18,11 @@ from harbor.models.agent.context import AgentContext
 from harbor.models.trajectories.trajectory import Trajectory
 
 _DEFAULT_MAX_TURNS = 50
+_SYSTEM_DEPENDENCIES = ("curl", "bash", "git", "python3", "ca_certificates")
+# Pinned task images occasionally resolve a package index that still points at
+# removed `.deb` versions, producing a transient 404 during `apt-get install`.
+# Retry the whole transaction a couple of times before failing setup.
+_DEPENDENCY_RETRY_DELAYS = (2.0, 4.0)
 _PACKAGE_NAME = "nanoPyCodeAgent"
 _REPOSITORY_URL = "https://github.com/minixalpha/nanoPyCodeAgent.git"
 _UV_VERSION = "0.9.11"
@@ -86,10 +93,7 @@ class NanoPyCodeAgent(BaseInstalledAgent):
 
     @override
     async def install(self, environment: BaseEnvironment) -> None:
-        await self.ensure_system_dependencies(
-            environment,
-            ("curl", "bash", "git", "python3", "ca_certificates"),
-        )
+        await self._ensure_system_dependencies(environment)
         install_target = shlex.quote(self._install_target())
         await self.exec_as_agent(
             environment,
@@ -103,6 +107,32 @@ class NanoPyCodeAgent(BaseInstalledAgent):
                 "nanoPyCodeAgent --version"
             ),
         )
+
+    async def _ensure_system_dependencies(
+        self, environment: BaseEnvironment
+    ) -> None:
+        """Install base dependencies, retrying a transient package-index 404.
+
+        The retry only covers the system-package step, so it cannot replay any
+        model work; a non-404 failure or the final attempt propagates.
+        """
+        total_attempts = len(_DEPENDENCY_RETRY_DELAYS) + 1
+        for attempt, delay in enumerate((*_DEPENDENCY_RETRY_DELAYS, None)):
+            try:
+                await self.ensure_system_dependencies(
+                    environment, _SYSTEM_DEPENDENCIES
+                )
+                return
+            except NonZeroAgentExitCodeError as error:
+                if delay is None or "404" not in str(error):
+                    raise
+                self.logger.warning(
+                    "Retrying system dependency installation after HTTP 404 "
+                    "(attempt %s/%s); no model call has started.",
+                    attempt + 1,
+                    total_attempts,
+                )
+                await asyncio.sleep(delay)
 
     def _runtime_env(self) -> dict[str, str]:
         model_connection = self.model_connection
