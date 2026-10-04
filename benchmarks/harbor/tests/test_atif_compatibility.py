@@ -1,11 +1,15 @@
 """Compatibility checks against Harbor's pinned ATIF-v1.7 validator."""
 
+import json
 from pathlib import Path
 
 import pytest
+from harbor.models.agent.context import AgentContext
 from harbor.utils.trajectory_validator import TrajectoryValidator
 from nanopycodeagent.atif import project_atif
+from nanopycodeagent.cost import estimated_cost, usage_cost
 from nanopycodeagent.event_journal import EventJournal, NativeEvent
+from harbor_adapter import NanoPyCodeAgent
 
 
 def test_projector_output_passes_harbor_atif_validator():
@@ -14,6 +18,54 @@ def test_projector_output_passes_harbor_atif_validator():
     validator = TrajectoryValidator()
 
     assert validator.validate(trajectory), validator.get_errors()
+
+
+@pytest.mark.parametrize("other_kind", [None, "estimated", "provider_reported", "pending"])
+def test_estimated_costs_survive_projection_validation_and_harbor_context(tmp_path, other_kind):
+    fixture = Path(__file__).parent / "fixtures" / "atif-journal-v1.jsonl"
+    usage = {"input_tokens": 1000, "output_tokens": 1000}
+    with EventJournal.create("run-estimated", directory=tmp_path) as journal:
+        for entry in EventJournal.replay(fixture):
+            payload = entry.payload
+            if entry.type == "model.completed":
+                payload = payload | {
+                    "generation_id": None,
+                    "cost": estimated_cost("deepseek-flash", usage),
+                }
+            journal.append(NativeEvent(entry.type, payload))
+            if entry.type == "model.completed" and other_kind is not None:
+                other_cost = {
+                    "estimated": estimated_cost("deepseek-flash", usage),
+                    "provider_reported": usage_cost({"cost": "0.002"}),
+                    "pending": {"status": "pending", "source": "provider_generation"},
+                }[other_kind]
+                journal.append(NativeEvent("model.completed", payload | {
+                    "model_call_id": "model-2", "generation_id": "generation-2",
+                    "message_id": "msg-2", "stop_reason": "end_turn",
+                    "content": [{"type": "text", "text": "done"}],
+                    "tool_calls": [], "cost": other_cost,
+                }))
+
+    trajectory = project_atif(EventJournal.replay(journal.path))
+    validator = TrajectoryValidator()
+    assert validator.validate(trajectory), validator.get_errors()
+    (tmp_path / "trajectory.json").write_text(json.dumps(trajectory), encoding="utf-8")
+    context = AgentContext()
+    NanoPyCodeAgent(logs_dir=tmp_path).populate_context_post_run(context)
+
+    diagnostic = context.metadata["trajectory"]
+    assert diagnostic["cost_is_estimated"] is True
+    assert diagnostic["estimated_cost_usd"] == (0.003 if other_kind == "estimated" else 0.0015)
+    if other_kind == "pending":
+        assert context.cost_usd is None
+        assert diagnostic["status"] == "partial"
+        assert diagnostic["known_cost_usd"] == 0.0015
+        assert diagnostic["missing_generation_ids"] == ["generation-2"]
+    else:
+        assert context.cost_usd == {
+            None: 0.0015, "estimated": 0.003, "provider_reported": 0.0035,
+        }[other_kind]
+        assert diagnostic["status"] == "complete"
 
 
 def test_time_budget_v4_passes_harbor_atif_validator(tmp_path):

@@ -841,7 +841,7 @@ def _reconcile_costs(
     *,
     max_seconds: float | None = None,
 ) -> list[JsonObject]:
-    """Append resolved OpenRouter costs without affecting the run outcome."""
+    """Reconcile pending or estimated costs without affecting the run outcome."""
     base_url = getattr(client, "base_url", "")
     credential = client.api_key or client.auth_token
     if not isinstance(credential, str) or not credential:
@@ -867,7 +867,7 @@ def _reconcile_costs(
             not isinstance(generation_id, str)
             or generation_id in already_resolved
             or not isinstance(cost, dict)
-            or cost.get("status") != "pending"
+            or (cost.get("status") != "pending" and cost.get("kind") != "estimated")
         ):
             continue
         diagnostics: list[JsonObject] = []
