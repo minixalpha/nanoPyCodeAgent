@@ -92,11 +92,18 @@ nanoPyCodeAgent -p "fix the failing tests"
 它限制整次生成；provider 将 thinking 计入生成预算时，thinking 也占用这一上限，
 因此它不保证相同数量的可见回答文本。
 
-如果 provider 返回
-`stop_reason="max_tokens"`,agent 会停止本次 run,向 stderr 打印截断诊断,并跳过该
-回复中的所有工具调用。已输出的文本会保留,trajectory 的终态 outcome 记录为
-`response_truncated`。Headless 模式仍退出 `0`,不会自动重试或续写。交互模式会
-返回 `You>`,会话历史中保留部分文本和截断提示,用户可以在后续消息中继续对话。
+如果 provider 返回 `stop_reason="max_tokens"`，agent 会向 stderr 打印截断诊断，
+并跳过该回复中的所有工具调用。时间与回合预算尚有剩余时，headless 模式**每次
+run 最多自动恢复一次**。后续请求保留可见的部分文本和提示，移除未执行的工具
+调用及不完整的 thinking，并要求模型从已确认的工具结果和当前文件继续。token
+上限与原始截止时间不变；截断回复与恢复回复都计入回合预算。
+
+第二次截断，或最后一个允许回合发生截断时，终态为 `response_truncated`；截止
+时间已到时，终态为 `time_budget_exhausted`。Headless 模式对这些预算终态仍退出
+`0`。恢复提示记录为 reason 为 `truncation_recovery` 的 `input.injected` 事件，
+每次模型尝试的 stop reason、usage 和费用均保留在 Journal 与 ATIF 中。
+交互模式会返回 `You>`，会话历史中保留部分文本和截断提示，用户可以在后续消息
+中继续对话。
 
 ## 响应中断
 
