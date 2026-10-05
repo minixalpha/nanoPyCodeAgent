@@ -125,7 +125,7 @@ class RetryingVerifier(Verifier):
                             target_dir=self.trial_paths.verifier_dir,
                             include=self.include_logs or None,
                             exclude=self.exclude_logs or None,
-                            protect=["reward.txt", "reward.json", "attempts/**", "retry-summary.json"],
+                            protect=["reward.txt", "reward.json", "retry-summary.json"],
                         )
                     else:
                         download = environment.download_dir(
@@ -137,3 +137,14 @@ class RetryingVerifier(Verifier):
                     # Collection failure must not hide the original timeout,
                     # cancellation, or reward parsing error.
                     self.logger.exception("Failed to collect verifier attempt logs")
+                if self.include_logs or self.exclude_logs:
+                    # Harbor protects exact file paths only. Download every
+                    # archived attempt separately, regardless of log filters
+                    # or failure to collect the current attempt's logs.
+                    try:
+                        await asyncio.wait_for(environment.download_dir(
+                            source_dir=str(paths.verifier_dir / "attempts"),
+                            target_dir=self.trial_paths.verifier_dir / "attempts",
+                        ), timeout=30)
+                    except Exception:
+                        self.logger.exception("Failed to collect archived verifier attempts")

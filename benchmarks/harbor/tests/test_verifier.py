@@ -18,6 +18,7 @@ from harbor.models.trial.paths import TrialPaths
 from harbor.trial.single_step import SingleStepTrial
 from harbor.trial.trial import Trial
 from harbor.trial.errors import VerifierTimeoutError
+from harbor.utils.path_filter import filter_paths_by_patterns
 from harbor.verifier.factory import VerifierFactory
 from harbor.verifier.verifier import RewardFileNotFoundError, VerifierOutputParseError
 
@@ -44,7 +45,19 @@ class LocalEnvironment:
 
     async def download_dir(self, *, source_dir, target_dir):
         self.downloads += 1
-        shutil.copytree(self.logs, target_dir, dirs_exist_ok=True)
+        source = self.logs / Path(source_dir).relative_to("/logs/verifier")
+        shutil.copytree(source, target_dir, dirs_exist_ok=True)
+
+    async def download_dir_filtered(self, *, source_dir, target_dir, include=None, exclude=None, protect=None):
+        source = self.logs / Path(source_dir).relative_to("/logs/verifier")
+        paths = [path.relative_to(source).as_posix() for path in source.rglob("*") if path.is_file()]
+        selected = set(filter_paths_by_patterns(paths, include=include, exclude=exclude))
+        # Harbor's protected entries are exact relative paths, never globs.
+        selected.update(set(protect or []) & set(paths))
+        for path in selected:
+            target = Path(target_dir) / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source / path, target)
 
     async def exec(self, *, command, env=None, **kwargs):
         if command.startswith("chmod +x"):
@@ -68,7 +81,7 @@ class LocalEnvironment:
         return ExecResult(return_code=process.returncode, stdout=stdout.decode(), stderr=stderr.decode())
 
 
-def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3):
+def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3, include_logs=None, exclude_logs=None):
     task_dir = tmp_path / "task"
     (task_dir / "tests").mkdir(parents=True)
     (task_dir / "instruction.md").write_text("Write the solution.")
@@ -82,6 +95,7 @@ def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3):
         verifier=VerifierConfig(
             import_path="harbor_adapter:RetryingVerifier",
             kwargs={"max_attempts": max_attempts},
+            include_logs=include_logs or [], exclude_logs=exclude_logs or [],
         ),
     )
     paths.config_path.write_text(config.model_dump_json())
@@ -163,6 +177,44 @@ sleep 10
     assert not verifier.trial_paths.reward_text_path.exists()
     assert (verifier.trial_paths.verifier_dir / "attempts/3/test-stdout.txt").read_text() == "started\n"
     assert environment.downloads == (0 if mounted else 1)
+
+
+@pytest.mark.parametrize("filters", [
+    {"include_logs": ["test-stdout.txt"]},
+    {"exclude_logs": ["attempts/*", "retry-summary.json", "reward.txt", "details/*"]},
+], ids=["include-current-stdout", "exclude-archives"])
+@pytest.mark.parametrize("exhausted", [False, True], ids=["completed", "exhausted"])
+def test_log_filters_preserve_every_attempt_on_non_mounted_environments(tmp_path, filters, exhausted):
+    script = '''
+count=$(cat "$STATE" 2>/dev/null || echo 0)
+count=$((count + 1))
+echo "$count" > "$STATE"
+echo "attempt $count"
+mkdir -p "$LOGS/details"
+echo "detail $count" > "$LOGS/details/check.txt"
+echo 1 > "$LOGS/reward.txt"
+'''
+    script += 'sleep 10\n' if exhausted else 'if [ "$count" -lt 3 ]; then sleep 10; fi\n'
+    verifier, environment, _ = make_verifier(tmp_path, script, mounted=False, **filters)
+    if exhausted:
+        with pytest.raises(TimeoutError, match="3 attempts"):
+            asyncio.run(verifier.verify())
+    else:
+        assert asyncio.run(verifier.verify()).rewards == {"reward": 1}
+
+    # Only downloaded files survive environment teardown.
+    shutil.rmtree(environment.logs)
+    logs = verifier.trial_paths.verifier_dir
+    assert [item["status"] for item in summary(verifier)["attempts"]] == [
+        "timeout", "timeout", "timeout" if exhausted else "completed",
+    ]
+    for attempt in (1, 2, 3):
+        archive = logs / "attempts" / str(attempt)
+        assert (archive / "test-stdout.txt").read_text() == f"attempt {attempt}\n"
+        assert (archive / "details/check.txt").read_text() == f"detail {attempt}\n"
+        assert (archive / "reward.txt").read_text() == "1\n"
+    assert verifier.trial_paths.reward_text_path.exists() is (not exhausted)
+    assert not (logs / "details/check.txt").exists()
 
 
 @pytest.mark.parametrize(("script", "error"), [
@@ -250,6 +302,19 @@ def test_log_download_failure_preserves_harbor_timeout_error(tmp_path, caplog):
         asyncio.run(trial._run_verifier())
     assert "Failed to collect verifier attempt logs" in caplog.text
     environment.download_dir.assert_awaited_once()
+
+
+def test_filtered_download_failure_still_collects_attempt_archives(tmp_path, caplog):
+    verifier, environment, _ = make_verifier(
+        tmp_path, 'echo started\nsleep 10\n', mounted=False, max_attempts=1,
+        include_logs=["test-stdout.txt"],
+    )
+    environment.download_dir_filtered = AsyncMock(side_effect=OSError("download failed"))
+    with pytest.raises(TimeoutError, match="1 attempts"):
+        asyncio.run(verifier.verify())
+    assert "Failed to collect verifier attempt logs" in caplog.text
+    archive = verifier.trial_paths.verifier_dir / "attempts/1/test-stdout.txt"
+    assert archive.read_text() == "started\n"
 
 
 def test_outer_timeout_cap_is_applied_before_multiplier(tmp_path):

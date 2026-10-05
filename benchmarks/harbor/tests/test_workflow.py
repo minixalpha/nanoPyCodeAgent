@@ -23,6 +23,21 @@ def test_standard_policy_enables_native_verifier_retries_without_agent_retries()
     assert result.verifier_timeout_multiplier == 4
 
 
+def test_install_only_json_config_is_accepted_and_round_trips():
+    result = standard_config(config() | {"install_only": True})
+    assert result.install_only is True
+    assert result.verifier.disable is True
+    assert standard_config(json.loads(result.model_dump_json())) == result
+
+
+def test_full_runs_still_require_verification():
+    raw = config() | {
+        "verifier": {"import_path": "harbor_adapter:RetryingVerifier", "disable": True},
+    }
+    with pytest.raises(ValueError, match="verification enabled"):
+        standard_config(raw)
+
+
 @pytest.mark.parametrize("change", [
     {"retry": {"max_retries": 1}},
     {"verifier_timeout_multiplier": 1},

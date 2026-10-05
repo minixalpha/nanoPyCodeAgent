@@ -165,15 +165,19 @@ def verifier_profile(
     logs_dir: Path, environment_name: str | None,
 ) -> VerifierProfile | None:
     known_tasks = {name for name, _ in VERIFIER_PROFILES}
+    known_environment = environment_name in {name.split("/")[-1] for name in known_tasks}
     config_path = logs_dir.parent / "config.json"
     if not config_path.exists():
-        if environment_name in {name.split("/")[-1] for name in known_tasks}:
+        if known_environment:
             raise ValueError("Verifier preflight requires Harbor's pinned trial config")
         return None
     task = json.loads(config_path.read_text())["task"]
     profile = VERIFIER_PROFILES.get((task.get("name"), task.get("ref")))
-    if profile is None and task.get("name") in known_tasks:
+    # Local and Git datasets omit package name/ref. The environment identifies
+    # a known task, but cannot establish its reviewed revision by itself.
+    if profile is None and (task.get("name") in known_tasks or known_environment):
+        name = task.get("name") if task.get("name") in known_tasks else environment_name
         raise ValueError(
-            f"Unknown {task['name']} revision; review its verifier dependency profile"
+            f"Unknown {name} revision; review its verifier dependency profile"
         )
     return profile

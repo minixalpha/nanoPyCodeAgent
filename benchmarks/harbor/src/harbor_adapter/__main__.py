@@ -42,7 +42,7 @@ def standard_config(raw: dict) -> JobConfig:
         raise ValueError(
             "Use native per-attempt timeouts and verifier_timeout_multiplier=4"
         )
-    if config.verifier.disable or config.source_jobs:
+    if (config.verifier.disable and not config.install_only) or config.source_jobs:
         raise ValueError("The standard workflow runs fresh trials with verification enabled")
     if not config.tasks and not config.datasets:
         raise ValueError("Select at least one task or dataset")

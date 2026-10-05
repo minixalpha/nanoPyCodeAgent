@@ -6,8 +6,10 @@ import hashlib
 import json
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import AsyncMock
 
 import pytest
+from harbor.models.trial.config import TrialConfig
 
 from harbor_adapter import NanoPyCodeAgent
 from harbor_adapter.bootstrap import AptCache, Package, QEMU_REF, QEMU_TASK, parse_apt_plan, verifier_profile
@@ -131,6 +133,47 @@ def test_profile_is_scoped_to_reviewed_task_revision(tmp_path):
     (logs_dir.parent / "config.json").write_text(json.dumps({"task": {"name": QEMU_TASK, "ref": "latest"}}))
     with pytest.raises(ValueError, match="Unknown"):
         verifier_profile(logs_dir, "qemu-alpine-ssh")
+
+
+@pytest.mark.parametrize("task", [
+    {"path": "/tasks/qemu-alpine-ssh"},
+    {"path": "/dataset/qemu-alpine-ssh", "source": "local-dataset"},
+    {
+        "path": "tasks/qemu-alpine-ssh", "source": "git-dataset",
+        "git_url": "https://example.com/tasks.git", "git_commit_id": "a" * 40,
+    },
+], ids=["local-path", "local-dataset", "git-dataset"])
+def test_unresolved_qemu_revision_stops_setup_before_install(tmp_path, monkeypatch, task):
+    logs_dir = tmp_path / "agent"
+    logs_dir.mkdir()
+    (tmp_path / "config.json").write_text(TrialConfig(task=task).model_dump_json())
+    adapter = NanoPyCodeAgent(logs_dir=logs_dir)
+    dependencies = AsyncMock()
+    install = AsyncMock()
+    monkeypatch.setattr(adapter, "_ensure_system_dependencies", dependencies)
+    monkeypatch.setattr(adapter, "_install_agent", install)
+
+    with pytest.raises(ValueError, match="Unknown .*qemu-alpine-ssh revision"):
+        asyncio.run(adapter.install(SimpleNamespace(environment_name="qemu-alpine-ssh")))
+
+    dependencies.assert_not_awaited()
+    install.assert_not_awaited()
+    report = json.loads((logs_dir / "bootstrap.json").read_text())
+    assert report["status"] == "failed"
+    assert report["stage"] == "profile"
+
+
+def test_known_environment_requires_trial_config(tmp_path):
+    with pytest.raises(ValueError, match="pinned trial config"):
+        verifier_profile(tmp_path / "agent", "qemu-alpine-ssh")
+
+
+@pytest.mark.parametrize("has_config", [False, True])
+def test_unregistered_task_does_not_require_a_profile(tmp_path, has_config):
+    if has_config:
+        config = TrialConfig(task={"path": "/tasks/other-task"})
+        (tmp_path / "config.json").write_text(config.model_dump_json())
+    assert verifier_profile(tmp_path / "agent", "other-task") is None
 
 
 def test_preflight_failure_stops_setup_and_records_the_failing_stage(tmp_path, monkeypatch):
