@@ -1,0 +1,880 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-05T15:20:44.117868+00:00",
+  "status": "finished",
+  "agent_ref": "382cb38413d7d5368ad1be97e85142f280172a5b",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "experiment_plan": "benchmarks/harbor/configs/truncation-recovery-repeat3-20261005/experiment.json",
+  "started_at": "2026-10-05T14:27:47.196300+00:00",
+  "finished_at": "2026-10-05T15:20:14.036548+00:00",
+  "summary": {
+    "planned": 6,
+    "finished": 6,
+    "passed": 4,
+    "scored_failures": 2,
+    "unscored": 0,
+    "truncated_responses": 1,
+    "recovery_events": 1,
+    "passed_with_recovery": 0,
+    "known_estimated_cost_usd": "0.906352500",
+    "cost_complete": true,
+    "usage_complete": true,
+    "incomplete_model_attempts": 0,
+    "by_task": [
+      {
+        "task": "terminal-bench/model-extraction-relu-logits",
+        "planned": 3,
+        "finished": 3,
+        "passed": 1,
+        "scored_failures": 2,
+        "truncated_responses": 1,
+        "recovery_events": 1
+      },
+      {
+        "task": "terminal-bench/schemelike-metacircular-eval",
+        "planned": 3,
+        "finished": 3,
+        "passed": 3,
+        "scored_failures": 0,
+        "truncated_responses": 0,
+        "recovery_events": 0
+      }
+    ]
+  },
+  "jobs": [
+    {
+      "job": "truncation-recovery-repeat3-scheme-1-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-repeat3-20261005/scheme.json",
+      "attempt": 1,
+      "started_at": "2026-10-05T14:27:47.197456+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T14:48:35.370423+00:00",
+      "wheel_sha256": "9f519124b62314d5b3625004441e0bfc29473533f29cef2dcf3640e55094800f",
+      "sources_match_plan": true
+    },
+    {
+      "job": "truncation-recovery-repeat3-model-extraction-1-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-repeat3-20261005/model-extraction.json",
+      "attempt": 1,
+      "started_at": "2026-10-05T14:27:47.198637+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T14:37:00.961096+00:00",
+      "wheel_sha256": "9f519124b62314d5b3625004441e0bfc29473533f29cef2dcf3640e55094800f",
+      "sources_match_plan": true
+    },
+    {
+      "job": "truncation-recovery-repeat3-model-extraction-2-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-repeat3-20261005/model-extraction.json",
+      "attempt": 2,
+      "started_at": "2026-10-05T14:37:00.961578+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T14:47:58.366693+00:00",
+      "wheel_sha256": "9f519124b62314d5b3625004441e0bfc29473533f29cef2dcf3640e55094800f",
+      "sources_match_plan": true
+    },
+    {
+      "job": "truncation-recovery-repeat3-scheme-2-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-repeat3-20261005/scheme.json",
+      "attempt": 2,
+      "started_at": "2026-10-05T14:47:58.367397+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T15:14:52.234794+00:00",
+      "wheel_sha256": "9f519124b62314d5b3625004441e0bfc29473533f29cef2dcf3640e55094800f",
+      "sources_match_plan": true
+    },
+    {
+      "job": "truncation-recovery-repeat3-model-extraction-3-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-repeat3-20261005/model-extraction.json",
+      "attempt": 3,
+      "started_at": "2026-10-05T14:48:35.371179+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T15:03:09.905596+00:00",
+      "wheel_sha256": "9f519124b62314d5b3625004441e0bfc29473533f29cef2dcf3640e55094800f",
+      "sources_match_plan": true
+    },
+    {
+      "job": "truncation-recovery-repeat3-scheme-3-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-repeat3-20261005/scheme.json",
+      "attempt": 3,
+      "started_at": "2026-10-05T15:03:09.906148+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T15:20:14.035556+00:00",
+      "wheel_sha256": "9f519124b62314d5b3625004441e0bfc29473533f29cef2dcf3640e55094800f",
+      "sources_match_plan": true
+    }
+  ],
+  "preflight_trials": [
+    {
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "task_checksum": "8b3048320aa04676089f9240563c2d7d381be03d8810bcf5f5d336cab538f523",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    },
+    {
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "task_checksum": "e4525988ae20585b6b90a2f1af2fcc9d18d6363d3cfcdd7be5305199428883d2",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    }
+  ],
+  "unchanged_task_files": 73,
+  "trials": [
+    {
+      "attempt": 1,
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "task_checksum": "8b3048320aa04676089f9240563c2d7d381be03d8810bcf5f5d336cab538f523",
+      "trial": "model-extraction-relu-logits__UkLPYUv",
+      "job": "truncation-recovery-repeat3-model-extraction-1-20261005",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "scored",
+      "reward": 0.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-repeat3-model-extraction-1-20261005/model-extraction-relu-logits__UkLPYUv/result.json",
+      "agent_setup_seconds": 47.588,
+      "agent_execution_seconds": 414.411,
+      "verifier_seconds": 70.698,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 720,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 70.34228242299287
+          }
+        ]
+      },
+      "completed_model_responses": 27,
+      "maximum_completion_tokens": 17791,
+      "trajectory_path": "jobs/truncation-recovery-repeat3-model-extraction-1-20261005/model-extraction-relu-logits__UkLPYUv/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 412719.058158,
+        "timestamp": "2026-10-05T14:35:33.693Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 55,
+        "total_prompt_tokens": 1221130,
+        "total_completion_tokens": 62139,
+        "total_cached_tokens": 1205888,
+        "total_cost_usd": 0.086374728,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.086374728
+        }
+      },
+      "model_attempts": 27,
+      "truncated_responses": [],
+      "recovery_events": [],
+      "tools_executed_after_recovery": 0,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.086374728,
+      "cost_complete": true,
+      "usage_complete": true,
+      "recovery_analysis": [],
+      "known_tokens": {
+        "prompt_tokens": 1221130,
+        "completion_tokens": 62139,
+        "cached_tokens": 1205888
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 299916.300286,
+          "timestamp": "2026-10-05T09:41:59.444Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 301.297,
+        "known_cost_usd": 0.079038732,
+        "cost_complete": true,
+        "usage_complete": true,
+        "trajectory_path": "jobs/v090-pilot20-720s-20261005/model-extraction-relu-logits__8mXWuta/agent/trajectory.json"
+      },
+      "verification_observations": {
+        "log_path": "jobs/truncation-recovery-repeat3-model-extraction-1-20261005/model-extraction-relu-logits__UkLPYUv/verifier/test-stdout.txt",
+        "failure_kind": "unmatched_weight_rows",
+        "unmatched_rows": [
+          2,
+          27
+        ],
+        "script_and_output_file_present": true
+      }
+    },
+    {
+      "attempt": 2,
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "task_checksum": "8b3048320aa04676089f9240563c2d7d381be03d8810bcf5f5d336cab538f523",
+      "trial": "model-extraction-relu-logits__v2wp9PK",
+      "job": "truncation-recovery-repeat3-model-extraction-2-20261005",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "scored",
+      "reward": 0.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-repeat3-model-extraction-2-20261005/model-extraction-relu-logits__v2wp9PK/result.json",
+      "agent_setup_seconds": 48.158,
+      "agent_execution_seconds": 554.062,
+      "verifier_seconds": 32.103,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 720,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 31.75378994602943
+          }
+        ]
+      },
+      "completed_model_responses": 17,
+      "maximum_completion_tokens": 65536,
+      "trajectory_path": "jobs/truncation-recovery-repeat3-model-extraction-2-20261005/model-extraction-relu-logits__v2wp9PK/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 552428.102211,
+        "timestamp": "2026-10-05T14:47:09.879Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 36,
+        "total_prompt_tokens": 460840,
+        "total_completion_tokens": 103311,
+        "total_cached_tokens": 454912,
+        "total_cost_usd": 0.128481072,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.128481072
+        }
+      },
+      "model_attempts": 17,
+      "truncated_responses": [
+        {
+          "step_id": 5,
+          "timestamp": "2026-10-05T14:43:23.751Z",
+          "duration_ms": 323392.738675,
+          "completion_tokens": 65536
+        }
+      ],
+      "recovery_events": [
+        {
+          "step_id": 6,
+          "timestamp": "2026-10-05T14:43:23.754Z",
+          "model_call_id": "model-05968e30-2ac5-4ab7-9df8-e9e2e55115c2"
+        }
+      ],
+      "tools_executed_after_recovery": 14,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.128481072,
+      "cost_complete": true,
+      "usage_complete": true,
+      "recovery_analysis": [
+        {
+          "truncated_model_response_number": 2,
+          "truncated_step_id": 5,
+          "truncated_completion_tokens": 65536,
+          "unexecuted_truncated_tool_calls": 0,
+          "recovery_step_id": 6,
+          "elapsed_seconds": 326.302,
+          "remaining_work_seconds": 393.698,
+          "completed_responses_after_recovery": 15,
+          "subsequent_truncations": 0,
+          "subsequent_calls": [
+            {
+              "step_id": 8,
+              "stop_reason": "tool_use",
+              "completion_tokens": 10684,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 10,
+              "stop_reason": "tool_use",
+              "completion_tokens": 8581,
+              "incomplete": false,
+              "tools_requested": [
+                "write"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 12,
+              "stop_reason": "tool_use",
+              "completion_tokens": 59,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 14,
+              "stop_reason": "tool_use",
+              "completion_tokens": 234,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 16,
+              "stop_reason": "tool_use",
+              "completion_tokens": 5444,
+              "incomplete": false,
+              "tools_requested": [
+                "write"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 18,
+              "stop_reason": "tool_use",
+              "completion_tokens": 203,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 20,
+              "stop_reason": "tool_use",
+              "completion_tokens": 1857,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 22,
+              "stop_reason": "tool_use",
+              "completion_tokens": 1038,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 24,
+              "stop_reason": "tool_use",
+              "completion_tokens": 1484,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 26,
+              "stop_reason": "tool_use",
+              "completion_tokens": 5945,
+              "incomplete": false,
+              "tools_requested": [
+                "edit"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 28,
+              "stop_reason": "tool_use",
+              "completion_tokens": 643,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 30,
+              "stop_reason": "tool_use",
+              "completion_tokens": 208,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 32,
+              "stop_reason": "tool_use",
+              "completion_tokens": 590,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 34,
+              "stop_reason": "tool_use",
+              "completion_tokens": 261,
+              "incomplete": false,
+              "tools_requested": [
+                "bash"
+              ],
+              "tool_observations": 1
+            },
+            {
+              "step_id": 36,
+              "stop_reason": "end_turn",
+              "completion_tokens": 416,
+              "incomplete": false,
+              "tools_requested": [],
+              "tool_observations": 0
+            }
+          ]
+        }
+      ],
+      "known_tokens": {
+        "prompt_tokens": 460840,
+        "completion_tokens": 103311,
+        "cached_tokens": 454912
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 299916.300286,
+          "timestamp": "2026-10-05T09:41:59.444Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 301.297,
+        "known_cost_usd": 0.079038732,
+        "cost_complete": true,
+        "usage_complete": true,
+        "trajectory_path": "jobs/v090-pilot20-720s-20261005/model-extraction-relu-logits__8mXWuta/agent/trajectory.json"
+      },
+      "verification_observations": {
+        "log_path": "jobs/truncation-recovery-repeat3-model-extraction-2-20261005/model-extraction-relu-logits__v2wp9PK/verifier/test-stdout.txt",
+        "failure_kind": "unmatched_weight_rows",
+        "unmatched_rows": [
+          24
+        ],
+        "script_and_output_file_present": true
+      }
+    },
+    {
+      "attempt": 3,
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "task_checksum": "8b3048320aa04676089f9240563c2d7d381be03d8810bcf5f5d336cab538f523",
+      "trial": "model-extraction-relu-logits__s8BNSNn",
+      "job": "truncation-recovery-repeat3-model-extraction-3-20261005",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-repeat3-model-extraction-3-20261005/model-extraction-relu-logits__s8BNSNn/result.json",
+      "agent_setup_seconds": 128.006,
+      "agent_execution_seconds": 483.902,
+      "verifier_seconds": 237.859,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 720,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 237.5025027259835
+          }
+        ]
+      },
+      "completed_model_responses": 23,
+      "maximum_completion_tokens": 53538,
+      "trajectory_path": "jobs/truncation-recovery-repeat3-model-extraction-3-20261005/model-extraction-relu-logits__s8BNSNn/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 482403.217558,
+        "timestamp": "2026-10-05T14:58:53.692Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 47,
+        "total_prompt_tokens": 1607303,
+        "total_completion_tokens": 86571,
+        "total_cached_tokens": 1594624,
+        "total_cost_usd": 0.117256644,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.117256644
+        }
+      },
+      "model_attempts": 23,
+      "truncated_responses": [],
+      "recovery_events": [],
+      "tools_executed_after_recovery": 0,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.117256644,
+      "cost_complete": true,
+      "usage_complete": true,
+      "recovery_analysis": [],
+      "known_tokens": {
+        "prompt_tokens": 1607303,
+        "completion_tokens": 86571,
+        "cached_tokens": 1594624
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 299916.300286,
+          "timestamp": "2026-10-05T09:41:59.444Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 301.297,
+        "known_cost_usd": 0.079038732,
+        "cost_complete": true,
+        "usage_complete": true,
+        "trajectory_path": "jobs/v090-pilot20-720s-20261005/model-extraction-relu-logits__8mXWuta/agent/trajectory.json"
+      },
+      "verification_observations": {
+        "log_path": "jobs/truncation-recovery-repeat3-model-extraction-3-20261005/model-extraction-relu-logits__s8BNSNn/verifier/test-stdout.txt"
+      }
+    },
+    {
+      "attempt": 1,
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "task_checksum": "e4525988ae20585b6b90a2f1af2fcc9d18d6363d3cfcdd7be5305199428883d2",
+      "trial": "schemelike-metacircular-eval__wUzkLEW",
+      "job": "truncation-recovery-repeat3-scheme-1-20261005",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-repeat3-scheme-1-20261005/schemelike-metacircular-eval__wUzkLEW/result.json",
+      "agent_setup_seconds": 52.238,
+      "agent_execution_seconds": 1080.739,
+      "verifier_seconds": 93.716,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 2220,
+      "verifier_attempts": {
+        "timeout_sec": 2400.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 93.35175943694776
+          }
+        ]
+      },
+      "completed_model_responses": 41,
+      "maximum_completion_tokens": 17495,
+      "trajectory_path": "jobs/truncation-recovery-repeat3-scheme-1-20261005/schemelike-metacircular-eval__wUzkLEW/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 1079051.466026,
+        "timestamp": "2026-10-05T14:46:44.676Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 83,
+        "total_prompt_tokens": 2732673,
+        "total_completion_tokens": 80099,
+        "total_cached_tokens": 2694656,
+        "total_cost_usd": 0.123691836,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.123691836
+        }
+      },
+      "model_attempts": 41,
+      "truncated_responses": [],
+      "recovery_events": [],
+      "tools_executed_after_recovery": 0,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.123691836,
+      "cost_complete": true,
+      "usage_complete": true,
+      "recovery_analysis": [],
+      "known_tokens": {
+        "prompt_tokens": 2732673,
+        "completion_tokens": 80099,
+        "cached_tokens": 2694656
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 1161969.701524,
+          "timestamp": "2026-10-05T10:34:49.411Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 1163.351,
+        "known_cost_usd": 0.298166292,
+        "cost_complete": false,
+        "usage_complete": false,
+        "trajectory_path": "jobs/v090-pilot20-2220s-20261005/schemelike-metacircular-eval__RRuG7fV/agent/trajectory.json"
+      },
+      "verification_observations": {
+        "log_path": "jobs/truncation-recovery-repeat3-scheme-1-20261005/schemelike-metacircular-eval__wUzkLEW/verifier/test-stdout.txt",
+        "subcases": {
+          "passed": 63,
+          "failed": 0,
+          "total": 63
+        }
+      }
+    },
+    {
+      "attempt": 2,
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "task_checksum": "e4525988ae20585b6b90a2f1af2fcc9d18d6363d3cfcdd7be5305199428883d2",
+      "trial": "schemelike-metacircular-eval__xDDbCB6",
+      "job": "truncation-recovery-repeat3-scheme-2-20261005",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-repeat3-scheme-2-20261005/schemelike-metacircular-eval__xDDbCB6/result.json",
+      "agent_setup_seconds": 243.359,
+      "agent_execution_seconds": 1281.125,
+      "verifier_seconds": 65.292,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 2220,
+      "verifier_attempts": {
+        "timeout_sec": 2400.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 64.92442496900912
+          }
+        ]
+      },
+      "completed_model_responses": 79,
+      "maximum_completion_tokens": 35869,
+      "trajectory_path": "jobs/truncation-recovery-repeat3-scheme-2-20261005/schemelike-metacircular-eval__xDDbCB6/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 1279671.560734,
+        "timestamp": "2026-10-05T15:13:29.043Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 159,
+        "total_prompt_tokens": 9423825,
+        "total_completion_tokens": 148648,
+        "total_cached_tokens": 9381760,
+        "total_cost_usd": 0.24728766,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.24728766
+        }
+      },
+      "model_attempts": 79,
+      "truncated_responses": [],
+      "recovery_events": [],
+      "tools_executed_after_recovery": 0,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.24728766,
+      "cost_complete": true,
+      "usage_complete": true,
+      "recovery_analysis": [],
+      "known_tokens": {
+        "prompt_tokens": 9423825,
+        "completion_tokens": 148648,
+        "cached_tokens": 9381760
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 1161969.701524,
+          "timestamp": "2026-10-05T10:34:49.411Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 1163.351,
+        "known_cost_usd": 0.298166292,
+        "cost_complete": false,
+        "usage_complete": false,
+        "trajectory_path": "jobs/v090-pilot20-2220s-20261005/schemelike-metacircular-eval__RRuG7fV/agent/trajectory.json"
+      },
+      "verification_observations": {
+        "log_path": "jobs/truncation-recovery-repeat3-scheme-2-20261005/schemelike-metacircular-eval__xDDbCB6/verifier/test-stdout.txt",
+        "subcases": {
+          "passed": 63,
+          "failed": 0,
+          "total": 63
+        }
+      }
+    },
+    {
+      "attempt": 3,
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "task_checksum": "e4525988ae20585b6b90a2f1af2fcc9d18d6363d3cfcdd7be5305199428883d2",
+      "trial": "schemelike-metacircular-eval__NW9oKWe",
+      "job": "truncation-recovery-repeat3-scheme-3-20261005",
+      "agent_version": "0.9.1.dev5+g382cb3841",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-repeat3-scheme-3-20261005/schemelike-metacircular-eval__NW9oKWe/result.json",
+      "agent_setup_seconds": 122.459,
+      "agent_execution_seconds": 829.948,
+      "verifier_seconds": 41.716,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 2220,
+      "verifier_attempts": {
+        "timeout_sec": 2400.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 41.33515577495564
+          }
+        ]
+      },
+      "completed_model_responses": 60,
+      "maximum_completion_tokens": 23002,
+      "trajectory_path": "jobs/truncation-recovery-repeat3-scheme-3-20261005/schemelike-metacircular-eval__NW9oKWe/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 828488.610808,
+        "timestamp": "2026-10-05T15:19:13.667Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 121,
+        "total_prompt_tokens": 6525588,
+        "total_completion_tokens": 126214,
+        "total_cached_tokens": 6482560,
+        "total_cost_usd": 0.20326056,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.20326056
+        }
+      },
+      "model_attempts": 60,
+      "truncated_responses": [],
+      "recovery_events": [],
+      "tools_executed_after_recovery": 0,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.20326056,
+      "cost_complete": true,
+      "usage_complete": true,
+      "recovery_analysis": [],
+      "known_tokens": {
+        "prompt_tokens": 6525588,
+        "completion_tokens": 126214,
+        "cached_tokens": 6482560
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 1161969.701524,
+          "timestamp": "2026-10-05T10:34:49.411Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 1163.351,
+        "known_cost_usd": 0.298166292,
+        "cost_complete": false,
+        "usage_complete": false,
+        "trajectory_path": "jobs/v090-pilot20-2220s-20261005/schemelike-metacircular-eval__RRuG7fV/agent/trajectory.json"
+      },
+      "verification_observations": {
+        "log_path": "jobs/truncation-recovery-repeat3-scheme-3-20261005/schemelike-metacircular-eval__NW9oKWe/verifier/test-stdout.txt",
+        "subcases": {
+          "passed": 63,
+          "failed": 0,
+          "total": 63
+        }
+      }
+    }
+  ],
+  "accounting_note": "Costs are token-based estimates using the static price table, not provider bills. Incomplete attempts retain unknown usage/cost, not zero.",
+  "comparison_note": "Three additional fresh trials per task, selected because both failed in the released baseline. Six standard jobs run from a predeclared queue with at most two simultaneous trials. Preserve all results separately from the earlier two fresh runs and frozen pilot20 baseline. No controlled replay or full-pilot score is implied. A pass without truncation does not exercise recovery; a pass after recovery is a live example, not an estimate of causal effect.",
+  "artifact_checks": {
+    "preflight_and_six_run_wheels_identical": true,
+    "wheel_sha256": "9f519124b62314d5b3625004441e0bfc29473533f29cef2dcf3640e55094800f",
+    "source_files_match_prior_experiment": 21,
+    "task_checksums_match_released_baseline": true,
+    "unchanged_task_files": 73,
+    "configuration_hashes_match_plan": true,
+    "task_images": [
+      {
+        "image": "alexgshaw/model-extraction-relu-logits:20251031",
+        "id": "sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce",
+        "matches_prior_experiment": true
+      },
+      {
+        "image": "alexgshaw/schemelike-metacircular-eval:20251031",
+        "id": "sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db",
+        "matches_prior_experiment": true
+      }
+    ]
+  },
+  "interpretation": "One natural truncation, on the second model-extraction response, was followed by 15 completed model responses and 14 tool executions within the original budget. The official verifier still failed because one of 30 weight rows was missing. Live continuation is demonstrated; successful score recovery and a causal success-rate benefit are not demonstrated. Scheme passed all three runs without truncating."
+}

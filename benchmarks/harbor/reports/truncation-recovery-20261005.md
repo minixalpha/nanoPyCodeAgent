@@ -82,3 +82,10 @@ The [released baseline](v0.9.0-baseline-20261005.md) remains **18/20**. These tw
 new results do not replace its failures or produce a revised pilot20 score.
 They use fresh model generations and a different concurrent task pairing;
 there is no deterministic counterfactual for the old failed responses.
+
+## Follow-up
+
+The maintainer subsequently requested a fixed set of three additional runs per
+task. The [separate six-run report](truncation-recovery-repeat3-20261005.md)
+records 4/6 passes and one natural truncation followed by useful continuation,
+but no passing score after recovery. The original results above remain unchanged.

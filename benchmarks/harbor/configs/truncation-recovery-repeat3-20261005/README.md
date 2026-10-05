@@ -39,3 +39,7 @@ verifier timeouts may retry, at most three attempts with the original per-attemp
 limit and the same agent output. Record truncation, actual recovery, subsequent
 tool execution, terminal outcome, score, and accounting completeness per trial.
 A passing trial without truncation does not demonstrate recovery effectiveness.
+
+The recorded run used checkout `382cb38413d7d5368ad1be97e85142f280172a5b`.
+See the [six-run report](../../reports/truncation-recovery-repeat3-20261005.md)
+and [structured results](../../results/tb21-truncation-recovery-repeat3-20261005.json).
