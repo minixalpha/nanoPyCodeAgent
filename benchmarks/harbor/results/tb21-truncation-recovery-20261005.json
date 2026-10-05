@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-05T13:23:42.493492+00:00",
+  "status": "finished",
+  "agent_ref": "e1be6ed1f81a17d73677b414d4d913adb81e9e25",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "experiment_plan": "benchmarks/harbor/configs/truncation-recovery-20261005/experiment.json",
+  "started_at": "2026-10-05T12:56:30.236650+00:00",
+  "finished_at": "2026-10-05T13:23:21.319695+00:00",
+  "summary": {
+    "planned": 2,
+    "finished": 2,
+    "passed": 2,
+    "scored_failures": 0,
+    "unscored": 0,
+    "truncated_responses": 0,
+    "recovery_events": 0,
+    "passed_with_recovery": 0,
+    "known_estimated_cost_usd": "0.235099308",
+    "cost_complete": true,
+    "usage_complete": true,
+    "incomplete_model_attempts": 0
+  },
+  "jobs": [
+    {
+      "job": "truncation-recovery-model-extraction-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-20261005/model-extraction.json",
+      "started_at": "2026-10-05T12:56:30.237330+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T13:05:36.265597+00:00",
+      "wheel_sha256": "fc8e1ab0c3b66011f154e4d88d457227d695e26494b502a18dc7f0a64d1ce7f8",
+      "sources_match_plan": true
+    },
+    {
+      "job": "truncation-recovery-scheme-20261005",
+      "config": "benchmarks/harbor/configs/truncation-recovery-20261005/scheme.json",
+      "started_at": "2026-10-05T12:56:30.237877+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-05T13:23:21.318842+00:00",
+      "wheel_sha256": "fc8e1ab0c3b66011f154e4d88d457227d695e26494b502a18dc7f0a64d1ce7f8",
+      "sources_match_plan": true
+    }
+  ],
+  "preflight_trials": [
+    {
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "task_checksum": "8b3048320aa04676089f9240563c2d7d381be03d8810bcf5f5d336cab538f523",
+      "agent_version": "0.9.1.dev3+ge1be6ed1f",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    },
+    {
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "task_checksum": "e4525988ae20585b6b90a2f1af2fcc9d18d6363d3cfcdd7be5305199428883d2",
+      "agent_version": "0.9.1.dev3+ge1be6ed1f",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    }
+  ],
+  "unchanged_task_files": 73,
+  "trials": [
+    {
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "task_checksum": "8b3048320aa04676089f9240563c2d7d381be03d8810bcf5f5d336cab538f523",
+      "trial": "model-extraction-relu-logits__6VEMYvp",
+      "job": "truncation-recovery-model-extraction-20261005",
+      "agent_version": "0.9.1.dev3+ge1be6ed1f",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-model-extraction-20261005/model-extraction-relu-logits__6VEMYvp/result.json",
+      "agent_setup_seconds": 133.286,
+      "agent_execution_seconds": 361.657,
+      "verifier_seconds": 25.871,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 720,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 25.490705450996757
+          }
+        ]
+      },
+      "trajectory_path": "jobs/truncation-recovery-model-extraction-20261005/model-extraction-relu-logits__6VEMYvp/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 360007.277545,
+        "timestamp": "2026-10-05T13:04:52.194Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 51,
+        "total_prompt_tokens": 713052,
+        "total_completion_tokens": 39047,
+        "total_cached_tokens": 701184,
+        "total_cost_usd": 0.054623904,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.054623904
+        }
+      },
+      "model_attempts": 25,
+      "truncated_responses": [],
+      "recovery_events": [],
+      "tools_executed_after_recovery": 0,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.054623904,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "prompt_tokens": 713052,
+        "completion_tokens": 39047,
+        "cached_tokens": 701184
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 299916.300286,
+          "timestamp": "2026-10-05T09:41:59.444Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 301.297,
+        "known_cost_usd": 0.079038732,
+        "cost_complete": true,
+        "usage_complete": true,
+        "trajectory_path": "jobs/v090-pilot20-720s-20261005/model-extraction-relu-logits__8mXWuta/agent/trajectory.json"
+      }
+    },
+    {
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "task_checksum": "e4525988ae20585b6b90a2f1af2fcc9d18d6363d3cfcdd7be5305199428883d2",
+      "trial": "schemelike-metacircular-eval__UApkxB6",
+      "job": "truncation-recovery-scheme-20261005",
+      "agent_version": "0.9.1.dev3+ge1be6ed1f",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "result_path": "jobs/truncation-recovery-scheme-20261005/schemelike-metacircular-eval__UApkxB6/result.json",
+      "agent_setup_seconds": 104.159,
+      "agent_execution_seconds": 1398.507,
+      "verifier_seconds": 84.589,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "budget_seconds": 2220,
+      "verifier_attempts": {
+        "timeout_sec": 2400.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 84.2060621099663
+          }
+        ]
+      },
+      "trajectory_path": "jobs/truncation-recovery-scheme-20261005/schemelike-metacircular-eval__UApkxB6/agent/trajectory.json",
+      "atif_valid": true,
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 1397017.741137,
+        "timestamp": "2026-10-05T13:21:38.124Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 121,
+        "total_prompt_tokens": 4948349,
+        "total_completion_tokens": 118411,
+        "total_cached_tokens": 4918784,
+        "total_cost_usd": 0.180475404,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.180475404
+        }
+      },
+      "model_attempts": 60,
+      "truncated_responses": [],
+      "recovery_events": [],
+      "tools_executed_after_recovery": 0,
+      "incomplete_model_attempts": 0,
+      "known_cost_usd": 0.180475404,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "prompt_tokens": 4948349,
+        "completion_tokens": 118411,
+        "cached_tokens": 4918784
+      },
+      "baseline": {
+        "reward": 0.0,
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 1161969.701524,
+          "timestamp": "2026-10-05T10:34:49.411Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "response_truncated"
+        },
+        "agent_execution_seconds": 1163.351,
+        "known_cost_usd": 0.298166292,
+        "cost_complete": false,
+        "usage_complete": false,
+        "trajectory_path": "jobs/v090-pilot20-2220s-20261005/schemelike-metacircular-eval__RRuG7fV/agent/trajectory.json"
+      }
+    }
+  ],
+  "accounting_note": "Costs are token-based estimates using the static price table, not provider bills. Incomplete attempts retain unknown usage/cost, not zero.",
+  "comparison_note": "One fresh trial per task, selected because both failed in the released baseline. The two standard jobs run together; this is not a controlled replay or a full pilot score. A pass without truncation does not exercise the recovery policy.",
+  "artifact_checks": {
+    "task_images": [
+      {
+        "image": "alexgshaw/model-extraction-relu-logits:20251031",
+        "image_id": "sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce",
+        "matches_baseline": true
+      },
+      {
+        "image": "alexgshaw/schemelike-metacircular-eval:20251031",
+        "image_id": "sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db",
+        "matches_baseline": true
+      }
+    ],
+    "preflight_and_run_wheel_sha256": "fc8e1ab0c3b66011f154e4d88d457227d695e26494b502a18dc7f0a64d1ce7f8",
+    "task_checksums_match_release_baseline": true
+  }
+}
