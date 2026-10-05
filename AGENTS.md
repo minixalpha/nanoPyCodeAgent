@@ -19,6 +19,24 @@ the matching one:
 
 See `docs/RELEASING.md` for the release process and prerequisites.
 
+## Benchmarks
+
+For new Harbor benchmark runs, use the standard workflow from the repository
+root: `uv run --project benchmarks/harbor python -m harbor_adapter run --config
+<config.json>`. See `benchmarks/harbor/README.md` for configuration, verified APT
+cache import, and the `--install-only` dependency preflight option.
+
+- Do not create per-job adapter copies or ad hoc bootstrap scripts. Add reusable
+  fixes and reviewed task-revision profiles to `benchmarks/harbor` with tests.
+- Preserve task images, package sources, and official test scripts. Cache hits
+  must match the current package index's filename, size, and SHA256 digest.
+- Run dependency preflight before model work when a task has a registered
+  profile. Record unsupported profiles explicitly; do not claim they passed.
+- Keep setup failures and verifier errors separate from scored failures. Only
+  verifier timeouts may retry, at most three total attempts using the same agent
+  output and the task's original per-attempt time limit.
+
+
 ## Language
 
 Write everything in **English** by default — source code (identifiers,

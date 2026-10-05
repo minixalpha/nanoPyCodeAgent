@@ -271,6 +271,7 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
         if entry.type == "model.cost_resolved"
     }
     cost_states: list[tuple[str | None, Decimal | None]] = []
+    estimated_costs: list[Decimal] = []
     terminal: JournalEntry | None = None
     for entry in entries[1:]:
         payload = entry.payload
@@ -390,6 +391,10 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
                 metrics_extra = metrics.setdefault("extra", {})
                 assert isinstance(metrics_extra, dict)
                 metrics_extra["cost_source"] = resolved_cost["source"]
+                if "kind" in resolved_cost:
+                    metrics_extra["cost_kind"] = resolved_cost["kind"]
+                if resolved_cost.get("kind") == "estimated":
+                    estimated_costs.append(amount)
                 if generation_id is not None:
                     metrics_extra["generation_id"] = generation_id
             if isinstance(cost, dict) or resolved_cost is not None:
@@ -538,6 +543,13 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
             ]
             if missing:
                 final_extra["missing_generation_ids"] = missing
+        if estimated_costs:
+            # Either the complete total or the known partial subtotal includes
+            # estimates. Keep their contribution separate from billed amounts.
+            final_extra = final_metrics.setdefault("extra", {})
+            assert isinstance(final_extra, dict)
+            final_extra["cost_is_estimated"] = True
+            final_extra["estimated_cost_usd"] = float(sum(estimated_costs, Decimal(0)))
     return trajectory
 
 

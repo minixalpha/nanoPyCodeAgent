@@ -2,6 +2,7 @@
 
 import json
 import stat
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -221,6 +222,48 @@ def test_resolved_and_missing_costs_project_as_partial_metrics(tmp_path):
         "generation_id": "generation-1",
     }
     assert trajectory["final_metrics"]["total_cost_usd"] == 0.00072
+
+
+@pytest.mark.parametrize("estimated_amount", ["0", "0.0015"])
+@pytest.mark.parametrize("other_kind", ["estimated", "provider_reported", "pending"])
+def test_estimated_cost_summary_preserves_mixed_and_partial_costs(
+    tmp_path, estimated_amount, other_kind
+):
+    entries = _journal_entries(tmp_path)
+    completed = next(entry for entry in entries if entry.type == "model.completed")
+    completed.payload["generation_id"] = None
+    completed.payload["cost"] = {
+        "status": "resolved", "amount": estimated_amount, "currency": "USD",
+        "source": "token_estimate.deepseek", "kind": "estimated",
+    }
+    other_cost = {"status": "pending", "source": "provider_generation"}
+    if other_kind != "pending":
+        other_cost = {
+            "status": "resolved", "amount": "0.002", "currency": "USD",
+            "source": "token_estimate.deepseek" if other_kind == "estimated"
+            else "provider_response.usage.cost",
+            "kind": other_kind,
+        }
+    entries.insert(-1, replace(completed, payload=completed.payload | {
+        "model_call_id": "model-2", "generation_id": "generation-2", "cost": other_cost,
+    }))
+
+    trajectory = project_atif(entries)
+    metrics = trajectory["final_metrics"]
+    extra = metrics["extra"]
+    assert extra["cost_is_estimated"] is True
+    assert extra["estimated_cost_usd"] == pytest.approx(
+        float(estimated_amount) + (0.002 if other_kind == "estimated" else 0)
+    )
+    assert trajectory["steps"][1]["metrics"]["extra"]["cost_kind"] == "estimated"
+    if other_kind == "pending":
+        assert "total_cost_usd" not in metrics
+        assert extra["known_cost_usd"] == float(estimated_amount)
+        assert extra["cost_is_partial"] is True
+        assert extra["missing_generation_ids"] == ["generation-2"]
+    else:
+        assert metrics["total_cost_usd"] == pytest.approx(float(estimated_amount) + 0.002)
+        assert "cost_is_partial" not in extra
 
 
 def test_cost_reconciliation_diagnostics_project_to_terminal_extra(tmp_path):

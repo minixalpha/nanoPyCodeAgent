@@ -7,6 +7,7 @@ import httpx
 import pytest
 
 from nanopycodeagent import agent, settings
+from nanopycodeagent.atif import project_atif
 from nanopycodeagent.event_journal import EventJournal
 
 from helpers import (
@@ -186,6 +187,74 @@ def test_openrouter_cost_is_reconciled_before_run_completion(
             "attempts": [],
         }
     ]
+
+
+@pytest.mark.parametrize(
+    ("generation_id", "provider_cost", "billed_cost", "expected_cost", "is_estimated"),
+    [
+        (None, None, None, 0.0015, True),
+        ("gen-deepseek", None, "0.00072", 0.00072, False),
+        ("gen-deepseek", None, "0", 0.0, False),
+        ("gen-deepseek", None, None, 0.0015, True),
+        ("gen-deepseek", "0.0008", None, 0.0008, False),
+        ("gen-deepseek", "0", None, 0.0, False),
+    ],
+)
+def test_deepseek_estimate_preserves_billing_reconciliation(
+    monkeypatch, generation_id, provider_cost, billed_cost, expected_cost, is_estimated
+):
+    usage = {"input_tokens": 1000, "output_tokens": 1000}
+    if provider_cost is not None:
+        usage["cost"] = provider_cost
+    reply = FakeStream(
+        [text_block("done")],
+        model="deepseek-flash",
+        usage=SimpleNamespace(**usage),
+        response_headers={"x-generation-id": generation_id} if generation_id else {},
+    )
+    patch_client(monkeypatch, FakeClient(FakeMessages([reply])))
+    lookups = []
+
+    def resolve(base_url, requested_id, credential, **kwargs):
+        lookups.append(requested_id)
+        if billed_cost is None:
+            return None
+        return {
+            "generation_id": requested_id,
+            "amount": billed_cost,
+            "currency": "USD",
+            "source": "provider_generation.total_cost",
+        }
+
+    monkeypatch.setattr(agent, "resolve_generation_cost", resolve)
+
+    assert agent.run_headless("fix it") == 0
+
+    should_reconcile = generation_id is not None and provider_cost is None
+    assert lookups == ([generation_id] if should_reconcile else [])
+    entries = EventJournal.replay(_only_journal_path())
+    if should_reconcile:
+        assert entries[-1].payload["cost_reconciliation"][0]["status"] == (
+            "resolved" if billed_cost is not None else "unresolved"
+        )
+    trajectory = project_atif(entries)
+    metrics = trajectory["final_metrics"]
+    step_metrics = next(
+        step["metrics"] for step in trajectory["steps"] if step["source"] == "agent"
+    )
+    assert step_metrics["cost_usd"] == expected_cost
+    assert metrics["total_cost_usd"] == expected_cost
+    extra = metrics.get("extra", {})
+    assert extra.get("cost_is_estimated", False) is is_estimated
+    if is_estimated:
+        assert step_metrics["extra"]["cost_kind"] == "estimated"
+        assert extra["estimated_cost_usd"] == expected_cost
+    else:
+        assert step_metrics["extra"]["cost_source"] == (
+            "provider_response.usage.cost" if provider_cost is not None
+            else "provider_generation.total_cost"
+        )
+        assert "estimated_cost_usd" not in extra
 
 
 def test_unresolved_cost_diagnostics_are_persisted_on_run_terminal(monkeypatch):
