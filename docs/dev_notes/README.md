@@ -21,3 +21,6 @@ Current release series: **0.9.x** ([Chinese source](zh-CN/0.9.x.md),
 [English version](en/0.9.x.md)). The **0.8.x** notes retain the development
 record for v0.8.0 ([Chinese source](zh-CN/0.8.x.md),
 [English version](en/0.8.x.md)).
+
+Development toward **0.10.x** starts with the frozen v0.9.0 benchmark baseline
+([Chinese source](zh-CN/0.10.x.md), [English version](en/0.10.x.md)).

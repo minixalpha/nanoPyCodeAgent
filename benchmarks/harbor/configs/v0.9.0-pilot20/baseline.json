@@ -1,0 +1,491 @@
+{
+  "agent_version": "0.9.0",
+  "agent_ref": "c0605369d277352ac0d5ec20d02017b7cb149314",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "model": "deepseek/deepseek-flash",
+  "task_count": 20,
+  "attempts_per_task": 1,
+  "concurrency": 2,
+  "max_turns": 100,
+  "max_tokens": 65536,
+  "agent_setup_timeout_seconds": 1800,
+  "setup_timeout_note": "Allow dependency installation up to 1800 seconds; this is separate from the unchanged native task-work and per-attempt verifier limits. Historical official pilot used the Harbor default of 360 seconds.",
+  "execution": "Run the four disjoint budget groups sequentially through the standard harbor_adapter entry point. Together they form one predeclared 20-task cohort, one model run per task.",
+  "whole_trial_retries": 0,
+  "verifier_timeout_attempts": 3,
+  "preflight": "Install-only for all tasks before model work. Registered QEMU verifier dependencies must pass; other tasks explicitly report not_configured.",
+  "failure_policy": "Preserve every trial. Report scored failures, setup failures, and verifier errors separately; never replace trials based on scores.",
+  "configuration_files": [
+    "benchmarks/harbor/configs/v0.9.0-pilot20/budget-720s.json",
+    "benchmarks/harbor/configs/v0.9.0-pilot20/budget-1620s.json",
+    "benchmarks/harbor/configs/v0.9.0-pilot20/budget-2220s.json",
+    "benchmarks/harbor/configs/v0.9.0-pilot20/budget-3420s.json"
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/write-compressor",
+      "ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/write-compressor:20251031",
+      "docker_image_id": "sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1",
+      "docker_repo_digests": [
+        "alexgshaw/write-compressor@sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "c4fc3e73e44deeac95f1cd4a34a2d87e853b22ceec2b2824767f5f087b470bb2",
+        "task.toml": "6066a509066433c97c417fea68c4e3e73996f698dcdcbabe07718835eea355a6",
+        "tests/original-data.txt": "0fc483d0fb31128dfa41ed11adca56c88688888189826ef9daeafd7559b4fa4e",
+        "tests/original-decomp.c": "7f8d9ef66943f912a217aa48f4ef5efc967b44c2b21d0f56df029b5ab413f62a",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "809f486053e3ffbce852111dee1f63d80ab31297bd33172389e50278bed384e2"
+      }
+    },
+    {
+      "name": "terminal-bench/torch-tensor-parallelism",
+      "ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-tensor-parallelism:20251031",
+      "docker_image_id": "sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690",
+      "docker_repo_digests": [
+        "alexgshaw/torch-tensor-parallelism@sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "13bde2ab165d72a311e2bf066d5d6c3c8761bf9d3dd39d1b23eda23bc546b910",
+        "task.toml": "72fd2a5500d1fe8795dcae76cccb1a29fb25894881a7475f2fa519c87d425a8d",
+        "tests/test.sh": "a7e6c9408b2401e4e7448371f7ddc72f3284caccfb56277d3cd4e98051868cdf",
+        "tests/test_outputs.py": "4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290"
+      }
+    },
+    {
+      "name": "terminal-bench/schemelike-metacircular-eval",
+      "ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "native_agent_timeout_seconds": 2400,
+      "work_budget_seconds": 2220,
+      "verifier_timeout_seconds": 2400.0,
+      "docker_image": "alexgshaw/schemelike-metacircular-eval:20251031",
+      "docker_image_id": "sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db",
+      "docker_repo_digests": [
+        "alexgshaw/schemelike-metacircular-eval@sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "3af5f9567b62f93683db7518ec6fcb609f83796258aa02166b5a7091c5b69031",
+        "task.toml": "8dae8eb226183b0ca92331c1106152a7abc93b03b4e5a95291b86a4ddc9b44e0",
+        "tests/interp.py": "efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1",
+        "tests/shadow_test/01-factorial.scm": "540e81fac476f04dc510ba107721d606ac980760088b2136889e7d4bf884e5c5",
+        "tests/shadow_test/02-fibonacci.scm": "628957171e0c4a3ee373635923fcd29e75bdf4bf13a402ac26fe94a5fc1443ac",
+        "tests/shadow_test/03-list-operations.scm": "fe8f17f59fe4045582fce363d52df95ba7c4de7345542c8bd4993a9f2f396235",
+        "tests/shadow_test/04-higher-order.scm": "9c2eba8c91bb7b224de56d789207d2eaad98bbe1f8c360d6eca4f014f42f9230",
+        "tests/shadow_test/05-simple-io.scm": "1eba30db30824fcf6048ea8e49b84e85c866cefce30862fce49b300e4416843c",
+        "tests/shadow_test/06-interactive-io.scm": "4fbc0e2d6e42c5a9495e549ccb13c02fcaeddf8fdaf8d2cf5de833116f12610a",
+        "tests/shadow_test/08-progn-sequencing.scm": "3bf8236dc5356d29ab8dbfe1b0f4c519354fbb23c8f3eaf946779c28b80feea3",
+        "tests/shadow_test/09-mutual-recursion.scm": "3bfa1f77e602c7039f8c8c70315e6d4fff6eed737dab0f0398e5bdf690137c2c",
+        "tests/shadow_test/10-advanced-features.scm": "b69ef497088fcf0aec388789a17561b783b8cdd5915719915a51c5ba189c31ff",
+        "tests/shadow_test/accumulator_patterns.scm": "8b9192796a6f9c3155cc5e44d0a0ba6a46d20a0d94e265b69b23ec8af43e4a07",
+        "tests/shadow_test/binary_tree.scm": "5a3dafc8844969cebb5809f253f4e54de7df480f378da8197f870badef03ee47",
+        "tests/shadow_test/church_numerals.scm": "31d075785f2f605bac3bd9ac2d99fcf7eaaed6686eb9afeab1d40bf5f35bbf2c",
+        "tests/shadow_test/closures.scm": "c7d025a376987f5ee22f529847b66eaf53f0af7033acbb4055cedb734168d612",
+        "tests/shadow_test/continuation_passing.scm": "79e7445c42227846f1adfaf08c17e278aac7a34df77482900b068be4fd248080",
+        "tests/shadow_test/currying.scm": "690a8cccbb1d249c8f6fcabc0193cecc5d0e4c1af39a0bb67c7e95fcff8e393e",
+        "tests/shadow_test/filter_operations.scm": "485a0563b81d002e368c5e4b2b7cc98a5306163701053630f416e3b783a2a238",
+        "tests/shadow_test/fold_operations.scm": "461b33db6b3f5580122d4c6dff0fd6d11c7f044865ffd684ade67d9b296a5a24",
+        "tests/shadow_test/function_composition.scm": "65ceee00188b12c3549134449e2f938d010c2c97dba090f5b53244abb3579b1f",
+        "tests/shadow_test/lazy_evaluation.scm": "edd95748de14aadf916c65209b5bcb8759d3e33b7ec935289a5128a656d33bec",
+        "tests/shadow_test/list_operations.scm": "660963851ecb49639f66557bd88db1e73db323186742145f33cb2e14d3af1103",
+        "tests/shadow_test/map_operations.scm": "974ac42d892f4b62b9b21ef7844581624dad811b38d35944f1005cc47f249856",
+        "tests/shadow_test/memoization.scm": "25482c1912fab1235651b1b7acd727f2ea6a55dc5c1919f841b44cfc32107b05",
+        "tests/shadow_test/mutual_recursion.scm": "2fbc9562e863cb2b325f86419fb2a7588265aaf5576295550722ee4274663712",
+        "tests/shadow_test/nested_defines.scm": "23ad3b2f936949501466da784511ea2e6215e2b198ca371bef86f6af877ca923",
+        "tests/shadow_test/oeis_sequences.scm": "1b586df6af2429a54808f7587f60021ba2b2c9bcc2ef2f9cbe44339699853c62",
+        "tests/shadow_test/oeis_sequences2.scm": "300da0b0dc20b883e01142adea9eb6da1a583a1b969ac0be47aa32c1ab66340e",
+        "tests/shadow_test/oeis_sequences3.scm": "dea198e874bf518b93c8406a843b64c1586cf4ce780fec8c444f8343e9322c75",
+        "tests/shadow_test/recursive_structures.scm": "64f1a430bf04a627f5e27bf004805544b60406f8a123d186516774dfcf3846cd",
+        "tests/shadow_test/test_read.scm": "fda448c22685e2f9af37ff7b986ee5e906d485a2db16f62eec113149f866870f",
+        "tests/shadow_test/variadic_functions.scm": "ac940ac0273e87ee06280fee192194ab5cdc14c88b61da9cfba92105e66b8f2f",
+        "tests/shadow_test/y_combinator.scm": "38d25b02d54342ab5610ad03fcef68c5f1d4eef8902295645f6acceb853c9860",
+        "tests/test/01-factorial.scm": "2623000a742c63d50ae1851854826247caee129c7d1613be6c7131d21f26a6ad",
+        "tests/test/02-fibonacci.scm": "db769cef446d5da9e9b1abccdf9ca644e239938095a98c21551aee25255a57d4",
+        "tests/test/03-list-operations.scm": "1a14b4100dedef30010fed62ea9fd295add1b0facb2e8e6e27c8d8eb3d90111b",
+        "tests/test/04-higher-order.scm": "59cd17bbffad641a37729b17c5bf9178b8bae7289fe89cc7135eb0bfec2b4fd6",
+        "tests/test/05-simple-io.scm": "3deeb3275df1b771449ebaebfcb9a934f375415e138c5e9f3685516c69a1f7a0",
+        "tests/test/06-interactive-io.scm": "aa3cae79b79dca90ac9d61a1babf64d6a5bb6559798c7727c11be02d8ddfd216",
+        "tests/test/08-progn-sequencing.scm": "4c0a4d980cf4223d1d17715d58adbe27dc120eced257a0d9f42de952c094bc5b",
+        "tests/test/09-mutual-recursion.scm": "939e18f4bd25b5ab0e2a4a767bf7eb6b0d8fb3530d28bf236f06cf27f2d90ee8",
+        "tests/test/10-advanced-features.scm": "c4cc5fb412df363875768c6a1e645255f6bc8f9ddf988d1ec2f4a266cedb8ec7",
+        "tests/test/README.md": "1f2174c7f12721f9f1898cda190c2886fb3ef9d35fd085f315da5814657104ae",
+        "tests/test/accumulator_patterns.scm": "50d246e00577d1f3ab3f0462c2b9618ea63680c33fcca12369cd1707b010cb5f",
+        "tests/test/binary_tree.scm": "c95f59ccac1ea4a9c846afddc993aa40ac081c0f9e6731544530109b269b67ae",
+        "tests/test/calculator.scm": "a09213ec8a2ec52486b9346c420ddb7c537576ef71b1cc5c6ec61d13d9139f61",
+        "tests/test/church_numerals.scm": "f37d858f32a9c5ba8868d094018c92516acadf0ea4e55b7c36f14320cb0c69a6",
+        "tests/test/closures.scm": "3ecfc35289479288876e20bf7f55e5b8eda84acd35937e89e3d062308a99aeff",
+        "tests/test/continuation_passing.scm": "01049581e582f7d35ef40ef68e1827d012da619beea57c1c74675a5f245318d7",
+        "tests/test/currying.scm": "2844d54eee9a94af05a11b4aae06d6e7823d193f17235c8f90bf98926cbca75d",
+        "tests/test/filter_operations.scm": "f6bc75f6da9ece96c0616e3570e4df59d0f2eb4655375d3a46b0349c86cc5dd8",
+        "tests/test/fold_operations.scm": "05aab492ad914baecd19cf454ed587e7a031e94b8990500eb1c869c15da6fc0b",
+        "tests/test/function_composition.scm": "9b56dc78823e7d35adb213744c0f8e95684074d6a12bb98c8c05755788be5b06",
+        "tests/test/lazy_evaluation.scm": "ea5912a53a35b65bf2bee9483dca90814b8baf52ae3ae50c2d4589f794dca54d",
+        "tests/test/list_operations.scm": "d7e70621afbbb787cf646e2089bccfbd3681fbb2e70325f3e50f56ccd30dbd9d",
+        "tests/test/map_operations.scm": "0cebddb3d4a50e4b6f6bfc0e8c12762d3f42609030aef077d8ab4bedda4718d9",
+        "tests/test/memoization.scm": "cf8202df22407dbba72ca7f660d8ab7cd4ca962b215c36cc491d5c1a474c160b",
+        "tests/test/mutual_recursion.scm": "a3dc23a96ec1cf05b0be4a4f0b6d3da9e2bad1aa3f7a83c7566f71f980a67fe2",
+        "tests/test/nested_defines.scm": "21faa0ccaf744cb8c9d283bbfd0c36e195c803c85f511e70a99267c0a85b6216",
+        "tests/test/oeis_sequences.scm": "d1f77161b367176b3dfab55a34466e511c602c7ae359e05f5a715627b93dca6a",
+        "tests/test/oeis_sequences2.scm": "5679ef0f99743114d8c06edcdcde1fea9474b71aeb57c2069f1ee33df1970bce",
+        "tests/test/oeis_sequences3.scm": "5dc8b44158b2648a6e9766f6bcdf21553a07bf487d79e64ebb418511ef3b8186",
+        "tests/test/recursive_structures.scm": "67838ff5bac26ea359139720adec1d5700176147b0062065c7def9715e8a2aeb",
+        "tests/test/test_read.scm": "5b9ee381c3cf45b2fc8c2e7b490857fb67f1ac78653b586d7f2848daf6853809",
+        "tests/test/variadic_functions.scm": "c9b847c50840c6977904e5033a07f6108cc3a54012b02d916e79025fb43e0f6e",
+        "tests/test/y_combinator.scm": "971144dcb2b04aaa3b34d9279459bd7d2e8256c585d17809465848c2589d36d8",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "fbb84e3c0c2f72ed7de90f54380f860052c16155e7d0c9076cd57c966e9be7ed"
+      }
+    },
+    {
+      "name": "terminal-bench/kv-store-grpc",
+      "ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/kv-store-grpc:20251031",
+      "docker_image_id": "sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791",
+      "docker_repo_digests": [
+        "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "f4b3facc199d5b1c78db6e603ffa29ec1b93a77ff7d291e1a92b42e6bf582bed",
+        "task.toml": "6ff0f30a526bfff86a67b0b53439b9965229c0f368167dc1a5d05f34d82299a3",
+        "tests/test.sh": "c348467a076bf614d0a850e25b2263f85bbf7b4c7a8d344fbd5454a0611a0df8",
+        "tests/test_outputs.py": "115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e"
+      }
+    },
+    {
+      "name": "terminal-bench/pypi-server",
+      "ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pypi-server:20251031",
+      "docker_image_id": "sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276",
+      "docker_repo_digests": [
+        "alexgshaw/pypi-server@sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "1c537e4a311a8e71155e121f57bfc03f742fbfb99d05314cd03e433996a28a31",
+        "task.toml": "07c39d7a733c89adadf74bb63a3e906c3694feb6c490d5fc85ac187c003fd447",
+        "tests/test.sh": "d2b1220e42bcfdcce87907ac5bbd69ac210a3c94926545ca2439636786e7784e",
+        "tests/test_outputs.py": "82c6351722e9aa984ff1d701bf57df3150ce51466df2b70afa1aa62d2650be4c"
+      }
+    },
+    {
+      "name": "terminal-bench/dna-assembly",
+      "ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+      "native_agent_timeout_seconds": 1800,
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/dna-assembly:20251031",
+      "docker_image_id": "sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569",
+      "docker_repo_digests": [
+        "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "88998c98beabdd966ab46c04ede822bbc74796696aa1bf87c567a9131210533c",
+        "task.toml": "7b571544b64d9be1c91526837e5d805c2181afe0e6fd57a7f0676bba36c868d7",
+        "tests/test.sh": "271c8317c98539e3b49233d017fe51fb0e5fba8114e76830fe698565499b2b1d",
+        "tests/test_outputs.py": "5c2d0fd2e5f6303263e9750f67acda7db491ef04841832b4fc62bcfb61b08924"
+      }
+    },
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "docker_image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
+      "docker_repo_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+        "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+        "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+        "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+      }
+    },
+    {
+      "name": "terminal-bench/qemu-alpine-ssh",
+      "ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/qemu-alpine-ssh:20251031",
+      "docker_image_id": "sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964",
+      "docker_repo_digests": [
+        "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "8348c60490cb90bc690cba259dfe98996da4c3294c6d42bba1119b00c64de4de",
+        "task.toml": "10a43ec6ee732eeba852c377f12e23178f7fa5a4868143f3699a15565ffb64c7",
+        "tests/test.sh": "3b244479776c4ee3639631112799f2cde22cbb80ac10511715e3a8f32909c289",
+        "tests/test_outputs.py": "83ccb4bdcd259b342212bebefe395f289858b4dc55b2ee7ae0dab238ad2e9718"
+      }
+    },
+    {
+      "name": "terminal-bench/openssl-selfsigned-cert",
+      "ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/openssl-selfsigned-cert:20251031",
+      "docker_image_id": "sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12",
+      "docker_repo_digests": [
+        "alexgshaw/openssl-selfsigned-cert@sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "38054a3371f7c2c853478a2f9af0bff858437d5b28a9a07483238f06e566921f",
+        "task.toml": "75c8913f0fa15890786c11999cde920b8bfc10d4ce8a14edf1e76985a2ac5800",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "90970bb3c372e8e7fb6bb9ac5f649ba73eb38e1a5ea2e922a9057a72b6b4192d"
+      }
+    },
+    {
+      "name": "terminal-bench/regex-chess",
+      "ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+      "native_agent_timeout_seconds": 3600,
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0,
+      "docker_image": "alexgshaw/regex-chess:20251031",
+      "docker_image_id": "sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c",
+      "docker_repo_digests": [
+        "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "a6ed3fcc54fc92d71a84af921942422d299ca89b410dcd92cd05a53d0d06436c",
+        "task.toml": "07fe52636fcc4bc9fff25d5630af145b97a5331219d719cc8decb4ca67ea21d4",
+        "tests/test.sh": "8f7f00a1c4dde7fcca6c918c768f2aba432b8c4007c15989716c68091950da87",
+        "tests/test_outputs.py": "4983c44d21c56dd8191381eff0304afc8b87bb714527ea9036b3319c015a30b4"
+      }
+    },
+    {
+      "name": "terminal-bench/log-summary-date-ranges",
+      "ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/log-summary-date-ranges:20251031",
+      "docker_image_id": "sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51",
+      "docker_repo_digests": [
+        "alexgshaw/log-summary-date-ranges@sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "c1d4516ad4ec2238209740eaf01291df9ab48b0028a3fc5df383c6f831453484",
+        "task.toml": "9a9593673d6805ef3a301ea734e9c4dbaf80da1b37c0fe9d1f2ceea2a8c57e18",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "2fc06a6ce1944ad82f84fb437395fa75ed8c0eadd385b92e375c27e5bc9cb2b4"
+      }
+    },
+    {
+      "name": "terminal-bench/model-extraction-relu-logits",
+      "ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/model-extraction-relu-logits:20251031",
+      "docker_image_id": "sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce",
+      "docker_repo_digests": [
+        "alexgshaw/model-extraction-relu-logits@sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "c9e179dd099065a34c362a865b0eb9fab5f7d96be582cf117e7519580c036ebe",
+        "task.toml": "eb64dfaf8ae88868911ae28855cdc4f767de464001e2704919015b595be6dc29",
+        "tests/test.sh": "3b2d8f5e0353c2bab3515d6387468a863a4f9f241ee131c73f545f3fdf9e2d52",
+        "tests/test_outputs.py": "e5189c7eb9942ede55e1b48a80388590b80a486b75497613f257b3373ad9b2c9"
+      }
+    },
+    {
+      "name": "terminal-bench/path-tracing",
+      "ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+      "native_agent_timeout_seconds": 1800,
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/path-tracing:20251031",
+      "docker_image_id": "sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482",
+      "docker_repo_digests": [
+        "alexgshaw/path-tracing@sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "9f36e02d636f5dc0946619bc518f2e51c24fa75251da9d1f0ca9eca612cb9572",
+        "task.toml": "cf47013f69bf1b43242da984f231d4daf364fdf44d3845f2eea2ca2cb9308c46",
+        "tests/test.sh": "a719dbb1ba7ae76df095e9d815941dfa4c55edaf11f173b9c3c3097afa838548",
+        "tests/test_outputs.py": "572e68b2843191d29592faf42a405861b7958d8e894868b74c5a8886b53eb879"
+      }
+    },
+    {
+      "name": "terminal-bench/regex-log",
+      "ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/regex-log:20251031",
+      "docker_image_id": "sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9",
+      "docker_repo_digests": [
+        "alexgshaw/regex-log@sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c",
+        "task.toml": "6bc98525852755caf1fe34c174c2f10f4328adb4ce6c1968dcafe1c877e4e160",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72"
+      }
+    },
+    {
+      "name": "terminal-bench/caffe-cifar-10",
+      "ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "native_agent_timeout_seconds": 3600,
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 1200.0,
+      "docker_image": "alexgshaw/caffe-cifar-10:20260403",
+      "docker_image_id": "sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215",
+      "docker_repo_digests": [
+        "alexgshaw/caffe-cifar-10@sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "46907b0ee048f74269c29a15e0e086546b2b1220149597017da8b5ccc05a0cea",
+        "task.toml": "2831165ad9d9e8bbc646e6d85c0a2290640dcc4f13749547a2937c7675012a8b",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "e99b9f6284e923388fbc21488b1af99fdde46d4a809d3557b0788dbf1cb6b281"
+      }
+    },
+    {
+      "name": "terminal-bench/mteb-leaderboard",
+      "ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "native_agent_timeout_seconds": 3600,
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0,
+      "docker_image": "alexgshaw/mteb-leaderboard:20260430",
+      "docker_image_id": "sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4",
+      "docker_repo_digests": [
+        "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "06ea44106eca0405c25bab00f5b3cfeb611c872093f6c0f82ed057839d1d13de",
+        "task.toml": "86574bd1c6c4fefd2e64eee9c2caa53d87c4bcf2e51547912440a0ddbd0badb8",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "b28f8fc8b7614801305813c402be52f4be1e75de6658ecdfdf9383aa793892cf"
+      }
+    },
+    {
+      "name": "terminal-bench/llm-inference-batching-scheduler",
+      "ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+      "native_agent_timeout_seconds": 1800,
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+      "docker_image_id": "sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774",
+      "docker_repo_digests": [
+        "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "0817374767533fbf51bb93345ee1bba266263c216c6cc55c096e71b4a1d37dfc",
+        "task.toml": "52aaac942f917e6a91ff658e0272195bd1cd842d41d71e302414c52603cc588b",
+        "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests/cost_model_for_tests.py": "d3e810a99d40327fb8317f6512d879c52c6aeebdf5dcdc0c5e117c7df61c9ab9",
+        "tests/test.sh": "005f980332355e2fe143d4ff4aac11828adf070594bbe7055399c238f06953ca",
+        "tests/test_outputs.py": "80b06b7c4ba0db28832b767d48be74bb462d7f5df5798d9cb58c4f1160d96ffa"
+      }
+    },
+    {
+      "name": "terminal-bench/pytorch-model-recovery",
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pytorch-model-recovery:20260430",
+      "docker_image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+      "docker_repo_digests": [
+        "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "2bef07dc28be3ab2c35ae389584034c2e4dde92c2c31b3eb6bd829628c8c3f4a",
+        "task.toml": "851a51204f53482a31f47cdf8833128cf421113b0331011286940fc857c37dfd",
+        "tests/test.sh": "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e",
+        "tests/test_outputs.py": "5d4d57c43e6913bf3d0081da764ad36d1b7275e3bb114a05abda529afe563905",
+        "tests/weights_gtruth.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080"
+      }
+    },
+    {
+      "name": "terminal-bench/circuit-fibsqrt",
+      "ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+      "native_agent_timeout_seconds": 3600,
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0,
+      "docker_image": "alexgshaw/circuit-fibsqrt:20251031",
+      "docker_image_id": "sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a",
+      "docker_repo_digests": [
+        "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "a7f500266a878d04ac9de39fba76220cfad216d8f6b8063bba93bebb3d4ab9ea",
+        "task.toml": "9f5aa1f7ebbbcec90fd109121e9bd509af3cfff6b4cec701bd91947988f40972",
+        "tests/sim.c": "700645ac6156cdc88ec1e210f7c7d8d9969bb42aec969c410597e8efca796173",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "6117b8edb7d567b30e32b16a9244bec4c131ec01e9065d52f6f53f87e36f0438"
+      }
+    },
+    {
+      "name": "terminal-bench/merge-diff-arc-agi-task",
+      "ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/merge-diff-arc-agi-task:20251031",
+      "docker_image_id": "sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4",
+      "docker_repo_digests": [
+        "alexgshaw/merge-diff-arc-agi-task@sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4"
+      ],
+      "task_file_sha256": {
+        "instruction.md": "2d826479873e5ac1c94c1f802763bf85c22bb04624384685ebdf6b153fe0278e",
+        "task.toml": "6ced40e06b43b169857509765eb7f07791db558f9437cc7367d2536771c2ca5b",
+        "tests/test.json": "20f116a6b718bbf4874bbe203d15a5c0f85a1d88cb622e2d7529c7e4fb2d4c28",
+        "tests/test.sh": "c9052954cd6ce25c4a375a2fb48e765b1efa5b39f7991b93993cc793af8ab9d2",
+        "tests/test_outputs.py": "2754ba6c5c5f75c9db5ed2c5729d9f5d7e21cb7fdb18aa0c65abdc3e7e85c149"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+    "src/nanopycodeagent/agent.py": "2a24a51f04f0a23d4ee00374e97fcb8bce76941cdd9667bde2ee92254d884b5a",
+    "src/nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+    "src/nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+    "src/nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+    "src/nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+    "src/nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+    "src/nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+    "src/nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+    "src/nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+    "src/nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+    "src/nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+    "src/nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+    "src/nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+    "src/nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+    "benchmarks/harbor/src/harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+    "benchmarks/harbor/src/harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+    "benchmarks/harbor/src/harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+    "benchmarks/harbor/src/harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+    "benchmarks/harbor/src/harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+    "benchmarks/harbor/src/harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+  },
+  "configuration_sha256": {
+    "budget-1620s.json": "7f23d228cadcddd45b2033ff1f002d371490c4280e79613244662ede983bb585",
+    "budget-2220s.json": "0bf57205bb0d82ea0342483a269eb995441a7c427fec40f0678f3a69b1a87b0b",
+    "budget-3420s.json": "6d427417078e98cae67a3db609cb49f2d6f99bd2e07ff1ccd1e33152cd99950e",
+    "budget-720s.json": "0f21d6d9572e99f9d66067fc7fdcd6f45a29511455d4194c332d88941065d904",
+    "install-only.json": "60afdec12d17a3462f8f4b43f58f4189b7e0be789a9f270026e4be267f405dd6"
+  },
+  "release_url": "https://github.com/minixalpha/nanoPyCodeAgent/releases/tag/v0.9.0",
+  "run_date": "2026-10-05"
+}
