@@ -25,7 +25,8 @@ usage 和已有 provider 标识。正常费用补查仍在 run 收尾时执行�
 core 在检查轮数上限和执行工具之前识别截断，即使该回复恰好用尽最后一轮，也记录
 `response_truncated`。该回复中的工具一律不执行，不产生 `tool.started` 或
 `tool.completed`，也不伪造 observation。已有文本继续保留在 stdout，截断提示写入
-stderr；headless 退出码为 `0`。当前策略是停止，不自动续写、重试或增大 8192 上限。
+stderr；headless 退出码为 `0`。v2 引入时的策略是停止，不自动续写、重试或增大当时的 8192 上限。后续的
+[headless 恢复策略](event-journal-protocol-v4.md#有界的截断恢复)允许在原始预算内继续一次。
 
 这属于有明确原因的预算终态，使用 `run.completed`，而非 `run.failed`。
 ATIF 的 `extra.terminal.status` 仍为 `completed`，表示 run 已正常收尾；

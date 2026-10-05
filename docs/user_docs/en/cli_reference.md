@@ -105,11 +105,19 @@ default. The provider must accept the requested limit for the chosen model.
 The limit applies to the whole generated reply, including thinking where the
 provider counts it; it is not a guaranteed amount of visible answer text.
 
-If the provider
-returns `stop_reason="max_tokens"`, the agent stops that run, prints a truncation
-diagnostic to stderr, and skips all tools from that reply. It preserves partial
-text and records `response_truncated` as the trajectory terminal outcome.
-Headless mode still exits `0`; it does not retry or continue automatically.
+If the provider returns `stop_reason="max_tokens"`, the agent prints a truncation
+diagnostic to stderr and skips all tools from that reply. Headless mode can
+automatically continue **once per run** if time and reply budgets remain. The
+follow-up retains partial visible text and a notice, discards unexecuted tool
+calls and incomplete thinking, and asks the model to continue from confirmed
+tool results and current files. It keeps the same token limit and original
+deadline; the truncated reply and recovery both consume the reply budget.
+
+A second truncation, or truncation on the last allowed reply, ends with
+`response_truncated`; an expired deadline ends with `time_budget_exhausted`.
+Headless mode still exits `0` for these budget outcomes. Recovery is recorded as
+an `input.injected` event with reason `truncation_recovery`, while every model
+attempt retains its own stop reason, usage, and cost in the Journal and ATIF.
 Interactive mode returns to `You>` with the partial text and a truncation notice
 in conversation history, so a later user message can continue the conversation.
 

@@ -8,3 +8,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Current release series: [0.9.x](0.9.x.md). Previous release series:
 [0.8.x](0.8.x.md).
+
+Upcoming development: [0.10.x](0.10.x.md).

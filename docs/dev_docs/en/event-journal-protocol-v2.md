@@ -32,8 +32,10 @@ tools. A reply that also spends the last turn therefore records
 `response_truncated`. All tools in that reply are skipped: there are no
 `tool.started` or `tool.completed` events and no fabricated observations.
 Existing text remains on stdout, the truncation diagnostic goes to stderr,
-and headless mode exits `0`. The current policy stops without automatically
-continuing, retrying, or raising the 8192-token limit.
+and headless mode exits `0`. The policy introduced with v2 stopped without automatically
+continuing, retrying, or raising the then-current 8192-token limit. Later
+[headless recovery](event-journal-protocol-v4.md#bounded-truncation-recovery) can
+continue once within the original budgets.
 
 This is a budget outcome with an explicit reason, represented by
 `run.completed` rather than `run.failed`. ATIF's `extra.terminal.status`

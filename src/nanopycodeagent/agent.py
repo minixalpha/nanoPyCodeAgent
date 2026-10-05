@@ -75,8 +75,14 @@ STREAM_RETRY_DELAYS = (1.0, 2.0)
 STREAM_RETRY_WINDOW_SECONDS = 300.0
 
 _TRUNCATION_NOTICE = (
-    "[response truncated: reached max_tokens; stopped without finishing the task. "
+    "[response truncated: reached max_tokens before finishing the task. "
     "Tool calls from this response were not executed.]"
+)
+_TRUNCATION_RECOVERY_NOTE = (
+    "The previous response reached its output limit without finishing the task. "
+    "No tool calls from that response were executed. Continue from the last "
+    "confirmed tool results and current files within the remaining budget. "
+    "This is the only automatic truncation recovery for this run."
 )
 
 # How many model replies one headless task may spend before the run stops on
@@ -298,6 +304,8 @@ class _TextOutputProjector:
                 print()
             if event.payload["stop_reason"] == "max_tokens":
                 print(_TRUNCATION_NOTICE, file=sys.stderr)
+        elif event.type == "input.injected" and event.payload["reason"] == "truncation_recovery":
+            print("[continuing after response truncation; recovery 1/1]", file=sys.stderr)
         elif event.type == "model.failed" and event.payload["will_retry"]:
             if str(event.payload["model_call_id"]) in self._model_calls_with_text:
                 print()
@@ -490,7 +498,8 @@ def _run_exchange(
 
     Appends assistant replies and tool results to ``messages`` in place.
     A truncated reply retains only its text and a notice in request history;
-    the original response is kept in the journal. Returns the stopping outcome,
+    the original response is kept in the journal. Headless runs may recover
+    once within the original budgets. Returns the stopping outcome,
     distinguishing completion, turn-budget exhaustion, and response truncation.
     """
     run_id = f"run-{uuid.uuid4()}"
@@ -603,6 +612,8 @@ def _run_model_loop(
     turns = 0
     retries = 0
     retry_deadline = None
+    truncation_recovered = False
+    recovery_pending = False
     deadline = (
         time.monotonic() + time_budget_seconds
         if time_budget_seconds is not None and time_budget_seconds > 0
@@ -615,6 +626,15 @@ def _run_model_loop(
             remaining = deadline - time.monotonic()
             if remaining <= 0:
                 return "time_budget_exhausted"
+        if recovery_pending:
+            messages.append({"role": "user", "content": _TRUNCATION_RECOVERY_NOTE})
+            emitter.emit("input.injected", {
+                "model_call_id": model_call_id,
+                "content": _TRUNCATION_RECOVERY_NOTE,
+                "reason": "truncation_recovery",
+                "source_timestamp": utc_now(),
+            })
+            recovery_pending = False
         if deadline is not None or (max_turns is not None and retries == 0):
             _append_budget_note(
                 messages,
@@ -784,7 +804,7 @@ def _run_model_loop(
         if message.stop_reason == "max_tokens":
             # Do not execute partial tool calls or replay them without results.
             # Thinking may also be cut off before its signature arrives. Keep
-            # visible text and an explicit notice for the next interactive turn.
+            # visible text and an explicit notice for a safe follow-up request.
             text = "".join(
                 block.text for block in message.content if block.type == "text"
             )
@@ -794,6 +814,14 @@ def _run_model_loop(
                     "content": (f"{text}\n\n" if text else "") + _TRUNCATION_NOTICE,
                 }
             )
+            if (
+                not truncation_recovered
+                and (max_turns is not None or time_budget_seconds is not None)
+                and (max_turns is None or turns < max_turns)
+            ):
+                truncation_recovered = True
+                recovery_pending = True
+                continue
             return "response_truncated"
         request_content = []
         for block in message.content:

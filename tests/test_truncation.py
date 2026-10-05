@@ -18,6 +18,7 @@ from helpers import (
     patch_client_and_input,
     sdk_http_module,
     text_block,
+    tool_use_block,
     write_tool_use_block,
 )
 
@@ -38,13 +39,16 @@ def _journal_entries():
 def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     monkeypatch, tmp_path, capsys, content, max_turns, max_tokens
 ):
-    reply = FakeStream(
-        content,
-        stop_reason="max_tokens",
-        usage=SimpleNamespace(input_tokens=10, output_tokens=max_tokens),
-        response_headers={"x-generation-id": "gen-truncated"},
-    )
-    messages = FakeMessages([reply])
+    attempts = 1 if max_turns == 1 else 2
+    messages = FakeMessages([
+        FakeStream(
+            content,
+            stop_reason="max_tokens",
+            usage=SimpleNamespace(input_tokens=10, output_tokens=max_tokens),
+            response_headers={"x-generation-id": f"gen-truncated-{index}"},
+        )
+        for index in range(attempts)
+    ])
     patch_client(monkeypatch, FakeClient(messages))
     reconciled = []
 
@@ -65,14 +69,15 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
         "--trajectory", str(trajectory_path),
     ]) == 0
 
-    assert len(messages.calls) == 1
-    assert messages.kwargs[0]["max_tokens"] == max_tokens
+    assert len(messages.calls) == attempts
+    assert all(call["max_tokens"] == max_tokens for call in messages.kwargs)
     captured = capsys.readouterr()
-    assert captured.out == ("Partial answer\n" if content and content[0].type == "text" else "")
+    assert captured.out == ("Partial answer\n" * attempts if content and content[0].type == "text" else "")
     assert "response truncated" in captured.err
     assert "max_tokens" in captured.err
     assert "stopped after" not in captured.err
-    assert reconciled == ["gen-truncated"]
+    assert captured.err.count("recovery 1/1") == attempts - 1
+    assert reconciled == [f"gen-truncated-{index}" for index in range(attempts)]
 
     entries = _journal_entries()
     assert all(entry.schema_version == 4 for entry in entries)
@@ -88,10 +93,122 @@ def test_truncation_stops_with_usage_cost_and_distinct_terminal(
     assert trajectory["schema_version"] == "ATIF-v1.7"
     assert trajectory["extra"]["terminal"]["outcome"] == "response_truncated"
     assert next(step for step in trajectory["steps"] if step["source"] == "agent")["extra"]["stop_reason"] == "max_tokens"
-    assert trajectory["final_metrics"]["total_prompt_tokens"] == 10
+    assert trajectory["final_metrics"]["total_prompt_tokens"] == 10 * attempts
     assert trajectory["agent"]["extra"]["max_tokens"] == max_tokens
-    assert trajectory["final_metrics"]["total_completion_tokens"] == max_tokens
-    assert trajectory["final_metrics"]["total_cost_usd"] == 0.01
+    assert trajectory["final_metrics"]["total_completion_tokens"] == max_tokens * attempts
+    assert trajectory["final_metrics"]["total_cost_usd"] == 0.01 * attempts
+
+
+def test_headless_recovery_keeps_committed_work_and_discards_truncated_tools(
+    monkeypatch, tmp_path
+):
+    unsafe = tmp_path / "must-not-exist.txt"
+    answer = tmp_path / "answer.txt"
+    executed = []
+    monkeypatch.setattr(agent, "run_bash", lambda command, **kwargs: (executed.append(command) or "saved", False))
+
+    def reply(content, reason="tool_use", tokens=10):
+        return FakeStream(content, stop_reason=reason,
+                          usage=SimpleNamespace(input_tokens=10, output_tokens=tokens, cost=0.01))
+
+    messages = FakeMessages([
+        reply([tool_use_block("committed", "append once")]),
+        reply([
+            ThinkingBlock(type="thinking", thinking="Unfinished thinking", signature=""),
+            text_block("Partial reply"),
+            write_tool_use_block("discard-complete", path=str(unsafe), content="unsafe"),
+            write_tool_use_block("discard-partial", path=str(unsafe)),
+        ], "max_tokens", 8192),
+        reply([write_tool_use_block("fresh", path=str(answer), content="done")]),
+        reply([text_block("Finished")], "end_turn"),
+    ])
+    patch_client(monkeypatch, FakeClient(messages))
+    trajectory_path = tmp_path / "trajectory.json"
+    assert agent.run_headless("task", max_turns=4, max_tokens=8192, trajectory_path=trajectory_path) == 0
+    assert executed == ["append once"]
+    assert not unsafe.exists()
+    assert answer.read_text() == "done"
+    followup = messages.calls[2]
+    assert [m["role"] for m in followup] == ["user", "assistant", "user", "assistant", "user"]
+    assert followup[-2]["content"].startswith("Partial reply\n\n")
+    assert "not executed" in followup[-2]["content"]
+    assert agent._TRUNCATION_RECOVERY_NOTE in followup[-1]["content"]
+    assert "Turn 3 of 4" in followup[-1]["content"]
+    assert "Unfinished thinking" not in str(followup)
+    assert "discard-complete" not in str(followup)
+    assert "discard-partial" not in str(followup)
+    assert all(call["max_tokens"] == 8192 for call in messages.kwargs)
+    assert len({call["system"] for call in messages.kwargs}) == 1
+
+    entries = _journal_entries()
+    injected = [e for e in entries if e.type == "input.injected" and e.payload["reason"] == "truncation_recovery"]
+    assert len(injected) == 1
+    starts = [e for e in entries if e.type == "model.started"]
+    assert injected[0].payload["model_call_id"] == starts[2].payload["model_call_id"]
+    assert [e.payload["tool_call_id"] for e in entries if e.type == "tool.started"] == ["committed", "fresh"]
+    trajectory = json.loads(trajectory_path.read_text())
+    assert trajectory["extra"]["terminal"]["outcome"] == "completed"
+    recoveries = [s for s in trajectory["steps"] if s.get("extra", {}).get("reason") == "truncation_recovery"]
+    assert len(recoveries) == 1 and recoveries[0]["message"] == agent._TRUNCATION_RECOVERY_NOTE
+    assert trajectory["final_metrics"]["total_prompt_tokens"] == 40
+    assert trajectory["final_metrics"]["total_completion_tokens"] == 8222
+    assert trajectory["final_metrics"]["total_cost_usd"] == 0.04
+
+
+def test_recovery_allowance_is_not_reset_by_tool_work_or_stream_retry(monkeypatch):
+    import httpx
+    from test_stream_recovery import BrokenStream
+
+    monkeypatch.setattr(agent.time, "sleep", lambda _: None)
+    executed = []
+    monkeypatch.setattr(agent, "run_bash", lambda command, **kwargs: (executed.append(command) or "ok", False))
+    messages = FakeMessages([
+        FakeStream([], stop_reason="max_tokens"),
+        BrokenStream(httpx.ReadError("interrupted recovery")),
+        FakeStream([tool_use_block("fresh", "work")], stop_reason="tool_use"),
+        FakeStream([], stop_reason="max_tokens"),
+    ])
+    patch_client(monkeypatch, FakeClient(messages))
+    assert agent.run_headless("task", max_turns=10) == 0
+    assert len(messages.calls) == 4
+    assert messages.calls[1] == messages.calls[2]
+    assert executed == ["work"]
+    entries = _journal_entries()
+    assert entries[-1].payload["outcome"] == "response_truncated"
+    assert sum(e.type == "input.injected" and e.payload["reason"] == "truncation_recovery" for e in entries) == 1
+
+
+def test_recovery_cannot_bypass_last_turn_tool_guard(monkeypatch, tmp_path):
+    target = tmp_path / "must-not-exist.txt"
+    messages = FakeMessages([
+        FakeStream([], stop_reason="max_tokens"),
+        FakeStream([write_tool_use_block("last", path=str(target), content="late")], stop_reason="tool_use"),
+    ])
+    patch_client(monkeypatch, FakeClient(messages))
+    assert agent.run_headless("task", max_turns=2) == 0
+    assert len(messages.calls) == 2
+    assert not target.exists()
+    assert _journal_entries()[-1].payload["outcome"] == "max_turns_exhausted"
+
+
+@pytest.mark.parametrize("budget, expected_calls", [(4, 1), (6, 2)])
+def test_recovery_shares_the_original_deadline(monkeypatch, budget, expected_calls):
+    from test_time_budget import AdvancingFakeMessages, FakeTime
+
+    clock = FakeTime()
+    monkeypatch.setattr(agent, "time", clock)
+    messages = AdvancingFakeMessages([
+        FakeStream([], stop_reason="max_tokens"),
+        FakeStream([text_block("late")]),
+    ], clock, 4)
+    patch_client(monkeypatch, FakeClient(messages))
+    assert agent.run_headless("task", time_budget_seconds=budget) == 0
+    assert len(messages.calls) == expected_calls
+    assert messages.kwargs[0]["timeout"] == budget
+    if expected_calls == 2:
+        assert messages.kwargs[1]["timeout"] == 2
+        assert "Turn 2 of 50" in messages.calls[1][-1]["content"]
+    assert _journal_entries()[-1].payload["outcome"] == "time_budget_exhausted"
 
 
 def test_truncated_tools_are_not_executed_or_replayed_on_the_next_user_turn(
@@ -128,8 +245,9 @@ def test_truncated_tools_are_not_executed_or_replayed_on_the_next_user_turn(
     assert captured.err.count("response truncated") == 1
 
 
+@pytest.mark.parametrize("recover", [False, True])
 def test_sdk_stream_with_partial_tool_json_preserves_truncation(
-    monkeypatch, tmp_path, capsys
+    monkeypatch, tmp_path, capsys, recover
 ):
     """Use the real SDK accumulator with an input JSON delta cut mid-string."""
     httpx = sdk_http_module()
@@ -156,8 +274,25 @@ def test_sdk_stream_with_partial_tool_json_preserves_truncation(
 
     def respond(request):
         requests.append(request)
+        if recover and len(requests) == 2:
+            completed = [
+                {"type": "message_start", "message": {
+                    "id": "msg-recovered", "type": "message", "role": "assistant",
+                    "model": "test-model", "content": [], "stop_reason": None,
+                    "stop_sequence": None, "usage": {"input_tokens": 20, "output_tokens": 0},
+                }},
+                {"type": "content_block_start", "index": 0,
+                 "content_block": {"type": "text", "text": "Done"}},
+                {"type": "content_block_stop", "index": 0},
+                {"type": "message_delta", "delta": {"stop_reason": "end_turn", "stop_sequence": None},
+                 "usage": {"output_tokens": 1}},
+                {"type": "message_stop"},
+            ]
+            body = "".join(f"event: {e['type']}\ndata: {json.dumps(e)}\n\n" for e in completed)
+        else:
+            body = wire
         return httpx.Response(
-            200, headers={"content-type": "text/event-stream"}, content=wire
+            200, headers={"content-type": "text/event-stream"}, content=body
         )
 
     with anthropic.Anthropic(
@@ -169,11 +304,14 @@ def test_sdk_stream_with_partial_tool_json_preserves_truncation(
             "write a file", max_tokens=65536, trajectory_path=tmp_path / "trajectory.json"
         ) == 0
 
-    assert len(requests) == 1
+    assert len(requests) == 2
     assert json.loads(requests[0].content)["max_tokens"] == 65536
+    followup = json.loads(requests[1].content)["messages"]
+    assert isinstance(followup[-2]["content"], str)
+    assert "partial-tool" not in json.dumps(followup)
     assert "response truncated" in capsys.readouterr().err
     entries = _journal_entries()
-    assert entries[-1].payload["outcome"] == "response_truncated"
+    assert entries[-1].payload["outcome"] == ("completed" if recover else "response_truncated")
     completed = next(entry for entry in entries if entry.type == "model.completed")
     assert completed.payload["tool_calls"][0]["input"] == {}
     assert not any(entry.type.startswith("tool.") for entry in entries)

@@ -54,9 +54,9 @@ payload fields are:
 
 | Field | Type | Meaning |
 | --- | --- | --- |
-| `model_call_id` | nonempty string | The upcoming model attempt that will use this input, matching the immediately following `model.started`. |
+| `model_call_id` | nonempty string | The upcoming model attempt that will use this input, matching the next `model.started`. |
 | `content` | string | The complete text appended this time, not a copy of the whole conversation or tool results. |
-| `reason` | nonempty string | Reason for injection: `time_budget` when a time budget is configured, or `turn_budget` when only the reply count is limited. |
+| `reason` | nonempty string | Reason for injection: `time_budget` when a time budget is configured, `turn_budget` when only the reply count is limited, or `truncation_recovery` for the single automatic headless continuation. |
 | `source_timestamp` | RFC 3339 UTC or null | Time of injection. |
 
 With a time budget configured, every model attempt, including retries, appends
@@ -82,6 +82,25 @@ observations, and does not add to `llm_call_count`.
 `content` follows the Journal string persistence limit. When truncated, its
 metadata is projected into `extra.journal_truncation`. Correlation identifiers
 and `reason` are exempt from string truncation.
+
+## Bounded truncation recovery
+
+Headless runs can continue once after `stop_reason="max_tokens"`, provided a
+reply and time remain within their original budgets. The truncated reply still
+has its own `model.completed` record, usage, and cost. Its tools do not execute;
+follow-up request history keeps only visible text and a truncation notice.
+
+The continuation adds a user-role message and records `input.injected` with
+`reason="truncation_recovery"`, associated with the next model attempt. A budget
+reminder can follow before that attempt's `model.started`. A transport retry
+reuses the recovery message without injecting it again. Successful tool work or
+transport retries do not renew the once-per-run allowance. A later truncation
+ends with `response_truncated`; normal completion or budget exhaustion retains
+its existing outcome. Interactive runs still return to the user after truncation.
+
+This adds no event type, outcome, or required field: `reason` is an open string,
+so schema v4 and existing readers remain compatible. ATIF preserves the injected
+message and both model steps, including the first step's `max_tokens` reason.
 
 ## Compatibility and validation
 

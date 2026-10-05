@@ -134,7 +134,8 @@ def test_recovered_stream_v3_passes_harbor_atif_validator(tmp_path, resolved):
     [{"type": "tool_call", "tool_call_id": "call-1", "tool_name": "write", "input": {}}],
     [],
 ])
-def test_truncated_v2_journal_passes_harbor_atif_validator(tmp_path, content):
+@pytest.mark.parametrize("recover", [False, True])
+def test_truncated_journal_passes_harbor_atif_validator(tmp_path, content, recover):
     fixture = Path(__file__).parent / "fixtures" / "atif-journal-v1.jsonl"
     with EventJournal.create("run-truncated", directory=tmp_path) as journal:
         for entry in EventJournal.replay(fixture):
@@ -146,12 +147,31 @@ def test_truncated_v2_journal_passes_harbor_atif_validator(tmp_path, content):
                     "stop_reason": "max_tokens", "content": content,
                     "tool_calls": [block for block in content if block["type"] == "tool_call"],
                 }
+                truncated_payload = payload
             elif entry.type == "run.completed":
-                payload = payload | {"outcome": "response_truncated"}
+                if recover:
+                    journal.append(NativeEvent("input.injected", {
+                        "model_call_id": "recovered", "content": "Continue within the remaining budget.",
+                        "reason": "truncation_recovery", "source_timestamp": payload["source_timestamp"],
+                    }))
+                    journal.append(NativeEvent("model.started", {
+                        "model_call_id": "recovered", "model": truncated_payload["model"],
+                        "source_timestamp": payload["source_timestamp"],
+                    }))
+                    journal.append(NativeEvent("model.completed", truncated_payload | {
+                        "model_call_id": "recovered", "message_id": "msg-recovered",
+                        "content": [{"type": "text", "text": "done"}], "tool_calls": [],
+                        "stop_reason": "end_turn",
+                    }))
+                payload = payload | {"outcome": "completed" if recover else "response_truncated"}
             journal.append(NativeEvent(entry.type, payload))
 
     trajectory = project_atif(EventJournal.replay(journal.path))
     validator = TrajectoryValidator()
     assert validator.validate(trajectory), validator.get_errors()
-    assert trajectory["extra"]["terminal"]["outcome"] == "response_truncated"
+    assert trajectory["extra"]["terminal"]["outcome"] == ("completed" if recover else "response_truncated")
     assert "observation" not in trajectory["steps"][1]
+    assert trajectory["steps"][1]["extra"]["stop_reason"] == "max_tokens"
+    if recover:
+        assert trajectory["steps"][2]["extra"]["reason"] == "truncation_recovery"
+        assert trajectory["steps"][3]["extra"]["stop_reason"] == "end_turn"
