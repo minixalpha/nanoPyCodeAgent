@@ -1,6 +1,6 @@
 # OpenCode: beast
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/beast.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/beast.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/beast.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/beast.txt)
 - Source file SHA256: `a384d7b485829c1fe43bd6deaae10466db2c16b8cba045764538974f737958ba`
-- Archived text SHA256: `a384d7b485829c1fe43bd6deaae10466db2c16b8cba045764538974f737958ba`
+- Chinese translation SHA256: `adaf166342c2a0ecc9bd2b16efffd234fc7d3c665b8974e4da929b6c5483a326`
+- English original SHA256: `a384d7b485829c1fe43bd6deaae10466db2c16b8cba045764538974f737958ba`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

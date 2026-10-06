@@ -1,6 +1,6 @@
 # Pi: structured coding-agent prompt
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/pi/coding-system.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/pi/coding-system.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/coding-agent/src/core/system-prompt.ts](../../../../../references/pi/packages/coding-agent/src/core/system-prompt.ts)
 - Source file SHA256: `e9cf234637f792c44e71764b8daff13bc15b0e77aa5574ec9728365ac9f61807`
-- Archived text SHA256: `e9cf234637f792c44e71764b8daff13bc15b0e77aa5574ec9728365ac9f61807`
+- Chinese translation SHA256: `d456a0bb82161b39f959772a7b6021b5ca0c8d9e3c3ea6dc3c0bfc3e9bb653af`
+- English original SHA256: `e9cf234637f792c44e71764b8daff13bc15b0e77aa5574ec9728365ac9f61807`
 - [Upstream license](../../../agent_system_prompts/licenses/pi.txt)
 
 Complete builder source with runtime variables, not a purported final prompt from a particular request.
@@ -28,6 +29,8 @@ buildSystemPromptSections/buildSystemPromptState assemble preamble, tools, rules
 Keep the core short and align guidance with actual capabilities. Add missing acceptance and verification guidance in small experiments; prompt length elsewhere is not evidence of effectiveness.
 
 ## Original text
+
+The Chinese version translates natural-language comments and prompt strings in this builder while preserving code structure. It is a reading translation of source code, not a captured runtime request.
 
 ````text
 /**

@@ -1,6 +1,6 @@
 # Codex: gpt-6-sol
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-6-sol.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-6-sol.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -11,7 +11,8 @@
 - Model entries: `gpt-6-sol`
 - Source file: [codex-rs/models-manager/models.json](../../../../../references/codex/codex-rs/models-manager/models.json)
 - Source file SHA256: `fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b`
-- Archived text SHA256: `b1dd8718c037906c53a305c5cbccb4a4be35ccbb7837461ec349bfc495412f0d`
+- Chinese translation SHA256: `d68cc7ff104c31061eb2df0aef430963ccc2b409b22ddd1f2c4c640b6e3f2498`
+- English original SHA256: `b1dd8718c037906c53a305c5cbccb4a4be35ccbb7837461ec349bfc495412f0d`
 - [Upstream license](../../../agent_system_prompts/licenses/codex.txt)
 
 Model-specific instruction template; not a concatenation of every runtime message.

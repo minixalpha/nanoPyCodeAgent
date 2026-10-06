@@ -1,6 +1,6 @@
 # OpenCode: codex
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/codex.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/codex.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/codex.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/codex.txt)
 - Source file SHA256: `c30bca40693a47965e25ceac3f02d3709712af7abeab1278bba53a9efcffa928`
-- Archived text SHA256: `c30bca40693a47965e25ceac3f02d3709712af7abeab1278bba53a9efcffa928`
+- Chinese translation SHA256: `5626e037f0f55b790035f2c580cfb0dcb852140c41b131569548f4e5cdbd6998`
+- English original SHA256: `c30bca40693a47965e25ceac3f02d3709712af7abeab1278bba53a9efcffa928`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

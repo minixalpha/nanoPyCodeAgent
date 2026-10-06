@@ -1,6 +1,6 @@
 # Grok Build: subagent
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/subagent.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/subagent.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [crates/codegen/xai-grok-agent/templates/subagent_prompt.md](../../../../../references/grok-build/crates/codegen/xai-grok-agent/templates/subagent_prompt.md)
 - Source file SHA256: `fa761565f8a33a6d5686159ad6859e6d2632e974bf1579ed7d2430ce9e07d9cb`
-- Archived text SHA256: `fa761565f8a33a6d5686159ad6859e6d2632e974bf1579ed7d2430ce9e07d9cb`
+- Chinese translation SHA256: `de44c808af69d4635fa6e049e946640209aaff36732e73b0a20f0e754c3c956d`
+- English original SHA256: `fa761565f8a33a6d5686159ad6859e6d2632e974bf1579ed7d2430ce9e07d9cb`
 - [Upstream license](../../../agent_system_prompts/licenses/grok-build.txt)
 
 Delegated-worker template.

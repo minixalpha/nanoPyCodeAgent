@@ -1,6 +1,6 @@
 # OpenCode: compaction
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/compaction.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/compaction.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/agent/prompt/compaction.txt](../../../../../references/opencode/packages/opencode/src/agent/prompt/compaction.txt)
 - Source file SHA256: `552db0de0af1873a8acd4a631e2548345d4c43192de1d9be69c8feab4b41f80c`
-- Archived text SHA256: `552db0de0af1873a8acd4a631e2548345d4c43192de1d9be69c8feab4b41f80c`
+- Chinese translation SHA256: `61f2a636cfb7225869b5e4dd6bd21aece8fdeab7eb8060564fac69df60e2f0f3`
+- English original SHA256: `552db0de0af1873a8acd4a631e2548345d4c43192de1d9be69c8feab4b41f80c`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Specialized compaction-agent system prompt.

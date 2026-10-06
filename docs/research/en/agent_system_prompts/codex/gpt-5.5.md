@@ -1,6 +1,6 @@
 # Codex: gpt-5.5
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-5.5.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-5.5.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -11,7 +11,8 @@
 - Model entries: `gpt-5.5`
 - Source file: [codex-rs/models-manager/models.json](../../../../../references/codex/codex-rs/models-manager/models.json)
 - Source file SHA256: `fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b`
-- Archived text SHA256: `2351631dfc5644dc5a45eaaca4139475bd02810ee6cb792d058b551559b3242e`
+- Chinese translation SHA256: `aeca4bd09ce5f6f0b53684bd84ebf87e21abe2031bae61b2133f72f90c220e0c`
+- English original SHA256: `2351631dfc5644dc5a45eaaca4139475bd02810ee6cb792d058b551559b3242e`
 - [Upstream license](../../../agent_system_prompts/licenses/codex.txt)
 
 Model-specific instruction template; not a concatenation of every runtime message.

@@ -1,6 +1,6 @@
 # Codex: gpt-6-astra
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-6-astra.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-6-astra.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -11,7 +11,8 @@
 - Model entries: `gpt-6-astra`
 - Source file: [codex-rs/models-manager/models.json](../../../../../references/codex/codex-rs/models-manager/models.json)
 - Source file SHA256: `fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b`
-- Archived text SHA256: `35bd51b5f577cb7b24cd5f4629e49e37cb724ab57754ce6f8f202001635bab8a`
+- Chinese translation SHA256: `aa4df5d5a08f0b32dbbe5e6667a1edf96a90bf3ff4cf173b2ee01f3fdb04e0e6`
+- English original SHA256: `35bd51b5f577cb7b24cd5f4629e49e37cb724ab57754ce6f8f202001635bab8a`
 - [Upstream license](../../../agent_system_prompts/licenses/codex.txt)
 
 Model-specific instruction template; not a concatenation of every runtime message.

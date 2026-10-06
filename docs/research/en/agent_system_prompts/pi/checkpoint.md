@@ -1,6 +1,6 @@
 # Pi: checkpoint
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/pi/checkpoint.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/pi/checkpoint.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `TypeScript template literal SUMMARIZATION_PROMPT`
 - Source file: [packages/coding-agent/src/core/compaction/compaction.ts](../../../../../references/pi/packages/coding-agent/src/core/compaction/compaction.ts)
 - Source file SHA256: `d5aebd41333957b57fa3f1bee2a18b3c00b5d47bb1b4af6f913cf8cd791099c8`
-- Archived text SHA256: `9b00aa68df1a64279bc36e9093367f638701d48ec82e3d08436f65092a515f9b`
+- Chinese translation SHA256: `d1d4c938525e60d05b8e3cf2e3abbeccd132508a802a26c5fad6f27d3175dfb4`
+- English original SHA256: `9b00aa68df1a64279bc36e9093367f638701d48ec82e3d08436f65092a515f9b`
 - [Upstream license](../../../agent_system_prompts/licenses/pi.txt)
 
 Compaction task prompt, not the primary system prompt.
@@ -26,6 +27,8 @@ Works with summarization-system to create a context checkpoint.
 Reuse distinct completion states without imposing a long fixed plan or new tools on small tasks.
 
 ## Original text
+
+Fixed headings in the summary template remain in English in the Chinese version so they can be compared with the output-format contract.
 
 ````text
 The messages above are a conversation to summarize. Create a structured context checkpoint summary that another LLM will use to continue the work.

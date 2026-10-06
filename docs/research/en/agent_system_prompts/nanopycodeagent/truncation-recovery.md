@@ -1,6 +1,6 @@
 # Injected truncation-recovery prompt
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/nanopycodeagent/truncation-recovery.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/nanopycodeagent/truncation-recovery.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `Python string expression _TRUNCATION_RECOVERY_NOTE`
 - Source file: [src/nanopycodeagent/agent.py](../../../../../src/nanopycodeagent/agent.py)
 - Source file SHA256: `8e28a5c3fcd140441484c46d1e62ec811d325aaff484141a4b9837baead6fc52`
-- Archived text SHA256: `294ebbb8fa4b684d743867433c89e4f2242de950bc06201be798fe873d38acbd`
+- Chinese translation SHA256: `f066b5db9f2b41e4ee4da8841b8b9e904c9aee43b7de3554f6fb4996aaf9e937`
+- English original SHA256: `294ebbb8fa4b684d743867433c89e4f2242de950bc06201be798fe873d38acbd`
 
 Complete string value at the current baseline; concatenations are resolved.
 

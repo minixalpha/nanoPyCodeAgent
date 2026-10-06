@@ -1,6 +1,6 @@
 # Codex：上下文压缩交接
 
-> 中文源文件；[英文版](../../../en/agent_system_prompts/codex/compaction.md) 由本文件生成。原文块保留来源语言，以下中文内容是解读，不是原文的逐字译本。
+> 中文解读为源文件；[英文版](../../../en/agent_system_prompts/codex/compaction.md) 同步解读并保留上游英文原文。下方为全文中文译文；工具名、路径、代码标识符、模板占位符和机器读取的固定格式标记保留原样。
 
 ## 来源与适用范围
 
@@ -8,10 +8,11 @@
 - 固定版本：`823ea830c0fd418b09ff02d36cad9a1fff66465b`
 - [原始来源](https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/prompts/templates/compact/prompt.md)
 - 定位：`whole file`
-- Source file: [codex-rs/prompts/templates/compact/prompt.md](../../../../../references/codex/codex-rs/prompts/templates/compact/prompt.md)
-- Source file SHA256: `ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07`
-- Archived text SHA256: `ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07`
-- [Upstream license](../../../agent_system_prompts/licenses/codex.txt)
+- 来源文件: [codex-rs/prompts/templates/compact/prompt.md](../../../../../references/codex/codex-rs/prompts/templates/compact/prompt.md)
+- 来源文件 SHA256: `ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07`
+- 中文译文 SHA256: `5fabc831dbc7279ec7044b75da55cd30e9100ddf1cec87c70d898de6ed9d70ec`
+- 英文原文 SHA256: `ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07`
+- [上游许可证](../../../agent_system_prompts/licenses/codex.txt)
 
 专用压缩提示词。
 
@@ -25,16 +26,17 @@
 
 可借鉴为长任务状态清单；当前没有压缩机制，复制这段文本不会自动获得上下文压缩能力。
 
-## 原文
+## 中文译文
 
 ````text
-You are performing a CONTEXT CHECKPOINT COMPACTION. Create a handoff summary for another LLM that will resume the task.
+你正在执行一次上下文检查点压缩。为将接手任务的另一个 LLM 创建交接摘要。
 
-Include:
-- Current progress and key decisions made
-- Important context, constraints, or user preferences
-- What remains to be done (clear next steps)
-- Any critical data, examples, or references needed to continue
+包含：
+- 当前进展及已作出的关键决定
+- 重要上下文、约束或用户偏好
+- 尚需完成的工作与明确下一步
+- 继续所需的关键数据、示例或参考
 
-Be concise, structured, and focused on helping the next LLM seamlessly continue the work.
+保持简洁、有结构，聚焦帮助下一个 LLM 无缝继续工作。
+
 ````

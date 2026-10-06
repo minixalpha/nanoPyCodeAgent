@@ -1,6 +1,6 @@
 # OpenCode: gpt-astra
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/gpt-astra.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/gpt-astra.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/gpt-astra.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/gpt-astra.txt)
 - Source file SHA256: `46d386ea8dd8db5734d06f6ec1d04c566f1224b1afa5bc5b0ccefd6f853281f9`
-- Archived text SHA256: `46d386ea8dd8db5734d06f6ec1d04c566f1224b1afa5bc5b0ccefd6f853281f9`
+- Chinese translation SHA256: `b1d1acaff95b06917460b09ecd96a5a131cdecb97109264cc2be74f72dd71885`
+- English original SHA256: `46d386ea8dd8db5734d06f6ec1d04c566f1224b1afa5bc5b0ccefd6f853281f9`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

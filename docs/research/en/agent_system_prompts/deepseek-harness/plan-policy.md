@@ -1,6 +1,6 @@
 # DeepSeek Harness: plan-mode policy
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/deepseek-harness/plan-policy.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/deepseek-harness/plan-policy.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `YAML plan-mode.config.section literal scalar, indentation removed`
 - Source file: [packages/bundle/base/cordis.patch.yml](../../../../../references/deepseek-harness/packages/bundle/base/cordis.patch.yml)
 - Source file SHA256: `9c2be64f46a193eff3cca190c26e697e8e8eee25c9b40149dfdb56f8142c252d`
-- Archived text SHA256: `4602e3b8ae9990331a68d1f9d298f3a60af0757ab8802d57fc85350f1655e134`
+- Chinese translation SHA256: `4b9b847535c91d54b55705d97605e2fa3ae3a43b38b26c452b2a36c801ef6ae8`
+- English original SHA256: `4602e3b8ae9990331a68d1f9d298f3a60af0757ab8802d57fc85350f1655e134`
 - [Upstream license](../../../agent_system_prompts/licenses/deepseek-harness.txt)
 
 Deployment-supplied plan:policy text.

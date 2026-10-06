@@ -1,6 +1,6 @@
 # OpenCode: gemini
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/gemini.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/gemini.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/gemini.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/gemini.txt)
 - Source file SHA256: `921750803b0314b88b8adc996e2afcf1a61fd7d9dd6dfcf812baeadac1468cf3`
-- Archived text SHA256: `921750803b0314b88b8adc996e2afcf1a61fd7d9dd6dfcf812baeadac1468cf3`
+- Chinese translation SHA256: `2173702af6824cfccfe6463595660dc0437592992e9ec4fa38c78350b1964911`
+- English original SHA256: `921750803b0314b88b8adc996e2afcf1a61fd7d9dd6dfcf812baeadac1468cf3`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

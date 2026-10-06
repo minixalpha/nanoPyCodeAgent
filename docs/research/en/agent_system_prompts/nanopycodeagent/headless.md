@@ -1,6 +1,6 @@
 # Headless system prompt
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/nanopycodeagent/headless.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/nanopycodeagent/headless.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `Python string expression HEADLESS_SYSTEM_PROMPT`
 - Source file: [src/nanopycodeagent/agent.py](../../../../../src/nanopycodeagent/agent.py)
 - Source file SHA256: `8e28a5c3fcd140441484c46d1e62ec811d325aaff484141a4b9837baead6fc52`
-- Archived text SHA256: `54da8191adac5a1b717129a6292f2946544ff4113477427018a3445f4a5af1d4`
+- Chinese translation SHA256: `4970596d320518e55eba76856d80b5ff1aec2e8ef88cecafa9b4f185fbd1b3d7`
+- English original SHA256: `54da8191adac5a1b717129a6292f2946544ff4113477427018a3445f4a5af1d4`
 
 Complete string value at the current baseline; concatenations are resolved.
 

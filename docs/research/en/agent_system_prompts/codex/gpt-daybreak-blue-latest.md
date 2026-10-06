@@ -1,6 +1,6 @@
 # Codex: gpt-daybreak-blue-latest
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-daybreak-blue-latest.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/gpt-daybreak-blue-latest.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -11,7 +11,8 @@
 - Model entries: `gpt-daybreak-blue-latest`
 - Source file: [codex-rs/models-manager/models.json](../../../../../references/codex/codex-rs/models-manager/models.json)
 - Source file SHA256: `fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b`
-- Archived text SHA256: `ebd0d5854abd07dc38300a71e027204eb028e9fa443c59d18e36fcc24289e818`
+- Chinese translation SHA256: `5af79f3a66b25accd822c86d1fd7ca1713186bf646afed914399b330a33c0af2`
+- English original SHA256: `ebd0d5854abd07dc38300a71e027204eb028e9fa443c59d18e36fcc24289e818`
 - [Upstream license](../../../agent_system_prompts/licenses/codex.txt)
 
 Model-specific instruction template; not a concatenation of every runtime message.

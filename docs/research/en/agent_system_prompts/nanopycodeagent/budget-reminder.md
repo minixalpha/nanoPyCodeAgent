@@ -1,6 +1,6 @@
 # Runtime-budget reminder generator
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/nanopycodeagent/budget-reminder.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/nanopycodeagent/budget-reminder.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `Python function _time_budget_note`
 - Source file: [src/nanopycodeagent/agent.py](../../../../../src/nanopycodeagent/agent.py)
 - Source file SHA256: `8e28a5c3fcd140441484c46d1e62ec811d325aaff484141a4b9837baead6fc52`
-- Archived text SHA256: `54181c1e60d1fd225a04117c9a02600290d1e48cd52632464f1a80f42f86ccb8`
+- Chinese translation SHA256: `bef26d2bdcc5c7338c3f0f81300296ab40c894eae0694b8329c8c133cd3aa0e1`
+- English original SHA256: `54181c1e60d1fd225a04117c9a02600290d1e48cd52632464f1a80f42f86ccb8`
 
 Dynamic-prompt builder source.
 
@@ -25,6 +26,8 @@ Appends budget guidance before requests; low time or reply counts trigger finali
 Verification guidance must fit remaining budgets; existing reminders already require checks and timely completion, so the study must not claim verification was previously absent.
 
 ## Original text
+
+The Chinese version translates natural-language comments and prompt strings in this builder while preserving code structure. It is a reading translation of source code, not a captured runtime request.
 
 ````text
 def _time_budget_note(

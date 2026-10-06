@@ -1,6 +1,6 @@
 # Grok Build: main
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/main.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/main.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [crates/codegen/xai-grok-agent/templates/prompt.md](../../../../../references/grok-build/crates/codegen/xai-grok-agent/templates/prompt.md)
 - Source file SHA256: `f31b8827bf571d606221c734af7aee1c259c633956c9b81cf9c8dd02c2fdd14b`
-- Archived text SHA256: `f31b8827bf571d606221c734af7aee1c259c633956c9b81cf9c8dd02c2fdd14b`
+- Chinese translation SHA256: `f2b1aba66c944623e9e6a0d2296f2285808bf58038f59f829d89817d85548661`
+- English original SHA256: `f31b8827bf571d606221c734af7aee1c259c633956c9b81cf9c8dd02c2fdd14b`
 - [Upstream license](../../../agent_system_prompts/licenses/grok-build.txt)
 
 Primary-agent template with conditional branches.

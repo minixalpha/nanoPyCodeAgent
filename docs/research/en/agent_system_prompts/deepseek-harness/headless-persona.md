@@ -1,6 +1,6 @@
 # DeepSeek Harness: headless persona fragment
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/deepseek-harness/headless-persona.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/deepseek-harness/headless-persona.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `YAML config.personaPrefix folded scalar`
 - Source file: [packages/bundle/headless/cordis.patch.yml](../../../../../references/deepseek-harness/packages/bundle/headless/cordis.patch.yml)
 - Source file SHA256: `d0c99638f497c315e248ab63564fa27b4792c60506d6ab8f22c87018b64ab95d`
-- Archived text SHA256: `e0eb4484e48650627aa9a07bae720c151efc5c331e6e237ad9861e255ba00743`
+- Chinese translation SHA256: `55dbc7729b5bbd5c86479d0eb053b3342b04d133db1bf880d551b0738494649a`
+- English original SHA256: `e0eb4484e48650627aa9a07bae720c151efc5c331e6e237ad9861e255ba00743`
 - [Upstream license](../../../agent_system_prompts/licenses/deepseek-harness.txt)
 
 Deployment persona fragment retaining the model placeholder.

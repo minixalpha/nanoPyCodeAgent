@@ -1,6 +1,6 @@
 # OpenCode: gpt
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/gpt.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/gpt.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/gpt.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/gpt.txt)
 - Source file SHA256: `83a66a46a5febbc21454161d5f053638b22d25d95e09d77b8f6da33debc848ad`
-- Archived text SHA256: `83a66a46a5febbc21454161d5f053638b22d25d95e09d77b8f6da33debc848ad`
+- Chinese translation SHA256: `08f717cb5727711e1c71692446fe2dccb46e81669eedce42b387c0277bc290a7`
+- English original SHA256: `83a66a46a5febbc21454161d5f053638b22d25d95e09d77b8f6da33debc848ad`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

@@ -1,6 +1,6 @@
 # Codex: context-compaction handoff
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/compaction.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/compaction.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [codex-rs/prompts/templates/compact/prompt.md](../../../../../references/codex/codex-rs/prompts/templates/compact/prompt.md)
 - Source file SHA256: `ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07`
-- Archived text SHA256: `ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07`
+- Chinese translation SHA256: `5fabc831dbc7279ec7044b75da55cd30e9100ddf1cec87c70d898de6ed9d70ec`
+- English original SHA256: `ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07`
 - [Upstream license](../../../agent_system_prompts/licenses/codex.txt)
 
 Specialized compaction prompt.

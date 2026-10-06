@@ -1,6 +1,6 @@
 # OpenCode: anthropic
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/anthropic.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/anthropic.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/anthropic.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/anthropic.txt)
 - Source file SHA256: `8324e4cf58eb45d4d9d6fd120f5e8da59e0548de48e7e6aefcdfbf2923f40b4e`
-- Archived text SHA256: `8324e4cf58eb45d4d9d6fd120f5e8da59e0548de48e7e6aefcdfbf2923f40b4e`
+- Chinese translation SHA256: `a4bf39f819fa903f60029cd49a16ba8b5e638ffc108b5f1642f5ddc3169759f1`
+- English original SHA256: `8324e4cf58eb45d4d9d6fd120f5e8da59e0548de48e7e6aefcdfbf2923f40b4e`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

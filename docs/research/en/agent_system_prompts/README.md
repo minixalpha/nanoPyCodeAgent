@@ -2,7 +2,7 @@
 
 [Comparative study](../agent_system_prompt.md)
 
-This index covers selected primary prompts, model variants, planning, verification, and handoff prompts. Each file corresponds to one original, template, dynamic fragment, or explicitly labeled assembly sample. Source text retains its original language and analysis is bilingual. Builders are not presented as real requests, and test fixtures are not presented as production defaults.
+This index covers selected primary prompts, model variants, planning, verification, and handoff prompts. The 39 local-source records preserve English originals under `en/` and full Chinese translations under `zh-CN/`, with bilingual analysis. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged. Three additional official Claude webpage records contain source links, short English excerpts with Chinese translations, and analysis; their full texts are not archived. Each record identifies its text as a prompt body, template, dynamic fragment, or assembly sample. Builders are not presented as real requests, and test fixtures are not presented as production defaults.
 
 ## codex
 
@@ -63,6 +63,6 @@ This index covers selected primary prompts, model variants, planning, verificati
 
 ## claude
 
-- [Claude: Opus 5.5](claude/opus-5-5.md) — Prompt for claude.ai and mobile apps, not a complete Claude Code or API system prompt.
-- [Claude: Sonnet 5.5](claude/sonnet-5-5.md) — Prompt for claude.ai and mobile apps, not a complete Claude Code or API system prompt.
-- [Claude: Fable 5.1](claude/fable-5-1.md) — Prompt for claude.ai and mobile apps, not a complete Claude Code or API system prompt.
+- [Claude: Opus 5.5](claude/opus-5-5.md) — Excerpt and translation only; prompt for claude.ai and mobile apps, not a complete Claude Code or API system prompt.
+- [Claude: Sonnet 5.5](claude/sonnet-5-5.md) — Excerpt and translation only; prompt for claude.ai and mobile apps, not a complete Claude Code or API system prompt.
+- [Claude: Fable 5.1](claude/fable-5-1.md) — Excerpt and translation only; prompt for claude.ai and mobile apps, not a complete Claude Code or API system prompt.

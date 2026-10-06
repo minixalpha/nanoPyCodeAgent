@@ -1,6 +1,6 @@
 # OpenCode: trinity
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/trinity.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/trinity.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/trinity.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/trinity.txt)
 - Source file SHA256: `0019dc1d018d08c1b5a065d10896e22d2615d33580088f44aefc3a042a46ebe2`
-- Archived text SHA256: `0019dc1d018d08c1b5a065d10896e22d2615d33580088f44aefc3a042a46ebe2`
+- Chinese translation SHA256: `51bf9ef4e9e87d75d2ef0c24b6a0ef38571cb2fc78bd4979e89b495424f87d04`
+- English original SHA256: `0019dc1d018d08c1b5a065d10896e22d2615d33580088f44aefc3a042a46ebe2`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

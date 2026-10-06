@@ -1,6 +1,6 @@
 # Grok Build: goal-planner
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/goal-planner.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/goal-planner.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [crates/codegen/xai-grok-shell/src/session/templates/goal_planner_prompt.md](../../../../../references/grok-build/crates/codegen/xai-grok-shell/src/session/templates/goal_planner_prompt.md)
 - Source file SHA256: `0c775f693998ea6ccaed351b55fbea5c0ba3ea6badea4dbc06ddba7ca58661d3`
-- Archived text SHA256: `0c775f693998ea6ccaed351b55fbea5c0ba3ea6badea4dbc06ddba7ca58661d3`
+- Chinese translation SHA256: `9c3901439eb23cfec475b7fb6ec9253c81dc99341964ef1922118b515e9a9683`
+- English original SHA256: `0c775f693998ea6ccaed351b55fbea5c0ba3ea6badea4dbc06ddba7ca58661d3`
 - [Upstream license](../../../agent_system_prompts/licenses/grok-build.txt)
 
 Specialized planner template run at goal creation.

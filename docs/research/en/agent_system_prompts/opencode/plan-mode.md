@@ -1,6 +1,6 @@
 # OpenCode: plan-mode
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/plan-mode.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/plan-mode.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/plan-mode.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/plan-mode.txt)
 - Source file SHA256: `473381e8f20d054fa24ed3631a3b741a4fd432dadb8a0f0925f73d94a6e2866c`
-- Archived text SHA256: `473381e8f20d054fa24ed3631a3b741a4fd432dadb8a0f0925f73d94a6e2866c`
+- Chinese translation SHA256: `108704e24fa2bfb467aee8e50c21fcbd35b59e74f5c5128856a671821de9ef39`
+- English original SHA256: `473381e8f20d054fa24ed3631a3b741a4fd432dadb8a0f0925f73d94a6e2866c`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Dynamic plan-mode reminder.

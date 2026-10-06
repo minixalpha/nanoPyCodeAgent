@@ -1,6 +1,6 @@
 # OpenCode: meta
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/meta.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/meta.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/meta.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/meta.txt)
 - Source file SHA256: `9068607ce8bbb3f9b09531d8114fc16e1724de96cd1e364565c9f6f6b2b61df3`
-- Archived text SHA256: `9068607ce8bbb3f9b09531d8114fc16e1724de96cd1e364565c9f6f6b2b61df3`
+- Chinese translation SHA256: `a50df908c58344b52c3edc40a0c3b01741bbc0152ae1959c5b76531564a8e8c5`
+- English original SHA256: `9068607ce8bbb3f9b09531d8114fc16e1724de96cd1e364565c9f6f6b2b61df3`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

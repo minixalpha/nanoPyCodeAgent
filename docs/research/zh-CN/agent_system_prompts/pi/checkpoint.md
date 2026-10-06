@@ -1,6 +1,6 @@
 # Pi：checkpoint
 
-> 中文源文件；[英文版](../../../en/agent_system_prompts/pi/checkpoint.md) 由本文件生成。原文块保留来源语言，以下中文内容是解读，不是原文的逐字译本。
+> 中文解读为源文件；[英文版](../../../en/agent_system_prompts/pi/checkpoint.md) 同步解读并保留上游英文原文。下方为全文中文译文；工具名、路径、代码标识符、模板占位符和机器读取的固定格式标记保留原样。
 
 ## 来源与适用范围
 
@@ -8,10 +8,11 @@
 - 固定版本：`b7dfc049e917a265a5aefa9f3952a2dec9b81cfd`
 - [原始来源](https://github.com/earendil-works/pi/blob/b7dfc049e917a265a5aefa9f3952a2dec9b81cfd/packages/coding-agent/src/core/compaction/compaction.ts)
 - 定位：`TypeScript template literal SUMMARIZATION_PROMPT`
-- Source file: [packages/coding-agent/src/core/compaction/compaction.ts](../../../../../references/pi/packages/coding-agent/src/core/compaction/compaction.ts)
-- Source file SHA256: `d5aebd41333957b57fa3f1bee2a18b3c00b5d47bb1b4af6f913cf8cd791099c8`
-- Archived text SHA256: `9b00aa68df1a64279bc36e9093367f638701d48ec82e3d08436f65092a515f9b`
-- [Upstream license](../../../agent_system_prompts/licenses/pi.txt)
+- 来源文件: [packages/coding-agent/src/core/compaction/compaction.ts](../../../../../references/pi/packages/coding-agent/src/core/compaction/compaction.ts)
+- 来源文件 SHA256: `d5aebd41333957b57fa3f1bee2a18b3c00b5d47bb1b4af6f913cf8cd791099c8`
+- 中文译文 SHA256: `d1d4c938525e60d05b8e3cf2e3abbeccd132508a802a26c5fad6f27d3175dfb4`
+- 英文原文 SHA256: `9b00aa68df1a64279bc36e9093367f638701d48ec82e3d08436f65092a515f9b`
+- [上游许可证](../../../agent_system_prompts/licenses/pi.txt)
 
 压缩请求的任务提示词，不是主系统提示词。
 
@@ -25,39 +26,41 @@
 
 可借鉴明确区分完成状态；无需为了小任务引入固定长计划或新工具。
 
-## 原文
+## 中文译文
+
+摘要模板中的固定标题保留英文，以便与其输出格式协议对照。
 
 ````text
-The messages above are a conversation to summarize. Create a structured context checkpoint summary that another LLM will use to continue the work.
+以上消息是一段待总结的对话。创建结构化上下文检查点摘要，供另一个 LLM 继续工作。
 
-Use this EXACT format:
+严格使用以下格式：
 
 ## Goal
-[What is the user trying to accomplish? Can be multiple items if the session covers different tasks.]
+[用户想完成什么？会话涉及不同任务时，可列出多项。]
 
 ## Constraints & Preferences
-- [Any constraints, preferences, or requirements mentioned by user]
-- [Or "(none)" if none were mentioned]
+- [用户提到的约束、偏好或要求]
+- [未提及时写“(none)”]
 
 ## Progress
 ### Done
-- [x] [Completed tasks/changes]
+- [x] [已完成任务或改动]
 
 ### In Progress
-- [ ] [Current work]
+- [ ] [当前工作]
 
 ### Blocked
-- [Issues preventing progress, if any]
+- [阻碍进度的问题，如有]
 
 ## Key Decisions
-- **[Decision]**: [Brief rationale]
+- **[决定]**：[简短理由]
 
 ## Next Steps
-1. [Ordered list of what should happen next]
+1. [按顺序列出接下来应做的事项]
 
 ## Critical Context
-- [Any data, examples, or references needed to continue]
-- [Or "(none)" if not applicable]
+- [继续工作所需的数据、示例或参考]
+- [不适用时写“(none)”]
 
-Keep each section concise. Preserve exact file paths, function names, and error messages.
+各节保持简洁，精确保留文件路径、函数名和错误消息。
 ````

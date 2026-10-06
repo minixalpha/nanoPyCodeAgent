@@ -1,6 +1,6 @@
 # Grok Build: goal-verifier
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/goal-verifier.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/grok-build/goal-verifier.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [crates/codegen/xai-grok-shell/src/session/templates/goal_verifier_prompt.md](../../../../../references/grok-build/crates/codegen/xai-grok-shell/src/session/templates/goal_verifier_prompt.md)
 - Source file SHA256: `048cc328137d7cb7e695701fc770435a7c6660f3fdff8f7daa7180d73d6c946a`
-- Archived text SHA256: `048cc328137d7cb7e695701fc770435a7c6660f3fdff8f7daa7180d73d6c946a`
+- Chinese translation SHA256: `86837abf9a9e6716805b6192b7b6827161d299ab8a557e3ddd0e1ab587b73c97`
+- English original SHA256: `048cc328137d7cb7e695701fc770435a7c6660f3fdff8f7daa7180d73d6c946a`
 - [Upstream license](../../../agent_system_prompts/licenses/grok-build.txt)
 
 Independent verification-agent template.

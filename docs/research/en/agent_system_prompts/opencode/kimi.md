@@ -1,6 +1,6 @@
 # OpenCode: kimi
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/kimi.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/opencode/kimi.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [packages/opencode/src/session/prompt/kimi.txt](../../../../../references/opencode/packages/opencode/src/session/prompt/kimi.txt)
 - Source file SHA256: `ade9199b00df5aa3b51bb02b8e8c711f3e0de224345aef7df9f31d3ea08a5bc7`
-- Archived text SHA256: `ade9199b00df5aa3b51bb02b8e8c711f3e0de224345aef7df9f31d3ea08a5bc7`
+- Chinese translation SHA256: `b3fa34e990c039ce717103b06d7048cbf965c04e185b911d0b594cf8b5d3c8eb`
+- English original SHA256: `ade9199b00df5aa3b51bb02b8e8c711f3e0de224345aef7df9f31d3ea08a5bc7`
 - [Upstream license](../../../agent_system_prompts/licenses/opencode.txt)
 
 Complete static provider prompt; environment, skills, and project instructions are added separately.

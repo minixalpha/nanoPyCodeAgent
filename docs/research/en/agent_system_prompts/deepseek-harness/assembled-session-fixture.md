@@ -1,6 +1,6 @@
 # DeepSeek Harness: assembled session fixture
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/deepseek-harness/assembled-session-fixture.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/deepseek-harness/assembled-session-fixture.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [snapshots/session/text-turn/system-prompt.expected.md](../../../../../references/deepseek-harness/snapshots/session/text-turn/system-prompt.expected.md)
 - Source file SHA256: `940a58e80b52302c9fa89c4ca81368ea92ec63ebe22c3e75e2d507abed28c665`
-- Archived text SHA256: `940a58e80b52302c9fa89c4ca81368ea92ec63ebe22c3e75e2d507abed28c665`
+- Chinese translation SHA256: `4595d26ab07dcf85ee12fe051fb12bf4d0a7fc7c1a796d5619549b44819ecd13`
+- English original SHA256: `940a58e80b52302c9fa89c4ca81368ea92ec63ebe22c3e75e2d507abed28c665`
 - [Upstream license](../../../agent_system_prompts/licenses/deepseek-harness.txt)
 
 Committed assembly test snapshot, not a production-default runtime capture.

@@ -1,6 +1,6 @@
 # Codex: generic fallback prompt
 
-> Generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/fallback.md). Source blocks retain their original language; the analysis is not a line-by-line translation of the prompt.
+> Analysis generated from the [Chinese source](../../../zh-CN/agent_system_prompts/codex/fallback.md). This version preserves the upstream English original; the Chinese version contains its full translation. Tool names, paths, code identifiers, template placeholders, and machine-read format markers remain unchanged.
 
 ## Source and applicability
 
@@ -10,7 +10,8 @@
 - Selector: `whole file`
 - Source file: [codex-rs/models-manager/prompt.md](../../../../../references/codex/codex-rs/models-manager/prompt.md)
 - Source file SHA256: `ac8ae107a0d72fe3476b430afb161ea4e67da2e446d778aefc44828160559807`
-- Archived text SHA256: `ac8ae107a0d72fe3476b430afb161ea4e67da2e446d778aefc44828160559807`
+- Chinese translation SHA256: `2309f87742544f7114578e252a9ffd5447da41ff88b810c4218e12c4c054b9d8`
+- English original SHA256: `ac8ae107a0d72fe3476b430afb161ea4e67da2e446d778aefc44828160559807`
 - [Upstream license](../../../agent_system_prompts/licenses/codex.txt)
 
 Complete static fallback prompt.
