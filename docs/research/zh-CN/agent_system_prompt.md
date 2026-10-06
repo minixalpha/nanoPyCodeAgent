@@ -34,10 +34,10 @@
 
 - 开源项目原文按许可证保留，附来源文件、提取位置、文件和提取文本的 SHA256；[许可证及归档说明](../agent_system_prompts/README.md)随文保存。
 - 静态字符串、模型模板、动态提醒、专用代理提示词、生成器源码和测试组装样本分别标注。模板占位符保留，未把不完整的静态片段拼成“实际运行时全量提示词”。
-- 39 份本地来源记录的英文原文保存在 `en/agent_system_prompts/`，全文中文译文保存在 `zh-CN/agent_system_prompts/`，于 2026-10-06 补齐；解读同步为双语。工具名、路径、代码标识符、模板占位符和机器读取的固定格式标记保留原样。来源清单分别记录原文和译文 SHA256；3 份 Claude 记录明确标为仅有短引文，不计入全文归档。
+- 39 份本地来源记录的英文原文保存在 `en/agent_system_prompts/`，全文中文译文保存在 `zh-CN/agent_system_prompts/`，于 2026-10-06 补齐；解读同步为双语。工具名、路径、代码标识符、模板占位符和机器读取的固定格式标记保留原样。来源清单分别记录原文和译文 SHA256。用户随后提供了 3 份 Claude 英文 Markdown 正文，现已完整保存并逐段翻译，42 份记录均有完整的选定原文与中文译文。
 - 这是一组覆盖主要入口和相关专用职责的资料，不是所有仓库内全部工具描述、权限消息、技能、插件和用户指令的穷尽归档。Codex 中相同正文的模型条目合并为一份；正文不同的变体分别保存。OpenCode 的主提示词选择器所引用的十份正文全部保存。
 
-官方 [system prompts overview](https://platform.claude.com/docs/en/release-notes/system-prompts/overview)明确说明其页面是 **claude.ai 与移动端**的提示词，并不适用于 API。这也不等于 Claude Code 的完整运行提示词。三份页面分别为 [Opus 5.5](https://platform.claude.com/docs/en/release-notes/system-prompts/claude-opus-5-5)（2026-09-22）、[Sonnet 5.5](https://platform.claude.com/docs/en/release-notes/system-prompts/claude-sonnet-5-5)（2026-09-28）、[Fable 5.1](https://platform.claude.com/docs/en/release-notes/system-prompts/claude-fable-5-1)（2026-09-01）。它们是带日期的网页版本，不具有本地提交固定的可重现性；本仓库保存原文入口、短引文和双语分析，未建立全文再发布许可，因此不复制其全文或全文翻译。
+官方 [system prompts overview](https://platform.claude.com/docs/en/release-notes/system-prompts/overview)明确说明其页面是 **claude.ai 与移动端**的提示词，并不适用于 API。这也不等于 Claude Code 的完整运行提示词。三份页面分别为 [Opus 5.5](https://platform.claude.com/docs/en/release-notes/system-prompts/claude-opus-5-5)（2026-09-22）、[Sonnet 5.5](https://platform.claude.com/docs/en/release-notes/system-prompts/claude-sonnet-5-5)（2026-09-28）、[Fable 5.1](https://platform.claude.com/docs/en/release-notes/system-prompts/claude-fable-5-1)（2026-09-01）。它们是带日期的网页版本，网页入口本身不固定内容。2026-10-06 用户将三份英文 Markdown 正文放入 `en/`；本仓库保留所提供正文的全部页面元数据、提示词与示例，并在 `zh-CN/` 完整翻译。来源清单记录用户提供的来源方式、提供时的文件哈希，以及原文和译文正文哈希；这固定了所提供的资料，不代表本次重新抓取或核验了网页全文。
 
 ## 各项目的提示词包含什么
 

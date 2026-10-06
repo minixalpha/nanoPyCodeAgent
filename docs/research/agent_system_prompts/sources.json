@@ -832,13 +832,27 @@
       "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/claude-opus-5-5",
       "revision": "2026-09-22",
       "source_path": null,
-      "selector": "Dated official chat-product prompt entry",
+      "selector": "User-provided Markdown snapshot, including page metadata and dated prompt",
       "source_file_sha256": null,
-      "prompt_sha256": null,
+      "prompt_sha256": "2e33ca9aad00727eb4b61974b888187ca0fba5f82a085ff7f2af64eb88c054fe",
       "web": true,
-      "archive_status": "excerpt_only",
+      "archive_status": "full_original_and_translation",
       "last_checked_at": "2026-10-06",
-      "full_text_status": "not_archived_no_republication_license_established"
+      "full_text_status": "archived_from_user_provided_text",
+      "acquisition": {
+        "method": "user_provided_file",
+        "received_at": "2026-10-06",
+        "path": "en/agent_system_prompts/claude/opus-5-5.md",
+        "provided_document_sha256": "bcca8e2f7fe41edf21ec8936af95965be033580e9f8adbedcec3c40fb22b577c"
+      },
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/claude/opus-5-5.md",
+          "text_sha256": "14d67b918ff79d4ef16909c6ba67a24fef37f179fc6755206dcd1ca84266f209",
+          "source_prompt_sha256": "2e33ca9aad00727eb4b61974b888187ca0fba5f82a085ff7f2af64eb88c054fe",
+          "translated_at": "2026-10-06"
+        }
+      }
     },
     {
       "project": "claude",
@@ -846,13 +860,27 @@
       "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/claude-sonnet-5-5",
       "revision": "2026-09-28",
       "source_path": null,
-      "selector": "Dated official chat-product prompt entry",
+      "selector": "User-provided Markdown snapshot, including page metadata and dated prompt",
       "source_file_sha256": null,
-      "prompt_sha256": null,
+      "prompt_sha256": "58d3dc4705a9dabadcb3a30b369f3b05b357e0219ea0dcc3cef755ded1585d9b",
       "web": true,
-      "archive_status": "excerpt_only",
+      "archive_status": "full_original_and_translation",
       "last_checked_at": "2026-10-06",
-      "full_text_status": "not_archived_no_republication_license_established"
+      "full_text_status": "archived_from_user_provided_text",
+      "acquisition": {
+        "method": "user_provided_file",
+        "received_at": "2026-10-06",
+        "path": "en/agent_system_prompts/claude/sonnet-5-5.md",
+        "provided_document_sha256": "8a436763a56d477f474cecc1ce6779cd53d61c599ee7f0deef6b4de473276e39"
+      },
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/claude/sonnet-5-5.md",
+          "text_sha256": "1b5745d0f680edbab5de96560480aa4bae79d50b38eee217df6cc21ac43a86d0",
+          "source_prompt_sha256": "58d3dc4705a9dabadcb3a30b369f3b05b357e0219ea0dcc3cef755ded1585d9b",
+          "translated_at": "2026-10-06"
+        }
+      }
     },
     {
       "project": "claude",
@@ -860,13 +888,27 @@
       "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/claude-fable-5-1",
       "revision": "2026-09-01",
       "source_path": null,
-      "selector": "Dated official chat-product prompt entry",
+      "selector": "User-provided Markdown snapshot, including page metadata and dated prompt",
       "source_file_sha256": null,
-      "prompt_sha256": null,
+      "prompt_sha256": "4ad8174d706a51e5f68083b0d690dbf33e25f373697b99efc5312674635ed16d",
       "web": true,
-      "archive_status": "excerpt_only",
+      "archive_status": "full_original_and_translation",
       "last_checked_at": "2026-10-06",
-      "full_text_status": "not_archived_no_republication_license_established"
+      "full_text_status": "archived_from_user_provided_text",
+      "acquisition": {
+        "method": "user_provided_file",
+        "received_at": "2026-10-06",
+        "path": "en/agent_system_prompts/claude/fable-5-1.md",
+        "provided_document_sha256": "1fedc457098c40c02382d185833a05d8048c08525021df5f7faf625113c52452"
+      },
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/claude/fable-5-1.md",
+          "text_sha256": "1240a861c0f8dd4c54cf412fb72d1be49cc747ab2b60c83a6cf25089a956f8e7",
+          "source_prompt_sha256": "4ad8174d706a51e5f68083b0d690dbf33e25f373697b99efc5312674635ed16d",
+          "translated_at": "2026-10-06"
+        }
+      }
     }
   ],
   "translations_updated_at": "2026-10-06"

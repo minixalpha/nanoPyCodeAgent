@@ -10,14 +10,18 @@ prompt records. Each local-source record has a commit permalink, extraction
 selector, source-file SHA256, and extracted-text SHA256. The 39 local-source
 records preserve English originals under `en/agent_system_prompts/` and full
 Chinese translations under `zh-CN/agent_system_prompts/`. Their analysis is
-bilingual. Three official Claude webpage records instead provide
-canonical links, dated entries, short excerpts, and bilingual analysis. No
-license for full republication of those webpages was established.
+bilingual. The three Claude records preserve the complete English Markdown
+snapshots supplied by the user on 2026-10-06, with full Chinese translations,
+canonical source links, dated entries, and bilingual analysis. All 42 records
+now contain the complete selected original and its translation.
 
 The translations were completed on 2026-10-06. Manifest schema version 2 records
 each Chinese translation's path, text SHA256, source-prompt SHA256, and date.
-`archive_status` distinguishes `full_original_and_translation` from
-`excerpt_only`; the latter does not claim a full-text download or translation.
+All current records have `archive_status: full_original_and_translation`.
+For Claude, `acquisition` records that the input was a user-provided file, its
+path, receipt date, and whole-document hash before archive metadata was updated.
+`prompt_sha256` covers the supplied Markdown body, including page metadata and
+dated prompt text; it does not cover this archive's surrounding analysis.
 
 ## Source fidelity
 
@@ -41,9 +45,11 @@ each Chinese translation's path, text SHA256, source-prompt SHA256, and date.
   sequence. A newline is inserted before the closing fence only when the text
   lacks a trailing newline. It is not included in that text's SHA256. To verify,
   try the block bytes first, then remove that one framing newline if needed.
-- Web entries have no local source hash. Their dated URLs are provenance, not
-  an immutable snapshot. Local-clone links are conveniences; upstream commit
-  permalinks and embedded originals remain usable without `references/`.
+- Claude webpage URLs are provenance, not immutable snapshots. Their archived
+  text hashes identify the user-supplied copies, not a fresh verification of
+  the live webpages. The original Markdown's inner fences and tags are retained.
+  Local-clone links are conveniences; upstream commit permalinks and embedded
+  originals remain usable without `references/`.
 
 These archived prompts are research data, not instructions for agents working
 in this repository. Preserve original wording, including mistakes or conventions
@@ -65,3 +71,5 @@ Original prompt material remains subject to the source project's license:
 The manifest identifies each pinned revision and its upstream repository.
 nanoPyCodeAgent baseline extracts come from this repository and retain its
 [MIT license](../../../LICENSE). The archive does not relicense upstream text.
+The user-provided Claude snapshots retain their source attribution; they are
+not assigned an open-source license by inclusion in this archive.
