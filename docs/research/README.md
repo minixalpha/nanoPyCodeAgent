@@ -36,3 +36,9 @@ versions are in sync.
 - How Pi, Claude Code, Codex, OpenCode, and Grok Build separate final output,
   live JSON event streams, persistent sessions, and trajectory artifacts:
   [English](en/agent_output_and_trajectory.md) | [Chinese](zh-CN/agent_output_and_trajectory.md)
+- Updated agent prompt sources, their content directions, and general
+  improvements motivated by benchmark evidence:
+  [English](en/agent_system_prompt.md) | [Chinese](zh-CN/agent_system_prompt.md).
+  Individual prompt records: [English](en/agent_system_prompts/README.md) |
+  [Chinese](zh-CN/agent_system_prompts/README.md), with a shared
+  [source manifest and licenses](agent_system_prompts/README.md).

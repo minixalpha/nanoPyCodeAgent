@@ -1,0 +1,915 @@
+{
+  "schema_version": 2,
+  "inspected_at": "2026-10-05",
+  "reference_updates": [
+    {
+      "project": "claude-code",
+      "remote": "https://github.com/yasasbanukaofficial/claude-code.git",
+      "branch": "main",
+      "before": "a371abbe75ffa0d0a3c92290e2bbf56a7ef54367",
+      "after": "a371abbe75ffa0d0a3c92290e2bbf56a7ef54367",
+      "updated_at": "2026-10-05T15:50:40.484092+00:00",
+      "status": "already_current"
+    },
+    {
+      "project": "codex",
+      "remote": "https://github.com/openai/codex.git",
+      "branch": "main",
+      "before": "4f39251a010a8bd7d692d25fb33832ff06f1635a",
+      "after": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "updated_at": "2026-10-05T15:52:38.085108+00:00",
+      "status": "updated"
+    },
+    {
+      "project": "deepseek-harness",
+      "remote": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "branch": "master",
+      "before": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "after": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "updated_at": "2026-10-05T15:52:39.818185+00:00",
+      "status": "already_current"
+    },
+    {
+      "project": "grok-build",
+      "remote": "https://github.com/xai-org/grok-build.git",
+      "branch": "main",
+      "before": "19d42e35c07a9c9244f03f6df0c4c353f970d4f9",
+      "after": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+      "updated_at": "2026-10-05T15:53:04.352779+00:00",
+      "status": "updated"
+    },
+    {
+      "project": "opencode",
+      "remote": "https://github.com/anomalyco/opencode.git",
+      "branch": "dev",
+      "before": "e00890c67261a435cee6409366a68999a93393fd",
+      "after": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "updated_at": "2026-10-05T15:53:35.709073+00:00",
+      "status": "updated"
+    },
+    {
+      "project": "pi",
+      "remote": "https://github.com/earendil-works/pi.git",
+      "branch": "main",
+      "before": "c49906ec77788625aacbdc53ebca6fbe65bd20f5",
+      "after": "b7dfc049e917a265a5aefa9f3952a2dec9b81cfd",
+      "updated_at": "2026-10-05T15:53:57.004227+00:00",
+      "status": "updated"
+    }
+  ],
+  "entries": [
+    {
+      "project": "codex",
+      "slug": "gpt-6-astra",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "35bd51b5f577cb7b24cd5f4629e49e37cb724ab57754ce6f8f202001635bab8a",
+      "selector": "models[slug=gpt-6-astra].model_messages.instructions_template",
+      "models": [
+        "gpt-6-astra"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-6-astra.md",
+          "text_sha256": "aa4df5d5a08f0b32dbbe5e6667a1edf96a90bf3ff4cf173b2ee01f3fdb04e0e6",
+          "source_prompt_sha256": "35bd51b5f577cb7b24cd5f4629e49e37cb724ab57754ce6f8f202001635bab8a",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "gpt-6.1-sol",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "e1bdd4f8f0df4b20f4a0ffc8a861ce819df45325d8cecdfb92e80379cf8d142e",
+      "selector": "models[slug=gpt-6.1-sol].model_messages.instructions_template",
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-6.1-sol.md",
+          "text_sha256": "7501ad0e2bb569699c51a9c3eba83a3fc707b6a0b4e7cfeec50470297797f9cd",
+          "source_prompt_sha256": "e1bdd4f8f0df4b20f4a0ffc8a861ce819df45325d8cecdfb92e80379cf8d142e",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "gpt-6-sol",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "b1dd8718c037906c53a305c5cbccb4a4be35ccbb7837461ec349bfc495412f0d",
+      "selector": "models[slug=gpt-6-sol].model_messages.instructions_template",
+      "models": [
+        "gpt-6-sol"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-6-sol.md",
+          "text_sha256": "d68cc7ff104c31061eb2df0aef430963ccc2b409b22ddd1f2c4c640b6e3f2498",
+          "source_prompt_sha256": "b1dd8718c037906c53a305c5cbccb4a4be35ccbb7837461ec349bfc495412f0d",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "gpt-6-luna",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "b707476816bfe5e571a1bd2179f130fff2b132da5ab8e61063acdb7fd24daf12",
+      "selector": "models[slug=gpt-6-luna].model_messages.instructions_template",
+      "models": [
+        "gpt-6-luna"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-6-luna.md",
+          "text_sha256": "b72723eef35da90c3489647862d0398fe2d1d0bf708435966d9c7ce2e2499d0b",
+          "source_prompt_sha256": "b707476816bfe5e571a1bd2179f130fff2b132da5ab8e61063acdb7fd24daf12",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "gpt-5.6-sol",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "a91357a1cd2727a0be06d461248d6e3a7274746e38108f548a3adf2cc2430415",
+      "selector": "models[slug=gpt-5.6-sol].model_messages.instructions_template",
+      "models": [
+        "gpt-5.6-sol",
+        "gpt-5.6-terra",
+        "gpt-5.6-luna",
+        "codex-auto-review"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-5.6-sol.md",
+          "text_sha256": "23521f281e2a23e6d2bb37877de3257f54c9dcb6705db69f4f00fdbd97e01cbe",
+          "source_prompt_sha256": "a91357a1cd2727a0be06d461248d6e3a7274746e38108f548a3adf2cc2430415",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "gpt-daybreak-blue-latest",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "ebd0d5854abd07dc38300a71e027204eb028e9fa443c59d18e36fcc24289e818",
+      "selector": "models[slug=gpt-daybreak-blue-latest].model_messages.instructions_template",
+      "models": [
+        "gpt-daybreak-blue-latest"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-daybreak-blue-latest.md",
+          "text_sha256": "5af79f3a66b25accd822c86d1fd7ca1713186bf646afed914399b330a33c0af2",
+          "source_prompt_sha256": "ebd0d5854abd07dc38300a71e027204eb028e9fa443c59d18e36fcc24289e818",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "gpt-daybreak-red-latest",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "40a1232c8bd01a87dc2283e5ae3c75f2b054dc2a12cf04e5a279c26e5c541b9b",
+      "selector": "models[slug=gpt-daybreak-red-latest].model_messages.instructions_template",
+      "models": [
+        "gpt-daybreak-red-latest"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-daybreak-red-latest.md",
+          "text_sha256": "06113a4b34b8e0f22d3e5599b32e739caf8b7c5633055dfbc65f2a4cfc865722",
+          "source_prompt_sha256": "40a1232c8bd01a87dc2283e5ae3c75f2b054dc2a12cf04e5a279c26e5c541b9b",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "gpt-5.5",
+      "source_path": "codex-rs/models-manager/models.json",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/models.json",
+      "source_file_sha256": "fd219bd9f061278275f528939f82f54d2eb97df4b25c23b022adbe48813d920b",
+      "prompt_sha256": "2351631dfc5644dc5a45eaaca4139475bd02810ee6cb792d058b551559b3242e",
+      "selector": "models[slug=gpt-5.5].model_messages.instructions_template",
+      "models": [
+        "gpt-5.5"
+      ],
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/gpt-5.5.md",
+          "text_sha256": "aeca4bd09ce5f6f0b53684bd84ebf87e21abe2031bae61b2133f72f90c220e0c",
+          "source_prompt_sha256": "2351631dfc5644dc5a45eaaca4139475bd02810ee6cb792d058b551559b3242e",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "fallback",
+      "source_path": "codex-rs/models-manager/prompt.md",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/models-manager/prompt.md",
+      "source_file_sha256": "ac8ae107a0d72fe3476b430afb161ea4e67da2e446d778aefc44828160559807",
+      "prompt_sha256": "ac8ae107a0d72fe3476b430afb161ea4e67da2e446d778aefc44828160559807",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/fallback.md",
+          "text_sha256": "2309f87742544f7114578e252a9ffd5447da41ff88b810c4218e12c4c054b9d8",
+          "source_prompt_sha256": "ac8ae107a0d72fe3476b430afb161ea4e67da2e446d778aefc44828160559807",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "codex",
+      "slug": "compaction",
+      "source_path": "codex-rs/prompts/templates/compact/prompt.md",
+      "revision": "823ea830c0fd418b09ff02d36cad9a1fff66465b",
+      "url": "https://github.com/openai/codex/blob/823ea830c0fd418b09ff02d36cad9a1fff66465b/codex-rs/prompts/templates/compact/prompt.md",
+      "source_file_sha256": "ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07",
+      "prompt_sha256": "ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/codex/compaction.md",
+          "text_sha256": "5fabc831dbc7279ec7044b75da55cd30e9100ddf1cec87c70d898de6ed9d70ec",
+          "source_prompt_sha256": "ab0c334d4faca17e3afbb9b16967c1b2fdcc7242a9a0880af57949fa236d6d07",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "anthropic",
+      "source_path": "packages/opencode/src/session/prompt/anthropic.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/anthropic.txt",
+      "source_file_sha256": "8324e4cf58eb45d4d9d6fd120f5e8da59e0548de48e7e6aefcdfbf2923f40b4e",
+      "prompt_sha256": "8324e4cf58eb45d4d9d6fd120f5e8da59e0548de48e7e6aefcdfbf2923f40b4e",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/anthropic.md",
+          "text_sha256": "a4bf39f819fa903f60029cd49a16ba8b5e638ffc108b5f1642f5ddc3169759f1",
+          "source_prompt_sha256": "8324e4cf58eb45d4d9d6fd120f5e8da59e0548de48e7e6aefcdfbf2923f40b4e",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "default",
+      "source_path": "packages/opencode/src/session/prompt/default.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/default.txt",
+      "source_file_sha256": "962fbf3cb3ec659c9a5244425ee2e7bb141ad4428f489a630a7738566880dc6a",
+      "prompt_sha256": "962fbf3cb3ec659c9a5244425ee2e7bb141ad4428f489a630a7738566880dc6a",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/default.md",
+          "text_sha256": "437fc6045191661876719f23c240de578dc9eaf727540af651b852ab87ddacde",
+          "source_prompt_sha256": "962fbf3cb3ec659c9a5244425ee2e7bb141ad4428f489a630a7738566880dc6a",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "gpt-astra",
+      "source_path": "packages/opencode/src/session/prompt/gpt-astra.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/gpt-astra.txt",
+      "source_file_sha256": "46d386ea8dd8db5734d06f6ec1d04c566f1224b1afa5bc5b0ccefd6f853281f9",
+      "prompt_sha256": "46d386ea8dd8db5734d06f6ec1d04c566f1224b1afa5bc5b0ccefd6f853281f9",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/gpt-astra.md",
+          "text_sha256": "b1d1acaff95b06917460b09ecd96a5a131cdecb97109264cc2be74f72dd71885",
+          "source_prompt_sha256": "46d386ea8dd8db5734d06f6ec1d04c566f1224b1afa5bc5b0ccefd6f853281f9",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "gpt",
+      "source_path": "packages/opencode/src/session/prompt/gpt.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/gpt.txt",
+      "source_file_sha256": "83a66a46a5febbc21454161d5f053638b22d25d95e09d77b8f6da33debc848ad",
+      "prompt_sha256": "83a66a46a5febbc21454161d5f053638b22d25d95e09d77b8f6da33debc848ad",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/gpt.md",
+          "text_sha256": "08f717cb5727711e1c71692446fe2dccb46e81669eedce42b387c0277bc290a7",
+          "source_prompt_sha256": "83a66a46a5febbc21454161d5f053638b22d25d95e09d77b8f6da33debc848ad",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "codex",
+      "source_path": "packages/opencode/src/session/prompt/codex.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/codex.txt",
+      "source_file_sha256": "c30bca40693a47965e25ceac3f02d3709712af7abeab1278bba53a9efcffa928",
+      "prompt_sha256": "c30bca40693a47965e25ceac3f02d3709712af7abeab1278bba53a9efcffa928",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/codex.md",
+          "text_sha256": "5626e037f0f55b790035f2c580cfb0dcb852140c41b131569548f4e5cdbd6998",
+          "source_prompt_sha256": "c30bca40693a47965e25ceac3f02d3709712af7abeab1278bba53a9efcffa928",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "gemini",
+      "source_path": "packages/opencode/src/session/prompt/gemini.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/gemini.txt",
+      "source_file_sha256": "921750803b0314b88b8adc996e2afcf1a61fd7d9dd6dfcf812baeadac1468cf3",
+      "prompt_sha256": "921750803b0314b88b8adc996e2afcf1a61fd7d9dd6dfcf812baeadac1468cf3",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/gemini.md",
+          "text_sha256": "2173702af6824cfccfe6463595660dc0437592992e9ec4fa38c78350b1964911",
+          "source_prompt_sha256": "921750803b0314b88b8adc996e2afcf1a61fd7d9dd6dfcf812baeadac1468cf3",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "beast",
+      "source_path": "packages/opencode/src/session/prompt/beast.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/beast.txt",
+      "source_file_sha256": "a384d7b485829c1fe43bd6deaae10466db2c16b8cba045764538974f737958ba",
+      "prompt_sha256": "a384d7b485829c1fe43bd6deaae10466db2c16b8cba045764538974f737958ba",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/beast.md",
+          "text_sha256": "adaf166342c2a0ecc9bd2b16efffd234fc7d3c665b8974e4da929b6c5483a326",
+          "source_prompt_sha256": "a384d7b485829c1fe43bd6deaae10466db2c16b8cba045764538974f737958ba",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "kimi",
+      "source_path": "packages/opencode/src/session/prompt/kimi.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/kimi.txt",
+      "source_file_sha256": "ade9199b00df5aa3b51bb02b8e8c711f3e0de224345aef7df9f31d3ea08a5bc7",
+      "prompt_sha256": "ade9199b00df5aa3b51bb02b8e8c711f3e0de224345aef7df9f31d3ea08a5bc7",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/kimi.md",
+          "text_sha256": "b3fa34e990c039ce717103b06d7048cbf965c04e185b911d0b594cf8b5d3c8eb",
+          "source_prompt_sha256": "ade9199b00df5aa3b51bb02b8e8c711f3e0de224345aef7df9f31d3ea08a5bc7",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "meta",
+      "source_path": "packages/opencode/src/session/prompt/meta.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/meta.txt",
+      "source_file_sha256": "9068607ce8bbb3f9b09531d8114fc16e1724de96cd1e364565c9f6f6b2b61df3",
+      "prompt_sha256": "9068607ce8bbb3f9b09531d8114fc16e1724de96cd1e364565c9f6f6b2b61df3",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/meta.md",
+          "text_sha256": "a50df908c58344b52c3edc40a0c3b01741bbc0152ae1959c5b76531564a8e8c5",
+          "source_prompt_sha256": "9068607ce8bbb3f9b09531d8114fc16e1724de96cd1e364565c9f6f6b2b61df3",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "trinity",
+      "source_path": "packages/opencode/src/session/prompt/trinity.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/trinity.txt",
+      "source_file_sha256": "0019dc1d018d08c1b5a065d10896e22d2615d33580088f44aefc3a042a46ebe2",
+      "prompt_sha256": "0019dc1d018d08c1b5a065d10896e22d2615d33580088f44aefc3a042a46ebe2",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/trinity.md",
+          "text_sha256": "51bf9ef4e9e87d75d2ef0c24b6a0ef38571cb2fc78bd4979e89b495424f87d04",
+          "source_prompt_sha256": "0019dc1d018d08c1b5a065d10896e22d2615d33580088f44aefc3a042a46ebe2",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "plan-mode",
+      "source_path": "packages/opencode/src/session/prompt/plan-mode.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/prompt/plan-mode.txt",
+      "source_file_sha256": "473381e8f20d054fa24ed3631a3b741a4fd432dadb8a0f0925f73d94a6e2866c",
+      "prompt_sha256": "473381e8f20d054fa24ed3631a3b741a4fd432dadb8a0f0925f73d94a6e2866c",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/plan-mode.md",
+          "text_sha256": "108704e24fa2bfb467aee8e50c21fcbd35b59e74f5c5128856a671821de9ef39",
+          "source_prompt_sha256": "473381e8f20d054fa24ed3631a3b741a4fd432dadb8a0f0925f73d94a6e2866c",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "explore",
+      "source_path": "packages/opencode/src/agent/prompt/explore.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/agent/prompt/explore.txt",
+      "source_file_sha256": "97c4780dea390f347fed0879fb30aaa08c0fc65c8cad0f6c1aec02ca6fd91e13",
+      "prompt_sha256": "97c4780dea390f347fed0879fb30aaa08c0fc65c8cad0f6c1aec02ca6fd91e13",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/explore.md",
+          "text_sha256": "6f15245d96d0d2ab1a7a99225cfbe795733d53298e5098921c002291e4b207d7",
+          "source_prompt_sha256": "97c4780dea390f347fed0879fb30aaa08c0fc65c8cad0f6c1aec02ca6fd91e13",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "opencode",
+      "slug": "compaction",
+      "source_path": "packages/opencode/src/agent/prompt/compaction.txt",
+      "revision": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+      "url": "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/agent/prompt/compaction.txt",
+      "source_file_sha256": "552db0de0af1873a8acd4a631e2548345d4c43192de1d9be69c8feab4b41f80c",
+      "prompt_sha256": "552db0de0af1873a8acd4a631e2548345d4c43192de1d9be69c8feab4b41f80c",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/opencode/compaction.md",
+          "text_sha256": "61f2a636cfb7225869b5e4dd6bd21aece8fdeab7eb8060564fac69df60e2f0f3",
+          "source_prompt_sha256": "552db0de0af1873a8acd4a631e2548345d4c43192de1d9be69c8feab4b41f80c",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "pi",
+      "slug": "coding-system",
+      "source_path": "packages/coding-agent/src/core/system-prompt.ts",
+      "revision": "b7dfc049e917a265a5aefa9f3952a2dec9b81cfd",
+      "url": "https://github.com/earendil-works/pi/blob/b7dfc049e917a265a5aefa9f3952a2dec9b81cfd/packages/coding-agent/src/core/system-prompt.ts",
+      "source_file_sha256": "e9cf234637f792c44e71764b8daff13bc15b0e77aa5574ec9728365ac9f61807",
+      "prompt_sha256": "e9cf234637f792c44e71764b8daff13bc15b0e77aa5574ec9728365ac9f61807",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/pi/coding-system.md",
+          "text_sha256": "d456a0bb82161b39f959772a7b6021b5ca0c8d9e3c3ea6dc3c0bfc3e9bb653af",
+          "source_prompt_sha256": "e9cf234637f792c44e71764b8daff13bc15b0e77aa5574ec9728365ac9f61807",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "pi",
+      "slug": "summarization-system",
+      "source_path": "packages/coding-agent/src/core/compaction/utils.ts",
+      "revision": "b7dfc049e917a265a5aefa9f3952a2dec9b81cfd",
+      "url": "https://github.com/earendil-works/pi/blob/b7dfc049e917a265a5aefa9f3952a2dec9b81cfd/packages/coding-agent/src/core/compaction/utils.ts",
+      "source_file_sha256": "cc0baada8a2e31bcf1dbc18948c69ba2264fb2ad4d2c583ceb772fd3c3233674",
+      "prompt_sha256": "c464889dcfa60441e642f291445b49523f263e6fb2725d0c25075543a2ec3f8f",
+      "selector": "TypeScript template literal SUMMARIZATION_SYSTEM_PROMPT",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/pi/summarization-system.md",
+          "text_sha256": "c0a9d66b81c903f0c49be8bd31dbe8fda880ee1a5b4b53aa4d605973a5dfa6ed",
+          "source_prompt_sha256": "c464889dcfa60441e642f291445b49523f263e6fb2725d0c25075543a2ec3f8f",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "pi",
+      "slug": "checkpoint",
+      "source_path": "packages/coding-agent/src/core/compaction/compaction.ts",
+      "revision": "b7dfc049e917a265a5aefa9f3952a2dec9b81cfd",
+      "url": "https://github.com/earendil-works/pi/blob/b7dfc049e917a265a5aefa9f3952a2dec9b81cfd/packages/coding-agent/src/core/compaction/compaction.ts",
+      "source_file_sha256": "d5aebd41333957b57fa3f1bee2a18b3c00b5d47bb1b4af6f913cf8cd791099c8",
+      "prompt_sha256": "9b00aa68df1a64279bc36e9093367f638701d48ec82e3d08436f65092a515f9b",
+      "selector": "TypeScript template literal SUMMARIZATION_PROMPT",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/pi/checkpoint.md",
+          "text_sha256": "d1d4c938525e60d05b8e3cf2e3abbeccd132508a802a26c5fad6f27d3175dfb4",
+          "source_prompt_sha256": "9b00aa68df1a64279bc36e9093367f638701d48ec82e3d08436f65092a515f9b",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "pi",
+      "slug": "branch-summary",
+      "source_path": "packages/coding-agent/src/core/compaction/branch-summarization.ts",
+      "revision": "b7dfc049e917a265a5aefa9f3952a2dec9b81cfd",
+      "url": "https://github.com/earendil-works/pi/blob/b7dfc049e917a265a5aefa9f3952a2dec9b81cfd/packages/coding-agent/src/core/compaction/branch-summarization.ts",
+      "source_file_sha256": "0279195d2cddfe99d4e42a1327d18c7f55ff15a8807d2c5d6cd465b2ab163011",
+      "prompt_sha256": "76cf34f4204cc5465282460c9a3099301d9c8c0a672eda0e9d48ee7af422cec1",
+      "selector": "TypeScript template literal BRANCH_SUMMARY_PROMPT",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/pi/branch-summary.md",
+          "text_sha256": "d47dd94934492db52168f095d93675648637fe9b663adba53c3ab365591f05c3",
+          "source_prompt_sha256": "76cf34f4204cc5465282460c9a3099301d9c8c0a672eda0e9d48ee7af422cec1",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "grok-build",
+      "slug": "main",
+      "source_path": "crates/codegen/xai-grok-agent/templates/prompt.md",
+      "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+      "url": "https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-agent/templates/prompt.md",
+      "source_file_sha256": "f31b8827bf571d606221c734af7aee1c259c633956c9b81cf9c8dd02c2fdd14b",
+      "prompt_sha256": "f31b8827bf571d606221c734af7aee1c259c633956c9b81cf9c8dd02c2fdd14b",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/grok-build/main.md",
+          "text_sha256": "f2b1aba66c944623e9e6a0d2296f2285808bf58038f59f829d89817d85548661",
+          "source_prompt_sha256": "f31b8827bf571d606221c734af7aee1c259c633956c9b81cf9c8dd02c2fdd14b",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "grok-build",
+      "slug": "subagent",
+      "source_path": "crates/codegen/xai-grok-agent/templates/subagent_prompt.md",
+      "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+      "url": "https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-agent/templates/subagent_prompt.md",
+      "source_file_sha256": "fa761565f8a33a6d5686159ad6859e6d2632e974bf1579ed7d2430ce9e07d9cb",
+      "prompt_sha256": "fa761565f8a33a6d5686159ad6859e6d2632e974bf1579ed7d2430ce9e07d9cb",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/grok-build/subagent.md",
+          "text_sha256": "de44c808af69d4635fa6e049e946640209aaff36732e73b0a20f0e754c3c956d",
+          "source_prompt_sha256": "fa761565f8a33a6d5686159ad6859e6d2632e974bf1579ed7d2430ce9e07d9cb",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "grok-build",
+      "slug": "goal-planner",
+      "source_path": "crates/codegen/xai-grok-shell/src/session/templates/goal_planner_prompt.md",
+      "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+      "url": "https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/session/templates/goal_planner_prompt.md",
+      "source_file_sha256": "0c775f693998ea6ccaed351b55fbea5c0ba3ea6badea4dbc06ddba7ca58661d3",
+      "prompt_sha256": "0c775f693998ea6ccaed351b55fbea5c0ba3ea6badea4dbc06ddba7ca58661d3",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/grok-build/goal-planner.md",
+          "text_sha256": "9c3901439eb23cfec475b7fb6ec9253c81dc99341964ef1922118b515e9a9683",
+          "source_prompt_sha256": "0c775f693998ea6ccaed351b55fbea5c0ba3ea6badea4dbc06ddba7ca58661d3",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "grok-build",
+      "slug": "goal-verifier",
+      "source_path": "crates/codegen/xai-grok-shell/src/session/templates/goal_verifier_prompt.md",
+      "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+      "url": "https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/session/templates/goal_verifier_prompt.md",
+      "source_file_sha256": "048cc328137d7cb7e695701fc770435a7c6660f3fdff8f7daa7180d73d6c946a",
+      "prompt_sha256": "048cc328137d7cb7e695701fc770435a7c6660f3fdff8f7daa7180d73d6c946a",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/grok-build/goal-verifier.md",
+          "text_sha256": "86837abf9a9e6716805b6192b7b6827161d299ab8a557e3ddd0e1ab587b73c97",
+          "source_prompt_sha256": "048cc328137d7cb7e695701fc770435a7c6660f3fdff8f7daa7180d73d6c946a",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "deepseek-harness",
+      "slug": "headless-persona",
+      "source_path": "packages/bundle/headless/cordis.patch.yml",
+      "revision": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/headless/cordis.patch.yml",
+      "source_file_sha256": "d0c99638f497c315e248ab63564fa27b4792c60506d6ab8f22c87018b64ab95d",
+      "prompt_sha256": "e0eb4484e48650627aa9a07bae720c151efc5c331e6e237ad9861e255ba00743",
+      "selector": "YAML config.personaPrefix folded scalar",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/deepseek-harness/headless-persona.md",
+          "text_sha256": "55dbc7729b5bbd5c86479d0eb053b3342b04d133db1bf880d551b0738494649a",
+          "source_prompt_sha256": "e0eb4484e48650627aa9a07bae720c151efc5c331e6e237ad9861e255ba00743",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "deepseek-harness",
+      "slug": "plan-policy",
+      "source_path": "packages/bundle/base/cordis.patch.yml",
+      "revision": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/base/cordis.patch.yml",
+      "source_file_sha256": "9c2be64f46a193eff3cca190c26e697e8e8eee25c9b40149dfdb56f8142c252d",
+      "prompt_sha256": "4602e3b8ae9990331a68d1f9d298f3a60af0757ab8802d57fc85350f1655e134",
+      "selector": "YAML plan-mode.config.section literal scalar, indentation removed",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/deepseek-harness/plan-policy.md",
+          "text_sha256": "4b9b847535c91d54b55705d97605e2fa3ae3a43b38b26c452b2a36c801ef6ae8",
+          "source_prompt_sha256": "4602e3b8ae9990331a68d1f9d298f3a60af0757ab8802d57fc85350f1655e134",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "deepseek-harness",
+      "slug": "bash-result-check",
+      "source_path": "packages/shell/tool-bash/src/index.ts",
+      "revision": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/shell/tool-bash/src/index.ts",
+      "source_file_sha256": "53b18db95b1f2fc0bd82a5560756f8644ba8898197534b4915f96f7e3e450956",
+      "prompt_sha256": "647bd85ba2e8c2a558ff8902caf03cf83f594bc35ac40ed905a10f61c73ec071",
+      "selector": "system-prompt section text literal",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/deepseek-harness/bash-result-check.md",
+          "text_sha256": "ead441b6a2893e4cdcb38ae5b77a783ffa209403de9a2efee4bc5a60c2008303",
+          "source_prompt_sha256": "647bd85ba2e8c2a558ff8902caf03cf83f594bc35ac40ed905a10f61c73ec071",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "deepseek-harness",
+      "slug": "assembled-session-fixture",
+      "source_path": "snapshots/session/text-turn/system-prompt.expected.md",
+      "revision": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/snapshots/session/text-turn/system-prompt.expected.md",
+      "source_file_sha256": "940a58e80b52302c9fa89c4ca81368ea92ec63ebe22c3e75e2d507abed28c665",
+      "prompt_sha256": "940a58e80b52302c9fa89c4ca81368ea92ec63ebe22c3e75e2d507abed28c665",
+      "selector": "whole file",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/deepseek-harness/assembled-session-fixture.md",
+          "text_sha256": "4595d26ab07dcf85ee12fe051fb12bf4d0a7fc7c1a796d5619549b44819ecd13",
+          "source_prompt_sha256": "940a58e80b52302c9fa89c4ca81368ea92ec63ebe22c3e75e2d507abed28c665",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "nanopycodeagent",
+      "slug": "interactive",
+      "source_path": "src/nanopycodeagent/agent.py",
+      "revision": "c8c5bf7d8a06c3e67403f3389cabc2632abf5b39",
+      "url": "https://github.com/minixalpha/nanoPyCodeAgent/blob/c8c5bf7d8a06c3e67403f3389cabc2632abf5b39/src/nanopycodeagent/agent.py",
+      "source_file_sha256": "8e28a5c3fcd140441484c46d1e62ec811d325aaff484141a4b9837baead6fc52",
+      "prompt_sha256": "47a9601cec77ee77fd5dbd0a4bb938d24b70f6f3346fbb8d9aeb82e986e5bc9a",
+      "selector": "Python string expression SYSTEM_PROMPT",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/nanopycodeagent/interactive.md",
+          "text_sha256": "ba675f04c7439e37ead244e36e9d892d03847efeb1f56631df12043ba8fd9449",
+          "source_prompt_sha256": "47a9601cec77ee77fd5dbd0a4bb938d24b70f6f3346fbb8d9aeb82e986e5bc9a",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "nanopycodeagent",
+      "slug": "headless",
+      "source_path": "src/nanopycodeagent/agent.py",
+      "revision": "c8c5bf7d8a06c3e67403f3389cabc2632abf5b39",
+      "url": "https://github.com/minixalpha/nanoPyCodeAgent/blob/c8c5bf7d8a06c3e67403f3389cabc2632abf5b39/src/nanopycodeagent/agent.py",
+      "source_file_sha256": "8e28a5c3fcd140441484c46d1e62ec811d325aaff484141a4b9837baead6fc52",
+      "prompt_sha256": "54da8191adac5a1b717129a6292f2946544ff4113477427018a3445f4a5af1d4",
+      "selector": "Python string expression HEADLESS_SYSTEM_PROMPT",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/nanopycodeagent/headless.md",
+          "text_sha256": "4970596d320518e55eba76856d80b5ff1aec2e8ef88cecafa9b4f185fbd1b3d7",
+          "source_prompt_sha256": "54da8191adac5a1b717129a6292f2946544ff4113477427018a3445f4a5af1d4",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "nanopycodeagent",
+      "slug": "truncation-recovery",
+      "source_path": "src/nanopycodeagent/agent.py",
+      "revision": "c8c5bf7d8a06c3e67403f3389cabc2632abf5b39",
+      "url": "https://github.com/minixalpha/nanoPyCodeAgent/blob/c8c5bf7d8a06c3e67403f3389cabc2632abf5b39/src/nanopycodeagent/agent.py",
+      "source_file_sha256": "8e28a5c3fcd140441484c46d1e62ec811d325aaff484141a4b9837baead6fc52",
+      "prompt_sha256": "294ebbb8fa4b684d743867433c89e4f2242de950bc06201be798fe873d38acbd",
+      "selector": "Python string expression _TRUNCATION_RECOVERY_NOTE",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/nanopycodeagent/truncation-recovery.md",
+          "text_sha256": "f066b5db9f2b41e4ee4da8841b8b9e904c9aee43b7de3554f6fb4996aaf9e937",
+          "source_prompt_sha256": "294ebbb8fa4b684d743867433c89e4f2242de950bc06201be798fe873d38acbd",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "nanopycodeagent",
+      "slug": "budget-reminder",
+      "source_path": "src/nanopycodeagent/agent.py",
+      "revision": "c8c5bf7d8a06c3e67403f3389cabc2632abf5b39",
+      "url": "https://github.com/minixalpha/nanoPyCodeAgent/blob/c8c5bf7d8a06c3e67403f3389cabc2632abf5b39/src/nanopycodeagent/agent.py",
+      "source_file_sha256": "8e28a5c3fcd140441484c46d1e62ec811d325aaff484141a4b9837baead6fc52",
+      "prompt_sha256": "54181c1e60d1fd225a04117c9a02600290d1e48cd52632464f1a80f42f86ccb8",
+      "selector": "Python function _time_budget_note",
+      "archive_status": "full_original_and_translation",
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/nanopycodeagent/budget-reminder.md",
+          "text_sha256": "bef26d2bdcc5c7338c3f0f81300296ab40c894eae0694b8329c8c133cd3aa0e1",
+          "source_prompt_sha256": "54181c1e60d1fd225a04117c9a02600290d1e48cd52632464f1a80f42f86ccb8",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "claude",
+      "slug": "opus-5-5",
+      "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/claude-opus-5-5",
+      "revision": "2026-09-22",
+      "source_path": null,
+      "selector": "User-provided Markdown snapshot, including page metadata and dated prompt",
+      "source_file_sha256": null,
+      "prompt_sha256": "2e33ca9aad00727eb4b61974b888187ca0fba5f82a085ff7f2af64eb88c054fe",
+      "web": true,
+      "archive_status": "full_original_and_translation",
+      "last_checked_at": "2026-10-06",
+      "full_text_status": "archived_from_user_provided_text",
+      "acquisition": {
+        "method": "user_provided_file",
+        "received_at": "2026-10-06",
+        "path": "en/agent_system_prompts/claude/opus-5-5.md",
+        "provided_document_sha256": "bcca8e2f7fe41edf21ec8936af95965be033580e9f8adbedcec3c40fb22b577c"
+      },
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/claude/opus-5-5.md",
+          "text_sha256": "14d67b918ff79d4ef16909c6ba67a24fef37f179fc6755206dcd1ca84266f209",
+          "source_prompt_sha256": "2e33ca9aad00727eb4b61974b888187ca0fba5f82a085ff7f2af64eb88c054fe",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "claude",
+      "slug": "sonnet-5-5",
+      "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/claude-sonnet-5-5",
+      "revision": "2026-09-28",
+      "source_path": null,
+      "selector": "User-provided Markdown snapshot, including page metadata and dated prompt",
+      "source_file_sha256": null,
+      "prompt_sha256": "58d3dc4705a9dabadcb3a30b369f3b05b357e0219ea0dcc3cef755ded1585d9b",
+      "web": true,
+      "archive_status": "full_original_and_translation",
+      "last_checked_at": "2026-10-06",
+      "full_text_status": "archived_from_user_provided_text",
+      "acquisition": {
+        "method": "user_provided_file",
+        "received_at": "2026-10-06",
+        "path": "en/agent_system_prompts/claude/sonnet-5-5.md",
+        "provided_document_sha256": "8a436763a56d477f474cecc1ce6779cd53d61c599ee7f0deef6b4de473276e39"
+      },
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/claude/sonnet-5-5.md",
+          "text_sha256": "1b5745d0f680edbab5de96560480aa4bae79d50b38eee217df6cc21ac43a86d0",
+          "source_prompt_sha256": "58d3dc4705a9dabadcb3a30b369f3b05b357e0219ea0dcc3cef755ded1585d9b",
+          "translated_at": "2026-10-06"
+        }
+      }
+    },
+    {
+      "project": "claude",
+      "slug": "fable-5-1",
+      "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/claude-fable-5-1",
+      "revision": "2026-09-01",
+      "source_path": null,
+      "selector": "User-provided Markdown snapshot, including page metadata and dated prompt",
+      "source_file_sha256": null,
+      "prompt_sha256": "4ad8174d706a51e5f68083b0d690dbf33e25f373697b99efc5312674635ed16d",
+      "web": true,
+      "archive_status": "full_original_and_translation",
+      "last_checked_at": "2026-10-06",
+      "full_text_status": "archived_from_user_provided_text",
+      "acquisition": {
+        "method": "user_provided_file",
+        "received_at": "2026-10-06",
+        "path": "en/agent_system_prompts/claude/fable-5-1.md",
+        "provided_document_sha256": "1fedc457098c40c02382d185833a05d8048c08525021df5f7faf625113c52452"
+      },
+      "translations": {
+        "zh-CN": {
+          "path": "zh-CN/agent_system_prompts/claude/fable-5-1.md",
+          "text_sha256": "1240a861c0f8dd4c54cf412fb72d1be49cc747ab2b60c83a6cf25089a956f8e7",
+          "source_prompt_sha256": "4ad8174d706a51e5f68083b0d690dbf33e25f373697b99efc5312674635ed16d",
+          "translated_at": "2026-10-06"
+        }
+      }
+    }
+  ],
+  "translations_updated_at": "2026-10-06"
+}
