@@ -1,5 +1,13 @@
 # Headless contract and verification prompt comparison
 
+**Execution status:** the original candidate at `7ea2d75` was abandoned after
+retrieving a task-specific reference solution and evaluation source. Preserve all
+five started candidate trials in the [audit](../../results/headless-p0-original-candidate-audit-20261007.json);
+the other 15 never started. All main-control trials continue unchanged. The
+[guarded-candidate plan](../headless-p0-guarded-20261007/README.md) is a separate,
+explicitly adaptive comparison, with 20 fresh candidate trials. The original
+predeclared plan and prompt hashes remain unchanged below.
+
 This [predeclared experiment](experiment.json) evaluates the first candidate from
 the [prompt study](../../../../docs/research/en/agent_system_prompt.md). Compare
 current main (`6664f7bac9d7f9b26f49e523ac6ee7e4e8a6b9ac`, including truncation

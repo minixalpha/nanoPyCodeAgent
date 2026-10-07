@@ -1,0 +1,34 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 3420
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/regex-chess",
+      "ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78"
+    },
+    {
+      "name": "terminal-bench/caffe-cifar-10",
+      "ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf"
+    },
+    {
+      "name": "terminal-bench/mteb-leaderboard",
+      "ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c"
+    },
+    {
+      "name": "terminal-bench/circuit-fibsqrt",
+      "ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3"
+    }
+  ]
+}

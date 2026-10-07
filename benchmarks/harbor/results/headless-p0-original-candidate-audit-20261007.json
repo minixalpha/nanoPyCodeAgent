@@ -1,0 +1,390 @@
+{
+  "schema_version": 1,
+  "status": "aborted_for_evaluation_contamination",
+  "original_plan": "benchmarks/harbor/configs/headless-p0-20261007/experiment.json",
+  "original_plan_sha256": "faf8a4efc56669ba7e8eb500f779fedc1084c84ea11b8259b9f23770b6f5341c",
+  "candidate_ref": "7ea2d75e22e47e22d25136ba6b4b576a7cc61f22",
+  "candidate_prompt_sha256": "e1299046f3c304c7fd72e4069db30b246000164eb458fb6cc028c5c1aed04101",
+  "planned_candidate_trials": 20,
+  "started_candidate_trials": 5,
+  "scored_passes": 3,
+  "scored_failures": 0,
+  "setup_failures_before_model_work": 1,
+  "cancelled_contaminated_trials": 1,
+  "candidate_trials_not_started": 15,
+  "intervention": {
+    "at": "2026-10-07T15:06:01.874704+00:00",
+    "status": "original_candidate_aborted_for_evaluation_contamination",
+    "control_continues": true,
+    "candidate_job": "headless-p0-treatment-720s-20261007",
+    "task": "terminal-bench/torch-pipeline-parallelism",
+    "observation": "The agent fetched both a task-specific reference solution and evaluation test source from an external benchmark mirror, then described its implementation as mirroring that exact reference. Any resulting score is contaminated and cannot support an independent-capability claim.",
+    "snapshot": "jobs/headless-p0-contamination-evidence-20261007",
+    "intervention": "Interrupt the original candidate job and the future-group launcher; preserve the complete main control arm and all existing results. A guarded candidate will be separately preregistered before new candidate model work.",
+    "control_reuse_limitation": "Some main-control outcomes were observed before the integrity guard was designed. The revised comparison is exploratory and must disclose this adaptation; all 20 control tasks are retained without selection."
+  },
+  "trials": [
+    {
+      "arm": "treatment",
+      "task": "terminal-bench/kv-store-grpc",
+      "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "task_checksum": "901a4dd5c3078d5155043875a0d07f3583f462c73f919b52855c025e680b1edd",
+      "task_checksum_matches_baseline": true,
+      "job": "headless-p0-treatment-720s-20261007",
+      "trial": "kv-store-grpc__hjk5ZGr",
+      "status": "setup_failed",
+      "reward": null,
+      "exception_type": "NetworkConnectionError",
+      "failure_stage": "setup",
+      "no_model_work": true,
+      "started_at": "2026-10-07T14:36:40.258721Z",
+      "finished_at": "2026-10-07T14:38:54.934852Z",
+      "agent_version": "unknown",
+      "agent_setup_seconds": 122.8,
+      "agent_execution_seconds": null,
+      "verifier_seconds": null,
+      "work_budget_seconds": 720,
+      "bootstrap_status": "failed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "verifier_attempts": null,
+      "result_path": "jobs/headless-p0-treatment-720s-20261007/kv-store-grpc__hjk5ZGr/result.json",
+      "trajectory_path": null,
+      "atif_valid": null,
+      "atif_errors": [],
+      "terminal": null,
+      "metrics": {},
+      "model_attempts": 0,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "known_cost_usd": 0,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "total_prompt_tokens": 0,
+        "total_completion_tokens": 0,
+        "total_cached_tokens": 0
+      },
+      "evaluation_contaminated": false,
+      "cancelled_for_integrity": false
+    },
+    {
+      "arm": "treatment",
+      "task": "terminal-bench/pypi-server",
+      "task_ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+      "task_checksum": "9eb21236249d5b42ee64c7229bb1e5a3b3c0be7ed5ee9801bdd0d16ca575941a",
+      "task_checksum_matches_baseline": true,
+      "job": "headless-p0-treatment-720s-20261007",
+      "trial": "pypi-server__EDo5Wha",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "failure_stage": null,
+      "no_model_work": false,
+      "started_at": "2026-10-07T14:38:57.087464Z",
+      "finished_at": "2026-10-07T14:46:50.201562Z",
+      "agent_version": "0.9.1.dev14+g7ea2d75e2",
+      "agent_setup_seconds": 204.537,
+      "agent_execution_seconds": 227.949,
+      "verifier_seconds": 28.515,
+      "work_budget_seconds": 720,
+      "bootstrap_status": "ready",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 28.315694838995114
+          }
+        ]
+      },
+      "result_path": "jobs/headless-p0-treatment-720s-20261007/pypi-server__EDo5Wha/result.json",
+      "trajectory_path": "jobs/headless-p0-treatment-720s-20261007/pypi-server__EDo5Wha/agent/trajectory.json",
+      "atif_valid": true,
+      "atif_errors": [],
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 227060.938834,
+        "timestamp": "2026-10-07T14:46:10.326Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 61,
+        "total_prompt_tokens": 355117,
+        "total_completion_tokens": 13193,
+        "total_cached_tokens": 345088,
+        "total_cost_usd": 0.020910828,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.020910828
+        }
+      },
+      "model_attempts": 30,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "known_cost_usd": 0.020910828,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "total_prompt_tokens": 355117,
+        "total_completion_tokens": 13193,
+        "total_cached_tokens": 345088
+      },
+      "evaluation_contaminated": false,
+      "cancelled_for_integrity": false
+    },
+    {
+      "arm": "treatment",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "task_checksum_matches_baseline": true,
+      "job": "headless-p0-treatment-720s-20261007",
+      "trial": "torch-pipeline-parallelism__ZMGCsE3",
+      "status": "execution_error",
+      "reward": null,
+      "exception_type": "CancelledError",
+      "failure_stage": "verifier",
+      "no_model_work": false,
+      "started_at": "2026-10-07T14:46:51.769036Z",
+      "finished_at": "2026-10-07T15:06:13.708685Z",
+      "agent_version": "0.9.1.dev14+g7ea2d75e2",
+      "agent_setup_seconds": 59.474,
+      "agent_execution_seconds": 652.408,
+      "verifier_seconds": 437.308,
+      "work_budget_seconds": 720,
+      "bootstrap_status": "ready",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "cancelled",
+            "duration_seconds": 437.00019142299425
+          }
+        ]
+      },
+      "result_path": "jobs/headless-p0-treatment-720s-20261007/torch-pipeline-parallelism__ZMGCsE3/result.json",
+      "trajectory_path": "jobs/headless-p0-treatment-720s-20261007/torch-pipeline-parallelism__ZMGCsE3/agent/trajectory.json",
+      "atif_valid": true,
+      "atif_errors": [],
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 651807.447823,
+        "timestamp": "2026-10-07T14:58:44.466Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 75,
+        "total_prompt_tokens": 1237860,
+        "total_completion_tokens": 53208,
+        "total_cached_tokens": 1212800,
+        "total_cost_usd": 0.0786444,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.0786444
+        }
+      },
+      "model_attempts": 37,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "known_cost_usd": 0.0786444,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "total_prompt_tokens": 1237860,
+        "total_completion_tokens": 53208,
+        "total_cached_tokens": 1212800
+      },
+      "evaluation_contaminated": true,
+      "cancelled_for_integrity": true,
+      "contamination_evidence": {
+        "log_path": "jobs/headless-p0-treatment-720s-20261007/torch-pipeline-parallelism__ZMGCsE3/agent/nanopycodeagent.txt",
+        "log_sha256": "05cf520b408e98bb17e2e187f5889c873d43cbc931427208a85b5ce2a7967d6c",
+        "commands": [
+          "[bash]$ cd /tmp && timeout 30 curl -s -o sol.py \"https://raw.githubusercontent.com/minghinmatthewlam/openbench/main/data/packs/openbench-tb-hard/torch-pipeline-parallelism/solution/pipeline_parallel.py\" && timeout 30 curl -s -o test_out.py \"https://raw.githubusercontent.com/minghinmatthewlam/openbench/main/data/packs/openbench-tb-hard/torch-pipeline-parallelism/checker_data/harbor-tests/test_outputs.py\" && wc -l sol.py test_out.py && cat test_out.py",
+          "[bash]$ cd /tmp && cat -n sol.py; echo \"=== instruction\"; timeout 20 curl -s \"https://raw.githubusercontent.com/minghinmatthewlam/openbench/main/data/packs/openbench-tb-hard/torch-pipeline-parallelism/harbor-import.json\" | head -c 1500"
+        ],
+        "final_response_observation": "The agent explicitly said the implementation mirrored the upstream reference solution for this exact test."
+      }
+    },
+    {
+      "arm": "treatment",
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "task_checksum": "d0160c1fe523063419b445f7b2974b64ff72a842ad5dc2b970d256e7629f0426",
+      "task_checksum_matches_baseline": true,
+      "job": "headless-p0-treatment-720s-20261007",
+      "trial": "torch-tensor-parallelism__MCNLqMg",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "failure_stage": null,
+      "no_model_work": false,
+      "started_at": "2026-10-07T13:47:58.830305Z",
+      "finished_at": "2026-10-07T14:36:31.559005Z",
+      "agent_version": "0.9.1.dev14+g7ea2d75e2",
+      "agent_setup_seconds": 82.768,
+      "agent_execution_seconds": 291.675,
+      "verifier_seconds": 2526.006,
+      "work_budget_seconds": 720,
+      "bootstrap_status": "ready",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "timeout",
+            "duration_seconds": 900.0019709490007
+          },
+          {
+            "attempt": 2,
+            "status": "timeout",
+            "duration_seconds": 900.0019779090071
+          },
+          {
+            "attempt": 3,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 726.6809662340675
+          }
+        ]
+      },
+      "result_path": "jobs/headless-p0-treatment-720s-20261007/torch-tensor-parallelism__MCNLqMg/result.json",
+      "trajectory_path": "jobs/headless-p0-treatment-720s-20261007/torch-tensor-parallelism__MCNLqMg/agent/trajectory.json",
+      "atif_valid": true,
+      "atif_errors": [],
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 290861.435562,
+        "timestamp": "2026-10-07T13:54:14.059Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 39,
+        "total_prompt_tokens": 384576,
+        "total_completion_tokens": 29280,
+        "total_cached_tokens": 373632,
+        "total_cost_usd": 0.040660992,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.040660992
+        }
+      },
+      "model_attempts": 19,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "known_cost_usd": 0.040660992,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "total_prompt_tokens": 384576,
+        "total_completion_tokens": 29280,
+        "total_cached_tokens": 373632
+      },
+      "evaluation_contaminated": false,
+      "cancelled_for_integrity": false
+    },
+    {
+      "arm": "treatment",
+      "task": "terminal-bench/write-compressor",
+      "task_ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+      "task_checksum": "17ff45a3beaa04e5f08eb4f3c6136f4b56602bdcca52ade0896cfd341f374e99",
+      "task_checksum_matches_baseline": true,
+      "job": "headless-p0-treatment-720s-20261007",
+      "trial": "write-compressor__4iBWPw9",
+      "status": "scored",
+      "reward": 1.0,
+      "exception_type": null,
+      "failure_stage": null,
+      "no_model_work": false,
+      "started_at": "2026-10-07T13:40:42.159605Z",
+      "finished_at": "2026-10-07T13:47:57.138272Z",
+      "agent_version": "0.9.1.dev14+g7ea2d75e2",
+      "agent_setup_seconds": 54.565,
+      "agent_execution_seconds": 345.647,
+      "verifier_seconds": 22.71,
+      "work_budget_seconds": 720,
+      "bootstrap_status": "ready",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 22.504766576108523
+          }
+        ]
+      },
+      "result_path": "jobs/headless-p0-treatment-720s-20261007/write-compressor__4iBWPw9/result.json",
+      "trajectory_path": "jobs/headless-p0-treatment-720s-20261007/write-compressor__4iBWPw9/agent/trajectory.json",
+      "atif_valid": true,
+      "atif_errors": [],
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 345101.388416,
+        "timestamp": "2026-10-07T13:47:23.144Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 41,
+        "total_prompt_tokens": 1066088,
+        "total_completion_tokens": 69067,
+        "total_cached_tokens": 1057664,
+        "total_cost_usd": 0.091753584,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.091753584
+        }
+      },
+      "model_attempts": 20,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "known_cost_usd": 0.091753584,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "total_prompt_tokens": 1066088,
+        "total_completion_tokens": 69067,
+        "total_cached_tokens": 1057664
+      },
+      "evaluation_contaminated": false,
+      "cancelled_for_integrity": false
+    }
+  ],
+  "interpretation": "Abandoned candidate, not a completed pilot20 result. Keep all started trials. The three passing scores are not combined with the guarded candidate. The contaminated trial supplies no valid independent-capability evidence and has no completed official score. All 20 main controls are retained for the separately declared guarded-candidate comparison."
+}

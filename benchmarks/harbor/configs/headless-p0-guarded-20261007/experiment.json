@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "status": "predeclared",
+  "hypothesis": "Contract-based independent verification with an explicit information boundary improves task correctness without relying on task-specific reference answers or hidden tests.",
+  "control_ref": "6664f7bac9d7f9b26f49e523ac6ee7e4e8a6b9ac",
+  "treatment": "Only HEADLESS_SYSTEM_PROMPT changes. Add the P0 guidance plus a generic restriction on seeking or using task-specific reference solutions or hidden evaluation tests unless explicitly provided or requested by the task. Runtime recovery, tools, budgets, and adapter are unchanged.",
+  "variants": {
+    "control": {
+      "prompt_file": "control-prompt.txt",
+      "prompt_sha256": "54da8191adac5a1b717129a6292f2946544ff4113477427018a3445f4a5af1d4",
+      "prompt_words": 175
+    },
+    "treatment": {
+      "prompt_file": "treatment-prompt.txt",
+      "prompt_sha256": "dd0880aa94b48e228c4db5d9a6dafe20e7924e4b417ffe015cb3de192df90dd4",
+      "prompt_words": 368
+    }
+  },
+  "cohort": "Original pinned pilot20; no held-out tasks. Conclusions are limited to this cohort.",
+  "baseline_config": "../v0.9.0-pilot20/baseline.json",
+  "baseline_config_sha256": "9373a01393a67f6a3e203c47bd07d05361e11342724471b579e971287a891377",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "max_turns": 100,
+  "max_tokens": 65536,
+  "agent_setup_timeout_seconds": 1800,
+  "runs_per_task_per_arm": 1,
+  "total_model_runs": 40,
+  "max_concurrent_trials_across_jobs": 2,
+  "schedule": "The existing control 720-second group continues. Start the revised treatment 720-second group after its installation preflight; wait for both groups before proceeding through the remaining original budget groups with one trial per arm. Alternate arm launch order as recorded for the remaining groups. Overall concurrency never exceeds two. Preserve all 20 main controls and all 20 fresh guarded-candidate trials.",
+  "groups": [
+    {
+      "budget_seconds": 720,
+      "config": "budget-720s.json",
+      "launch_order": [
+        "control",
+        "treatment"
+      ],
+      "jobs": {
+        "control": "headless-p0-control-720s-20261007",
+        "treatment": "headless-p0-guarded-treatment-720s-20261007"
+      }
+    },
+    {
+      "budget_seconds": 1620,
+      "config": "budget-1620s.json",
+      "launch_order": [
+        "treatment",
+        "control"
+      ],
+      "jobs": {
+        "control": "headless-p0-control-1620s-20261007",
+        "treatment": "headless-p0-guarded-treatment-1620s-20261007"
+      }
+    },
+    {
+      "budget_seconds": 2220,
+      "config": "budget-2220s.json",
+      "launch_order": [
+        "control",
+        "treatment"
+      ],
+      "jobs": {
+        "control": "headless-p0-control-2220s-20261007",
+        "treatment": "headless-p0-guarded-treatment-2220s-20261007"
+      }
+    },
+    {
+      "budget_seconds": 3420,
+      "config": "budget-3420s.json",
+      "launch_order": [
+        "treatment",
+        "control"
+      ],
+      "jobs": {
+        "control": "headless-p0-control-3420s-20261007",
+        "treatment": "headless-p0-guarded-treatment-3420s-20261007"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/write-compressor",
+      "ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/torch-tensor-parallelism",
+      "ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/schemelike-metacircular-eval",
+      "ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "work_budget_seconds": 2220,
+      "verifier_timeout_seconds": 2400.0
+    },
+    {
+      "name": "terminal-bench/kv-store-grpc",
+      "ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/pypi-server",
+      "ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/dna-assembly",
+      "ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0
+    },
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/qemu-alpine-ssh",
+      "ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/openssl-selfsigned-cert",
+      "ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/regex-chess",
+      "ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0
+    },
+    {
+      "name": "terminal-bench/log-summary-date-ranges",
+      "ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/model-extraction-relu-logits",
+      "ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/path-tracing",
+      "ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0
+    },
+    {
+      "name": "terminal-bench/regex-log",
+      "ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/caffe-cifar-10",
+      "ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 1200.0
+    },
+    {
+      "name": "terminal-bench/mteb-leaderboard",
+      "ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0
+    },
+    {
+      "name": "terminal-bench/llm-inference-batching-scheduler",
+      "ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0
+    },
+    {
+      "name": "terminal-bench/pytorch-model-recovery",
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    },
+    {
+      "name": "terminal-bench/circuit-fibsqrt",
+      "ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0
+    },
+    {
+      "name": "terminal-bench/merge-diff-arc-agi-task",
+      "ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0
+    }
+  ],
+  "preflight": "The prior 20-task control install-only run and both registered QEMU checks passed with unchanged adapter/profile/image hashes. Check the guarded wheel installation on openssl-selfsigned-cert before new model work. Each full task repeats setup; registered QEMU preflight runs before its model invocation, and all other profiles explicitly remain not_configured.",
+  "whole_trial_retries": 0,
+  "verifier_policy": "Only timeouts may retry, at most three attempts on the same output with the original per-attempt limit.",
+  "failure_policy": "Keep every trial, including scored failures, setup failures, verifier errors, and integrity flags. Never replace a result based on score. The earlier interrupted candidate is a separate abandoned experiment, not part of the guarded-candidate success rate.",
+  "primary_metrics": [
+    "official passes, scored failures, and unscored trials per arm",
+    "paired task transitions: both pass, improvement, regression, both fail"
+  ],
+  "secondary_metrics": [
+    "native terminal outcomes, truncations and recoveries",
+    "agent time, model replies, known usage and estimated cost with completeness",
+    "trajectory evidence of contract coverage, independent checking and repair"
+  ],
+  "decision_rule": "Claim only observed pilot20 differences. Equal or worse pass count is not an improvement; any unscored trial limits the comparison. Even a higher count is exploratory at one run per arm/task; report every regression and do not claim a general capability gain. Do not revise the candidate during the experiment.",
+  "preflight_jobs": {
+    "control": "headless-p0-install-20261007",
+    "original_candidate_qemu": "headless-p0-treatment-install-20261007",
+    "guarded_candidate_install": "headless-p0-guarded-install-20261007"
+  },
+  "registered_at": "2026-10-07T15:07:30.918464+00:00",
+  "adaptation": {
+    "reason": "The original candidate fetched a benchmark task reference solution and evaluation source, invalidating independent-capability evidence. The original candidate arm was interrupted, and its raw records are preserved separately.",
+    "original_plan": "../headless-p0-20261007/experiment.json",
+    "original_plan_sha256": "faf8a4efc56669ba7e8eb500f779fedc1084c84ea11b8259b9f23770b6f5341c",
+    "audit_record": "../../results/headless-p0-original-candidate-audit-20261007.json",
+    "control_reuse": "Reuse all 20 unchanged main-control trials, including already observed outcomes and remaining planned trials; do not select controls by score. No original candidate result enters the revised treatment cohort.",
+    "inference_limit": "This is an adaptive exploratory comparison. Some controls were observed before this guard was designed; it is not an independently randomized confirmatory experiment.",
+    "controls_observed_at_registration": [
+      {
+        "task": "terminal-bench/write-compressor",
+        "reward": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "result_path": "jobs/headless-p0-control-source/jobs/headless-p0-control-720s-20261007/write-compressor__JPoXNix/result.json"
+      },
+      {
+        "task": "terminal-bench/torch-tensor-parallelism",
+        "reward": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "result_path": "jobs/headless-p0-control-source/jobs/headless-p0-control-720s-20261007/torch-tensor-parallelism__ynKTErc/result.json"
+      },
+      {
+        "task": "terminal-bench/kv-store-grpc",
+        "reward": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "result_path": "jobs/headless-p0-control-source/jobs/headless-p0-control-720s-20261007/kv-store-grpc__ZeqR9XA/result.json"
+      },
+      {
+        "task": "terminal-bench/pypi-server",
+        "reward": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "result_path": "jobs/headless-p0-control-source/jobs/headless-p0-control-720s-20261007/pypi-server__YKGPo9x/result.json"
+      },
+      {
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "reward": {
+          "reward": 0.0
+        },
+        "exception_type": null,
+        "result_path": "jobs/headless-p0-control-source/jobs/headless-p0-control-720s-20261007/torch-pipeline-parallelism__q7yM3os/result.json"
+      }
+    ]
+  },
+  "integrity_policy": "Audit tool calls from both arms for external task-specific solution/evaluation-test retrieval. Keep raw scores but label contaminated trials ineligible for independent-capability evidence; do not count a contaminated pass as a prompt improvement. A further confirmed integrity failure triggers review rather than favorable replacement runs."
+}
