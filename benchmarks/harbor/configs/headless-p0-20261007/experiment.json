@@ -200,7 +200,7 @@
       "verifier_timeout_seconds": 900.0
     }
   ],
-  "preflight": "All 20 control installs before model work; registered QEMU profile must pass, other 19 report not_configured. Every full trial repeats setup in its fresh container. Candidate installation is checked before its model runs.",
+  "preflight": "All 20 control installs before model work. Candidate QEMU installation and registered verifier profile are also checked before model work. Every full trial repeats setup in its fresh container; unregistered verifier profiles report not_configured.",
   "whole_trial_retries": 0,
   "verifier_policy": "Only timeouts may retry, at most three attempts on the same output with the original per-attempt limit.",
   "failure_policy": "Keep all trials, including zero scores, setup failures, and verifier errors. Do not rerun or replace model outputs after observing scores.",
@@ -213,5 +213,9 @@
     "agent time, model replies, known usage and estimated cost with completeness",
     "trajectory evidence of contract coverage, independent checking and repair"
   ],
-  "decision_rule": "Claim only observed pilot20 differences. Equal or worse pass count is not an improvement; any unscored trial limits the comparison. Even a higher count is exploratory at one run per arm/task; report every regression and do not claim a general capability gain. Do not revise the candidate during the experiment."
+  "decision_rule": "Claim only observed pilot20 differences. Equal or worse pass count is not an improvement; any unscored trial limits the comparison. Even a higher count is exploratory at one run per arm/task; report every regression and do not claim a general capability gain. Do not revise the candidate during the experiment.",
+  "preflight_jobs": {
+    "control": "headless-p0-install-20261007",
+    "treatment": "headless-p0-treatment-install-20261007"
+  }
 }
