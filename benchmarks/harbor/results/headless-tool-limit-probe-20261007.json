@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "kind": "local_scaled_diagnostic_not_a_model_benchmark",
+  "run_date": "2026-10-07",
+  "runtime_ref": "03cfd534ddb86ea507d43cad9776e86c91d53648",
+  "source": "src/nanopycodeagent/bash_tool.py",
+  "source_sha256": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+  "production_tool_timeout_seconds": 120,
+  "probe_tool_timeout_seconds": 0.25,
+  "probe_work_seconds": 2,
+  "cases": [
+    {
+      "case": "background_conditional",
+      "command": "cd /tmp && nohup sleep 2 > /tmp/nanopy-headless-background-probe.log 2>&1 & echo started",
+      "elapsed_seconds": 0.252,
+      "output": "[command timed out after 0.25 seconds]",
+      "is_error": true
+    },
+    {
+      "case": "background_command",
+      "command": "cd /tmp; nohup sleep 2 > /tmp/nanopy-headless-background-probe.log 2>&1 & echo started",
+      "elapsed_seconds": 0.002,
+      "output": "started",
+      "is_error": false
+    },
+    {
+      "case": "background_whole_group_redirected",
+      "command": "(cd /tmp && sleep 2 && echo complete) > /tmp/nanopy-headless-background-group-probe.log 2>&1 </dev/null & echo started",
+      "elapsed_seconds": 0.002,
+      "output": "started",
+      "is_error": false,
+      "background_completion_observed": true
+    },
+    {
+      "case": "inner_timeout_cannot_extend_tool_limit",
+      "command": "timeout 1500 sleep 2",
+      "elapsed_seconds": 0.252,
+      "output": "[command timed out after 0.25 seconds]",
+      "is_error": true
+    }
+  ],
+  "interpretation": "Backgrounding an AND-list can leave its shell holding captured pipes even when the inner command is redirected. Redirecting the whole background group returns immediately and the completion marker was observed. A longer timeout inside the shell cannot extend the outer tool timeout. These probes diagnose execution semantics; they do not establish model compliance or a task-score improvement."
+}
