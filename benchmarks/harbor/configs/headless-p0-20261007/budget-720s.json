@@ -1,0 +1,66 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 720
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/write-compressor",
+      "ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e"
+    },
+    {
+      "name": "terminal-bench/torch-tensor-parallelism",
+      "ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684"
+    },
+    {
+      "name": "terminal-bench/kv-store-grpc",
+      "ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307"
+    },
+    {
+      "name": "terminal-bench/pypi-server",
+      "ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1"
+    },
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb"
+    },
+    {
+      "name": "terminal-bench/qemu-alpine-ssh",
+      "ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28"
+    },
+    {
+      "name": "terminal-bench/openssl-selfsigned-cert",
+      "ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302"
+    },
+    {
+      "name": "terminal-bench/log-summary-date-ranges",
+      "ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6"
+    },
+    {
+      "name": "terminal-bench/model-extraction-relu-logits",
+      "ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17"
+    },
+    {
+      "name": "terminal-bench/regex-log",
+      "ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a"
+    },
+    {
+      "name": "terminal-bench/pytorch-model-recovery",
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc"
+    },
+    {
+      "name": "terminal-bench/merge-diff-arc-agi-task",
+      "ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d"
+    }
+  ]
+}

@@ -1,0 +1,426 @@
+{
+  "schema_version": 1,
+  "status": "finished",
+  "generated_at": "2026-10-07T20:26:08.718004+00:00",
+  "experiment_plan": "benchmarks/harbor/configs/headless-workspace-20261007/experiment.json",
+  "experiment_plan_sha256": "c2b8f55b4ed8d0bc37b06d4fda297712db0f0ff61c36a491261ea9d786ee2aae",
+  "kind": "targeted_diagnostic_followup",
+  "comparison_limit": "One selected post hoc regression case, compared descriptively with the already-observed main and guarded-candidate path trials. This is not a randomized A/B estimate or a new pilot20 score for the clarified prompt. Retain every earlier result and do not add replacement runs based on outcome.",
+  "source_ref": "e61558f3ef23e626b7341b9811ec66044ce8610b",
+  "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+  "prompt_words": 385,
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "manifest_path": "jobs/headless-workspace-source/jobs/headless-workspace-path-20261007-input/manifest.json",
+  "manifest": {
+    "created_at": "2026-10-07T19:49:50.538792+00:00",
+    "commit": "e61558f3ef23e626b7341b9811ec66044ce8610b",
+    "branch": "",
+    "source_kind": "working tree including uncommitted files",
+    "source_sha256": {
+      "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+      "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+      "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+      "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+      "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493",
+      "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+      "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+      "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+      "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+      "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+      "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+      "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+      "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+      "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+      "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+      "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+      "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+      "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+      "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+      "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206"
+    },
+    "wheel_sha256": "15b8048a680c836b1a72c6fa8cf7838ef3f2148a100eea4796bad1e1df2f4924",
+    "cache_dir": "/home/minix/projects/nanoPyCodeAgent/.cache/nanopy-harbor"
+  },
+  "summary_path": "jobs/headless-workspace-source/jobs/headless-workspace-path-20261007-input/summary.json",
+  "summary_sha256": "37b5c539d558b6705970c435ba65d66f2880066097e2ad0b5650c2ba98a5cc33",
+  "harbor_exit_code": 0,
+  "integrity": {
+    "source_files": [
+      {
+        "path": "harbor_adapter/__init__.py",
+        "sha256": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "harbor_adapter/__main__.py",
+        "sha256": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "harbor_adapter/_verifier_runner.py",
+        "sha256": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "harbor_adapter/adapter.py",
+        "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "harbor_adapter/bootstrap.py",
+        "sha256": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "harbor_adapter/verifier.py",
+        "sha256": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/__init__.py",
+        "sha256": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/agent.py",
+        "sha256": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/atif.py",
+        "sha256": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/bash_tool.py",
+        "sha256": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/cli.py",
+        "sha256": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/cost.py",
+        "sha256": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/deadline.py",
+        "sha256": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/edit_tool.py",
+        "sha256": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/event_journal.py",
+        "sha256": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/read_tool.py",
+        "sha256": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/settings.py",
+        "sha256": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/terminal.py",
+        "sha256": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/tool_validation.py",
+        "sha256": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/transport.py",
+        "sha256": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "matches_pinned_commit": true
+      },
+      {
+        "path": "nanopycodeagent/write_tool.py",
+        "sha256": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "matches_pinned_commit": true
+      }
+    ],
+    "ast_identical_except_headless_prompt": true,
+    "prompt_matches_plan": true,
+    "wheel_matches_manifest": true,
+    "installed_wheel_matches_manifest": true,
+    "wheel_source_matches_snapshot": true,
+    "task_checksum_matches_baseline": true,
+    "atif_valid": true,
+    "verifier_policy_valid": true
+  },
+  "trial": {
+    "arm": "workspace_clarification",
+    "task": "terminal-bench/path-tracing",
+    "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+    "task_checksum": "549aa348dde50ec3824205f402d9686da5d1dedf65ae2bd2ae8806513839fe93",
+    "task_checksum_matches_baseline": true,
+    "job": "headless-workspace-path-20261007",
+    "trial": "path-tracing__Tu8Unzq",
+    "status": "scored",
+    "reward": 1.0,
+    "raw_verifier_rewards": {
+      "reward": 1.0
+    },
+    "exception_type": null,
+    "failure_stage": null,
+    "no_model_work": false,
+    "started_at": "2026-10-07T19:49:53.428266Z",
+    "finished_at": "2026-10-07T19:56:53.049949Z",
+    "agent_version": "0.9.1.dev16+ge61558f3e",
+    "agent_setup_seconds": 38.313,
+    "agent_execution_seconds": 340.51,
+    "verifier_seconds": 28.644,
+    "work_budget_seconds": 1620,
+    "bootstrap_status": "ready",
+    "installed_wheel_sha256": "15b8048a680c836b1a72c6fa8cf7838ef3f2148a100eea4796bad1e1df2f4924",
+    "verifier_preflight": {
+      "profile": null,
+      "status": "not_configured"
+    },
+    "verifier_attempts": {
+      "timeout_sec": 1800.0,
+      "max_attempts": 3,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 28.413776024011895
+        }
+      ]
+    },
+    "result_path": "jobs/headless-workspace-source/jobs/headless-workspace-path-20261007/path-tracing__Tu8Unzq/result.json",
+    "trajectory_path": "jobs/headless-workspace-source/jobs/headless-workspace-path-20261007/path-tracing__Tu8Unzq/agent/trajectory.json",
+    "atif_valid": true,
+    "atif_errors": [],
+    "terminal": {
+      "status": "completed",
+      "duration_ms": 339638.22259,
+      "timestamp": "2026-10-07T19:56:13.123Z",
+      "timestamp_source": "source_timestamp",
+      "outcome": "completed"
+    },
+    "metrics": {
+      "total_steps": 89,
+      "total_prompt_tokens": 3030340,
+      "total_completion_tokens": 64408,
+      "total_cached_tokens": 2964736,
+      "total_cost_usd": 0.114759216,
+      "extra": {
+        "cost_is_estimated": true,
+        "estimated_cost_usd": 0.114759216
+      }
+    },
+    "model_attempts": 44,
+    "incomplete_model_attempts": 0,
+    "truncated_responses": 0,
+    "recovery_events": 0,
+    "known_cost_usd": 0.114759216,
+    "cost_complete": true,
+    "usage_complete": true,
+    "known_tokens": {
+      "total_prompt_tokens": 3030340,
+      "total_completion_tokens": 64408,
+      "total_cached_tokens": 2964736
+    },
+    "reference_audit": {
+      "arm": "workspace_clarification",
+      "task": "terminal-bench/path-tracing",
+      "trajectory_sha256": "ccf1532488b807338763b0f1c9a32d2bed870539519349a5266598c71458e7aa",
+      "status": "reviewed_no_confirmed_task_reference_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "used_task_supplied_executable": true,
+      "disassembly_steps": [
+        29,
+        31,
+        33,
+        35,
+        37,
+        39,
+        41,
+        43,
+        45,
+        47,
+        55,
+        57,
+        69,
+        75
+      ],
+      "observed_refusal_due_to_reference_boundary": false,
+      "note": "Reviewed tool calls and reference-related observations. The agent disassembled the task-supplied orig executable at step 29 and read its disassembly/constants, then implemented a C renderer and compared generated output against the supplied image. No network calls or external task-solution/hidden-test retrieval observed. Official verifier passed; this is a selected single-case behavioral diagnostic, not a new full20 score.",
+      "report_text": "The clarified candidate **passed** the official verifier on its first attempt.\nIt disassembled the supplied executable (ATIF step 29 and subsequent reads),\nimplemented a C renderer, and checked a clean static build against the supplied\nimage byte for byte. No external answer/test retrieval was observed, and no\nreference-boundary refusal was observed in this trial.\n\n| Path-tracing variant | Official reward | Agent seconds | Model attempts | Estimated USD |\n| --- | ---: | ---: | ---: | ---: |\n| Main, 175 words | 1 | 403.401 | 30 | 0.128554 |\n| Full20 candidate, 368 words | 1 | 1171.983 | 70 | 0.327928 |\n| Clarified candidate, 385 words | 1 | 340.510 | 44 | 0.114759 |\n\nThe follow-up has complete usage/cost accounting, no truncation or recovery,\nand an installed wheel matching its pinned source and manifest. Its additional\nestimated cost is **$0.114759**, outside the full comparison totals. The dependency\nprofile remains explicitly `not_configured`. This observed use of supplied\nmaterial supports the wording clarification; one selected case cannot establish\nthat the wording caused the timing difference or that other tasks improve."
+    }
+  },
+  "descriptive_prior_comparators": [
+    {
+      "arm": "control",
+      "task": "terminal-bench/path-tracing",
+      "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+      "task_checksum": "549aa348dde50ec3824205f402d9686da5d1dedf65ae2bd2ae8806513839fe93",
+      "task_checksum_matches_baseline": true,
+      "job": "headless-p0-control-1620s-20261007",
+      "trial": "path-tracing__Q9zWjqw",
+      "status": "scored",
+      "reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "failure_stage": null,
+      "no_model_work": false,
+      "started_at": "2026-10-07T17:11:16.226704Z",
+      "finished_at": "2026-10-07T17:20:11.253474Z",
+      "agent_version": "0.9.1.dev11+g6664f7bac",
+      "agent_setup_seconds": 86.069,
+      "agent_execution_seconds": 403.401,
+      "verifier_seconds": 33.519,
+      "work_budget_seconds": 1620,
+      "bootstrap_status": "ready",
+      "installed_wheel_sha256": "f23e090f3b475550cc968f8f2199b4dca7d204d8cb91b1f2c8640235f514191c",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 33.267927079927176
+          }
+        ]
+      },
+      "result_path": "jobs/headless-p0-control-source/jobs/headless-p0-control-1620s-20261007/path-tracing__Q9zWjqw/result.json",
+      "trajectory_path": "jobs/headless-p0-control-source/jobs/headless-p0-control-1620s-20261007/path-tracing__Q9zWjqw/agent/trajectory.json",
+      "atif_valid": true,
+      "atif_errors": [],
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 402601.595177,
+        "timestamp": "2026-10-07T17:19:26.516Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 61,
+        "total_prompt_tokens": 2284460,
+        "total_completion_tokens": 82932,
+        "total_cached_tokens": 2232320,
+        "total_cost_usd": 0.12855432,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.12855432
+        }
+      },
+      "model_attempts": 30,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "known_cost_usd": 0.12855432,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "total_prompt_tokens": 2284460,
+        "total_completion_tokens": 82932,
+        "total_cached_tokens": 2232320
+      }
+    },
+    {
+      "arm": "treatment",
+      "task": "terminal-bench/path-tracing",
+      "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+      "task_checksum": "549aa348dde50ec3824205f402d9686da5d1dedf65ae2bd2ae8806513839fe93",
+      "task_checksum_matches_baseline": true,
+      "job": "headless-p0-guarded-treatment-1620s-20261007",
+      "trial": "path-tracing__vMEYfX4",
+      "status": "scored",
+      "reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "failure_stage": null,
+      "no_model_work": false,
+      "started_at": "2026-10-07T17:20:21.956640Z",
+      "finished_at": "2026-10-07T17:41:52.394404Z",
+      "agent_version": "0.9.1.dev15+g03cfd534d",
+      "agent_setup_seconds": 80.426,
+      "agent_execution_seconds": 1171.983,
+      "verifier_seconds": 25.944,
+      "work_budget_seconds": 1620,
+      "bootstrap_status": "ready",
+      "installed_wheel_sha256": "40d021942924be15b2f823f17e63850a9f280ce6dd612d3190191a745e0027d3",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 25.7513268829789
+          }
+        ]
+      },
+      "result_path": "jobs/headless-p0-guarded-treatment-1620s-20261007/path-tracing__vMEYfX4/result.json",
+      "trajectory_path": "jobs/headless-p0-guarded-treatment-1620s-20261007/path-tracing__vMEYfX4/agent/trajectory.json",
+      "atif_valid": true,
+      "atif_errors": [],
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 1171173.236139,
+        "timestamp": "2026-10-07T17:41:15.169Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 141,
+        "total_prompt_tokens": 10917086,
+        "total_completion_tokens": 201197,
+        "total_cached_tokens": 10845696,
+        "total_cost_usd": 0.327927576,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.327927576
+        }
+      },
+      "model_attempts": 70,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "known_cost_usd": 0.327927576,
+      "cost_complete": true,
+      "usage_complete": true,
+      "known_tokens": {
+        "total_prompt_tokens": 10917086,
+        "total_completion_tokens": 201197,
+        "total_cached_tokens": 10845696
+      }
+    }
+  ],
+  "report_text": "The clarified candidate **passed** the official verifier on its first attempt.\nIt disassembled the supplied executable (ATIF step 29 and subsequent reads),\nimplemented a C renderer, and checked a clean static build against the supplied\nimage byte for byte. No external answer/test retrieval was observed, and no\nreference-boundary refusal was observed in this trial.\n\n| Path-tracing variant | Official reward | Agent seconds | Model attempts | Estimated USD |\n| --- | ---: | ---: | ---: | ---: |\n| Main, 175 words | 1 | 403.401 | 30 | 0.128554 |\n| Full20 candidate, 368 words | 1 | 1171.983 | 70 | 0.327928 |\n| Clarified candidate, 385 words | 1 | 340.510 | 44 | 0.114759 |\n\nThe follow-up has complete usage/cost accounting, no truncation or recovery,\nand an installed wheel matching its pinned source and manifest. Its additional\nestimated cost is **$0.114759**, outside the full comparison totals. The dependency\nprofile remains explicitly `not_configured`. This observed use of supplied\nmaterial supports the wording clarification; one selected case cannot establish\nthat the wording caused the timing difference or that other tasks improve.",
+  "accounting_note": "Known token-based estimate, not a provider bill. This follow-up is outside the full20 and abandoned-candidate totals. Missing accounting is unknown, never zero."
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "predeclared",
+  "registered_at": "2026-10-07T19:06:20.738443+00:00",
+  "kind": "targeted_diagnostic_followup",
+  "hypothesis": "Explicitly permitting task-supplied workspace executables removes the previous candidate's mistaken restriction on supplied reference material while preserving the boundary against externally obtained task answers and evaluation tests.",
+  "parent_candidate_ref": "03cfd534ddb86ea507d43cad9776e86c91d53648",
+  "parent_experiment": "../headless-p0-guarded-20261007/experiment.json",
+  "reason": "The previous path-tracing candidate noticed the supplied orig executable but explicitly avoided disassembly because the guard made it unsure whether a file present in the workspace counted as explicitly provided. Main used the provided executable; both passed, but the guarded candidate took 1171.983 seconds.",
+  "treatment": "Only clarify the information-boundary sentences in HEADLESS_SYSTEM_PROMPT. Preserve the P0 guidance, interactive prompt, tools, runtime, budgets, and adapter. No task names, algorithm, answer, metric formula, or evaluation-test details enter the prompt.",
+  "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+  "prompt_words": 385,
+  "tasks": [
+    {
+      "name": "terminal-bench/path-tracing",
+      "ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c"
+    }
+  ],
+  "config": "path-tracing.json",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "work_budget_seconds": 1620,
+  "max_turns": 100,
+  "max_tokens": 65536,
+  "agent_setup_timeout_seconds": 1800,
+  "model_trials": 1,
+  "job": "headless-workspace-path-20261007",
+  "source_checkout": "jobs/headless-workspace-source",
+  "schedule": "Start only after at least one existing 3420-second arm has finished all four trials. At most two concurrent trials across the ongoing full comparison and this follow-up. The full comparison continues with its already-prepared 03cfd53 candidate wheel; no existing trial is changed or replaced.",
+  "preflight": "Path tracing has no registered verifier-dependency profile. Record not_configured explicitly. The standard full runner installs the recorded wheel before model work; do not claim official verifier dependencies have passed preflight.",
+  "whole_trial_retries": 0,
+  "verifier_policy": "Only timeouts may retry, at most three attempts on the same output with the original 1800-second per-attempt limit.",
+  "primary_observations": [
+    "official reward, including failure or unscored outcomes",
+    "whether the agent uses task-supplied executable material or still refuses it because of the prompt"
+  ],
+  "secondary_observations": [
+    "agent time, model attempts, known usage/cost and completeness",
+    "external task-answer/evaluation-test retrieval audit"
+  ],
+  "comparison_limit": "One selected post hoc regression case, compared descriptively with the already-observed main and guarded-candidate path trials. This is not a randomized A/B estimate or a new pilot20 score for the clarified prompt. Retain every earlier result and do not add replacement runs based on outcome."
+}
