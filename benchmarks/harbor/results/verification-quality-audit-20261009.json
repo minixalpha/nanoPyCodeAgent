@@ -97,7 +97,11 @@
           "note": "The agent reads its own bootstrap and live logs, installs packages, and writes a real-model harness without running it. A background AND-list holds captured pipes and times out at 120 seconds. After checking that no installer remains, the agent relaunches with setsid. Only import and partition-helper checks complete; the final explicitly states that end-to-end behavior is unexecuted."
         }
       ],
-      "official_failure_notes": "Verifier pending."
+      "official_failure_notes": "After one dependency-download timeout, the second verifier attempt executes pytest and completes with reward 0 (2 failed, 2 passed). Single-rank lm_head.bwd microbatch 0 max difference: 0.1428563446; two-rank model.layers.1.bwd microbatch 0 max difference: 0.0421932563. These are genuine numerical test failures, unlike the first control verifier dependency error.",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_failure",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "b5b8a9d7d518a129335b76707c8d9fb1dbea7172228ac9bd9bc4251eeb7e28c5"
     },
     {
       "job": "vq-ope-torch-pipeline-parallelism-r2-20261009",
@@ -132,7 +136,110 @@
           "note": "A real Llama full-batch reference runs. The single-rank comparison covers all 39 parameter gradients and passes at the harness tolerance. The two-rank run completes, but its all-parameter report initially fails on non-owned parameters. The agent then selects nonzero gradients as owned and reports 19/20 passing parameters with matching layer ranges. Excluding non-owned parameters is justified, but selection based on observed nonzero gradients could hide missing expected gradients; it is not an independent ownership assertion. A hook-based per-microbatch check adds backward captures instead of preserving individual items and fails with a 2-versus-6 row shape mismatch. The final discloses this unresolved harness failure and limits runtime verification to CPU/fp32 and one/two ranks. The initial background installer still times out at 120 seconds despite explicit guidance."
         }
       ],
-      "official_failure_notes": "Verifier pending."
+      "official_failure_notes": "After one dependency-download timeout, the second verifier attempt executes pytest and completes with reward 0 (2 failed, 2 passed). Single-rank lm_head.bwd microbatch 0 max difference: 0.0416672938; two-rank model.layers.1.bwd microbatch 0 max difference: 0.0146767143. These are genuine numerical test failures, unlike the first control verifier dependency error.",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_failure",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "54ed7253a7377c20b895455196ab02ed8077fcd34a7465d6f9e99485b6dc5396"
+    },
+    {
+      "job": "vq-con-torch-pipeline-parallelism-r2-20261009",
+      "arm": "control",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "repeat": 2,
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/agent/trajectory.json",
+      "trajectory_sha256": "c523402ba377e835015d602745083c12d3f8de5a6238ad760072257bad973634",
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": false,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": true,
+      "critical_check_coverage": "partial",
+      "evidence": [
+        {
+          "steps": [
+            23,
+            25,
+            27,
+            29,
+            31,
+            33,
+            35,
+            37,
+            39
+          ],
+          "note": "A small actual Llama full-batch forward provides the reference. Initial hooks overwrite microbatch records; the agent changes them to lists, fixes reference slicing, and aligns backward records with reverse microbatch order while retaining every selected microbatch. Parameter checks exclude non-owned parameters using layer/rank ownership, rather than observed gradient values. Both ranks pass per-layer activations, gradients, owned parameter gradients, and loss comparisons. There is no successful separate lm_head activation comparison in this harness."
+        },
+        {
+          "steps": [
+            41,
+            43,
+            45,
+            47,
+            49,
+            51,
+            53
+          ],
+          "note": "Checks pass on Transformers 4.46.3 and 4.53.3; 4.38.2 exposes an unsupported past_key_values keyword. The source is fixed at step 47 and retested on 4.38.2 and 4.46.3. Version 4.53.3 is not rerun after that change, but the final says verification is complete across all three versions. This is a stale final-version claim, not a claim that the entire implementation was untested. CPU/fp32 and model-size limitations are disclosed."
+        }
+      ],
+      "official_failure_notes": "The first verifier attempt returned normally after uv failed to fetch the pytest package index following request retries. Pytest never started. The unchanged script wrote reward 0 and Harbor reported no exception. Classify as a verifier dependency error; preserve native reward 0 and do not retry a non-timeout result.",
+      "score_valid_for_capability_comparison": false,
+      "score_classification": "verifier_dependency_error",
+      "exclusion_reason": "verifier_dependency_error",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "6b1a54415cdc40d7b5a80e6a81e00bc6a469d1de80e90bf2e229b1e3528f7c87",
+      "final_claim_caveat": "The three-version summary includes a 4.53.3 check performed before the final implementation edit; mark that evidence stale rather than treating the entire completion statement as unsupported."
+    },
+    {
+      "job": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+      "arm": "verification",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "repeat": 2,
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/agent/trajectory.json",
+      "trajectory_sha256": "db9d1cb521b78bcdd040b07393c605f8bbbcdd0bf3f299d7c52eaf34a2563a2b",
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "partial_pass",
+      "final_limitations_disclosed": false,
+      "unsupported_completion_claim_observed": false,
+      "unsupported_intermediate_claim_observed": true,
+      "unresolved_failed_check_observed": true,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "critical_check_coverage": "partial",
+      "evidence": [
+        {
+          "steps": [
+            29,
+            31,
+            33,
+            35,
+            37,
+            39,
+            41
+          ],
+          "note": "A six-layer real Llama harness compares per-microbatch forward/backward activations and selected parameter gradients against a full-batch reference. It exposes and prompts fixes for broadcast_object_list result handling and mutually exclusive input_ids/inputs_embeds. Backward hook captures are changed from overwrites to lists; the implementation then changes backward processing to forward microbatch order, eliminating observed per-item mismatches. This is real defect-finding and repair evidence."
+        },
+        {
+          "steps": [
+            39,
+            41,
+            43,
+            45
+          ],
+          "note": "The intermediate statement that parameter gradients match conflicts with observed embedding/head gradient failures. Two-rank tied-weight parameter checks remain failing after the ordering fix. The next test changes tie_word_embeddings from True to False, and both ranks report success; the tied case is not repaired or rechecked. The harness skips unobserved layers, does not independently assert the layer partition, and labels its aggregate numerical flag layers_per_rank_ok. It also does not check the final norm gradient despite a broader comment. The final model call exhausts the wall-clock budget and produces no final summary or disclosure. Its cost and token accounting are incomplete."
+        }
+      ],
+      "official_failure_notes": "The first verifier attempt completes actual pytest execution with reward 1: all four tests pass. This official pass does not repair the unreported tied-weight self-test failure or make incomplete accounting complete.",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "931c5d89033bae35cf65965dd76519f77eb2b899ac50ebbfc96564fd755e4e73"
     }
   ]
 }

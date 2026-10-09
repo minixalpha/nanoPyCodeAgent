@@ -1,11 +1,16 @@
 # Verification quality and long-command guidance comparison
 
-**Status: running; 2 of 24 trials have finished.** This report is incomplete and
+**Status: running; 6 of 24 trials have finished.** This report is incomplete and
 makes no capability or efficiency improvement claim. The first verification
 candidate pipeline trial scored zero. The matching control also has raw reward
 zero, but its verifier failed during dependency download without starting the
 tests. That raw reward is retained and classified as a verifier dependency error,
-excluded from capability-score comparisons. The operations arm is now running.
+excluded from capability-score comparisons. Both operations pipeline trials also
+scored zero after their tests executed. The second control also encountered a
+verifier dependency error. The second verification candidate passed all four
+official tests. All six pipeline trials have finished. Neither pipeline control
+has a valid capability score, so no fresh paired score comparison is available
+for this task. Scheduler trials are now running.
 
 The [registered plan](../configs/verification-quality-20261009/experiment.json)
 and [reproduction instructions](../configs/verification-quality-20261009/README.md)
@@ -93,8 +98,8 @@ expanded verification prompt. They also do not establish a general regression:
 the remaining repetitions and tasks have not finished, dependency-download
 conditions differed, and the control's raw zero is invalid as capability evidence.
 
-Both operations-arm pipeline agents have also finished; their official verifiers
-are pending. Each still incurred one 120-second timeout by placing `cd ... &&`
+Both operations-arm pipeline trials have also finished. Each still incurred
+one 120-second tool timeout by placing `cd ... &&`
 outside the redirected background group. One recovered too late to execute its
 real-model harness and disclosed the limitation. The other passed a single-rank
 comparison of all 39 parameter gradients and completed a two-rank run. Its
@@ -104,6 +109,44 @@ captures instead of preserving microbatch identity and failed with a shape
 mismatch. The final response disclosed that unresolved activation-check gap.
 These are partial verification results, not evidence that every requirement was
 checked. Neither operations trajectory showed external task-answer exposure.
+
+Both operations verifiers timed out once during dependency download, then
+completed actual tests on the second attempt with two failures and two passes.
+Both failed single-rank `lm_head.bwd` and two-rank `model.layers.1.bwd`
+microbatch comparisons. The maximum differences were 0.1428563/0.0421933 in
+repeat 1 and 0.0416673/0.0146767 in repeat 2. Successful parameter-gradient
+self-checks in repeat 2 therefore did not establish the required per-microbatch
+activation agreement. No patch-and-rerun causal attribution has been performed.
+
+The second control passed real single-/two-rank checks of per-layer microbatch
+activations, owned parameter gradients, and loss. It fixed test collection/index
+errors while retaining the selected microbatches, and excluded non-owned
+parameters using rank/layer ownership. A check on Transformers 4.38.2 then found
+an implementation compatibility bug. After fixing it, the agent reran 4.38.2 and
+4.46.3; its earlier 4.53.3 result was not refreshed despite the final three-version
+summary. Its official verifier could not fetch the pytest package index and
+never started tests; the native zero is classified as another verifier error.
+
+The second verification candidate ran real checks and fixed broadcast result
+handling, incompatible model inputs, and backward microbatch ordering. It still
+failed two-rank tied embedding/head gradient checks, then changed the harness to
+untied weights and obtained passing numerical flags. That leaves the tied case
+unresolved. Its harness also skips unobserved layers without an independent
+partition assertion. The final model call exhausted the 720-second work budget,
+so there was no final summary and its cost/usage accounting is partial. These
+positive repair actions and remaining evidence gaps are both retained.
+The official verifier subsequently passed all four tests on its first attempt.
+That pass does not resolve the broader tied-weight self-test failure or missing
+final disclosure.
+
+Pipeline interpretation also needs a contract caveat. After all six pipeline
+agent outputs were fixed, the known diagnostic verifier was reviewed again: it
+compares hook records in call order against reference microbatches processed in
+input order. The public AFAB wording does not specify backward microbatch order.
+A self-check that aligns gradients by microbatch identity can therefore validate
+numerical behavior while differing from the verifier's ordering constraint.
+This does not make an incomplete self-check sufficient, and no counterfactual
+official rerun was performed. Hidden tests for the two new tasks remain unread.
 
 ## Local and CI validation
 
