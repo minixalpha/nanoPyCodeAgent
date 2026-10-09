@@ -11,7 +11,7 @@
       "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/agent/trajectory.json",
       "trajectory_sha256": "698e12648ccb5f0f8312d6ee8565d7cec6185f5aa535ab21db847bcb03b08cc2",
       "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
-      "eligible_as_independent_capability_evidence": true,
+      "eligible_as_independent_capability_evidence": false,
       "task_specific_search_attempt": false,
       "real_entry_check": "partial_pass",
       "final_limitations_disclosed": true,
@@ -28,7 +28,11 @@
           ],
           "note": "The real Llama model passes a single-rank check against its full-batch forward, including every selected microbatch and 39 parameter gradients. The two-rank attempts time out or have no completion output. The final explicitly discloses the two-rank gap. Network calls retrieve general Transformers/PyTorch source and packages."
         }
-      ]
+      ],
+      "score_valid_for_capability_comparison": false,
+      "score_classification": "verifier_dependency_error",
+      "official_failure_notes": "The first two verifier attempts timed out at 900 seconds each. Attempt 3 returned normally after uv failed to download/extract nvidia-cufft-cu12 because of a network timeout. The unchanged task script wrote reward 0 despite never starting pytest. Preserve raw reward 0; exclude this trial from capability-score comparisons and count it as a verifier dependency error, not an agent-scored failure.",
+      "exclusion_reason": "verifier_dependency_error"
     },
     {
       "job": "vq-ver-torch-pipeline-parallelism-r1-20261009",
@@ -62,6 +66,73 @@
         }
       ],
       "official_failure_notes": "Completed verifier reward 0: world_size=1 backward activation mismatch at lm_head (max diff 0.5714225); world_size=2 raises AttributeError because local_targets[micro] is None. The candidate chose multiplication by the microbatch count and did not run its numerical harness."
+    },
+    {
+      "job": "vq-ope-torch-pipeline-parallelism-r1-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "repeat": 1,
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/agent/trajectory.json",
+      "trajectory_sha256": "96d56bbfa98b0e779517f6a4a5c85cfd70d417e2dbe9c318aa343bf814be3807",
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "not_executed",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "critical_check_coverage": "not_executed",
+      "evidence": [
+        {
+          "steps": [
+            13,
+            21,
+            25,
+            31,
+            33,
+            39,
+            41
+          ],
+          "note": "The agent reads its own bootstrap and live logs, installs packages, and writes a real-model harness without running it. A background AND-list holds captured pipes and times out at 120 seconds. After checking that no installer remains, the agent relaunches with setsid. Only import and partition-helper checks complete; the final explicitly states that end-to-end behavior is unexecuted."
+        }
+      ],
+      "official_failure_notes": "Verifier pending."
+    },
+    {
+      "job": "vq-ope-torch-pipeline-parallelism-r2-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "repeat": 2,
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/agent/trajectory.json",
+      "trajectory_sha256": "6e4fc530b2124cd82e7f9b41c9b12281ed77eb0a3c49d898494a68f27437fbdd",
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "partial_pass",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "critical_check_coverage": "partial",
+      "evidence": [
+        {
+          "steps": [
+            13,
+            19,
+            23,
+            35,
+            37,
+            39,
+            41,
+            43,
+            45,
+            47
+          ],
+          "note": "A real Llama full-batch reference runs. The single-rank comparison covers all 39 parameter gradients and passes at the harness tolerance. The two-rank run completes, but its all-parameter report initially fails on non-owned parameters. The agent then selects nonzero gradients as owned and reports 19/20 passing parameters with matching layer ranges. Excluding non-owned parameters is justified, but selection based on observed nonzero gradients could hide missing expected gradients; it is not an independent ownership assertion. A hook-based per-microbatch check adds backward captures instead of preserving individual items and fails with a 2-versus-6 row shape mismatch. The final discloses this unresolved harness failure and limits runtime verification to CPU/fp32 and one/two ranks. The initial background installer still times out at 120 seconds despite explicit guidance."
+        }
+      ],
+      "official_failure_notes": "Verifier pending."
     }
   ]
 }

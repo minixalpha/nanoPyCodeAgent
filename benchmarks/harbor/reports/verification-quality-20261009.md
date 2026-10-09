@@ -1,11 +1,11 @@
 # Verification quality and long-command guidance comparison
 
-**Status: running.** This report is incomplete and makes no capability or
-efficiency improvement claim. The fixed queue contains 24 model trials; the
-first completed verification-candidate pipeline trial scored zero. The matching
-control has finished model work but is still awaiting an official result after
-two verifier attempts timed out during dependency installation; the third and
-last permitted attempt is running.
+**Status: running; 2 of 24 trials have finished.** This report is incomplete and
+makes no capability or efficiency improvement claim. The first verification
+candidate pipeline trial scored zero. The matching control also has raw reward
+zero, but its verifier failed during dependency download without starting the
+tests. That raw reward is retained and classified as a verifier dependency error,
+excluded from capability-score comparisons. The operations arm is now running.
 
 The [registered plan](../configs/verification-quality-20261009/experiment.json)
 and [reproduction instructions](../configs/verification-quality-20261009/README.md)
@@ -80,10 +80,30 @@ microbatch count and reverse-order backward processing. This output had no
 successful numerical self-check. The failure is retained without a replacement
 model run.
 
+The control verifier timed out twice at its original 900-second deadline. Its
+third attempt terminated after a network timeout while downloading/extracting
+`nvidia-cufft-cu12`. The unchanged task script then wrote reward zero, even though
+pytest never started. Harbor reported a scored zero with no exception. The
+structured evidence preserves that native status and reward, but records an
+analytical `verifier_error` with no valid capability score. No extra verifier
+attempt or replacement model run is added.
+
 These two trajectories do not show improved verification coverage from the
 expanded verification prompt. They also do not establish a general regression:
 the remaining repetitions and tasks have not finished, dependency-download
-conditions differed, and the control's official result is still pending.
+conditions differed, and the control's raw zero is invalid as capability evidence.
+
+Both operations-arm pipeline agents have also finished; their official verifiers
+are pending. Each still incurred one 120-second timeout by placing `cd ... &&`
+outside the redirected background group. One recovered too late to execute its
+real-model harness and disclosed the limitation. The other passed a single-rank
+comparison of all 39 parameter gradients and completed a two-rank run. Its
+two-rank analysis selected nonzero gradients as owned parameters, which could
+hide an expected gradient that is absent. Its hook harness summed backward
+captures instead of preserving microbatch identity and failed with a shape
+mismatch. The final response disclosed that unresolved activation-check gap.
+These are partial verification results, not evidence that every requirement was
+checked. Neither operations trajectory showed external task-answer exposure.
 
 ## Local and CI validation
 
