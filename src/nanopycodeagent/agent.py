@@ -229,6 +229,7 @@ HEADLESS_SYSTEM_PROMPT = (
     "required behavior, save the deliverables and finish. State what was "
     "verified and any remaining limitation without claiming unobserved "
     "success.\n\n"
+    'Each bash call has a 120-second maximum, further limited by the remaining task budget. A longer timeout inside the shell cannot extend it. For longer work, redirect the entire background command group, including stdin, so no child holds the captured pipes; for example: (command; echo $? > /tmp/work.status) > /tmp/work.log 2>&1 < /dev/null &. Use fresh paths for each launch. Poll the log and completion status, inspect the exit code, and validate the resulting artifact before claiming completion. Save a runnable intermediate deliverable before expensive work. Required ongoing services are different from unfinished artifact generation.\n\n'
 ) + _TOOL_GUIDANCE
 
 def _json_value(value: object) -> JsonValue:
