@@ -1,0 +1,1004 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-09T16:42:31.828366+00:00",
+  "experiment_plan": "benchmarks/harbor/configs/verification-quality-20261009/experiment.json",
+  "experiment_plan_sha256": "b3968a10a29507b72c62f6f886a6af4f982373e15ca6103da21dd288362396c1",
+  "status": "running",
+  "summary": {
+    "control": {
+      "planned": 8,
+      "statuses": {
+        "verifier_error": 2,
+        "not_started": 6
+      },
+      "passes": 0,
+      "scored_failures": 0,
+      "known_cost_usd": 0.155345088,
+      "cost_complete": false,
+      "usage_complete": false,
+      "known_agent_seconds": 1258.6505069999998,
+      "model_attempts": 53,
+      "tool_timeouts": 1
+    },
+    "verification": {
+      "planned": 8,
+      "statuses": {
+        "scored": 2,
+        "started": 1,
+        "not_started": 5
+      },
+      "passes": 1,
+      "scored_failures": 1,
+      "known_cost_usd": 0.164811612,
+      "cost_complete": false,
+      "usage_complete": false,
+      "known_agent_seconds": 1376.596241,
+      "model_attempts": 42,
+      "tool_timeouts": 2
+    },
+    "operations": {
+      "planned": 8,
+      "statuses": {
+        "scored": 2,
+        "started": 1,
+        "not_started": 5
+      },
+      "passes": 0,
+      "scored_failures": 2,
+      "known_cost_usd": 0.135588492,
+      "cost_complete": false,
+      "usage_complete": false,
+      "known_agent_seconds": 1311.230174,
+      "model_attempts": 43,
+      "tool_timeouts": 2
+    }
+  },
+  "trials": [
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-con-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "status": "verifier_error",
+      "reward": null,
+      "launcher_exit_code": 0,
+      "known_cost_usd": 0.085583436,
+      "cost_complete": true,
+      "usage_complete": true,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/result.json",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "agent_setup_seconds": 137.350091,
+      "agent_execution_seconds": 671.625725,
+      "verifier_seconds": 2345.913464,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-09T14:52:06.449794Z",
+      "finished_at": "2026-10-09T15:44:55.652186Z",
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "timeout",
+            "duration_seconds": 900.0030681919961
+          },
+          {
+            "attempt": 2,
+            "status": "timeout",
+            "duration_seconds": 900.0031834670008
+          },
+          {
+            "attempt": 3,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 546.6134462979971
+          }
+        ]
+      },
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/agent/trajectory.json",
+      "trajectory_sha256": "698e12648ccb5f0f8312d6ee8565d7cec6185f5aa535ab21db847bcb03b08cc2",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 671658.796661,
+        "timestamp": "2026-10-09T15:05:36.416Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 55,
+        "total_prompt_tokens": 1230161,
+        "total_completion_tokens": 56274,
+        "total_cached_tokens": 1193856,
+        "total_cost_usd": 0.085583436,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.085583436
+        }
+      },
+      "model_attempts": 27,
+      "summed_model_call_seconds": 316.959456431,
+      "maximum_model_call_seconds": 73.936952907,
+      "summed_tool_call_seconds": 354.618524057,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "tool_timeouts": 1,
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "audit": {
+        "job": "vq-con-torch-pipeline-parallelism-r1-20261009",
+        "arm": "control",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 1,
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/agent/trajectory.json",
+        "trajectory_sha256": "698e12648ccb5f0f8312d6ee8565d7cec6185f5aa535ab21db847bcb03b08cc2",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": false,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              31,
+              49,
+              51,
+              55
+            ],
+            "note": "The real Llama model passes a single-rank check against its full-batch forward, including every selected microbatch and 39 parameter gradients. The two-rank attempts time out or have no completion output. The final explicitly discloses the two-rank gap. Network calls retrieve general Transformers/PyTorch source and packages."
+          }
+        ],
+        "score_valid_for_capability_comparison": false,
+        "score_classification": "verifier_dependency_error",
+        "official_failure_notes": "The first two verifier attempts timed out at 900 seconds each. Attempt 3 returned normally after uv failed to download/extract nvidia-cufft-cu12 because of a network timeout. The unchanged task script wrote reward 0 despite never starting pytest. Preserve raw reward 0; exclude this trial from capability-score comparisons and count it as a verifier dependency error, not an agent-scored failure.",
+        "exclusion_reason": "verifier_dependency_error"
+      },
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "failure_stage": "verifier_dependencies"
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ver-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "status": "scored",
+      "reward": 0.0,
+      "launcher_exit_code": 0,
+      "known_cost_usd": 0.0612708,
+      "cost_complete": true,
+      "usage_complete": true,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/result.json",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "agent_setup_seconds": 77.230504,
+      "agent_execution_seconds": 655.750458,
+      "verifier_seconds": 703.878173,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-09T14:52:06.479199Z",
+      "finished_at": "2026-10-09T15:16:18.452768Z",
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 703.7512151589981
+          }
+        ]
+      },
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/agent/trajectory.json",
+      "trajectory_sha256": "c47b1502cc633647967ba9b7fbd7a99c9528a35180e7e826a6d6bb76b5f938d8",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 655947.282239,
+        "timestamp": "2026-10-09T15:04:20.413Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 41,
+        "total_prompt_tokens": 600080,
+        "total_completion_tokens": 46079,
+        "total_cached_tokens": 592000,
+        "total_cost_usd": 0.0612708,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.0612708
+        }
+      },
+      "model_attempts": 20,
+      "summed_model_call_seconds": 248.364908082,
+      "maximum_model_call_seconds": 61.362616916,
+      "summed_tool_call_seconds": 407.52567982,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "tool_timeouts": 2,
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "audit": {
+        "job": "vq-ver-torch-pipeline-parallelism-r1-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 1,
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/agent/trajectory.json",
+        "trajectory_sha256": "c47b1502cc633647967ba9b7fbd7a99c9528a35180e7e826a6d6bb76b5f938d8",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": true,
+        "real_entry_check": "not_executed",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              9,
+              11,
+              13,
+              17,
+              19,
+              27,
+              29,
+              37,
+              41
+            ],
+            "note": "Exact-function searches return security challenges, missing endpoints, authentication errors, or no answer links. Two Bash calls time out at 120 seconds. Torch remains unavailable; a real-model harness is written but not executed. Only py_compile passes, and the final explicitly discloses no numerical verification and the chosen loss-scale interpretation."
+          }
+        ],
+        "official_failure_notes": "Completed verifier reward 0: world_size=1 backward activation mismatch at lm_head (max diff 0.5714225); world_size=2 raises AttributeError because local_targets[micro] is None. The candidate chose multiplication by the microbatch count and did not run its numerical harness."
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ope-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "status": "scored",
+      "reward": 0.0,
+      "launcher_exit_code": 0,
+      "known_cost_usd": 0.076849608,
+      "cost_complete": true,
+      "usage_complete": true,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/result.json",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "agent_setup_seconds": 134.611081,
+      "agent_execution_seconds": 655.875226,
+      "verifier_seconds": 1252.528498,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-09T15:45:27.637317Z",
+      "finished_at": "2026-10-09T16:19:45.390521Z",
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "timeout",
+            "duration_seconds": 900.0040100719998
+          },
+          {
+            "attempt": 2,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 351.31837493900093
+          }
+        ]
+      },
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/agent/trajectory.json",
+      "trajectory_sha256": "96d56bbfa98b0e779517f6a4a5c85cfd70d417e2dbe9c318aa343bf814be3807",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 653746.844654,
+        "timestamp": "2026-10-09T15:58:39.067Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 41,
+        "total_prompt_tokens": 711314,
+        "total_completion_tokens": 49473,
+        "total_cached_tokens": 666368,
+        "total_cost_usd": 0.076849608,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.076849608
+        }
+      },
+      "model_attempts": 20,
+      "summed_model_call_seconds": 243.921774978,
+      "maximum_model_call_seconds": 167.232692041,
+      "summed_tool_call_seconds": 409.771602606,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "tool_timeouts": 1,
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "audit": {
+        "job": "vq-ope-torch-pipeline-parallelism-r1-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 1,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/agent/trajectory.json",
+        "trajectory_sha256": "96d56bbfa98b0e779517f6a4a5c85cfd70d417e2dbe9c318aa343bf814be3807",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "not_executed",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "critical_check_coverage": "not_executed",
+        "evidence": [
+          {
+            "steps": [
+              13,
+              21,
+              25,
+              31,
+              33,
+              39,
+              41
+            ],
+            "note": "The agent reads its own bootstrap and live logs, installs packages, and writes a real-model harness without running it. A background AND-list holds captured pipes and times out at 120 seconds. After checking that no installer remains, the agent relaunches with setsid. Only import and partition-helper checks complete; the final explicitly states that end-to-end behavior is unexecuted."
+          }
+        ],
+        "official_failure_notes": "After one dependency-download timeout, the second verifier attempt executes pytest and completes with reward 0 (2 failed, 2 passed). Single-rank lm_head.bwd microbatch 0 max difference: 0.1428563446; two-rank model.layers.1.bwd microbatch 0 max difference: 0.0421932563. These are genuine numerical test failures, unlike the first control verifier dependency error.",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_failure",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "b5b8a9d7d518a129335b76707c8d9fb1dbea7172228ac9bd9bc4251eeb7e28c5"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ope-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "status": "scored",
+      "reward": 0.0,
+      "launcher_exit_code": 0,
+      "known_cost_usd": 0.058738884,
+      "cost_complete": true,
+      "usage_complete": true,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/result.json",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "agent_setup_seconds": 138.896958,
+      "agent_execution_seconds": 655.354948,
+      "verifier_seconds": 1244.67741,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-09T15:45:18.428047Z",
+      "finished_at": "2026-10-09T16:19:32.758980Z",
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "timeout",
+            "duration_seconds": 900.0031564370001
+          },
+          {
+            "attempt": 2,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 343.4773280070003
+          }
+        ]
+      },
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/agent/trajectory.json",
+      "trajectory_sha256": "6e4fc530b2124cd82e7f9b41c9b12281ed77eb0a3c49d898494a68f27437fbdd",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 653173.203504,
+        "timestamp": "2026-10-09T15:58:34.005Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 47,
+        "total_prompt_tokens": 724439,
+        "total_completion_tokens": 43079,
+        "total_cached_tokens": 715264,
+        "total_cost_usd": 0.058738884,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.058738884
+        }
+      },
+      "model_attempts": 23,
+      "summed_model_call_seconds": 235.563146319,
+      "maximum_model_call_seconds": 106.58585946199999,
+      "summed_tool_call_seconds": 417.548233131,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "tool_timeouts": 1,
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "audit": {
+        "job": "vq-ope-torch-pipeline-parallelism-r2-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 2,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/agent/trajectory.json",
+        "trajectory_sha256": "6e4fc530b2124cd82e7f9b41c9b12281ed77eb0a3c49d898494a68f27437fbdd",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "critical_check_coverage": "partial",
+        "evidence": [
+          {
+            "steps": [
+              13,
+              19,
+              23,
+              35,
+              37,
+              39,
+              41,
+              43,
+              45,
+              47
+            ],
+            "note": "A real Llama full-batch reference runs. The single-rank comparison covers all 39 parameter gradients and passes at the harness tolerance. The two-rank run completes, but its all-parameter report initially fails on non-owned parameters. The agent then selects nonzero gradients as owned and reports 19/20 passing parameters with matching layer ranges. Excluding non-owned parameters is justified, but selection based on observed nonzero gradients could hide missing expected gradients; it is not an independent ownership assertion. A hook-based per-microbatch check adds backward captures instead of preserving individual items and fails with a 2-versus-6 row shape mismatch. The final discloses this unresolved harness failure and limits runtime verification to CPU/fp32 and one/two ranks. The initial background installer still times out at 120 seconds despite explicit guidance."
+          }
+        ],
+        "official_failure_notes": "After one dependency-download timeout, the second verifier attempt executes pytest and completes with reward 0 (2 failed, 2 passed). Single-rank lm_head.bwd microbatch 0 max difference: 0.0416672938; two-rank model.layers.1.bwd microbatch 0 max difference: 0.0146767143. These are genuine numerical test failures, unlike the first control verifier dependency error.",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_failure",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "54ed7253a7377c20b895455196ab02ed8077fcd34a7465d6f9e99485b6dc5396"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "status": "scored",
+      "reward": 1.0,
+      "launcher_exit_code": 0,
+      "known_cost_usd": 0.103540812,
+      "cost_complete": false,
+      "usage_complete": false,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/result.json",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "agent_setup_seconds": 104.088802,
+      "agent_execution_seconds": 720.845783,
+      "verifier_seconds": 463.852849,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-09T16:19:57.988835Z",
+      "finished_at": "2026-10-09T16:41:41.882654Z",
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 463.49382196100487
+          }
+        ]
+      },
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/agent/trajectory.json",
+      "trajectory_sha256": "db9d1cb521b78bcdd040b07393c605f8bbbcdd0bf3f299d7c52eaf34a2563a2b",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 720014.652115,
+        "timestamp": "2026-10-09T16:33:43.843Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "time_budget_exhausted"
+      },
+      "metrics": {
+        "total_steps": 45,
+        "extra": {
+          "usage_complete": false,
+          "known_cost_usd": 0.103540812,
+          "cost_is_partial": true,
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.103540812
+        }
+      },
+      "model_attempts": 22,
+      "summed_model_call_seconds": 493.542580079,
+      "maximum_model_call_seconds": 237.944808967,
+      "summed_tool_call_seconds": 226.41692674,
+      "incomplete_model_attempts": 1,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "tool_timeouts": 0,
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "audit": {
+        "job": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 2,
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/agent/trajectory.json",
+        "trajectory_sha256": "db9d1cb521b78bcdd040b07393c605f8bbbcdd0bf3f299d7c52eaf34a2563a2b",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "final_limitations_disclosed": false,
+        "unsupported_completion_claim_observed": false,
+        "unsupported_intermediate_claim_observed": true,
+        "unresolved_failed_check_observed": true,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "critical_check_coverage": "partial",
+        "evidence": [
+          {
+            "steps": [
+              29,
+              31,
+              33,
+              35,
+              37,
+              39,
+              41
+            ],
+            "note": "A six-layer real Llama harness compares per-microbatch forward/backward activations and selected parameter gradients against a full-batch reference. It exposes and prompts fixes for broadcast_object_list result handling and mutually exclusive input_ids/inputs_embeds. Backward hook captures are changed from overwrites to lists; the implementation then changes backward processing to forward microbatch order, eliminating observed per-item mismatches. This is real defect-finding and repair evidence."
+          },
+          {
+            "steps": [
+              39,
+              41,
+              43,
+              45
+            ],
+            "note": "The intermediate statement that parameter gradients match conflicts with observed embedding/head gradient failures. Two-rank tied-weight parameter checks remain failing after the ordering fix. The next test changes tie_word_embeddings from True to False, and both ranks report success; the tied case is not repaired or rechecked. The harness skips unobserved layers, does not independently assert the layer partition, and labels its aggregate numerical flag layers_per_rank_ok. It also does not check the final norm gradient despite a broader comment. The final model call exhausts the wall-clock budget and produces no final summary or disclosure. Its cost and token accounting are incomplete."
+          }
+        ],
+        "official_failure_notes": "The first verifier attempt completes actual pytest execution with reward 1: all four tests pass. This official pass does not repair the unreported tied-weight self-test failure or make incomplete accounting complete.",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "931c5d89033bae35cf65965dd76519f77eb2b899ac50ebbfc96564fd755e4e73"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-con-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "status": "verifier_error",
+      "reward": null,
+      "launcher_exit_code": 0,
+      "known_cost_usd": 0.069761652,
+      "cost_complete": true,
+      "usage_complete": true,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/result.json",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "agent_setup_seconds": 100.827538,
+      "agent_execution_seconds": 587.024782,
+      "verifier_seconds": 136.906223,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-09T16:19:57.731639Z",
+      "finished_at": "2026-10-09T16:33:56.359576Z",
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 136.53335461999814
+          }
+        ]
+      },
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/agent/trajectory.json",
+      "trajectory_sha256": "c523402ba377e835015d602745083c12d3f8de5a6238ad760072257bad973634",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 586163.607139,
+        "timestamp": "2026-10-09T16:31:26.693Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "metrics": {
+        "total_steps": 53,
+        "total_prompt_tokens": 978643,
+        "total_completion_tokens": 47545,
+        "total_cached_tokens": 955392,
+        "total_cost_usd": 0.069761652,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.069761652
+        }
+      },
+      "model_attempts": 26,
+      "summed_model_call_seconds": 242.30997215399998,
+      "maximum_model_call_seconds": 129.647188506,
+      "summed_tool_call_seconds": 343.783995908,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "recovery_events": 0,
+      "tool_timeouts": 0,
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "audit": {
+        "job": "vq-con-torch-pipeline-parallelism-r2-20261009",
+        "arm": "control",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 2,
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/agent/trajectory.json",
+        "trajectory_sha256": "c523402ba377e835015d602745083c12d3f8de5a6238ad760072257bad973634",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": false,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": true,
+        "critical_check_coverage": "partial",
+        "evidence": [
+          {
+            "steps": [
+              23,
+              25,
+              27,
+              29,
+              31,
+              33,
+              35,
+              37,
+              39
+            ],
+            "note": "A small actual Llama full-batch forward provides the reference. Initial hooks overwrite microbatch records; the agent changes them to lists, fixes reference slicing, and aligns backward records with reverse microbatch order while retaining every selected microbatch. Parameter checks exclude non-owned parameters using layer/rank ownership, rather than observed gradient values. Both ranks pass per-layer activations, gradients, owned parameter gradients, and loss comparisons. There is no successful separate lm_head activation comparison in this harness."
+          },
+          {
+            "steps": [
+              41,
+              43,
+              45,
+              47,
+              49,
+              51,
+              53
+            ],
+            "note": "Checks pass on Transformers 4.46.3 and 4.53.3; 4.38.2 exposes an unsupported past_key_values keyword. The source is fixed at step 47 and retested on 4.38.2 and 4.46.3. Version 4.53.3 is not rerun after that change, but the final says verification is complete across all three versions. This is a stale final-version claim, not a claim that the entire implementation was untested. CPU/fp32 and model-size limitations are disclosed."
+          }
+        ],
+        "official_failure_notes": "The first verifier attempt returned normally after uv failed to fetch the pytest package index following request retries. Pytest never started. The unchanged script wrote reward 0 and Harbor reported no exception. Classify as a verifier dependency error; preserve native reward 0 and do not retry a non-timeout result.",
+        "score_valid_for_capability_comparison": false,
+        "score_classification": "verifier_dependency_error",
+        "exclusion_reason": "verifier_dependency_error",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "6b1a54415cdc40d7b5a80e6a81e00bc6a469d1de80e90bf2e229b1e3528f7c87",
+        "final_claim_caveat": "The three-version summary includes a 4.53.3 check performed before the final implementation edit; mark that evidence stale rather than treating the entire completion statement as unsupported."
+      },
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "failure_stage": "verifier_dependencies"
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ver-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "status": "started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false,
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c"
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ope-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "status": "started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false,
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc"
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-con-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-con-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ope-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ver-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-con-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ver-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ope-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ope-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ver-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-con-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ver-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ope-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-con-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-con-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ope-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ver-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "status": "not_started",
+      "reward": null,
+      "launcher_exit_code": null,
+      "known_cost_usd": null,
+      "cost_complete": false,
+      "usage_complete": false
+    }
+  ],
+  "interpretation": "Raw outcomes. Manual trajectory audits and common-eligibility comparisons are reported separately. Missing costs and pending outcomes are not zero-cost failures."
+}
