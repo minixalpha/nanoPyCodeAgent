@@ -22,14 +22,16 @@ spec.loader.exec_module(comparison)
     [{"exit_code": 0, "summary": {"trials": [{"status": "setup_failed"}]}}],
 ])
 def test_incomplete_or_failed_preflight_cannot_start_models(states):
-    assert not comparison.preflight_passed(states)
+    assert not comparison.preflight_passed(states, [1] * len(states))
 
 
 def test_successful_installation_does_not_require_a_registered_profile():
     state = {"exit_code": 0, "summary": {"trials": [{
         "status": "setup_passed", "bootstrap": {"verifier_preflight": {"status": "not_configured"}},
     }]}}
-    assert comparison.preflight_passed([state])
+    assert comparison.preflight_passed([state], [1])
+    assert not comparison.preflight_passed([state], [4])
+    assert not comparison.preflight_passed([state], [1, 1])
 
 
 def test_failed_job_is_recorded_and_never_retried(tmp_path, monkeypatch):

@@ -104,12 +104,13 @@ def run_job(root, plan, job, record, install_only):
     return state
 
 
-def preflight_passed(states):
-    return bool(states) and all(
+def preflight_passed(states, expected_counts):
+    return bool(states) and len(states) == len(expected_counts) and all(
         s.get("exit_code") == 0
         and s.get("summary", {}).get("trials")
+        and len(s["summary"]["trials"]) == expected
         and all(t["status"] == "setup_passed" for t in s["summary"]["trials"])
-        for s in states
+        for s, expected in zip(states, expected_counts)
     )
 
 
@@ -131,11 +132,15 @@ def main():
             raise ValueError("The registered plan is immutable")
     else:
         registration.write_text(json.dumps(current, indent=2) + "\n")
+    expected_counts = [
+        len(json.loads((root / job["config"]).read_text())["tasks"])
+        for job in plan["preflight"]
+    ]
     if args.phase == "preflight":
         states = [run_job(root, plan, j, record, True) for j in plan["preflight"]]
-        return 0 if preflight_passed(states) else 1
+        return 0 if preflight_passed(states, expected_counts) else 1
     preflight = [json.loads((record / (j["job_name"] + ".json")).read_text()) for j in plan["preflight"]]
-    if not preflight_passed(preflight):
+    if not preflight_passed(preflight, expected_counts):
         raise RuntimeError("Install-only checks must finish successfully before model work")
     states = []
     with ThreadPoolExecutor(max_workers=2) as pool:
