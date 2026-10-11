@@ -71,6 +71,28 @@ uv 0.9.5、Python 3.13、pytest 8.4.1 和 pytest-json-ctrf 0.3.5，不执行题�
 通过不能保证后续没有网络故障。完整标准运行默认启用下述验证超时重试，整题重试
 次数为零。CI 会验证这些约定，不调用模型、不启动 Docker。
 
+### 缓存原始任务镜像
+
+如果 Docker 拉取镜像反复停滞，可用缓存工具从同一 Docker Hub 公共仓库分段并行下载：
+
+```bash
+python benchmarks/harbor/scripts/cache_image.py \
+  alexgshaw/git-multibranch:20251031 \
+  --cache .cache/nanopy-harbor/images --load
+```
+
+首次请求记录仓库的 manifest 摘要；后续请求若发现 tag 指向的摘要改变，会拒绝继续。
+每个下载对象都必须匹配大小和 SHA256，每层解压后的摘要也必须匹配原始镜像配置。
+生成的 [OCI 归档](https://github.com/opencontainers/image-spec/blob/main/image-layout.md)
+逐字节保留原始 manifest、配置和压缩层；Docker 导入后必须保留原始仓库摘要。
+
+该 Linux 工具支持使用 gzip 层和 SHA256 描述符的公共单平台 `linux/amd64` 镜像。
+`--load` 需要 Docker 的 containerd 镜像存储。同一缓存目录同时只允许一个写入进程；
+`--workers` 控制分段请求并发数，默认 8、最多 16。下载中断后可复用已完成的对象和分段，
+完整对象会重新校验。请将 manifest 锁定记录纳入实验的证据归档。
+这个步骤只准备 Docker 镜像缓存；随后仍需使用标准 benchmark 入口并执行安装预检，
+之前出现的环境启动失败应单独保留。
+
 ### 直接调用 Harbor
 
 开发 adapter 或对照已发布版本时，仍可使用底层 Harbor 入口，并固定容器内 agent 版本：

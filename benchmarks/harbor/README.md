@@ -89,6 +89,33 @@ when it runs; a successful preflight is not a guarantee against later outages.
 Full standard runs enable the timeout retry policy below by default, with zero
 whole-trial retries. CI checks these contracts without model calls or Docker.
 
+### Cache original task images
+
+If Docker image pulls repeatedly stall, the optional cache utility downloads the
+same public Docker Hub image in bounded parallel HTTP ranges:
+
+```bash
+python benchmarks/harbor/scripts/cache_image.py \
+  alexgshaw/git-multibranch:20251031 \
+  --cache .cache/nanopy-harbor/images --load
+```
+
+The first request records the registry manifest digest; later requests reject a
+changed tag. Every downloaded blob must match its size and SHA256, and each
+uncompressed layer must match the original image configuration. The resulting
+[OCI archive](https://github.com/opencontainers/image-spec/blob/main/image-layout.md)
+preserves the original manifest, configuration, and compressed layers byte for
+byte. Docker import must retain the original repository digest.
+
+This Linux utility supports public single-platform `linux/amd64` images with
+gzip layers and SHA256 descriptors. `--load` requires Docker's containerd image
+store. Use one cache writer at a time; `--workers` controls parallel range
+requests (default eight, maximum sixteen). Completed blobs and partial ranges
+can be reused after an interrupted download, with complete blobs revalidated.
+Keep the manifest lock records with the run evidence. This only warms Docker's
+image cache: continue using the standard benchmark entry point and installation
+preflight, and retain any earlier environment-start failures separately.
+
 ### Direct Harbor invocation
 
 For adapter development or comparison with published versions, the lower-level
