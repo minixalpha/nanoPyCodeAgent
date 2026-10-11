@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "selected_at": "2026-10-11T14:32:49.067833+00:00",
+  "main_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+  "dataset_name": "terminal-bench/terminal-bench-2-1",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "catalog_sha256": "7fc7d95a2077ede76c4f47890a09de93c2fe558252a122ef830288ad293ceaaa",
+  "selection_method": "Purposive coverage of twelve public task-name categories before downloading task instructions or seeing any baseline outcomes. This is a development cohort, not a random representative benchmark sample. Retain all selected tasks and every failure; do not replace based on outcomes.",
+  "prior_experiment_task_names": [
+    "terminal-bench/build-cython-ext",
+    "terminal-bench/caffe-cifar-10",
+    "terminal-bench/cancel-async-tasks",
+    "terminal-bench/circuit-fibsqrt",
+    "terminal-bench/dna-assembly",
+    "terminal-bench/kv-store-grpc",
+    "terminal-bench/llm-inference-batching-scheduler",
+    "terminal-bench/log-summary-date-ranges",
+    "terminal-bench/merge-diff-arc-agi-task",
+    "terminal-bench/model-extraction-relu-logits",
+    "terminal-bench/mteb-leaderboard",
+    "terminal-bench/openssl-selfsigned-cert",
+    "terminal-bench/path-tracing",
+    "terminal-bench/pypi-server",
+    "terminal-bench/pytorch-model-recovery",
+    "terminal-bench/qemu-alpine-ssh",
+    "terminal-bench/regex-chess",
+    "terminal-bench/regex-log",
+    "terminal-bench/schemelike-metacircular-eval",
+    "terminal-bench/torch-pipeline-parallelism",
+    "terminal-bench/torch-tensor-parallelism",
+    "terminal-bench/write-compressor"
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/build-pov-ray",
+      "ref": "sha256:4f08dab602fe2e9e2f42051cc6aef684a88cf2822e8b499b3ca19e670759fddb",
+      "selection_rationale": "Native compilation and build tooling"
+    },
+    {
+      "name": "terminal-bench/cobol-modernization",
+      "ref": "sha256:e03aa03965eee48c9f772d566ff9bcd741fceeac9693123f82a13fdd46be0d88",
+      "selection_rationale": "Legacy-language migration and behavioral compatibility"
+    },
+    {
+      "name": "terminal-bench/custom-memory-heap-crash",
+      "ref": "sha256:61e021e0304c9818a9be2c9173c8a0938ce5d136e95c5422e099f1fdb2dc080e",
+      "selection_rationale": "Native memory management debugging"
+    },
+    {
+      "name": "terminal-bench/fix-code-vulnerability",
+      "ref": "sha256:d31348aa16b533a15f013420e4d9726dc529e6086adc7d6d48067d22cc18fe71",
+      "selection_rationale": "Security bug repair and behavior preservation"
+    },
+    {
+      "name": "terminal-bench/nginx-request-logging",
+      "ref": "sha256:9d1b8bebd989ea0bc8080c3b159480068caf183c5fd61385868b2574b206e097",
+      "selection_rationale": "Service configuration and observable request behavior"
+    },
+    {
+      "name": "terminal-bench/git-multibranch",
+      "ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa",
+      "selection_rationale": "Cross-branch repository operations"
+    },
+    {
+      "name": "terminal-bench/db-wal-recovery",
+      "ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "selection_rationale": "Database recovery and data integrity"
+    },
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "selection_rationale": "Data integration and cross-input consistency"
+    },
+    {
+      "name": "terminal-bench/query-optimize",
+      "ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "selection_rationale": "Database query performance and correctness"
+    },
+    {
+      "name": "terminal-bench/adaptive-rejection-sampler",
+      "ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "selection_rationale": "Numerical sampling and statistical invariants"
+    },
+    {
+      "name": "terminal-bench/constraints-scheduling",
+      "ref": "sha256:91dd6f87e1ee508328d5aafbd99a6bd1ccc47bc22671b4aaa4060bda492deb53",
+      "selection_rationale": "Constrained algorithmic planning"
+    },
+    {
+      "name": "terminal-bench/pytorch-model-cli",
+      "ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "selection_rationale": "Model packaging and command-line contracts"
+    }
+  ],
+  "instruction_or_hidden_test_review_before_selection": false
+}

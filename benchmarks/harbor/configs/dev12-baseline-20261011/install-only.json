@@ -1,0 +1,66 @@
+{
+  "n_concurrent_trials": 2,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 720
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/build-pov-ray",
+      "ref": "sha256:4f08dab602fe2e9e2f42051cc6aef684a88cf2822e8b499b3ca19e670759fddb"
+    },
+    {
+      "name": "terminal-bench/cobol-modernization",
+      "ref": "sha256:e03aa03965eee48c9f772d566ff9bcd741fceeac9693123f82a13fdd46be0d88"
+    },
+    {
+      "name": "terminal-bench/custom-memory-heap-crash",
+      "ref": "sha256:61e021e0304c9818a9be2c9173c8a0938ce5d136e95c5422e099f1fdb2dc080e"
+    },
+    {
+      "name": "terminal-bench/fix-code-vulnerability",
+      "ref": "sha256:d31348aa16b533a15f013420e4d9726dc529e6086adc7d6d48067d22cc18fe71"
+    },
+    {
+      "name": "terminal-bench/nginx-request-logging",
+      "ref": "sha256:9d1b8bebd989ea0bc8080c3b159480068caf183c5fd61385868b2574b206e097"
+    },
+    {
+      "name": "terminal-bench/git-multibranch",
+      "ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa"
+    },
+    {
+      "name": "terminal-bench/db-wal-recovery",
+      "ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4"
+    },
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49"
+    },
+    {
+      "name": "terminal-bench/query-optimize",
+      "ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4"
+    },
+    {
+      "name": "terminal-bench/adaptive-rejection-sampler",
+      "ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de"
+    },
+    {
+      "name": "terminal-bench/constraints-scheduling",
+      "ref": "sha256:91dd6f87e1ee508328d5aafbd99a6bd1ccc47bc22671b4aaa4060bda492deb53"
+    },
+    {
+      "name": "terminal-bench/pytorch-model-cli",
+      "ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79"
+    }
+  ]
+}
