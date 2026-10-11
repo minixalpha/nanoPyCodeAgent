@@ -1,0 +1,22 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 720
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/cancel-async-tasks",
+      "ref": "sha256:a3d048d351136e48070696cda8bb79660dfd74db1fea3b6da88559f0332699c1"
+    }
+  ]
+}

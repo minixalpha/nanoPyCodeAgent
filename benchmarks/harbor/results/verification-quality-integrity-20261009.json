@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-11T14:05:59.246153+00:00",
+  "plan_sha256": "b3968a10a29507b72c62f6f886a6af4f982373e15ca6103da21dd288362396c1",
+  "registered_plan_configs_prompts_task_file_hashes": "passed_by_collect_comparison",
+  "all_trial_manifest_source_hashes_and_installed_wheel_hashes": "passed_by_collect_comparison",
+  "only_runtime_prompt_differs": true,
+  "equal_agent_ast_without_headless_prompt_sha256": "147c1d89b6f667415859714f3c5f52c6b4ba7ac856c5b002a510af158e5283cd",
+  "other_runtime_and_adapter_python_files_equal": true,
+  "version_metadata_note": "Generated _version.py is excluded from source equivalence; each installed wheel is matched to its recorded arm.",
+  "atif_trajectories_validated": 24,
+  "official_test_summaries_checked": 18,
+  "native_exceptions": 0,
+  "verifier_retry_policy": "All 24 retain original per-attempt limit; only prior timeout attempts trigger a retry; at most 3 attempts.",
+  "verifier_dependency_profiles": "not_configured for all 24",
+  "preflight_jobs_before_model_work": [
+    {
+      "job": "vq-install-control-20261009",
+      "finished_at": "2026-10-09T14:48:59.034610+00:00"
+    },
+    {
+      "job": "vq-install-verification-20261009",
+      "finished_at": "2026-10-09T14:50:18.301552+00:00"
+    },
+    {
+      "job": "vq-install-operations-20261009",
+      "finished_at": "2026-10-09T14:51:38.884784+00:00"
+    }
+  ],
+  "images": [
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
+      "repo_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "size": 29725531,
+      "post_run_image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+      "image_id": "sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774",
+      "repo_digests": [
+        "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+      ],
+      "size": 44188631,
+      "post_run_image_id": "sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+    },
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "image": "alexgshaw/build-cython-ext:20251031",
+      "image_id": "sha256:3612a38fadb89a96f74a1a951fb0b0af734198fd160571eeaba6401593234594",
+      "repo_digests": [
+        "alexgshaw/build-cython-ext@sha256:3612a38fadb89a96f74a1a951fb0b0af734198fd160571eeaba6401593234594"
+      ],
+      "size": 303222492,
+      "post_run_image_id": "sha256:3612a38fadb89a96f74a1a951fb0b0af734198fd160571eeaba6401593234594"
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "image": "alexgshaw/cancel-async-tasks:20251031",
+      "image_id": "sha256:84c7fae6b256dcc56a350790e2a9715eefc7dad662a9d8e8a472363aa71ef18d",
+      "repo_digests": [
+        "alexgshaw/cancel-async-tasks@sha256:84c7fae6b256dcc56a350790e2a9715eefc7dad662a9d8e8a472363aa71ef18d"
+      ],
+      "size": 44171676,
+      "post_run_image_id": "sha256:84c7fae6b256dcc56a350790e2a9715eefc7dad662a9d8e8a472363aa71ef18d"
+    }
+  ]
+}

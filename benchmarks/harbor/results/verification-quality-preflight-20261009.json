@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-09T14:53:01.919625+00:00",
+  "plan": "benchmarks/harbor/configs/verification-quality-20261009/experiment.json",
+  "install_only": [
+    {
+      "arm": "control",
+      "task": "terminal-bench/build-cython-ext",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    },
+    {
+      "arm": "control",
+      "task": "terminal-bench/cancel-async-tasks",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    },
+    {
+      "arm": "control",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    },
+    {
+      "arm": "control",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    },
+    {
+      "arm": "verification",
+      "task": "terminal-bench/cancel-async-tasks",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    },
+    {
+      "arm": "operations",
+      "task": "terminal-bench/cancel-async-tasks",
+      "status": "setup_passed",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      }
+    }
+  ],
+  "images": [
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
+      "repo_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "size": 29725531
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+      "image_id": "sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774",
+      "repo_digests": [
+        "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+      ],
+      "size": 44188631
+    },
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "image": "alexgshaw/build-cython-ext:20251031",
+      "image_id": "sha256:3612a38fadb89a96f74a1a951fb0b0af734198fd160571eeaba6401593234594",
+      "repo_digests": [
+        "alexgshaw/build-cython-ext@sha256:3612a38fadb89a96f74a1a951fb0b0af734198fd160571eeaba6401593234594"
+      ],
+      "size": 303222492
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "image": "alexgshaw/cancel-async-tasks:20251031",
+      "image_id": "sha256:84c7fae6b256dcc56a350790e2a9715eefc7dad662a9d8e8a472363aa71ef18d",
+      "repo_digests": [
+        "alexgshaw/cancel-async-tasks@sha256:84c7fae6b256dcc56a350790e2a9715eefc7dad662a9d8e8a472363aa71ef18d"
+      ],
+      "size": 44171676
+    }
+  ],
+  "source_checks": {
+    "only_headless_prompt_differs": true,
+    "other_agent_ast_identical": true,
+    "frozen_sources_clean": true
+  },
+  "limitations": "Install-only validates agent installation. No selected task has a registered verifier-dependency profile. These checks do not certify official verifier dependencies."
+}

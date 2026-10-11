@@ -1,0 +1,2907 @@
+{
+  "schema_version": 2,
+  "status": "completed",
+  "generated_at": "2026-10-11T14:04:26.098862+00:00",
+  "experiment_plan": "benchmarks/harbor/configs/verification-quality-20261009/experiment.json",
+  "experiment_plan_sha256": "b3968a10a29507b72c62f6f886a6af4f982373e15ca6103da21dd288362396c1",
+  "audit_path": "benchmarks/harbor/results/verification-quality-audit-20261009.json",
+  "audit_sha256": "a481802413ad300df76d170275dfad2b3e412f8358d46e62ab00f0fa79d3aadf",
+  "cost_note": "Token-based estimates, not invoices. Incomplete totals are known lower bounds, never zero-imputed.",
+  "summary": {
+    "control": {
+      "trials": 8,
+      "statuses": {
+        "verifier_error": 2,
+        "scored": 6
+      },
+      "passes": 5,
+      "scored_failures": 1,
+      "known_cost_usd": 0.633711552,
+      "cost_complete": false,
+      "usage_complete": false,
+      "incomplete_accounting_trials": 1,
+      "agent_execution_seconds": 3777.668552,
+      "model_attempts": 311,
+      "incomplete_model_attempts": 1,
+      "tool_timeouts": 1
+    },
+    "verification": {
+      "trials": 8,
+      "statuses": {
+        "scored": 8
+      },
+      "passes": 7,
+      "scored_failures": 1,
+      "known_cost_usd": 0.750447996,
+      "cost_complete": false,
+      "usage_complete": false,
+      "incomplete_accounting_trials": 2,
+      "agent_execution_seconds": 4124.486748,
+      "model_attempts": 334,
+      "incomplete_model_attempts": 2,
+      "tool_timeouts": 2
+    },
+    "operations": {
+      "trials": 8,
+      "statuses": {
+        "scored": 8
+      },
+      "passes": 6,
+      "scored_failures": 2,
+      "known_cost_usd": 0.598339164,
+      "cost_complete": true,
+      "usage_complete": true,
+      "incomplete_accounting_trials": 0,
+      "agent_execution_seconds": 3809.063739,
+      "model_attempts": 272,
+      "incomplete_model_attempts": 0,
+      "tool_timeouts": 3
+    }
+  },
+  "common_eligible_cases": [
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 1
+    },
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 2
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 1
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 2
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "repeat": 1
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "repeat": 2
+    }
+  ],
+  "common_eligible_summary": {
+    "control": {
+      "trials": 6,
+      "statuses": {
+        "scored": 6
+      },
+      "passes": 5,
+      "scored_failures": 1,
+      "known_cost_usd": 0.478366464,
+      "cost_complete": false,
+      "usage_complete": false,
+      "incomplete_accounting_trials": 1,
+      "agent_execution_seconds": 2519.018045,
+      "model_attempts": 258,
+      "incomplete_model_attempts": 1,
+      "tool_timeouts": 0
+    },
+    "verification": {
+      "trials": 6,
+      "statuses": {
+        "scored": 6
+      },
+      "passes": 6,
+      "scored_failures": 0,
+      "known_cost_usd": 0.585636384,
+      "cost_complete": false,
+      "usage_complete": false,
+      "incomplete_accounting_trials": 1,
+      "agent_execution_seconds": 2747.890507,
+      "model_attempts": 292,
+      "incomplete_model_attempts": 1,
+      "tool_timeouts": 0
+    },
+    "operations": {
+      "trials": 6,
+      "statuses": {
+        "scored": 6
+      },
+      "passes": 6,
+      "scored_failures": 0,
+      "known_cost_usd": 0.462750672,
+      "cost_complete": true,
+      "usage_complete": true,
+      "incomplete_accounting_trials": 0,
+      "agent_execution_seconds": 2497.833565,
+      "model_attempts": 229,
+      "incomplete_model_attempts": 0,
+      "tool_timeouts": 1
+    }
+  },
+  "held_out_common_summary": {
+    "control": {
+      "trials": 4,
+      "statuses": {
+        "scored": 4
+      },
+      "passes": 4,
+      "scored_failures": 0,
+      "known_cost_usd": 0.27104898,
+      "cost_complete": false,
+      "usage_complete": false,
+      "incomplete_accounting_trials": 1,
+      "agent_execution_seconds": 1337.221293,
+      "model_attempts": 190,
+      "incomplete_model_attempts": 1,
+      "tool_timeouts": 0
+    },
+    "verification": {
+      "trials": 4,
+      "statuses": {
+        "scored": 4
+      },
+      "passes": 4,
+      "scored_failures": 0,
+      "known_cost_usd": 0.338877636,
+      "cost_complete": false,
+      "usage_complete": false,
+      "incomplete_accounting_trials": 1,
+      "agent_execution_seconds": 1533.798879,
+      "model_attempts": 229,
+      "incomplete_model_attempts": 1,
+      "tool_timeouts": 0
+    },
+    "operations": {
+      "trials": 4,
+      "statuses": {
+        "scored": 4
+      },
+      "passes": 4,
+      "scored_failures": 0,
+      "known_cost_usd": 0.230231148,
+      "cost_complete": true,
+      "usage_complete": true,
+      "incomplete_accounting_trials": 0,
+      "agent_execution_seconds": 1589.210119,
+      "model_attempts": 173,
+      "incomplete_model_attempts": 0,
+      "tool_timeouts": 1
+    }
+  },
+  "trials": [
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-con-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "status": "verifier_error",
+      "reward": null,
+      "eligible_as_independent_capability_evidence": false,
+      "known_cost_usd": 0.085583436,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 55,
+        "total_prompt_tokens": 1230161,
+        "total_completion_tokens": 56274,
+        "total_cached_tokens": 1193856,
+        "total_cost_usd": 0.085583436,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.085583436
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/result.json",
+      "result_sha256": "c5d0202f86b7ecdff97de8343b13d69e46484238a28cf569d5700dbc8de65b66",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/agent/trajectory.json",
+      "trajectory_sha256": "698e12648ccb5f0f8312d6ee8565d7cec6185f5aa535ab21db847bcb03b08cc2",
+      "verifier_stdout_sha256": "652980f8a03f05e73bd524cd4fe42bc27c2f957c4ddb2c7ebec3ffed4d44b6e7",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 671658.796661,
+        "timestamp": "2026-10-09T15:05:36.416Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T14:52:06.449794Z",
+      "finished_at": "2026-10-09T15:44:55.652186Z",
+      "agent_setup_seconds": 137.350091,
+      "agent_execution_seconds": 671.625725,
+      "verifier_seconds": 2345.913464,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "timeout",
+            "duration_seconds": 900.0030681919961
+          },
+          {
+            "attempt": 2,
+            "status": "timeout",
+            "duration_seconds": 900.0031834670008
+          },
+          {
+            "attempt": 3,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 546.6134462979971
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 27,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 1,
+      "audit": {
+        "job": "vq-con-torch-pipeline-parallelism-r1-20261009",
+        "arm": "control",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 1,
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/agent/trajectory.json",
+        "trajectory_sha256": "698e12648ccb5f0f8312d6ee8565d7cec6185f5aa535ab21db847bcb03b08cc2",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": false,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              31,
+              49,
+              51,
+              55
+            ],
+            "note": "The real Llama model passes a single-rank check against its full-batch forward, including every selected microbatch and 39 parameter gradients. The two-rank attempts time out or have no completion output. The final explicitly discloses the two-rank gap. Network calls retrieve general Transformers/PyTorch source and packages."
+          }
+        ],
+        "score_valid_for_capability_comparison": false,
+        "score_classification": "verifier_dependency_error",
+        "official_failure_notes": "The first two verifier attempts timed out at 900 seconds each. Attempt 3 returned normally after uv failed to download/extract nvidia-cufft-cu12 because of a network timeout. The unchanged task script wrote reward 0 despite never starting pytest. Preserve raw reward 0; exclude this trial from capability-score comparisons and count it as a verifier dependency error, not an agent-scored failure.",
+        "exclusion_reason": "verifier_dependency_error",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "652980f8a03f05e73bd524cd4fe42bc27c2f957c4ddb2c7ebec3ffed4d44b6e7"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ver-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 0.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.0612708,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 41,
+        "total_prompt_tokens": 600080,
+        "total_completion_tokens": 46079,
+        "total_cached_tokens": 592000,
+        "total_cost_usd": 0.0612708,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.0612708
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/result.json",
+      "result_sha256": "6346e793b52c5ab904101d340d7efe443d8ed081d5fe14150783b4be89b6dc78",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/agent/trajectory.json",
+      "trajectory_sha256": "c47b1502cc633647967ba9b7fbd7a99c9528a35180e7e826a6d6bb76b5f938d8",
+      "verifier_stdout_sha256": "2e5ed3211a3771b61deb6d8510b63d3ce2ddc03157d0ff1888ca31aa4d652d21",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 655947.282239,
+        "timestamp": "2026-10-09T15:04:20.413Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T14:52:06.479199Z",
+      "finished_at": "2026-10-09T15:16:18.452768Z",
+      "agent_setup_seconds": 77.230504,
+      "agent_execution_seconds": 655.750458,
+      "verifier_seconds": 703.878173,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 703.7512151589981
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 20,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 2,
+      "audit": {
+        "job": "vq-ver-torch-pipeline-parallelism-r1-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 1,
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/agent/trajectory.json",
+        "trajectory_sha256": "c47b1502cc633647967ba9b7fbd7a99c9528a35180e7e826a6d6bb76b5f938d8",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": true,
+        "real_entry_check": "not_executed",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              9,
+              11,
+              13,
+              17,
+              19,
+              27,
+              29,
+              37,
+              41
+            ],
+            "note": "Exact-function searches return security challenges, missing endpoints, authentication errors, or no answer links. Two Bash calls time out at 120 seconds. Torch remains unavailable; a real-model harness is written but not executed. Only py_compile passes, and the final explicitly discloses no numerical verification and the chosen loss-scale interpretation."
+          }
+        ],
+        "official_failure_notes": "Completed verifier reward 0: world_size=1 backward activation mismatch at lm_head (max diff 0.5714225); world_size=2 raises AttributeError because local_targets[micro] is None. The candidate chose multiplication by the microbatch count and did not run its numerical harness.",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "2e5ed3211a3771b61deb6d8510b63d3ce2ddc03157d0ff1888ca31aa4d652d21",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_failure"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ope-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 0.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.076849608,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 41,
+        "total_prompt_tokens": 711314,
+        "total_completion_tokens": 49473,
+        "total_cached_tokens": 666368,
+        "total_cost_usd": 0.076849608,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.076849608
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/result.json",
+      "result_sha256": "fe63e0c2cd5f3b89804c09423762b245a6bb9c821c517f21a66da492d40d2e74",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/agent/trajectory.json",
+      "trajectory_sha256": "96d56bbfa98b0e779517f6a4a5c85cfd70d417e2dbe9c318aa343bf814be3807",
+      "verifier_stdout_sha256": "b5b8a9d7d518a129335b76707c8d9fb1dbea7172228ac9bd9bc4251eeb7e28c5",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 653746.844654,
+        "timestamp": "2026-10-09T15:58:39.067Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T15:45:27.637317Z",
+      "finished_at": "2026-10-09T16:19:45.390521Z",
+      "agent_setup_seconds": 134.611081,
+      "agent_execution_seconds": 655.875226,
+      "verifier_seconds": 1252.528498,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "timeout",
+            "duration_seconds": 900.0040100719998
+          },
+          {
+            "attempt": 2,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 351.31837493900093
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 20,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 1,
+      "audit": {
+        "job": "vq-ope-torch-pipeline-parallelism-r1-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 1,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/agent/trajectory.json",
+        "trajectory_sha256": "96d56bbfa98b0e779517f6a4a5c85cfd70d417e2dbe9c318aa343bf814be3807",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "not_executed",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "critical_check_coverage": "not_executed",
+        "evidence": [
+          {
+            "steps": [
+              13,
+              21,
+              25,
+              31,
+              33,
+              39,
+              41
+            ],
+            "note": "The agent reads its own bootstrap and live logs, installs packages, and writes a real-model harness without running it. A background AND-list holds captured pipes and times out at 120 seconds. After checking that no installer remains, the agent relaunches with setsid. Only import and partition-helper checks complete; the final explicitly states that end-to-end behavior is unexecuted."
+          }
+        ],
+        "official_failure_notes": "After one dependency-download timeout, the second verifier attempt executes pytest and completes with reward 0 (2 failed, 2 passed). Single-rank lm_head.bwd microbatch 0 max difference: 0.1428563446; two-rank model.layers.1.bwd microbatch 0 max difference: 0.0421932563. These are genuine numerical test failures, unlike the first control verifier dependency error.",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_failure",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__bEqs3hp/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "b5b8a9d7d518a129335b76707c8d9fb1dbea7172228ac9bd9bc4251eeb7e28c5"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ope-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 0.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.058738884,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 47,
+        "total_prompt_tokens": 724439,
+        "total_completion_tokens": 43079,
+        "total_cached_tokens": 715264,
+        "total_cost_usd": 0.058738884,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.058738884
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/result.json",
+      "result_sha256": "b0b3fe5a21a4cdf69ea39887370b48c99b11ff684b2186bd3f4c3a411cfe888e",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/agent/trajectory.json",
+      "trajectory_sha256": "6e4fc530b2124cd82e7f9b41c9b12281ed77eb0a3c49d898494a68f27437fbdd",
+      "verifier_stdout_sha256": "54ed7253a7377c20b895455196ab02ed8077fcd34a7465d6f9e99485b6dc5396",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 653173.203504,
+        "timestamp": "2026-10-09T15:58:34.005Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T15:45:18.428047Z",
+      "finished_at": "2026-10-09T16:19:32.758980Z",
+      "agent_setup_seconds": 138.896958,
+      "agent_execution_seconds": 655.354948,
+      "verifier_seconds": 1244.67741,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "timeout",
+            "duration_seconds": 900.0031564370001
+          },
+          {
+            "attempt": 2,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 343.4773280070003
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 23,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 1,
+      "audit": {
+        "job": "vq-ope-torch-pipeline-parallelism-r2-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 2,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/agent/trajectory.json",
+        "trajectory_sha256": "6e4fc530b2124cd82e7f9b41c9b12281ed77eb0a3c49d898494a68f27437fbdd",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "critical_check_coverage": "partial",
+        "evidence": [
+          {
+            "steps": [
+              13,
+              19,
+              23,
+              35,
+              37,
+              39,
+              41,
+              43,
+              45,
+              47
+            ],
+            "note": "A real Llama full-batch reference runs. The single-rank comparison covers all 39 parameter gradients and passes at the harness tolerance. The two-rank run completes, but its all-parameter report initially fails on non-owned parameters. The agent then selects nonzero gradients as owned and reports 19/20 passing parameters with matching layer ranges. Excluding non-owned parameters is justified, but selection based on observed nonzero gradients could hide missing expected gradients; it is not an independent ownership assertion. A hook-based per-microbatch check adds backward captures instead of preserving individual items and fails with a 2-versus-6 row shape mismatch. The final discloses this unresolved harness failure and limits runtime verification to CPU/fp32 and one/two ranks. The initial background installer still times out at 120 seconds despite explicit guidance."
+          }
+        ],
+        "official_failure_notes": "After one dependency-download timeout, the second verifier attempt executes pytest and completes with reward 0 (2 failed, 2 passed). Single-rank lm_head.bwd microbatch 0 max difference: 0.0416672938; two-rank model.layers.1.bwd microbatch 0 max difference: 0.0146767143. These are genuine numerical test failures, unlike the first control verifier dependency error.",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_failure",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__a3m3xr8/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "54ed7253a7377c20b895455196ab02ed8077fcd34a7465d6f9e99485b6dc5396"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.103540812,
+      "cost_complete": false,
+      "usage_complete": false,
+      "metrics": {
+        "total_steps": 45,
+        "extra": {
+          "usage_complete": false,
+          "known_cost_usd": 0.103540812,
+          "cost_is_partial": true,
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.103540812
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/result.json",
+      "result_sha256": "9290474e8d65e7a663efb05c705d13e3a2ad632b16795cd4a2a2021f880ab867",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/agent/trajectory.json",
+      "trajectory_sha256": "db9d1cb521b78bcdd040b07393c605f8bbbcdd0bf3f299d7c52eaf34a2563a2b",
+      "verifier_stdout_sha256": "931c5d89033bae35cf65965dd76519f77eb2b899ac50ebbfc96564fd755e4e73",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 720014.652115,
+        "timestamp": "2026-10-09T16:33:43.843Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "time_budget_exhausted"
+      },
+      "started_at": "2026-10-09T16:19:57.988835Z",
+      "finished_at": "2026-10-09T16:41:41.882654Z",
+      "agent_setup_seconds": 104.088802,
+      "agent_execution_seconds": 720.845783,
+      "verifier_seconds": 463.852849,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 463.49382196100487
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 22,
+      "incomplete_model_attempts": 1,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 2,
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/agent/trajectory.json",
+        "trajectory_sha256": "db9d1cb521b78bcdd040b07393c605f8bbbcdd0bf3f299d7c52eaf34a2563a2b",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "final_limitations_disclosed": false,
+        "unsupported_completion_claim_observed": false,
+        "unsupported_intermediate_claim_observed": true,
+        "unresolved_failed_check_observed": true,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "critical_check_coverage": "partial",
+        "evidence": [
+          {
+            "steps": [
+              29,
+              31,
+              33,
+              35,
+              37,
+              39,
+              41
+            ],
+            "note": "A six-layer real Llama harness compares per-microbatch forward/backward activations and selected parameter gradients against a full-batch reference. It exposes and prompts fixes for broadcast_object_list result handling and mutually exclusive input_ids/inputs_embeds. Backward hook captures are changed from overwrites to lists; the implementation then changes backward processing to forward microbatch order, eliminating observed per-item mismatches. This is real defect-finding and repair evidence."
+          },
+          {
+            "steps": [
+              39,
+              41,
+              43,
+              45
+            ],
+            "note": "The intermediate statement that parameter gradients match conflicts with observed embedding/head gradient failures. Two-rank tied-weight parameter checks remain failing after the ordering fix. The next test changes tie_word_embeddings from True to False, and both ranks report success; the tied case is not repaired or rechecked. The harness skips unobserved layers, does not independently assert the layer partition, and labels its aggregate numerical flag layers_per_rank_ok. It also does not check the final norm gradient despite a broader comment. The final model call exhausts the wall-clock budget and produces no final summary or disclosure. Its cost and token accounting are incomplete."
+          }
+        ],
+        "official_failure_notes": "The first verifier attempt completes actual pytest execution with reward 1: all four tests pass. This official pass does not repair the unreported tied-weight self-test failure or make incomplete accounting complete.",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "931c5d89033bae35cf65965dd76519f77eb2b899ac50ebbfc96564fd755e4e73"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-con-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "status": "verifier_error",
+      "reward": null,
+      "eligible_as_independent_capability_evidence": false,
+      "known_cost_usd": 0.069761652,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 53,
+        "total_prompt_tokens": 978643,
+        "total_completion_tokens": 47545,
+        "total_cached_tokens": 955392,
+        "total_cost_usd": 0.069761652,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.069761652
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/result.json",
+      "result_sha256": "b9319cb895eed8813e60663fcf6b7a49a1d4f45144a5e13fa8082b94e38ca770",
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/agent/trajectory.json",
+      "trajectory_sha256": "c523402ba377e835015d602745083c12d3f8de5a6238ad760072257bad973634",
+      "verifier_stdout_sha256": "6b1a54415cdc40d7b5a80e6a81e00bc6a469d1de80e90bf2e229b1e3528f7c87",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 586163.607139,
+        "timestamp": "2026-10-09T16:31:26.693Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T16:19:57.731639Z",
+      "finished_at": "2026-10-09T16:33:56.359576Z",
+      "agent_setup_seconds": 100.827538,
+      "agent_execution_seconds": 587.024782,
+      "verifier_seconds": 136.906223,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 136.53335461999814
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 26,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-con-torch-pipeline-parallelism-r2-20261009",
+        "arm": "control",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "repeat": 2,
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/agent/trajectory.json",
+        "trajectory_sha256": "c523402ba377e835015d602745083c12d3f8de5a6238ad760072257bad973634",
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": false,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": true,
+        "critical_check_coverage": "partial",
+        "evidence": [
+          {
+            "steps": [
+              23,
+              25,
+              27,
+              29,
+              31,
+              33,
+              35,
+              37,
+              39
+            ],
+            "note": "A small actual Llama full-batch forward provides the reference. Initial hooks overwrite microbatch records; the agent changes them to lists, fixes reference slicing, and aligns backward records with reverse microbatch order while retaining every selected microbatch. Parameter checks exclude non-owned parameters using layer/rank ownership, rather than observed gradient values. Both ranks pass per-layer activations, gradients, owned parameter gradients, and loss comparisons. There is no successful separate lm_head activation comparison in this harness."
+          },
+          {
+            "steps": [
+              41,
+              43,
+              45,
+              47,
+              49,
+              51,
+              53
+            ],
+            "note": "Checks pass on Transformers 4.46.3 and 4.53.3; 4.38.2 exposes an unsupported past_key_values keyword. The source is fixed at step 47 and retested on 4.38.2 and 4.46.3. Version 4.53.3 is not rerun after that change, but the final says verification is complete across all three versions. This is a stale final-version claim, not a claim that the entire implementation was untested. CPU/fp32 and model-size limitations are disclosed."
+          }
+        ],
+        "official_failure_notes": "The first verifier attempt returned normally after uv failed to fetch the pytest package index following request retries. Pytest never started. The unchanged script wrote reward 0 and Harbor reported no exception. Classify as a verifier dependency error; preserve native reward 0 and do not retry a non-timeout result.",
+        "score_valid_for_capability_comparison": false,
+        "score_classification": "verifier_dependency_error",
+        "exclusion_reason": "verifier_dependency_error",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__nuNNDUP/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "6b1a54415cdc40d7b5a80e6a81e00bc6a469d1de80e90bf2e229b1e3528f7c87",
+        "final_claim_caveat": "The three-version summary includes a 4.53.3 check performed before the final implementation edit; mark that evidence stale rather than treating the entire completion statement as unsupported."
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ver-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.09810504,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 63,
+        "total_prompt_tokens": 1679740,
+        "total_completion_tokens": 67304,
+        "total_cached_tokens": 1655040,
+        "total_cost_usd": 0.09810504,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.09810504
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__35poZ69/result.json",
+      "result_sha256": "92951249b63b547c8c103286ab6c8ff64db1c5e839f5cb7a12196354e64085cd",
+      "task_checksum": "c19d5af0dc6e54b45f66e3d8f25bfa783c51df3e1844253aa60c20ca0a827046",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__35poZ69/agent/trajectory.json",
+      "trajectory_sha256": "19a156357a49aa6a68a2073e0065cfe6868e02ee81b2de413291e72ba70f7928",
+      "verifier_stdout_sha256": "17f33b888656af7e23c8f9cb20940fca84289918bd9b24f566b81b3be5828ebb",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 493519.509075,
+        "timestamp": "2026-10-09T16:51:47.012Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T16:41:54.652748Z",
+      "finished_at": "2026-10-09T16:52:15.225835Z",
+      "agent_setup_seconds": 96.228418,
+      "agent_execution_seconds": 495.142414,
+      "verifier_seconds": 16.302919,
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 15.92654914400191
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 31,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ver-llm-inference-batching-scheduler-r1-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/llm-inference-batching-scheduler",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": null,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": true,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              49,
+              51,
+              53,
+              55,
+              57,
+              59,
+              61,
+              63
+            ],
+            "note": "The final saved plans pass coverage, thresholds and the global union constraint (two shapes). A separate formula implementation agrees with all four cost metrics. The provided baseline is run in a temporary copy and fails three metric thresholds for both buckets. This is a metric negative control, not a run through the complete validation script as the final summary suggests. The final plans and unchanged input hashes are checked again."
+          }
+        ],
+        "sensitivity_scope": "baseline_metric_thresholds",
+        "claim_caveat": "The phrase same checker overstates the negative control: only the cost/threshold logic, not the full structural validator, was exercised.",
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__35poZ69/agent/trajectory.json",
+        "trajectory_sha256": "19a156357a49aa6a68a2073e0065cfe6868e02ee81b2de413291e72ba70f7928",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__35poZ69/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "17f33b888656af7e23c8f9cb20940fca84289918bd9b24f566b81b3be5828ebb",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ope-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.086658828,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 49,
+        "total_prompt_tokens": 1244237,
+        "total_completion_tokens": 61303,
+        "total_cached_tokens": 1225088,
+        "total_cost_usd": 0.086658828,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.086658828
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__Rs4CeJU/result.json",
+      "result_sha256": "151c200d7118f92256de9cdd59613c5d458be8d99d0609b1a1b29806fe9fd451",
+      "task_checksum": "c19d5af0dc6e54b45f66e3d8f25bfa783c51df3e1844253aa60c20ca0a827046",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__Rs4CeJU/agent/trajectory.json",
+      "trajectory_sha256": "74f2078ba26be1dfb8815d59811dba61af9e2b30afe7f9dbd6422e491f8aadfe",
+      "verifier_stdout_sha256": "75c814a3304cee39967e6c9fc9dfe63b984ffece6ef2860e2e5e8698e3ffa767",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 373473.09794,
+        "timestamp": "2026-10-09T16:50:14.812Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T16:41:53.038601Z",
+      "finished_at": "2026-10-09T16:50:43.300614Z",
+      "agent_setup_seconds": 125.586824,
+      "agent_execution_seconds": 374.997129,
+      "verifier_seconds": 16.505946,
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 16.149723321002966
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 24,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ope-llm-inference-batching-scheduler-r1-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/llm-inference-batching-scheduler",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": null,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              21,
+              37,
+              41,
+              43,
+              47,
+              49
+            ],
+            "note": "A vectorized metric replica is compared with the public cost model. The actual final files pass metrics, coverage, the global union of seven shapes, and input hashes. A baseline calibration reproduces the poor published metrics, but does not assert that the complete validator rejects a bad plan."
+          }
+        ],
+        "baseline_calibration_observed": true,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__Rs4CeJU/agent/trajectory.json",
+        "trajectory_sha256": "74f2078ba26be1dfb8815d59811dba61af9e2b30afe7f9dbd6422e491f8aadfe",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__Rs4CeJU/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "75c814a3304cee39967e6c9fc9dfe63b984ffece6ef2860e2e5e8698e3ffa767",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-con-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 0.0,
+      "raw_verifier_rewards": {
+        "reward": 0.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 0.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.104779488,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 71,
+        "total_prompt_tokens": 1919752,
+        "total_completion_tokens": 72792,
+        "total_cached_tokens": 1899648,
+        "total_cost_usd": 0.104779488,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.104779488
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__fxDDyUk/result.json",
+      "result_sha256": "101d33ed44bf393255182190ea230cd1747b3502940148bba17051715f719609",
+      "task_checksum": "c19d5af0dc6e54b45f66e3d8f25bfa783c51df3e1844253aa60c20ca0a827046",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__fxDDyUk/agent/trajectory.json",
+      "trajectory_sha256": "ec37924e74710a45a0941b686793dedf6dd9f2a71dcdeb46d205f92910572ddb",
+      "verifier_stdout_sha256": "8e63dfb91b0f3c2c5b77bc74b5031c9dd6c59d543012597f90f0a00b80f1dfcf",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 682213.162867,
+        "timestamp": "2026-10-09T17:04:33.077Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T16:52:24.107906Z",
+      "finished_at": "2026-10-09T17:05:59.719627Z",
+      "agent_setup_seconds": 44.320703,
+      "agent_execution_seconds": 683.614832,
+      "verifier_seconds": 74.641175,
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 74.26860339999985
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 35,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-con-llm-inference-batching-scheduler-r1-20261009",
+        "arm": "control",
+        "task": "terminal-bench/llm-inference-batching-scheduler",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "partial",
+        "final_limitations_disclosed": null,
+        "unsupported_completion_claim_observed": true,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              57,
+              59,
+              61,
+              65,
+              67,
+              69,
+              71
+            ],
+            "note": "The final files are checked against independently reimplemented cost metrics, coverage, per-file shape counts and input hashes. Each file has eight shapes, but the checker omits the public cross-file union limit. The union has eleven shapes. The final completion claim is broader than its evidence; this is a scope omission, not a stale test."
+          }
+        ],
+        "official_failure_notes": "Official verifier: 1 failed, 5 passed. The combined unique shape count is 11, exceeding the public limit of 8; the other five tests pass.",
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__fxDDyUk/agent/trajectory.json",
+        "trajectory_sha256": "ec37924e74710a45a0941b686793dedf6dd9f2a71dcdeb46d205f92910572ddb",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__fxDDyUk/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "8e63dfb91b0f3c2c5b77bc74b5031c9dd6c59d543012597f90f0a00b80f1dfcf",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_failure",
+        "official_test_summary": "1 failed, 5 passed"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-con-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.102537996,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 67,
+        "total_prompt_tokens": 1864905,
+        "total_completion_tokens": 71496,
+        "total_cached_tokens": 1846016,
+        "total_cost_usd": 0.102537996,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.102537996
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__mRxAvNR/result.json",
+      "result_sha256": "2deed2704ef2a3a1cc4e849f2f827493de481dc4c8b502c43e6cf9a03ae6e094",
+      "task_checksum": "c19d5af0dc6e54b45f66e3d8f25bfa783c51df3e1844253aa60c20ca0a827046",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__mRxAvNR/agent/trajectory.json",
+      "trajectory_sha256": "bca437c38ea368fe49d7afdbc7c41a07ae84f7de70064c3f7e11bb17ee57c50d",
+      "verifier_stdout_sha256": "2519404bf606d7ba791f9944ba07ce44d777b6a51454134cd78a5cee9314e2e1",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 496795.961194,
+        "timestamp": "2026-10-09T17:01:26.950Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T16:52:24.199415Z",
+      "finished_at": "2026-10-09T17:01:57.661370Z",
+      "agent_setup_seconds": 43.635425,
+      "agent_execution_seconds": 498.18192,
+      "verifier_seconds": 18.7443,
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 18.389466095999524
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 33,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-con-llm-inference-batching-scheduler-r2-20261009",
+        "arm": "control",
+        "task": "terminal-bench/llm-inference-batching-scheduler",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": null,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              57,
+              61,
+              63,
+              65,
+              67
+            ],
+            "note": "A fresh on-disk check uses the provided cost model and verifies coverage, homogeneous batches, all thresholds, and the global union of eight shapes. An initial KeyError in the harness is fixed using the actual metric names, without removing the affected assertions. No later relevant artifact edit is observed."
+          }
+        ],
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__mRxAvNR/agent/trajectory.json",
+        "trajectory_sha256": "bca437c38ea368fe49d7afdbc7c41a07ae84f7de70064c3f7e11bb17ee57c50d",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__mRxAvNR/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "2519404bf606d7ba791f9944ba07ce44d777b6a51454134cd78a5cee9314e2e1",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ope-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.145860696,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 65,
+        "total_prompt_tokens": 2644218,
+        "total_completion_tokens": 102498,
+        "total_cached_tokens": 2620416,
+        "total_cost_usd": 0.145860696,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.145860696
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__Fn2e97t/result.json",
+      "result_sha256": "6d143ca9e03237fb94a26a0c93356c8cc0c2afeb889d586c2d46582c1b74acbd",
+      "task_checksum": "c19d5af0dc6e54b45f66e3d8f25bfa783c51df3e1844253aa60c20ca0a827046",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__Fn2e97t/agent/trajectory.json",
+      "trajectory_sha256": "512254e50ecb5da887f73e4518e740fada34c0a5e6af231ff759f41639ee0f8e",
+      "verifier_stdout_sha256": "a91dda6b73d95f3b49a84ed5071f688068915336e041b9ea5353c908833a2386",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 532074.782854,
+        "timestamp": "2026-10-09T17:16:15.811Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:06:12.030053Z",
+      "finished_at": "2026-10-09T17:16:44.173290Z",
+      "agent_setup_seconds": 69.250535,
+      "agent_execution_seconds": 533.626317,
+      "verifier_seconds": 16.432585,
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 16.071462382999016
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 32,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ope-llm-inference-batching-scheduler-r2-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/llm-inference-batching-scheduler",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": null,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              43,
+              47,
+              49,
+              51,
+              53,
+              57,
+              61,
+              63,
+              65
+            ],
+            "note": "A metric-name KeyError is corrected without weakening checks. Saved files pass all constraints including the global union of eight shapes and input hashes. Later grid exploration does not replace the saved winner; final validation and a byte-identical rebuild confirm the artifacts described in the summary. Alternative percentile calculations are robustness checks, not invalid-solution controls."
+          }
+        ],
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__Fn2e97t/agent/trajectory.json",
+        "trajectory_sha256": "512254e50ecb5da887f73e4518e740fada34c0a5e6af231ff759f41639ee0f8e",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__Fn2e97t/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "a91dda6b73d95f3b49a84ed5071f688068915336e041b9ea5353c908833a2386",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ver-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d",
+      "cohort": "diagnostic",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.148653708,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 65,
+        "total_prompt_tokens": 2544093,
+        "total_completion_tokens": 104267,
+        "total_cached_tokens": 2515968,
+        "total_cost_usd": 0.148653708,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.148653708
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__8w2qiPm/result.json",
+      "result_sha256": "67e9e211541134b91e89a51fe21f8dc3640d7591ce9c049d6e6f994d1cf04b5d",
+      "task_checksum": "c19d5af0dc6e54b45f66e3d8f25bfa783c51df3e1844253aa60c20ca0a827046",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__8w2qiPm/agent/trajectory.json",
+      "trajectory_sha256": "332ff9d8222d0407949b8ee726350a0da77b5ca26b1772f33d22f98fb44e8a28",
+      "verifier_stdout_sha256": "4e336375abe88f48db14eb97cd0acad48228d9b7b93b4389bc1096b834028992",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 717390.465792,
+        "timestamp": "2026-10-09T17:19:02.333Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:06:11.630128Z",
+      "finished_at": "2026-10-09T17:19:30.596355Z",
+      "agent_setup_seconds": 50.646809,
+      "agent_execution_seconds": 718.949214,
+      "verifier_seconds": 16.387311,
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 16.02855002299475
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 32,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ver-llm-inference-batching-scheduler-r2-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/llm-inference-batching-scheduler",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": null,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": true,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              37,
+              47,
+              49,
+              51,
+              59,
+              61,
+              65
+            ],
+            "note": "Final plans pass the public constraints including global union (five shapes). Copies with collapsed batches, smaller sequence alignment, a missing ID and a duplicate ID are rejected by the same checker. After later solver changes, saved files are revalidated and a second build is byte-identical; input hashes remain unchanged."
+          }
+        ],
+        "sensitivity_scope": "four_invalid_plan_mutations",
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__8w2qiPm/agent/trajectory.json",
+        "trajectory_sha256": "332ff9d8222d0407949b8ee726350a0da77b5ca26b1772f33d22f98fb44e8a28",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__8w2qiPm/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "4e336375abe88f48db14eb97cd0acad48228d9b7b93b4389bc1096b834028992",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-con-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.090239916,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 157,
+        "total_prompt_tokens": 3594369,
+        "total_completion_tokens": 44088,
+        "total_cached_tokens": 3540736,
+        "total_cost_usd": 0.090239916,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.090239916
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r1-20261009/build-cython-ext__ZTtA8Ss/result.json",
+      "result_sha256": "bfa3454c41643c04ff4283b9e8b4ff3ed71d1283798737526bd49cfecbcc21ac",
+      "task_checksum": "b7e605f001726583c03bcf62835408e03cd413ae917a3a982d6beb4a0f3a01d2",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r1-20261009/build-cython-ext__ZTtA8Ss/agent/trajectory.json",
+      "trajectory_sha256": "48153789e2b170020d4f870635ee6611478ccf63bc5246fd5b8948ad8179702c",
+      "verifier_stdout_sha256": "8f8bd813b406762911db76a3b2ae041d5305833b64a2eaeef457a882c70dfdc4",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 508132.772442,
+        "timestamp": "2026-10-09T17:28:45.530Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:19:39.600044Z",
+      "finished_at": "2026-10-09T17:29:09.112475Z",
+      "agent_setup_seconds": 35.458442,
+      "agent_execution_seconds": 509.442158,
+      "verifier_seconds": 11.45623,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 11.088206691005325
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 78,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-con-build-cython-ext-r1-20261009",
+        "arm": "control",
+        "task": "terminal-bench/build-cython-ext",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              61,
+              81,
+              83,
+              89,
+              93,
+              145,
+              147,
+              149,
+              153,
+              157
+            ],
+            "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. Source fixes address compatibility errors. Extension comparisons use Python fallbacks and explicit reference calculations. After the final rebuild, tests, the README example and extension checks run again. Broader optional smoke checks have errors in paths requiring absent optional dependencies; the final discloses those limitations."
+          }
+        ],
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r1-20261009/build-cython-ext__ZTtA8Ss/agent/trajectory.json",
+        "trajectory_sha256": "48153789e2b170020d4f870635ee6611478ccf63bc5246fd5b8948ad8179702c",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r1-20261009/build-cython-ext__ZTtA8Ss/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "8f8bd813b406762911db76a3b2ae041d5305833b64a2eaeef457a882c70dfdc4",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "11 passed"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ver-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.094383828,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 177,
+        "total_prompt_tokens": 4056679,
+        "total_completion_tokens": 44358,
+        "total_cached_tokens": 3999488,
+        "total_cost_usd": 0.094383828,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.094383828
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r1-20261009/build-cython-ext__VdAfcu9/result.json",
+      "result_sha256": "420ec1a4d3ade730d8c370293a0f891f2feb7ca4c0883f50880fb55a01b8e632",
+      "task_checksum": "b7e605f001726583c03bcf62835408e03cd413ae917a3a982d6beb4a0f3a01d2",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r1-20261009/build-cython-ext__VdAfcu9/agent/trajectory.json",
+      "trajectory_sha256": "22daaeecd50c4cf8f95a545c7bdbe6a295fbf9ae1b6da1f86a88e4fbb2df097e",
+      "verifier_stdout_sha256": "b4ac51b738fcd16b296c01f4c46038a47f59517572b765ffe28878e4eb725f19",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 486391.237704,
+        "timestamp": "2026-10-09T17:28:24.432Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:19:39.610431Z",
+      "finished_at": "2026-10-09T17:28:47.218291Z",
+      "agent_setup_seconds": 35.772678,
+      "agent_execution_seconds": 488.031444,
+      "verifier_seconds": 10.767585,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 10.400490471998637
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 88,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ver-build-cython-ext-r1-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/build-cython-ext",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              73,
+              97,
+              103,
+              107,
+              109,
+              121,
+              135,
+              151,
+              157,
+              159,
+              161,
+              169,
+              175,
+              177
+            ],
+            "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. Checks compare compiled and Python paths, transcribed/analytic references, and wheel contents. API misuse in the self-test is corrected; final installed checks and tests are rerun. Step 135 retrieves two current upstream implementation files from the explicitly task-supplied project to inspect parser regexes. This is ordinary upstream code reference, not a benchmark solution or hidden test. A late extra in-tree probe uses an unimported submodule and fails; the required snippet and installed extension suite have separate passing evidence."
+          }
+        ],
+        "reference_detail": "Task-authorized repository clone plus upstream gausscode.py and dtnotation.py source; no benchmark-answer retrieval observed.",
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r1-20261009/build-cython-ext__VdAfcu9/agent/trajectory.json",
+        "trajectory_sha256": "22daaeecd50c4cf8f95a545c7bdbe6a295fbf9ae1b6da1f86a88e4fbb2df097e",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r1-20261009/build-cython-ext__VdAfcu9/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "b4ac51b738fcd16b296c01f4c46038a47f59517572b765ffe28878e4eb725f19",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "11 passed"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ope-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.069421764,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 135,
+        "total_prompt_tokens": 2493463,
+        "total_completion_tokens": 34183,
+        "total_cached_tokens": 2447744,
+        "total_cost_usd": 0.069421764,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.069421764
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r1-20261009/build-cython-ext__p7UCQpf/result.json",
+      "result_sha256": "8151408454ca77f85330cf2487edb8d3f4ed803219a805120a1627b629008763",
+      "task_checksum": "b7e605f001726583c03bcf62835408e03cd413ae917a3a982d6beb4a0f3a01d2",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r1-20261009/build-cython-ext__p7UCQpf/agent/trajectory.json",
+      "trajectory_sha256": "e74472ceaf6d4083072edb5ac5f901ccf7f0d0ceceda5e123469cde0099084bc",
+      "verifier_stdout_sha256": "384ef8efdbc0a05d3abfd7bb76da080ff6df1dfd2be24eeab2be7d99fb8a9648",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 582442.317729,
+        "timestamp": "2026-10-09T17:39:37.925Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:29:16.487585Z",
+      "finished_at": "2026-10-09T17:40:02.712611Z",
+      "agent_setup_seconds": 36.340901,
+      "agent_execution_seconds": 584.054949,
+      "verifier_seconds": 12.687671,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 12.321068129997002
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 67,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ope-build-cython-ext-r1-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/build-cython-ext",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              67,
+              93,
+              101,
+              107,
+              115,
+              119,
+              121,
+              123,
+              129,
+              131,
+              135
+            ],
+            "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. Numerical checks cover crossing detection and basepoint/no-basepoint references. The extended harness then fails because of incorrect API usage; a later broad smoke suite also fails. Its recorded status is already 1 at step 129, although the final calls it still running. The failure is disclosed, but the process-state statement is inaccurate. The installed required tests are rerun after the final source rebuild."
+          }
+        ],
+        "unresolved_failed_check_observed": true,
+        "process_state_claim_inaccurate": true,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r1-20261009/build-cython-ext__p7UCQpf/agent/trajectory.json",
+        "trajectory_sha256": "e74472ceaf6d4083072edb5ac5f901ccf7f0d0ceceda5e123469cde0099084bc",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r1-20261009/build-cython-ext__p7UCQpf/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "384ef8efdbc0a05d3abfd7bb76da080ff6df1dfd2be24eeab2be7d99fb8a9648",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "11 passed"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ope-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.067156356,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 147,
+        "total_prompt_tokens": 2585307,
+        "total_completion_tokens": 32666,
+        "total_cached_tokens": 2542976,
+        "total_cost_usd": 0.067156356,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.067156356
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r2-20261009/build-cython-ext__mLb22QF/result.json",
+      "result_sha256": "13eccbce89f467f4781c9940688e12a3a6a517aff6df1ebd5cb4ce10e836d1f1",
+      "task_checksum": "b7e605f001726583c03bcf62835408e03cd413ae917a3a982d6beb4a0f3a01d2",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r2-20261009/build-cython-ext__mLb22QF/agent/trajectory.json",
+      "trajectory_sha256": "e41bc6690edeb4428ed3b0876a8d266729e29844dfc815e26e93dfd0d462c126",
+      "verifier_stdout_sha256": "25c26731e2190107b603c5f8503b181be40f41603c40f6e9f29588ff67ffdcfb",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 409514.200185,
+        "timestamp": "2026-10-09T17:36:44.550Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:29:16.571820Z",
+      "finished_at": "2026-10-09T17:37:07.896746Z",
+      "agent_setup_seconds": 35.996832,
+      "agent_execution_seconds": 411.114727,
+      "verifier_seconds": 11.1805,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 10.811983307001356
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 73,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ope-build-cython-ext-r2-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/build-cython-ext",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "critical_check_coverage": "partial",
+        "final_limitations_disclosed": false,
+        "unsupported_completion_claim_observed": true,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              125,
+              127,
+              129,
+              135,
+              137,
+              139,
+              141,
+              143,
+              145,
+              147
+            ],
+            "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. The final numerical comparison prints False for no-basepoint writhe and True for basepoint. The reference uses the basepoint formula for both entry points; no subsequent corrected no-basepoint oracle is executed. The final summarizes exact agreement without disclosing this mismatch. Official success does not resolve that self-verification gap. A compileall command also lacks its success marker, while later commands make the shell return normally."
+          }
+        ],
+        "unresolved_failed_check_observed": true,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r2-20261009/build-cython-ext__mLb22QF/agent/trajectory.json",
+        "trajectory_sha256": "e41bc6690edeb4428ed3b0876a8d266729e29844dfc815e26e93dfd0d462c126",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r2-20261009/build-cython-ext__mLb22QF/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "25c26731e2190107b603c5f8503b181be40f41603c40f6e9f29588ff67ffdcfb",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "11 passed"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ver-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.08533212,
+      "cost_complete": false,
+      "usage_complete": false,
+      "metrics": {
+        "total_steps": 171,
+        "extra": {
+          "usage_complete": false,
+          "known_cost_usd": 0.08533212,
+          "cost_is_partial": true,
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.08533212
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r2-20261009/build-cython-ext__8WAwfcA/result.json",
+      "result_sha256": "97a84941dc41c880c4915fa9959f5192b1aeb56bdd3fe9ec5c1eb3dc4c978a91",
+      "task_checksum": "b7e605f001726583c03bcf62835408e03cd413ae917a3a982d6beb4a0f3a01d2",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r2-20261009/build-cython-ext__8WAwfcA/agent/trajectory.json",
+      "trajectory_sha256": "0e6e7b7a22cf53e11d88186a8a70bbb7c1dcbedc7fb28b1103dcc4df59e32187",
+      "verifier_stdout_sha256": "8c336587a3bb11d2b8faf5410c6ca91f6bf236653272588ba7af33a54b7a43ee",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 470038.260793,
+        "timestamp": "2026-10-09T17:48:39.895Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:40:12.060455Z",
+      "finished_at": "2026-10-09T17:49:03.447627Z",
+      "agent_setup_seconds": 35.126581,
+      "agent_execution_seconds": 471.67807,
+      "verifier_seconds": 11.413534,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 11.048671224998543
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 85,
+      "incomplete_model_attempts": 1,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ver-build-cython-ext-r2-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/build-cython-ext",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": true,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              69,
+              71,
+              105,
+              109,
+              111,
+              113,
+              125,
+              127,
+              129,
+              163,
+              167,
+              169,
+              171
+            ],
+            "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. The agent repairs source compatibility and verifies compiled functions against Python references. Self-test corrections for zero-based indices and wrapper normalization follow the public implementation. A broad known-value set is expanded to include zero for figure-eight; Python/NumPy comparisons remain but this is weaker than a case-specific independently grounded constant. A perturbed contribution matrix is rejected by the numerical comparison (printed boolean, not a full bad-extension run). Required tests, example and extension checks pass at the end. Cost/usage accounting is partial."
+          }
+        ],
+        "sensitivity_scope": "perturbed_numeric_reference_input",
+        "expectation_narrowing_observed": true,
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r2-20261009/build-cython-ext__8WAwfcA/agent/trajectory.json",
+        "trajectory_sha256": "0e6e7b7a22cf53e11d88186a8a70bbb7c1dcbedc7fb28b1103dcc4df59e32187",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r2-20261009/build-cython-ext__8WAwfcA/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "8c336587a3bb11d2b8faf5410c6ca91f6bf236653272588ba7af33a54b7a43ee",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "11 passed"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-con-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.067292352,
+      "cost_complete": false,
+      "usage_complete": false,
+      "metrics": {
+        "total_steps": 157,
+        "extra": {
+          "usage_complete": false,
+          "known_cost_usd": 0.067292352,
+          "cost_is_partial": true,
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.067292352
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r2-20261009/build-cython-ext__qL2BBUt/result.json",
+      "result_sha256": "ea034ebc33bbd0c8b70b979f845048896bb13477f784231e68ed39e0a46bd471",
+      "task_checksum": "b7e605f001726583c03bcf62835408e03cd413ae917a3a982d6beb4a0f3a01d2",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r2-20261009/build-cython-ext__qL2BBUt/agent/trajectory.json",
+      "trajectory_sha256": "3a2caa54b6998d9d99861acf2c6b1a150921caa29ccd3ce3346e71c2d9b7ceb2",
+      "verifier_stdout_sha256": "288e48b524821d4ac33e8d8b8dbe27ca5ada894dd7fe9bcf9965522bcdb65190",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 403048.233891,
+        "timestamp": "2026-10-09T17:47:33.990Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:40:12.065299Z",
+      "finished_at": "2026-10-09T17:47:57.395304Z",
+      "agent_setup_seconds": 36.481102,
+      "agent_execution_seconds": 404.332722,
+      "verifier_seconds": 11.395521,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 11.032992724998621
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 78,
+      "incomplete_model_attempts": 1,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-con-build-cython-ext-r2-20261009",
+        "arm": "control",
+        "task": "terminal-bench/build-cython-ext",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              79,
+              81,
+              83,
+              95,
+              101,
+              125,
+              141,
+              143,
+              145,
+              147,
+              157
+            ],
+            "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. An invented figure-eight known-value expectation (1) fails while compiled and Python values both equal 0. The agent removes that known-value assertion (sets it to None) and retains the independent Python comparison and trefoil known value. This narrows the oracle and is not evidence of an independently established figure-eight constant. Final installed tests pass after rebuilding. Cost/usage accounting is partial despite a completed final response."
+          }
+        ],
+        "expectation_narrowing_observed": true,
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r2-20261009/build-cython-ext__qL2BBUt/agent/trajectory.json",
+        "trajectory_sha256": "3a2caa54b6998d9d99861acf2c6b1a150921caa29ccd3ce3346e71c2d9b7ceb2",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r2-20261009/build-cython-ext__qL2BBUt/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "288e48b524821d4ac33e8d8b8dbe27ca5ada894dd7fe9bcf9965522bcdb65190",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "11 passed"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ver-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.063939852,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 75,
+        "total_prompt_tokens": 1203093,
+        "total_completion_tokens": 43813,
+        "total_cached_tokens": 1188992,
+        "total_cost_usd": 0.063939852,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.063939852
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r1-20261009/cancel-async-tasks__amy3eoc/result.json",
+      "result_sha256": "3e96f0ce8cd59eae8a5ddec6efda94f1fa88154774e7df999f65f054bb3b983c",
+      "task_checksum": "44b08781bbffcbff0555fafbad034389009edeb85c2f83cd10620f91aa24974f",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r1-20261009/cancel-async-tasks__amy3eoc/agent/trajectory.json",
+      "trajectory_sha256": "9708c625754f6a232f39086f77a9282f207bb17edd68e0acdf50f6bf46655acf",
+      "verifier_stdout_sha256": "9e456ebc4478cbda383fc7871f51a75f64fce94cb44b1cbe1c39645acd96ef8e",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 239702.015525,
+        "timestamp": "2026-10-09T17:53:56.366Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:49:11.023172Z",
+      "finished_at": "2026-10-09T17:54:38.574074Z",
+      "agent_setup_seconds": 43.311875,
+      "agent_execution_seconds": 241.035518,
+      "verifier_seconds": 30.260441,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 29.895050460996572
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 37,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ver-cancel-async-tasks-r1-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/cancel-async-tasks",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": true,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              25,
+              29,
+              43,
+              45,
+              49,
+              55,
+              65,
+              69,
+              71,
+              75
+            ],
+            "note": "Actual cancellation tests expose interrupted cleanup under repeated cancellation. After changing the drain logic, functional, leak, cancellation and subprocess SIGINT checks pass. The same suites reject naive gather and cancel-without-wait implementations. Tests are rerun after the final source annotation change. Initial test-factory and mixed-type sorting mistakes are corrected rather than deleting cleanup assertions."
+          }
+        ],
+        "sensitivity_scope": "two_invalid_runner_implementations",
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r1-20261009/cancel-async-tasks__amy3eoc/agent/trajectory.json",
+        "trajectory_sha256": "9708c625754f6a232f39086f77a9282f207bb17edd68e0acdf50f6bf46655acf",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r1-20261009/cancel-async-tasks__amy3eoc/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "9e456ebc4478cbda383fc7871f51a75f64fce94cb44b1cbe1c39645acd96ef8e",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ope-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.067307016,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 45,
+        "total_prompt_tokens": 735494,
+        "total_completion_tokens": 49776,
+        "total_cached_tokens": 724736,
+        "total_cost_usd": 0.067307016,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.067307016
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r1-20261009/cancel-async-tasks__ikKRqnw/result.json",
+      "result_sha256": "7a86a6c11d8a05574f695c64d2774dcdc8ca07e909e433799ce9a74fa3ecc5ea",
+      "task_checksum": "44b08781bbffcbff0555fafbad034389009edeb85c2f83cd10620f91aa24974f",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r1-20261009/cancel-async-tasks__ikKRqnw/agent/trajectory.json",
+      "trajectory_sha256": "4c022734a5435fd0e22aeb96700e5c954029b911a32756f88782cb884486bda4",
+      "verifier_stdout_sha256": "a5491fef69c9a8f76b0ef43b620978abe560df28f3db527bd5ac451053e28c25",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 365667.781733,
+        "timestamp": "2026-10-09T17:56:02.648Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:49:11.021778Z",
+      "finished_at": "2026-10-09T17:56:47.331905Z",
+      "agent_setup_seconds": 43.529408,
+      "agent_execution_seconds": 367.064808,
+      "verifier_seconds": 32.717997,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 32.3622274310037
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 22,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ope-cancel-async-tasks-r1-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/cancel-async-tasks",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "partial_pass",
+        "critical_check_coverage": "partial",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              9,
+              25,
+              27,
+              31,
+              35,
+              39,
+              41,
+              43,
+              45
+            ],
+            "note": "Final-file checks pass bounded execution, direct cancellation, errors and direct asyncio.run subprocess SIGINT with awaited cleanup. An outer-gather SIGINT test still interrupts cleanup. The final discloses that failure, so the evidence supports only selected entry points. Its further assertion that this limitation affects any coroutine runner is not established."
+          }
+        ],
+        "unresolved_failed_check_observed": true,
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r1-20261009/cancel-async-tasks__ikKRqnw/agent/trajectory.json",
+        "trajectory_sha256": "4c022734a5435fd0e22aeb96700e5c954029b911a32756f88782cb884486bda4",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r1-20261009/cancel-async-tasks__ikKRqnw/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "a5491fef69c9a8f76b0ef43b620978abe560df28f3db527bd5ac451053e28c25",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-con-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.06656886,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 27,
+        "total_prompt_tokens": 575313,
+        "total_completion_tokens": 51041,
+        "total_cached_tokens": 568960,
+        "total_cost_usd": 0.06656886,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.06656886
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r1-20261009/cancel-async-tasks__ND8xrVi/result.json",
+      "result_sha256": "ee397783a7b903d8e2f781b7d06e49862b3c0160c9bd31b5a53fa66fc54c6683",
+      "task_checksum": "44b08781bbffcbff0555fafbad034389009edeb85c2f83cd10620f91aa24974f",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r1-20261009/cancel-async-tasks__ND8xrVi/agent/trajectory.json",
+      "trajectory_sha256": "59f208eb5474be2af7bb7733091bc3b0c8622ea25c55b37999d059e9037e129f",
+      "verifier_stdout_sha256": "1047403c7b1e524413e5011d8179eb2b1a436e5fce02c069c39ebaea801ecb76",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 235106.640332,
+        "timestamp": "2026-10-09T18:01:39.173Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:56:56.444378Z",
+      "finished_at": "2026-10-09T18:02:21.742678Z",
+      "agent_setup_seconds": 45.338563,
+      "agent_execution_seconds": 236.476768,
+      "verifier_seconds": 30.629303,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 30.263054787006695
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 13,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-con-cancel-async-tasks-r1-20261009",
+        "arm": "control",
+        "task": "terminal-bench/cancel-async-tasks",
+        "repeat": 1,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              9,
+              11,
+              13,
+              15,
+              17,
+              23,
+              25,
+              27
+            ],
+            "note": "Tests cover bounded execution, direct cancellation, real subprocess SIGINT under asyncio.run and a raw loop, awaited cleanup and handler restoration. A KeyboardInterrupt test raises the concurrency limit so all jobs whose cleanup is expected actually start; other limit checks remain. Tests are rerun after the final annotation edit. No deliberate invalid implementation is tested."
+          }
+        ],
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r1-20261009/cancel-async-tasks__ND8xrVi/agent/trajectory.json",
+        "trajectory_sha256": "59f208eb5474be2af7bb7733091bc3b0c8622ea25c55b37999d059e9037e129f",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r1-20261009/cancel-async-tasks__ND8xrVi/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "1047403c7b1e524413e5011d8179eb2b1a436e5fce02c069c39ebaea801ecb76",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-con-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.046947852,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 43,
+        "total_prompt_tokens": 598745,
+        "total_completion_tokens": 33348,
+        "total_cached_tokens": 587392,
+        "total_cost_usd": 0.046947852,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.046947852
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r2-20261009/cancel-async-tasks__fGR6umA/result.json",
+      "result_sha256": "968d3c82b41186ac03868cce55dd9e3c7d22c690d94f78e781a539fd47976e8e",
+      "task_checksum": "44b08781bbffcbff0555fafbad034389009edeb85c2f83cd10620f91aa24974f",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r2-20261009/cancel-async-tasks__fGR6umA/agent/trajectory.json",
+      "trajectory_sha256": "b33170cbd33bd77e240cf98f26e1269c84f6569e20812b468070c57d2d8ff60b",
+      "verifier_stdout_sha256": "1047403c7b1e524413e5011d8179eb2b1a436e5fce02c069c39ebaea801ecb76",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 185299.461863,
+        "timestamp": "2026-10-09T18:00:50.620Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T17:56:56.328290Z",
+      "finished_at": "2026-10-09T18:01:32.350191Z",
+      "agent_setup_seconds": 46.285686,
+      "agent_execution_seconds": 186.969645,
+      "verifier_seconds": 29.763441,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 29.400220545001503
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 21,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-con-cancel-async-tasks-r2-20261009",
+        "arm": "control",
+        "task": "terminal-bench/cancel-async-tasks",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              9,
+              11,
+              17,
+              19,
+              21,
+              23,
+              25,
+              31,
+              33,
+              35,
+              39,
+              43
+            ],
+            "note": "A real SIGINT check initially shows no cleanup; diagnosis finds repeated cancellation interrupting awaited cleanup. The implementation is rewritten, and direct cancellation plus subprocess signals show matching started/cleaned IDs. Tests are rerun after later source edits. The final explicitly limits very early and repeated SIGINT behavior. A type-hint comparison prints False because None differs from NoneType; it is not a failed runtime cleanup test."
+          }
+        ],
+        "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r2-20261009/cancel-async-tasks__fGR6umA/agent/trajectory.json",
+        "trajectory_sha256": "b33170cbd33bd77e240cf98f26e1269c84f6569e20812b468070c57d2d8ff60b",
+        "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r2-20261009/cancel-async-tasks__fGR6umA/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "1047403c7b1e524413e5011d8179eb2b1a436e5fce02c069c39ebaea801ecb76",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ope-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.026346012,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 23,
+        "total_prompt_tokens": 180617,
+        "total_completion_tokens": 20203,
+        "total_cached_tokens": 177152,
+        "total_cost_usd": 0.026346012,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.026346012
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r2-20261009/cancel-async-tasks__C9zjrGs/result.json",
+      "result_sha256": "64c4ac99026bb4127d325fa8211bf4e17dc1ba882cc66c1a780395f773c5e08a",
+      "task_checksum": "44b08781bbffcbff0555fafbad034389009edeb85c2f83cd10620f91aa24974f",
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r2-20261009/cancel-async-tasks__C9zjrGs/agent/trajectory.json",
+      "trajectory_sha256": "2d51c8161d70347fbbee49e5ead2215cc3a97be25cc6f78053f945ba8b323ba6",
+      "verifier_stdout_sha256": "9e456ebc4478cbda383fc7871f51a75f64fce94cb44b1cbe1c39645acd96ef8e",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "wheel_sha256": "5ff410a496dd2a0da4aeeb54105af52bd5be24d14e83085325334d2633b5afcc",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 225524.407064,
+        "timestamp": "2026-10-09T18:07:23.704Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T18:02:29.626253Z",
+      "finished_at": "2026-10-09T18:08:06.750498Z",
+      "agent_setup_seconds": 66.050564,
+      "agent_execution_seconds": 226.975635,
+      "verifier_seconds": 31.083534,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 30.71085911300179
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 11,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 1,
+      "audit": {
+        "job": "vq-ope-cancel-async-tasks-r2-20261009",
+        "arm": "operations",
+        "task": "terminal-bench/cancel-async-tasks",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": false,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              7,
+              9,
+              11,
+              15,
+              17,
+              19,
+              23
+            ],
+            "note": "Functional bounded execution, direct cancellation and wait_for cleanup pass. A shell-background SIGINT driver times out at the 120-second tool limit. Replacing it with Python subprocess signaling produces an interrupted process with all three started IDs cleaned. Final basic checks and signature inspection pass. The final limits repeated SIGINT behavior."
+          }
+        ],
+        "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r2-20261009/cancel-async-tasks__C9zjrGs/agent/trajectory.json",
+        "trajectory_sha256": "2d51c8161d70347fbbee49e5ead2215cc3a97be25cc6f78053f945ba8b323ba6",
+        "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r2-20261009/cancel-async-tasks__C9zjrGs/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "9e456ebc4478cbda383fc7871f51a75f64fce94cb44b1cbe1c39645acd96ef8e",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ver-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02",
+      "cohort": "held_out_from_prior_tuning",
+      "native_status": "scored",
+      "native_reward": 1.0,
+      "raw_verifier_rewards": {
+        "reward": 1.0
+      },
+      "exception_type": null,
+      "status": "scored",
+      "reward": 1.0,
+      "eligible_as_independent_capability_evidence": true,
+      "known_cost_usd": 0.095221836,
+      "cost_complete": true,
+      "usage_complete": true,
+      "metrics": {
+        "total_steps": 39,
+        "total_prompt_tokens": 878301,
+        "total_completion_tokens": 70735,
+        "total_cached_tokens": 861056,
+        "total_cost_usd": 0.095221836,
+        "extra": {
+          "cost_is_estimated": true,
+          "estimated_cost_usd": 0.095221836
+        }
+      },
+      "launcher_exit_code": 0,
+      "result_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r2-20261009/cancel-async-tasks__MNp38Lb/result.json",
+      "result_sha256": "02463e17ca161f7f739b4f2b6b04e9022453b02e8c4a35c6ca7b2ff8f4999da5",
+      "task_checksum": "44b08781bbffcbff0555fafbad034389009edeb85c2f83cd10620f91aa24974f",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r2-20261009/cancel-async-tasks__MNp38Lb/agent/trajectory.json",
+      "trajectory_sha256": "b02fcc79dc8824ae09cdd39045ebc3f482106516624072b191c671f61112e4fc",
+      "verifier_stdout_sha256": "1f0c6ba8656676ed4bab8c747c70a2e98c4629615edf37879264a7a416dc8252",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "wheel_sha256": "323c2d8f62832876f35cb770ceed91730fdc0cb55a2410c62e120b0e068bfd6c",
+      "terminal": {
+        "status": "completed",
+        "duration_ms": 331652.991014,
+        "timestamp": "2026-10-09T18:08:57.986Z",
+        "timestamp_source": "source_timestamp",
+        "outcome": "completed"
+      },
+      "started_at": "2026-10-09T18:02:29.790335Z",
+      "finished_at": "2026-10-09T18:09:40.360186Z",
+      "agent_setup_seconds": 54.131725,
+      "agent_execution_seconds": 333.053847,
+      "verifier_seconds": 30.448547,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 30.068683443001646
+          }
+        ]
+      },
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_attempts": 19,
+      "incomplete_model_attempts": 0,
+      "truncated_responses": 0,
+      "tool_timeouts": 0,
+      "audit": {
+        "job": "vq-ver-cancel-async-tasks-r2-20261009",
+        "arm": "verification",
+        "task": "terminal-bench/cancel-async-tasks",
+        "repeat": 2,
+        "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+        "eligible_as_independent_capability_evidence": true,
+        "task_specific_search_attempt": false,
+        "real_entry_check": "pass_selected_cases",
+        "critical_check_coverage": "covered_public_core_in_selected_cases",
+        "final_limitations_disclosed": true,
+        "unsupported_completion_claim_observed": false,
+        "sensitivity_check_observed": true,
+        "stale_check_observed": false,
+        "evidence": [
+          {
+            "steps": [
+              9,
+              13,
+              17,
+              19,
+              23,
+              25,
+              27,
+              31,
+              35,
+              37,
+              39
+            ],
+            "note": "Real SIGINT initially loses cleanup and passes after source repairs. Functional concurrency, raw-loop and asyncio.run subprocess signals, and 200-job stress checks pass on the final file. The same SIGINT oracle rejects a naive gather/double-cancel implementation. A test forbidding a queued job from starting after a sibling error is changed to require cleanup of every started job; that scheduling prohibition is not in the public contract. The final shell summary uses pipelines without pipefail, but preceding individual runs and visible pass markers support the reported suites."
+          }
+        ],
+        "sensitivity_scope": "invalid_double_cancel_runner",
+        "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r2-20261009/cancel-async-tasks__MNp38Lb/agent/trajectory.json",
+        "trajectory_sha256": "b02fcc79dc8824ae09cdd39045ebc3f482106516624072b191c671f61112e4fc",
+        "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r2-20261009/cancel-async-tasks__MNp38Lb/verifier/test-stdout.txt",
+        "verifier_stdout_sha256": "1f0c6ba8656676ed4bab8c747c70a2e98c4629615edf37879264a7a416dc8252",
+        "score_valid_for_capability_comparison": true,
+        "score_classification": "scored_pass",
+        "official_test_summary": "6 passed"
+      }
+    }
+  ]
+}

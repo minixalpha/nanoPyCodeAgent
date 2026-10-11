@@ -1,0 +1,357 @@
+{
+  "schema_version": 1,
+  "status": "predeclared",
+  "registered_at": "2026-10-09T14:40:14.377201+00:00",
+  "kind": "exploratory_three_arm_prompt_comparison",
+  "baseline_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+  "hypotheses": {
+    "verification": "Concrete evidence selection, real-entry checks, justified test corrections, and final-version evidence review improve validation quality.",
+    "operations": "Explicit Bash lifetime and completion guidance reduces avoidable tool timeouts and enables real verification."
+  },
+  "arms": {
+    "control": {
+      "source_root": "jobs/verification-quality-control-source",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "prompt_file": "control-prompt.txt",
+      "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+      "prompt_words": 385
+    },
+    "verification": {
+      "source_root": "jobs/verification-quality-verification-source",
+      "source_ref": "3b69d6d54cec29bbeaa129914419c90a70fb87d7",
+      "prompt_file": "verification-prompt.txt",
+      "prompt_sha256": "b87d1d80fcea50083189730cc42f60baf9050ebbcb00f317cd86fb93881685e6",
+      "prompt_words": 482
+    },
+    "operations": {
+      "source_root": "jobs/verification-quality-operations-source",
+      "source_ref": "ca624b0c02c5c543dffd3c99efbad031d7658afb",
+      "prompt_file": "operations-prompt.txt",
+      "prompt_sha256": "a8e9505df06f674bdc64bb2b4bd166a7917adcdcea5b517e9c707de954e3541b",
+      "prompt_words": 480
+    }
+  },
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "tasks": [
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "cohort": "diagnostic",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "task_file_sha256": {
+        "README.md": "297ddea07c230dfd246a8ab07337dd7abcd8e5e2a2b2e26590cb0a8af779839c",
+        "environment/Dockerfile": "c357ea41e4a4013c5c5980b8fef04af6a5ae250ccc6697cf3bad3127401a931f",
+        "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+        "solution/solve.sh": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+        "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+        "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+        "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+      },
+      "verifier_dependency_profile": "not_configured"
+    },
+    {
+      "name": "terminal-bench/llm-inference-batching-scheduler",
+      "ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+      "cohort": "diagnostic",
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+      "task_file_sha256": {
+        "README.md": "ecc9dd635357c184742cf72fc1e452a8946e207b183fc9a7eebbcf07133b911f",
+        "environment/Dockerfile": "10a6193904ee0022ac098504182989893b196dfc74e626a3ca48534a8eacde48",
+        "environment/task_file/input_data/requests_bucket_1.jsonl": "8b3cf1e2b06074162038064dd2c114abe308acd32cec7d365ee63ee81978f7de",
+        "environment/task_file/input_data/requests_bucket_2.jsonl": "e15e2d4c4d55f875c42a6042610d6282f6c0657c39d3e0d0f087268252525cb5",
+        "environment/task_file/scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "environment/task_file/scripts/baseline_packer.py": "547d230d5e6d93197803480cb81cab0ec6ac63fcfa0a24b246f549523f216c4e",
+        "environment/task_file/scripts/cost_model.py": "0cf417fd5ff0112defcd46970d37a290c0763c5a9092e91cb3ebb86c3f20e6ce",
+        "instruction.md": "0817374767533fbf51bb93345ee1bba266263c216c6cc55c096e71b4a1d37dfc",
+        "solution/solve.sh": "cb9efb586d76a893c3027e62029e286eb6c7583dc92dbf1840a3adc236a926d7",
+        "task.toml": "52aaac942f917e6a91ff658e0272195bd1cd842d41d71e302414c52603cc588b",
+        "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests/cost_model_for_tests.py": "d3e810a99d40327fb8317f6512d879c52c6aeebdf5dcdc0c5e117c7df61c9ab9",
+        "tests/test.sh": "005f980332355e2fe143d4ff4aac11828adf070594bbe7055399c238f06953ca",
+        "tests/test_outputs.py": "80b06b7c4ba0db28832b767d48be74bb462d7f5df5798d9cb58c4f1160d96ffa"
+      },
+      "verifier_dependency_profile": "not_configured"
+    },
+    {
+      "name": "terminal-bench/build-cython-ext",
+      "ref": "sha256:35dc561790e73f13e59837828ac0863c0893edc6b71d42cf7d58656c843adf12",
+      "cohort": "held_out_from_prior_tuning",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/build-cython-ext:20251031",
+      "task_file_sha256": {
+        "README.md": "d5f5113941c3963292bae396baa9369571026f46e59437f98ddcc93475dd7729",
+        "environment/Dockerfile": "cb6cf421cb9b69d43bd25cd491e49bda982fbb865d47515178d017eda727194e",
+        "instruction.md": "7e52874e45f88505bd21540229719de6639a401477557d814489981d472f0e34",
+        "solution/solve.sh": "41bbdde88617070366a70e518eedca466a4ea1acd7e96899b2fb7da988e40abc",
+        "task.toml": "c472f0e7522c128fb7f03e00b50c8cdf2e5e6474daa1e094e7441f4b54e770b2",
+        "tests/test.sh": "0156c9c4085258b696ce424cf1ce96cba44d1263c5d73bdf54083fd80237f915",
+        "tests/test_outputs.py": "6549f1a8e04b6163ec08877e6f6b9868bf94563f3a3c72ac1fba9c512c31689e"
+      },
+      "verifier_dependency_profile": "not_configured"
+    },
+    {
+      "name": "terminal-bench/cancel-async-tasks",
+      "ref": "sha256:a3d048d351136e48070696cda8bb79660dfd74db1fea3b6da88559f0332699c1",
+      "cohort": "held_out_from_prior_tuning",
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/cancel-async-tasks:20251031",
+      "task_file_sha256": {
+        "README.md": "9adf86b1279cc44f83fe16e6d340595aa992240f1d87243d204cae32e453693b",
+        "environment/Dockerfile": "1ee7bdb4a7536f5f114c11a3ac6ff42790abfea901fcba6b2a8ea8685f19140e",
+        "instruction.md": "23d22f7039b50682941652c716f96dac314b8585c32c133614cac77dc067f47e",
+        "solution/solve.sh": "4938ca4ad5b7dcd36b414b42a1abb10c058ecefce7462b678f9bd05c9fae1844",
+        "task.toml": "14db0675e04408f2133b0067e8dbddf66a1d6e7baf6b8d38bef8ecccfc4e58a8",
+        "tests/test.py": "f533c0a64db068f582b4733c5b81f2e66b8fa52fcd3efa65752e6bd6d24780aa",
+        "tests/test.sh": "79600a6b863def31b4daa008297423010cd2d6243e689d67503e118e4dc53397",
+        "tests/test_outputs.py": "d6f510b51fafc81b4e9b5cc95535aa13491c8753e0e4171db42c45f4de460ee7"
+      },
+      "verifier_dependency_profile": "not_configured"
+    }
+  ],
+  "repeats_per_task_per_arm": 2,
+  "total_model_runs": 24,
+  "max_concurrent_trials": 2,
+  "preflight": [
+    {
+      "arm": "control",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/install-only.json",
+      "job_name": "vq-install-control-20261009",
+      "config_sha256": "d7e3397273740410996066a00c3429c8432a021c067f535d161dcb7c1d1c58b5"
+    },
+    {
+      "arm": "verification",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-install-verification-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    },
+    {
+      "arm": "operations",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-install-operations-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    }
+  ],
+  "queue": [
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-con-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4"
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ver-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4"
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ope-torch-pipeline-parallelism-r1-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4"
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ope-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4"
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4"
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/torch-pipeline-parallelism.json",
+      "job_name": "vq-con-torch-pipeline-parallelism-r2-20261009",
+      "config_sha256": "a00e2f0c1d42b55c967eb96e4607f733d0290e5461a4bed5e49eb214462751c4"
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ver-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d"
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ope-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d"
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-con-llm-inference-batching-scheduler-r1-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d"
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-con-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d"
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ope-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d"
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/llm-inference-batching-scheduler.json",
+      "job_name": "vq-ver-llm-inference-batching-scheduler-r2-20261009",
+      "config_sha256": "b62e9d33f024b01457d6163a7892f19187131b192fbd5a697f6d901b1792452d"
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-con-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7"
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ver-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7"
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ope-build-cython-ext-r1-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7"
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ope-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7"
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-ver-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7"
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/build-cython-ext.json",
+      "job_name": "vq-con-build-cython-ext-r2-20261009",
+      "config_sha256": "d5aaf7b0731b61618d2e3b017a3f0af8566a126da7159c5d536e66d4e87060d7"
+    },
+    {
+      "arm": "verification",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ver-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    },
+    {
+      "arm": "operations",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ope-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    },
+    {
+      "arm": "control",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-con-cancel-async-tasks-r1-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    },
+    {
+      "arm": "control",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-con-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    },
+    {
+      "arm": "operations",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ope-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    },
+    {
+      "arm": "verification",
+      "repeat": 2,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/verification-quality-20261009/cancel-async-tasks.json",
+      "job_name": "vq-ver-cancel-async-tasks-r2-20261009",
+      "config_sha256": "23b32b31a46e5857e0c4438aff6f1c7a5313ea41c208aba37ea30506d0c81e02"
+    }
+  ],
+  "whole_trial_retries": 0,
+  "verifier_policy": "Only timeouts retry; at most three attempts with the original task limit and same agent output.",
+  "preflight_policy": "Run all control task installations and one installation smoke check for each candidate before any model work. No selected task has a registered verifier dependency profile; record not_configured. Full trials repeat setup. Stop before model work if an install-only check fails; preserve the failure.",
+  "freeze_policy": "Only HEADLESS_SYSTEM_PROMPT differs between arms. Runtime, tools, budgets, adapter, task images, and tests remain unchanged. Verify source refs, prompt hashes, and all recorded task-file hashes before launch. Never adjust prompts after outcomes arrive.",
+  "selection_note": "Two diagnostic tasks come from prior observed failures or tool-timeout behavior. Two tasks outside pilot20 were selected by catalog names and public requirements. Candidate prompt text was drafted before reading the new task instructions. Their hidden tests and solutions are not inspected before outputs freeze.",
+  "prior_exposure": "The experiment designer previously inspected pipeline evaluation code during post hoc diagnosis. No task-specific function names, model settings, backward scheduling rule, or hidden expected answer enters either candidate prompt. Pipeline is diagnostic, not held-out.",
+  "primary_metrics": [
+    "eligible official passes, scored failures, setup failures, and verifier errors by task/repeat/arm",
+    "real-entry verification supported by tool output",
+    "critical checks retain item coverage and independently justified expectations",
+    "unresolved failed checks or unsupported final success claims"
+  ],
+  "secondary_metrics": [
+    "estimated cost and accounting completeness",
+    "agent execution seconds, model calls, tool timeouts, truncations and recovery",
+    "stale verification after relevant final edits",
+    "self-authored sensitivity checks where observed"
+  ],
+  "audit_policy": "Review all trajectories for external task-specific solutions/hidden-test exposure. Preserve raw scores but exclude exposed trials from independent-capability comparisons; compare arms on common eligible cases. Evidence absent from a trace remains unknown, not successful. Redact credentials from any published excerpts.",
+  "decision_rule": "Report both candidates separately against the fresh shared control. No outcome-based replacements or extra runs. Two repeats and two held-out tasks are exploratory, not statistically conclusive. Do not promote a candidate based only on pipeline or a single favorable result. Report every regression and cost increase.",
+  "log_dir": "jobs/verification-quality-20261009-orchestration"
+}
