@@ -55,3 +55,109 @@ def test_interrupted_job_cannot_silently_restart(tmp_path):
     (tmp_path / "interrupted.json").write_text(json.dumps({"status": "started"}))
     with pytest.raises(RuntimeError, match="refusing to retry"):
         comparison.run_job(tmp_path, {}, job, tmp_path, False)
+
+
+@pytest.fixture
+def accepted_installation(tmp_path):
+    source = tmp_path / "source"
+    module = source / "src/nanopycodeagent/agent.py"
+    module.parent.mkdir(parents=True)
+    module.write_text("# frozen runtime\n")
+    trial = source / "jobs/preflight/task__one"
+    (trial / "agent").mkdir(parents=True)
+    inputs = source / "jobs/preflight-input"
+    (inputs / "dist").mkdir(parents=True)
+    wheel = inputs / "dist/runtime.whl"
+    wheel.write_bytes(b"recorded wheel bytes")
+    files = {
+        "result": (trial / "result.json", {
+            "task_name": "org/task", "task_id": {"ref": "sha256:task"},
+            "finished_at": "2026-10-11T00:00:00Z", "exception_info": None,
+            "agent_execution": None, "verifier": None, "verifier_result": None,
+            "config": {"agent": {"kwargs": {"wheel_path": str(wheel)}}},
+        }),
+        "bootstrap": (trial / "agent/bootstrap.json", {
+            "status": "ready", "stage": "complete",
+            "verifier_preflight": {"status": "not_configured"},
+            "wheel_sha256": comparison.digest(wheel),
+        }),
+        "manifest": (inputs / "manifest.json", {
+            "commit": "frozen", "wheel_sha256": comparison.digest(wheel),
+            "source_sha256": {"nanopycodeagent/agent.py": comparison.digest(module)},
+        }),
+        "input_config": (inputs / "config.json", {"install_only": True}),
+    }
+    evidence = {"arm": "main", "task": "org/task", "result_path": str((trial / "result.json").relative_to(tmp_path))}
+    for name, (path, data) in files.items():
+        path.write_text(json.dumps(data))
+        evidence[name + "_sha256"] = comparison.digest(path)
+    plan = {
+        "preflight": [], "queue": [{"arm": "main", "task": "org/task"}],
+        "arms": {"main": {"source_root": "source", "source_ref": "frozen"}},
+        "tasks": [{"name": "org/task", "ref": "sha256:task"}],
+        "accepted_preflight_trials": [evidence],
+    }
+    return plan, files, evidence, module, wheel
+
+
+def test_accept_native_success_even_when_a_sibling_failed(tmp_path, accepted_installation):
+    plan, files, _, _, _ = accepted_installation
+    sibling = files["result"][0].parent.parent / "failed__two"
+    sibling.mkdir()
+    (sibling / "result.json").write_text(json.dumps({"exception_info": {"exception_type": "NetworkConnectionError"}}))
+    assert comparison.accepted_preflights_passed(tmp_path, plan)
+    assert (sibling / "result.json").exists()
+
+
+@pytest.mark.parametrize("change", ["missing", "duplicate", "mixed"])
+def test_every_pair_needs_exactly_one_success(tmp_path, accepted_installation, change):
+    plan, _, evidence, _, _ = accepted_installation
+    if change == "missing":
+        plan["queue"].append({"arm": "main", "task": "org/second"})
+    elif change == "duplicate":
+        plan["accepted_preflight_trials"].append(evidence.copy())
+    else:
+        plan["preflight"].append({"job_name": "another"})
+    with pytest.raises(ValueError):
+        comparison.accepted_preflights_passed(tmp_path, plan)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("exception_info", {"exception_type": "AgentSetupTimeoutError"}),
+    ("agent_execution", {"started_at": "2026-10-11T00:00:00Z"}),
+    ("verifier_result", {"rewards": {"reward": 1}}),
+    ("finished_at", None),
+    ("task_id", {"ref": "sha256:different"}),
+])
+def test_ineligible_trials_cannot_be_accepted(tmp_path, accepted_installation, field, value):
+    plan, files, evidence, _, _ = accepted_installation
+    path, data = files["result"]
+    data[field] = value
+    path.write_text(json.dumps(data))
+    evidence["result_sha256"] = comparison.digest(path)
+    with pytest.raises(ValueError):
+        comparison.accepted_preflights_passed(tmp_path, plan)
+
+
+@pytest.mark.parametrize("changed", ["result", "source", "wheel"])
+def test_evidence_and_installed_source_must_still_match(tmp_path, accepted_installation, changed):
+    plan, files, _, module, wheel = accepted_installation
+    path = files["result"][0] if changed == "result" else module if changed == "source" else wheel
+    path.write_bytes(path.read_bytes() + b" ")
+    with pytest.raises(ValueError):
+        comparison.accepted_preflights_passed(tmp_path, plan)
+
+
+@pytest.mark.parametrize("name,field,value", [
+    ("bootstrap", "verifier_preflight", {"status": "pending"}),
+    ("manifest", "commit", "another-revision"),
+    ("input_config", "install_only", False),
+])
+def test_required_preflight_mode_and_revision_cannot_be_bypassed(tmp_path, accepted_installation, name, field, value):
+    plan, files, evidence, _, _ = accepted_installation
+    path, data = files[name]
+    data[field] = value
+    path.write_text(json.dumps(data))
+    evidence[name + "_sha256"] = comparison.digest(path)
+    with pytest.raises(ValueError):
+        comparison.accepted_preflights_passed(tmp_path, plan)

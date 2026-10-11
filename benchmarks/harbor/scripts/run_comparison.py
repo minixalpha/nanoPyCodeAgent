@@ -114,6 +114,67 @@ def preflight_passed(states, expected_counts):
     )
 
 
+def accepted_preflights_passed(root, plan):
+    """Validate previously completed installation trials without replaying jobs.
+
+    A failed sibling trial does not invalidate a successful installation. Every
+    task/arm pair still needs native, hash-bound evidence from the frozen source.
+    This mode cannot be combined with new preflight jobs in the same plan.
+    """
+    if plan["preflight"]:
+        raise ValueError("Accepted installation evidence cannot mix with new preflight jobs")
+    expected = {(j["arm"], j["task"]) for j in plan["queue"]}
+    evidence = plan["accepted_preflight_trials"]
+    pairs = [(e["arm"], e["task"]) for e in evidence]
+    if not expected or set(pairs) != expected or len(pairs) != len(expected):
+        raise ValueError("Every queued task/arm pair needs exactly one accepted preflight")
+    tasks = {t["name"]: t for t in plan["tasks"]}
+
+    def checked(path, expected_hash):
+        if digest(path) != expected_hash:
+            raise ValueError(f"Accepted preflight evidence changed: {path}")
+        return json.loads(path.read_text())
+
+    for item in evidence:
+        arm = plan["arms"][item["arm"]]
+        source = root / arm["source_root"]
+        result_path = (root / item["result_path"]).resolve()
+        if not result_path.is_relative_to((source / "jobs").resolve()) or result_path.name != "result.json":
+            raise ValueError("Accepted trial must belong to the frozen source checkout")
+        result = checked(result_path, item["result_sha256"])
+        task = tasks[item["task"]]
+        task_id = result["task_id"]
+        if result["task_name"] != item["task"] or task_id["ref"] != task["ref"]:
+            raise ValueError("Accepted preflight has a different task revision")
+        if (not result.get("finished_at") or result.get("exception_info")
+                or result.get("agent_execution") is not None
+                or result.get("verifier") is not None
+                or result.get("verifier_result") is not None):
+            raise ValueError("Accepted evidence must be a successful installation-only trial")
+        bootstrap = checked(result_path.parent / "agent/bootstrap.json", item["bootstrap_sha256"])
+        if (bootstrap.get("status") != "ready" or bootstrap.get("stage") != "complete"
+                or bootstrap.get("verifier_preflight", {}).get("status") not in {"passed", "not_configured"}):
+            raise ValueError("Accepted installation did not finish its required preflight")
+        job_dir = result_path.parent.parent
+        inputs = job_dir.with_name(job_dir.name + "-input")
+        manifest = checked(inputs / "manifest.json", item["manifest_sha256"])
+        config = checked(inputs / "config.json", item["input_config_sha256"])
+        if config.get("install_only") is not True or manifest["commit"] != arm["source_ref"]:
+            raise ValueError("Accepted installation used a different mode or source revision")
+        expected_sources = {}
+        for prefix, package in (("src", "nanopycodeagent"), ("benchmarks/harbor/src", "harbor_adapter")):
+            for path in (source / prefix / package).rglob("*.py"):
+                expected_sources[str(path.relative_to(source / prefix))] = digest(path)
+        if not expected_sources or manifest["source_sha256"] != expected_sources:
+            raise ValueError("Accepted installation source snapshot differs from the frozen source")
+        wheel = Path(result["config"]["agent"]["kwargs"]["wheel_path"]).resolve()
+        if not wheel.is_relative_to((inputs / "dist").resolve()):
+            raise ValueError("Accepted installation wheel must belong to its recorded inputs")
+        if not (digest(wheel) == manifest["wheel_sha256"] == bootstrap["wheel_sha256"]):
+            raise ValueError("Accepted installation wheel digest differs from its provenance")
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", type=Path, required=True)
@@ -122,6 +183,10 @@ def main():
     root, plan_path = Path.cwd(), args.plan.resolve()
     plan = json.loads(plan_path.read_text())
     validate_plan(root, plan_path, plan)
+    accepted = (
+        accepted_preflights_passed(root, plan)
+        if "accepted_preflight_trials" in plan else False
+    )
     record = root / plan["log_dir"]
     record.mkdir(parents=True, exist_ok=True)
     record.chmod(0o700)
@@ -138,10 +203,11 @@ def main():
     ]
     if args.phase == "preflight":
         states = [run_job(root, plan, j, record, True) for j in plan["preflight"]]
-        return 0 if preflight_passed(states, expected_counts) else 1
-    preflight = [json.loads((record / (j["job_name"] + ".json")).read_text()) for j in plan["preflight"]]
-    if not preflight_passed(preflight, expected_counts):
-        raise RuntimeError("Install-only checks must finish successfully before model work")
+        return 0 if accepted or preflight_passed(states, expected_counts) else 1
+    if not accepted:
+        preflight = [json.loads((record / (j["job_name"] + ".json")).read_text()) for j in plan["preflight"]]
+        if not preflight_passed(preflight, expected_counts):
+            raise RuntimeError("Install-only checks must finish successfully before model work")
     states = []
     with ThreadPoolExecutor(max_workers=2) as pool:
         for offset in range(0, len(plan["queue"]), 2):

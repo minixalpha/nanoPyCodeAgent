@@ -1,0 +1,206 @@
+{
+  "recorded_at": "2026-10-11T15:48:27.483536+00:00",
+  "preflight_state_path": "jobs/dev12-baseline-20261011-v2-orchestration/dev12-main-install-only-v2-20261011.json",
+  "preflight_state_sha256": "8f4fb628bbee4faae150ef1932dff53a2a90d695c8d08fd551c72a6b93af82cd",
+  "preflight_exit_code": 1,
+  "summary": {
+    "setup_passed": 11,
+    "agent_install_network_errors": 1,
+    "model_runs_started": 0
+  },
+  "failure_diagnosis": "POV-Ray: curl returned 18 (transferred a partial file) while downloading the original uv 0.9.11 release archive. Its earlier installation succeeded.",
+  "trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__tXynuKz",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/adaptive-rejection-sampler__tXynuKz/result.json",
+      "result_sha256": "92c4b295be0b5890374c4b124ba339b19111969252a670547a5d47a46047d878",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/adaptive-rejection-sampler__tXynuKz/agent/bootstrap.json",
+      "bootstrap_sha256": "eb4895cdc7076ee2da4b9519eb1d623465f7c0828b9afb96a5d685f89a8c1f1b",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/build-pov-ray",
+      "trial": "build-pov-ray__55Ff9nd",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/build-pov-ray__55Ff9nd/result.json",
+      "result_sha256": "c3e7244e688ad45a31f8bafccdab1e9dccef1539189d9674640b37e7810681ac",
+      "exception_type": "NetworkConnectionError",
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/build-pov-ray__55Ff9nd/agent/bootstrap.json",
+      "bootstrap_sha256": "f906cdc7af870689cc72b31c415d66f9788fce687ea0f6b40d3b5e9e66e0fe1a",
+      "bootstrap_status": "failed",
+      "bootstrap_stage": "agent_install",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/cobol-modernization",
+      "trial": "cobol-modernization__2A6Ldop",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/cobol-modernization__2A6Ldop/result.json",
+      "result_sha256": "f1010dc85724456c52f48644016afdf15a2a29dc68c57430270a01d16f75813b",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/cobol-modernization__2A6Ldop/agent/bootstrap.json",
+      "bootstrap_sha256": "1812b1d7452b4ec930ab65be85cd8ba7f2e96342153c5e9e7d0dc948f342502f",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/constraints-scheduling",
+      "trial": "constraints-scheduling__sEgWjQv",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/constraints-scheduling__sEgWjQv/result.json",
+      "result_sha256": "9c845d39b1d6ee7db05df413559408a68f99711d9a89754fe1ea474fb72cb1d3",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/constraints-scheduling__sEgWjQv/agent/bootstrap.json",
+      "bootstrap_sha256": "c4d5399fb99e22fdaccbafaeca054f4d615062b69ddc2389af0ed1c19ba30325",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "trial": "custom-memory-heap-crash__D2vB9wp",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/custom-memory-heap-crash__D2vB9wp/result.json",
+      "result_sha256": "2151d83279d3fea4a998d1611cf7e523ae061bd1592ddb6df3825939d0477c1c",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/custom-memory-heap-crash__D2vB9wp/agent/bootstrap.json",
+      "bootstrap_sha256": "cf6bb84c42557ba2a7b7e0ec653bbc1c7cf86c236d1b7e2a6852918dfb8eb7dc",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__pJKJsai",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/db-wal-recovery__pJKJsai/result.json",
+      "result_sha256": "c0f6d3334e4f8bedd61a811ac5110a1776bf9a9d56bd1037910501d552b70289",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/db-wal-recovery__pJKJsai/agent/bootstrap.json",
+      "bootstrap_sha256": "2ffe3efbf9fd9f423c3fc82102152f59af7f9180f8aaf39c46e61c96e2f02d76",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/fix-code-vulnerability",
+      "trial": "fix-code-vulnerability__m7qrvoe",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/fix-code-vulnerability__m7qrvoe/result.json",
+      "result_sha256": "4914a240602a36fedab3ac6313643cb1beffc22de6724fd48b45f4974efa0339",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/fix-code-vulnerability__m7qrvoe/agent/bootstrap.json",
+      "bootstrap_sha256": "8d1fa3e359c1a2c87bb9b262c9113a423af3445aa5a20da8a2e6fb4d63b4f67a",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/git-multibranch",
+      "trial": "git-multibranch__NsTYkJt",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/git-multibranch__NsTYkJt/result.json",
+      "result_sha256": "66a667c7278b36d1bee52e1bf466d1464c7debdde77a288f0fb62d1ea7fbbd6f",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/git-multibranch__NsTYkJt/agent/bootstrap.json",
+      "bootstrap_sha256": "391e000959d10d8aa551310ebe7bddd0c70185a684ee8cb543b7e8bf57e5e63b",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "trial": "multi-source-data-merger__3LWnqvT",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/multi-source-data-merger__3LWnqvT/result.json",
+      "result_sha256": "da74a33cea03bc9a54f5ff3e39c1ed8a3c07a9ed1ae7405ff73069c68f1a782c",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/multi-source-data-merger__3LWnqvT/agent/bootstrap.json",
+      "bootstrap_sha256": "49ba4308d822fabb4ca040d48e8e24e7c3bd34137bc08e64c1e19b856268814c",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/nginx-request-logging",
+      "trial": "nginx-request-logging__LpiAC8p",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/nginx-request-logging__LpiAC8p/result.json",
+      "result_sha256": "edc76f020a59073905b3d74d47b0bca454a3b5a43b13c0df23fc19b1bf0e0bd2",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/nginx-request-logging__LpiAC8p/agent/bootstrap.json",
+      "bootstrap_sha256": "bd617a3903bf50c818febe3abf77cc268952deb3cd9f0c6db99bc0cbf8146a94",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "trial": "pytorch-model-cli__Gm2gHNY",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/pytorch-model-cli__Gm2gHNY/result.json",
+      "result_sha256": "4c3ba76c5299e13b0be55de1f63ec981933e126136026e2ce06fbbfe4d6811cd",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/pytorch-model-cli__Gm2gHNY/agent/bootstrap.json",
+      "bootstrap_sha256": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "trial": "query-optimize__ng6Cxoz",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/query-optimize__ng6Cxoz/result.json",
+      "result_sha256": "0bdc5b650976ab994bea028e62b542682f8e9f13005fba846797f8ec11b8b580",
+      "exception_type": null,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-v2-20261011/query-optimize__ng6Cxoz/agent/bootstrap.json",
+      "bootstrap_sha256": "0a52c1c56dbec333ab809d00b69469021e06f49e0570249b280b6aacef2587f0",
+      "bootstrap_status": "ready",
+      "bootstrap_stage": "complete",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "model_started": false
+    }
+  ]
+}

@@ -15,18 +15,29 @@ is included. The fixed dataset revision is
 [Selection](selection.json) records the existing 22 tasks, selected revisions and
 rationales. The [original registered plan](experiment.json) records runtime,
 prompt, configuration and task-file hashes, work limits, preflight and queue
-order. The active [pre-model revision](experiment-v2.json) repeats installation
-preflight under a new job name and registration directory after infrastructure
-failures; all model configurations, tasks, runtime, budgets and queue entries
-remain identical.
+order. The active [pre-model revision](experiment-v3.json) accepts twelve
+successful native installation trials with hash-bound provenance. All model
+configurations, tasks, runtime, budgets and queue entries remain identical.
 
 The [first preflight evidence](preflight-v1-evidence.json) retains five successful
 installations, six image-pull/environment-start errors, and one agent setup
 timeout while `apt-get update` was still downloading package indexes. No models
 or official verifiers ran. All twelve original images are now cached, including
 six downloaded with the verified image-cache utility. Their original registry
-digests are recorded. The second preflight must pass all twelve installations
-before any model trial starts; unsupported verifier profiles remain explicit.
+digests are recorded.
+
+The [second preflight](experiment-v2.json) completed eleven successful
+installations; POV-Ray's uv download ended with a partial-transfer error.
+[Its evidence](preflight-v2-evidence.json) retains every result. The final plan
+uses these eleven successes and POV-Ray's earlier successful installation,
+without replaying successful installations because of another trial's network
+failure. Before model work, the orchestrator requires exactly one accepted
+installation-only result for every queued task and source arm. It verifies the
+task revision, source snapshot, installed wheel, bootstrap status, input mode,
+and recorded artifact hashes. A scored trial, failed installation, pending
+registered verifier profile, incomplete set, or changed evidence is rejected.
+Unsupported verifier profiles remain explicit. Both failed jobs and all eight
+failed preflight trials remain in the evidence; none is a scored agent failure.
 
 | Task | Coverage | Work budget (seconds) |
 | --- | --- | ---: |
@@ -65,20 +76,24 @@ credentials through the process environment, never configuration or logs. Set
 
 ```bash
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment-v2.json \
+  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment-v3.json \
   --phase preflight
 
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment-v2.json \
+  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment-v3.json \
   --phase model
 ```
 
 The reusable orchestrator calls only the standard
 `uv run --project benchmarks/harbor python -m harbor_adapter run --config ...`
 workflow from the frozen repository root. It creates an immutable registration,
-requires all twelve install-only results before model work, and refuses to retry
-a job already recorded as started. Source snapshots and wheel manifests remain
-in the normal Harbor job-input directories.
+requires all twelve successful install-only records before model work, and
+refuses to retry a job already recorded as started. With the final plan,
+`--phase preflight` validates the recorded successful installations without
+launching another installation job. Source snapshots and wheel manifests remain
+in the normal Harbor job-input directories. A full model trial still installs
+the agent in its own fresh container; preflight does not eliminate later
+network failures.
 
 All twelve selected verifier dependency profiles are explicitly
 `not_configured`. Agent installation preflight does **not** certify verifier
