@@ -6,6 +6,11 @@ packages, reading their instructions, or seeing outcomes. It is a purposive
 **development** cohort, not a representative random sample of Terminal-Bench.
 The other 55 tasks are left unopened by this experiment.
 
+Completed result: **10/12 passed**, with two scored correctness failures and no
+final setup or verifier errors. See the
+[baseline report](../../reports/dev12-main-baseline-20261011.md) and
+[machine-readable evidence](../../results/dev12-main-baseline-20261011.json).
+
 The runtime is main at `2eb99b608dfb39464d17d109a4a8f11afda607a9`, isolated in
 `jobs/dev12-baseline-main-source`. This branch records configuration and evidence;
 it does not change the agent or adapter. Neither prompt candidate from PR #48
