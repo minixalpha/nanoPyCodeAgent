@@ -102,3 +102,27 @@ timeouts, truncation/recovery, estimated cost, and accounting completeness.
 Two repeats and two tasks outside prior tuning are insufficient to establish a
 general capability gain. Report every regression and cost increase. Do not
 promote a candidate based solely on pipeline or one favorable trial.
+
+## Completed results and read-only collection
+
+All 24 model trials finished on October 9, 2026. See the
+[final report](../../reports/verification-quality-20261009.md). Both pipeline
+controls have native reward zero but verifier dependency failures before tests;
+they are excluded from capability comparisons without replacing the trials.
+
+With the original local job artifacts and frozen worktrees still present,
+regenerate results from the completed manual audit without invoking any model
+or verifier:
+
+```bash
+python benchmarks/harbor/scripts/collect_comparison.py \
+  --plan benchmarks/harbor/configs/verification-quality-20261009/experiment.json \
+  --audit benchmarks/harbor/results/verification-quality-audit-20261009.json \
+  --output benchmarks/harbor/results/verification-quality-20261009.json
+```
+
+The collector checks registration, task/config/prompt/source hashes, installed
+wheels, reviewed evidence hashes and retry limits before writing results. The
+audit remains a manual judgment with cited trajectory steps; the collector does
+not infer verification quality from a reward or shell exit status. Missing cost
+is unknown, and partial accounting is retained as a known lower bound.

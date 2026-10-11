@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "in_progress",
-  "method": "Manual, unblinded trajectory review; evidence absence is not evidence of successful validation. No hidden tests for the new tasks are read before all outputs freeze.",
+  "status": "completed",
+  "method": "Manual, unblinded review of all 24 frozen trajectories and verifier outputs, with tool argument URL scanning. Evidence absence is not successful validation. No new-task hidden tests or solutions were inspected before all outputs froze. Public project source and tests explicitly supplied by a task are allowed references.",
   "trials": [
     {
       "job": "vq-con-torch-pipeline-parallelism-r1-20261009",
@@ -32,7 +32,9 @@
       "score_valid_for_capability_comparison": false,
       "score_classification": "verifier_dependency_error",
       "official_failure_notes": "The first two verifier attempts timed out at 900 seconds each. Attempt 3 returned normally after uv failed to download/extract nvidia-cufft-cu12 because of a network timeout. The unchanged task script wrote reward 0 despite never starting pytest. Preserve raw reward 0; exclude this trial from capability-score comparisons and count it as a verifier dependency error, not an agent-scored failure.",
-      "exclusion_reason": "verifier_dependency_error"
+      "exclusion_reason": "verifier_dependency_error",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__YcctKv5/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "652980f8a03f05e73bd524cd4fe42bc27c2f957c4ddb2c7ebec3ffed4d44b6e7"
     },
     {
       "job": "vq-ver-torch-pipeline-parallelism-r1-20261009",
@@ -65,7 +67,11 @@
           "note": "Exact-function searches return security challenges, missing endpoints, authentication errors, or no answer links. Two Bash calls time out at 120 seconds. Torch remains unavailable; a real-model harness is written but not executed. Only py_compile passes, and the final explicitly discloses no numerical verification and the chosen loss-scale interpretation."
         }
       ],
-      "official_failure_notes": "Completed verifier reward 0: world_size=1 backward activation mismatch at lm_head (max diff 0.5714225); world_size=2 raises AttributeError because local_targets[micro] is None. The candidate chose multiplication by the microbatch count and did not run its numerical harness."
+      "official_failure_notes": "Completed verifier reward 0: world_size=1 backward activation mismatch at lm_head (max diff 0.5714225); world_size=2 raises AttributeError because local_targets[micro] is None. The candidate chose multiplication by the microbatch count and did not run its numerical harness.",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r1-20261009/torch-pipeline-parallelism__TxDd3vH/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "2e5ed3211a3771b61deb6d8510b63d3ce2ddc03157d0ff1888ca31aa4d652d21",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_failure"
     },
     {
       "job": "vq-ope-torch-pipeline-parallelism-r1-20261009",
@@ -143,6 +149,53 @@
       "verifier_stdout_sha256": "54ed7253a7377c20b895455196ab02ed8077fcd34a7465d6f9e99485b6dc5396"
     },
     {
+      "job": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+      "arm": "verification",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "repeat": 2,
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/agent/trajectory.json",
+      "trajectory_sha256": "db9d1cb521b78bcdd040b07393c605f8bbbcdd0bf3f299d7c52eaf34a2563a2b",
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "partial_pass",
+      "final_limitations_disclosed": false,
+      "unsupported_completion_claim_observed": false,
+      "unsupported_intermediate_claim_observed": true,
+      "unresolved_failed_check_observed": true,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "critical_check_coverage": "partial",
+      "evidence": [
+        {
+          "steps": [
+            29,
+            31,
+            33,
+            35,
+            37,
+            39,
+            41
+          ],
+          "note": "A six-layer real Llama harness compares per-microbatch forward/backward activations and selected parameter gradients against a full-batch reference. It exposes and prompts fixes for broadcast_object_list result handling and mutually exclusive input_ids/inputs_embeds. Backward hook captures are changed from overwrites to lists; the implementation then changes backward processing to forward microbatch order, eliminating observed per-item mismatches. This is real defect-finding and repair evidence."
+        },
+        {
+          "steps": [
+            39,
+            41,
+            43,
+            45
+          ],
+          "note": "The intermediate statement that parameter gradients match conflicts with observed embedding/head gradient failures. Two-rank tied-weight parameter checks remain failing after the ordering fix. The next test changes tie_word_embeddings from True to False, and both ranks report success; the tied case is not repaired or rechecked. The harness skips unobserved layers, does not independently assert the layer partition, and labels its aggregate numerical flag layers_per_rank_ok. It also does not check the final norm gradient despite a broader comment. The final model call exhausts the wall-clock budget and produces no final summary or disclosure. Its cost and token accounting are incomplete."
+        }
+      ],
+      "official_failure_notes": "The first verifier attempt completes actual pytest execution with reward 1: all four tests pass. This official pass does not repair the unreported tied-weight self-test failure or make incomplete accounting complete.",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "931c5d89033bae35cf65965dd76519f77eb2b899ac50ebbfc96564fd755e4e73"
+    },
+    {
       "job": "vq-con-torch-pipeline-parallelism-r2-20261009",
       "arm": "control",
       "task": "terminal-bench/torch-pipeline-parallelism",
@@ -195,51 +248,716 @@
       "final_claim_caveat": "The three-version summary includes a 4.53.3 check performed before the final implementation edit; mark that evidence stale rather than treating the entire completion statement as unsupported."
     },
     {
-      "job": "vq-ver-torch-pipeline-parallelism-r2-20261009",
+      "job": "vq-ver-llm-inference-batching-scheduler-r1-20261009",
       "arm": "verification",
-      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": null,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": true,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            49,
+            51,
+            53,
+            55,
+            57,
+            59,
+            61,
+            63
+          ],
+          "note": "The final saved plans pass coverage, thresholds and the global union constraint (two shapes). A separate formula implementation agrees with all four cost metrics. The provided baseline is run in a temporary copy and fails three metric thresholds for both buckets. This is a metric negative control, not a run through the complete validation script as the final summary suggests. The final plans and unchanged input hashes are checked again."
+        }
+      ],
+      "sensitivity_scope": "baseline_metric_thresholds",
+      "claim_caveat": "The phrase same checker overstates the negative control: only the cost/threshold logic, not the full structural validator, was exercised.",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__35poZ69/agent/trajectory.json",
+      "trajectory_sha256": "19a156357a49aa6a68a2073e0065cfe6868e02ee81b2de413291e72ba70f7928",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__35poZ69/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "17f33b888656af7e23c8f9cb20940fca84289918bd9b24f566b81b3be5828ebb",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-ope-llm-inference-batching-scheduler-r1-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": null,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            21,
+            37,
+            41,
+            43,
+            47,
+            49
+          ],
+          "note": "A vectorized metric replica is compared with the public cost model. The actual final files pass metrics, coverage, the global union of seven shapes, and input hashes. A baseline calibration reproduces the poor published metrics, but does not assert that the complete validator rejects a bad plan."
+        }
+      ],
+      "baseline_calibration_observed": true,
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__Rs4CeJU/agent/trajectory.json",
+      "trajectory_sha256": "74f2078ba26be1dfb8815d59811dba61af9e2b30afe7f9dbd6422e491f8aadfe",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__Rs4CeJU/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "75c814a3304cee39967e6c9fc9dfe63b984ffece6ef2860e2e5e8698e3ffa767",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-con-llm-inference-batching-scheduler-r1-20261009",
+      "arm": "control",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "partial",
+      "final_limitations_disclosed": null,
+      "unsupported_completion_claim_observed": true,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            57,
+            59,
+            61,
+            65,
+            67,
+            69,
+            71
+          ],
+          "note": "The final files are checked against independently reimplemented cost metrics, coverage, per-file shape counts and input hashes. Each file has eight shapes, but the checker omits the public cross-file union limit. The union has eleven shapes. The final completion claim is broader than its evidence; this is a scope omission, not a stale test."
+        }
+      ],
+      "official_failure_notes": "Official verifier: 1 failed, 5 passed. The combined unique shape count is 11, exceeding the public limit of 8; the other five tests pass.",
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__fxDDyUk/agent/trajectory.json",
+      "trajectory_sha256": "ec37924e74710a45a0941b686793dedf6dd9f2a71dcdeb46d205f92910572ddb",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r1-20261009/llm-inference-batching-scheduler__fxDDyUk/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "8e63dfb91b0f3c2c5b77bc74b5031c9dd6c59d543012597f90f0a00b80f1dfcf",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_failure",
+      "official_test_summary": "1 failed, 5 passed"
+    },
+    {
+      "job": "vq-con-llm-inference-batching-scheduler-r2-20261009",
+      "arm": "control",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
       "repeat": 2,
-      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/agent/trajectory.json",
-      "trajectory_sha256": "db9d1cb521b78bcdd040b07393c605f8bbbcdd0bf3f299d7c52eaf34a2563a2b",
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": null,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            57,
+            61,
+            63,
+            65,
+            67
+          ],
+          "note": "A fresh on-disk check uses the provided cost model and verifies coverage, homogeneous batches, all thresholds, and the global union of eight shapes. An initial KeyError in the harness is fixed using the actual metric names, without removing the affected assertions. No later relevant artifact edit is observed."
+        }
+      ],
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__mRxAvNR/agent/trajectory.json",
+      "trajectory_sha256": "bca437c38ea368fe49d7afdbc7c41a07ae84f7de70064c3f7e11bb17ee57c50d",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__mRxAvNR/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "2519404bf606d7ba791f9944ba07ce44d777b6a51454134cd78a5cee9314e2e1",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-ope-llm-inference-batching-scheduler-r2-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "repeat": 2,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": null,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            43,
+            47,
+            49,
+            51,
+            53,
+            57,
+            61,
+            63,
+            65
+          ],
+          "note": "A metric-name KeyError is corrected without weakening checks. Saved files pass all constraints including the global union of eight shapes and input hashes. Later grid exploration does not replace the saved winner; final validation and a byte-identical rebuild confirm the artifacts described in the summary. Alternative percentile calculations are robustness checks, not invalid-solution controls."
+        }
+      ],
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__Fn2e97t/agent/trajectory.json",
+      "trajectory_sha256": "512254e50ecb5da887f73e4518e740fada34c0a5e6af231ff759f41639ee0f8e",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__Fn2e97t/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "a91dda6b73d95f3b49a84ed5071f688068915336e041b9ea5353c908833a2386",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-ver-llm-inference-batching-scheduler-r2-20261009",
+      "arm": "verification",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "repeat": 2,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": null,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": true,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            37,
+            47,
+            49,
+            51,
+            59,
+            61,
+            65
+          ],
+          "note": "Final plans pass the public constraints including global union (five shapes). Copies with collapsed batches, smaller sequence alignment, a missing ID and a duplicate ID are rejected by the same checker. After later solver changes, saved files are revalidated and a second build is byte-identical; input hashes remain unchanged."
+        }
+      ],
+      "sensitivity_scope": "four_invalid_plan_mutations",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__8w2qiPm/agent/trajectory.json",
+      "trajectory_sha256": "332ff9d8222d0407949b8ee726350a0da77b5ca26b1772f33d22f98fb44e8a28",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-llm-inference-batching-scheduler-r2-20261009/llm-inference-batching-scheduler__8w2qiPm/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "4e336375abe88f48db14eb97cd0acad48228d9b7b93b4389bc1096b834028992",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-con-build-cython-ext-r1-20261009",
+      "arm": "control",
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            61,
+            81,
+            83,
+            89,
+            93,
+            145,
+            147,
+            149,
+            153,
+            157
+          ],
+          "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. Source fixes address compatibility errors. Extension comparisons use Python fallbacks and explicit reference calculations. After the final rebuild, tests, the README example and extension checks run again. Broader optional smoke checks have errors in paths requiring absent optional dependencies; the final discloses those limitations."
+        }
+      ],
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r1-20261009/build-cython-ext__ZTtA8Ss/agent/trajectory.json",
+      "trajectory_sha256": "48153789e2b170020d4f870635ee6611478ccf63bc5246fd5b8948ad8179702c",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r1-20261009/build-cython-ext__ZTtA8Ss/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "8f8bd813b406762911db76a3b2ae041d5305833b64a2eaeef457a882c70dfdc4",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "11 passed"
+    },
+    {
+      "job": "vq-ver-build-cython-ext-r1-20261009",
+      "arm": "verification",
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            73,
+            97,
+            103,
+            107,
+            109,
+            121,
+            135,
+            151,
+            157,
+            159,
+            161,
+            169,
+            175,
+            177
+          ],
+          "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. Checks compare compiled and Python paths, transcribed/analytic references, and wheel contents. API misuse in the self-test is corrected; final installed checks and tests are rerun. Step 135 retrieves two current upstream implementation files from the explicitly task-supplied project to inspect parser regexes. This is ordinary upstream code reference, not a benchmark solution or hidden test. A late extra in-tree probe uses an unimported submodule and fails; the required snippet and installed extension suite have separate passing evidence."
+        }
+      ],
+      "reference_detail": "Task-authorized repository clone plus upstream gausscode.py and dtnotation.py source; no benchmark-answer retrieval observed.",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r1-20261009/build-cython-ext__VdAfcu9/agent/trajectory.json",
+      "trajectory_sha256": "22daaeecd50c4cf8f95a545c7bdbe6a295fbf9ae1b6da1f86a88e4fbb2df097e",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r1-20261009/build-cython-ext__VdAfcu9/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "b4ac51b738fcd16b296c01f4c46038a47f59517572b765ffe28878e4eb725f19",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "11 passed"
+    },
+    {
+      "job": "vq-ope-build-cython-ext-r1-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            67,
+            93,
+            101,
+            107,
+            115,
+            119,
+            121,
+            123,
+            129,
+            131,
+            135
+          ],
+          "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. Numerical checks cover crossing detection and basepoint/no-basepoint references. The extended harness then fails because of incorrect API usage; a later broad smoke suite also fails. Its recorded status is already 1 at step 129, although the final calls it still running. The failure is disclosed, but the process-state statement is inaccurate. The installed required tests are rerun after the final source rebuild."
+        }
+      ],
+      "unresolved_failed_check_observed": true,
+      "process_state_claim_inaccurate": true,
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r1-20261009/build-cython-ext__p7UCQpf/agent/trajectory.json",
+      "trajectory_sha256": "e74472ceaf6d4083072edb5ac5f901ccf7f0d0ceceda5e123469cde0099084bc",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r1-20261009/build-cython-ext__p7UCQpf/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "384ef8efdbc0a05d3abfd7bb76da080ff6df1dfd2be24eeab2be7d99fb8a9648",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "11 passed"
+    },
+    {
+      "job": "vq-ope-build-cython-ext-r2-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 2,
       "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
       "eligible_as_independent_capability_evidence": true,
       "task_specific_search_attempt": false,
       "real_entry_check": "partial_pass",
+      "critical_check_coverage": "partial",
       "final_limitations_disclosed": false,
-      "unsupported_completion_claim_observed": false,
-      "unsupported_intermediate_claim_observed": true,
-      "unresolved_failed_check_observed": true,
+      "unsupported_completion_claim_observed": true,
       "sensitivity_check_observed": false,
       "stale_check_observed": false,
-      "critical_check_coverage": "partial",
       "evidence": [
         {
           "steps": [
-            29,
-            31,
-            33,
-            35,
-            37,
-            39,
-            41
+            125,
+            127,
+            129,
+            135,
+            137,
+            139,
+            141,
+            143,
+            145,
+            147
           ],
-          "note": "A six-layer real Llama harness compares per-microbatch forward/backward activations and selected parameter gradients against a full-batch reference. It exposes and prompts fixes for broadcast_object_list result handling and mutually exclusive input_ids/inputs_embeds. Backward hook captures are changed from overwrites to lists; the implementation then changes backward processing to forward microbatch order, eliminating observed per-item mismatches. This is real defect-finding and repair evidence."
-        },
+          "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. The final numerical comparison prints False for no-basepoint writhe and True for basepoint. The reference uses the basepoint formula for both entry points; no subsequent corrected no-basepoint oracle is executed. The final summarizes exact agreement without disclosing this mismatch. Official success does not resolve that self-verification gap. A compileall command also lacks its success marker, while later commands make the shell return normally."
+        }
+      ],
+      "unresolved_failed_check_observed": true,
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r2-20261009/build-cython-ext__mLb22QF/agent/trajectory.json",
+      "trajectory_sha256": "e41bc6690edeb4428ed3b0876a8d266729e29844dfc815e26e93dfd0d462c126",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-build-cython-ext-r2-20261009/build-cython-ext__mLb22QF/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "25c26731e2190107b603c5f8503b181be40f41603c40f6e9f29588ff67ffdcfb",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "11 passed"
+    },
+    {
+      "job": "vq-ver-build-cython-ext-r2-20261009",
+      "arm": "verification",
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 2,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": true,
+      "stale_check_observed": false,
+      "evidence": [
         {
           "steps": [
+            69,
+            71,
+            105,
+            109,
+            111,
+            113,
+            125,
+            127,
+            129,
+            163,
+            167,
+            169,
+            171
+          ],
+          "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. The agent repairs source compatibility and verifies compiled functions against Python references. Self-test corrections for zero-based indices and wrapper normalization follow the public implementation. A broad known-value set is expanded to include zero for figure-eight; Python/NumPy comparisons remain but this is weaker than a case-specific independently grounded constant. A perturbed contribution matrix is rejected by the numerical comparison (printed boolean, not a full bad-extension run). Required tests, example and extension checks pass at the end. Cost/usage accounting is partial."
+        }
+      ],
+      "sensitivity_scope": "perturbed_numeric_reference_input",
+      "expectation_narrowing_observed": true,
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r2-20261009/build-cython-ext__8WAwfcA/agent/trajectory.json",
+      "trajectory_sha256": "0e6e7b7a22cf53e11d88186a8a70bbb7c1dcbedc7fb28b1103dcc4df59e32187",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-build-cython-ext-r2-20261009/build-cython-ext__8WAwfcA/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "8c336587a3bb11d2b8faf5410c6ca91f6bf236653272588ba7af33a54b7a43ee",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "11 passed"
+    },
+    {
+      "job": "vq-con-build-cython-ext-r2-20261009",
+      "arm": "control",
+      "task": "terminal-bench/build-cython-ext",
+      "repeat": 2,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            79,
+            81,
+            83,
+            95,
+            101,
+            125,
+            141,
+            143,
+            145,
+            147,
+            157
+          ],
+          "note": "All three required compiled extensions are loaded from system site-packages outside the checkout; NumPy remains 2.3.0. The README example runs, and the public suite passes 18 tests with only the two task-authorized file exclusions. No edits to public test assertions are observed. An invented figure-eight known-value expectation (1) fails while compiled and Python values both equal 0. The agent removes that known-value assertion (sets it to None) and retains the independent Python comparison and trefoil known value. This narrows the oracle and is not evidence of an independently established figure-eight constant. Final installed tests pass after rebuilding. Cost/usage accounting is partial despite a completed final response."
+        }
+      ],
+      "expectation_narrowing_observed": true,
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r2-20261009/build-cython-ext__qL2BBUt/agent/trajectory.json",
+      "trajectory_sha256": "3a2caa54b6998d9d99861acf2c6b1a150921caa29ccd3ce3346e71c2d9b7ceb2",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-build-cython-ext-r2-20261009/build-cython-ext__qL2BBUt/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "288e48b524821d4ac33e8d8b8dbe27ca5ada894dd7fe9bcf9965522bcdb65190",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "11 passed"
+    },
+    {
+      "job": "vq-ver-cancel-async-tasks-r1-20261009",
+      "arm": "verification",
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": true,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            25,
+            29,
+            43,
+            45,
+            49,
+            55,
+            65,
+            69,
+            71,
+            75
+          ],
+          "note": "Actual cancellation tests expose interrupted cleanup under repeated cancellation. After changing the drain logic, functional, leak, cancellation and subprocess SIGINT checks pass. The same suites reject naive gather and cancel-without-wait implementations. Tests are rerun after the final source annotation change. Initial test-factory and mixed-type sorting mistakes are corrected rather than deleting cleanup assertions."
+        }
+      ],
+      "sensitivity_scope": "two_invalid_runner_implementations",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r1-20261009/cancel-async-tasks__amy3eoc/agent/trajectory.json",
+      "trajectory_sha256": "9708c625754f6a232f39086f77a9282f207bb17edd68e0acdf50f6bf46655acf",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r1-20261009/cancel-async-tasks__amy3eoc/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "9e456ebc4478cbda383fc7871f51a75f64fce94cb44b1cbe1c39645acd96ef8e",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-ope-cancel-async-tasks-r1-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "partial_pass",
+      "critical_check_coverage": "partial",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            9,
+            25,
+            27,
+            31,
+            35,
             39,
             41,
             43,
             45
           ],
-          "note": "The intermediate statement that parameter gradients match conflicts with observed embedding/head gradient failures. Two-rank tied-weight parameter checks remain failing after the ordering fix. The next test changes tie_word_embeddings from True to False, and both ranks report success; the tied case is not repaired or rechecked. The harness skips unobserved layers, does not independently assert the layer partition, and labels its aggregate numerical flag layers_per_rank_ok. It also does not check the final norm gradient despite a broader comment. The final model call exhausts the wall-clock budget and produces no final summary or disclosure. Its cost and token accounting are incomplete."
+          "note": "Final-file checks pass bounded execution, direct cancellation, errors and direct asyncio.run subprocess SIGINT with awaited cleanup. An outer-gather SIGINT test still interrupts cleanup. The final discloses that failure, so the evidence supports only selected entry points. Its further assertion that this limitation affects any coroutine runner is not established."
         }
       ],
-      "official_failure_notes": "The first verifier attempt completes actual pytest execution with reward 1: all four tests pass. This official pass does not repair the unreported tied-weight self-test failure or make incomplete accounting complete.",
+      "unresolved_failed_check_observed": true,
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r1-20261009/cancel-async-tasks__ikKRqnw/agent/trajectory.json",
+      "trajectory_sha256": "4c022734a5435fd0e22aeb96700e5c954029b911a32756f88782cb884486bda4",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r1-20261009/cancel-async-tasks__ikKRqnw/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "a5491fef69c9a8f76b0ef43b620978abe560df28f3db527bd5ac451053e28c25",
       "score_valid_for_capability_comparison": true,
       "score_classification": "scored_pass",
-      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-torch-pipeline-parallelism-r2-20261009/torch-pipeline-parallelism__TUMs5AX/verifier/test-stdout.txt",
-      "verifier_stdout_sha256": "931c5d89033bae35cf65965dd76519f77eb2b899ac50ebbfc96564fd755e4e73"
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-con-cancel-async-tasks-r1-20261009",
+      "arm": "control",
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 1,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            9,
+            11,
+            13,
+            15,
+            17,
+            23,
+            25,
+            27
+          ],
+          "note": "Tests cover bounded execution, direct cancellation, real subprocess SIGINT under asyncio.run and a raw loop, awaited cleanup and handler restoration. A KeyboardInterrupt test raises the concurrency limit so all jobs whose cleanup is expected actually start; other limit checks remain. Tests are rerun after the final annotation edit. No deliberate invalid implementation is tested."
+        }
+      ],
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r1-20261009/cancel-async-tasks__ND8xrVi/agent/trajectory.json",
+      "trajectory_sha256": "59f208eb5474be2af7bb7733091bc3b0c8622ea25c55b37999d059e9037e129f",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r1-20261009/cancel-async-tasks__ND8xrVi/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "1047403c7b1e524413e5011d8179eb2b1a436e5fce02c069c39ebaea801ecb76",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-con-cancel-async-tasks-r2-20261009",
+      "arm": "control",
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 2,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            9,
+            11,
+            17,
+            19,
+            21,
+            23,
+            25,
+            31,
+            33,
+            35,
+            39,
+            43
+          ],
+          "note": "A real SIGINT check initially shows no cleanup; diagnosis finds repeated cancellation interrupting awaited cleanup. The implementation is rewritten, and direct cancellation plus subprocess signals show matching started/cleaned IDs. Tests are rerun after later source edits. The final explicitly limits very early and repeated SIGINT behavior. A type-hint comparison prints False because None differs from NoneType; it is not a failed runtime cleanup test."
+        }
+      ],
+      "trajectory_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r2-20261009/cancel-async-tasks__fGR6umA/agent/trajectory.json",
+      "trajectory_sha256": "b33170cbd33bd77e240cf98f26e1269c84f6569e20812b468070c57d2d8ff60b",
+      "verifier_stdout_path": "jobs/verification-quality-control-source/jobs/vq-con-cancel-async-tasks-r2-20261009/cancel-async-tasks__fGR6umA/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "1047403c7b1e524413e5011d8179eb2b1a436e5fce02c069c39ebaea801ecb76",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-ope-cancel-async-tasks-r2-20261009",
+      "arm": "operations",
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 2,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": false,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            7,
+            9,
+            11,
+            15,
+            17,
+            19,
+            23
+          ],
+          "note": "Functional bounded execution, direct cancellation and wait_for cleanup pass. A shell-background SIGINT driver times out at the 120-second tool limit. Replacing it with Python subprocess signaling produces an interrupted process with all three started IDs cleaned. Final basic checks and signature inspection pass. The final limits repeated SIGINT behavior."
+        }
+      ],
+      "trajectory_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r2-20261009/cancel-async-tasks__C9zjrGs/agent/trajectory.json",
+      "trajectory_sha256": "2d51c8161d70347fbbee49e5ead2215cc3a97be25cc6f78053f945ba8b323ba6",
+      "verifier_stdout_path": "jobs/verification-quality-operations-source/jobs/vq-ope-cancel-async-tasks-r2-20261009/cancel-async-tasks__C9zjrGs/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "9e456ebc4478cbda383fc7871f51a75f64fce94cb44b1cbe1c39645acd96ef8e",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
+    },
+    {
+      "job": "vq-ver-cancel-async-tasks-r2-20261009",
+      "arm": "verification",
+      "task": "terminal-bench/cancel-async-tasks",
+      "repeat": 2,
+      "reference_audit": "reviewed_no_confirmed_external_task_answer_exposure",
+      "eligible_as_independent_capability_evidence": true,
+      "task_specific_search_attempt": false,
+      "real_entry_check": "pass_selected_cases",
+      "critical_check_coverage": "covered_public_core_in_selected_cases",
+      "final_limitations_disclosed": true,
+      "unsupported_completion_claim_observed": false,
+      "sensitivity_check_observed": true,
+      "stale_check_observed": false,
+      "evidence": [
+        {
+          "steps": [
+            9,
+            13,
+            17,
+            19,
+            23,
+            25,
+            27,
+            31,
+            35,
+            37,
+            39
+          ],
+          "note": "Real SIGINT initially loses cleanup and passes after source repairs. Functional concurrency, raw-loop and asyncio.run subprocess signals, and 200-job stress checks pass on the final file. The same SIGINT oracle rejects a naive gather/double-cancel implementation. A test forbidding a queued job from starting after a sibling error is changed to require cleanup of every started job; that scheduling prohibition is not in the public contract. The final shell summary uses pipelines without pipefail, but preceding individual runs and visible pass markers support the reported suites."
+        }
+      ],
+      "sensitivity_scope": "invalid_double_cancel_runner",
+      "trajectory_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r2-20261009/cancel-async-tasks__MNp38Lb/agent/trajectory.json",
+      "trajectory_sha256": "b02fcc79dc8824ae09cdd39045ebc3f482106516624072b191c671f61112e4fc",
+      "verifier_stdout_path": "jobs/verification-quality-verification-source/jobs/vq-ver-cancel-async-tasks-r2-20261009/cancel-async-tasks__MNp38Lb/verifier/test-stdout.txt",
+      "verifier_stdout_sha256": "1f0c6ba8656676ed4bab8c747c70a2e98c4629615edf37879264a7a416dc8252",
+      "score_valid_for_capability_comparison": true,
+      "score_classification": "scored_pass",
+      "official_test_summary": "6 passed"
     }
-  ]
+  ],
+  "field_notes": {
+    "pass_selected_cases": "Observed real entry execution and checks; not proof of exhaustive correctness.",
+    "sensitivity_check_observed": "Includes graded scopes: invalid implementations/artifacts, baseline metric thresholds, or a perturbed numeric input. Compare scope, not just boolean counts.",
+    "final_limitations_disclosed": "Null means no unresolved core limitation was identified that required a disclosure judgment.",
+    "unsupported_completion_claim_observed": "A material final verification/completion claim exceeds or contradicts observed evidence; narrower caveats are retained separately.",
+    "reference_audit": "No confirmed answer exposure is a trace-based observation, not proof of no possible exposure."
+  }
 }
