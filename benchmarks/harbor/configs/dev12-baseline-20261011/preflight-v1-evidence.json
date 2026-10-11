@@ -1,0 +1,416 @@
+{
+  "recorded_at": "2026-10-11T15:30:40.768505+00:00",
+  "original_plan_sha256": "88b2c2391b6c00cbdb03408d8af39d32c0d79266ea2b02913a3537224213c8ab",
+  "preflight_state_path": "jobs/dev12-baseline-20261011-orchestration/dev12-main-install-only-20261011.json",
+  "preflight_state_sha256": "dc794453b094c36d3cd28679a006d6178bb61f90d28f875b2957c8fefe0aa2ff",
+  "preflight_exit_code": 1,
+  "model_runs_started": 0,
+  "trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__RF8AnGv",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/adaptive-rejection-sampler__RF8AnGv/result.json",
+      "result_sha256": "2f2c44870848bfa6155c7d2f31f1c1b2a734ca783e050cd344ecb22262e8125b",
+      "started_at": "2026-10-11T14:52:09.897066Z",
+      "finished_at": "2026-10-11T15:29:53.170833Z",
+      "exception_type": "AgentSetupTimeoutError",
+      "bootstrap": {
+        "status": "failed",
+        "stage": "system_dependencies",
+        "error_type": "CancelledError",
+        "cache_used": false,
+        "verifier_preflight": {
+          "profile": null,
+          "status": "not_configured"
+        },
+        "apt_requested_packages": []
+      },
+      "model_started": false,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/adaptive-rejection-sampler__RF8AnGv/agent/bootstrap.json",
+      "bootstrap_sha256": "82878d7f8a339f6a19b1130e8160cbd8e23b500246887197f67728670a0e05a8"
+    },
+    {
+      "task": "terminal-bench/build-pov-ray",
+      "trial": "build-pov-ray__JBS6iy8",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/build-pov-ray__JBS6iy8/result.json",
+      "result_sha256": "c878116d4f2746c3269ceefba34b9f0d1c0d9672d3010adb43ff904767391c84",
+      "started_at": "2026-10-11T14:37:44.785883Z",
+      "finished_at": "2026-10-11T14:39:13.586321Z",
+      "exception_type": null,
+      "bootstrap": {
+        "status": "ready",
+        "stage": "complete",
+        "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+        "cache_used": true,
+        "verifier_preflight": {
+          "profile": null,
+          "status": "not_configured"
+        },
+        "apt_requested_packages": [
+          [
+            "curl",
+            "bash",
+            "git",
+            "python3",
+            "ca-certificates"
+          ]
+        ]
+      },
+      "model_started": false,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/build-pov-ray__JBS6iy8/agent/bootstrap.json",
+      "bootstrap_sha256": "40256d355dfe43492278a1a4a22b8a6093657509086254ddd27494162c85b0b4"
+    },
+    {
+      "task": "terminal-bench/cobol-modernization",
+      "trial": "cobol-modernization__vX5nBDX",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/cobol-modernization__vX5nBDX/result.json",
+      "result_sha256": "65726b6e867002ac7e0306d3e1763895076389d164a9b6bd611cab89fc28f021",
+      "started_at": "2026-10-11T14:37:44.880661Z",
+      "finished_at": "2026-10-11T14:39:09.924816Z",
+      "exception_type": null,
+      "bootstrap": {
+        "status": "ready",
+        "stage": "complete",
+        "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+        "cache_used": true,
+        "verifier_preflight": {
+          "profile": null,
+          "status": "not_configured"
+        },
+        "apt_requested_packages": [
+          [
+            "curl",
+            "bash",
+            "git",
+            "python3",
+            "ca-certificates"
+          ]
+        ]
+      },
+      "model_started": false,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/cobol-modernization__vX5nBDX/agent/bootstrap.json",
+      "bootstrap_sha256": "1812b1d7452b4ec930ab65be85cd8ba7f2e96342153c5e9e7d0dc948f342502f"
+    },
+    {
+      "task": "terminal-bench/constraints-scheduling",
+      "trial": "constraints-scheduling__3qnvwvS",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/constraints-scheduling__3qnvwvS/result.json",
+      "result_sha256": "f01f3f862c70c246f4f0b1ab0617d7fbd02ffed99df63eeed39b8484485734b7",
+      "started_at": "2026-10-11T15:02:12.907941Z",
+      "finished_at": "2026-10-11T15:12:14.134571Z",
+      "exception_type": "EnvironmentStartTimeoutError",
+      "bootstrap": null,
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "trial": "custom-memory-heap-crash__feSC86P",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/custom-memory-heap-crash__feSC86P/result.json",
+      "result_sha256": "7d49cf4504bca281dd3115918e3efedea9aea9f4b0bbac63f6a1b33742446b84",
+      "started_at": "2026-10-11T14:39:12.622251Z",
+      "finished_at": "2026-10-11T14:41:58.270096Z",
+      "exception_type": null,
+      "bootstrap": {
+        "status": "ready",
+        "stage": "complete",
+        "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+        "cache_used": true,
+        "verifier_preflight": {
+          "profile": null,
+          "status": "not_configured"
+        },
+        "apt_requested_packages": [
+          [
+            "curl",
+            "bash",
+            "git",
+            "python3",
+            "ca-certificates"
+          ]
+        ]
+      },
+      "model_started": false,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/custom-memory-heap-crash__feSC86P/agent/bootstrap.json",
+      "bootstrap_sha256": "713cf8bea3c485e3e227a8737b6f21b5e1c41cb5b990897d3f5fa7a5445dfae5"
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__Nuxi3FJ",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/db-wal-recovery__Nuxi3FJ/result.json",
+      "result_sha256": "dfc37eb35223f1ff09cf2a6e6dc47248e4caafb8d5d164461a82404604d4f6ee",
+      "started_at": "2026-10-11T14:42:03.834053Z",
+      "finished_at": "2026-10-11T14:52:04.644330Z",
+      "exception_type": "EnvironmentStartTimeoutError",
+      "bootstrap": null,
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/fix-code-vulnerability",
+      "trial": "fix-code-vulnerability__zXDnZib",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/fix-code-vulnerability__zXDnZib/result.json",
+      "result_sha256": "70179ecad359af42a76481d4099f100e9860605410b724c732e731a8f567d967",
+      "started_at": "2026-10-11T14:39:14.249670Z",
+      "finished_at": "2026-10-11T14:40:30.306384Z",
+      "exception_type": null,
+      "bootstrap": {
+        "status": "ready",
+        "stage": "complete",
+        "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+        "cache_used": false,
+        "verifier_preflight": {
+          "profile": null,
+          "status": "not_configured"
+        },
+        "apt_requested_packages": [
+          [
+            "curl",
+            "bash",
+            "git",
+            "python3",
+            "ca-certificates"
+          ]
+        ]
+      },
+      "model_started": false,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/fix-code-vulnerability__zXDnZib/agent/bootstrap.json",
+      "bootstrap_sha256": "0ebcaf72b1671da138d80d344700a33c9f8cf6364e54193732d28806218c24fc"
+    },
+    {
+      "task": "terminal-bench/git-multibranch",
+      "trial": "git-multibranch__vmNqLCo",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/git-multibranch__vmNqLCo/result.json",
+      "result_sha256": "4390e038e6370493d9fc1b2269f00ad0c40d9da987fed3be056e7ae38241b89a",
+      "started_at": "2026-10-11T14:42:00.835897Z",
+      "finished_at": "2026-10-11T14:42:08.522946Z",
+      "exception_type": "RuntimeError",
+      "bootstrap": null,
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "trial": "multi-source-data-merger__sSrB3BY",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/multi-source-data-merger__sSrB3BY/result.json",
+      "result_sha256": "29282679b5ffb1a5f8e6b39b397f18718856bb06224a1735f8003aa0ac0f6148",
+      "started_at": "2026-10-11T14:42:08.843804Z",
+      "finished_at": "2026-10-11T14:52:09.624139Z",
+      "exception_type": "EnvironmentStartTimeoutError",
+      "bootstrap": null,
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/nginx-request-logging",
+      "trial": "nginx-request-logging__TtmcRmS",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/nginx-request-logging__TtmcRmS/result.json",
+      "result_sha256": "21be2091123469444698c92f126a6876ea78a32b3b75f05bcc8e43a33659b383",
+      "started_at": "2026-10-11T14:40:32.151294Z",
+      "finished_at": "2026-10-11T14:42:01.242999Z",
+      "exception_type": null,
+      "bootstrap": {
+        "status": "ready",
+        "stage": "complete",
+        "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+        "cache_used": true,
+        "verifier_preflight": {
+          "profile": null,
+          "status": "not_configured"
+        },
+        "apt_requested_packages": [
+          [
+            "curl",
+            "bash",
+            "git",
+            "python3",
+            "ca-certificates"
+          ]
+        ]
+      },
+      "model_started": false,
+      "bootstrap_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/nginx-request-logging__TtmcRmS/agent/bootstrap.json",
+      "bootstrap_sha256": "bd617a3903bf50c818febe3abf77cc268952deb3cd9f0c6db99bc0cbf8146a94"
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "trial": "pytorch-model-cli__LSDgEmN",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/pytorch-model-cli__LSDgEmN/result.json",
+      "result_sha256": "396ffe0341f26fb3b619bc6f8a8421e3eafc343480c7c10b89967feb5c68470b",
+      "started_at": "2026-10-11T15:12:16.564097Z",
+      "finished_at": "2026-10-11T15:22:16.649591Z",
+      "exception_type": "EnvironmentStartTimeoutError",
+      "bootstrap": null,
+      "model_started": false
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "trial": "query-optimize__3swyr89",
+      "result_path": "jobs/dev12-baseline-main-source/jobs/dev12-main-install-only-20261011/query-optimize__3swyr89/result.json",
+      "result_sha256": "b0098f4041e7f553f7e036d3e52bfcb34c196bdcb76c09ec54dc60145b2eb1ff",
+      "started_at": "2026-10-11T14:52:08.733745Z",
+      "finished_at": "2026-10-11T15:02:08.667707Z",
+      "exception_type": "EnvironmentStartTimeoutError",
+      "bootstrap": null,
+      "model_started": false
+    }
+  ],
+  "original_images_cached_before_second_preflight": [
+    {
+      "task": "terminal-bench/build-pov-ray",
+      "image": "alexgshaw/build-pov-ray:20251031",
+      "image_id": "sha256:874baf49341e2853a15a9184e308c7eb632e97f434359fcff2891c6e5ca1b39b",
+      "repo_digests": [
+        "alexgshaw/build-pov-ray@sha256:874baf49341e2853a15a9184e308c7eb632e97f434359fcff2891c6e5ca1b39b"
+      ],
+      "size_bytes": 163066497
+    },
+    {
+      "task": "terminal-bench/cobol-modernization",
+      "image": "alexgshaw/cobol-modernization:20251031",
+      "image_id": "sha256:593ab9df3d83f771e927888b2d9436b380cdf7ec4d0af2a9f0802d541edebba0",
+      "repo_digests": [
+        "alexgshaw/cobol-modernization@sha256:593ab9df3d83f771e927888b2d9436b380cdf7ec4d0af2a9f0802d541edebba0"
+      ],
+      "size_bytes": 162020401
+    },
+    {
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "image": "alexgshaw/custom-memory-heap-crash:20251031",
+      "image_id": "sha256:1895d7d6240d5fb2ec774d6bfdd1057d170f8d199c15c582e4585d3c63802557",
+      "repo_digests": [
+        "alexgshaw/custom-memory-heap-crash@sha256:1895d7d6240d5fb2ec774d6bfdd1057d170f8d199c15c582e4585d3c63802557"
+      ],
+      "size_bytes": 1267999268
+    },
+    {
+      "task": "terminal-bench/fix-code-vulnerability",
+      "image": "alexgshaw/fix-code-vulnerability:20251031",
+      "image_id": "sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0",
+      "repo_digests": [
+        "alexgshaw/fix-code-vulnerability@sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0"
+      ],
+      "size_bytes": 190696453
+    },
+    {
+      "task": "terminal-bench/nginx-request-logging",
+      "image": "alexgshaw/nginx-request-logging:20251031",
+      "image_id": "sha256:693e64431a0dbf45952e8b91a298d54fd60247e501c6623fb8fa3ebc07fc3d3d",
+      "repo_digests": [
+        "alexgshaw/nginx-request-logging@sha256:693e64431a0dbf45952e8b91a298d54fd60247e501c6623fb8fa3ebc07fc3d3d"
+      ],
+      "size_bytes": 67285778
+    },
+    {
+      "task": "terminal-bench/git-multibranch",
+      "image": "alexgshaw/git-multibranch:20251031",
+      "image_id": "sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5",
+      "repo_digests": [
+        "alexgshaw/git-multibranch@sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5"
+      ],
+      "size_bytes": 222134454
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "image": "alexgshaw/db-wal-recovery:20251031",
+      "image_id": "sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e",
+      "repo_digests": [
+        "alexgshaw/db-wal-recovery@sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e"
+      ],
+      "size_bytes": 175276145
+    },
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "image": "alexgshaw/multi-source-data-merger:20251031",
+      "image_id": "sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e",
+      "repo_digests": [
+        "alexgshaw/multi-source-data-merger@sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e"
+      ],
+      "size_bytes": 220880128
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "image": "alexgshaw/query-optimize:20251031",
+      "image_id": "sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14",
+      "repo_digests": [
+        "alexgshaw/query-optimize@sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14"
+      ],
+      "size_bytes": 120494963
+    },
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "image_id": "sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f",
+      "repo_digests": [
+        "alexgshaw/adaptive-rejection-sampler@sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f"
+      ],
+      "size_bytes": 29731756
+    },
+    {
+      "task": "terminal-bench/constraints-scheduling",
+      "image": "alexgshaw/constraints-scheduling:20251031",
+      "image_id": "sha256:567ce5a189f8d11ac461790876e934cc7af38391baf89a78f95f4dafc1fec3b0",
+      "repo_digests": [
+        "alexgshaw/constraints-scheduling@sha256:567ce5a189f8d11ac461790876e934cc7af38391baf89a78f95f4dafc1fec3b0"
+      ],
+      "size_bytes": 49852952
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "image": "alexgshaw/pytorch-model-cli:20251031",
+      "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "repo_digests": [
+        "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67"
+      ],
+      "size_bytes": 44349611
+    }
+  ],
+  "image_cache_utility": {
+    "path": "benchmarks/harbor/scripts/cache_image.py",
+    "source_commit": "d7dbcec",
+    "source_sha256": "639709c03a7b0c3eb6aa78b4e87e6184b49b4b102853a31e33dd832d759180c0",
+    "unit_and_harbor_tests_passed": 113,
+    "real_docker_import_digest_check": "passed"
+  },
+  "imported_manifest_locks": [
+    {
+      "image": "alexgshaw/constraints-scheduling:20251031",
+      "manifest_digest": "sha256:567ce5a189f8d11ac461790876e934cc7af38391baf89a78f95f4dafc1fec3b0",
+      "config_digest": "sha256:65694556a87deb6f2c0f643841d4d4ff3fabd1e794999978694d891ccb24e703"
+    },
+    {
+      "image": "alexgshaw/db-wal-recovery:20251031",
+      "manifest_digest": "sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e",
+      "config_digest": "sha256:0ff6d2977f94533d8a7a0cdc5a16efd42cb3ccfeb2f5684cdc8db0836b43b9e3"
+    },
+    {
+      "image": "alexgshaw/git-multibranch:20251031",
+      "manifest_digest": "sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5",
+      "config_digest": "sha256:ec6eeb02cecf35faf5badd75646ab0dd2e02cab484638b413ccd4606a2e2ef7d"
+    },
+    {
+      "image": "alexgshaw/multi-source-data-merger:20251031",
+      "manifest_digest": "sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e",
+      "config_digest": "sha256:5096d3409e5c692afd62a136f90a2e52dd87653aa6637a3e1ca31ad30fab1096"
+    },
+    {
+      "image": "alexgshaw/pytorch-model-cli:20251031",
+      "manifest_digest": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "config_digest": "sha256:2d19236650cc866ba441762e3d89edfa452756e0e4833cfdb984257d50b446e7"
+    },
+    {
+      "image": "alexgshaw/query-optimize:20251031",
+      "manifest_digest": "sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14",
+      "config_digest": "sha256:5654e241057913a0f1a234583c62e12ed7bfab560d9c3f0dc5da985d9f3514eb"
+    }
+  ],
+  "first_preflight_summary": {
+    "setup_passed": 5,
+    "image_pull_or_environment_start_errors": 6,
+    "agent_setup_timeouts": 1,
+    "model_runs_started": 0
+  },
+  "cleanup": {
+    "at": "2026-10-11T15:30:36.144215+00:00",
+    "preflight_job": "dev12-main-install-only-20261011",
+    "stopped_orphan_compose_clients": [],
+    "removed_finished_preflight_containers": [],
+    "model_executions_in_cleaned_trials": 0
+  }
+}

@@ -1,0 +1,519 @@
+{
+  "schema_version": 1,
+  "registered_at": "2026-10-11T15:30:40.768505+00:00",
+  "experiment": "dev12-main-baseline-20261011",
+  "selection_file": "selection.json",
+  "selection_sha256": "cd51acea6592c01ce9ec8cde34cd46a4965a4164950194f2de7e8ca54649bd29",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "arms": {
+    "main": {
+      "source_root": "jobs/dev12-baseline-main-source",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "prompt_file": "main-prompt.txt",
+      "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+      "prompt_words": 385
+    }
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/build-pov-ray",
+      "ref": "sha256:4f08dab602fe2e9e2f42051cc6aef684a88cf2822e8b499b3ca19e670759fddb",
+      "selection_rationale": "Native compilation and build tooling",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 12000,
+      "work_budget_seconds": 11820,
+      "verifier_timeout_seconds": 12000.0,
+      "category": "software-engineering",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/build-pov-ray:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "38380f64bc631916e264f80ce4d37feedbc783310001475b367d03989d114fdf",
+        "environment/Dockerfile": "44f2b5fc7311d8f336daaaca99dd4216b49355e67f50b494ebacf1b0f7c14e92",
+        "environment/deps/illum1.pov": "5a1f7f53ee0730c4923fcd21cd4a9c34719024d8557920441551ba7d96e75dc4",
+        "instruction.md": "56c8ecdd0084a07f8c97986c43af5c37ed03dd5aa994da6735cf59806162d1b2",
+        "solution/solve.sh": "3da9dbf589656512cd7a7004dc3752d3552a6af939cfe59eff79f91695fa42c7",
+        "task.toml": "b90a47ec26c1191d3c523cc094ea96b170e42fbfe176ef1f814c57d05390c097",
+        "tests/reference_illum1.png": "bb084f430bbc9d5b623a656920670dc06cee6d9132a9d550be4a1b99e41ab9e0",
+        "tests/test.sh": "928d1497ad21aef0c456294e3784f1fddf8493410f23584da89f9e02ec6bd134",
+        "tests/test_outputs.py": "64d6ce107503714ada346e5606832ee886be9950971cf81523e73d8ba28e8d37"
+      }
+    },
+    {
+      "name": "terminal-bench/cobol-modernization",
+      "ref": "sha256:e03aa03965eee48c9f772d566ff9bcd741fceeac9693123f82a13fdd46be0d88",
+      "selection_rationale": "Legacy-language migration and behavioral compatibility",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "software-engineering",
+      "declared_difficulty": "easy",
+      "docker_image": "alexgshaw/cobol-modernization:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "c89318cf59efcc7040e3d946022e2616161b6733931a080cdeea7b1918e7ecc4",
+        "environment/Dockerfile": "8b175c83fc03ec7d16d6101516bc5100230b592f480e435279f4fe051c9280b2",
+        "environment/data/ACCOUNTS.DAT": "46f63eb29442ebc6716bcd8a0c36f4367910f2783f6b84a307ed9a61ccd1046e",
+        "environment/data/BOOKS.DAT": "db04da646207cd87f8e9c5b6f0b57d95953899f3eef22de1a81423f06ef4a9fd",
+        "environment/data/TRANSACTIONS.DAT": "1fa4cc5420ded94d585c563e8196b85166ebbae2bb8924b20014717fb2fb9ee3",
+        "environment/src/INPUT.DAT": "52fc984f0cf14af1495285d7efe02b9bae13159eea59255560ee938c4f78afee",
+        "environment/src/program.cbl": "27cb0e56f65f52fa75f346720b37a180b8e034ebe7d7622b979f195087bd6ebb",
+        "instruction.md": "a87074f1141b7345394cd88053d0debb0dc8f7de95308882c6538ee9a3b359da",
+        "solution/solve.sh": "7d4a0504e1686c1790bfbc074d4e598f4c631f54c2bc5f3d5fd786574b4810b9",
+        "task.toml": "4b620211dc3d6b1b989f0210c5ecd2f606974581c8bce27bd78659d48cf0cfbd",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "009180a7092583fc8143bb3ffc3957923aa0d61d0aac3a471f76eeb4aae54a88"
+      }
+    },
+    {
+      "name": "terminal-bench/custom-memory-heap-crash",
+      "ref": "sha256:61e021e0304c9818a9be2c9173c8a0938ce5d136e95c5422e099f1fdb2dc080e",
+      "selection_rationale": "Native memory management debugging",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 1800,
+      "work_budget_seconds": 1620,
+      "verifier_timeout_seconds": 1800.0,
+      "category": "debugging",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/custom-memory-heap-crash:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "a06ed23a2c467aa36d0d4a88e5c020b1076cc25b8d483517239658e9c596dde9",
+        "environment/Dockerfile": "6ee81e5a4fa2540443d7f27d577ba840728fc6aab9f301ab7919103673c78080",
+        "environment/patches/locale_classes.tcc.patch": "16951f4a4df6bf253886ac75f5a39fdbc328e415194493f63cb7589a364aa817",
+        "environment/patches/locale_init.cc.patch": "e97f133ceebd86f8881f972e0e45b0ec0a13a9bfa428d8032008707683d54292",
+        "environment/program/main.cpp": "b94538c76887cc2b2ab739b5ac4731cddd0faa8f4a9892a6265c062bbbeede14",
+        "environment/program/user.cpp": "92b203786fed1bf0b3aa1675c9cd2d82b2651170675064da8ffee73b98ef14f9",
+        "environment/program/user.h": "f43d155995a56c22b9cd1417daef7c3b5a976cdc662a98eef0feb438ae1eee77",
+        "instruction.md": "53c68ae14a3c3af9a97c40bfd9bdc30a5d98b37eaa2f69f763475745f70f108d",
+        "solution/solve.sh": "b0b1d10bea1cd5be14a82b35d522df616df1e67028f90d2a6bef90aaa98511a1",
+        "task.toml": "ed474be1983e212913aa8866ebb66216acbe36aef2339ac375d232aa46617481",
+        "tests/test.sh": "70a2b55f0c5757f6b123a216dfd202be4a646680bced28dddcd31fd8959a058f",
+        "tests/test_outputs.py": "4e1cb33f777fa7fb5e1536f9bea9eace6deccd515c67d4f87570adbe692914ba"
+      }
+    },
+    {
+      "name": "terminal-bench/fix-code-vulnerability",
+      "ref": "sha256:d31348aa16b533a15f013420e4d9726dc529e6086adc7d6d48067d22cc18fe71",
+      "selection_rationale": "Security bug repair and behavior preservation",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "security",
+      "declared_difficulty": "hard",
+      "docker_image": "alexgshaw/fix-code-vulnerability:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "87f28dbad183c3a634887696d328ca68a8a0858f132bc48cb7341c22267d38f7",
+        "environment/Dockerfile": "0917470986224df4daf4854a71302ae81c73ba5dd6e25be1232d29b758a5b3ab",
+        "instruction.md": "89b1abdf0af19399f720233b5cdf6b2e8e0ff7b6e3fe3e2a3af0d4d298a8641a",
+        "solution/solve.sh": "7a0131b369d83ae8546ecc3f9b4e23d38240f1bd1f0941e4430fa85b5182ee03",
+        "task.toml": "9aa2bd14ce9408289d199d0608bc3fa65b8b5e23374c9641020de62197dbf1e2",
+        "tests/test.sh": "f1611da693cb4cfc5e8482698c6a1858a5c67220ae9db89b50aed66584e9b17f",
+        "tests/test_outputs.py": "c006a5de95b69bd78055aa26cc055734dbd50718ede25d331f767bfee4ef7f26"
+      }
+    },
+    {
+      "name": "terminal-bench/nginx-request-logging",
+      "ref": "sha256:9d1b8bebd989ea0bc8080c3b159480068caf183c5fd61385868b2574b206e097",
+      "selection_rationale": "Service configuration and observable request behavior",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "system-administration",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/nginx-request-logging:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "d79997586d1c14ed8dbfea050e3580b25500e04c8345acfd3f294152433c795a",
+        "environment/Dockerfile": "43003466d89ab83484a3fa618e35b58cdb74a002b1e8716ef30f12b3ac8302d8",
+        "instruction.md": "26a7ac98aced6107f147206790ada77bbf8ed3c25fb360cf323d5fc6889edf99",
+        "solution/solve.sh": "2454bbbf7c201a9a778165f286373ba2cb991a0eb1d026a8005d57ae71250dd9",
+        "task.toml": "b7a78d00be13656f75069197100b7b8c4fd268decf6f78929c853b3222a2729d",
+        "tests/test.sh": "27761195f53cbfe5941fe39b573631f6c926869e64b7c43220377e1e116528e7",
+        "tests/test_outputs.py": "045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0"
+      }
+    },
+    {
+      "name": "terminal-bench/git-multibranch",
+      "ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa",
+      "selection_rationale": "Cross-branch repository operations",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "system-administration",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/git-multibranch:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "3b9473429381d9eacabab498cb4a8915aa2bca24fa857ef862e5991d3f81f113",
+        "environment/Dockerfile": "88d9a9f4fef1ae7fddf632799dedf5a2fb6489460a93b610c33dd8b122982821",
+        "environment/default.conf": "a3a4c5d0ac9cfe79b0510e4225c80fa3988c27fbac13622505886bf66449e04a",
+        "instruction.md": "54014a38d7526d65faeb6c11d9b7ed3d4a5cb5d973d68d3da3b68b8c0289e125",
+        "solution/solve.sh": "300ca96b79db8d77f14742109aaf76048aafc4644ced750b1bc5c2761e8d0175",
+        "task.toml": "4b9981604578a31205257cca36a28d0c89c9d8d1058541330acd11d3f8d65f82",
+        "tests/test.sh": "ddbde3eea6ffa8fda105cbd86597a53bd409f41e13223900aa27e77a84b6b155",
+        "tests/test_outputs.py": "f03c6867663b8e8fb7899df51ee4df26411fab62ed491753964b801e591d16c5"
+      }
+    },
+    {
+      "name": "terminal-bench/db-wal-recovery",
+      "ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "selection_rationale": "Database recovery and data integrity",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "file-operations",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/db-wal-recovery:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "600762031a1a02ecc3b46d70f7683f3ff930b47c8a3d0e27cc31b146158c3126",
+        "environment/Dockerfile": "63a260531c62f4ae72060db17f295c0aa03cfc6321f8162c324b7aa6b3f81302",
+        "environment/main.db": "68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119",
+        "environment/main.db-wal.encrypted": "68753bdce26196a53194260d001544cc6bb8f9f38e2f2f6826d09798e31e6e26",
+        "instruction.md": "5a20375162921b8911c67035d1905df7fd335d1bed03044271e608b2c3c93b26",
+        "solution/solve.sh": "ed8530c94103bf19783a1d41bc63fe4db478cdd9629f22fee25c45a45699f5e8",
+        "task.toml": "1cdc2c615e259bc10265efbe71b518332070c1c002e226566399e9788f18d0aa",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49"
+      }
+    },
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "selection_rationale": "Data integration and cross-input consistency",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "data-processing",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/multi-source-data-merger:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "9bf37162a4c1b88ed93627830bb8512ebae154325d7cb069c883144a0e4c69d6",
+        "environment/Dockerfile": "c95a40d3d35b473dc15ae1e8784ba7fb1725805c0583fc574dd2764325d75e4f",
+        "environment/data/source_a/users.json": "75e51e2d3ab0bdba2269d7cf3757576f84f3ee2c13407d2db94289a5958a1778",
+        "environment/data/source_b/users.csv": "8e87d16dc47d166edd8e56165955bad265b630d53d02762367c816affb5fa760",
+        "environment/data/source_c/users.parquet": "23d1ea51c4170bdba53febb885a0f495e28de525a52667347b2932136b9a72fe",
+        "instruction.md": "d1d28bb6e37f7a255a1b7f78aae8591f35c0494f33e4913392424ad954aab944",
+        "solution/solve.sh": "1b3d0d50e31930d042495d48f4c8e95f1a9c1a979c803b7f7cec651322537e1e",
+        "task.toml": "ee3964c0ee040f0a0cb121cefefbc15443d127684acb003fa5b61dd42f31c694",
+        "tests/test.sh": "d5a00e64413c0e1ae452f38a1aa1a47c3ed7b4416bbfccae1a4c053025a336d1",
+        "tests/test_outputs.py": "a070888930cf829aeca039771260b1386bda990ea805f313468d381ba3608ca5"
+      }
+    },
+    {
+      "name": "terminal-bench/query-optimize",
+      "ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "selection_rationale": "Database query performance and correctness",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 1800.0,
+      "category": "data-science",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/query-optimize:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "a82c53e333a0ac0b0b410b5e26cb8e7305dece31db84d340248ffb13d5a45160",
+        "environment/Dockerfile": "064818771f200e0517d22068f87229a7a95d0a82b0778c84ca7203bf1926a0b8",
+        "environment/task-deps/my-sql-query.sql": "43382792f0f438625d643e34abe144febd5669518f4ab1ab550a15c6d9314a21",
+        "instruction.md": "473e12d320d2732f679fb631c2a4dab4a01deea6775686718ae0c417b8a39447",
+        "solution/solve.sh": "0d95f3cedb287ff9d47c796cbaf812c300d1222c10fa80c49e8acb0e81eb6978",
+        "task.toml": "6e88f2a86df699594bcb1bf81df4ed694505f79c9420f671335b02524bbe3868",
+        "tests/golden.sql": "4da1885d56b3ffa7b7b22b422996d018795611f6963499d551582881b74b84fd",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "2068ae80c57af8d52a7ae510f0666732c057806e556b480970f36f14bae683f6"
+      }
+    },
+    {
+      "name": "terminal-bench/adaptive-rejection-sampler",
+      "ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "selection_rationale": "Numerical sampling and statistical invariants",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "scientific-computing",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "95408217b9c484ffc18a02a91b7706323b6902919c72b24866a32e27a23543e2",
+        "environment/Dockerfile": "e644a3343e339303230f1441b7383f076d21c69a5a7aa6430b4f8a9d27f15c8b",
+        "environment/protected.tar.gz.enc": "7fc9bf1347bb97da8dede04b2c58638f225070913e222d76627068aebd1b1df2",
+        "instruction.md": "e6d28c28acd76bef61817427c74c2a29e3e8d75f535cbd708afcbfd02c54013f",
+        "solution/solve.sh": "fe443a8082b5183ba1623311ba0ee958888aefa633eff93766b9ae14e9bdd84d",
+        "task.toml": "6ed7b37f74beb46e9d47b0f5fad53025667c9548baff4e96d467b56d429fab1a",
+        "tests/test.sh": "38b43560d173cc2b952c3a3e17b8a480216d84e33450515e047bcb0d806b1e0a",
+        "tests/test_outputs.py": "547dc6e107f034f41703722aeceb6d0236e3fb69116fc3f2fbaba11884de352f"
+      }
+    },
+    {
+      "name": "terminal-bench/constraints-scheduling",
+      "ref": "sha256:91dd6f87e1ee508328d5aafbd99a6bd1ccc47bc22671b4aaa4060bda492deb53",
+      "selection_rationale": "Constrained algorithmic planning",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 1200,
+      "work_budget_seconds": 1020,
+      "verifier_timeout_seconds": 1200.0,
+      "category": "personal-assistant",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/constraints-scheduling:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "d54a690970149e1216bd4fc066b45069c7948c13e3b1ef2a213a74342805f209",
+        "environment/Dockerfile": "7d9aba072a4a907229728b9739c8cf821fc2c98450babd64452682caf3759c84",
+        "environment/inputs/alice_calendar.ics": "5a5d45804bffd339c2479d49e76fe817b38244d14d389afe1de583443808ecbc",
+        "environment/inputs/bob_calendar.ics": "c97e85dbcdd756758f8a80f4db5fd5c1dcacee79298e4d2262f46de5ff680b50",
+        "environment/inputs/carol_calendar.ics": "32a0f8687637df0a12b8e5c56d49c4192bc3e790856943632d70f237c7c1363b",
+        "instruction.md": "342def78177f9bc41bea4d11af679bc385a9dda2ac8a1e425be384a5b7f937b6",
+        "solution/solve.sh": "802d81ec064fad3050bbade95a2f847ac24e0b7f80fa69b0bcee0347dc92fe77",
+        "task.toml": "7b9842de16d74e8faf8c7c0aa03b0b81145941cb12dd322d81ae23fc48607250",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "1422b345ba3aacdfc4184e962811b6379988435896c50d8cf62903e70990c5d1"
+      }
+    },
+    {
+      "name": "terminal-bench/pytorch-model-cli",
+      "ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "selection_rationale": "Model packaging and command-line contracts",
+      "cohort": "new_development_baseline",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "category": "model-training",
+      "declared_difficulty": "medium",
+      "docker_image": "alexgshaw/pytorch-model-cli:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "35a093fa5f1592737784ba718c2e3e9ae17ff8b5e53e003fae560ddce091039c",
+        "environment/Dockerfile": "8fd5c0f21a6914cd440d10c84c9db06fec606f20dc3e0363b17a3b8c220dc4d9",
+        "environment/task-deps/cJSON.c": "0e7995261640c96db16ed2c91a5d981efa917cf5e72d0f97ec45a1179ae3ad73",
+        "environment/task-deps/cJSON.h": "0909160541bcc510e0b2d8c7a9cc051fa1459a0f13be4d8e56346a15491f2f2f",
+        "environment/task-deps/image.png": "f4d5dfefe463939996541404340e7099d5957b56e1df3760d13b5d2de754db53",
+        "environment/task-deps/lodepng.cpp": "67873c5f6272f779a143a9c81070e8783327c5552d0b9de2aaee2cb779308917",
+        "environment/task-deps/lodepng.h": "b735b7e0357319973e9488d520d7f270d734a6e9e1bf924fb1d5b8d26d7e97ce",
+        "environment/task-deps/model.pth": "a32103eef09936e586b1a7dc7e64d279500a38ff30fdd6df2167e28eb954eee6",
+        "environment/task-deps/model.py": "e4d3a5c728449656d0efde7871ee227619348352769795ed1be1a8b7f835fddc",
+        "instruction.md": "ce36ee1f6c589f81ee6a6be4967e25c76a2ed697006928023f42dfb9f28a6750",
+        "solution/solve.sh": "3b34e561c9ef0a53c9948655847846eb4811aaac67b990480aa6aac1b04bfe66",
+        "task.toml": "fc1c018efbd5d0537ac0741d53d1ebad3886faa51d14cbde8ec953856411bc0d",
+        "tests/test.sh": "43fb67e537c7adc2df11c2367f47c876cb5d16a7c1ae16d0339c3a3364bb2b06",
+        "tests/test_outputs.py": "370702c57a4e0c85f70ee37a5c357ae3a5df8480a275bb6263b0376f2f6c093b"
+      }
+    }
+  ],
+  "total_model_runs": 12,
+  "max_concurrent_trials": 2,
+  "whole_trial_retries": 0,
+  "preflight": [
+    {
+      "arm": "main",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/install-only.json",
+      "config_sha256": "b8fc1d1d825cc514c345026bdfce4cd867443125aac0de1d0d6e02b6c3e7c30a",
+      "job_name": "dev12-main-install-only-v2-20261011"
+    }
+  ],
+  "queue": [
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/cobol-modernization",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/cobol-modernization.json",
+      "job_name": "dev12-cobol-modernization-baseline-20261011",
+      "config_sha256": "2680126c2f162d58948cd30565806bf6cb1f026d561c87b942ba4735173ea6a2"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/fix-code-vulnerability",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/fix-code-vulnerability.json",
+      "job_name": "dev12-fix-code-vulnerability-baseline-20261011",
+      "config_sha256": "4b2de43b547ddd92d748f7658c44b98b4fef25efd406710ace6d1713b9c789a7"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/nginx-request-logging",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/nginx-request-logging.json",
+      "job_name": "dev12-nginx-request-logging-baseline-20261011",
+      "config_sha256": "4a79d4fc4431acd942548f36188c1820ac5406fc6a1385cf505daf02aa190da3"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/git-multibranch",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/git-multibranch.json",
+      "job_name": "dev12-git-multibranch-baseline-20261011",
+      "config_sha256": "ae9c6d5830c9dcb8aab8b1356441b47731957e2ad5e5747327b7caa1a6c037a1"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/db-wal-recovery",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/db-wal-recovery.json",
+      "job_name": "dev12-db-wal-recovery-baseline-20261011",
+      "config_sha256": "475b7df31549e51f04f4f9171332da5a8ba03f7fbec2b3788fbf897340c0c91b"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/multi-source-data-merger",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/multi-source-data-merger.json",
+      "job_name": "dev12-multi-source-data-merger-baseline-20261011",
+      "config_sha256": "5eac4294149a11f037f732a32e1a8874613d8a28884843955481a9e8ef10b7bd"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/query-optimize",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/query-optimize.json",
+      "job_name": "dev12-query-optimize-baseline-20261011",
+      "config_sha256": "29ad0478282cd6fb86a1b209a93ffe33eee724c321916732db001b7beef8ea7e"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/adaptive-rejection-sampler.json",
+      "job_name": "dev12-adaptive-rejection-sampler-baseline-20261011",
+      "config_sha256": "e0fec8e3f1f8e077a5384058ea5b6e4733973a7475b02556f90cfc0f4ba96f6d"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/pytorch-model-cli",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/pytorch-model-cli.json",
+      "job_name": "dev12-pytorch-model-cli-baseline-20261011",
+      "config_sha256": "bc915a7de1286954473271e2232f9c83af983c23b885d099316b33dc3c1d445d"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/constraints-scheduling",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/constraints-scheduling.json",
+      "job_name": "dev12-constraints-scheduling-baseline-20261011",
+      "config_sha256": "33813c2fd5b45efd3b7bf8a765fcb1f74c702821a3d4f473e4b479200433734e"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/custom-memory-heap-crash.json",
+      "job_name": "dev12-custom-memory-heap-crash-baseline-20261011",
+      "config_sha256": "4678ab6961d82a2d597911bd8d4a53040a4be526c1e97afb27c614ecedb1c05f"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/build-pov-ray",
+      "config": "benchmarks/harbor/configs/dev12-baseline-20261011/build-pov-ray.json",
+      "job_name": "dev12-build-pov-ray-baseline-20261011",
+      "config_sha256": "42e1bb7d2a1a6d5cf9f059a121140f9135d8b4632482a00d767a9aba2e1ac2e7"
+    }
+  ],
+  "log_dir": "jobs/dev12-baseline-20261011-v2-orchestration",
+  "budget_policy": "Native task agent timeout minus 180 seconds for runtime work; setup separately allows 1800 seconds. Native verifier limits remain unchanged. Build POV-Ray retains its unusually long 12000-second native limit (11820-second model work).",
+  "execution_policy": "One run per selected task. Run all twelve installation preflights before models. Queue is fixed by ascending native work budget, stable within ties; run consecutive pairs with at most two concurrent model trials.",
+  "failure_policy": "Retain every selected trial including setup failures, verifier errors and scored failures; no outcome-based substitutions or model reruns. Only verifier timeouts may retry, at most three total attempts on the same output with the native per-attempt limit.",
+  "preflight_policy": "All selected verifier dependency profiles are not_configured. Agent installation success does not certify verifier dependencies. Registered profiles, if present, must pass before model work.",
+  "information_policy": "Selection used task names before downloading. Only public metadata/instructions may be inspected before every agent output freezes; task files are hashed as bytes without inspecting hidden test or solution contents. Audit external references afterwards.",
+  "scope": "Development baseline for twelve new tasks, not a representative full-dataset score or a pass-rate improvement experiment. Existing 22 task records remain separate; remaining 55 tasks are not opened.",
+  "protocol_amendment": {
+    "supersedes": "experiment.json",
+    "supersedes_sha256": "88b2c2391b6c00cbdb03408d8af39d32c0d79266ea2b02913a3537224213c8ab",
+    "evidence_file": "preflight-v1-evidence.json",
+    "evidence_sha256": "c723c858571a512e968db16babed482a2874f270561ae3ae8c426a2ad74bd73f",
+    "reason": "The first install-only job encountered pre-model infrastructure failures recorded in the evidence file. Preserve every failure, cache the exact original images, and repeat all twelve installation checks under a new registration before any model work.",
+    "changed_fields": [
+      "registered_at",
+      "log_dir",
+      "preflight[0].job_name",
+      "protocol_amendment"
+    ],
+    "unchanged": "Task selection and revisions, runtime and prompt, model, all task configurations and budgets, model queue and job names, concurrency, retry and information policies.",
+    "model_runs_started_at_amendment": 0
+  }
+}

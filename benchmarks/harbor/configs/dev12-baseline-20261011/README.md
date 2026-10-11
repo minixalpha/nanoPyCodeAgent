@@ -13,8 +13,20 @@ is included. The fixed dataset revision is
 `sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a`.
 
 [Selection](selection.json) records the existing 22 tasks, selected revisions and
-rationales. The [registered plan](experiment.json) records runtime, prompt,
-configuration and task-file hashes, work limits, preflight and queue order.
+rationales. The [original registered plan](experiment.json) records runtime,
+prompt, configuration and task-file hashes, work limits, preflight and queue
+order. The active [pre-model revision](experiment-v2.json) repeats installation
+preflight under a new job name and registration directory after infrastructure
+failures; all model configurations, tasks, runtime, budgets and queue entries
+remain identical.
+
+The [first preflight evidence](preflight-v1-evidence.json) retains five successful
+installations, six image-pull/environment-start errors, and one agent setup
+timeout while `apt-get update` was still downloading package indexes. No models
+or official verifiers ran. All twelve original images are now cached, including
+six downloaded with the verified image-cache utility. Their original registry
+digests are recorded. The second preflight must pass all twelve installations
+before any model trial starts; unsupported verifier profiles remain explicit.
 
 | Task | Coverage | Work budget (seconds) |
 | --- | --- | ---: |
@@ -53,11 +65,11 @@ credentials through the process environment, never configuration or logs. Set
 
 ```bash
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment.json \
+  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment-v2.json \
   --phase preflight
 
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment.json \
+  --plan benchmarks/harbor/configs/dev12-baseline-20261011/experiment-v2.json \
   --phase model
 ```
 
