@@ -93,6 +93,28 @@ python benchmarks/harbor/scripts/cache_image.py \
 这个步骤只准备 Docker 镜像缓存；随后仍需使用标准 benchmark 入口并执行安装预检，
 之前出现的环境启动失败应单独保留。
 
+### 缓存不可变的 APT 索引
+
+如果原始 APT 索引下载反复停滞，可用可选的宿主机代理，通过校验过的并行分段请求
+获取 `/by-hash/SHA256/<digest>` 不可变索引：
+
+```bash
+python benchmarks/harbor/scripts/apt_index_proxy.py \
+  --bind 172.17.0.1 --port 18742 \
+  --cache .cache/nanopy-harbor/apt-indexes --workers 16
+```
+
+地址应使用本机实际的 Docker 网桥地址。通过 Docker 的 `extra_docker_compose`
+登记只读 APT 配置挂载，以 `Acquire::http::Proxy::<原始主机名>` 分别指定代理。
+[34 题实验登记](configs/dev34-main-baseline-20261012/README.md) 提供了示例。
+不要设置全局代理环境变量，模型 API 和非 APT 工具应保留正常的网络路径。
+
+代理仅允许原始公共 Debian/Ubuntu APT 主机。索引必须通过精确分段、大小和完整
+SHA256 校验后才能提供给客户端；缓存命中也会重新校验哈希。可变的 release 元数据
+和软件包下载直接转发、不由代理缓存。APT 仍校验签名元数据及当前软件包哈希。
+软件源、任务镜像和测试脚本保持原样。预检及模型运行期间需保持代理运行，将挂载
+文件与工具哈希登记进实验计划，并保留之前的安装失败记录。
+
 ### 直接调用 Harbor
 
 开发 adapter 或对照已发布版本时，仍可使用底层 Harbor 入口，并固定容器内 agent 版本：

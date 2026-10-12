@@ -116,6 +116,32 @@ Keep the manifest lock records with the run evidence. This only warms Docker's
 image cache: continue using the standard benchmark entry point and installation
 preflight, and retain any earlier environment-start failures separately.
 
+### Cache immutable APT indexes
+
+If original APT index downloads repeatedly stall, an optional host proxy can
+fetch immutable `/by-hash/SHA256/<digest>` indexes using verified parallel ranges:
+
+```bash
+python benchmarks/harbor/scripts/apt_index_proxy.py \
+  --bind 172.17.0.1 --port 18742 \
+  --cache .cache/nanopy-harbor/apt-indexes --workers 16
+```
+
+Choose the host's actual Docker bridge address. Register a read-only APT
+configuration mount through Docker's `extra_docker_compose`, with per-host
+`Acquire::http::Proxy::<original-host>` entries pointing to the proxy. The
+[34-task registration](configs/dev34-main-baseline-20261012/README.md) contains
+an example. Avoid global proxy environment variables: model/API traffic and
+non-APT tools must retain their normal network path.
+
+The proxy accepts only the original public Debian/Ubuntu APT hosts. It validates
+exact ranges, object sizes, and whole-object SHA256 before serving an index;
+cache hits are rehashed. Mutable release metadata and package downloads are
+forwarded uncached. APT still checks signed release metadata and current package
+hashes. Original repositories, task images, and test scripts stay unchanged.
+Keep the proxy running through preflight and model trials, record the mount and
+utility hashes in the experiment plan, and retain earlier setup failures.
+
 ### Direct Harbor invocation
 
 For adapter development or comparison with published versions, the lower-level

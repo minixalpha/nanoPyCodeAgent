@@ -57,6 +57,25 @@ def test_interrupted_job_cannot_silently_restart(tmp_path):
         comparison.run_job(tmp_path, {}, job, tmp_path, False)
 
 
+def test_registered_transport_files_cannot_change(tmp_path):
+    path = tmp_path / "apt-cache.conf"
+    path.write_text("original configuration")
+    plan = {"additional_file_sha256": {path.name: comparison.digest(path)},
+            "preflight": [], "queue": [], "total_model_runs": 0,
+            "max_concurrent_trials": 2, "whole_trial_retries": 0,
+            "arms": {}, "tasks": []}
+    comparison.validate_plan(tmp_path, tmp_path / "plan.json", plan)
+    path.write_text("changed proxy endpoint")
+    with pytest.raises(ValueError, match="infrastructure file changed"):
+        comparison.validate_plan(tmp_path, tmp_path / "plan.json", plan)
+
+
+def test_registered_transport_paths_cannot_escape_repository(tmp_path):
+    plan = {"additional_file_sha256": {"../outside": "untrusted"}}
+    with pytest.raises(ValueError, match="infrastructure file changed"):
+        comparison.validate_plan(tmp_path, tmp_path / "plan.json", plan)
+
+
 @pytest.fixture
 def accepted_installation(tmp_path):
     source = tmp_path / "source"

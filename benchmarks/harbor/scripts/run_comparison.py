@@ -34,6 +34,10 @@ def prompt_from_source(path):
 
 
 def validate_plan(root, plan_path, plan):
+    for name, expected in plan.get("additional_file_sha256", {}).items():
+        path = (root / name).resolve()
+        if not path.is_relative_to(root.resolve()) or digest(path) != expected:
+            raise ValueError(f"Registered infrastructure file changed: {name}")
     jobs = plan["preflight"] + plan["queue"]
     names = [job["job_name"] for job in jobs]
     if len(names) != len(set(names)):

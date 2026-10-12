@@ -1,0 +1,135 @@
+{
+  "recorded_at": "2026-10-12T15:49:06.639441+00:00",
+  "original_plan_sha256": "171ab33ca7d88826217e8e2e21343905ab2ff84ad89f33acba17f732222d2d8b",
+  "state_path": "jobs/dev34-main-baseline-20261012-orchestration/dev34-main-install-only-20261012.json",
+  "state_sha256": "dae199b8142ab270e5c3ea13ca41c63807a78776c19fc7ceeb3bf20c6f204fa0",
+  "job_result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-20261012/result.json",
+  "job_result_sha256": "3ec2071c19091eb6042f650bd88bebb115a15dca31713018e4cd828123597ae4",
+  "model_runs_started": 0,
+  "official_verifier_runs_started": 0,
+  "started_trials": 6,
+  "unstarted_tasks": [
+    "terminal-bench/git-multibranch",
+    "terminal-bench/kv-store-grpc",
+    "terminal-bench/log-summary-date-ranges",
+    "terminal-bench/merge-diff-arc-agi-task",
+    "terminal-bench/model-extraction-relu-logits",
+    "terminal-bench/multi-source-data-merger",
+    "terminal-bench/nginx-request-logging",
+    "terminal-bench/openssl-selfsigned-cert",
+    "terminal-bench/pypi-server",
+    "terminal-bench/pytorch-model-cli",
+    "terminal-bench/pytorch-model-recovery",
+    "terminal-bench/qemu-alpine-ssh",
+    "terminal-bench/query-optimize",
+    "terminal-bench/regex-log",
+    "terminal-bench/torch-pipeline-parallelism",
+    "terminal-bench/torch-tensor-parallelism",
+    "terminal-bench/write-compressor",
+    "terminal-bench/constraints-scheduling",
+    "terminal-bench/custom-memory-heap-crash",
+    "terminal-bench/dna-assembly",
+    "terminal-bench/llm-inference-batching-scheduler",
+    "terminal-bench/path-tracing",
+    "terminal-bench/schemelike-metacircular-eval",
+    "terminal-bench/caffe-cifar-10",
+    "terminal-bench/circuit-fibsqrt",
+    "terminal-bench/mteb-leaderboard",
+    "terminal-bench/regex-chess",
+    "terminal-bench/build-pov-ray"
+  ],
+  "trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__dLzh39D",
+      "finished_at": "2026-10-12T14:25:53.506160Z",
+      "exception_type": "AgentSetupTimeoutError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-20261012/adaptive-rejection-sampler__dLzh39D/result.json",
+      "result_sha256": "fc665e3c6e3b9fbade7c91b12639dca41e7759eb6639fef8fd4de2831e46b16e",
+      "bootstrap_sha256": "82878d7f8a339f6a19b1130e8160cbd8e23b500246887197f67728670a0e05a8"
+    },
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "trial": "build-cython-ext__eo75cET",
+      "finished_at": "2026-10-12T14:16:03.316850Z",
+      "exception_type": "NetworkConnectionError",
+      "bootstrap_status": "failed",
+      "stage": "agent_install",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-20261012/build-cython-ext__eo75cET/result.json",
+      "result_sha256": "9c08f2a8fe61ae948d16f3a1447caef2b5a17273666e578c0e0d3a38b698f732",
+      "bootstrap_sha256": "20c2b4bb8ee3bc17ebe99803d8086c15086ef9d07b0e9efb10813b47ef094842"
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "trial": "cancel-async-tasks__G8BCdbW",
+      "finished_at": "2026-10-12T14:46:25.596787Z",
+      "exception_type": "AgentSetupTimeoutError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-20261012/cancel-async-tasks__G8BCdbW/result.json",
+      "result_sha256": "2bb1ef9e0db51c408d0db621f4afa1cf96b239165d73011b6517b1ebffbf2642",
+      "bootstrap_sha256": "82878d7f8a339f6a19b1130e8160cbd8e23b500246887197f67728670a0e05a8"
+    },
+    {
+      "task": "terminal-bench/cobol-modernization",
+      "trial": "cobol-modernization__eZhrhmk",
+      "finished_at": "2026-10-12T14:34:51.755049Z",
+      "exception_type": "NetworkConnectionError",
+      "bootstrap_status": "failed",
+      "stage": "agent_install",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-20261012/cobol-modernization__eZhrhmk/result.json",
+      "result_sha256": "9cf63cccf003bdbe7d434387ce8736dc4a0bea392febe9ee2c52c8bd0136dbcd",
+      "bootstrap_sha256": "c33d1442bdecb3f9e11d612e02b446d14ccbd0f7aed1108a4a0ff707ddd38fa4"
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__U44UuJX",
+      "finished_at": "2026-10-12T15:05:22.642945Z",
+      "exception_type": "AgentSetupTimeoutError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-20261012/db-wal-recovery__U44UuJX/result.json",
+      "result_sha256": "ff7b455694c6d2f26f46014de0983b7ae86783dd465a8fb2af8e79a94b7e8fa7",
+      "bootstrap_sha256": "82878d7f8a339f6a19b1130e8160cbd8e23b500246887197f67728670a0e05a8"
+    },
+    {
+      "task": "terminal-bench/fix-code-vulnerability",
+      "trial": "fix-code-vulnerability__eY3pEt8",
+      "finished_at": "2026-10-12T15:05:49.249267Z",
+      "exception_type": "CancelledError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-20261012/fix-code-vulnerability__eY3pEt8/result.json",
+      "result_sha256": "d29687f27df846b6b1abbe53d36096bf044134e1c1fdcb1a4262eb0db2dad35d",
+      "bootstrap_sha256": "82878d7f8a339f6a19b1130e8160cbd8e23b500246887197f67728670a0e05a8"
+    }
+  ],
+  "diagnosis": "Native job ended after five failed installation trials and one cancelled installation; 28 tasks never started. Three setup timeouts, two uv-download TLS errors, and one cancellation are preserved. No models or official tests ran.",
+  "intervention": "Add an APT-only transport cache for original immutable SHA256 index URLs. Mutable release metadata and packages are not cached by the proxy. Original repositories, signed metadata validation, images, agent/adapter source, and all budgets remain unchanged. Start a fresh full installation preflight before model work."
+}

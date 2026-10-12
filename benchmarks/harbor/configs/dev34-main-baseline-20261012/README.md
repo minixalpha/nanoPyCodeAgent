@@ -13,7 +13,7 @@ outcome and partial test/trace exposure, not a held-out evaluation.
 
 ## Frozen inputs
 
-- [Plan](experiment.json): runtime, task revisions, complete task-file hashes,
+- [Original plan](experiment.json): runtime, task revisions, complete task-file hashes,
   prompt/configuration hashes, work budgets, preflight, and queue order.
 - [Prompt](main-prompt.txt): current main's 385-word headless prompt.
 - [Original images](image-digests.json): all 34 images were already cached;
@@ -39,6 +39,30 @@ total attempts, with the same agent output and original per-attempt limits.
 
 ## Run
 
+The active plan is [experiment-v2.json](experiment-v2.json). The original
+install-only job ended with three setup timeouts, two uv-download TLS errors,
+and one cancellation; 28 tasks never started. No models or official tests ran.
+[Preserved evidence](preflight-v1-evidence.json) records the native artifacts
+and their hashes. The amendment adds only an APT transport cache, keeping the
+runtime source, original sources/images/scripts, budgets, and scoring fixed.
+
+Start the reusable host proxy before either phase and keep it running:
+
+```bash
+python benchmarks/harbor/scripts/apt_index_proxy.py \
+  --bind 172.17.0.1 --port 18742 \
+  --cache .cache/nanopy-harbor/apt-indexes --workers 16
+```
+
+[APT configuration](apt-cache.conf) routes only the named public APT HTTP
+origins through this proxy. The [Compose override](apt-cache.compose.yaml)
+mounts it read-only in each fresh container. Mutable release metadata and
+packages are not proxy-cached; immutable SHA256 indexes require complete hash
+verification. Model/API and other tool traffic retain their normal routes.
+Both mount files and the reusable host utility are frozen by hashes in v2.
+The recorded real-network probe fetched the original 8,790,396-byte Debian
+index in 138.418 seconds cold and 0.008 seconds warm, with identical SHA256.
+
 From the repository root, with credentials in the process environment, set
 `ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic` and leave
 `ANTHROPIC_MODEL` unset. Do not put credentials in configuration or published
@@ -47,11 +71,11 @@ before sharing.
 
 ```bash
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment.json \
+  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v2.json \
   --phase preflight
 
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment.json \
+  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v2.json \
   --phase model
 ```
 

@@ -1,0 +1,7 @@
+services:
+  main:
+    volumes:
+      - type: bind
+        source: /home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/configs/dev34-main-baseline-20261012/apt-cache.conf
+        target: /etc/apt/apt.conf.d/99nanopy-index-cache
+        read_only: true

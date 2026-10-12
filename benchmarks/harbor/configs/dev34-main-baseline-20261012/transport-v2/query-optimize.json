@@ -1,0 +1,28 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 720
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/query-optimize",
+      "ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4"
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/configs/dev34-main-baseline-20261012/apt-cache.compose.yaml"
+    ]
+  }
+}
