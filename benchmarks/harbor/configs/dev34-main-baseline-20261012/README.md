@@ -39,10 +39,12 @@ total attempts, with the same agent output and original per-attempt limits.
 
 ## Run
 
-The active installation plan is [experiment-v4.json](experiment-v4.json).
-It checks only the five unresolved installations; do not use this partial
-preflight plan for model work. A separate accepted-evidence plan must first
-bind one successful native installation for every task. The original
+The active model plan is [experiment-v5.json](experiment-v5.json). Before any
+model call, the strict orchestrator validated exactly one successful native
+installation per task: 29 from v3 and all five from v4. Task revisions, source
+snapshots, wheel digests, bootstrap/profile states, and native artifact hashes
+match the frozen main runtime. Earlier partial preflight plans are historical
+evidence and must not be used to start model work. The original
 install-only job ended with three setup timeouts, two uv-download TLS errors,
 and one cancellation; 28 tasks never started. No models or official tests ran.
 [Preserved evidence](preflight-v1-evidence.json) records the native artifacts
@@ -59,12 +61,13 @@ downloads and one QEMU Python-download TLS error. Its two remaining installation
 were interrupted before model work after the new archive-cache integration probe
 passed. [Preserved cumulative evidence](preflight-before-v4-evidence.json)
 includes native results and the separately identified administrative interruptions.
-V4 checks `log-summary-date-ranges`, `qemu-alpine-ssh`, `regex-log`,
-`circuit-fibsqrt`, and `build-pov-ray` using the final transport configuration.
+V4 successfully checked `log-summary-date-ranges`, `qemu-alpine-ssh`, `regex-log`,
+`circuit-fibsqrt`, and `build-pov-ray`. QEMU's registered verifier dependency
+profile passed; the other 33 tasks remain explicitly `not_configured`.
 
 The [APT configuration](transport-v3/apt-cache.conf) routes only the named
 public APT HTTP origins through a loopback proxy. Its
-[Compose override](transport-v4/dependency-cache.compose.json) starts cache
+[Compose override](transport-v5/dependency-cache.compose.json) starts cache
 sidecars in each task's own network namespace and waits for their health checks.
 Each uses an already cached image pinned by digest, has no task filesystem or
 agent credentials mounted, publishes no ports, and has a separate 0.5 CPU /
@@ -79,8 +82,12 @@ The recorded real-network probe fetched the original 8,790,396-byte Debian
 index in 138.418 seconds cold and 0.008 seconds warm, with identical SHA256.
 
 The archive sidecar serves only original files bound to the
-[release manifest](dependency-release-manifest.json): uv 0.9.11, uv 0.9.5, and
-CPython 3.13.9 from build 20251014. Filename, size, and full SHA256 must match the
+[release manifest](dependency-release-manifest-v5.json): uv 0.9.11, uv 0.9.5,
+CPython 3.13.9 from build 20251014, and CPython 3.14.0 from build 20251120.
+The latter is listed by the original uv 0.9.11 download index and was warmed
+before model work, after a long managed-Python installation was observed.
+It adds a verified cache hit to the original-source fallback without changing
+Python version selection. Filename, size, and full SHA256 must match the
 original public release metadata. Its cache and manifest mounts are read-only.
 The unchanged installers use their supported `UV_INSTALLER_GITHUB_BASE_URL` and
 `UV_PYTHON_INSTALL_MIRROR` transport settings. Python version selection stays
@@ -88,7 +95,7 @@ unchanged; uncached versions redirect to their original GitHub URLs. The
 [uv](uv-cache-integration-probe.json) and
 [Python/pytest](python-cache-integration-probe.json) probes executed no models
 or task assertions. All transport files, utilities, and the release manifest
-are frozen by hashes in v4.
+are frozen by hashes in v5. Every model task uses this same final transport.
 
 From the repository root, with credentials in the process environment, set
 `ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic` and leave
@@ -98,14 +105,19 @@ before sharing.
 
 ```bash
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v4.json \
+  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v5.json \
   --phase preflight
+
+python benchmarks/harbor/scripts/run_comparison.py \
+  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v5.json \
+  --phase model
 ```
 
 The orchestrator calls only the standard
 `uv run --project benchmarks/harbor python -m harbor_adapter run --config ...`
-entry point from the frozen repository root. Fresh install-only preflight runs
-for all 34 tasks before model work. Only QEMU has a reviewed verifier dependency
+entry point from the frozen repository root. The v5 preflight command validates
+the accepted native records instead of replaying installation trials. Fresh
+successful installations exist for all 34 tasks before model work. Only QEMU has a reviewed verifier dependency
 profile, `qemu-alpine-ssh-v1`; the other 33 remain explicitly `not_configured`.
 Agent installation success does not certify unsupported verifier dependencies.
 

@@ -1,0 +1,48 @@
+{
+  "registered_at": "2026-10-12T17:27:47.967711+00:00",
+  "metadata_source": "Original release metadata preserved by the source manifests; no versions or payloads substituted.",
+  "source_manifests": {
+    "dependency-release-manifest.json": "f4da90888edbec5f7e90ba9f4a0622229c654042a54275f3b50d700c1f7a0e35",
+    "python-main-release-manifest.json": "f49570d0f1ef453261f37ac84e7ea72d46b48eb3a00839b44921e84902a6131c"
+  },
+  "assets": [
+    {
+      "version": "0.9.11",
+      "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+      "url": "https://github.com/astral-sh/uv/releases/download/0.9.11/uv-x86_64-unknown-linux-gnu.tar.gz",
+      "digest": "sha256:817c0722b437b4b45b9a7e0231616a09db76bab1b8d178ba7a9680c690db19f0",
+      "size": 21699161,
+      "asset_id": 318993196,
+      "release_metadata_sha256": "c1a1378ece65ce1aa8343e57bdbd305289a8fc6d3d9180e8bb6b0f69acd91413"
+    },
+    {
+      "version": "0.9.5",
+      "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+      "url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+      "digest": "sha256:2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+      "size": 21370871,
+      "asset_id": 306970260,
+      "release_metadata_sha256": "1921b17d3370aafb690b29d1d121ee8719ef3d3dbc0c7cf3b948c3059a927a5d"
+    },
+    {
+      "version": "20251014",
+      "filename": "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.13.9%2B20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "digest": "sha256:c0ccda275948c79996e46993c2c5476ff5cca606dee530f1dea712179131b348",
+      "size": 33517986,
+      "asset_id": 304305340,
+      "release_metadata_sha256": "8e5db21cfcc2bcafcb2127f269f00cbfdd1f74842a685acd2a14e3c1ad6f8394",
+      "repository": "astral-sh/python-build-standalone"
+    },
+    {
+      "version": "20251120",
+      "filename": "cpython-3.14.0+20251120-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251120/cpython-3.14.0%2B20251120-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "digest": "sha256:66f385305ae0eefd6b65e2cf942bc91d943a61e26fb7581e029f760a2b04f393",
+      "size": 35376131,
+      "asset_id": 318881850,
+      "release_metadata_sha256": "e3a737862d2dddf11c73bfef6c2f2579e9d4ce5bd271cca53790c998590dee58",
+      "repository": "astral-sh/python-build-standalone"
+    }
+  ]
+}
