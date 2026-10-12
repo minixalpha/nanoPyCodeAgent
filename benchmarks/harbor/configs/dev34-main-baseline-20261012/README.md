@@ -6,6 +6,13 @@ and origin/main pointed to that commit when the run was registered. Earlier
 pilot20, repeat experiments, and the twelve-task baseline remain separate;
 none of their model outputs or rewards count toward this run.
 
+**Completed:** 28/34 passed (82.35%), with six scored failures, zero model-phase
+setup errors, zero verifier errors, and no verifier retries. See the
+[final report](../../reports/dev34-main-baseline-20261012.md) and
+[audited results](../../results/dev34-main-baseline-20261012.json).
+One passing tensor-parallelism trial accessed external benchmark revision
+metadata; its raw score is retained with a separate exposure flag.
+
 [Selection](selection.json) is the union of the previously exercised 22 tasks
 and the twelve additions. It uses the same pinned 89-task dataset revision.
 The remaining 55 packages stay unopened. These are development tasks with prior
