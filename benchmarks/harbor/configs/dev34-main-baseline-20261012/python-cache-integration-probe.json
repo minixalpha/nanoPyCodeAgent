@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-10-12T17:08:56.647688+00:00",
+  "kind": "dependency_cache_integration_probe_not_a_benchmark_trial",
+  "main_image": "alexgshaw/git-multibranch@sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5",
+  "sidecar_image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+  "settings": {
+    "UV_INSTALLER_GITHUB_BASE_URL": "http://127.0.0.1:18743",
+    "UV_PYTHON_INSTALL_MIRROR": "http://127.0.0.1:18743/astral-sh/python-build-standalone/releases/download"
+  },
+  "dependency_request": "uvx -p 3.13 -w pytest==8.4.1 -w pytest-json-ctrf==0.3.5 pytest --version",
+  "observed_uv_version": "uv 0.9.5",
+  "observed_python_install": "cpython-3.13.9-linux-x86_64-gnu",
+  "observed_pytest_version": "pytest 8.4.1",
+  "manifest_sha256": "f4da90888edbec5f7e90ba9f4a0622229c654042a54275f3b50d700c1f7a0e35",
+  "utility_sha256": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+  "scope": "Original uv version selection, installer scripts, and release contents; no model calls or task assertions."
+}

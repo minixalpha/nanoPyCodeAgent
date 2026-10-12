@@ -176,6 +176,17 @@ uncached uv versions/platforms redirect to their original HTTPS GitHub URLs.
 Record this transport setting, utility, manifest, and native preflight evidence
 before model work. This cache does not certify unsupported verifier dependencies.
 
+For an observed managed-Python download failure, add its exact original build
+and archive to a new manifest, for example `--python-build 20251014
+--python-asset cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz`.
+The same checks apply to the original `astral-sh/python-build-standalone` release
+metadata. Set the documented
+[`UV_PYTHON_INSTALL_MIRROR`](https://docs.astral.sh/uv/configuration/environment/#uv_python_install_mirror)
+to `http://127.0.0.1:18743/astral-sh/python-build-standalone/releases/download`.
+This changes the download route while retaining uv's original Python selection
+and archive contents. Uncached Python builds redirect to their original GitHub
+URLs; the mirror does not replace uv's embedded Python download index.
+
 ### Direct Harbor invocation
 
 For adapter development or comparison with published versions, the lower-level

@@ -154,3 +154,68 @@ def test_http_corruption_fails_closed_after_server_start(server):
     blob.write_bytes(b"x" * blob.stat().st_size)
     status, _, body = request(server, uv.asset_path("0.9.11"))
     assert status == 502 and b"original uv archive" not in body
+
+
+PYTHON_NAME = "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+
+
+def python_metadata(payload=b"original managed Python"):
+    data = json.loads(metadata(payload, "20251014"))
+    data["assets"][0].update(
+        name=PYTHON_NAME,
+        browser_download_url="https://github.com" + uv.asset_path(
+            "20251014", PYTHON_NAME, "astral-sh/python-build-standalone"),
+    )
+    return json.dumps(data).encode()
+
+
+def test_python_archive_retains_exact_original_encoded_url():
+    entry = uv.python_asset("20251014", PYTHON_NAME, python_metadata())
+    assert entry["repository"] == "astral-sh/python-build-standalone"
+    assert "3.13.9%2B20251014" in entry["url"]
+    assert entry["filename"] == PYTHON_NAME
+    for build, name in [("latest", PYTHON_NAME), ("20251015", PYTHON_NAME), ("20251014", "../python.tar.gz")]:
+        with pytest.raises(ValueError, match="exact"):
+            uv.python_asset(build, name, python_metadata())
+
+
+def test_python_manifest_is_bound_to_metadata_and_bytes(tmp_path):
+    raw = python_metadata()
+    entry = uv.python_asset("20251014", PYTHON_NAME, raw)
+    (tmp_path / "metadata").mkdir()
+    (tmp_path / "metadata" / (entry["release_metadata_sha256"] + ".json")).write_bytes(raw)
+    blob = uv.ranges.blob_path(tmp_path, entry)
+    blob.parent.mkdir(parents=True)
+    blob.write_bytes(b"original managed Python")
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({"assets": [entry]}))
+    registered = uv.registered_assets(tmp_path, manifest)
+    assert next(iter(registered.values()))[0] == blob
+    blob.write_bytes(b"x" * blob.stat().st_size)
+    with pytest.raises(ValueError, match="SHA256"):
+        uv.registered_assets(tmp_path, manifest)
+
+
+def test_python_mirror_preserves_unknown_original_downloads(server):
+    server, blob = server
+    path = uv.asset_path("20251014", PYTHON_NAME, "astral-sh/python-build-standalone")
+    server.assets[path] = (blob, uv.release_asset("0.9.11", metadata()))
+    assert request(server, path)[2] == blob.read_bytes()
+    assert request(server, path.replace("%2B", "+"))[2] == blob.read_bytes()
+    assert request(server, path.replace("%2B", "%2b"))[2] == blob.read_bytes()
+    uncached = path.replace("3.13.9", "3.12.9")
+    status, headers, _ = request(server, uncached)
+    assert status == 302 and headers["Location"] == "https://github.com" + uncached
+    assert request(server, path.replace("20251014/", "%2e%2e/"))[0] == 403
+
+
+def test_prepare_exact_python_release_without_uv_versions(tmp_path, monkeypatch):
+    calls = []
+    raw = python_metadata()
+    monkeypatch.setattr(uv.ranges, "get", lambda url, *_args: (calls.append(url) or 200, {}, raw))
+    monkeypatch.setattr(uv.ranges, "fetch_blob", lambda _cache, entry, url, *_args: calls.append((entry["filename"], url)))
+    manifest = tmp_path / "manifest.json"
+    uv.prepare(tmp_path / "cache", manifest, [], python_build="20251014", python_filename=PYTHON_NAME)
+    assert calls[0] == "https://api.github.com/repos/astral-sh/python-build-standalone/releases/tags/20251014"
+    assert calls[1][0] == PYTHON_NAME
+    assert json.loads(manifest.read_text())["assets"][0]["repository"] == "astral-sh/python-build-standalone"

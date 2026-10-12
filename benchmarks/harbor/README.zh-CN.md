@@ -144,6 +144,15 @@ python benchmarks/harbor/scripts/uv_release_cache.py prepare \
 uv 版本或平台重定向至其原始 HTTPS GitHub 地址。在模型运行前登记此下载配置、
 工具、manifest 和原生预检证据；缓存不代表未配置的验证器依赖已通过预检。
 
+若已观察到 uv 管理的 Python 下载失败，可将对应原始构建及文件名加入新的 manifest，
+例如 `--python-build 20251014
+--python-asset cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz`。
+同样按原始 `astral-sh/python-build-standalone` 发布元数据校验。将官方文档中的
+[`UV_PYTHON_INSTALL_MIRROR`](https://docs.astral.sh/uv/configuration/environment/#uv_python_install_mirror)
+设置为 `http://127.0.0.1:18743/astral-sh/python-build-standalone/releases/download`。
+这只改变下载路径，保留 uv 原来的 Python 版本选择和压缩包内容。未缓存的 Python
+构建重定向至其原始 GitHub 地址，不替换 uv 内置的 Python 下载索引。
+
 ### 直接调用 Harbor
 
 开发 adapter 或对照已发布版本时，仍可使用底层 Harbor 入口，并固定容器内 agent 版本：

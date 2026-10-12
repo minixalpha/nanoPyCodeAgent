@@ -39,7 +39,10 @@ total attempts, with the same agent output and original per-attempt limits.
 
 ## Run
 
-The active plan is [experiment-v3.json](experiment-v3.json). The original
+The active installation plan is [experiment-v4.json](experiment-v4.json).
+It checks only the five unresolved installations; do not use this partial
+preflight plan for model work. A separate accepted-evidence plan must first
+bind one successful native installation for every task. The original
 install-only job ended with three setup timeouts, two uv-download TLS errors,
 and one cancellation; 28 tasks never started. No models or official tests ran.
 [Preserved evidence](preflight-v1-evidence.json) records the native artifacts
@@ -51,22 +54,41 @@ stopped before model work. [Native evidence](preflight-v2-evidence.json) retains
 the errors and the subsequent successful sidecar connectivity probe. Historical
 v2 utility hashes refer to branch commit `f4cdab9`.
 
-The active [APT configuration](transport-v3/apt-cache.conf) routes only the named
+The third preflight completed 29 installations, with two truncated uv archive
+downloads and one QEMU Python-download TLS error. Its two remaining installations
+were interrupted before model work after the new archive-cache integration probe
+passed. [Preserved cumulative evidence](preflight-before-v4-evidence.json)
+includes native results and the separately identified administrative interruptions.
+V4 checks `log-summary-date-ranges`, `qemu-alpine-ssh`, `regex-log`,
+`circuit-fibsqrt`, and `build-pov-ray` using the final transport configuration.
+
+The [APT configuration](transport-v3/apt-cache.conf) routes only the named
 public APT HTTP origins through a loopback proxy. Its
-[Compose override](transport-v3/apt-cache.compose.json) starts a separate proxy
-sidecar in each task's own network namespace and waits for its health check.
-The sidecar uses an already cached image pinned by digest, has no task filesystem
-or agent credentials mounted, and publishes no ports. It has a separate 0.5 CPU /
-256 MiB limit; task resources stay unchanged. Each sidecar shares the verified
+[Compose override](transport-v4/dependency-cache.compose.json) starts cache
+sidecars in each task's own network namespace and waits for their health checks.
+Each uses an already cached image pinned by digest, has no task filesystem or
+agent credentials mounted, publishes no ports, and has a separate 0.5 CPU /
+256 MiB limit. Task resources stay unchanged. The APT sidecar shares the verified
 host index cache, protected by per-digest cross-process locks. No host proxy
-process is required for v3.
+process is required.
 
 The APT configuration is mounted read-only. Mutable release metadata and
 packages are not proxy-cached; immutable SHA256 indexes require complete hash
-verification. Model/API and other tool traffic retain their normal routes.
-Both mount files and the reusable proxy utility are frozen by hashes in v3.
+verification. Model/API traffic retains its normal route.
 The recorded real-network probe fetched the original 8,790,396-byte Debian
 index in 138.418 seconds cold and 0.008 seconds warm, with identical SHA256.
+
+The archive sidecar serves only original files bound to the
+[release manifest](dependency-release-manifest.json): uv 0.9.11, uv 0.9.5, and
+CPython 3.13.9 from build 20251014. Filename, size, and full SHA256 must match the
+original public release metadata. Its cache and manifest mounts are read-only.
+The unchanged installers use their supported `UV_INSTALLER_GITHUB_BASE_URL` and
+`UV_PYTHON_INSTALL_MIRROR` transport settings. Python version selection stays
+unchanged; uncached versions redirect to their original GitHub URLs. The
+[uv](uv-cache-integration-probe.json) and
+[Python/pytest](python-cache-integration-probe.json) probes executed no models
+or task assertions. All transport files, utilities, and the release manifest
+are frozen by hashes in v4.
 
 From the repository root, with credentials in the process environment, set
 `ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic` and leave
@@ -76,12 +98,8 @@ before sharing.
 
 ```bash
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v3.json \
+  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v4.json \
   --phase preflight
-
-python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v3.json \
-  --phase model
 ```
 
 The orchestrator calls only the standard

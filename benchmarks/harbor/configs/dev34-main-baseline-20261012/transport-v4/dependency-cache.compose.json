@@ -10,7 +10,8 @@
         }
       ],
       "environment": {
-        "UV_INSTALLER_GITHUB_BASE_URL": "http://127.0.0.1:18743"
+        "UV_INSTALLER_GITHUB_BASE_URL": "http://127.0.0.1:18743",
+        "UV_PYTHON_INSTALL_MIRROR": "http://127.0.0.1:18743/astral-sh/python-build-standalone/releases/download"
       }
     },
     "apt-index-cache": {
@@ -81,7 +82,7 @@
         "/home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/scripts/uv_release_cache.py:/proxy/uv_release_cache.py:ro",
         "/home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/scripts/cache_image.py:/proxy/cache_image.py:ro",
         "/home/minix/projects/nanoPyCodeAgent/.cache/nanopy-harbor/uv-releases:/cache:ro",
-        "/home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/configs/dev34-main-baseline-20261012/uv-release-manifest.json:/manifest.json:ro"
+        "/home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/configs/dev34-main-baseline-20261012/dependency-release-manifest.json:/manifest.json:ro"
       ],
       "healthcheck": {
         "test": [
