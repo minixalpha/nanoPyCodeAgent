@@ -149,6 +149,33 @@ and index cache into the sidecar; do not share task files or credentials. Multip
 proxy processes coordinate cache writes with per-digest file locks. No host
 proxy process or published port is needed in this mode.
 
+### Cache original uv release archives
+
+When the official uv installer repeatedly receives truncated GitHub downloads,
+prepare its exact original release archives using the public release index:
+
+```bash
+python benchmarks/harbor/scripts/uv_release_cache.py prepare \
+  --cache .cache/nanopy-harbor/uv-releases \
+  --manifest /path/to/new-run/uv-release-manifest.json \
+  --version 0.9.11 --version 0.9.5
+```
+
+The utility requires the original asset filename, size, and SHA256 from GitHub's
+release metadata. It downloads verified ranges, checks the whole archive, and
+preserves the metadata by content hash. Existing manifests cannot be overwritten.
+Only the `x86_64-unknown-linux-gnu` archive is prepared; task images stay original.
+
+Run `uv_release_cache.py serve --cache /cache --manifest /manifest.json` in a
+loopback sidecar sharing `service:main`, with a readiness health check and both
+cache and manifest mounted read-only. Set only the official installer's supported
+`UV_INSTALLER_GITHUB_BASE_URL=http://127.0.0.1:18743` environment variable in the
+task container. Installer scripts, versions, package contents, and normal model
+traffic remain unchanged. Registered archives are rehashed before serving;
+uncached uv versions/platforms redirect to their original HTTPS GitHub URLs.
+Record this transport setting, utility, manifest, and native preflight evidence
+before model work. This cache does not certify unsupported verifier dependencies.
+
 ### Direct Harbor invocation
 
 For adapter development or comparison with published versions, the lower-level

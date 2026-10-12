@@ -121,6 +121,29 @@ SHA256 校验后才能提供给客户端；缓存命中也会重新校验哈希�
 代理进程通过按摘要划分的文件锁协调缓存写入；此模式不需要宿主机代理进程，也
 不向宿主机发布端口。
 
+### 缓存原始 uv 发布压缩包
+
+如果官方 uv 安装器反复遇到 GitHub 下载不完整，可按公共发布索引缓存对应的原始版本：
+
+```bash
+python benchmarks/harbor/scripts/uv_release_cache.py prepare \
+  --cache .cache/nanopy-harbor/uv-releases \
+  --manifest /path/to/new-run/uv-release-manifest.json \
+  --version 0.9.11 --version 0.9.5
+```
+
+工具要求压缩包匹配 GitHub 发布元数据中的文件名、大小和 SHA256，通过分段及完整
+文件校验后才接受，并按内容哈希保留原始元数据。已有 manifest 不可覆盖。目前只准备
+`x86_64-unknown-linux-gnu` 压缩包，题目镜像保持原样。
+
+在共享 `service:main` 网络命名空间的回环辅助容器中运行
+`uv_release_cache.py serve --cache /cache --manifest /manifest.json`，配置就绪健康
+检查，并以只读方式挂载缓存和 manifest。在题目容器中仅设置官方安装器支持的
+`UV_INSTALLER_GITHUB_BASE_URL=http://127.0.0.1:18743` 环境变量。安装脚本、版本、
+软件包内容及正常模型流量保持原样。已登记压缩包在提供下载前重新校验；未缓存的
+uv 版本或平台重定向至其原始 HTTPS GitHub 地址。在模型运行前登记此下载配置、
+工具、manifest 和原生预检证据；缓存不代表未配置的验证器依赖已通过预检。
+
 ### 直接调用 Harbor
 
 开发 adapter 或对照已发布版本时，仍可使用底层 Harbor 入口，并固定容器内 agent 版本：

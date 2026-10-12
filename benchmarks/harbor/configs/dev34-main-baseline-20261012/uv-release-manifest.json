@@ -1,0 +1,24 @@
+{
+  "registered_at": "2026-10-12T16:43:49.880933+00:00",
+  "metadata_source": "Original public GitHub release API, fetched before this registration",
+  "assets": [
+    {
+      "version": "0.9.11",
+      "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+      "url": "https://github.com/astral-sh/uv/releases/download/0.9.11/uv-x86_64-unknown-linux-gnu.tar.gz",
+      "digest": "sha256:817c0722b437b4b45b9a7e0231616a09db76bab1b8d178ba7a9680c690db19f0",
+      "size": 21699161,
+      "asset_id": 318993196,
+      "release_metadata_sha256": "af11222ef5d913ecba8a659d267238df719960dbaac4a09623c8f22c7163fd6a"
+    },
+    {
+      "version": "0.9.5",
+      "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+      "url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+      "digest": "sha256:2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+      "size": 21370871,
+      "asset_id": 306970260,
+      "release_metadata_sha256": "fa1e1093fcc69e2398057de4819c64fae893bb04dd87afcb437f89899f13aa09"
+    }
+  ]
+}

@@ -93,5 +93,34 @@
     "fresh_inrelease_status": 200,
     "fresh_inrelease_bytes": 151075,
     "fresh_inrelease_seconds": 2.54
+  },
+  "interrupted_trials_without_native_result": {
+    "recorded_at": "2026-10-12T16:05:50.616815+00:00",
+    "trials": [
+      {
+        "trial": "git-multibranch__Ev3aCQ6",
+        "config_sha256": "32a2f147eaa242e5c68ab921261af8f76983a5cf965800b2d8947a13f12b38bd",
+        "native_result_present": false,
+        "reason": "Orchestration interrupted after confirmed host-proxy route failure; leftover installation container removed. No model calls or verifier execution.",
+        "removed_containers": [
+          "286e73cd5c27"
+        ],
+        "removed_networks": [
+          "a0dd770ff6db"
+        ]
+      },
+      {
+        "trial": "log-summary-date-ranges__Ppd7Nns",
+        "config_sha256": "23b1a0ee37a691be4920a8206bef15327d0dbaf6306592ab031b475332308a37",
+        "native_result_present": false,
+        "reason": "Orchestration interrupted after confirmed host-proxy route failure; leftover installation container removed. No model calls or verifier execution.",
+        "removed_containers": [
+          "198f807b0702"
+        ],
+        "removed_networks": [
+          "4c1ac5b3ccb6"
+        ]
+      }
+    ]
   }
 }

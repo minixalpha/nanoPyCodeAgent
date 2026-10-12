@@ -1,0 +1,28 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 720
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/git-multibranch",
+      "ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa"
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/configs/dev34-main-baseline-20261012/transport-v4/dependency-cache.compose.json"
+    ]
+  }
+}
