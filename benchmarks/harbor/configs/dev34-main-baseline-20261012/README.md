@@ -39,27 +39,32 @@ total attempts, with the same agent output and original per-attempt limits.
 
 ## Run
 
-The active plan is [experiment-v2.json](experiment-v2.json). The original
+The active plan is [experiment-v3.json](experiment-v3.json). The original
 install-only job ended with three setup timeouts, two uv-download TLS errors,
 and one cancellation; 28 tasks never started. No models or official tests ran.
 [Preserved evidence](preflight-v1-evidence.json) records the native artifacts
 and their hashes. The amendment adds only an APT transport cache, keeping the
 runtime source, original sources/images/scripts, budgets, and scoring fixed.
 
-Start the reusable host proxy before either phase and keep it running:
+The v2 host-proxy route proved unreachable from Docker containers and was
+stopped before model work. [Native evidence](preflight-v2-evidence.json) retains
+the errors and the subsequent successful sidecar connectivity probe. Historical
+v2 utility hashes refer to branch commit `f4cdab9`.
 
-```bash
-python benchmarks/harbor/scripts/apt_index_proxy.py \
-  --bind 172.17.0.1 --port 18742 \
-  --cache .cache/nanopy-harbor/apt-indexes --workers 16
-```
+The active [APT configuration](transport-v3/apt-cache.conf) routes only the named
+public APT HTTP origins through a loopback proxy. Its
+[Compose override](transport-v3/apt-cache.compose.json) starts a separate proxy
+sidecar in each task's own network namespace and waits for its health check.
+The sidecar uses an already cached image pinned by digest, has no task filesystem
+or agent credentials mounted, and publishes no ports. It has a separate 0.5 CPU /
+256 MiB limit; task resources stay unchanged. Each sidecar shares the verified
+host index cache, protected by per-digest cross-process locks. No host proxy
+process is required for v3.
 
-[APT configuration](apt-cache.conf) routes only the named public APT HTTP
-origins through this proxy. The [Compose override](apt-cache.compose.yaml)
-mounts it read-only in each fresh container. Mutable release metadata and
+The APT configuration is mounted read-only. Mutable release metadata and
 packages are not proxy-cached; immutable SHA256 indexes require complete hash
 verification. Model/API and other tool traffic retain their normal routes.
-Both mount files and the reusable host utility are frozen by hashes in v2.
+Both mount files and the reusable proxy utility are frozen by hashes in v3.
 The recorded real-network probe fetched the original 8,790,396-byte Debian
 index in 138.418 seconds cold and 0.008 seconds warm, with identical SHA256.
 
@@ -71,11 +76,11 @@ before sharing.
 
 ```bash
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v2.json \
+  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v3.json \
   --phase preflight
 
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v2.json \
+  --plan benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v3.json \
   --phase model
 ```
 

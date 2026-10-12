@@ -8,6 +8,7 @@ the current index/package checksums. Bind only to a local Docker bridge.
 
 import argparse
 from datetime import datetime, timezone
+import fcntl
 from http.client import IncompleteRead
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import importlib.util
@@ -99,7 +100,10 @@ class IndexCache:
         digest = match.group(1)
         with self.guard:
             lock = self.locks.setdefault(digest, threading.Lock())
-        with lock:
+        lock_dir = self.root / "locks"
+        lock_dir.mkdir(parents=True, exist_ok=True)
+        with lock, (lock_dir / digest).open("a") as process_lock:
+            fcntl.flock(process_lock, fcntl.LOCK_EX)
             path = self.root / "blobs/sha256" / digest
             if path.exists():
                 size = path.stat().st_size
@@ -223,7 +227,7 @@ class Handler(BaseHTTPRequestHandler):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--bind", required=True, help="Local Docker bridge address, not a public interface")
+    parser.add_argument("--bind", required=True, help="Loopback or local Docker bridge address")
     parser.add_argument("--port", type=int, default=18742)
     parser.add_argument("--cache", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=8)
@@ -232,13 +236,10 @@ def main():
         parser.error("Binding all interfaces is not supported")
     cache = IndexCache(args.cache, args.workers)
     cache.root.mkdir(parents=True, exist_ok=True)
-    import fcntl
-    with (cache.root / ".lock").open("w") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        server = ThreadingHTTPServer((args.bind, args.port), Handler)
-        server.cache = cache
-        event(kind="ready", bind=args.bind, port=args.port, workers=args.workers)
-        server.serve_forever()
+    server = ThreadingHTTPServer((args.bind, args.port), Handler)
+    server.cache = cache
+    event(kind="ready", bind=args.bind, port=args.port, workers=args.workers)
+    server.serve_forever()
 
 
 if __name__ == "__main__":

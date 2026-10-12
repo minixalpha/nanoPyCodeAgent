@@ -1,0 +1,97 @@
+{
+  "recorded_at": "2026-10-12T16:02:56.125848+00:00",
+  "prior_plan_sha256": "38403feae088a26a23b0f5567e30588fd8ac89249a787fec6a6c0796428acd19",
+  "state_path": "jobs/dev34-main-baseline-20261012-v2-orchestration/dev34-main-install-only-v2-20261012.json",
+  "state_sha256": "358046ec5361482e77a490b67fa27b35d9de1b38e2126b1ab76ab5f1addaba92",
+  "model_runs_started": 0,
+  "official_verifier_runs_started": 0,
+  "trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__8GXdagL",
+      "finished_at": "2026-10-12T15:54:51.869152Z",
+      "exception_type": "NonZeroAgentExitCodeError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-v2-20261012/adaptive-rejection-sampler__8GXdagL/result.json",
+      "result_sha256": "47f9f35a2402c483670b2d85888969a4693269b5218cb0786ef6ac411d8369cc",
+      "bootstrap_sha256": "a25f8ddb723b047f846596743973e13e470ee206b78070e19bc064f9d4ce0d0b"
+    },
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "trial": "build-cython-ext__bKW8wMh",
+      "finished_at": "2026-10-12T15:54:51.777332Z",
+      "exception_type": "NonZeroAgentExitCodeError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-v2-20261012/build-cython-ext__bKW8wMh/result.json",
+      "result_sha256": "19d978b009a3e9b3cd67c77481792a17c27ae51d80e2830c628f02c254334c5b",
+      "bootstrap_sha256": "a25f8ddb723b047f846596743973e13e470ee206b78070e19bc064f9d4ce0d0b"
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "trial": "cancel-async-tasks__Br23k5i",
+      "finished_at": "2026-10-12T15:55:44.824754Z",
+      "exception_type": "NonZeroAgentExitCodeError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-v2-20261012/cancel-async-tasks__Br23k5i/result.json",
+      "result_sha256": "b7f9ac46651382ec8bf8f76e6d07631058adf32d5948efcba92255a86ea61474",
+      "bootstrap_sha256": "a25f8ddb723b047f846596743973e13e470ee206b78070e19bc064f9d4ce0d0b"
+    },
+    {
+      "task": "terminal-bench/cobol-modernization",
+      "trial": "cobol-modernization__7zgjdZj",
+      "finished_at": "2026-10-12T15:56:25.006433Z",
+      "exception_type": "NetworkConnectionError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-v2-20261012/cobol-modernization__7zgjdZj/result.json",
+      "result_sha256": "b2ddf6e87e017fb711d9ee031e7307edde820da541550a51294c9cc6aeaea173",
+      "bootstrap_sha256": "079f9d13e4af52880b5a1dd43c0432e9f1208b64fc6da106b3442630ac014e72"
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__zpZVSsu",
+      "finished_at": "2026-10-12T15:56:34.815586Z",
+      "exception_type": "NonZeroAgentExitCodeError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-v2-20261012/db-wal-recovery__zpZVSsu/result.json",
+      "result_sha256": "9776b92c1b1fb694b7feb3d6317ef698efaadcd804e5495246a240ba27144595",
+      "bootstrap_sha256": "a25f8ddb723b047f846596743973e13e470ee206b78070e19bc064f9d4ce0d0b"
+    },
+    {
+      "task": "terminal-bench/fix-code-vulnerability",
+      "trial": "fix-code-vulnerability__RHxqE9D",
+      "finished_at": "2026-10-12T15:57:58.607062Z",
+      "exception_type": "NetworkConnectionError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-v2-20261012/fix-code-vulnerability__RHxqE9D/result.json",
+      "result_sha256": "1d93ff9e819acd22331252c41fe41c8e0de2d0bf08e4a7ae6af1f0ba0bce9d5f",
+      "bootstrap_sha256": "7058299ec0c6f256d8eecf9a0da6b205ad7abf779e297bf17c9a230e10bb9ba6"
+    },
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "trial": "kv-store-grpc__2aB6kU7",
+      "finished_at": "2026-10-12T15:58:49.628790Z",
+      "exception_type": "NonZeroAgentExitCodeError",
+      "bootstrap_status": "failed",
+      "stage": "system_dependencies",
+      "result_path": "jobs/dev34-baseline-main-source/jobs/dev34-main-install-only-v2-20261012/kv-store-grpc__2aB6kU7/result.json",
+      "result_sha256": "b5abbaa52933dcb7791325b8df07e2b6336733a2c8c8508c4affe2b54c990f02",
+      "bootstrap_sha256": "a25f8ddb723b047f846596743973e13e470ee206b78070e19bc064f9d4ce0d0b"
+    }
+  ],
+  "diagnosis": "Read-only APT mount was active, but TCP probes from containers to both docker0 and their own bridge gateway timed out. No requests reached the host proxy. Stopped installation-only orchestration with SIGINT; preserved native failures and cancellations.",
+  "intervention": "Run the same restricted proxy in a per-task sidecar sharing only that task network namespace. Bind loopback, share a verified host cache with cross-process digest locks, and require the sidecar health check before setup. No task image, source, agent, adapter, budget, or verifier edits.",
+  "integration_probe": {
+    "cached_index_http_status": 200,
+    "cached_index_bytes": 8790396,
+    "cached_index_sha256": "9e0b5aabb2465b3d2e7a7fe27f9913846277833f7a2826e7767acccff5b588c5",
+    "fresh_inrelease_status": 200,
+    "fresh_inrelease_bytes": 151075,
+    "fresh_inrelease_seconds": 2.54
+  }
+}

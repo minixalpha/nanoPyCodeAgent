@@ -142,6 +142,13 @@ hashes. Original repositories, task images, and test scripts stay unchanged.
 Keep the proxy running through preflight and model trials, record the mount and
 utility hashes in the experiment plan, and retain earlier setup failures.
 
+If containers cannot reach the host listener, run the utility in an isolated
+sidecar with `network_mode: service:main`, bind `127.0.0.1`, and use a readiness
+health check. The registered example uses this mode. Mount only the proxy code
+and index cache into the sidecar; do not share task files or credentials. Multiple
+proxy processes coordinate cache writes with per-digest file locks. No host
+proxy process or published port is needed in this mode.
+
 ### Direct Harbor invocation
 
 For adapter development or comparison with published versions, the lower-level

@@ -4,6 +4,7 @@ import hashlib
 import http.client
 import importlib.util
 import io
+import multiprocessing
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 import threading
@@ -70,6 +71,41 @@ def test_corrupt_cached_index_is_never_served(tmp_path, monkeypatch):
     path.write_bytes(b"x" * len(payload))
     with pytest.raises(ValueError, match="SHA256"):
         cache.fetch(fixture(payload))
+
+
+def test_separate_proxy_processes_share_verified_cache(tmp_path, monkeypatch):
+    context = multiprocessing.get_context("fork")
+    start, results, calls = context.Event(), context.Queue(), context.Value("i", 0)
+    payload = bytes(range(256)) * 20
+    origin = fake_origin(payload, [])
+
+    def get(*args):
+        with calls.get_lock():
+            calls.value += 1
+        return origin(*args)
+
+    monkeypatch.setattr(proxy, "public_get", get)
+
+    def fetch():
+        start.wait(5)
+        path, hit = proxy.IndexCache(tmp_path, workers=2, chunk_size=1024).fetch(fixture(payload))
+        results.put((path.read_bytes() == payload, hit))
+
+    processes = [context.Process(target=fetch) for _ in range(2)]
+    try:
+        for process in processes:
+            process.start()
+        start.set()
+        assert sorted(results.get(timeout=10) for _ in processes) == [(True, False), (True, True)]
+        for process in processes:
+            process.join(5)
+            assert process.exitcode == 0
+        assert calls.value == 6
+    finally:
+        for process in processes:
+            if process.is_alive():
+                process.terminate()
+                process.join(5)
 
 
 def test_wrong_origin_content_is_never_committed(tmp_path, monkeypatch):
