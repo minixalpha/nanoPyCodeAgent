@@ -89,6 +89,104 @@ when it runs; a successful preflight is not a guarantee against later outages.
 Full standard runs enable the timeout retry policy below by default, with zero
 whole-trial retries. CI checks these contracts without model calls or Docker.
 
+### Cache original task images
+
+If Docker image pulls repeatedly stall, the optional cache utility downloads the
+same public Docker Hub image in bounded parallel HTTP ranges:
+
+```bash
+python benchmarks/harbor/scripts/cache_image.py \
+  alexgshaw/git-multibranch:20251031 \
+  --cache .cache/nanopy-harbor/images --load
+```
+
+The first request records the registry manifest digest; later requests reject a
+changed tag. Every downloaded blob must match its size and SHA256, and each
+uncompressed layer must match the original image configuration. The resulting
+[OCI archive](https://github.com/opencontainers/image-spec/blob/main/image-layout.md)
+preserves the original manifest, configuration, and compressed layers byte for
+byte. Docker import must retain the original repository digest.
+
+This Linux utility supports public single-platform `linux/amd64` images with
+gzip layers and SHA256 descriptors. `--load` requires Docker's containerd image
+store. Use one cache writer at a time; `--workers` controls parallel range
+requests (default eight, maximum sixteen). Completed blobs and partial ranges
+can be reused after an interrupted download, with complete blobs revalidated.
+Keep the manifest lock records with the run evidence. This only warms Docker's
+image cache: continue using the standard benchmark entry point and installation
+preflight, and retain any earlier environment-start failures separately.
+
+### Cache immutable APT indexes
+
+If original APT index downloads repeatedly stall, an optional host proxy can
+fetch immutable `/by-hash/SHA256/<digest>` indexes using verified parallel ranges:
+
+```bash
+python benchmarks/harbor/scripts/apt_index_proxy.py \
+  --bind 172.17.0.1 --port 18742 \
+  --cache .cache/nanopy-harbor/apt-indexes --workers 16
+```
+
+Choose the host's actual Docker bridge address. Register a read-only APT
+configuration mount through Docker's `extra_docker_compose`, with per-host
+`Acquire::http::Proxy::<original-host>` entries pointing to the proxy. The
+[34-task registration](configs/dev34-main-baseline-20261012/README.md) contains
+an example. Avoid global proxy environment variables: model/API traffic and
+non-APT tools must retain their normal network path.
+
+The proxy accepts only the original public Debian/Ubuntu APT hosts. It validates
+exact ranges, object sizes, and whole-object SHA256 before serving an index;
+cache hits are rehashed. Mutable release metadata and package downloads are
+forwarded uncached. APT still checks signed release metadata and current package
+hashes. Original repositories, task images, and test scripts stay unchanged.
+Keep the proxy running through preflight and model trials, record the mount and
+utility hashes in the experiment plan, and retain earlier setup failures.
+
+If containers cannot reach the host listener, run the utility in an isolated
+sidecar with `network_mode: service:main`, bind `127.0.0.1`, and use a readiness
+health check. The registered example uses this mode. Mount only the proxy code
+and index cache into the sidecar; do not share task files or credentials. Multiple
+proxy processes coordinate cache writes with per-digest file locks. No host
+proxy process or published port is needed in this mode.
+
+### Cache original uv release archives
+
+When the official uv installer repeatedly receives truncated GitHub downloads,
+prepare its exact original release archives using the public release index:
+
+```bash
+python benchmarks/harbor/scripts/uv_release_cache.py prepare \
+  --cache .cache/nanopy-harbor/uv-releases \
+  --manifest /path/to/new-run/uv-release-manifest.json \
+  --version 0.9.11 --version 0.9.5
+```
+
+The utility requires the original asset filename, size, and SHA256 from GitHub's
+release metadata. It downloads verified ranges, checks the whole archive, and
+preserves the metadata by content hash. Existing manifests cannot be overwritten.
+Only the `x86_64-unknown-linux-gnu` archive is prepared; task images stay original.
+
+Run `uv_release_cache.py serve --cache /cache --manifest /manifest.json` in a
+loopback sidecar sharing `service:main`, with a readiness health check and both
+cache and manifest mounted read-only. Set only the official installer's supported
+`UV_INSTALLER_GITHUB_BASE_URL=http://127.0.0.1:18743` environment variable in the
+task container. Installer scripts, versions, package contents, and normal model
+traffic remain unchanged. Registered archives are rehashed before serving;
+uncached uv versions/platforms redirect to their original HTTPS GitHub URLs.
+Record this transport setting, utility, manifest, and native preflight evidence
+before model work. This cache does not certify unsupported verifier dependencies.
+
+For an observed managed-Python download failure, add its exact original build
+and archive to a new manifest, for example `--python-build 20251014
+--python-asset cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz`.
+The same checks apply to the original `astral-sh/python-build-standalone` release
+metadata. Set the documented
+[`UV_PYTHON_INSTALL_MIRROR`](https://docs.astral.sh/uv/configuration/environment/#uv_python_install_mirror)
+to `http://127.0.0.1:18743/astral-sh/python-build-standalone/releases/download`.
+This changes the download route while retaining uv's original Python selection
+and archive contents. Uncached Python builds redirect to their original GitHub
+URLs; the mirror does not replace uv's embedded Python download index.
+
 ### Direct Harbor invocation
 
 For adapter development or comparison with published versions, the lower-level

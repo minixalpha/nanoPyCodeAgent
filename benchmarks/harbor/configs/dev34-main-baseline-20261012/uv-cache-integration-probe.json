@@ -1,0 +1,19 @@
+{
+  "observed_at": "2026-10-12T16:50:17.208329+00:00",
+  "kind": "dependency_cache_integration_probe_not_a_benchmark_trial",
+  "main_image": "alexgshaw/git-multibranch@sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5",
+  "sidecar_image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+  "setting": {
+    "UV_INSTALLER_GITHUB_BASE_URL": "http://127.0.0.1:18743"
+  },
+  "original_script_sha256": {
+    "0.9.11": "16180030f576e0a23ed90e591d3e16db04a56264dc592b14313cf6c0f6f8ca27",
+    "0.9.5": "8402ab80d2ef54d7044a71ea4e4e1e8db3b20c87c7bffbc30bff59f1e80ebbd5"
+  },
+  "observed_installed_versions": [
+    "uv 0.9.11",
+    "uv 0.9.5"
+  ],
+  "release_manifest_sha256": "2b7a659f5031bff87ab22296320c0f49fd012dc28b7fb7bf111845149ba67d07",
+  "scope": "Unchanged official installer scripts, original release archives, no model calls or official task assertions."
+}

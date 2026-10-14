@@ -1,0 +1,1865 @@
+{
+  "schema_version": 1,
+  "experiment": "dev12-main-baseline-20261011",
+  "collected_at": "2026-10-11T17:23:17.120884+00:00",
+  "cohort": "purposive_development",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "runtime_source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+  "plan_path": "benchmarks/harbor/configs/dev12-baseline-20261011/experiment-v3.json",
+  "plan_sha256": "9dcb64a3bbe76482dbb0aeb9297d2a1251071b704ad78e9f2b77ebc5040a2c9a",
+  "model_output_freeze": {
+    "observed_frozen_at": "2026-10-11T17:09:54.227372+00:00",
+    "model_outputs": 12,
+    "trials": [
+      {
+        "task": "terminal-bench/cobol-modernization",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/agent/trajectory.json",
+        "trajectory_sha256": "4f8f83b3c39424085355f531f057d6479c145a52ed85f651be263ba292e7b04e",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 504192.364566,
+          "timestamp": "2026-10-11T15:59:56.042Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/fix-code-vulnerability",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/agent/trajectory.json",
+        "trajectory_sha256": "7b9c7f7e56b664665dc86e4aeb960364b0548277a9b466b052683cb1cde49293",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 65406.544183,
+          "timestamp": "2026-10-11T15:52:31.589Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/nginx-request-logging",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/agent/trajectory.json",
+        "trajectory_sha256": "eae4b902126963ee4cddcdb378587f1795c83ffb3a6ed798c3151f7290199778",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 33079.926325,
+          "timestamp": "2026-10-11T16:01:44.208Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/git-multibranch",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/agent/trajectory.json",
+        "trajectory_sha256": "fddca6d5eb5b3bb341f539e1766a18e35367ab61082e198e740045a79a8e0300",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 231281.000847,
+          "timestamp": "2026-10-11T16:05:16.034Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/db-wal-recovery",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/agent/trajectory.json",
+        "trajectory_sha256": "99a8f85ab7c65218f67edf4c7a6ba15dd2ba2eae1bca0d4abdc74dcb66b7f1f9",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 300714.826752,
+          "timestamp": "2026-10-11T16:13:14.583Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/multi-source-data-merger",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/agent/trajectory.json",
+        "trajectory_sha256": "98254f523e1af69d46ce666756d5d0a0d735663a4a2651a3fa9534b70214dc2e",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 54941.240413,
+          "timestamp": "2026-10-11T16:08:57.994Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/query-optimize",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/agent/trajectory.json",
+        "trajectory_sha256": "d1e4af3f2b506732e2a39901e6608c88697f3e21b0202f26638b346abd40de6d",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 535870.372246,
+          "timestamp": "2026-10-11T16:28:00.417Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/agent/trajectory.json",
+        "trajectory_sha256": "14c739071f532119612b23f97ceab1d79cdedd6e7f4eb23307b1627e38540019",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 565096.307358,
+          "timestamp": "2026-10-11T16:28:36.521Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/pytorch-model-cli",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/agent/trajectory.json",
+        "trajectory_sha256": "ac3a14da4dc07a62b48fb509f094003fc0913dfb1a05d65b3a44aa026e3e9bc4",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 297760.896708,
+          "timestamp": "2026-10-11T16:40:24.130Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/constraints-scheduling",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/agent/trajectory.json",
+        "trajectory_sha256": "2d1974f6890199437dc2a8719006f553907a8a9976c518a4a70b8aa13091b44d",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 29296.936721,
+          "timestamp": "2026-10-11T16:59:47.232Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/custom-memory-heap-crash",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/agent/trajectory.json",
+        "trajectory_sha256": "633e9240d85490bfba3bbe2fdc074f3a860b5da1bdd6fa545e21b78b83ac5ad7",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 279820.513108,
+          "timestamp": "2026-10-11T17:05:50.190Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      },
+      {
+        "task": "terminal-bench/build-pov-ray",
+        "trajectory_path": "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/agent/trajectory.json",
+        "trajectory_sha256": "2a0e42851a8c3b0c8ee45f0dc3db1882eae3ba72cfd1fa883b181200d20588b3",
+        "terminal": {
+          "status": "completed",
+          "duration_ms": 392133.312638,
+          "timestamp": "2026-10-11T17:07:50.736Z",
+          "timestamp_source": "source_timestamp",
+          "outcome": "completed"
+        }
+      }
+    ]
+  },
+  "integrity": {
+    "registration_unchanged": true,
+    "plan_source_prompt_configs_tasks_unchanged": true,
+    "accepted_preflights_verified": 12,
+    "source_snapshots_verified": 12,
+    "wheel_digests_verified": 12,
+    "trajectory_freeze_verified": 12,
+    "earlier_completed_artifact_hashes_verified": 8,
+    "all_native_test_suites_executed": true,
+    "queue_pair_barriers_verified": true,
+    "whole_model_trial_retries": 0,
+    "outcome_based_replacements": 0
+  },
+  "aggregate": {
+    "trials": 12,
+    "raw_passes": 10,
+    "scored_failures": 2,
+    "setup_errors": 0,
+    "verifier_errors": 0,
+    "unsupported_verifier_dependency_profiles": 12,
+    "pass_rate": 0.8333333333333334,
+    "verifier_timeout_retries": 1,
+    "estimated_known_cost_usd": 0.600973668,
+    "cost_complete": false,
+    "usage_incomplete_tasks": [
+      "terminal-bench/pytorch-model-cli"
+    ],
+    "recorded_tokens": {
+      "prompt_tokens": 9362395,
+      "completion_tokens": 407188,
+      "cached_tokens": 9171328
+    },
+    "summed_stage_seconds": {
+      "environment_setup": 11.621372000000001,
+      "agent_setup": 2395.148702,
+      "agent_execution": 3300.751312,
+      "verifier": 2081.279393
+    },
+    "model_job_wall_seconds": 4839.714099
+  },
+  "trials": [
+    {
+      "order": 1,
+      "task": "terminal-bench/cobol-modernization",
+      "task_ref": "sha256:e03aa03965eee48c9f772d566ff9bcd741fceeac9693123f82a13fdd46be0d88",
+      "trial": "cobol-modernization__GQnVApW",
+      "job": "dev12-cobol-modernization-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791734414.6418216,
+        "stop": 1791734414.689376
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T15:50:51.866843Z",
+      "finished_at": "2026-10-11T16:00:25.509548Z",
+      "seconds": {
+        "environment_setup": 0.933953,
+        "agent_setup": 38.24792,
+        "agent_execution": 505.160568,
+        "verifier": 18.268325
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 18.05617724900003
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 47,
+      "incomplete_model_calls": [],
+      "tool_calls": 47,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 2698556,
+          "completion_tokens": 82809,
+          "cached_tokens": 2672896
+        },
+        "estimated_known_cost_usd": 0.123106176,
+        "final_metrics": {
+          "total_steps": 95,
+          "total_prompt_tokens": 2698556,
+          "total_completion_tokens": 82809,
+          "total_cached_tokens": 2672896,
+          "total_cost_usd": 0.123106176,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.123106176
+          }
+        }
+      },
+      "task_checksum": "5e3806427eaaaa9f0f756a2a87d4f7f50ec1c8a0d329b26bab7dc09657b937cf",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/result.json": "ef3d278f8f7fb0a7af1b633dcf7266339016a620fcb7d77d38246e4cfcb73fc1",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/agent/trajectory.json": "4f8f83b3c39424085355f531f057d6479c145a52ed85f651be263ba292e7b04e",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/agent/bootstrap.json": "1812b1d7452b4ec930ab65be85cd8ba7f2e96342153c5e9e7d0dc948f342502f",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/verifier/retry-summary.json": "66e9157d51143a3d288ff4bcde44b055699fd01684ed07a7d2988b80af5fa076",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/verifier/test-stdout.txt": "f10b9a00a36e6d2fbf8bc3951c0b1630b91de506bdf0231a64ec95c6771cad1d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/verifier/ctrf.json": "ae2aeb35fa7b1952ed2f64ff83cb1aa2341d1a3cb5a49b0d74c57bb56b33477e",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011-input/manifest.json": "a9ec1f89510ffacff9bef73cbf4decd7352edbd2bc54d2911382c1bdf5841b09",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011-input/config.json": "43e5dc00efba212c737ae12ccec37fd6e2e7da355f8b3b5f35f768089771d653",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-cobol-modernization-baseline-20261011.json": "94101e9a1f8045ea8791596acea9f2c8d993d889d7f61f269633350a77d9dcd7",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/verifier/attempts/1/ctrf.json": "ae2aeb35fa7b1952ed2f64ff83cb1aa2341d1a3cb5a49b0d74c57bb56b33477e",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-cobol-modernization-baseline-20261011/cobol-modernization__GQnVApW/verifier/attempts/1/test-stdout.txt": "f10b9a00a36e6d2fbf8bc3951c0b1630b91de506bdf0231a64ec95c6771cad1d"
+      }
+    },
+    {
+      "order": 2,
+      "task": "terminal-bench/fix-code-vulnerability",
+      "task_ref": "sha256:d31348aa16b533a15f013420e4d9726dc529e6086adc7d6d48067d22cc18fe71",
+      "trial": "fix-code-vulnerability__8PT7Mmq",
+      "job": "dev12-fix-code-vulnerability-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791733961.4188828,
+        "stop": 1791733961.4372432
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T15:50:51.470967Z",
+      "finished_at": "2026-10-11T15:52:52.233260Z",
+      "seconds": {
+        "environment_setup": 0.9524,
+        "agent_setup": 33.038588,
+        "agent_execution": 66.275879,
+        "verifier": 9.522895
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 9.333147841000027
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 16,
+      "incomplete_model_calls": [],
+      "tool_calls": 21,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 162083,
+          "completion_tokens": 7594,
+          "cached_tokens": 151424
+        },
+        "estimated_known_cost_usd": 0.013219044,
+        "final_metrics": {
+          "total_steps": 33,
+          "total_prompt_tokens": 162083,
+          "total_completion_tokens": 7594,
+          "total_cached_tokens": 151424,
+          "total_cost_usd": 0.013219044,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.013219044
+          }
+        }
+      },
+      "task_checksum": "80d707a96acfd0e19af96f0f0c8f44deefdbf167538fefbc0d1dc6391392090a",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/result.json": "53b9cf6b726ac1c7131ad7eabef0f4ce9e8e7c54134206ab0b02b29e69b39d2d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/agent/trajectory.json": "7b9c7f7e56b664665dc86e4aeb960364b0548277a9b466b052683cb1cde49293",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/agent/bootstrap.json": "8d1fa3e359c1a2c87bb9b262c9113a423af3445aa5a20da8a2e6fb4d63b4f67a",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/retry-summary.json": "6da7d47a863e50dd5b2e910823ddbb81a6b2910ec0fc80c308d54c3bf532c4e3",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/test-stdout.txt": "5b1c1b620157e4e7ee7e5368a1cd9f8de20235ae042eaeeb7f266332d7e38f69",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/ctrf.json": "999592c0d6e4cfa5516e44db1e208a3f3df9f0f50356a9dd9968fdd1598e801d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011-input/manifest.json": "20b441c2dfc5a7c9ece86670859a49d8f2db355165c400b691d45d69e539babd",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011-input/config.json": "1f6958d0ca945eca970719d64a87a2dc5994bc0254cd71937060689c3863d5de",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-fix-code-vulnerability-baseline-20261011.json": "c2f0153ace0b2eea1fc2597055651f836dd1c7b60f2ddd2ff3c14b903022cb0b",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/attempts/1/ctrf.json": "999592c0d6e4cfa5516e44db1e208a3f3df9f0f50356a9dd9968fdd1598e801d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/attempts/1/original-repo-ctrf.json": "f4fc9648eec7ccf9a0891f567624303f7c6c6636b1cbec27917c92e8d3068eed",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-fix-code-vulnerability-baseline-20261011/fix-code-vulnerability__8PT7Mmq/verifier/attempts/1/test-stdout.txt": "5b1c1b620157e4e7ee7e5368a1cd9f8de20235ae042eaeeb7f266332d7e38f69"
+      }
+    },
+    {
+      "order": 3,
+      "task": "terminal-bench/nginx-request-logging",
+      "task_ref": "sha256:9d1b8bebd989ea0bc8080c3b159480068caf183c5fd61385868b2574b206e097",
+      "trial": "nginx-request-logging__EabhPTP",
+      "job": "dev12-nginx-request-logging-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791734525.1599152,
+        "stop": 1791734527.3533282
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T16:00:31.803481Z",
+      "finished_at": "2026-10-11T16:02:18.275923Z",
+      "seconds": {
+        "environment_setup": 1.033164,
+        "agent_setup": 37.474728,
+        "agent_execution": 34.05106,
+        "verifier": 22.80059
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 22.611146957999154
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 11,
+      "incomplete_model_calls": [],
+      "tool_calls": 14,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 57586,
+          "completion_tokens": 3408,
+          "cached_tokens": 53120
+        },
+        "estimated_known_cost_usd": 0.00574812,
+        "final_metrics": {
+          "total_steps": 23,
+          "total_prompt_tokens": 57586,
+          "total_completion_tokens": 3408,
+          "total_cached_tokens": 53120,
+          "total_cost_usd": 0.00574812,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.00574812
+          }
+        }
+      },
+      "task_checksum": "913305d8f286ff121b30e4893217142190b27f12952343f22c0999dd2a4d725e",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/result.json": "9a431a143f83c13c17ad3c67d2bafaab9f7f90e7d0c7e3dd1b535ca28ee8c2b1",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/agent/trajectory.json": "eae4b902126963ee4cddcdb378587f1795c83ffb3a6ed798c3151f7290199778",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/agent/bootstrap.json": "bd617a3903bf50c818febe3abf77cc268952deb3cd9f0c6db99bc0cbf8146a94",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/verifier/retry-summary.json": "99d7c7ccea0083dd20dcfbfda613b2501c9bd7f9ef5553862100d9e8a8cf6159",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/verifier/test-stdout.txt": "eb7475abfeecda63ffb1c40f78f99d8cfcba9aea5ca883f5f1fb8cdc63f6f839",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/verifier/ctrf.json": "b9bc0576b31ed205d3ea2fefd33d13542f23ad074d3972972d40a38f71af897d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011-input/manifest.json": "ae8579625d2ceaf69be0f948815a88b2a71fd5c578d2344705c2c2a333aa92a6",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011-input/config.json": "262ad1af0bc0cc6271a0c66ec6cc3c206fbdbb6aca6bcfdb47556e018131b3d0",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-nginx-request-logging-baseline-20261011.json": "83cf7476987ec4d90ef54bffd87f75579128f1dfc0f0b2b7b45067eedae351dc",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/verifier/attempts/1/ctrf.json": "b9bc0576b31ed205d3ea2fefd33d13542f23ad074d3972972d40a38f71af897d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-nginx-request-logging-baseline-20261011/nginx-request-logging__EabhPTP/verifier/attempts/1/test-stdout.txt": "eb7475abfeecda63ffb1c40f78f99d8cfcba9aea5ca883f5f1fb8cdc63f6f839"
+      }
+    },
+    {
+      "order": 4,
+      "task": "terminal-bench/git-multibranch",
+      "task_ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa",
+      "trial": "git-multibranch__69UpsQX",
+      "job": "dev12-git-multibranch-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791734736.7768967,
+        "stop": 1791734827.94831
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T16:00:31.786222Z",
+      "finished_at": "2026-10-11T16:07:18.794990Z",
+      "seconds": {
+        "environment_setup": 1.010187,
+        "agent_setup": 51.263702,
+        "agent_execution": 232.131266,
+        "verifier": 111.543161
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 111.34293115500077
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 22,
+      "incomplete_model_calls": [],
+      "tool_calls": 28,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 330601,
+          "completion_tokens": 15423,
+          "cached_tokens": 319232
+        },
+        "estimated_known_cost_usd": 0.023833692,
+        "final_metrics": {
+          "total_steps": 45,
+          "total_prompt_tokens": 330601,
+          "total_completion_tokens": 15423,
+          "total_cached_tokens": 319232,
+          "total_cost_usd": 0.023833692,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.023833692
+          }
+        }
+      },
+      "task_checksum": "abe8a7f8f9dcb0e2170740e4735559b368cecd925ddee09c9ed81a7c67dce90a",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/result.json": "cb58d7f495ff58ee47582d995d8dff1c49128504f95a158989b5a6df841a06e2",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/agent/trajectory.json": "fddca6d5eb5b3bb341f539e1766a18e35367ab61082e198e740045a79a8e0300",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/agent/bootstrap.json": "391e000959d10d8aa551310ebe7bddd0c70185a684ee8cb543b7e8bf57e5e63b",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/verifier/retry-summary.json": "a1f62e3c9cb0d3870e9180b7d130f06ddfba26d49bbec118dd3dff07eec117f4",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/verifier/test-stdout.txt": "86aaa4516464d803d36759ab0ad510b1ae1f46dfc345dfacb929e60b2a014748",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/verifier/ctrf.json": "280c06fffd6f521a3e13bcbbd8f339f858d19b6e212f44d6ae25ee6a206f1c51",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011-input/manifest.json": "97d82709aadd19c986a324d22b13608104a091cd70f3a85e55aef0c00590db11",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011-input/config.json": "9c234f1e18fb14666fa52447f5b81266a57d88184b411a5dda7cc05c3b3212a5",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-git-multibranch-baseline-20261011.json": "b827bcbc0fad918f546cf7f52df2abcedc0649473493b4275fc377ec9b68d796",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/verifier/attempts/1/ctrf.json": "280c06fffd6f521a3e13bcbbd8f339f858d19b6e212f44d6ae25ee6a206f1c51",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-git-multibranch-baseline-20261011/git-multibranch__69UpsQX/verifier/attempts/1/test-stdout.txt": "86aaa4516464d803d36759ab0ad510b1ae1f46dfc345dfacb929e60b2a014748"
+      }
+    },
+    {
+      "order": 5,
+      "task": "terminal-bench/db-wal-recovery",
+      "task_ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "trial": "db-wal-recovery__vQr4RTJ",
+      "job": "dev12-db-wal-recovery-baseline-20261011",
+      "raw_reward": 0.0,
+      "classification": "scored_failure",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 7,
+        "passed": 5,
+        "failed": 2,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791735481.9039369,
+        "stop": 1791735481.930828
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T16:07:27.182279Z",
+      "finished_at": "2026-10-11T16:18:12.844155Z",
+      "seconds": {
+        "environment_setup": 0.925319,
+        "agent_setup": 44.577398,
+        "agent_execution": 302.041538,
+        "verifier": 287.027836
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 286.8307059710005
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 28,
+      "incomplete_model_calls": [],
+      "tool_calls": 37,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 980554,
+          "completion_tokens": 54949,
+          "cached_tokens": 954624
+        },
+        "estimated_known_cost_usd": 0.079445544,
+        "final_metrics": {
+          "total_steps": 57,
+          "total_prompt_tokens": 980554,
+          "total_completion_tokens": 54949,
+          "total_cached_tokens": 954624,
+          "total_cost_usd": 0.079445544,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.079445544
+          }
+        }
+      },
+      "task_checksum": "c18abdc4fdc3a01bf374c55a9700708fe6a9662077d29db81abb692f0a3c5f6f",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/result.json": "8554a35eb18153678c22b6a66a80a209a8b29e515d5e5765d6c46496b4c7b64c",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/agent/trajectory.json": "99a8f85ab7c65218f67edf4c7a6ba15dd2ba2eae1bca0d4abdc74dcb66b7f1f9",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/agent/bootstrap.json": "2ffe3efbf9fd9f423c3fc82102152f59af7f9180f8aaf39c46e61c96e2f02d76",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/verifier/retry-summary.json": "e7e88e91a81f764ee441faf6f8a45a1f0ad31e1e4eb03df465d57bc16955ec43",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/verifier/test-stdout.txt": "64d88e5e6fef9ba8484dbbde478a1f1e9fd5a4218a44473e5fa34eb9aa2d94d6",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/verifier/ctrf.json": "68352fe9414a7e314215756dd4c5f2cc35a69fd783f34c698aa0d90e6942a3cd",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011-input/manifest.json": "48cf72c126f4bb349feb89bcf8e1c843b97d56d2295eb04300bd84002f7f86b8",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011-input/config.json": "b450c1e0756f85f1e56c7434f4fee72483c50fd26ccab908a0da7e1c3dbc3ef3",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-db-wal-recovery-baseline-20261011.json": "939be6d5761096e1df9ab3f83b0b29e30beae7bdfbbf30252c24d0889febbe3d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/verifier/attempts/1/ctrf.json": "68352fe9414a7e314215756dd4c5f2cc35a69fd783f34c698aa0d90e6942a3cd",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev12-baseline-main-source/jobs/dev12-db-wal-recovery-baseline-20261011/db-wal-recovery__vQr4RTJ/verifier/attempts/1/test-stdout.txt": "64d88e5e6fef9ba8484dbbde478a1f1e9fd5a4218a44473e5fa34eb9aa2d94d6"
+      }
+    },
+    {
+      "order": 6,
+      "task": "terminal-bench/multi-source-data-merger",
+      "task_ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "trial": "multi-source-data-merger__H5tGDAu",
+      "job": "dev12-multi-source-data-merger-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791735045.8595047,
+        "stop": 1791735046.8771257
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T16:07:26.456836Z",
+      "finished_at": "2026-10-11T16:10:58.054981Z",
+      "seconds": {
+        "environment_setup": 0.968286,
+        "agent_setup": 34.912998,
+        "agent_execution": 55.807942,
+        "verifier": 108.678375
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 108.00855693199992
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 10,
+      "incomplete_model_calls": [],
+      "tool_calls": 10,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 88329,
+          "completion_tokens": 9546,
+          "cached_tokens": 83456
+        },
+        "estimated_known_cost_usd": 0.013417836,
+        "final_metrics": {
+          "total_steps": 21,
+          "total_prompt_tokens": 88329,
+          "total_completion_tokens": 9546,
+          "total_cached_tokens": 83456,
+          "total_cost_usd": 0.013417836,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.013417836
+          }
+        }
+      },
+      "task_checksum": "33fa3b988ff60ec62b6ce40ee455208cb083ac1ac46ddc5247e954c88b9d5e8e",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/result.json": "bf39627d51baef3ad24da8b801916d6612c2a5c59122da0394a8dc53a39cf042",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/agent/trajectory.json": "98254f523e1af69d46ce666756d5d0a0d735663a4a2651a3fa9534b70214dc2e",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/agent/bootstrap.json": "43369761e1c62328eb0c3890c99d441d724fe366a178abf9c568928eb85c4174",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/verifier/retry-summary.json": "9cba27413140de8aab08f28c7cdd299f371e776ee35f976ca1b6427e3c5bf53f",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/verifier/test-stdout.txt": "59e3a95584098847fca0c5263180174b6216f17028c800710c7e32198d1eec1a",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/verifier/ctrf.json": "694f1880784dfaa07c1c2f3d3869ded9385422222de599a1daec8a844ecc838c",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011-input/manifest.json": "054ba4498970383fe0ff6e14d30d04354b0126cce80ba5da094da500bc3e2793",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011-input/config.json": "caf972eaef443375ef4e532fd413bf6a871e98a0f0c2561a07b3b6d5470091d6",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-multi-source-data-merger-baseline-20261011.json": "c535138aa69a4a2afd0f0d09ddaaf8e93f19e00c8693992afbdf030f8b90b162",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/verifier/attempts/1/ctrf.json": "694f1880784dfaa07c1c2f3d3869ded9385422222de599a1daec8a844ecc838c",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-multi-source-data-merger-baseline-20261011/multi-source-data-merger__H5tGDAu/verifier/attempts/1/test-stdout.txt": "59e3a95584098847fca0c5263180174b6216f17028c800710c7e32198d1eec1a"
+      }
+    },
+    {
+      "order": 7,
+      "task": "terminal-bench/query-optimize",
+      "task_ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "trial": "query-optimize__xW8CdxE",
+      "job": "dev12-query-optimize-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791736097.5172405,
+        "stop": 1791736228.6854308
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T16:18:20.667016Z",
+      "finished_at": "2026-10-11T16:30:39.573437Z",
+      "seconds": {
+        "environment_setup": 0.965353,
+        "agent_setup": 42.219075,
+        "agent_execution": 536.72064,
+        "verifier": 147.905097
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 147.62170704900018
+        }
+      ],
+      "verifier_timeout_seconds": 1800.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 22,
+      "incomplete_model_calls": [],
+      "tool_calls": 29,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 479388,
+          "completion_tokens": 24381,
+          "cached_tokens": 459008
+        },
+        "estimated_known_cost_usd": 0.038125248,
+        "final_metrics": {
+          "total_steps": 45,
+          "total_prompt_tokens": 479388,
+          "total_completion_tokens": 24381,
+          "total_cached_tokens": 459008,
+          "total_cost_usd": 0.038125248,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.038125248
+          }
+        }
+      },
+      "task_checksum": "593405b6a2f6970f0f4c2ca2aff455a3b32bce3eecf8b506cfeeb0fe93b14838",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/result.json": "a22011a054a45ffb2d3ee876630e77e83718bb017edb98415b4c040dbf21208a",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/agent/trajectory.json": "d1e4af3f2b506732e2a39901e6608c88697f3e21b0202f26638b346abd40de6d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/agent/bootstrap.json": "0a52c1c56dbec333ab809d00b69469021e06f49e0570249b280b6aacef2587f0",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/verifier/retry-summary.json": "5e3b743fa2e363f6638a666bbd32d5fc8c1517443b0673b0d3ce5102cbcf7dc5",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/verifier/test-stdout.txt": "ef549e4b73a37d7bfb4fbfb7b1a4dcf6790f97efb4f49b2e44eddab30fe0d583",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/verifier/ctrf.json": "477608f55e8083337dda43de81168129271df20fe3e6ec36726c785933bf4feb",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011-input/manifest.json": "30be5279642e73ce991102a668792c93e9a3185fb63579899106040fe53c5f56",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011-input/config.json": "172d1e2fb4b548aacab61cd1b74e46ac8df6d01d92bea3274a8ad7422b7585d6",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-query-optimize-baseline-20261011.json": "b2977822e159e02c4c71cf7a0bd18c8b2840632b854a6aeb3a072f467bf38d1b",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/verifier/attempts/1/ctrf.json": "477608f55e8083337dda43de81168129271df20fe3e6ec36726c785933bf4feb",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-query-optimize-baseline-20261011/query-optimize__xW8CdxE/verifier/attempts/1/test-stdout.txt": "ef549e4b73a37d7bfb4fbfb7b1a4dcf6790f97efb4f49b2e44eddab30fe0d583"
+      }
+    },
+    {
+      "order": 8,
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "task_ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "trial": "adaptive-rejection-sampler__AbftRyA",
+      "job": "dev12-adaptive-rejection-sampler-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791736140.2109442,
+        "stop": 1791736144.8185015
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T16:18:20.643245Z",
+      "finished_at": "2026-10-11T16:29:15.879694Z",
+      "seconds": {
+        "environment_setup": 0.996828,
+        "agent_setup": 49.072429,
+        "agent_execution": 565.986258,
+        "verifier": 27.949146
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 27.708376808999674
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 11,
+      "incomplete_model_calls": [],
+      "tool_calls": 11,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 250525,
+          "completion_tokens": 102009,
+          "cached_tokens": 245632
+        },
+        "estimated_known_cost_usd": 0.125352492,
+        "final_metrics": {
+          "total_steps": 24,
+          "total_prompt_tokens": 250525,
+          "total_completion_tokens": 102009,
+          "total_cached_tokens": 245632,
+          "total_cost_usd": 0.125352492,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.125352492
+          }
+        }
+      },
+      "task_checksum": "a4726253ad23c3fc46b5cb9c3d21025874e367b18643a3920f636a1fa89e1207",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/result.json": "bf64380d0c4c4cdaf6492c30dbb8ae31752a53e46d00d01433706dcf70ae079e",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/agent/trajectory.json": "14c739071f532119612b23f97ceab1d79cdedd6e7f4eb23307b1627e38540019",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/agent/bootstrap.json": "eb4895cdc7076ee2da4b9519eb1d623465f7c0828b9afb96a5d685f89a8c1f1b",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/verifier/retry-summary.json": "3b768b047c61501aebbd6a5158cc0a79708b46123cfb79840c6c6ccf2ffd7630",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/verifier/test-stdout.txt": "97f76fc515fef3921a46ec13cb78f2cbf66ec54dbd3540fe1373ba4bd67bc0ec",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/verifier/ctrf.json": "9ef2a1b7e71afe901b69a01f156665f5d42b46b5c59154ce64d6be20e93b8456",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011-input/manifest.json": "de657438e6731aae6e4f50708044294a344cc40245c93bb9a16d468aa1587c01",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011-input/config.json": "71ffc80b450b239ea585ee4d269ff6e77e47dd582506ec98162adc502f6e15b7",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-adaptive-rejection-sampler-baseline-20261011.json": "4b31628d579b050eaa9df0de522a82c7a4efdb3042e5634322d40e0d07e8f4a9",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/verifier/attempts/1/ctrf.json": "9ef2a1b7e71afe901b69a01f156665f5d42b46b5c59154ce64d6be20e93b8456",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-adaptive-rejection-sampler-baseline-20261011/adaptive-rejection-sampler__AbftRyA/verifier/attempts/1/test-stdout.txt": "97f76fc515fef3921a46ec13cb78f2cbf66ec54dbd3540fe1373ba4bd67bc0ec"
+      }
+    },
+    {
+      "order": 9,
+      "task": "terminal-bench/pytorch-model-cli",
+      "task_ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "trial": "pytorch-model-cli__asD2fTE",
+      "job": "dev12-pytorch-model-cli-baseline-20261011",
+      "raw_reward": 0.0,
+      "classification": "scored_failure",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 6,
+        "passed": 5,
+        "failed": 1,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791737768.6626732,
+        "stop": 1791737790.0538428
+      },
+      "work_budget_seconds": 720,
+      "started_at": "2026-10-11T16:30:56.828069Z",
+      "finished_at": "2026-10-11T16:56:42.340334Z",
+      "seconds": {
+        "environment_setup": 0.964518,
+        "agent_setup": 267.780007,
+        "agent_execution": 298.721879,
+        "verifier": 966.520263
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "timeout",
+          "duration_seconds": 900.0019214439999
+        },
+        {
+          "attempt": 2,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 66.32247663299859
+        }
+      ],
+      "verifier_timeout_seconds": 900.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 46,
+      "incomplete_model_calls": [
+        {
+          "step_id": 89,
+          "model_call_id": "model-38d54f7b-2d63-4ee3-a21a-98060dc808d7",
+          "error_type": "RemoteProtocolError",
+          "message": "peer closed connection without sending complete message body (incomplete chunked read)",
+          "generation_id": null,
+          "duration_ms": 1107.911214,
+          "will_retry": true,
+          "retry_delay_seconds": 1.0,
+          "source_timestamp": "2026-10-11T16:40:12.982Z",
+          "incomplete": true,
+          "started_at": "2026-10-11T16:40:11.874Z",
+          "started_at_source": "source_timestamp",
+          "timestamp_source": "source_timestamp"
+        }
+      ],
+      "tool_calls": 48,
+      "accounting": {
+        "usage_complete": false,
+        "recorded_tokens": {
+          "prompt_tokens": 1405137,
+          "completion_tokens": 37894,
+          "cached_tokens": 1384704
+        },
+        "estimated_known_cost_usd": 0.059910924,
+        "final_metrics": {
+          "total_steps": 93,
+          "extra": {
+            "usage_complete": false,
+            "known_cost_usd": 0.059910924,
+            "cost_is_partial": true,
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.059910924
+          }
+        }
+      },
+      "task_checksum": "e8438573f503c2d98ad71905862638bfa485470010d15d5b092821e0096b9daa",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/result.json": "1e8182f609eaa0711cf791e3d0974fe380d6effe11447f9263483291bcc1d00c",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/agent/trajectory.json": "ac3a14da4dc07a62b48fb509f094003fc0913dfb1a05d65b3a44aa026e3e9bc4",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/agent/bootstrap.json": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/retry-summary.json": "ac94dd7803a3444e1c1843a015e8a8bdb14cef580445144661fd28cbdaedc2bd",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/test-stdout.txt": "13431458fea4c92034f42c1caf51f2b8a607e1b8dddcd2c232902dc035f234f6",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/ctrf.json": "f5a8d18263e441da6ac66499220f9e14b954513c26ed1986ec43cf61bd98d299",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011-input/manifest.json": "a76f53880d39c493ec5e968691aa10639ff6622c35f5fb08db0673fe32787ff9",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011-input/config.json": "52fe8b50f8814caf106afc4c4e022363f39a64185f9c98171dfec1357c29f7d7",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-pytorch-model-cli-baseline-20261011.json": "8cdb2774c45999f9285460ea463ca13840a1b66836593283d3d769676613fe6f",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/attempts/1/test-stdout.txt": "ad3cc444bf23a016870f0b5d03f09e3e3c0a4010de2cb88f6583a88035501654",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/attempts/2/ctrf.json": "f5a8d18263e441da6ac66499220f9e14b954513c26ed1986ec43cf61bd98d299",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/attempts/2/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev12-baseline-main-source/jobs/dev12-pytorch-model-cli-baseline-20261011/pytorch-model-cli__asD2fTE/verifier/attempts/2/test-stdout.txt": "13431458fea4c92034f42c1caf51f2b8a607e1b8dddcd2c232902dc035f234f6"
+      }
+    },
+    {
+      "order": 10,
+      "task": "terminal-bench/constraints-scheduling",
+      "task_ref": "sha256:91dd6f87e1ee508328d5aafbd99a6bd1ccc47bc22671b4aaa4060bda492deb53",
+      "trial": "constraints-scheduling__NPnsKa5",
+      "job": "dev12-constraints-scheduling-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791738006.8966916,
+        "stop": 1791738007.2491832
+      },
+      "work_budget_seconds": 1020,
+      "started_at": "2026-10-11T16:30:54.073053Z",
+      "finished_at": "2026-10-11T17:00:18.177450Z",
+      "seconds": {
+        "environment_setup": 0.985738,
+        "agent_setup": 1702.177106,
+        "agent_execution": 30.152862,
+        "verifier": 19.670661
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 19.47129868399861
+        }
+      ],
+      "verifier_timeout_seconds": 1200.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 6,
+      "incomplete_model_calls": [],
+      "tool_calls": 5,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 41911,
+          "completion_tokens": 5424,
+          "cached_tokens": 38016
+        },
+        "estimated_known_cost_usd": 0.007905396,
+        "final_metrics": {
+          "total_steps": 13,
+          "total_prompt_tokens": 41911,
+          "total_completion_tokens": 5424,
+          "total_cached_tokens": 38016,
+          "total_cost_usd": 0.007905396,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.007905396
+          }
+        }
+      },
+      "task_checksum": "5b311f974587adf67804532222c59395f41a6c984b54a5e96a56dd071ee801dc",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/result.json": "387f595a2e3e2583fcdd129ee0e2c39fb00cf36a5952350020e631a90cbf68ab",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/agent/trajectory.json": "2d1974f6890199437dc2a8719006f553907a8a9976c518a4a70b8aa13091b44d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/agent/bootstrap.json": "c4d5399fb99e22fdaccbafaeca054f4d615062b69ddc2389af0ed1c19ba30325",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/verifier/retry-summary.json": "9e231af8730c507475558b0227f79427c294137e58dc76be04e77a8bbb6e4608",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/verifier/test-stdout.txt": "662f91bddfdd0ab684fde0983e4a47fe75c64990c9680373dd34d0bcc53e7f31",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/verifier/ctrf.json": "a5eea20278c556046d582c0e11e7ba3b326be02dc074c858a95d4bd715fe6449",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011-input/manifest.json": "3c54335b46550168c314fee8df3dd6c9b395f8fd749aa85869c229aceca23efc",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011-input/config.json": "72539609a630a73c5a417ee4ffec5bb8ad123b8cce58f60dc4b8fd88c9f769c9",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-constraints-scheduling-baseline-20261011.json": "3d6b4a3170e9294d2e707e891f261d527ce9ba43d75717578c06e878123fe673",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/verifier/attempts/1/ctrf.json": "a5eea20278c556046d582c0e11e7ba3b326be02dc074c858a95d4bd715fe6449",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-constraints-scheduling-baseline-20261011/constraints-scheduling__NPnsKa5/verifier/attempts/1/test-stdout.txt": "662f91bddfdd0ab684fde0983e4a47fe75c64990c9680373dd34d0bcc53e7f31"
+      }
+    },
+    {
+      "order": 11,
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "task_ref": "sha256:61e021e0304c9818a9be2c9173c8a0938ce5d136e95c5422e099f1fdb2dc080e",
+      "trial": "custom-memory-heap-crash__sUefumj",
+      "job": "dev12-custom-memory-heap-crash-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791738676.7126513,
+        "stop": 1791738680.335953
+      },
+      "work_budget_seconds": 1620,
+      "started_at": "2026-10-11T17:00:25.666527Z",
+      "finished_at": "2026-10-11T17:11:31.185066Z",
+      "seconds": {
+        "environment_setup": 0.932353,
+        "agent_setup": 43.067384,
+        "agent_execution": 280.667347,
+        "verifier": 329.799339
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 329.5842780359999
+        }
+      ],
+      "verifier_timeout_seconds": 1800.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 33,
+      "incomplete_model_calls": [],
+      "tool_calls": 49,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 1153770,
+          "completion_tokens": 33784,
+          "cached_tokens": 1128960
+        },
+        "estimated_known_cost_usd": 0.05475756,
+        "final_metrics": {
+          "total_steps": 67,
+          "total_prompt_tokens": 1153770,
+          "total_completion_tokens": 33784,
+          "total_cached_tokens": 1128960,
+          "total_cost_usd": 0.05475756,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.05475756
+          }
+        }
+      },
+      "task_checksum": "a0db695f342c1b72f1b3d0b6c234eb802e970c4758931355e4ceeea4c9e73c37",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/result.json": "464c0fb5a1d54336d978e84bd182545767bbc95a04d00c024826badb0b62ae7e",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/agent/trajectory.json": "633e9240d85490bfba3bbe2fdc074f3a860b5da1bdd6fa545e21b78b83ac5ad7",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/agent/bootstrap.json": "cf6bb84c42557ba2a7b7e0ec653bbc1c7cf86c236d1b7e2a6852918dfb8eb7dc",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/verifier/retry-summary.json": "c0e89aff5086b8fad0b1070b14253cf8510398bad2f85cc94a30269688a78e83",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/verifier/test-stdout.txt": "14f6704998da0aa999e43e00070c9294226313885c5ea80a07a43ca2b998d79f",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/verifier/ctrf.json": "f6a20756708b696647523c2aab2e1d11f092fe2ef4f353dbc322fd5a35eaf4be",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011-input/manifest.json": "59d97783114ebe4fa9f673a83d494a11f954a7e2695afba00249d58a21cc2645",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011-input/config.json": "199419c73ec813a4aab83df11085e36b5d51cc1aac7c410901bec30650e90783",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-custom-memory-heap-crash-baseline-20261011.json": "998ab1c22ebd6015842c0f9de6181544a9b61c00077c07d1709e1f124b79a7ef",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/verifier/attempts/1/ctrf.json": "f6a20756708b696647523c2aab2e1d11f092fe2ef4f353dbc322fd5a35eaf4be",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-custom-memory-heap-crash-baseline-20261011/custom-memory-heap-crash__sUefumj/verifier/attempts/1/test-stdout.txt": "14f6704998da0aa999e43e00070c9294226313885c5ea80a07a43ca2b998d79f"
+      }
+    },
+    {
+      "order": 12,
+      "task": "terminal-bench/build-pov-ray",
+      "task_ref": "sha256:4f08dab602fe2e9e2f42051cc6aef684a88cf2822e8b499b3ca19e670759fddb",
+      "trial": "build-pov-ray__gSzbLYX",
+      "job": "dev12-build-pov-ray-baseline-20261011",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception": null,
+      "official_test_summary": {
+        "tests": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1791738494.844755,
+        "stop": 1791738502.6303985
+      },
+      "work_budget_seconds": 11820,
+      "started_at": "2026-10-11T17:00:25.604761Z",
+      "finished_at": "2026-10-11T17:08:33.715498Z",
+      "seconds": {
+        "environment_setup": 0.953273,
+        "agent_setup": 51.317367,
+        "agent_execution": 393.034073,
+        "verifier": 31.593705
+      },
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 31.405323345999932
+        }
+      ],
+      "verifier_timeout_seconds": 12000.0,
+      "verifier_dependency_profile": "not_configured",
+      "recorded_agent_steps": 53,
+      "incomplete_model_calls": [],
+      "tool_calls": 59,
+      "accounting": {
+        "usage_complete": true,
+        "recorded_tokens": {
+          "prompt_tokens": 1713955,
+          "completion_tokens": 29967,
+          "cached_tokens": 1680256
+        },
+        "estimated_known_cost_usd": 0.056151636,
+        "final_metrics": {
+          "total_steps": 107,
+          "total_prompt_tokens": 1713955,
+          "total_completion_tokens": 29967,
+          "total_cached_tokens": 1680256,
+          "total_cost_usd": 0.056151636,
+          "extra": {
+            "cost_is_estimated": true,
+            "estimated_cost_usd": 0.056151636
+          }
+        }
+      },
+      "task_checksum": "3426fb4714b5bb0463cc30bd872712a2400b23934b135c40ef7f88b27da4cd7a",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/result.json": "1b9b1ecca667330636ba0ca8ca5b6255fae7ea05627eee23326e461cfef27786",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/agent/trajectory.json": "2a0e42851a8c3b0c8ee45f0dc3db1882eae3ba72cfd1fa883b181200d20588b3",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/agent/bootstrap.json": "40256d355dfe43492278a1a4a22b8a6093657509086254ddd27494162c85b0b4",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/verifier/retry-summary.json": "a617c5e8f570fde26f320b4ec71fe384e4a7eeb4e2831e160ddf13bdc51e90b2",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/verifier/test-stdout.txt": "a073573c5c4f7813cea76ae6e4938a09def1ba1d871c86b6eba3261324fd3a37",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/verifier/ctrf.json": "5fd556cc5936b1d417d20170cb2b5827ee41f14aa0bcffd558c8860099bb6a26",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011-input/manifest.json": "7e912ca1a4aafc9d9f3cc31da8a0e72cdff0bc037ad8873b6945fd66881a0a6d",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011-input/config.json": "2b2b3247f92d5a56bebef93e7d8007be8ac26807533cdb8eed3f555af7c3bb52",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev12-baseline-20261011-v3-orchestration/dev12-build-pov-ray-baseline-20261011.json": "a53545ba276d9b6fac51aec352d9a52d24e3169db5ef138361e13ef0f52bd4dd",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/verifier/attempts/1/ctrf.json": "5fd556cc5936b1d417d20170cb2b5827ee41f14aa0bcffd558c8860099bb6a26",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev12-baseline-main-source/jobs/dev12-build-pov-ray-baseline-20261011/build-pov-ray__gSzbLYX/verifier/attempts/1/test-stdout.txt": "a073573c5c4f7813cea76ae6e4938a09def1ba1d871c86b6eba3261324fd3a37"
+      }
+    }
+  ],
+  "post_run_pytorch_diagnostic": {
+    "kind": "post_run_diagnostic_not_benchmark_retry",
+    "fixture_url": "https://ossci-datasets.s3.amazonaws.com/mnist/t10k-images-idx3-ubyte.gz",
+    "fixture_sha256": "8d422c7b0a1c1c79245a5bcf07fe86e33eeafee792b84584aec276f5a2dbc4e6",
+    "model_sha256": "a32103eef09936e586b1a7dc7e64d279500a38ff30fdd6df2167e28eb954eee6",
+    "method": "stdlib float64 forward pass; original packed float32 weights; original model.py ReLU architecture; compare first 50 images to official fixed expectations",
+    "expected_predictions": [
+      2,
+      2,
+      1,
+      0,
+      4,
+      1,
+      4,
+      9,
+      6,
+      9,
+      0,
+      8,
+      9,
+      0,
+      1,
+      8,
+      9,
+      7,
+      8,
+      4,
+      9,
+      8,
+      7,
+      5,
+      4,
+      6,
+      9,
+      4,
+      3,
+      1,
+      3,
+      1,
+      8,
+      6,
+      2,
+      2,
+      7,
+      1,
+      2,
+      1,
+      1,
+      7,
+      4,
+      2,
+      8,
+      8,
+      1,
+      2,
+      4,
+      4
+    ],
+    "variants": [
+      {
+        "name": "raw01",
+        "mean": 0,
+        "std": 1,
+        "mismatch_count": 0,
+        "mismatch_indices": [],
+        "predictions": [
+          2,
+          2,
+          1,
+          0,
+          4,
+          1,
+          4,
+          9,
+          6,
+          9,
+          0,
+          8,
+          9,
+          0,
+          1,
+          8,
+          9,
+          7,
+          8,
+          4,
+          9,
+          8,
+          7,
+          5,
+          4,
+          6,
+          9,
+          4,
+          3,
+          1,
+          3,
+          1,
+          8,
+          6,
+          2,
+          2,
+          7,
+          1,
+          2,
+          1,
+          1,
+          7,
+          4,
+          2,
+          8,
+          8,
+          1,
+          2,
+          4,
+          4
+        ]
+      },
+      {
+        "name": "mnist_standard",
+        "mean": 0.1307,
+        "std": 0.3081,
+        "mismatch_count": 10,
+        "mismatch_indices": [
+          0,
+          18,
+          21,
+          22,
+          25,
+          26,
+          28,
+          32,
+          34,
+          44
+        ],
+        "predictions": [
+          7,
+          2,
+          1,
+          0,
+          4,
+          1,
+          4,
+          9,
+          6,
+          9,
+          0,
+          8,
+          9,
+          0,
+          1,
+          8,
+          9,
+          7,
+          1,
+          4,
+          9,
+          6,
+          4,
+          5,
+          4,
+          0,
+          7,
+          4,
+          0,
+          1,
+          3,
+          1,
+          3,
+          6,
+          7,
+          2,
+          7,
+          1,
+          2,
+          1,
+          1,
+          7,
+          4,
+          2,
+          3,
+          8,
+          1,
+          2,
+          4,
+          4
+        ]
+      },
+      {
+        "name": "agent_half",
+        "mean": 0.5,
+        "std": 0.5,
+        "mismatch_count": 14,
+        "mismatch_indices": [
+          0,
+          11,
+          15,
+          18,
+          21,
+          22,
+          25,
+          26,
+          28,
+          32,
+          33,
+          34,
+          44,
+          45
+        ],
+        "predictions": [
+          7,
+          2,
+          1,
+          0,
+          4,
+          1,
+          4,
+          9,
+          6,
+          9,
+          0,
+          6,
+          9,
+          0,
+          1,
+          5,
+          9,
+          7,
+          3,
+          4,
+          9,
+          6,
+          6,
+          5,
+          4,
+          0,
+          7,
+          4,
+          0,
+          1,
+          3,
+          1,
+          3,
+          0,
+          7,
+          2,
+          7,
+          1,
+          2,
+          1,
+          1,
+          7,
+          4,
+          2,
+          3,
+          5,
+          1,
+          2,
+          4,
+          4
+        ]
+      }
+    ]
+  },
+  "final_image_integrity": {
+    "verified_at": "2026-10-11T17:22:55.161171+00:00",
+    "original_images_unchanged": 12,
+    "images": [
+      {
+        "task": "terminal-bench/build-pov-ray",
+        "image": "alexgshaw/build-pov-ray:20251031",
+        "image_id": "sha256:874baf49341e2853a15a9184e308c7eb632e97f434359fcff2891c6e5ca1b39b",
+        "repo_digests": [
+          "alexgshaw/build-pov-ray@sha256:874baf49341e2853a15a9184e308c7eb632e97f434359fcff2891c6e5ca1b39b"
+        ],
+        "size_bytes": 163066497
+      },
+      {
+        "task": "terminal-bench/cobol-modernization",
+        "image": "alexgshaw/cobol-modernization:20251031",
+        "image_id": "sha256:593ab9df3d83f771e927888b2d9436b380cdf7ec4d0af2a9f0802d541edebba0",
+        "repo_digests": [
+          "alexgshaw/cobol-modernization@sha256:593ab9df3d83f771e927888b2d9436b380cdf7ec4d0af2a9f0802d541edebba0"
+        ],
+        "size_bytes": 162020401
+      },
+      {
+        "task": "terminal-bench/custom-memory-heap-crash",
+        "image": "alexgshaw/custom-memory-heap-crash:20251031",
+        "image_id": "sha256:1895d7d6240d5fb2ec774d6bfdd1057d170f8d199c15c582e4585d3c63802557",
+        "repo_digests": [
+          "alexgshaw/custom-memory-heap-crash@sha256:1895d7d6240d5fb2ec774d6bfdd1057d170f8d199c15c582e4585d3c63802557"
+        ],
+        "size_bytes": 1267999268
+      },
+      {
+        "task": "terminal-bench/fix-code-vulnerability",
+        "image": "alexgshaw/fix-code-vulnerability:20251031",
+        "image_id": "sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0",
+        "repo_digests": [
+          "alexgshaw/fix-code-vulnerability@sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0"
+        ],
+        "size_bytes": 190696453
+      },
+      {
+        "task": "terminal-bench/nginx-request-logging",
+        "image": "alexgshaw/nginx-request-logging:20251031",
+        "image_id": "sha256:693e64431a0dbf45952e8b91a298d54fd60247e501c6623fb8fa3ebc07fc3d3d",
+        "repo_digests": [
+          "alexgshaw/nginx-request-logging@sha256:693e64431a0dbf45952e8b91a298d54fd60247e501c6623fb8fa3ebc07fc3d3d"
+        ],
+        "size_bytes": 67285778
+      },
+      {
+        "task": "terminal-bench/git-multibranch",
+        "image": "alexgshaw/git-multibranch:20251031",
+        "image_id": "sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5",
+        "repo_digests": [
+          "alexgshaw/git-multibranch@sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5"
+        ],
+        "size_bytes": 222134454
+      },
+      {
+        "task": "terminal-bench/db-wal-recovery",
+        "image": "alexgshaw/db-wal-recovery:20251031",
+        "image_id": "sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e",
+        "repo_digests": [
+          "alexgshaw/db-wal-recovery@sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e"
+        ],
+        "size_bytes": 175276145
+      },
+      {
+        "task": "terminal-bench/multi-source-data-merger",
+        "image": "alexgshaw/multi-source-data-merger:20251031",
+        "image_id": "sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e",
+        "repo_digests": [
+          "alexgshaw/multi-source-data-merger@sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e"
+        ],
+        "size_bytes": 220880128
+      },
+      {
+        "task": "terminal-bench/query-optimize",
+        "image": "alexgshaw/query-optimize:20251031",
+        "image_id": "sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14",
+        "repo_digests": [
+          "alexgshaw/query-optimize@sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14"
+        ],
+        "size_bytes": 120494963
+      },
+      {
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "image": "alexgshaw/adaptive-rejection-sampler:20251031",
+        "image_id": "sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f",
+        "repo_digests": [
+          "alexgshaw/adaptive-rejection-sampler@sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f"
+        ],
+        "size_bytes": 29731756
+      },
+      {
+        "task": "terminal-bench/constraints-scheduling",
+        "image": "alexgshaw/constraints-scheduling:20251031",
+        "image_id": "sha256:567ce5a189f8d11ac461790876e934cc7af38391baf89a78f95f4dafc1fec3b0",
+        "repo_digests": [
+          "alexgshaw/constraints-scheduling@sha256:567ce5a189f8d11ac461790876e934cc7af38391baf89a78f95f4dafc1fec3b0"
+        ],
+        "size_bytes": 49852952
+      },
+      {
+        "task": "terminal-bench/pytorch-model-cli",
+        "image": "alexgshaw/pytorch-model-cli:20251031",
+        "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+        "repo_digests": [
+          "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67"
+        ],
+        "size_bytes": 44349611
+      }
+    ]
+  },
+  "publication_policy": "Only derived results and hashes are published. Raw logs remain local; the database trace contains a provider credential and must not be shared unredacted."
+}
