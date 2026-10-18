@@ -285,6 +285,16 @@ restore a deleted container or missing task outputs from an old trial.
 Harbor's ordinary `--max-retries` setting reruns the entire trial, including
 the agent, and is independent of these verifier attempts.
 
+For a separately authorized infrastructure-recovery run, set the verifier
+kwarg `retry_dependency_errors=true` explicitly. This also retries recognized
+uv network download failures before pytest starts, using the same container,
+agent output, native time limit, and maximum of three total attempts. A CTRF
+report, pytest execution output, or a successful reward prevents this recovery;
+valid scored failures stop immediately. Exhausted dependency failures raise
+`VerifierDependencyError`, retain every attempt's evidence, and leave no
+canonical reward. The default remains timeout-only; record the authorization
+and selected policy in the experiment plan.
+
 ## Test the adapter
 
 ```bash

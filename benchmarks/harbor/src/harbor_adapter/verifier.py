@@ -16,15 +16,21 @@ from harbor.verifier.verifier import Verifier
 _RUNNER = Path(__file__).with_name("_verifier_runner.py").read_text()
 
 
+class VerifierDependencyError(RuntimeError):
+    """Authorized dependency-download recovery exhausted its attempt budget."""
+
+
 class _RetryEnvironment:
     """Delegate Harbor operations, wrapping only the test-script execution."""
 
-    def __init__(self, environment, command, timeout_sec, max_attempts, logger):
+    def __init__(self, environment, command, timeout_sec, max_attempts, logger,
+                 retry_dependency_errors=False):
         self._environment = environment
         self._command = command
         self._timeout_sec = timeout_sec
         self._max_attempts = max_attempts
         self._logger = logger
+        self._retry_dependency_errors = retry_dependency_errors
 
     def __getattr__(self, name):
         return getattr(self._environment, name)
@@ -35,7 +41,8 @@ class _RetryEnvironment:
         control = f"/tmp/nanopy-verifier-{uuid.uuid4().hex}.pid"
         invocation = shlex.join([
             "python3", "-c", _RUNNER, command, str(self._timeout_sec),
-            str(self._max_attempts), "/logs/verifier", control,
+            str(self._max_attempts), str(int(self._retry_dependency_errors)),
+            "/logs/verifier", control,
         ])
         try:
             result = await self._environment.exec(command=invocation, **kwargs)
@@ -55,6 +62,10 @@ class _RetryEnvironment:
         if result.return_code != 0:
             raise RuntimeError(f"Verifier retry runner failed: {result.stderr}")
         record = json.loads(result.stdout)
+        if record["status"] == "dependency_error":
+            raise VerifierDependencyError(
+                f"Verifier dependency downloads failed after {self._max_attempts} attempts"
+            )
         if record["status"] == "timeout":
             raise TimeoutError(
                 f"Verifier timed out after {self._max_attempts} attempts "
@@ -71,13 +82,16 @@ class RetryingVerifier(Verifier):
     4``. Each attempt retains the task's native verifier timeout.
     """
 
-    def __init__(self, *, max_attempts=3, **kwargs):
+    def __init__(self, *, max_attempts=3, retry_dependency_errors=False, **kwargs):
         if type(max_attempts) is not int or not 1 <= max_attempts <= 3:
             raise ValueError("max_attempts must be an integer between 1 and 3")
+        if type(retry_dependency_errors) is not bool:
+            raise ValueError("retry_dependency_errors must be a boolean")
         super().__init__(**kwargs)
         if self.environment.os != TaskOS.LINUX or self.step_name is not None:
             raise ValueError("RetryingVerifier supports single-step Linux tasks")
         self._max_attempts = max_attempts
+        self._retry_dependency_errors = retry_dependency_errors
         self._attempt_timeout = self.task.config.verifier.timeout_sec
         if not math.isfinite(self._attempt_timeout) or self._attempt_timeout <= 0:
             raise ValueError("The task's verifier timeout must be finite and positive")
@@ -110,6 +124,7 @@ class RetryingVerifier(Verifier):
         environment = self.environment
         self.environment = _RetryEnvironment(
             environment, command, self._attempt_timeout, self._max_attempts, self.logger,
+            self._retry_dependency_errors,
         )
         try:
             return await super().verify()

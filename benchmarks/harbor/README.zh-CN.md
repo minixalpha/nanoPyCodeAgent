@@ -231,6 +231,13 @@ Harbor 原生的 provider 凭证和已经配置的 base URL 也会转换为 nano
 新运行，无法恢复旧 trial 已删除的容器或缺失的任务产物。Harbor 原生的
 `--max-retries` 会重新执行整道题（包括 agent），与这里的验证尝试次数相互独立。
 
+对单独授权的基础设施恢复运行，可显式设置验证器参数
+`retry_dependency_errors=true`。这也会重试 pytest 启动前识别到的 uv 网络下载
+错误，复用同一容器和 agent 产物，保留原生单次时限，总尝试次数仍最多为 3。
+只要已有 CTRF 报告、pytest 执行输出或成功评分，就不会进行这种恢复；有效的失败
+评分也会立即停止。依赖错误耗尽尝试后抛出 `VerifierDependencyError`，保留每次
+证据并清除当前评分。默认仍只重试超时；实验计划应记录授权和实际选用的策略。
+
 ## 测试 adapter
 
 ```bash

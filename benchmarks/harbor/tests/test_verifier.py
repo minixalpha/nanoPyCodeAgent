@@ -81,7 +81,8 @@ class LocalEnvironment:
         return ExecResult(return_code=process.returncode, stdout=stdout.decode(), stderr=stderr.decode())
 
 
-def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3, include_logs=None, exclude_logs=None):
+def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3, include_logs=None,
+                  exclude_logs=None, retry_dependency_errors=False):
     task_dir = tmp_path / "task"
     (task_dir / "tests").mkdir(parents=True)
     (task_dir / "instruction.md").write_text("Write the solution.")
@@ -94,7 +95,8 @@ def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3, include_log
         task={"path": task_dir}, verifier_timeout_multiplier=4,
         verifier=VerifierConfig(
             import_path="harbor_adapter:RetryingVerifier",
-            kwargs={"max_attempts": max_attempts},
+            kwargs={"max_attempts": max_attempts,
+                    "retry_dependency_errors": retry_dependency_errors},
             include_logs=include_logs or [], exclude_logs=exclude_logs or [],
         ),
     )
@@ -161,6 +163,75 @@ def test_any_valid_score_stops_after_first_attempt(tmp_path, reward):
     verifier, _, _ = make_verifier(tmp_path, f'echo {reward} > "$LOGS/reward.txt"\n')
     assert asyncio.run(verifier.verify()).rewards == {"reward": reward}
     assert len(summary(verifier)["attempts"]) == 1
+
+
+@pytest.mark.parametrize("mounted", [True, False])
+def test_authorized_download_retries_keep_output_and_stop_on_scored_zero(tmp_path, mounted):
+    verifier, _, _ = make_verifier(tmp_path, '''
+count=$(cat "$STATE" 2>/dev/null || echo 0)
+count=$((count + 1))
+echo "$count" > "$STATE"
+if [ "$count" -lt 3 ]; then
+    echo 'Failed to download `numpy==2.3.3`'
+    echo 'Failed to download distribution due to network timeout.'
+else
+    echo '{"results":{"summary":{"tests":1,"failed":1}}}' > "$LOGS/ctrf.json"
+    echo '1 failed in 0.01s'
+fi
+echo 0 > "$LOGS/reward.txt"
+''', mounted=mounted, retry_dependency_errors=True)
+    assert asyncio.run(verifier.verify()).rewards == {"reward": 0}
+    assert [r["status"] for r in summary(verifier)["attempts"]] == [
+        "dependency_error", "dependency_error", "completed",
+    ]
+    assert (verifier.trial_paths.verifier_dir / "attempts/1/reward.txt").read_text() == "0\n"
+
+
+def test_exhausted_download_errors_are_unscored(tmp_path):
+    from harbor_adapter.verifier import VerifierDependencyError
+
+    verifier, _, _ = make_verifier(tmp_path, '''
+echo 'Failed to download `nvidia-cusparse-cu12==12.5.4.2`'
+echo 'Request failed after 3 retries: operation timed out'
+echo 0 > "$LOGS/reward.txt"
+''', retry_dependency_errors=True)
+    with pytest.raises(VerifierDependencyError, match="3 attempts"):
+        asyncio.run(verifier.verify())
+    assert len(summary(verifier)["attempts"]) == 3
+    assert not verifier.trial_paths.reward_text_path.exists()
+    assert (verifier.trial_paths.verifier_dir / "attempts/3/reward.txt").exists()
+
+
+@pytest.mark.parametrize("guard", [
+    'echo "test session starts"',
+    'echo "1 failed in 0.1s"',
+    'echo "{}" > "$LOGS/ctrf.json"',
+    'echo 1 > "$LOGS/reward.txt"',
+])
+def test_download_text_never_retries_started_tests_or_success(tmp_path, guard):
+    verifier, _, _ = make_verifier(tmp_path, '''
+echo 'Failed to download `numpy==2.3.3`'
+echo 'network timeout'
+echo 0 > "$LOGS/reward.txt"
+''' + guard + "\n", retry_dependency_errors=True)
+    asyncio.run(verifier.verify())
+    assert len(summary(verifier)["attempts"]) == 1
+
+
+def test_download_recovery_is_disabled_by_default(tmp_path):
+    verifier, _, _ = make_verifier(tmp_path, '''
+echo 'Failed to download `numpy==2.3.3`'
+echo 'network timeout'
+echo 0 > "$LOGS/reward.txt"
+''')
+    assert asyncio.run(verifier.verify()).rewards == {"reward": 0}
+    assert len(summary(verifier)["attempts"]) == 1
+
+
+@pytest.mark.parametrize("value", [1, "true", None])
+def test_invalid_dependency_retry_flags_are_rejected(value):
+    with pytest.raises(ValueError, match="retry_dependency_errors"):
+        RetryingVerifier(retry_dependency_errors=value)
 
 
 @pytest.mark.parametrize("mounted", [True, False])
