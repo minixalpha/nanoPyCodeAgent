@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "max_concurrent_trials": 2,
+  "whole_trial_retries": 0,
+  "provider_checkpoint": {
+    "api_model": "deepseek-flash",
+    "reported_checkpoint": "DeepSeek-V4.1-Flash-1017",
+    "verification": "Official DeepSeek documentation states that deepseek-flash now serves this checkpoint. The API alias is not an immutable checkpoint pin.",
+    "sources": [
+      "https://api-docs.deepseek.com/news/news261017/",
+      "https://api-docs.deepseek.com/quick_start/agent_integrations/"
+    ],
+    "checked_at": "2026-10-18T13:16:26.524186+00:00"
+  },
+  "registered_at": "2026-10-18T14:24:57.680454+00:00",
+  "experiment": "deepseek-v41-flash-1017-recovery-20261018",
+  "arms": {
+    "recovery": {
+      "source_root": "jobs/flash1017-recovery-source",
+      "source_ref": "35fe1a2d6a786619a2adace1cfa9d0acca08d533",
+      "prompt_file": "main-prompt.txt",
+      "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+      "prompt_words": 385
+    }
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/adaptive-rejection-sampler",
+      "ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "scientific-computing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "95408217b9c484ffc18a02a91b7706323b6902919c72b24866a32e27a23543e2",
+        "environment/Dockerfile": "e644a3343e339303230f1441b7383f076d21c69a5a7aa6430b4f8a9d27f15c8b",
+        "environment/protected.tar.gz.enc": "7fc9bf1347bb97da8dede04b2c58638f225070913e222d76627068aebd1b1df2",
+        "instruction.md": "e6d28c28acd76bef61817427c74c2a29e3e8d75f535cbd708afcbfd02c54013f",
+        "solution/solve.sh": "fe443a8082b5183ba1623311ba0ee958888aefa633eff93766b9ae14e9bdd84d",
+        "task.toml": "6ed7b37f74beb46e9d47b0f5fad53025667c9548baff4e96d467b56d429fab1a",
+        "tests/test.sh": "38b43560d173cc2b952c3a3e17b8a480216d84e33450515e047bcb0d806b1e0a",
+        "tests/test_outputs.py": "547dc6e107f034f41703722aeceb6d0236e3fb69116fc3f2fbaba11884de352f"
+      }
+    },
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "297ddea07c230dfd246a8ab07337dd7abcd8e5e2a2b2e26590cb0a8af779839c",
+        "environment/Dockerfile": "c357ea41e4a4013c5c5980b8fef04af6a5ae250ccc6697cf3bad3127401a931f",
+        "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+        "solution/solve.sh": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+        "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+        "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+        "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+      }
+    }
+  ],
+  "queue": [
+    {
+      "arm": "recovery",
+      "repeat": 1,
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-recovery-20261018/adaptive-rejection-sampler.json",
+      "config_sha256": "8d83f8c29d1e53b5a78b96f635881f4cb1a0f7e40953314acd48dc995d609a5c",
+      "job_name": "flash1017-recovery-adaptive-rejection-sampler-20261018"
+    },
+    {
+      "arm": "recovery",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-recovery-20261018/torch-pipeline-parallelism.json",
+      "config_sha256": "bc0b10b9e0ee7533fbaee316f84c9e63d7e043e53fc4921926f0e6da6e8991e6",
+      "job_name": "flash1017-recovery-torch-pipeline-parallelism-20261018"
+    }
+  ],
+  "total_model_runs": 2,
+  "preflight": [
+    {
+      "arm": "recovery",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-recovery-20261018/install-only.json",
+      "config_sha256": "a90e454b71e7059f742959ed6e820a13232749b2662b6a07242c13bd425b545f",
+      "job_name": "flash1017-recovery-install-only-20261018"
+    }
+  ],
+  "selection_file": "selection.json",
+  "selection_sha256": "c3a1ade78b2f42888f3e9391a51cdae86b9ddf707ab68c9a72ff9ca77809670c",
+  "image_digests_file": "image-digests.json",
+  "image_digests_sha256": "f7d43972f735f3500e2aa478689b362c00df05d805bb0a994fff4d686c2c7177",
+  "log_dir": "jobs/flash1017-recovery-orchestration",
+  "additional_file_sha256": {
+    "benchmarks/harbor/configs/dev34-main-baseline-20261012/dependency-release-manifest-v5.json": "bdf3d3ef8b7743700c5294c4a511c686a3928c178a77fd4abcba90ee4557ffcc",
+    "benchmarks/harbor/configs/dev34-main-baseline-20261012/transport-v3/apt-cache.conf": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+    "benchmarks/harbor/configs/dev34-main-baseline-20261012/transport-v5/dependency-cache.compose.json": "60d778603976454bb407b8273626851357ee41489cdb0395b06dcc7aab9d151e",
+    "benchmarks/harbor/scripts/apt_index_proxy.py": "bc15f7adf1d7968d627ceca4683ab86742a7188a1b1955ba1fef37ba48e8a936",
+    "benchmarks/harbor/scripts/cache_image.py": "639709c03a7b0c3eb6aa78b4e87e6184b49b4b102853a31e33dd832d759180c0",
+    "benchmarks/harbor/scripts/run_comparison.py": "04f2106f0099a7b4d77e9206a36767f98a5e92c875ec78dd2de858c4936c12a8",
+    "benchmarks/harbor/scripts/uv_release_cache.py": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+    "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/dependency-cache.compose.json": "fc2c6a22fb28563171f21808cd103851c69ce02bd3aa8c8c770eea20af87f49f",
+    "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/dependency-release-manifest.json": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+    "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/python-agent-release-manifest.json": "78aecd7c397c469196f9d246a160bf1fc99ad2d51cb71320b7d26ebf839647ce",
+    "benchmarks/harbor/src/harbor_adapter/verifier.py": "44bf247282437a0092bd7e649fd7fa9c776b6d34a0c14ffedcc10b37a47608ef",
+    "benchmarks/harbor/src/harbor_adapter/_verifier_runner.py": "d718f7c5528c156df549d68ab2deff247a289d08a453c6d083b72d0e9c7013dc"
+  },
+  "authorization": {
+    "request": "Retry the two unscored tasks, at most three attempts.",
+    "scope": "This follow-up explicitly enables retrying recognized pre-test uv network download failures in addition to native verifier timeouts.",
+    "limit": "At most three total verifier attempts per fresh model output, each with the original 900-second limit. Stop immediately on an executed official test result, including failure.",
+    "original_workspace_availability": "The original containers were deleted and artifact manifests contain no /app outputs; exact original workspace regrading is unavailable.",
+    "new_model_policy": "One fresh model trial per selected task, no whole-trial retries. Within each new trial, reuse its output and container for all authorized verifier attempts.",
+    "artifact_policy": "Collect the complete /app directory for future verification without another model run."
+  },
+  "budget_policy": "Native task agent timeout minus 180 seconds, separate 1800-second setup. Native verifier per-attempt time limits; max three attempts, retry only timeouts against the same agent output.",
+  "preflight_policy": "Two fresh installation-only checks. Both verifier dependency profiles remain not_configured; no verifier dependency certification is claimed.",
+  "information_policy": "All selected tasks have prior test and trace exposure. Supply only the original task instruction and unchanged headless prompt; inject no previous diagnoses or fixes. Freeze both outputs before new trace or test-content review.",
+  "agent_source_sha256": {
+    "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+    "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+    "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+    "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+    "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+    "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+    "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+    "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+    "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+    "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+    "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+    "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+    "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+    "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+    "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206"
+  },
+  "adapter_change": "Only the verifier adapter gains opt-in, bounded pre-test dependency-download recovery. The agent Python source is byte-identical to the original six-trial run.",
+  "prior_run": "deepseek-v41-flash-1017-rerun-20261018",
+  "scope": "Two new model trials after explicitly authorized infrastructure recovery, not a regrade of the old outputs and not an update to the full development-pool score."
+}

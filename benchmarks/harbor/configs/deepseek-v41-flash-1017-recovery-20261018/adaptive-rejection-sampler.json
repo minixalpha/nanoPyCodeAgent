@@ -1,0 +1,38 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 720
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/adaptive-rejection-sampler",
+      "ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de"
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/home/minix/projects/nanoPyCodeAgent/benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/dependency-cache.compose.json"
+    ]
+  },
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "retry_dependency_errors": true
+    }
+  },
+  "artifacts": [
+    "/app"
+  ]
+}

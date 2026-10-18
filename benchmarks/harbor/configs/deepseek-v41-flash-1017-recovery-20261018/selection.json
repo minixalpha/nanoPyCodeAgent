@@ -1,0 +1,21 @@
+{
+  "previous_results_path": "benchmarks/harbor/results/deepseek-v41-flash-1017-rerun-20261018.json",
+  "previous_results_sha256": "d6cce2cb8048fbb7d5ea97e5a886d3c2caa89d4883039ef1c52e4422b3b0c87d",
+  "previous_trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__Bim6vqF",
+      "classification": "verifier_error",
+      "raw_reward": 0.0,
+      "score": null
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "trial": "torch-pipeline-parallelism__q96EdZw",
+      "classification": "verifier_error",
+      "raw_reward": 0.0,
+      "score": null
+    }
+  ],
+  "rule": "Only the two unscored verifier errors; all earlier trial records remain immutable."
+}

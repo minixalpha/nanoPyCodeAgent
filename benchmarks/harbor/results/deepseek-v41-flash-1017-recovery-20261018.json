@@ -1,0 +1,551 @@
+{
+  "schema_version": 1,
+  "experiment": "deepseek-v41-flash-1017-recovery-20261018",
+  "collected_at": "2026-10-18T15:06:01.383578+00:00",
+  "cohort": "authorized_followup_of_two_unscored_development_tasks",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "runtime_source_ref": "35fe1a2d6a786619a2adace1cfa9d0acca08d533",
+  "plan_path": "benchmarks/harbor/configs/deepseek-v41-flash-1017-recovery-20261018/experiment.json",
+  "plan_sha256": "7ba0d4083cbc856a364417bc51025a8bd84434eb39319927664bfb4c018fba9d",
+  "model_output_freeze": {
+    "observed_at": "2026-10-18T15:06:01.314545+00:00",
+    "plan_path": "benchmarks/harbor/configs/deepseek-v41-flash-1017-recovery-20261018/experiment.json",
+    "plan_sha256": "7ba0d4083cbc856a364417bc51025a8bd84434eb39319927664bfb4c018fba9d",
+    "runtime_source_ref": "35fe1a2d6a786619a2adace1cfa9d0acca08d533",
+    "boundary": "Both queued native trials ended before new trajectory or hidden-test content review. Setup errors, if any, have no model output and remain separate.",
+    "trials": [
+      {
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trial": "adaptive-rejection-sampler__v3bi7q6",
+        "finished_at": "2026-10-18T14:37:47.983031Z",
+        "model_started": true,
+        "trajectory_sha256": "199a3ecd99d805672a8fbd23735d224d6c85fbd598695b1d4de60d36bfeac261",
+        "raw_rewards": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/flash1017-recovery-orchestration/flash1017-recovery-adaptive-rejection-sampler-20261018.json": "cc470922d79504a61f7b3e0365db5b0cb9395cf389c7ecc1cac38be954813f49",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/agent/bootstrap.json": "ab0fd54609830cbb821308672c74215feb68f8f369542e9be758228f7dcc43bb",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/agent/nanopycodeagent.txt": "9c33098ea3f1f74921fa385f3b8628b2cf6289301df582126cd30be7df300997",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/agent/trajectory.json": "199a3ecd99d805672a8fbd23735d224d6c85fbd598695b1d4de60d36bfeac261",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/app/ars.R": "bdd2f472d3cb277ed7f8cf40c8602a412df1dd600ffa116f86d6ecb79059c691",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/app/exponential_samples.txt": "42c2e8ce1b239d95c11bd9a133f0b4532fa5075a772defbf5d6112a3b0a4ba74",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/app/normal_samples.txt": "1469fd064c67f57a194f13b486e917f9fe261ffca33a83ea6bb653f7cedd2dfc",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/manifest.json": "502e6df5db116b0d94d1f1c7cd9a32405cab81979a51f3dbecb38c424c665aa6",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/config.json": "fb0cf9aecc9cda1bd79b0f8f09fe303688ed70f0f072e4e4afa2dd20639c56aa",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/lock.json": "6577d0d09dd44cba05e0680551cec770f8afc77bcffb479fdca2a1f1b362161e",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/result.json": "e78a62618d3625b0616674d6270616bd143d4fb7acde9c94658f3dd52e7e2379",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/trial.log": "2e5c1438295e0a77b03d5917f99e44d3f6b91b276ace757a5abb82cc94115af7",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/attempts/1/ctrf.json": "bb1a28d8381f9faefb237261c4768736060469a5404a2a6097e9f4f9c01ff000",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/attempts/1/test-stdout.txt": "79b0ca14edef47743b08e6e94427a79cb03c8b231b20598aada9470437511f77",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/ctrf.json": "bb1a28d8381f9faefb237261c4768736060469a5404a2a6097e9f4f9c01ff000",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/retry-summary.json": "26c96b5931ae1e7ff4e86001b889c4e1934e08b3c7f4380a1c4f00715231d973",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/test-stdout.txt": "79b0ca14edef47743b08e6e94427a79cb03c8b231b20598aada9470437511f77"
+        },
+        "artifact_inventory": {
+          "tree_sha256": "10df4e3d1be3d4c29ba6d631e3afcb7ac1218da2dc7a2c5e098f99be81069ea7",
+          "entries": 4,
+          "regular_file_bytes": 310907,
+          "hash_recipe": "SHA256 of compact JSON [relative_path, file_or_symlink, content_sha256_or_link_target] entries sorted by path; symlinks are not followed."
+        }
+      },
+      {
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "trial": "torch-pipeline-parallelism__ASK4Vjz",
+        "finished_at": "2026-10-18T15:05:42.487531Z",
+        "model_started": true,
+        "trajectory_sha256": "d579b59466eaec4ebcdf0c24f51ece4e0fe78957cffc9446da776d9732e4c90d",
+        "raw_rewards": {
+          "reward": 0.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/flash1017-recovery-orchestration/flash1017-recovery-torch-pipeline-parallelism-20261018.json": "9ae9ba153dfa2f438827058096a5e068eb5c322e1f51d954c77ddb3a5c699b85",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/agent/bootstrap.json": "ab0fd54609830cbb821308672c74215feb68f8f369542e9be758228f7dcc43bb",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/agent/nanopycodeagent.txt": "f86373e326cd647b3a8f80215b1a995828011d8eccaee40fd068fc24e40d48b8",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/agent/trajectory.json": "d579b59466eaec4ebcdf0c24f51ece4e0fe78957cffc9446da776d9732e4c90d",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/artifacts/app/pipeline_parallel.py": "1ac320ac344f1b7a6827c7350041d507be8c78184951b9a0e9776bd0ed89b6ef",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/artifacts/manifest.json": "502e6df5db116b0d94d1f1c7cd9a32405cab81979a51f3dbecb38c424c665aa6",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/config.json": "3f59f758dd8ba5085f389946c72f68ba48116ebcfd82b61220b210f939064c56",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/lock.json": "e799139a792ac94aa035b759a9200b4f1a918e49df42c03cb9f2e60e268a0f95",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/result.json": "493eed193c955b521e6c81e008bd7633996f8eef000a2e1e3383088d7fa4dcd3",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/trial.log": "ba4fc53101d582f309f83682c7822b7fe12db2f6612efca6eaade93e22dcc6b1",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/1/test-stdout.txt": "1fca2b129f1887d7ba83351cba952121d322f010c513bddbae7aa40ba2594236",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/2/ctrf.json": "15a983b890b8a8e5c4a54faccb22a90c169acd55fd06478cab7312a03ce30944",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/2/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/2/test-stdout.txt": "0bddff2743a055b821c34c5c1d02f6bb95895ba6c62482a52d8a2dbbe8b921a7",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/ctrf.json": "15a983b890b8a8e5c4a54faccb22a90c169acd55fd06478cab7312a03ce30944",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/retry-summary.json": "8f0b19e524e9564445ef8a73b0a61ff71dff95a150aba3aed9a6836ce8c768ed",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/test-stdout.txt": "0bddff2743a055b821c34c5c1d02f6bb95895ba6c62482a52d8a2dbbe8b921a7"
+        },
+        "artifact_inventory": {
+          "tree_sha256": "ba32935d9221fdf174c3cb815d11ca4dca467ef0ddbf4c6bf8d32a4b72249433",
+          "entries": 3,
+          "regular_file_bytes": 31252,
+          "hash_recipe": "SHA256 of compact JSON [relative_path, file_or_symlink, content_sha256_or_link_target] entries sorted by path; symlinks are not followed."
+        }
+      }
+    ]
+  },
+  "integrity": {
+    "registration_unchanged": true,
+    "plan_source_prompt_configs_tasks_unchanged": true,
+    "verified_preflight_tasks": 2,
+    "source_snapshots_verified": 2,
+    "wheel_digests_verified": 2,
+    "frozen_native_trial_artifacts_verified": 2,
+    "queue_pair_barriers_verified": true,
+    "whole_model_trial_retries": 0,
+    "outcome_based_replacements": 0
+  },
+  "aggregate": {
+    "trials": 2,
+    "models_started": 2,
+    "raw_passes": 1,
+    "raw_zeros": 1,
+    "classifications": {
+      "scored_pass": 1,
+      "scored_failure": 1
+    },
+    "verifier_timeout_retries": 1,
+    "estimated_known_cost_usd": 0.138438564,
+    "cost_complete": true,
+    "usage_incomplete_tasks": [],
+    "recorded_tokens": {
+      "prompt_tokens": 1652399,
+      "completion_tokens": 94203,
+      "cached_tokens": 1599744
+    },
+    "summed_stage_seconds": {
+      "environment_setup": 4.241263999999999,
+      "agent_setup": 82.273162,
+      "agent_execution": 1153.967016,
+      "verifier": 1766.249108
+    },
+    "model_job_wall_seconds": 2363.087596,
+    "dependency_download_retries": 0,
+    "official_pytest_counts": {
+      "collected": 13,
+      "passed": 11,
+      "failed": 2,
+      "skipped": 0,
+      "error": 0
+    },
+    "verifier_attempts_total": 3,
+    "retry_limit_respected": true,
+    "setup_errors": 0,
+    "verifier_errors": 0
+  },
+  "trials": [
+    {
+      "order": 1,
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "task_ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "trial": "adaptive-rejection-sampler__v3bi7q6",
+      "job": "flash1017-recovery-adaptive-rejection-sampler-20261018",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception_type": null,
+      "official_test_summary": {
+        "tests": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1792334238.2265651,
+        "stop": 1792334246.7767608
+      },
+      "started_at": "2026-10-18T14:26:19.399935Z",
+      "finished_at": "2026-10-18T14:37:47.983031Z",
+      "seconds": {
+        "environment_setup": 2.185485,
+        "agent_setup": 35.034209,
+        "agent_execution": 591.356955,
+        "verifier": 38.513416
+      },
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "duration_seconds": 38.279680895007914,
+          "return_code": 0
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "completed",
+      "recorded_agent_steps": 23,
+      "tool_calls": 23,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 891663,
+          "completion_tokens": 56214,
+          "cached_tokens": 852352
+        },
+        "estimated_known_cost_usd": 0.084364212
+      },
+      "task_checksum": "a4726253ad23c3fc46b5cb9c3d21025874e367b18643a3920f636a1fa89e1207",
+      "source_ref": "35fe1a2d6a786619a2adace1cfa9d0acca08d533",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "d718f7c5528c156df549d68ab2deff247a289d08a453c6d083b72d0e9c7013dc",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "44bf247282437a0092bd7e649fd7fa9c776b6d34a0c14ffedcc10b37a47608ef"
+      },
+      "wheel_sha256": "f1113a2b382ae8a9ae8f9d231b8e35ce98e71f910959d6c8df8e92e6f200c700",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/flash1017-recovery-orchestration/flash1017-recovery-adaptive-rejection-sampler-20261018.json": "cc470922d79504a61f7b3e0365db5b0cb9395cf389c7ecc1cac38be954813f49",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/agent/bootstrap.json": "ab0fd54609830cbb821308672c74215feb68f8f369542e9be758228f7dcc43bb",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/agent/nanopycodeagent.txt": "9c33098ea3f1f74921fa385f3b8628b2cf6289301df582126cd30be7df300997",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/agent/trajectory.json": "199a3ecd99d805672a8fbd23735d224d6c85fbd598695b1d4de60d36bfeac261",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/app/ars.R": "bdd2f472d3cb277ed7f8cf40c8602a412df1dd600ffa116f86d6ecb79059c691",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/app/exponential_samples.txt": "42c2e8ce1b239d95c11bd9a133f0b4532fa5075a772defbf5d6112a3b0a4ba74",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/app/normal_samples.txt": "1469fd064c67f57a194f13b486e917f9fe261ffca33a83ea6bb653f7cedd2dfc",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/artifacts/manifest.json": "502e6df5db116b0d94d1f1c7cd9a32405cab81979a51f3dbecb38c424c665aa6",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/config.json": "fb0cf9aecc9cda1bd79b0f8f09fe303688ed70f0f072e4e4afa2dd20639c56aa",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/lock.json": "6577d0d09dd44cba05e0680551cec770f8afc77bcffb479fdca2a1f1b362161e",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/result.json": "e78a62618d3625b0616674d6270616bd143d4fb7acde9c94658f3dd52e7e2379",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/trial.log": "2e5c1438295e0a77b03d5917f99e44d3f6b91b276ace757a5abb82cc94115af7",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/attempts/1/ctrf.json": "bb1a28d8381f9faefb237261c4768736060469a5404a2a6097e9f4f9c01ff000",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/attempts/1/test-stdout.txt": "79b0ca14edef47743b08e6e94427a79cb03c8b231b20598aada9470437511f77",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/ctrf.json": "bb1a28d8381f9faefb237261c4768736060469a5404a2a6097e9f4f9c01ff000",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/retry-summary.json": "26c96b5931ae1e7ff4e86001b889c4e1934e08b3c7f4380a1c4f00715231d973",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__v3bi7q6/verifier/test-stdout.txt": "79b0ca14edef47743b08e6e94427a79cb03c8b231b20598aada9470437511f77",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018-input/manifest.json": "47fe90c4df1ca3a54c36f00fa490c9b8aa84780e96789f24c250e56e1e7dfddf",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018-input/config.json": "69c83d4c0d3b9554cb67f63af7d5952bd81315a53ef7fbdea3070ffebd7e9263",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-adaptive-rejection-sampler-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "prior_unscored_trial": {
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trial": "adaptive-rejection-sampler__Bim6vqF",
+        "classification": "verifier_error",
+        "raw_reward": 0.0,
+        "score": null
+      },
+      "official_pytest_summary": {
+        "executed": true,
+        "collected": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": "============================== 9 passed in 8.55s ===============================",
+        "source": "verifier/test-stdout.txt"
+      },
+      "score": 1.0,
+      "preserved_artifacts": {
+        "tree_sha256": "10df4e3d1be3d4c29ba6d631e3afcb7ac1218da2dc7a2c5e098f99be81069ea7",
+        "entries": 4,
+        "regular_file_bytes": 310907,
+        "hash_recipe": "SHA256 of compact JSON [relative_path, file_or_symlink, content_sha256_or_link_target] entries sorted by path; symlinks are not followed."
+      },
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "empty",
+          "service": null
+        },
+        {
+          "source": "/app",
+          "destination": "artifacts/app",
+          "type": "directory",
+          "status": "ok",
+          "service": null
+        }
+      ],
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "provider_credentials_observed": false
+      },
+      "submitted_code_sha256": "bdd2f472d3cb277ed7f8cf40c8602a412df1dd600ffa116f86d6ecb79059c691",
+      "retry_limit_respected": true
+    },
+    {
+      "order": 2,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "trial": "torch-pipeline-parallelism__ASK4Vjz",
+      "job": "flash1017-recovery-torch-pipeline-parallelism-20261018",
+      "raw_reward": 0.0,
+      "classification": "scored_failure",
+      "exception_type": null,
+      "official_test_summary": {
+        "tests": 3,
+        "passed": 2,
+        "failed": 1,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1792335842.1998892,
+        "stop": 1792335918.6577215
+      },
+      "started_at": "2026-10-18T14:26:19.788639Z",
+      "finished_at": "2026-10-18T15:05:42.487531Z",
+      "seconds": {
+        "environment_setup": 2.055779,
+        "agent_setup": 47.238953,
+        "agent_execution": 562.610061,
+        "verifier": 1727.735692
+      },
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "timeout",
+          "duration_seconds": 900.0019356679986,
+          "phase_at_timeout": "dependency_preparation",
+          "official_assertions_started": false
+        },
+        {
+          "attempt": 2,
+          "status": "completed",
+          "duration_seconds": 828.9257361209893,
+          "return_code": 0,
+          "official_assertions_started": true
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "completed",
+      "recorded_agent_steps": 27,
+      "tool_calls": 31,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 760736,
+          "completion_tokens": 37989,
+          "cached_tokens": 747392
+        },
+        "estimated_known_cost_usd": 0.054074352
+      },
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "source_ref": "35fe1a2d6a786619a2adace1cfa9d0acca08d533",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "d718f7c5528c156df549d68ab2deff247a289d08a453c6d083b72d0e9c7013dc",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "44bf247282437a0092bd7e649fd7fa9c776b6d34a0c14ffedcc10b37a47608ef"
+      },
+      "wheel_sha256": "f1113a2b382ae8a9ae8f9d231b8e35ce98e71f910959d6c8df8e92e6f200c700",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/flash1017-recovery-orchestration/flash1017-recovery-torch-pipeline-parallelism-20261018.json": "9ae9ba153dfa2f438827058096a5e068eb5c322e1f51d954c77ddb3a5c699b85",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/agent/bootstrap.json": "ab0fd54609830cbb821308672c74215feb68f8f369542e9be758228f7dcc43bb",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/agent/nanopycodeagent.txt": "f86373e326cd647b3a8f80215b1a995828011d8eccaee40fd068fc24e40d48b8",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/agent/trajectory.json": "d579b59466eaec4ebcdf0c24f51ece4e0fe78957cffc9446da776d9732e4c90d",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/artifacts/app/pipeline_parallel.py": "1ac320ac344f1b7a6827c7350041d507be8c78184951b9a0e9776bd0ed89b6ef",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/artifacts/manifest.json": "502e6df5db116b0d94d1f1c7cd9a32405cab81979a51f3dbecb38c424c665aa6",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/config.json": "3f59f758dd8ba5085f389946c72f68ba48116ebcfd82b61220b210f939064c56",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/lock.json": "e799139a792ac94aa035b759a9200b4f1a918e49df42c03cb9f2e60e268a0f95",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/result.json": "493eed193c955b521e6c81e008bd7633996f8eef000a2e1e3383088d7fa4dcd3",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/trial.log": "ba4fc53101d582f309f83682c7822b7fe12db2f6612efca6eaade93e22dcc6b1",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/1/test-stdout.txt": "1fca2b129f1887d7ba83351cba952121d322f010c513bddbae7aa40ba2594236",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/2/ctrf.json": "15a983b890b8a8e5c4a54faccb22a90c169acd55fd06478cab7312a03ce30944",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/2/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/attempts/2/test-stdout.txt": "0bddff2743a055b821c34c5c1d02f6bb95895ba6c62482a52d8a2dbbe8b921a7",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/ctrf.json": "15a983b890b8a8e5c4a54faccb22a90c169acd55fd06478cab7312a03ce30944",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/retry-summary.json": "8f0b19e524e9564445ef8a73b0a61ff71dff95a150aba3aed9a6836ce8c768ed",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__ASK4Vjz/verifier/test-stdout.txt": "0bddff2743a055b821c34c5c1d02f6bb95895ba6c62482a52d8a2dbbe8b921a7",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018-input/manifest.json": "974861542f065b10aa6e0e3c6827c1b27832a0a4a48693a020e49ae82f2c9454",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018-input/config.json": "fa2e90319d72c6a1d3a156ad79fbcba434165778cb2e88a664f8ae3bb4adff68",
+        "jobs/flash1017-recovery-source/jobs/flash1017-recovery-torch-pipeline-parallelism-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "prior_unscored_trial": {
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "trial": "torch-pipeline-parallelism__q96EdZw",
+        "classification": "verifier_error",
+        "raw_reward": 0.0,
+        "score": null
+      },
+      "official_pytest_summary": {
+        "executed": true,
+        "collected": 4,
+        "passed": 2,
+        "failed": 2,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": "==================== 2 failed, 2 passed in 76.46s (0:01:16) ====================",
+        "source": "verifier/test-stdout.txt"
+      },
+      "score": 0.0,
+      "preserved_artifacts": {
+        "tree_sha256": "ba32935d9221fdf174c3cb815d11ca4dca467ef0ddbf4c6bf8d32a4b72249433",
+        "entries": 3,
+        "regular_file_bytes": 31252,
+        "hash_recipe": "SHA256 of compact JSON [relative_path, file_or_symlink, content_sha256_or_link_target] entries sorted by path; symlinks are not followed."
+      },
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "empty",
+          "service": null
+        },
+        {
+          "source": "/app",
+          "destination": "artifacts/app",
+          "type": "directory",
+          "status": "ok",
+          "service": null
+        }
+      ],
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "provider_credentials_observed": false,
+        "reviewed_local_access": {
+          "atif_steps": [
+            5,
+            7,
+            9,
+            11
+          ],
+          "finding": "The agent searched public installed files, listed /logs while the verifier directory was empty, and read its own bootstrap/startup logs. No hidden verifier contents or credentials were returned."
+        }
+      },
+      "failure_analysis": {
+        "cause": "Both world-size execution tests reached the submitted code and failed the official backward-signal comparison at lm_head.bwd for microbatch zero.",
+        "official_evidence": "World size 1: rank 0 mismatch; world size 2: rank 1 mismatch; maximum difference 0.03571479767560959 in both cases. Two structural tests pass.",
+        "agent_evidence": "The agent reported successful hook-based self-checks against its own full-batch reference on its installed CPU PyTorch/Transformers stack. Those self-checks did not reproduce the official backward-signal mismatch.",
+        "limitation": "This is a valid scored failure after dependency preparation recovered; the original unscored submission was not restored or evaluated.",
+        "submitted_code_sha256": "1ac320ac344f1b7a6827c7350041d507be8c78184951b9a0e9776bd0ed89b6ef"
+      },
+      "retry_limit_respected": true
+    }
+  ],
+  "publication_policy": "Only derived results and hashes are published. Raw logs and trajectories remain local and require credential redaction before sharing.",
+  "authorization": {
+    "request": "Retry the two unscored tasks, at most three attempts.",
+    "scope": "This follow-up explicitly enables retrying recognized pre-test uv network download failures in addition to native verifier timeouts.",
+    "limit": "At most three total verifier attempts per fresh model output, each with the original 900-second limit. Stop immediately on an executed official test result, including failure.",
+    "original_workspace_availability": "The original containers were deleted and artifact manifests contain no /app outputs; exact original workspace regrading is unavailable.",
+    "new_model_policy": "One fresh model trial per selected task, no whole-trial retries. Within each new trial, reuse its output and container for all authorized verifier attempts.",
+    "artifact_policy": "Collect the complete /app directory for future verification without another model run."
+  },
+  "provider_checkpoint": {
+    "api_model": "deepseek-flash",
+    "reported_checkpoint": "DeepSeek-V4.1-Flash-1017",
+    "verification": "Official DeepSeek documentation states that deepseek-flash now serves this checkpoint. The API alias is not an immutable checkpoint pin.",
+    "sources": [
+      "https://api-docs.deepseek.com/news/news261017/",
+      "https://api-docs.deepseek.com/quick_start/agent_integrations/"
+    ],
+    "checked_at": "2026-10-18T13:16:26.524186+00:00"
+  },
+  "prior_run": "deepseek-v41-flash-1017-rerun-20261018",
+  "preflight_history": {
+    "attempts": 2,
+    "setup_passed": 2,
+    "verifier_profiles_not_configured": 2,
+    "models_or_official_assertions_executed": false,
+    "trials": [
+      {
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trial": "adaptive-rejection-sampler__aTArNpp",
+        "result_path": "jobs/flash1017-recovery-source/jobs/flash1017-recovery-install-only-20261018/adaptive-rejection-sampler__aTArNpp/result.json",
+        "result_sha256": "96154b9dd9b82b2cfea76bbd6d87616d054c199221b3e3f3adb986f8e6b29acf",
+        "bootstrap_sha256": "ab0fd54609830cbb821308672c74215feb68f8f369542e9be758228f7dcc43bb",
+        "manifest_sha256": "0db0eff9593da546b363d2b8f6dc5c33be1a06b4ad3ebb9d66b1a9fb7367cbc5",
+        "input_config_sha256": "359a14efc9a1ff2ee2b8d764de6b2a42e5754122a438296b994757e82de915c9",
+        "status": "setup_passed",
+        "verifier_dependency_profile": "not_configured"
+      },
+      {
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "trial": "torch-pipeline-parallelism__WVwoToA",
+        "result_path": "jobs/flash1017-recovery-source/jobs/flash1017-recovery-install-only-20261018/torch-pipeline-parallelism__WVwoToA/result.json",
+        "result_sha256": "cba4318de561742f16dbd842d47df94ed873230e3060ce43b6da666ed5af0839",
+        "bootstrap_sha256": "ab0fd54609830cbb821308672c74215feb68f8f369542e9be758228f7dcc43bb",
+        "manifest_sha256": "0db0eff9593da546b363d2b8f6dc5c33be1a06b4ad3ebb9d66b1a9fb7367cbc5",
+        "input_config_sha256": "359a14efc9a1ff2ee2b8d764de6b2a42e5754122a438296b994757e82de915c9",
+        "status": "setup_passed",
+        "verifier_dependency_profile": "not_configured"
+      }
+    ]
+  },
+  "original_results_unchanged": true,
+  "agent_source_matches_original_run": true,
+  "final_image_integrity": {
+    "observed_at": "2026-10-18T15:06:52.650992+00:00",
+    "original_task_images_verified": 2,
+    "image_ids_and_registry_digests_unchanged": true,
+    "remaining_scored_trial_containers": []
+  },
+  "post_freeze_audit": {
+    "completed_at": "2026-10-18T15:08:33.164753+00:00",
+    "official_assertions_executed_tasks": 2,
+    "benchmark_material_exposure_observed": false,
+    "provider_credentials_observed_in_trajectories": false,
+    "method": "Review both frozen trajectories and official outputs, including every verifier attempt. Scan exact configured credentials and benchmark/test-path references; inspect dependency and installed-file accesses.",
+    "network_access": "Observed external accesses concerned PyPI, the public PyPA installer and official PyTorch CPU wheels. No benchmark-answer retrieval was observed.",
+    "limitation": "Retrospective trace review cannot prove absence of all exposure or training contamination. Both tasks were previously exposed development tasks."
+  },
+  "comparison_note": "These are fresh model outputs because the initial containers were deleted without /app artifacts. They resolve follow-up outcomes, not the correctness of the two original unscored submissions. A single selected-task follow-up does not isolate checkpoint causality or update the full development-pool score.",
+  "retry_policy_observation": "Only the native timeout retry was exercised in these trials. The explicitly enabled dependency-download-error recovery did not trigger; its behavior is covered by regression tests.",
+  "accounting_note": "Costs are unchanged agent token-based estimates, not independently verified provider billing."
+}

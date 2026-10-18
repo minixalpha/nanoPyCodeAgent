@@ -1,5 +1,11 @@
 # DeepSeek Flash 1017: six previous failures rerun
 
+This report preserves the initial six trials. A later
+[authorized follow-up](deepseek-v41-flash-1017-recovery-20261018.md) generated
+fresh outputs for the two unscored tasks: the sampler passed and pipeline
+parallelism failed after official tests executed. The initial results below
+remain unchanged.
+
 Three previous failures passed: **WAL recovery, gRPC KV store, and SQL
 optimization**. Regex chess failed. The sampler and pipeline-parallelism
 trials are **unscored verifier errors**: dependency downloads failed before
