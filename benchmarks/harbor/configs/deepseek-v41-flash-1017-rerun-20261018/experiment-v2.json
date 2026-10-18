@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "arms": {
+    "main": {
+      "source_root": "jobs/dev34-baseline-main-source",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "prompt_file": "main-prompt.txt",
+      "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+      "prompt_words": 385
+    }
+  },
+  "max_concurrent_trials": 2,
+  "whole_trial_retries": 0,
+  "registered_at": "2026-10-18T13:25:43.132414+00:00",
+  "experiment": "deepseek-v41-flash-1017-rerun-20261018",
+  "selection_file": "selection.json",
+  "selection_sha256": "04c7a99606bc58a15ea6577548fdc81f12f8c6ef2770127743051ef2c4fd9bb7",
+  "total_model_runs": 6,
+  "tasks": [
+    {
+      "name": "terminal-bench/adaptive-rejection-sampler",
+      "ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "scientific-computing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "95408217b9c484ffc18a02a91b7706323b6902919c72b24866a32e27a23543e2",
+        "environment/Dockerfile": "e644a3343e339303230f1441b7383f076d21c69a5a7aa6430b4f8a9d27f15c8b",
+        "environment/protected.tar.gz.enc": "7fc9bf1347bb97da8dede04b2c58638f225070913e222d76627068aebd1b1df2",
+        "instruction.md": "e6d28c28acd76bef61817427c74c2a29e3e8d75f535cbd708afcbfd02c54013f",
+        "solution/solve.sh": "fe443a8082b5183ba1623311ba0ee958888aefa633eff93766b9ae14e9bdd84d",
+        "task.toml": "6ed7b37f74beb46e9d47b0f5fad53025667c9548baff4e96d467b56d429fab1a",
+        "tests/test.sh": "38b43560d173cc2b952c3a3e17b8a480216d84e33450515e047bcb0d806b1e0a",
+        "tests/test_outputs.py": "547dc6e107f034f41703722aeceb6d0236e3fb69116fc3f2fbaba11884de352f"
+      }
+    },
+    {
+      "name": "terminal-bench/db-wal-recovery",
+      "ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/db-wal-recovery:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "file-operations",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "600762031a1a02ecc3b46d70f7683f3ff930b47c8a3d0e27cc31b146158c3126",
+        "environment/Dockerfile": "63a260531c62f4ae72060db17f295c0aa03cfc6321f8162c324b7aa6b3f81302",
+        "environment/main.db": "68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119",
+        "environment/main.db-wal.encrypted": "68753bdce26196a53194260d001544cc6bb8f9f38e2f2f6826d09798e31e6e26",
+        "instruction.md": "5a20375162921b8911c67035d1905df7fd335d1bed03044271e608b2c3c93b26",
+        "solution/solve.sh": "ed8530c94103bf19783a1d41bc63fe4db478cdd9629f22fee25c45a45699f5e8",
+        "task.toml": "1cdc2c615e259bc10265efbe71b518332070c1c002e226566399e9788f18d0aa",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49"
+      }
+    },
+    {
+      "name": "terminal-bench/kv-store-grpc",
+      "ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/kv-store-grpc:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "51fdc2ad06f0adb1270164f247ea41799b2ee2ad15490e48ddbf5e79d3767aaa",
+        "environment/Dockerfile": "47c9982789092437f950736110b2bd18899c39b8fd20f3af3c95b848e564a197",
+        "instruction.md": "f4b3facc199d5b1c78db6e603ffa29ec1b93a77ff7d291e1a92b42e6bf582bed",
+        "solution/solve.sh": "6bee2938ac9731d1156b0ca02b28c3d5793bf2cbe5f995c863d397093af01cb7",
+        "task.toml": "6ff0f30a526bfff86a67b0b53439b9965229c0f368167dc1a5d05f34d82299a3",
+        "tests/test.sh": "c348467a076bf614d0a850e25b2263f85bbf7b4c7a8d344fbd5454a0611a0df8",
+        "tests/test_outputs.py": "115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e"
+      }
+    },
+    {
+      "name": "terminal-bench/query-optimize",
+      "ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/query-optimize:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-science",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "a82c53e333a0ac0b0b410b5e26cb8e7305dece31db84d340248ffb13d5a45160",
+        "environment/Dockerfile": "064818771f200e0517d22068f87229a7a95d0a82b0778c84ca7203bf1926a0b8",
+        "environment/task-deps/my-sql-query.sql": "43382792f0f438625d643e34abe144febd5669518f4ab1ab550a15c6d9314a21",
+        "instruction.md": "473e12d320d2732f679fb631c2a4dab4a01deea6775686718ae0c417b8a39447",
+        "solution/solve.sh": "0d95f3cedb287ff9d47c796cbaf812c300d1222c10fa80c49e8acb0e81eb6978",
+        "task.toml": "6e88f2a86df699594bcb1bf81df4ed694505f79c9420f671335b02524bbe3868",
+        "tests/golden.sql": "4da1885d56b3ffa7b7b22b422996d018795611f6963499d551582881b74b84fd",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "2068ae80c57af8d52a7ae510f0666732c057806e556b480970f36f14bae683f6"
+      }
+    },
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "297ddea07c230dfd246a8ab07337dd7abcd8e5e2a2b2e26590cb0a8af779839c",
+        "environment/Dockerfile": "c357ea41e4a4013c5c5980b8fef04af6a5ae250ccc6697cf3bad3127401a931f",
+        "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+        "solution/solve.sh": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+        "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+        "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+        "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+      }
+    },
+    {
+      "name": "terminal-bench/regex-chess",
+      "ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+      "native_agent_timeout_seconds": 3600,
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0,
+      "docker_image": "alexgshaw/regex-chess:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "9296cbee592fc996c58d228b51fee303647e5ecfae82d5666d42a40cb30ec355",
+        "environment/Dockerfile": "2616cd775252303839dfda0ee2f047eb862952b053b0103bd6b2460ef90c11b7",
+        "environment/check.py": "f9c416ae9ea01dcdd5f6a43170c8434b8c0a0b389a4a30876a2048e277d191c7",
+        "instruction.md": "a6ed3fcc54fc92d71a84af921942422d299ca89b410dcd92cd05a53d0d06436c",
+        "solution/solve.sh": "b728bf0ea392a3d244afbd0818d36933c8d3e190e47743c1382cd518d518a2e9",
+        "task.toml": "07fe52636fcc4bc9fff25d5630af145b97a5331219d719cc8decb4ca67ea21d4",
+        "tests/test.sh": "8f7f00a1c4dde7fcca6c918c768f2aba432b8c4007c15989716c68091950da87",
+        "tests/test_outputs.py": "4983c44d21c56dd8191381eff0304afc8b87bb714527ea9036b3319c015a30b4"
+      }
+    }
+  ],
+  "preflight": [
+    {
+      "arm": "main",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/install-only.json",
+      "config_sha256": "33559926b81dba3eff75f34ef962bd5f0223b8b1601660855dc9277eb8c1bf9c",
+      "job_name": "flash1017-install-only-v2-20261018"
+    }
+  ],
+  "queue": [
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/adaptive-rejection-sampler.json",
+      "job_name": "flash1017-adaptive-rejection-sampler-20261018",
+      "config_sha256": "d9ca780ac2d7f9fcffbde5c621e834c360fc6d977e50e85702d59ec86d60d88e"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/db-wal-recovery",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/db-wal-recovery.json",
+      "job_name": "flash1017-db-wal-recovery-20261018",
+      "config_sha256": "a0b6c8f879708ac1fa5b8161d3fc5430efe8fbc334ef643651c5a407731dcdc6"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/kv-store-grpc",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/kv-store-grpc.json",
+      "job_name": "flash1017-kv-store-grpc-20261018",
+      "config_sha256": "be363d3b1e2a67cb63c134d57200e670ec0fc695a3f4191826e2fe6eefc336bf"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/query-optimize",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/query-optimize.json",
+      "job_name": "flash1017-query-optimize-20261018",
+      "config_sha256": "35d7fb0c2d0e998d924b7c4ed644d7841a2a8e644febcb85cf3a06a26f64fa1e"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/torch-pipeline-parallelism.json",
+      "job_name": "flash1017-torch-pipeline-parallelism-20261018",
+      "config_sha256": "27f847ab5e77f92d4d0df85de79c4c65e3595dbf52e9e82315026230a7c4ca11"
+    },
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/regex-chess",
+      "config": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/regex-chess.json",
+      "job_name": "flash1017-regex-chess-20261018",
+      "config_sha256": "e357a1bfb8588d93ada2deb4e5f3ed5e0e130ba23ca850253d194d72268a7d37"
+    }
+  ],
+  "log_dir": "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration",
+  "image_digests_file": "image-digests.json",
+  "image_digests_sha256": "1575f2ddb2e1d5cf088a01af5b43a5ed24271ea0bc6bed726c8f3a3a04fc712c",
+  "additional_file_sha256": {
+    "benchmarks/harbor/configs/dev34-main-baseline-20261012/dependency-release-manifest-v5.json": "bdf3d3ef8b7743700c5294c4a511c686a3928c178a77fd4abcba90ee4557ffcc",
+    "benchmarks/harbor/configs/dev34-main-baseline-20261012/transport-v3/apt-cache.conf": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+    "benchmarks/harbor/configs/dev34-main-baseline-20261012/transport-v5/dependency-cache.compose.json": "60d778603976454bb407b8273626851357ee41489cdb0395b06dcc7aab9d151e",
+    "benchmarks/harbor/scripts/apt_index_proxy.py": "bc15f7adf1d7968d627ceca4683ab86742a7188a1b1955ba1fef37ba48e8a936",
+    "benchmarks/harbor/scripts/cache_image.py": "639709c03a7b0c3eb6aa78b4e87e6184b49b4b102853a31e33dd832d759180c0",
+    "benchmarks/harbor/scripts/run_comparison.py": "04f2106f0099a7b4d77e9206a36767f98a5e92c875ec78dd2de858c4936c12a8",
+    "benchmarks/harbor/scripts/uv_release_cache.py": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+    "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/transport-v2/dependency-cache.compose.json": "fc2c6a22fb28563171f21808cd103851c69ce02bd3aa8c8c770eea20af87f49f",
+    "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/dependency-release-manifest.json": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+    "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/python-agent-release-manifest.json": "78aecd7c397c469196f9d246a160bf1fc99ad2d51cb71320b7d26ebf839647ce"
+  },
+  "budget_policy": "Native task agent timeout minus 180 seconds, separate 1800-second setup. Native verifier per-attempt time limits; max three attempts, retry only timeouts against the same agent output.",
+  "execution_policy": "Exactly one fresh model trial for each of the six prior failures. Ascending work budget then name, consecutive pairs with concurrency two. No whole-trial retries or outcome-based replacements.",
+  "failure_policy": "Keep all setup failures and verifier errors separate from scored failures. Retain native zeros even when assertions never start, but classify them as verifier errors in analysis.",
+  "preflight_policy": "Fresh install-only checks for all six tasks before model work. All six verifier dependency profiles are not_configured; installation success does not certify verifier dependencies. Full trials repeat setup in fresh containers.",
+  "information_policy": "Reuse the exact previous baseline agent, adapter, prompt, task revisions, resources and transport configuration. Do not inject previous failure diagnoses or solutions. Freeze all six outputs before reviewing new trajectories or official test contents. Prior task/test exposure is disclosed.",
+  "scope": "Targeted exploratory rerun of the six failures in an exposed development pool after the provider model update. A single trial per task cannot isolate a checkpoint effect or establish reliability.",
+  "provider_checkpoint": {
+    "api_model": "deepseek-flash",
+    "reported_checkpoint": "DeepSeek-V4.1-Flash-1017",
+    "verification": "Official DeepSeek documentation states that deepseek-flash now serves this checkpoint. The API alias is not an immutable checkpoint pin.",
+    "sources": [
+      "https://api-docs.deepseek.com/news/news261017/",
+      "https://api-docs.deepseek.com/quick_start/agent_integrations/"
+    ],
+    "checked_at": "2026-10-18T13:16:26.524186+00:00"
+  },
+  "historical_baseline": {
+    "plan": "benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v5.json",
+    "plan_sha256": "f7bc7b329767f4b8007956462f6cdbd4407d386af493524df27ba313c0a4e4c3",
+    "runtime_source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+    "original_scores": "28/34 passed; selected six tasks all failed."
+  },
+  "protocol_amendment": {
+    "prior_plan": "experiment.json",
+    "prior_plan_sha256": "9383b05eeca74a5161ac41c05c80e2311ea3f93d4d87a70185b33c55c3587d4f",
+    "reason": "The agent installer selected the original CPython 3.13.9+20251120 archive, absent from the old cache. Slow uncached GitHub transfers prompted a pre-model transport amendment. Cache the identical archive with original release metadata, filename, size and SHA256 verification.",
+    "archive_size": 34257108,
+    "archive_sha256": "1bc9a94ab2425fb6ae58e45f69cab61647759b57895649701390822d976fa923",
+    "model_runs_started_before_amendment": 0,
+    "original_agent_adapter_and_task_sources_unchanged": true,
+    "versions_package_sources_official_tests_resources_budgets_unchanged": true,
+    "interrupted_installation_evidence": "jobs/flash1017-preflight-interruption.json",
+    "original_preflight_job": "flash1017-install-only-20261018",
+    "new_preflight_policy": "Run all six installation-only checks afresh with the amended cache manifest; retain interrupted attempts separately."
+  }
+}

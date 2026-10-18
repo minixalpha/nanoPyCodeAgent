@@ -1,0 +1,49 @@
+{
+  "source_results": "benchmarks/harbor/results/dev34-main-baseline-20261012.json",
+  "source_results_sha256": "90873385a2277776f09a37c77db390432d223b28461a892f564d24ab4f9407c3",
+  "rule": "All six raw-zero trials from the latest completed 34-task baseline; no task substitutions.",
+  "previous_trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__zWw9zAU",
+      "job": "dev34-adaptive-rejection-sampler-main-20261012",
+      "raw_reward": 0.0,
+      "classification": "scored_failure"
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__BCqJJMc",
+      "job": "dev34-db-wal-recovery-main-20261012",
+      "raw_reward": 0.0,
+      "classification": "scored_failure"
+    },
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "trial": "kv-store-grpc__pUAoWuK",
+      "job": "dev34-kv-store-grpc-main-20261012",
+      "raw_reward": 0.0,
+      "classification": "scored_failure"
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "trial": "query-optimize__ZVLSEuZ",
+      "job": "dev34-query-optimize-main-20261012",
+      "raw_reward": 0.0,
+      "classification": "scored_failure"
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "trial": "torch-pipeline-parallelism__Zr8yYNi",
+      "job": "dev34-torch-pipeline-parallelism-main-20261012",
+      "raw_reward": 0.0,
+      "classification": "scored_failure"
+    },
+    {
+      "task": "terminal-bench/regex-chess",
+      "trial": "regex-chess__g85Ci69",
+      "job": "dev34-regex-chess-main-20261012",
+      "raw_reward": 0.0,
+      "classification": "scored_failure"
+    }
+  ]
+}

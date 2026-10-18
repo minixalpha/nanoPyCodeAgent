@@ -1,0 +1,16 @@
+{
+  "registered_at": "2026-10-18T13:25:07.185006+00:00",
+  "metadata_source": "Original public GitHub release API, fetched before this registration",
+  "assets": [
+    {
+      "version": "20251120",
+      "filename": "cpython-3.13.9+20251120-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251120/cpython-3.13.9%2B20251120-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "digest": "sha256:1bc9a94ab2425fb6ae58e45f69cab61647759b57895649701390822d976fa923",
+      "size": 34257108,
+      "asset_id": 318881608,
+      "release_metadata_sha256": "705690ab2fd466e90b4c868635c529f3c7fd0cb597d399e350f399e3f3e35e6c",
+      "repository": "astral-sh/python-build-standalone"
+    }
+  ]
+}
