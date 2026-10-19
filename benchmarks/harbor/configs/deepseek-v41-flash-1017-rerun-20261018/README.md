@@ -2,13 +2,13 @@
 
 **Completed:** three passes, one scored failure, and two unscored verifier
 dependency-download errors. See the
-[final report](../../reports/deepseek-v41-flash-1017-rerun-20261018.md) and
+[final report](../../reports/en/deepseek-v41-flash-1017-rerun-20261018.md) and
 [audited results](../../results/deepseek-v41-flash-1017-rerun-20261018.json).
 The sampler and pipeline native zeros are retained as raw evidence; their
 analytical scores are null because official tests never started.
 
 This experiment selects all six failed tasks from the latest
-[34-task baseline](../../reports/dev34-main-baseline-20261012.md):
+[34-task baseline](../../reports/en/dev34-main-baseline-20261012.md):
 `adaptive-rejection-sampler`, `db-wal-recovery`, `kv-store-grpc`,
 `query-optimize`, `torch-pipeline-parallelism`, and `regex-chess`.
 The [selection](selection.json) binds the previous result file and trial IDs.

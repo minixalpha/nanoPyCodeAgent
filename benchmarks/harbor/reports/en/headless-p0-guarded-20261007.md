@@ -18,10 +18,10 @@ without selection, and all twenty guarded-candidate trials were fresh. There are
 no held-out tasks or repeat samples. A score difference on this cohort does not
 establish a stable or general capability improvement.
 
-The [structured results](../results/tb21-headless-p0-guarded-20261007.json) preserve
+The [structured results](../../results/tb21-headless-p0-guarded-20261007.json) preserve
 every trial, paired outcome, accounting limitation, integrity finding, and artifact
-hash. See the [guarded plan](../configs/headless-p0-guarded-20261007/experiment.json)
-and [reproduction instructions](../configs/headless-p0-guarded-20261007/README.md).
+hash. See the [guarded plan](../../configs/headless-p0-guarded-20261007/experiment.json)
+and [reproduction instructions](../../configs/headless-p0-guarded-20261007/README.md).
 
 ## Candidate and frozen inputs
 
@@ -223,8 +223,8 @@ reference. The candidate arm was interrupted at 15:06 UTC. All five started
 trials are preserved: **three passes, one installation failure before model work,
 and one contaminated trial cancelled during verification**. Fifteen candidate
 trials never started. These records are not replaced by or combined with the
-new candidate's outcomes. See the [original-candidate audit](../results/headless-p0-original-candidate-audit-20261007.json)
-and [original plan](../configs/headless-p0-20261007/experiment.json).
+new candidate's outcomes. See the [original-candidate audit](../../results/headless-p0-original-candidate-audit-20261007.json)
+and [original plan](../../configs/headless-p0-20261007/experiment.json).
 The abandoned arm's additional known estimated model cost is **$0.231970**;
 the installation failure made no model calls and therefore has zero inference
 cost. This extra cost is outside the comparison table above.
@@ -234,7 +234,7 @@ v0.9.0 baseline's passing pipeline trial: it downloaded the task repository,
 read the solution and evaluation tests, and ran the copied tests. Its old raw
 reward remains unchanged, but that pass is ineligible as independent-capability
 evidence. The historical **18/20 is a preserved raw score**, not a clean causal
-control for this experiment. See the [historical audit](../results/v0.9.0-pipeline-integrity-audit-20261007.json)
+control for this experiment. See the [historical audit](../../results/v0.9.0-pipeline-integrity-audit-20261007.json)
 and the annotation in the [original report](v0.9.0-baseline-20261005.md).
 A targeted scan of the other nineteen historical trajectories found no matching
 retrieval pattern; this is not an exhaustive retrospective audit.
@@ -269,10 +269,10 @@ No task name, filename, algorithm, answer, or verifier formula entered the promp
 
 The current prompt has 385 words, SHA256
 `37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d`.
-Its [single-task plan](../configs/headless-workspace-20261007/experiment.json)
+Its [single-task plan](../../configs/headless-workspace-20261007/experiment.json)
 was registered before one fresh path-tracing run from an isolated checkout.
 The run waited for a full-comparison arm to finish so concurrency stayed at most
-two. See the [follow-up evidence](../results/headless-workspace-followup-20261007.json).
+two. See the [follow-up evidence](../../results/headless-workspace-followup-20261007.json).
 
 The clarified candidate **passed** the official verifier on its first attempt.
 It disassembled the supplied executable (ATIF step 29 and subsequent reads),
@@ -315,7 +315,7 @@ then waits and kills the command session at its timeout. The guarded batching
 scheduler also ran `timeout 1500 python3 run4.py ...` and was interrupted at the
 actual 120-second tool limit.
 
-The [scaled local diagnostic](../results/headless-tool-limit-probe-20261007.json)
+The [scaled local diagnostic](../../results/headless-tool-limit-probe-20261007.json)
 uses the unchanged Bash implementation with a 0.25-second tool limit and a
 2-second workload. The problematic conditional-background form times out;
 redirecting the whole group returns immediately and its completion marker is

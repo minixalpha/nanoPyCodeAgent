@@ -1,7 +1,7 @@
 # Three additional runs per task
 
 This [predeclared plan](experiment.json) follows the earlier
-[two-task experiment](../../reports/truncation-recovery-20261005.md), which
+[two-task experiment](../../reports/en/truncation-recovery-20261005.md), which
 passed both tasks without exercising truncation recovery. Run each task three
 more times from scratch, preserving all six results. These are additional
 samples, not replacements for earlier scores.
@@ -41,5 +41,5 @@ tool execution, terminal outcome, score, and accounting completeness per trial.
 A passing trial without truncation does not demonstrate recovery effectiveness.
 
 The recorded run used checkout `382cb38413d7d5368ad1be97e85142f280172a5b`.
-See the [six-run report](../../reports/truncation-recovery-repeat3-20261005.md)
+See the [six-run report](../../reports/en/truncation-recovery-repeat3-20261005.md)
 and [structured results](../../results/tb21-truncation-recovery-repeat3-20261005.json).

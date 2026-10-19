@@ -36,7 +36,7 @@ mode continues to return to the user after a truncation.
   match preflight. Verifier timeouts alone may retry at the original per-attempt
   limit, at most three attempts on the same agent output.
 
-The [predeclared plan](../configs/truncation-recovery-20261005/experiment.json)
+The [predeclared plan](../../configs/truncation-recovery-20261005/experiment.json)
 contains the task revisions, budgets, source/config hashes, and analysis rules.
 Both install-only checks passed with the experimental agent. Both verifier
 dependency profiles explicitly report `not_configured`; installation success
@@ -60,7 +60,7 @@ There are 0 incomplete model attempts. Costs use the static
 DeepSeek price table and are not provider billing totals. Agent seconds include
 finalization overhead.
 
-The [structured results](../results/tb21-truncation-recovery-20261005.json)
+The [structured results](../../results/tb21-truncation-recovery-20261005.json)
 include both trials, preflight, source/wheel hashes, recovery-event counts,
 per-attempt verifier records, native outcomes, and usage. Raw journals,
 trajectories, and test logs remain in the referenced Git-ignored `jobs/` paths.

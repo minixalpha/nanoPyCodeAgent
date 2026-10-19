@@ -10,7 +10,7 @@ revision metadata. Its official pass is retained and the exposure is reported
 separately below. This is an already exposed development pool, not a held-out
 benchmark or a claim of evaluation without external benchmark-material access.
 
-The [machine-readable results](../results/dev34-main-baseline-20261012.json)
+The [machine-readable results](../../results/dev34-main-baseline-20261012.json)
 contain all trial identifiers, source/task/configuration provenance, native
 scores, test counts, timing, partial usage, failure diagnoses, and evidence
 hashes. Raw trajectories and logs remain local because they can contain secrets.
@@ -38,7 +38,7 @@ that main commit. No agent or prompt optimization was included.
 | Agent work | Native task timeout minus 180 seconds |
 | Verifier | Original per-attempt limit; timeout-only retries allowed, none used |
 
-The final [v5 registration](../configs/dev34-main-baseline-20261012/experiment-v5.json)
+The final [v5 registration](../../configs/dev34-main-baseline-20261012/experiment-v5.json)
 has SHA256 `f7bc7b329767f4b8007956462f6cdbd4407d386af493524df27ba313c0a4e4c3`.
 All 34 jobs installed the same wheel, SHA256
 `f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350`.
@@ -234,7 +234,7 @@ Each task had separate cache sidecars in its own network namespace, no published
 ports, no task filesystem or credential mounts, and separate CPU/memory limits.
 All 34 model trials used the final v5 transport. Details, original failure
 evidence, manifests, and network integration probes are linked from the
-[run configuration README](../configs/dev34-main-baseline-20261012/README.md).
+[run configuration README](../../configs/dev34-main-baseline-20261012/README.md).
 The supporting Harbor workflow suite passed **167 tests** before model work;
 the corresponding branch commit also passed all three CI checks.
 

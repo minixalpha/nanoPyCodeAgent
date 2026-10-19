@@ -129,9 +129,9 @@ the retry branch.
 
 ## Evidence locations
 
-- [September 12 results](../results/tb21-generation-budget-65536-20260912.json)
-- [September 14 results](../results/tb21-tool-input-recovery-20260914.json)
-- [Journal v3 protocol](../../../docs/dev_docs/en/event-journal-protocol-v3.md)
+- [September 12 results](../../results/tb21-generation-budget-65536-20260912.json)
+- [September 14 results](../../results/tb21-tool-input-recovery-20260914.json)
+- [Journal v3 protocol](../../../../docs/dev_docs/en/event-journal-protocol-v3.md)
 - Local record: `jobs/tb21-stream-recovery-targeted3-20260915-record/`
 - Local offline replay: `offline_replay.py` and `offline-replay.json` in that record
 

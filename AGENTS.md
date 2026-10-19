@@ -59,6 +59,23 @@ Do not label a document as `hand-written` unless its contents are actually
 authored and maintained by humans. For agent-authored source-of-truth documents,
 use wording such as `Chinese source` instead.
 
+### Bilingual benchmark reports
+
+Harbor benchmark reports MUST be generated and maintained in both languages:
+
+- `benchmarks/harbor/reports/en/` contains the English reports.
+- `benchmarks/harbor/reports/zh-CN/` contains complete Simplified Chinese
+  translations with the same filenames as their English counterparts.
+- When creating or updating a report, generate or refresh both versions in the
+  same change. Preserve all results, caveats, tables, evidence references,
+  identifiers, commands, and hashes across the pair; do not substitute a summary
+  for a full translation.
+- Keep relative links valid after moving or translating reports. English
+  documents should link to English reports, and Chinese documents to Chinese
+  reports; links between reports should stay in the current language.
+- Before opening or landing a PR that changes reports, verify that both
+  language versions are present and in sync, and report that status to the user.
+
 ### Bilingual research notes
 
 Research notes are bilingual:

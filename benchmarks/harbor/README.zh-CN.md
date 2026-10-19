@@ -238,6 +238,12 @@ Harbor 原生的 provider 凭证和已经配置的 base URL 也会转换为 nano
 评分也会立即停止。依赖错误耗尽尝试后抛出 `VerifierDependencyError`，保留每次
 证据并清除当前评分。默认仍只重试超时；实验计划应记录授权和实际选用的策略。
 
+## Benchmark 报告
+
+报告提供[英文](reports/en/)和[简体中文](reports/zh-CN/)两个版本，文件名一一对应。
+新增或更新报告时，应同时生成或刷新两个完整版本，保留全部结果和证据引用。
+原始运行证据保留在由 Git 忽略的 `jobs/`，机器可读结果仍放在 `results/`。
+
 ## 测试 adapter
 
 ```bash

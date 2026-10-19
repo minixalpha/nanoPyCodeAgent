@@ -3,12 +3,12 @@
 **Completed:** sampler passed all nine official tests on the first verification;
 pipeline failed two of four cases on the second verification after its first
 attempt timed out during dependency preparation. No third attempt was started.
-See the [report](../../reports/deepseek-v41-flash-1017-recovery-20261018.md) and
+See the [report](../../reports/en/deepseek-v41-flash-1017-recovery-20261018.md) and
 [audited results](../../results/deepseek-v41-flash-1017-recovery-20261018.json).
 
 The user requested another attempt on `adaptive-rejection-sampler` and
 `torch-pipeline-parallelism`, with at most three attempts. The initial
-[six-trial run](../../reports/deepseek-v41-flash-1017-rerun-20261018.md) left
+[six-trial run](../../reports/en/deepseek-v41-flash-1017-rerun-20261018.md) left
 these two tasks unscored because verifier dependencies failed to download.
 The original containers were deleted and their artifact manifests contain no
 `/app` outputs, so this is a **new model trial per task**, not a regrade of the
