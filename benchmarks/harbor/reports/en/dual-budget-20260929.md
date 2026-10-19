@@ -8,7 +8,7 @@ and PyTorch pipeline numerical correctness failed their independent verifiers;
 normal finalization did not imply task success.
 
 The complete configuration, metrics, and all retained trial rows are in the
-[public results](../results/tb21-dualbudget-fixed-provider-20260929.json), including
+[public results](../../results/tb21-dualbudget-fixed-provider-20260929.json), including
 the four superseded treatment trials. Raw evidence remains in the recorded
 Git-ignored `jobs/` directories.
 

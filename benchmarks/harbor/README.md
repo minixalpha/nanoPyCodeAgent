@@ -295,6 +295,14 @@ valid scored failures stop immediately. Exhausted dependency failures raise
 canonical reward. The default remains timeout-only; record the authorization
 and selected policy in the experiment plan.
 
+## Benchmark reports
+
+Reports are available in [English](reports/en/) and
+[Simplified Chinese](reports/zh-CN/), with matching filenames. Create or update
+both full versions together, preserving results and evidence references. Raw
+run evidence stays in Git-ignored `jobs/`; machine-readable results remain in
+`results/`.
+
 ## Test the adapter
 
 ```bash

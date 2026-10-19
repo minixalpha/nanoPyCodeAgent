@@ -119,10 +119,10 @@ Pi 最适合本项目借鉴的地方是职责划分：核心指令保持集中�
 
 | 实验 | 观察到的结果 | 对本轮研究的意义 |
 | --- | --- | --- |
-| [v0.9.0 冻结 baseline](../../../benchmarks/harbor/reports/v0.9.0-baseline-20261005.md) | 18/20；两次失败涉及输出截断等问题 | 保留原始基线，不能用后续最好结果覆盖 |
-| [首次截断恢复实验](../../../benchmarks/harbor/reports/truncation-recovery-20261005.md) | 2/2 通过，均未触发恢复 | 不能据此证明恢复策略提高通过率 |
-| [每题追加三次](../../../benchmarks/harbor/reports/truncation-recovery-repeat3-20261005.md) | 4/6 通过；全部 `completed`；唯一真实恢复继续工作并生成产物，仍未通过 verifier | 执行继续、产物存在、正常结束和语义正确是不同指标 |
-| [双预算 pilot20](../../../benchmarks/harbor/reports/dual-budget-20260929.md) | 18/20 且全部 `completed`；一项数值任务自测通过但独立验证失败，另一项准确率未达标 | 验证质量和任务解法仍有缺口；诚实承认未达标也不等于通过 |
+| [v0.9.0 冻结 baseline](../../../benchmarks/harbor/reports/zh-CN/v0.9.0-baseline-20261005.md) | 18/20；两次失败涉及输出截断等问题 | 保留原始基线，不能用后续最好结果覆盖 |
+| [首次截断恢复实验](../../../benchmarks/harbor/reports/zh-CN/truncation-recovery-20261005.md) | 2/2 通过，均未触发恢复 | 不能据此证明恢复策略提高通过率 |
+| [每题追加三次](../../../benchmarks/harbor/reports/zh-CN/truncation-recovery-repeat3-20261005.md) | 4/6 通过；全部 `completed`；唯一真实恢复继续工作并生成产物，仍未通过 verifier | 执行继续、产物存在、正常结束和语义正确是不同指标 |
+| [双预算 pilot20](../../../benchmarks/harbor/reports/zh-CN/dual-budget-20260929.md) | 18/20 且全部 `completed`；一项数值任务自测通过但独立验证失败，另一项准确率未达标 | 验证质量和任务解法仍有缺口；诚实承认未达标也不等于通过 |
 
 追加实验的两个模型提取失败主要检查可见实例；官方验证换用不同规模后暴露不完整性。开发笔记还记录了轨迹复核：通过的运行额外检查不同输入条件、模型规模和输出残差，并修复额外检查发现的问题。原始轨迹路径保存在实验的[结构化结果](../../../benchmarks/harbor/results/tb21-truncation-recovery-repeat3-20261005.json)，原始文件仍在被 Git 忽略的 `jobs/` 中。这里把该轨迹观察作为候选机制线索，不认定它是唯一因果解释，也不声称已确定两次失败的全部算法根因。
 

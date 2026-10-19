@@ -1,7 +1,7 @@
 # Bounded truncation recovery experiment
 
 The [predeclared plan](experiment.json) selects the two failures from the
-[v0.9.0 pilot20 baseline](../../reports/v0.9.0-baseline-20261005.md), with their
+[v0.9.0 pilot20 baseline](../../reports/en/v0.9.0-baseline-20261005.md), with their
 original revisions and budgets. Each task receives one fresh model run; no
 score replaces a trial in the released baseline.
 
@@ -35,6 +35,6 @@ uv run --project benchmarks/harbor python -m harbor_adapter run \
 
 Record both task scores and actual recovery events. A task that passes without
 reaching `max_tokens` does not demonstrate recovery effectiveness. The
-[experiment report](../../reports/truncation-recovery-20261005.md) and
+[experiment report](../../reports/en/truncation-recovery-20261005.md) and
 [structured results](../../results/tb21-truncation-recovery-20261005.json)
 preserve that distinction.

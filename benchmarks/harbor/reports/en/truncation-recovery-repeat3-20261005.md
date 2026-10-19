@@ -11,7 +11,7 @@ live continuation after truncation, not successful recovery of a passing score.
 
 The maintainer requested three additional runs of each previously failed task
 after the [initial two-run experiment](truncation-recovery-20261005.md) passed
-without any truncation. The [plan](../configs/truncation-recovery-repeat3-20261005/experiment.json)
+without any truncation. The [plan](../../configs/truncation-recovery-repeat3-20261005/experiment.json)
 was committed before model work, with all six jobs and their queue order fixed.
 Every job ran once in a fresh container; no outcome was replaced or retried.
 
@@ -38,7 +38,7 @@ recorded task-file hashes remained unchanged. All six native ATIF trajectories
 validate, and all six native terminal outcomes are `completed`.
 
 The six jobs ran from **2026-10-05 14:27:47 to 15:20:14 UTC**, including setup,
-model work, verification, and cleanup. The [reproduction instructions](../configs/truncation-recovery-repeat3-20261005/README.md)
+model work, verification, and cleanup. The [reproduction instructions](../../configs/truncation-recovery-repeat3-20261005/README.md)
 record the fixed schedule and standard commands.
 
 ## All six results
@@ -104,7 +104,7 @@ that task. Keep these conclusions separate from the deterministic tests of the
 once-per-run cap, partial-tool safety, and budget boundaries already recorded in
 the initial experiment.
 
-The [structured results](../results/tb21-truncation-recovery-repeat3-20261005.json)
+The [structured results](../../results/tb21-truncation-recovery-repeat3-20261005.json)
 preserve every trial, its original result/trajectory/verifier-log paths,
 per-attempt verifier records, source/artifact checks, accounting completeness,
 and the sequence of model/tool activity after recovery. Raw artifacts remain

@@ -7,7 +7,7 @@ infrastructure failures rather than model failures.
 
 The complete configuration, per-trial usage, token-estimated cost, and balance
 snapshots are in the
-[public results](../results/tb21-deepseek-official-pilot20-20260930.json). Raw
+[public results](../../results/tb21-deepseek-official-pilot20-20260930.json). Raw
 evidence remains in the recorded Git-ignored `jobs/` directories.
 
 ## Configuration

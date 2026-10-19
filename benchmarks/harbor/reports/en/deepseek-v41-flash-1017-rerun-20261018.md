@@ -15,10 +15,10 @@ are not counted as model failures.
 These are fresh, single trials of all six failures from the
 [October 12 baseline](dev34-main-baseline-20261012.md), using the same agent and
 adapter source, prompt, task revisions, resources, and work budgets. The
-[machine-readable results](../results/deepseek-v41-flash-1017-rerun-20261018.json)
+[machine-readable results](../../results/deepseek-v41-flash-1017-rerun-20261018.json)
 contain trial IDs, raw rewards, analytical scores, timing, source and artifact
 hashes, preflight history, and audit findings. The
-[final registration](../configs/deepseek-v41-flash-1017-rerun-20261018/experiment-v2.json)
+[final registration](../../configs/deepseek-v41-flash-1017-rerun-20261018/experiment-v2.json)
 has SHA256
 `9c9306f3eb17c3044987587a7329671160ee902a43c2b67be6de4f857e4c96c2`.
 
@@ -88,7 +88,7 @@ The archive's upstream size, filename, and SHA256 were verified with the
 repository's existing cache utility. All six verifier dependency profiles were
 explicitly **`not_configured`**; successful agent installation did not certify
 their verifier dependencies. The
-[configuration README](../configs/deepseek-v41-flash-1017-rerun-20261018/README.md)
+[configuration README](../../configs/deepseek-v41-flash-1017-rerun-20261018/README.md)
 documents both plans and the retained interruption evidence. Original images,
 package sources, official test scripts, resources, and verifier time limits
 were preserved.
