@@ -81,3 +81,29 @@ all 34 outputs before reviewing new trajectories or hidden-test content. Raw log
 remain local; publish derived findings and evidence hashes after review. All 34
 tasks have prior development exposure. The remaining 55 dataset tasks stay
 unopened, and this run does not isolate a model-checkpoint effect.
+
+## Host launch failures and supplemental jobs
+
+Three primary jobs failed before any native trial or model output existed:
+Git multibranch and gRPC KV store could not connect to the Harbor registry;
+log-summary date ranges could not resolve wheel build requirements because the
+PyPI TLS connection failed. The original empty summaries, logs, snapshots, and
+job records remain intact, bound by [launch evidence](launch-failure-evidence.json).
+These are host launch errors, separate from task setup, verifier errors, and
+model correctness failures.
+
+Three single-task supplemental plans register one new output for each task:
+[Git](launch-recovery-git-multibranch.json),
+[KV](launch-recovery-kv-store-grpc.json), and
+[logs](launch-recovery-log-summary-date-ranges.json).
+They use the exact same frozen main checkout, configurations, successful native
+installation evidence, images, prompt, resources, and budgets. Original jobs
+remain failed; generated outputs and scored results are never replaced.
+
+Start these plans only when the original queue reaches its final pair and one
+of those jobs has ended, leaving one free slot with no later primary jobs to
+start. Execute the three single-task plans serially through the existing
+orchestrator and standard entry point. Total task concurrency stays at two or
+fewer. All primary and supplemental outputs must freeze before new trajectory
+or official-test-content review. Report all original launch failures and the
+supplemental scheduling separately from the original fixed queue.

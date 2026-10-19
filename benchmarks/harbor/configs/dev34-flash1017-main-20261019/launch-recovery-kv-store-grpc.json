@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "registered_at": "2026-10-19T14:17:10.372710+00:00",
+  "experiment": "dev34-flash1017-main-20261019-launch-recovery-kv-store-grpc",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "provider_checkpoint": {
+    "api_model": "deepseek-flash",
+    "reported_checkpoint": "DeepSeek-V4.1-Flash-1017",
+    "verification": "Official documentation checked before execution maps deepseek-flash to this checkpoint; the API alias is not an immutable checkpoint pin.",
+    "checked_at": "2026-10-19T13:13:43.549137+00:00",
+    "sources": [
+      "https://api-docs.deepseek.com/quick_start/agent_integrations/",
+      "https://api-docs.deepseek.com/news/news261017/"
+    ]
+  },
+  "arms": {
+    "main": {
+      "source_root": "jobs/main-source",
+      "source_ref": "ce28b1e826a292d796ba64f13e79199b66f65758",
+      "prompt_file": "main-prompt.txt",
+      "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+      "prompt_words": 385
+    }
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/kv-store-grpc",
+      "ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/kv-store-grpc:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "51fdc2ad06f0adb1270164f247ea41799b2ee2ad15490e48ddbf5e79d3767aaa",
+        "environment/Dockerfile": "47c9982789092437f950736110b2bd18899c39b8fd20f3af3c95b848e564a197",
+        "instruction.md": "f4b3facc199d5b1c78db6e603ffa29ec1b93a77ff7d291e1a92b42e6bf582bed",
+        "solution/solve.sh": "6bee2938ac9731d1156b0ca02b28c3d5793bf2cbe5f995c863d397093af01cb7",
+        "task.toml": "6ff0f30a526bfff86a67b0b53439b9965229c0f368167dc1a5d05f34d82299a3",
+        "tests/test.sh": "c348467a076bf614d0a850e25b2263f85bbf7b4c7a8d344fbd5454a0611a0df8",
+        "tests/test_outputs.py": "115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e"
+      }
+    }
+  ],
+  "total_model_runs": 1,
+  "max_concurrent_trials": 2,
+  "whole_trial_retries": 0,
+  "queue": [
+    {
+      "arm": "main",
+      "repeat": 1,
+      "task": "terminal-bench/kv-store-grpc",
+      "config": "benchmarks/harbor/configs/dev34-flash1017-main-20261019/kv-store-grpc.json",
+      "config_sha256": "22c29825f0762fb05628119d5a4a47f96038c7d05058ac61de0e0b5300987e17",
+      "job_name": "dev34-1017-kv-store-grpc-launch-recovery-main-20261019"
+    }
+  ],
+  "preflight": [],
+  "selection_file": "launch-recovery-selection.json",
+  "selection_sha256": "fd63dbb557618c3e548082d6836a6f72e4ee453539898194c40ce00725968fb2",
+  "image_digests_file": "image-digests.json",
+  "log_dir": "jobs/dev34-1017-launch-recovery-kv-store-grpc-20261019-orchestration",
+  "additional_file_sha256": {
+    "benchmarks/harbor/configs/dev34-flash1017-main-20261019/dependency-release-manifest.json": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+    "benchmarks/harbor/configs/dev34-flash1017-main-20261019/apt-cache.conf": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+    "benchmarks/harbor/configs/dev34-flash1017-main-20261019/dependency-cache.compose.json": "3970b156e2f4d429d09aea068a3aab2707f21df17902235ca4423c11e881e417",
+    "benchmarks/harbor/scripts/apt_index_proxy.py": "bc15f7adf1d7968d627ceca4683ab86742a7188a1b1955ba1fef37ba48e8a936",
+    "benchmarks/harbor/scripts/cache_image.py": "639709c03a7b0c3eb6aa78b4e87e6184b49b4b102853a31e33dd832d759180c0",
+    "benchmarks/harbor/scripts/uv_release_cache.py": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+    "benchmarks/harbor/scripts/run_comparison.py": "04f2106f0099a7b4d77e9206a36767f98a5e92c875ec78dd2de858c4936c12a8",
+    "benchmarks/harbor/configs/dev34-flash1017-main-20261019/experiment.json": "d5381e807867a54a655c77f5a93c480d0be1d9f592386dc9b285726ea070dd3a",
+    "benchmarks/harbor/configs/dev34-flash1017-main-20261019/preflight-evidence.json": "4a479285131edd49b71d9c31ba5546c1846d7a14b844ba70f37ea1815f207c13",
+    "benchmarks/harbor/configs/dev34-flash1017-main-20261019/experiment-v2.json": "2a565629eab164eee1f4738bd65bac0f86e8d44017370e6ce9ca31803656ec4c",
+    "benchmarks/harbor/configs/dev34-flash1017-main-20261019/launch-failure-evidence.json": "a1d18be8c4966188926a997735e12c7bb7a76a91be02dd81162caeb3cca947aa"
+  },
+  "budget_policy": "Same as the October 12 baseline: native agent timeout minus 180 seconds, separate 1800-second setup, 100 replies, 65536 output tokens per reply. Native verifier per-attempt limits; only timeouts may retry, at most three total attempts on the same output. Temperature and reasoning effort unset.",
+  "preflight_policy": "Fresh install-only checks for all 34 tasks before any model task. QEMU has the reviewed qemu-alpine-ssh-v1 verifier profile; the other 33 are explicitly not_configured. Agent installation success does not certify unsupported verifier dependencies.",
+  "information_policy": "Review original host launch errors and operational metadata only. Freeze all primary and supplemental model outputs before any new trajectory or official-test-content review.",
+  "queue_policy": "A single-task supplemental plan. Serialize the three registered supplemental plans in git-multibranch, kv-store-grpc, log-summary-date-ranges order while using the free slot of the original final pair.",
+  "source_policy": "Agent and adapter are evaluated from a detached, unmodified checkout of the main commit observed at registration. The standard entry point independently snapshots sources and verifies each wheel.",
+  "prior_baseline": "dev34-main-baseline-20261012",
+  "scope": "One fresh model output for a dev34 task whose original job failed before any native trial existed; retain the original launch error separately. This does not retry or replace an agent output.",
+  "image_digests_sha256": "fd9abd24bcc397d172ac0ad4e3faa875a2da8c482b35651a2ab296e04c3adcc4",
+  "accepted_preflight_trials": [
+    {
+      "arm": "main",
+      "task": "terminal-bench/kv-store-grpc",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/kv-store-grpc__eYejAv7/result.json",
+      "result_sha256": "da3ba5cacef8f87048e20c8fd9446c20270caa5b663ab1dcc9fc71c9e19a4ce9",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a"
+    }
+  ],
+  "launch_gate": "Start only when the primary queue is in its final pair, one last-pair job has finished, and no earlier job remains active. Run the three supplemental single-task plans serially, keeping total active task jobs at two or fewer."
+}
