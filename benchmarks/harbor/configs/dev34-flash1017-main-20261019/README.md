@@ -1,5 +1,7 @@
 # Current-main dev34 baseline with DeepSeek Flash 1017
 
+**Completed:** 26 passes, five scored failures, and three unscored verifier errors. All 34 tasks started a fresh agent trial. See the [report](../../reports/dev34-flash1017-main-20261019.md) and [audited results](../../results/dev34-flash1017-main-20261019.json). Native zero rewards for pre-assertion verifier failures remain preserved; analytical scores are null. The CLI dependency failure followed agent-forced package installations. A passing Scheme evaluator uses a host depth-counter workaround, recorded separately.
+
 This registration runs all 34 existing development tasks once with fresh model
 outputs from current main `ce28b1e826a292d796ba64f13e79199b66f65758`. The experiment branch and its independent
 runtime checkout are separate, so recording results cannot change the evaluated
@@ -107,3 +109,5 @@ orchestrator and standard entry point. Total task concurrency stays at two or
 fewer. All primary and supplemental outputs must freeze before new trajectory
 or official-test-content review. Report all original launch failures and the
 supplemental scheduling separately from the original fixed queue.
+
+All primary and supplemental jobs completed. The six relocated OCI archives and 44 cached blobs were restored and hash-verified. Final inspection retained all 34 image identities and found no remaining task containers.
