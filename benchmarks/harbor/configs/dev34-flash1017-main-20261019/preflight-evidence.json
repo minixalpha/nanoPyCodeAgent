@@ -1,0 +1,641 @@
+{
+  "collected_at": "2026-10-19T13:44:55.714589+00:00",
+  "model_started": false,
+  "attempts": 35,
+  "successful_installations": 34,
+  "setup_failures": 1,
+  "administrative_interruptions": 0,
+  "recovery_reason": "Fresh installation-only trial after the original uv installer download failed with an astral.sh TLS connection error. Same source, task, environment, budgets, and official sources. No model or verifier execution occurred.",
+  "trials": [
+    {
+      "arm": "main",
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/adaptive-rejection-sampler__q2UYcaW/result.json",
+      "result_sha256": "47f301285fb59b6e09e01ced977a956b08927b5c362dec94ccd60c9de46461a9",
+      "bootstrap_sha256": "4c37ba0ed09649898da5700b59007b8d2e16adc7b59113adf139e8a5c66a2cec",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:15:12.636428Z",
+      "finished_at": "2026-10-19T13:16:25.741910Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/build-cython-ext",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/build-cython-ext__AcKrSeD/result.json",
+      "result_sha256": "eb91a96d979392d78cbd190808933119057ac3fe3f880b7c16edb3b4a746ee18",
+      "bootstrap_sha256": "324a224408951769384fa327b2681ea1d72a8f50bee2f713befaeab399be1f8e",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:15:12.540236Z",
+      "finished_at": "2026-10-19T13:16:08.891548Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/build-pov-ray",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/build-pov-ray__YrawpJV/result.json",
+      "result_sha256": "777bbd00ac72baf20292d65c3c600158323de04380e5b33efb074a95e2c64400",
+      "bootstrap_sha256": "0ebfd791a33d4b0978a4942b1cf9effb2a4347febb1a4ac2efa9520b1f79096e",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:16:11.491224Z",
+      "finished_at": "2026-10-19T13:17:04.626533Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/caffe-cifar-10",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/caffe-cifar-10__JtiTSgA/result.json",
+      "result_sha256": "f9b7522ee51557ee07bea2de648d6ece5ecfc9a5aca863cc29114ce6f6047776",
+      "bootstrap_sha256": "0ebfd791a33d4b0978a4942b1cf9effb2a4347febb1a4ac2efa9520b1f79096e",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:16:27.100557Z",
+      "finished_at": "2026-10-19T13:17:22.025668Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/cancel-async-tasks",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/cancel-async-tasks__abay9aV/result.json",
+      "result_sha256": "38ad7f1144c033d424a9512f1f75e449b7c11c5237ff51fbdb0fa8322be6b067",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:17:06.074938Z",
+      "finished_at": "2026-10-19T13:18:04.698437Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/circuit-fibsqrt",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/circuit-fibsqrt__SVkt6UK/result.json",
+      "result_sha256": "58451281e419ba7f796b53ac9577c54bb93d8bc4496992400dd706b6b8d367fe",
+      "bootstrap_sha256": "92f37a4e542194f29e3ed9bbb49ac8e85ed44b50d7302bed6ba53dee30b37d61",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:17:23.836052Z",
+      "finished_at": "2026-10-19T13:18:20.535668Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/cobol-modernization",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/cobol-modernization__tUc2bp6/result.json",
+      "result_sha256": "b15ce7b9d9d3d6d396b7136d53abe936f37af405a1f9575272861089dacf7d7b",
+      "bootstrap_sha256": "92f37a4e542194f29e3ed9bbb49ac8e85ed44b50d7302bed6ba53dee30b37d61",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:18:06.038349Z",
+      "finished_at": "2026-10-19T13:19:16.468335Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/constraints-scheduling",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/constraints-scheduling__wGKDyi9/result.json",
+      "result_sha256": "4b6b33f3c5b88cf535767a36a89178ee2cba1a9ec83fde223c3f5a7678c4a45e",
+      "bootstrap_sha256": "9705c14c20a581a03dadb6e7334925f68eb71992573c8b228c8c79ef0655e9e9",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:18:22.135295Z",
+      "finished_at": "2026-10-19T13:19:22.955131Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/custom-memory-heap-crash__YkCeR9M/result.json",
+      "result_sha256": "eb31be14382121d747f2c799be8916e6b317165f8882c0daa992415e5aa2d9e6",
+      "bootstrap_sha256": "b1cca4c2159275ee7676539abaf5854f9c053ddaa2a5477b3762d3e244f2a04f",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:19:17.799127Z",
+      "finished_at": "2026-10-19T13:21:04.686171Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/db-wal-recovery",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/db-wal-recovery__72Euzgt/result.json",
+      "result_sha256": "11609b4cc04662eb603584f485ab6193fa0ecd981c06f691e476d9cd0c3f785b",
+      "bootstrap_sha256": "b5e3b1241fffd9cb9c124014d0da1221f3dd38771c762332e33db42dd948a9b8",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:19:25.570501Z",
+      "finished_at": "2026-10-19T13:21:06.938778Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/dna-assembly",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/dna-assembly__oLidH7H/result.json",
+      "result_sha256": "ce78ce2f2c7327921b9cc91d327e5937f8af5efdbbe8953b23d78a356be4bc66",
+      "bootstrap_sha256": "4c37ba0ed09649898da5700b59007b8d2e16adc7b59113adf139e8a5c66a2cec",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:21:07.358307Z",
+      "finished_at": "2026-10-19T13:22:52.593972Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/fix-code-vulnerability",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/fix-code-vulnerability__zSiCJCL/result.json",
+      "result_sha256": "d54ad89483fc5d576816dab4c2d696a02cc8e5ca4f2cac908407b02a48756621",
+      "bootstrap_sha256": "b8f2c9df149283c7445145220c5cb37c36fc9acfe0b60dc3a92532845b1966cc",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:21:07.596608Z",
+      "finished_at": "2026-10-19T13:23:26.804966Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/git-multibranch",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/git-multibranch__d7USbyH/result.json",
+      "result_sha256": "a234d4227ae620016cd873293619782d1e9aab01bb772f52ce454d1e21cfd20b",
+      "bootstrap_sha256": "6dc412dac065243b61cef728ad0604dd165c861955efb831afaf2fe1f4aa2feb",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:22:54.595191Z",
+      "finished_at": "2026-10-19T13:24:20.010352Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/kv-store-grpc",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/kv-store-grpc__eYejAv7/result.json",
+      "result_sha256": "da3ba5cacef8f87048e20c8fd9446c20270caa5b663ab1dcc9fc71c9e19a4ce9",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:23:29.233529Z",
+      "finished_at": "2026-10-19T13:25:35.910272Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/llm-inference-batching-scheduler__H8UUtuL/result.json",
+      "result_sha256": "8c57cbcb6700400662fb3d9c7c6178985a6f93fc3409642893fb69060fb470f3",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:24:23.090832Z",
+      "finished_at": "2026-10-19T13:26:14.362653Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/log-summary-date-ranges",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/log-summary-date-ranges__RSkJxvq/result.json",
+      "result_sha256": "0b0916e25de82f5009edf6818ab5d2ee93f594f9281b4e0960abe4d410b4bd18",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:25:37.965528Z",
+      "finished_at": "2026-10-19T13:27:08.774851Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/merge-diff-arc-agi-task",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/merge-diff-arc-agi-task__pebzZBA/result.json",
+      "result_sha256": "1d11b6daabd37a2690bbdd77e31b435b3783c4e9ba91673b06872211b47dca91",
+      "bootstrap_sha256": "4c37ba0ed09649898da5700b59007b8d2e16adc7b59113adf139e8a5c66a2cec",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:26:16.038482Z",
+      "finished_at": "2026-10-19T13:27:47.723512Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/model-extraction-relu-logits__wLmRiqE/result.json",
+      "result_sha256": "586176ca56a1e0f1458eea7174a0dc32870fa9f829166c5da19ca1f217aa4e9b",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:27:11.096025Z",
+      "finished_at": "2026-10-19T13:29:42.496123Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/mteb-leaderboard",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/mteb-leaderboard__4fYZMaB/result.json",
+      "result_sha256": "0b881e62eec5a6ef77aef0961d09c72ffc39646ae886432f6b77e7064b9f1a1d",
+      "bootstrap_sha256": "a3d2b8905b957adcb3553196f9680346955b8f276e2915b0e3539aab45b5407e",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:27:51.419391Z",
+      "finished_at": "2026-10-19T13:29:40.621920Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/multi-source-data-merger",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/multi-source-data-merger__VEqER8d/result.json",
+      "result_sha256": "e213c89e2520ba176473e17b8e0990772af42f8657bf184375eca234a75c5f11",
+      "bootstrap_sha256": "5011ac5d6ab074bd66636cc77aae3a2d966293bcb051b929e7a9cb076f908948",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:29:41.906488Z",
+      "finished_at": "2026-10-19T13:30:36.452283Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/nginx-request-logging",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/nginx-request-logging__TK6evE9/result.json",
+      "result_sha256": "dda3b153fabea4e03d3ceef5e747e15211043055449f5cf1bccb8979e4d9684a",
+      "bootstrap_sha256": "a3e136f6dc450bc5944d3e77cf83fe313eaf3e432eed5e039bdea46131dc318b",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:29:42.751157Z",
+      "finished_at": "2026-10-19T13:30:41.480844Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/openssl-selfsigned-cert",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/openssl-selfsigned-cert__NHLRsUU/result.json",
+      "result_sha256": "bff0dcb6001fad4c06aba7e225434b0bad9ea469cc25df7793ded1aa35ab9406",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:30:37.877689Z",
+      "finished_at": "2026-10-19T13:32:15.288500Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/path-tracing",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/path-tracing__MDLwYoa/result.json",
+      "result_sha256": "441be3b43d7ad91c739f06f3aab716a44a69b9e04f52d16b1c359cf5780909bd",
+      "bootstrap_sha256": "2cdec543c50c5600582cfc3b2ebbe2f2c9d16988e065a02cf6e8e823f3a05542",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:30:41.936311Z",
+      "finished_at": "2026-10-19T13:32:04.606460Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/pypi-server",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/pypi-server__DrMvmHf/result.json",
+      "result_sha256": "b22a835c15ef8571934127f65034c95d750780d270019305556c42ea81e41fad",
+      "bootstrap_sha256": "a3e136f6dc450bc5944d3e77cf83fe313eaf3e432eed5e039bdea46131dc318b",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:32:06.232779Z",
+      "finished_at": "2026-10-19T13:33:04.331816Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/pytorch-model-cli",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/pytorch-model-cli__479me7S/result.json",
+      "result_sha256": "ed1348c5f597546163447d4beed18a66989b165f8b4a6efab6c97ecbe74c37fe",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:32:16.867688Z",
+      "finished_at": "2026-10-19T13:33:17.110191Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/pytorch-model-recovery",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/pytorch-model-recovery__QgtL4QH/result.json",
+      "result_sha256": "d0246b8672e5863312892ec3da55944e67139f4fd6fbdcf029512fb1cd300706",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:33:06.594693Z",
+      "finished_at": "2026-10-19T13:34:06.142083Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/qemu-alpine-ssh__fRwRKWY/result.json",
+      "result_sha256": "db70bcc900bcb84947f014b5cb9d80ecfcd26e81aac181b168a41efb03e72afd",
+      "bootstrap_sha256": "aaaa4fafbe6b8a8077e28cffbce3abddae4c4daa3e8fc813010552542cacc1a2",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": "qemu-alpine-ssh-v1",
+        "status": "passed"
+      },
+      "started_at": "2026-10-19T13:33:18.703941Z",
+      "finished_at": "2026-10-19T13:34:30.414138Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/query-optimize",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/query-optimize__PHokY2V/result.json",
+      "result_sha256": "86dda8afbd1df2bb80caa3bb154571396b9ce83664156badced3a3848650709b",
+      "bootstrap_sha256": "90bb56ff2a427a339bca3904e95ff8d7b2cfdca6af6af63ab01995c7c52cf240",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:34:08.137262Z",
+      "finished_at": "2026-10-19T13:36:18.370921Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/regex-chess",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/regex-chess__mSWEp4p/result.json",
+      "result_sha256": "eb3d47204a40434cde47dc3e826107bb8b866c64207ec902af99c624713a14bc",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:34:32.403884Z",
+      "finished_at": "2026-10-19T13:36:53.843699Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/regex-log",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/regex-log__m2ebsyq/result.json",
+      "result_sha256": "c12f672e7faff3bea9def494f81af8323083a7f9c4472b2b7d2adfa63d0f1014",
+      "bootstrap_sha256": "4c37ba0ed09649898da5700b59007b8d2e16adc7b59113adf139e8a5c66a2cec",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:36:21.322104Z",
+      "finished_at": "2026-10-19T13:38:04.837184Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/schemelike-metacircular-eval__nRi7rEH/result.json",
+      "result_sha256": "1597cae07207dac8b1fd030358f95e2f5c6368bdfabc265f926d69232df72782",
+      "bootstrap_sha256": "b96b882b4d82151ae41b76cba8fbc65cd511d27da8e50683be9180fb72d2e464",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_failed",
+      "exception_type": "NetworkConnectionError",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:36:55.358967Z",
+      "finished_at": "2026-10-19T13:37:45.290134Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/torch-pipeline-parallelism__vSaJRmN/result.json",
+      "result_sha256": "dee0aa434d2b82027fd8c4532b15deb9720d750654dfc27813deae804616d6f3",
+      "bootstrap_sha256": "4c37ba0ed09649898da5700b59007b8d2e16adc7b59113adf139e8a5c66a2cec",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:37:47.819341Z",
+      "finished_at": "2026-10-19T13:40:17.013593Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/torch-tensor-parallelism__LaLFMf7/result.json",
+      "result_sha256": "0cdf7bfdc1d92b38bd0d42f344854a60e887c339bc3879f35ac0d3f118f89e53",
+      "bootstrap_sha256": "4c37ba0ed09649898da5700b59007b8d2e16adc7b59113adf139e8a5c66a2cec",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:38:09.015497Z",
+      "finished_at": "2026-10-19T13:39:53.948577Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/write-compressor",
+      "result_path": "jobs/main-source/jobs/dev34-1017-install-only-main-20261019/write-compressor__TYgm2Z6/result.json",
+      "result_sha256": "320c9bb44fb28dc1acb45caf1889c66abd1d2973dea945d12ac289414d2cbae5",
+      "bootstrap_sha256": "031768ca83f80450befe1475e9f6bfc93052b2053d23aae46a188aa390a36aba",
+      "manifest_sha256": "5c9b34c5eed748a6f7ac47de5840a09941a81ba2f05579b27b5dfa52c55d5601",
+      "input_config_sha256": "92a7aa5de7a92c36cad840c53227a849c7e26e8348454b489f34c8f6887e3c7a",
+      "job": "dev34-1017-install-only-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:39:56.306661Z",
+      "finished_at": "2026-10-19T13:42:06.864705Z"
+    },
+    {
+      "arm": "main",
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "result_path": "jobs/main-source/jobs/dev34-1017-schemelike-preflight-recovery-main-20261019/schemelike-metacircular-eval__agfE5zu/result.json",
+      "result_sha256": "425babe123990ef719e9d4525782b30b8279fdca68b2a829ade7f94d4ea5afff",
+      "bootstrap_sha256": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+      "manifest_sha256": "8d355368404fbe99e2d8cc0baf9d36b0127f957d94d8c3aa318a087c67e019fd",
+      "input_config_sha256": "43327ff3a8de9865142362a0df3b8c4602a5713119c834843bc5a9acbab44b5c",
+      "job": "dev34-1017-schemelike-preflight-recovery-main-20261019",
+      "classification": "setup_passed",
+      "exception_type": null,
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "started_at": "2026-10-19T13:42:31.563242Z",
+      "finished_at": "2026-10-19T13:44:17.830597Z"
+    }
+  ]
+}

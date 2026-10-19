@@ -7,7 +7,7 @@ source. Historical scores and outputs remain separate.
 
 ## Frozen inputs and limits
 
-- [Plan](experiment.json): source, model mapping, task and infrastructure hashes,
+- [Active plan](experiment-v2.json): source, model mapping, task and infrastructure hashes,
   budgets, installation preflight, and the complete fixed queue.
 - [Selection](selection.json): the unchanged dev34 pool and pinned task revisions.
 - [Prompt](main-prompt.txt): current main's 385-word headless prompt.
@@ -37,6 +37,23 @@ same output and original per-attempt limits. Dependency-error recovery remains
 disabled. Setup failures and verifier errors are recorded separately from scored
 failures; a zero without executed assertions is analytically unscored.
 
+## Installation preflight history
+
+All 34 tasks now have fresh, successful native installation-only records from
+this frozen checkout. The first batch completed 33 installations and recorded
+one `NetworkConnectionError`: TLS failed while downloading the unchanged
+`https://astral.sh/uv/0.9.11/install.sh` script for the Scheme evaluator. A new,
+separately named installation-only trial for that task succeeded. No model or
+official verifier ran during either preflight job.
+
+The [original registration](experiment.json) and all 35 attempts remain intact.
+[Native evidence](preflight-evidence.json) binds all results, bootstrap records,
+source manifests, and input configurations by hash. The active v2 plan accepts
+exactly one successful native record per task through the existing strict
+orchestrator checks. Model configurations, task revisions, environment transport,
+source, budgets, and timeout-only verifier policy remain unchanged. QEMU's
+registered verifier profile passed; the other 33 remain `not_configured`.
+
 ## Execute
 
 From this experiment worktree's repository root, supply credentials through the
@@ -45,11 +62,11 @@ and leave `ANTHROPIC_MODEL` and `ANTHROPIC_MAX_TOKENS` unset.
 
 ```bash
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-flash1017-main-20261019/experiment.json \
+  --plan benchmarks/harbor/configs/dev34-flash1017-main-20261019/experiment-v2.json \
   --phase preflight
 
 python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/dev34-flash1017-main-20261019/experiment.json \
+  --plan benchmarks/harbor/configs/dev34-flash1017-main-20261019/experiment-v2.json \
   --phase model
 ```
 
