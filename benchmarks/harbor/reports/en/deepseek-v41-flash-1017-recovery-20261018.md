@@ -19,14 +19,14 @@ original containers had been deleted and their artifact manifests held no
 It does not regrade or prove correctness of the original unscored submissions.
 Those results and frozen artifacts remain unchanged.
 
-The [registered plan](../configs/deepseek-v41-flash-1017-recovery-20261018/experiment.json)
+The [registered plan](../../configs/deepseek-v41-flash-1017-recovery-20261018/experiment.json)
 has SHA256
 `7ba0d4083cbc856a364417bc51025a8bd84434eb39319927664bfb4c018fba9d`.
-The [audited results](../results/deepseek-v41-flash-1017-recovery-20261018.json)
+The [audited results](../../results/deepseek-v41-flash-1017-recovery-20261018.json)
 retain trial IDs, all verifier attempts, actual pytest and native CTRF counts,
 source and wheel hashes, preserved-output hashes, authorization, and preflight
 and exposure findings. The
-[configuration README](../configs/deepseek-v41-flash-1017-recovery-20261018/README.md)
+[configuration README](../../configs/deepseek-v41-flash-1017-recovery-20261018/README.md)
 documents execution and local evidence paths.
 
 Both fresh model trials used `deepseek/deepseek-flash` against the official

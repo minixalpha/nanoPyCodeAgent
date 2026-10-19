@@ -8,7 +8,7 @@ The other 55 tasks are left unopened by this experiment.
 
 Completed result: **10/12 passed**, with two scored correctness failures and no
 final setup or verifier errors. See the
-[baseline report](../../reports/dev12-main-baseline-20261011.md) and
+[baseline report](../../reports/en/dev12-main-baseline-20261011.md) and
 [machine-readable evidence](../../results/dev12-main-baseline-20261011.json).
 
 The runtime is main at `2eb99b608dfb39464d17d109a4a8f11afda607a9`, isolated in

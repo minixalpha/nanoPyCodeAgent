@@ -33,9 +33,9 @@ shares its unproven assumption. More self-tests alone would not address either.
   setup has a separate 1,800-second allowance. Original verifier limits remain
   unchanged, with at most three attempts and only timeouts permitting a retry.
 
-[Selection and configuration](../configs/dev12-baseline-20261011/README.md),
-[active plan](../configs/dev12-baseline-20261011/experiment-v3.json), and
-[machine-readable results](../results/dev12-main-baseline-20261011.json) contain
+[Selection and configuration](../../configs/dev12-baseline-20261011/README.md),
+[active plan](../../configs/dev12-baseline-20261011/experiment-v3.json), and
+[machine-readable results](../../results/dev12-main-baseline-20261011.json) contain
 the revisions, budgets, artifact hashes, metrics, and post-run diagnosis.
 
 ## Results
@@ -137,8 +137,8 @@ choice. Label accuracy should not substitute for behavioral equivalence.
 The original install-only preflight had five successes, six image-pull/start
 errors, and one APT setup timeout. The second had eleven successes and one
 partial uv download. Both complete histories remain in the
-[first](../configs/dev12-baseline-20261011/preflight-v1-evidence.json) and
-[second](../configs/dev12-baseline-20261011/preflight-v2-evidence.json) evidence
+[first](../../configs/dev12-baseline-20261011/preflight-v1-evidence.json) and
+[second](../../configs/dev12-baseline-20261011/preflight-v2-evidence.json) evidence
 files. These eight preflight failures are separate from the twelve scored
 trials.
 

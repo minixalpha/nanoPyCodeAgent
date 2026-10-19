@@ -6,7 +6,7 @@ the common eligible result is **18/19 versus 17/19**, with one improvement
 (`regex-chess`), no observed regression, and one shared failure (pipeline).
 Both arms have zero unscored trials. Estimated model cost rises 30.3% and summed
 agent time rises 21.6%. This is one adaptive exploratory run per task and arm.
-See the [full report](../../reports/headless-p0-guarded-20261007.md) and
+See the [full report](../../reports/en/headless-p0-guarded-20261007.md) and
 [structured evidence](../../results/tb21-headless-p0-guarded-20261007.json).
 
 This [revised plan](experiment.json) evaluates the P0 contract/verification

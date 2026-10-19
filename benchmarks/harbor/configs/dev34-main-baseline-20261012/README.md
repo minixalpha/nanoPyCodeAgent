@@ -8,7 +8,7 @@ none of their model outputs or rewards count toward this run.
 
 **Completed:** 28/34 passed (82.35%), with six scored failures, zero model-phase
 setup errors, zero verifier errors, and no verifier retries. See the
-[final report](../../reports/dev34-main-baseline-20261012.md) and
+[final report](../../reports/en/dev34-main-baseline-20261012.md) and
 [audited results](../../results/dev34-main-baseline-20261012.json).
 One passing tensor-parallelism trial accessed external benchmark revision
 metadata; its raw score is retained with a separate exposure flag.
