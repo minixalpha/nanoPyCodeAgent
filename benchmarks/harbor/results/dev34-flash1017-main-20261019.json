@@ -4810,5 +4810,14 @@
     "restoration_hashes_verified": true,
     "scope": "Duplicate host OCI archives and image blobs only; original Docker images, task inputs, package sources, and verifier scripts unchanged.",
     "evidence_sha256": "2ae38631745ea71f3f08756eb1f04a2af6592b2f934f7d290fa3b04c47320e7b"
+  },
+  "documentation_sync": {
+    "main_ref": "8f85809e7e0270bfe646f0b175707adc835daca4",
+    "agent_and_adapter_python_unchanged": true,
+    "reports": {
+      "en": "benchmarks/harbor/reports/en/dev34-flash1017-main-20261019.md",
+      "zh-CN": "benchmarks/harbor/reports/zh-CN/dev34-flash1017-main-20261019.md"
+    },
+    "both_language_versions_in_sync": true
   }
 }
