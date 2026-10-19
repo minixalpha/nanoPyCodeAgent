@@ -1,0 +1,25 @@
+{
+  "observed_at": "2026-10-18T13:16:26.429384+00:00",
+  "all_match_previous_baseline": true,
+  "images": [
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
+      "repo_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "size_bytes": 29725531
+    },
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "image_id": "sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f",
+      "repo_digests": [
+        "alexgshaw/adaptive-rejection-sampler@sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f"
+      ],
+      "size_bytes": 29731756
+    }
+  ],
+  "source_observation": "Same original identities verified before and after the initial six-trial run."
+}

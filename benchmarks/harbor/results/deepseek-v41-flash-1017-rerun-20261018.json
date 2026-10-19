@@ -1,0 +1,1211 @@
+{
+  "schema_version": 1,
+  "experiment": "deepseek-v41-flash-1017-rerun-20261018",
+  "collected_at": "2026-10-18T14:09:40.003848+00:00",
+  "cohort": "six_previous_failures_from_existing_34_task_development_pool",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "runtime_source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+  "plan_path": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/experiment-v2.json",
+  "plan_sha256": "9c9306f3eb17c3044987587a7329671160ee902a43c2b67be6de4f857e4c96c2",
+  "model_output_freeze": {
+    "observed_at": "2026-10-18T14:09:39.938135+00:00",
+    "plan_path": "benchmarks/harbor/configs/deepseek-v41-flash-1017-rerun-20261018/experiment-v2.json",
+    "plan_sha256": "9c9306f3eb17c3044987587a7329671160ee902a43c2b67be6de4f857e4c96c2",
+    "runtime_source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+    "boundary": "All six queued native trials ended before new trajectory or hidden-test content review. Setup errors, if any, have no model output and remain separate.",
+    "trials": [
+      {
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trial": "adaptive-rejection-sampler__Bim6vqF",
+        "finished_at": "2026-10-18T13:46:54.802088Z",
+        "model_started": true,
+        "trajectory_sha256": "df034659657412897dda47cec614b6d0b803904e5a8651e72eded8b1183aeb34",
+        "raw_rewards": {
+          "reward": 0.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-adaptive-rejection-sampler-20261018.json": "de95b04d9d0e73c76de3a36e507d39fc2f6e9ef4e6adbd873fa6fee4b8939785",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/agent/bootstrap.json": "fcebfd336f1b466235db7c3fe8ba5ab12f89adf5748f461affa9f8ab75ebc7a6",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/agent/nanopycodeagent.txt": "ef9164ce3172461c2a71bcb8f9c8ea1068131693c51daf293576bc16efba93e7",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/agent/trajectory.json": "df034659657412897dda47cec614b6d0b803904e5a8651e72eded8b1183aeb34",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/config.json": "b972b206adf474688083b92425631dd1c70300b01690c24e99d7f7e0134c965b",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/lock.json": "1792b7a3b658f4cf272e44f902f584e9ad9b4070ef331b41e03bf8e26152d27e",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/result.json": "c57278943fe30ca5f82d9cf68ffa0ee0bdda61612b4e8e9a3ac4b278d8b19337",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/trial.log": "5f1050a5bc4629de43f0dfbfb4df3e53486deaea3acb4fac98e366700e89719b",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/attempts/1/test-stdout.txt": "9910c1025fef05f9ee04ff45a0364ffc8d88c7a159ad65b40992444fbbd164ad",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/retry-summary.json": "b70d48f409e1b4b4e89e921302518c03904dcb6304c481ea4054a8b0b9bdaa89",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/test-stdout.txt": "9910c1025fef05f9ee04ff45a0364ffc8d88c7a159ad65b40992444fbbd164ad"
+        }
+      },
+      {
+        "task": "terminal-bench/db-wal-recovery",
+        "trial": "db-wal-recovery__iXi6Qjy",
+        "finished_at": "2026-10-18T13:31:54.497971Z",
+        "model_started": true,
+        "trajectory_sha256": "cc05c9b3c5f217e4067348143b8824495029f8394d450b92273fde2d839bad19",
+        "raw_rewards": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-db-wal-recovery-20261018.json": "aba7a7e2b507d135aad4cc372617e704dd533e1317e98199ab7c1bf5f92c493e",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/agent/bootstrap.json": "51366101df4e7f6425f8fe241b10713287e6f89274173cba25c6ffe708d61dc3",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/agent/nanopycodeagent.txt": "1e5138fd52619c17dc98a132a6b3f5955d05fc9792cc57a2bc1150a3e80ee9cb",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/agent/trajectory.json": "cc05c9b3c5f217e4067348143b8824495029f8394d450b92273fde2d839bad19",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/config.json": "d88662c669c196d97b3c77a39bbd7d6a10313757b46860feb2258dc4cd40a7c2",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/lock.json": "2d54030d3f9476b33afbe16bf6395230b174e3b248036e76b04fb7ef192b5834",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/result.json": "0a0bfb5de1b212e41bb17b328994f31208ce0eb587151267ca5686b412adb86b",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/trial.log": "331fe02968e34e1c0cecfbf532a32dc552ccdf4232a28c9bc0a0cb266d41c5eb",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/attempts/1/ctrf.json": "c276c93a192d5ea8078837a7adce56070d661dc2b9cfefe18d63e0ea4746a365",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/attempts/1/test-stdout.txt": "f6502d849c96dabb43cda87d0b8d453fb11f08d3a7e28137fbc0c25c4baa030b",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/ctrf.json": "c276c93a192d5ea8078837a7adce56070d661dc2b9cfefe18d63e0ea4746a365",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/retry-summary.json": "917b2a0fdfccb2017728dc353860862d45fe1bc59c97fa2547d20eb371fa7656",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/test-stdout.txt": "f6502d849c96dabb43cda87d0b8d453fb11f08d3a7e28137fbc0c25c4baa030b"
+        }
+      },
+      {
+        "task": "terminal-bench/kv-store-grpc",
+        "trial": "kv-store-grpc__4TFUA4j",
+        "finished_at": "2026-10-18T13:54:26.858875Z",
+        "model_started": true,
+        "trajectory_sha256": "71d056ce715961081a775ca4461ae1e6cc278fb124dedcea3261e410f7da9264",
+        "raw_rewards": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-kv-store-grpc-20261018.json": "07372fed21de0bfce73dee8b5a71a592be1ae2c5b8ad1db78b5382d2a42cd2a0",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/agent/bootstrap.json": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/agent/nanopycodeagent.txt": "bbabb30397f5ef5da2ea434aca3c1ed9d5ebaa39583585e73cc030801faa315e",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/agent/trajectory.json": "71d056ce715961081a775ca4461ae1e6cc278fb124dedcea3261e410f7da9264",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/config.json": "93a23d07f2b21646fab7cf47ca38b5fa46c1f58f445e82360d3dadc9c3eedb64",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/lock.json": "3b059c7147009b9eb88fa82bc54c4dd131b04163255a02742140b95db77ca9a7",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/result.json": "81a490fc5dc6b51fc898db40a6f6d678d01575f9da353baf3ffa012c400cfd42",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/trial.log": "786c8e5d96f1ff6e98e74b79d218027a9cd136a89a5ca65e211951fad0cf74a8",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/attempts/1/ctrf.json": "d4239ddd3b1d9eec2aac414a8fd6cace832f0c854e6a09f36c67ac7d269a1e01",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/attempts/1/test-stdout.txt": "bc35e4c8cb26c8751d4f863cc24d30bab201e4eb17ddb3ff2e4bb5a826bc8986",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/ctrf.json": "d4239ddd3b1d9eec2aac414a8fd6cace832f0c854e6a09f36c67ac7d269a1e01",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/retry-summary.json": "3fc4da194d0fdde7d6e00f0eb458186f5e5746eb62b0bce74d9734403e513e3d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/test-stdout.txt": "bc35e4c8cb26c8751d4f863cc24d30bab201e4eb17ddb3ff2e4bb5a826bc8986"
+        }
+      },
+      {
+        "task": "terminal-bench/query-optimize",
+        "trial": "query-optimize__ioRN6AM",
+        "finished_at": "2026-10-18T13:55:27.515015Z",
+        "model_started": true,
+        "trajectory_sha256": "126b264a80801d55a7546d651b619c8b35d3b19c05a1639b3b01c1a4478e6094",
+        "raw_rewards": {
+          "reward": 1.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-query-optimize-20261018.json": "ac61d4144c34cd9e5b698332360a09d161d53213ffdfab0b11e955ef6807fdb1",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/agent/bootstrap.json": "4a93e54276aa8f2cc86d505dad8f483806c983d5c140d69bb855ed60c1cd32b6",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/agent/nanopycodeagent.txt": "65c651a52e18f1354c47b506be980d39cd2ce8c0660a8000b97c1404a74fa435",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/agent/trajectory.json": "126b264a80801d55a7546d651b619c8b35d3b19c05a1639b3b01c1a4478e6094",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/config.json": "099122689c4c6a00d300285a2efe5ec43259762ed8bc106988dc3327fc162563",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/lock.json": "53d10aefdfebbcb1070f1c9fbbbdb83c96c73d870a6a76db1653dfe25d0fc1be",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/result.json": "4c67b5595e3129d4ac1cabe5c7b4765fe4dad0c1c40a472db78e232d102d327b",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/trial.log": "5bd01f98bd6b0cd4684ced0582ec10d90c9456f262e332feb01fc3690a4f43f6",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/attempts/1/ctrf.json": "476de5d9485e1e00b2ad4be31fce52726cd533e914d84678ddaad969b354186d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/attempts/1/test-stdout.txt": "f23f9656c0e03ae2f2a33a6fa7d4d3c09a6cca9f12c8275c3d9f7fd4c3cd2632",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/ctrf.json": "476de5d9485e1e00b2ad4be31fce52726cd533e914d84678ddaad969b354186d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/retry-summary.json": "81defcbe259dbe4add5d866536697ec0487aa00ab1fec5c7b47b044779ee90ae",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/test-stdout.txt": "f23f9656c0e03ae2f2a33a6fa7d4d3c09a6cca9f12c8275c3d9f7fd4c3cd2632"
+        }
+      },
+      {
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "trial": "torch-pipeline-parallelism__q96EdZw",
+        "finished_at": "2026-10-18T14:09:27.485651Z",
+        "model_started": true,
+        "trajectory_sha256": "b62861207ac59c1440f3f53327dd0807d0c285a6880b38e82b255b1c4b95358e",
+        "raw_rewards": {
+          "reward": 0.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-torch-pipeline-parallelism-20261018.json": "a831faf281a4035fb80fda236ebc3e9f4cf2ad969ecf7026c88085f7b529118a",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/agent/bootstrap.json": "fcebfd336f1b466235db7c3fe8ba5ab12f89adf5748f461affa9f8ab75ebc7a6",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/agent/nanopycodeagent.txt": "8bcd1e4a7a01d1532a4c0fd81d1fdef340aea3a3b1255ba68b156fb2f43326df",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/agent/trajectory.json": "b62861207ac59c1440f3f53327dd0807d0c285a6880b38e82b255b1c4b95358e",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/config.json": "1d2e5b78495ca7eb5c7d0d0b1dc1026610467f7b146492f767c9b52ad63d05b7",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/lock.json": "9a4647a5911abb58b20f8de8f23b95c10af20241eb50a33e188bb1af430afed1",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/result.json": "0a4eb83eb1dca3a6bbcfd74cdf3865e36d7ebcd113662394522b73e36b5dd9d0",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/trial.log": "0da597fa9cfbd01ca30021dd0b518d99d7ea6615bcf88d03a6f10bb0d3236e24",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/attempts/1/test-stdout.txt": "553b6078d900c0f346061308b0cac3010f0e4231fa68df5741422951d2b55293",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/retry-summary.json": "ca8c4424c03a7ef529e0e8076622048fd016df1b4a3ead75d7faf94fab6f6f2f",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/test-stdout.txt": "553b6078d900c0f346061308b0cac3010f0e4231fa68df5741422951d2b55293"
+        }
+      },
+      {
+        "task": "terminal-bench/regex-chess",
+        "trial": "regex-chess__BbMPdq7",
+        "finished_at": "2026-10-18T14:08:19.573882Z",
+        "model_started": true,
+        "trajectory_sha256": "c2c4272da108a1288c8ac0659c1fd4602bfddec009dd6394b4199085b72d95f5",
+        "raw_rewards": {
+          "reward": 0.0
+        },
+        "exception_type": null,
+        "files": {
+          "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-regex-chess-20261018.json": "9257870036a57a2b99937edfcac5fceb3d5ccd020f6266f799c16fb0a3e64458",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/agent/bootstrap.json": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/agent/nanopycodeagent.txt": "d5469e3e71ed9379e67ea53c31f938ac02e393bac9d262ed001e20edb0ce2880",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/agent/trajectory.json": "c2c4272da108a1288c8ac0659c1fd4602bfddec009dd6394b4199085b72d95f5",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/config.json": "5646757537b53bd73c27d4bfb5976a7897750b8ff6c5ee8e10dc5258c3387084",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/lock.json": "25fb9f9020944b5515ff1abd1911a16dbbc6a297eca9974291c030301d73081b",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/result.json": "a77fe9b3aefafbd0898f517394289d60ece1c7d044d290eaa537e9a91dad28ae",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/trial.log": "ef21738d5435b0a881ea5555e88d382a711f8103dbd9e6e66f1d08c0d635ed14",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/attempts/1/ctrf.json": "1c6d5890a24a89e28193baa90caa33bcfc43aa63716511807d71df7b6152c12a",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/attempts/1/test-stdout.txt": "52c9df468950afcf550257d9866293ce7156da67c10d162f505cab682d599279",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/ctrf.json": "1c6d5890a24a89e28193baa90caa33bcfc43aa63716511807d71df7b6152c12a",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/retry-summary.json": "f43790b8b976ec87f3666a9e94bd4b06cf1a8557d8549eb9fc107a4cf5fa94f0",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/test-stdout.txt": "52c9df468950afcf550257d9866293ce7156da67c10d162f505cab682d599279"
+        }
+      }
+    ]
+  },
+  "integrity": {
+    "registration_unchanged": true,
+    "plan_source_prompt_configs_tasks_unchanged": true,
+    "verified_preflight_tasks": 6,
+    "source_snapshots_verified": 6,
+    "wheel_digests_verified": 6,
+    "frozen_native_trial_artifacts_verified": 6,
+    "queue_pair_barriers_verified": true,
+    "whole_model_trial_retries": 0,
+    "outcome_based_replacements": 0
+  },
+  "aggregate": {
+    "trials": 6,
+    "models_started": 6,
+    "raw_passes": 3,
+    "raw_zeros": 3,
+    "classifications": {
+      "verifier_error": 2,
+      "scored_pass": 3,
+      "scored_failure": 1
+    },
+    "verifier_timeout_retries": 0,
+    "estimated_known_cost_usd": 0.374230884,
+    "cost_complete": true,
+    "usage_incomplete_tasks": [],
+    "recorded_tokens": {
+      "prompt_tokens": 2509747,
+      "completion_tokens": 288510,
+      "cached_tokens": 2465664
+    },
+    "summed_stage_seconds": {
+      "environment_setup": 12.846128,
+      "agent_setup": 227.443329,
+      "agent_execution": 2553.69249,
+      "verifier": 826.736545
+    },
+    "model_job_wall_seconds": 2404.499523,
+    "valid_scored_trials": 4,
+    "scored_passes": 3,
+    "scored_failures": 1,
+    "verifier_errors": 2,
+    "setup_errors_in_model_phase": 0,
+    "native_raw_zeros_include_verifier_errors": true,
+    "official_pytest_counts": {
+      "collected": 24,
+      "passed": 20,
+      "failed": 4,
+      "skipped": 0,
+      "error": 0
+    }
+  },
+  "trials": [
+    {
+      "order": 1,
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "task_ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "trial": "adaptive-rejection-sampler__Bim6vqF",
+      "job": "flash1017-adaptive-rejection-sampler-20261018",
+      "raw_reward": 0.0,
+      "classification": "verifier_error",
+      "exception_type": null,
+      "official_test_summary": null,
+      "started_at": "2026-10-18T13:29:24.154763Z",
+      "finished_at": "2026-10-18T13:46:54.802088Z",
+      "seconds": {
+        "environment_setup": 2.099497,
+        "agent_setup": 37.036393,
+        "agent_execution": 627.580774,
+        "verifier": 362.621739
+      },
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "duration_seconds": 362.9866722779989,
+          "return_code": 0
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "completed",
+      "recorded_agent_steps": 23,
+      "tool_calls": 23,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 1012326,
+          "completion_tokens": 79009,
+          "cached_tokens": 1002752
+        },
+        "estimated_known_cost_usd": 0.103699512
+      },
+      "task_checksum": "a4726253ad23c3fc46b5cb9c3d21025874e367b18643a3920f636a1fa89e1207",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-adaptive-rejection-sampler-20261018.json": "de95b04d9d0e73c76de3a36e507d39fc2f6e9ef4e6adbd873fa6fee4b8939785",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/agent/bootstrap.json": "fcebfd336f1b466235db7c3fe8ba5ab12f89adf5748f461affa9f8ab75ebc7a6",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/agent/nanopycodeagent.txt": "ef9164ce3172461c2a71bcb8f9c8ea1068131693c51daf293576bc16efba93e7",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/agent/trajectory.json": "df034659657412897dda47cec614b6d0b803904e5a8651e72eded8b1183aeb34",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/config.json": "b972b206adf474688083b92425631dd1c70300b01690c24e99d7f7e0134c965b",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/lock.json": "1792b7a3b658f4cf272e44f902f584e9ad9b4070ef331b41e03bf8e26152d27e",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/result.json": "c57278943fe30ca5f82d9cf68ffa0ee0bdda61612b4e8e9a3ac4b278d8b19337",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/trial.log": "5f1050a5bc4629de43f0dfbfb4df3e53486deaea3acb4fac98e366700e89719b",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/attempts/1/test-stdout.txt": "9910c1025fef05f9ee04ff45a0364ffc8d88c7a159ad65b40992444fbbd164ad",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/retry-summary.json": "b70d48f409e1b4b4e89e921302518c03904dcb6304c481ea4054a8b0b9bdaa89",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018/adaptive-rejection-sampler__Bim6vqF/verifier/test-stdout.txt": "9910c1025fef05f9ee04ff45a0364ffc8d88c7a159ad65b40992444fbbd164ad",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018-input/manifest.json": "0e088e72039a3c6ab83f477fdb17fe08df4866f9269bef6ad1d1cab289f60177",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018-input/config.json": "0116a0a6f7072afe48d16bf7043c152c10126872eddc33606c7214956d16bc69",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-adaptive-rejection-sampler-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "previous_baseline": {
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trial": "adaptive-rejection-sampler__zWw9zAU",
+        "job": "dev34-adaptive-rejection-sampler-main-20261012",
+        "raw_reward": 0.0,
+        "classification": "scored_failure"
+      },
+      "official_pytest_summary": {
+        "executed": false,
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": null,
+        "source": "verifier/test-stdout.txt"
+      },
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "credential_observation_steps": []
+      },
+      "score": null,
+      "infrastructure_failure": {
+        "stage": "verifier_dependency_installation",
+        "kind": "download_timeout",
+        "dependency": "numpy==2.3.3",
+        "official_assertions_started": false,
+        "native_reward_preserved": 0.0,
+        "native_exception_type": null,
+        "retry_eligible": false,
+        "reason": "Dependency download failed before pytest started. The original wrapper returned reward zero without a Harbor exception. The verifier attempt itself did not time out, so timeout-only retry policy does not permit another attempt."
+      },
+      "agent_output_note": "The model submitted /app/ars.R and ran its own R tests; official correctness remains unverified."
+    },
+    {
+      "order": 2,
+      "task": "terminal-bench/db-wal-recovery",
+      "task_ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "trial": "db-wal-recovery__iXi6Qjy",
+      "job": "flash1017-db-wal-recovery-20261018",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception_type": null,
+      "official_test_summary": {
+        "tests": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1792330293.4841444,
+        "stop": 1792330293.5027974
+      },
+      "started_at": "2026-10-18T13:29:22.986128Z",
+      "finished_at": "2026-10-18T13:31:54.497971Z",
+      "seconds": {
+        "environment_setup": 2.229671,
+        "agent_setup": 35.811538,
+        "agent_execution": 76.170112,
+        "verifier": 16.120535
+      },
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "duration_seconds": 15.898172123997938,
+          "return_code": 0
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "completed",
+      "recorded_agent_steps": 14,
+      "tool_calls": 20,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 178023,
+          "completion_tokens": 13271,
+          "cached_tokens": 167424
+        },
+        "estimated_known_cost_usd": 0.020109444
+      },
+      "task_checksum": "c18abdc4fdc3a01bf374c55a9700708fe6a9662077d29db81abb692f0a3c5f6f",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-db-wal-recovery-20261018.json": "aba7a7e2b507d135aad4cc372617e704dd533e1317e98199ab7c1bf5f92c493e",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/agent/bootstrap.json": "51366101df4e7f6425f8fe241b10713287e6f89274173cba25c6ffe708d61dc3",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/agent/nanopycodeagent.txt": "1e5138fd52619c17dc98a132a6b3f5955d05fc9792cc57a2bc1150a3e80ee9cb",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/agent/trajectory.json": "cc05c9b3c5f217e4067348143b8824495029f8394d450b92273fde2d839bad19",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/config.json": "d88662c669c196d97b3c77a39bbd7d6a10313757b46860feb2258dc4cd40a7c2",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/lock.json": "2d54030d3f9476b33afbe16bf6395230b174e3b248036e76b04fb7ef192b5834",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/result.json": "0a0bfb5de1b212e41bb17b328994f31208ce0eb587151267ca5686b412adb86b",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/trial.log": "331fe02968e34e1c0cecfbf532a32dc552ccdf4232a28c9bc0a0cb266d41c5eb",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/attempts/1/ctrf.json": "c276c93a192d5ea8078837a7adce56070d661dc2b9cfefe18d63e0ea4746a365",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/attempts/1/test-stdout.txt": "f6502d849c96dabb43cda87d0b8d453fb11f08d3a7e28137fbc0c25c4baa030b",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/ctrf.json": "c276c93a192d5ea8078837a7adce56070d661dc2b9cfefe18d63e0ea4746a365",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/retry-summary.json": "917b2a0fdfccb2017728dc353860862d45fe1bc59c97fa2547d20eb371fa7656",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018/db-wal-recovery__iXi6Qjy/verifier/test-stdout.txt": "f6502d849c96dabb43cda87d0b8d453fb11f08d3a7e28137fbc0c25c4baa030b",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018-input/manifest.json": "f0274834b2015c69c3ed58125e05b21e9e93eabcd1f5ddb73e074b3a33cbbc03",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018-input/config.json": "b1f07d918c5026c0567b948a886636c68078e8757f1fd234b6467328a920a0f3",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-db-wal-recovery-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "previous_baseline": {
+        "task": "terminal-bench/db-wal-recovery",
+        "trial": "db-wal-recovery__BCqJJMc",
+        "job": "dev34-db-wal-recovery-main-20261012",
+        "raw_reward": 0.0,
+        "classification": "scored_failure"
+      },
+      "official_pytest_summary": {
+        "executed": true,
+        "collected": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": "============================== 7 passed in 0.02s ===============================",
+        "source": "verifier/test-stdout.txt"
+      },
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "credential_observation_steps": []
+      },
+      "score": 1.0
+    },
+    {
+      "order": 3,
+      "task": "terminal-bench/kv-store-grpc",
+      "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "trial": "kv-store-grpc__4TFUA4j",
+      "job": "flash1017-kv-store-grpc-20261018",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception_type": null,
+      "official_test_summary": {
+        "tests": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1792331645.8044658,
+        "stop": 1792331645.8659093
+      },
+      "started_at": "2026-10-18T13:47:03.465276Z",
+      "finished_at": "2026-10-18T13:54:26.858875Z",
+      "seconds": {
+        "environment_setup": 2.121689,
+        "agent_setup": 43.168861,
+        "agent_execution": 304.229454,
+        "verifier": 72.677772
+      },
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "duration_seconds": 72.45762456799275,
+          "return_code": 0
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "completed",
+      "recorded_agent_steps": 16,
+      "tool_calls": 17,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 107418,
+          "completion_tokens": 5776,
+          "cached_tokens": 101504
+        },
+        "estimated_known_cost_usd": 0.009314424
+      },
+      "task_checksum": "901a4dd5c3078d5155043875a0d07f3583f462c73f919b52855c025e680b1edd",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-kv-store-grpc-20261018.json": "07372fed21de0bfce73dee8b5a71a592be1ae2c5b8ad1db78b5382d2a42cd2a0",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/agent/bootstrap.json": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/agent/nanopycodeagent.txt": "bbabb30397f5ef5da2ea434aca3c1ed9d5ebaa39583585e73cc030801faa315e",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/agent/trajectory.json": "71d056ce715961081a775ca4461ae1e6cc278fb124dedcea3261e410f7da9264",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/config.json": "93a23d07f2b21646fab7cf47ca38b5fa46c1f58f445e82360d3dadc9c3eedb64",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/lock.json": "3b059c7147009b9eb88fa82bc54c4dd131b04163255a02742140b95db77ca9a7",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/result.json": "81a490fc5dc6b51fc898db40a6f6d678d01575f9da353baf3ffa012c400cfd42",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/trial.log": "786c8e5d96f1ff6e98e74b79d218027a9cd136a89a5ca65e211951fad0cf74a8",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/attempts/1/ctrf.json": "d4239ddd3b1d9eec2aac414a8fd6cace832f0c854e6a09f36c67ac7d269a1e01",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/attempts/1/test-stdout.txt": "bc35e4c8cb26c8751d4f863cc24d30bab201e4eb17ddb3ff2e4bb5a826bc8986",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/ctrf.json": "d4239ddd3b1d9eec2aac414a8fd6cace832f0c854e6a09f36c67ac7d269a1e01",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/retry-summary.json": "3fc4da194d0fdde7d6e00f0eb458186f5e5746eb62b0bce74d9734403e513e3d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018/kv-store-grpc__4TFUA4j/verifier/test-stdout.txt": "bc35e4c8cb26c8751d4f863cc24d30bab201e4eb17ddb3ff2e4bb5a826bc8986",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018-input/manifest.json": "61af435e1c0f1dc1c1eafc669ffb25f9f536e3dd96374ea8ff5a77266a0f3a01",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018-input/config.json": "c386524cf52cb451ba0ec07ef1108e69bab02fea5d52006758a3b15bf448348d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-kv-store-grpc-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "previous_baseline": {
+        "task": "terminal-bench/kv-store-grpc",
+        "trial": "kv-store-grpc__pUAoWuK",
+        "job": "dev34-kv-store-grpc-main-20261012",
+        "raw_reward": 0.0,
+        "classification": "scored_failure"
+      },
+      "official_pytest_summary": {
+        "executed": true,
+        "collected": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": "============================== 7 passed in 0.06s ===============================",
+        "source": "verifier/test-stdout.txt"
+      },
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "credential_observation_steps": [],
+        "reviewed_local_access": {
+          "atif_steps": [
+            13
+          ],
+          "finding": "The /tests substring occurs in an agent-authored server comment (clients/tests); it is not a command reading hidden verifier files."
+        }
+      },
+      "score": 1.0
+    },
+    {
+      "order": 4,
+      "task": "terminal-bench/query-optimize",
+      "task_ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "trial": "query-optimize__ioRN6AM",
+      "job": "flash1017-query-optimize-20261018",
+      "raw_reward": 1.0,
+      "classification": "scored_pass",
+      "exception_type": null,
+      "official_test_summary": {
+        "tests": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1792331571.5115156,
+        "stop": 1792331706.4421964
+      },
+      "started_at": "2026-10-18T13:47:02.874010Z",
+      "finished_at": "2026-10-18T13:55:27.515015Z",
+      "seconds": {
+        "environment_setup": 2.204782,
+        "agent_setup": 38.606783,
+        "agent_execution": 287.02429,
+        "verifier": 155.544866
+      },
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 1800.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "duration_seconds": 154.93728369200835,
+          "return_code": 0
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "completed",
+      "recorded_agent_steps": 16,
+      "tool_calls": 22,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 196642,
+          "completion_tokens": 14949,
+          "cached_tokens": 190592
+        },
+        "estimated_known_cost_usd": 0.020897352
+      },
+      "task_checksum": "593405b6a2f6970f0f4c2ca2aff455a3b32bce3eecf8b506cfeeb0fe93b14838",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-query-optimize-20261018.json": "ac61d4144c34cd9e5b698332360a09d161d53213ffdfab0b11e955ef6807fdb1",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/agent/bootstrap.json": "4a93e54276aa8f2cc86d505dad8f483806c983d5c140d69bb855ed60c1cd32b6",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/agent/nanopycodeagent.txt": "65c651a52e18f1354c47b506be980d39cd2ce8c0660a8000b97c1404a74fa435",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/agent/trajectory.json": "126b264a80801d55a7546d651b619c8b35d3b19c05a1639b3b01c1a4478e6094",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/config.json": "099122689c4c6a00d300285a2efe5ec43259762ed8bc106988dc3327fc162563",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/lock.json": "53d10aefdfebbcb1070f1c9fbbbdb83c96c73d870a6a76db1653dfe25d0fc1be",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/result.json": "4c67b5595e3129d4ac1cabe5c7b4765fe4dad0c1c40a472db78e232d102d327b",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/trial.log": "5bd01f98bd6b0cd4684ced0582ec10d90c9456f262e332feb01fc3690a4f43f6",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/attempts/1/ctrf.json": "476de5d9485e1e00b2ad4be31fce52726cd533e914d84678ddaad969b354186d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/attempts/1/test-stdout.txt": "f23f9656c0e03ae2f2a33a6fa7d4d3c09a6cca9f12c8275c3d9f7fd4c3cd2632",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/ctrf.json": "476de5d9485e1e00b2ad4be31fce52726cd533e914d84678ddaad969b354186d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/retry-summary.json": "81defcbe259dbe4add5d866536697ec0487aa00ab1fec5c7b47b044779ee90ae",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018/query-optimize__ioRN6AM/verifier/test-stdout.txt": "f23f9656c0e03ae2f2a33a6fa7d4d3c09a6cca9f12c8275c3d9f7fd4c3cd2632",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018-input/manifest.json": "2a105f512b3346a6f23a8d3c7565c5df4a7ee95d912c555f44c44109cdfaf349",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018-input/config.json": "6ecd9cc1fc7d85410fe28fe036394b7fe96a03f41c3869542bba4dfd1f2f715f",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-query-optimize-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "previous_baseline": {
+        "task": "terminal-bench/query-optimize",
+        "trial": "query-optimize__ZVLSEuZ",
+        "job": "dev34-query-optimize-main-20261012",
+        "raw_reward": 0.0,
+        "classification": "scored_failure"
+      },
+      "official_pytest_summary": {
+        "executed": true,
+        "collected": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": "======================== 6 passed in 134.51s (0:02:14) =========================",
+        "source": "verifier/test-stdout.txt"
+      },
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "credential_observation_steps": []
+      },
+      "score": 1.0
+    },
+    {
+      "order": 5,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "trial": "torch-pipeline-parallelism__q96EdZw",
+      "job": "flash1017-torch-pipeline-parallelism-20261018",
+      "raw_reward": 0.0,
+      "classification": "verifier_error",
+      "exception_type": null,
+      "official_test_summary": null,
+      "started_at": "2026-10-18T13:55:34.684057Z",
+      "finished_at": "2026-10-18T14:09:27.485651Z",
+      "seconds": {
+        "environment_setup": 2.04244,
+        "agent_setup": 35.133596,
+        "agent_execution": 613.924691,
+        "verifier": 160.443647
+      },
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "duration_seconds": 159.8422649980057,
+          "return_code": 0
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "completed",
+      "recorded_agent_steps": 29,
+      "tool_calls": 31,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 1005856,
+          "completion_tokens": 44296,
+          "cached_tokens": 996224
+        },
+        "estimated_known_cost_usd": 0.062022144
+      },
+      "task_checksum": "31e565558cd22598a3c2069f771d9d0eee26fb843b77f7b03e00ad4c336fbce9",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-torch-pipeline-parallelism-20261018.json": "a831faf281a4035fb80fda236ebc3e9f4cf2ad969ecf7026c88085f7b529118a",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/agent/bootstrap.json": "fcebfd336f1b466235db7c3fe8ba5ab12f89adf5748f461affa9f8ab75ebc7a6",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/agent/nanopycodeagent.txt": "8bcd1e4a7a01d1532a4c0fd81d1fdef340aea3a3b1255ba68b156fb2f43326df",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/agent/trajectory.json": "b62861207ac59c1440f3f53327dd0807d0c285a6880b38e82b255b1c4b95358e",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/config.json": "1d2e5b78495ca7eb5c7d0d0b1dc1026610467f7b146492f767c9b52ad63d05b7",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/lock.json": "9a4647a5911abb58b20f8de8f23b95c10af20241eb50a33e188bb1af430afed1",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/result.json": "0a4eb83eb1dca3a6bbcfd74cdf3865e36d7ebcd113662394522b73e36b5dd9d0",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/trial.log": "0da597fa9cfbd01ca30021dd0b518d99d7ea6615bcf88d03a6f10bb0d3236e24",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/attempts/1/test-stdout.txt": "553b6078d900c0f346061308b0cac3010f0e4231fa68df5741422951d2b55293",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/retry-summary.json": "ca8c4424c03a7ef529e0e8076622048fd016df1b4a3ead75d7faf94fab6f6f2f",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018/torch-pipeline-parallelism__q96EdZw/verifier/test-stdout.txt": "553b6078d900c0f346061308b0cac3010f0e4231fa68df5741422951d2b55293",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018-input/manifest.json": "0df1a9d2170d5420fa3bfa8c8d121e9decfe586d57f411153ad4c7579b9c5aee",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018-input/config.json": "1be7e64d299acf2f818001876b99e98f57fce1bacfcace6752f83f338e07b78f",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-torch-pipeline-parallelism-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "previous_baseline": {
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "trial": "torch-pipeline-parallelism__Zr8yYNi",
+        "job": "dev34-torch-pipeline-parallelism-main-20261012",
+        "raw_reward": 0.0,
+        "classification": "scored_failure"
+      },
+      "official_pytest_summary": {
+        "executed": false,
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": null,
+        "source": "verifier/test-stdout.txt"
+      },
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "credential_observation_steps": [],
+        "reviewed_upstream_reference": {
+          "finding": "HuggingFace appears as the model library name in reasoning or submitted code; no external benchmark fetch was observed."
+        }
+      },
+      "score": null,
+      "infrastructure_failure": {
+        "stage": "verifier_dependency_installation",
+        "kind": "download_timeout",
+        "dependency": "nvidia-cusparse-cu12==12.5.4.2",
+        "official_assertions_started": false,
+        "native_reward_preserved": 0.0,
+        "native_exception_type": null,
+        "retry_eligible": false,
+        "reason": "Dependency download failed before pytest started. The original wrapper returned reward zero without a Harbor exception. The verifier attempt itself did not time out, so timeout-only retry policy does not permit another attempt."
+      },
+      "agent_output_note": "The model submitted /app/pipeline_parallel.py and exercised a custom torch stub; real PyTorch/Transformers execution and official correctness remain unverified."
+    },
+    {
+      "order": 6,
+      "task": "terminal-bench/regex-chess",
+      "task_ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+      "trial": "regex-chess__BbMPdq7",
+      "job": "flash1017-regex-chess-20261018",
+      "raw_reward": 0.0,
+      "classification": "scored_failure",
+      "exception_type": null,
+      "official_test_summary": {
+        "tests": 4,
+        "passed": 0,
+        "failed": 4,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1792332478.3056858,
+        "stop": 1792332478.429377
+      },
+      "started_at": "2026-10-18T13:55:34.303731Z",
+      "finished_at": "2026-10-18T14:08:19.573882Z",
+      "seconds": {
+        "environment_setup": 2.148049,
+        "agent_setup": 37.686158,
+        "agent_execution": 644.763169,
+        "verifier": 59.327986
+      },
+      "work_budget_seconds": 3420,
+      "verifier_timeout_seconds": 3600.0,
+      "verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "duration_seconds": 59.124319335998734,
+          "return_code": 0
+        }
+      ],
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "bootstrap_status": "ready",
+      "model_started": true,
+      "trajectory_terminal_outcome": "response_truncated",
+      "recorded_agent_steps": 3,
+      "tool_calls": 2,
+      "incomplete_model_steps": [],
+      "accounting": {
+        "usage_complete": true,
+        "cost_complete": true,
+        "cost_is_estimated": true,
+        "recorded_tokens": {
+          "prompt_tokens": 9482,
+          "completion_tokens": 131209,
+          "cached_tokens": 7168
+        },
+        "estimated_known_cost_usd": 0.158188008
+      },
+      "task_checksum": "64993ab339d437cea9397a033e825663a77d5527a42ef3c2fb2ad25133dcbd4e",
+      "source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+      "source_sha256": {
+        "nanopycodeagent/__init__.py": "b922299f65b3db2fb1514df5aeda4413e599f595d2595f45a353b4dc551a1eb1",
+        "nanopycodeagent/agent.py": "aa58960803be77797c2addf65d7cc785a4be54f40ad58d53b9eea9fca1cf4b56",
+        "nanopycodeagent/atif.py": "ca4793b971d125d904888b858452db8db30e21f0d9b87818133062fb6cebe270",
+        "nanopycodeagent/bash_tool.py": "dcf0366fb9ebdca258d4c40b1a50b78b2ec79fc4b85cbb253ac9a9ce9534574f",
+        "nanopycodeagent/cli.py": "e335789b3f09440abd441547a2e3e2feb32b90c68e9ba5fc8237de8f6bac2932",
+        "nanopycodeagent/cost.py": "30a8df17942c424796e8532f45e1cb0784ed6541cea44284b863db3dae2f7b70",
+        "nanopycodeagent/deadline.py": "26a861721e6897a4e02e6ce364cb3ef1f1dc7d4ad9fb2f772404276f5c9e9d5f",
+        "nanopycodeagent/edit_tool.py": "78e2bec911279082b081366ab05cb4cbb37d8910b20b6245cccd4b0424489d0d",
+        "nanopycodeagent/event_journal.py": "8974919c2d460afb52bc57ec37e7e271851290c0845d01b4ad0f9f760cde0814",
+        "nanopycodeagent/read_tool.py": "e0075da19f2e1c6ccf34a3056a0aec92398e5afe67869937a096c6f1e04181c3",
+        "nanopycodeagent/settings.py": "491bf5c6eca50eb4c5fe04b7bfe62a8bfc7d2e1fad05b8eeac1680c2fcf3674e",
+        "nanopycodeagent/terminal.py": "8d27b40976b2b6d476e5106dfea982b055115435b4ba16b7f758412a05b75f04",
+        "nanopycodeagent/tool_validation.py": "3a1a85a7222dd1504bdf58f37e65a51d11de13d16c4e7df42c72b4cd58b5e5e5",
+        "nanopycodeagent/transport.py": "152d3ff78be0e3b2d92e0abbbfb652d73466aff57ad316c06dc0e072411167fe",
+        "nanopycodeagent/write_tool.py": "7671e83464fa1e942f25742fc573d0712e32053b5fc0291257884b027f7f6206",
+        "harbor_adapter/__init__.py": "513ad49c721b3e73293095c6a0486a791483e9aa2b51e0e9ad4b7816af07e76b",
+        "harbor_adapter/__main__.py": "db89d582fba45aad72147317f595531af49c434e3b23c65f22d7491f0b10551d",
+        "harbor_adapter/_verifier_runner.py": "2eb73c3e76d7360f2fa16018f0e933797bf982e589236095b5f98750f3807a7c",
+        "harbor_adapter/adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+        "harbor_adapter/bootstrap.py": "f499bfddfc3d29338cae15a7f8f6e9c66d19eb69ad9577e607ced4b1aa057be2",
+        "harbor_adapter/verifier.py": "ec26fdefd69be1c5c450c9ba69d749d4a9d320a2a170b8db34421f0573d9b493"
+      },
+      "wheel_sha256": "f4dcc18758e584696f955ae57fd18c751599b70e8b497ca2db7ef9e2b16e9350",
+      "provenance_checks_passed": true,
+      "evidence_sha256": {
+        "jobs/deepseek-v41-flash-1017-rerun-20261018-v2-orchestration/flash1017-regex-chess-20261018.json": "9257870036a57a2b99937edfcac5fceb3d5ccd020f6266f799c16fb0a3e64458",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/agent/bootstrap.json": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/agent/nanopycodeagent.txt": "d5469e3e71ed9379e67ea53c31f938ac02e393bac9d262ed001e20edb0ce2880",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/agent/trajectory.json": "c2c4272da108a1288c8ac0659c1fd4602bfddec009dd6394b4199085b72d95f5",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/artifacts/manifest.json": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/config.json": "5646757537b53bd73c27d4bfb5976a7897750b8ff6c5ee8e10dc5258c3387084",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/lock.json": "25fb9f9020944b5515ff1abd1911a16dbbc6a297eca9974291c030301d73081b",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/result.json": "a77fe9b3aefafbd0898f517394289d60ece1c7d044d290eaa537e9a91dad28ae",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/trial.log": "ef21738d5435b0a881ea5555e88d382a711f8103dbd9e6e66f1d08c0d635ed14",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/attempts/1/ctrf.json": "1c6d5890a24a89e28193baa90caa33bcfc43aa63716511807d71df7b6152c12a",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/attempts/1/test-stdout.txt": "52c9df468950afcf550257d9866293ce7156da67c10d162f505cab682d599279",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/ctrf.json": "1c6d5890a24a89e28193baa90caa33bcfc43aa63716511807d71df7b6152c12a",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/retry-summary.json": "f43790b8b976ec87f3666a9e94bd4b06cf1a8557d8549eb9fc107a4cf5fa94f0",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018/regex-chess__BbMPdq7/verifier/test-stdout.txt": "52c9df468950afcf550257d9866293ce7156da67c10d162f505cab682d599279",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018-input/manifest.json": "88852db83196729996f806157ba3c1fd1b985ea5a10d59f275dad2a7c87a284e",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018-input/config.json": "15effe28966d978050d5d431dc53dd7dee702795f81f1243f66ddb1879b6fc31",
+        "jobs/dev34-baseline-main-source/jobs/flash1017-regex-chess-20261018-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "previous_baseline": {
+        "task": "terminal-bench/regex-chess",
+        "trial": "regex-chess__g85Ci69",
+        "job": "dev34-regex-chess-main-20261012",
+        "raw_reward": 0.0,
+        "classification": "scored_failure"
+      },
+      "official_pytest_summary": {
+        "executed": true,
+        "collected": 4,
+        "passed": 0,
+        "failed": 4,
+        "skipped": 0,
+        "error": 0,
+        "summary_line": "============================== 4 failed in 0.12s ===============================",
+        "source": "verifier/test-stdout.txt"
+      },
+      "audit": {
+        "benchmark_material_exposure": "not_observed_in_review",
+        "credential_observation_steps": []
+      },
+      "score": 0.0,
+      "failure_analysis": {
+        "cause": "Both substantive model responses reached their output limit; the bounded truncation recovery also truncated. No /app/re.json was submitted.",
+        "official_evidence": "All four official tests executed and failed with FileNotFoundError for /app/re.json.",
+        "atif_steps": [
+          3,
+          5,
+          6,
+          8
+        ],
+        "truncated_responses": [
+          {
+            "step_id": 5,
+            "stop_reason": "max_tokens",
+            "completion_tokens": 65536
+          },
+          {
+            "step_id": 8,
+            "stop_reason": "max_tokens",
+            "completion_tokens": 65535
+          }
+        ],
+        "automatic_truncation_recoveries": 1,
+        "model_phase_seconds": 644.763169,
+        "remaining_work_budget_seconds_approx": 2775.236831,
+        "limitation": "The run stopped under the truncation policy, not the wall-clock deadline. No submitted chess implementation was evaluated; this does not demonstrate the same castling bug as the previous run."
+      }
+    }
+  ],
+  "publication_policy": "Only derived results and hashes are published. Raw logs and trajectories remain local and require credential redaction before sharing.",
+  "provider_checkpoint": {
+    "api_model": "deepseek-flash",
+    "reported_checkpoint": "DeepSeek-V4.1-Flash-1017",
+    "verification": "Official DeepSeek documentation states that deepseek-flash now serves this checkpoint. The API alias is not an immutable checkpoint pin.",
+    "sources": [
+      "https://api-docs.deepseek.com/news/news261017/",
+      "https://api-docs.deepseek.com/quick_start/agent_integrations/"
+    ],
+    "checked_at": "2026-10-18T13:16:26.524186+00:00"
+  },
+  "historical_baseline": {
+    "plan": "benchmarks/harbor/configs/dev34-main-baseline-20261012/experiment-v5.json",
+    "plan_sha256": "f7bc7b329767f4b8007956462f6cdbd4407d386af493524df27ba313c0a4e4c3",
+    "runtime_source_ref": "2eb99b608dfb39464d17d109a4a8f11afda607a9",
+    "original_scores": "28/34 passed; selected six tasks all failed."
+  },
+  "preflight_history": {
+    "install_only_attempts": 8,
+    "successful": 6,
+    "setup_errors": 0,
+    "cancelled_or_administratively_interrupted": 2,
+    "unstarted_original_tasks": 4,
+    "verifier_profile_not_configured_tasks": 6,
+    "original_interruption_record_path": "jobs/flash1017-preflight-interruption.json",
+    "original_interruption_record_sha256": "d16fd7516d61f021806718089cee95c0954c98bb86adc2b6d21b42529fd62c12",
+    "trials": [
+      {
+        "job": "flash1017-install-only-20261018",
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trial": "adaptive-rejection-sampler__jrPDadu",
+        "classification": "administratively_interrupted",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-20261018/adaptive-rejection-sampler__jrPDadu/result.json",
+        "result_sha256": "fa2796bb099495c620d472573a9f806deb8acee760e2e0a1db89c63740890f21",
+        "bootstrap_sha256": "52b89cf8662783f2c672e713937a3827ece980f03d4014f290f19f4577e40d15",
+        "manifest_sha256": "347d37f67c5bd204617583de36c2204e562415ef9b4af0b935ae6113fcca86a3",
+        "input_config_sha256": "4db70c5c01691c8a948a99591ddfb15681578f97cd1291991c64568701818cab"
+      },
+      {
+        "job": "flash1017-install-only-20261018",
+        "task": "terminal-bench/db-wal-recovery",
+        "trial": "db-wal-recovery__ufVDrhK",
+        "classification": "administratively_interrupted",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-20261018/db-wal-recovery__ufVDrhK/result.json",
+        "result_sha256": "0107eb2bc2646779f8d9132a9f7c3882c02caa875d801d8d2ba09ca179c8a1ac",
+        "bootstrap_sha256": "71b66a4b9f8828e3f24907dcf037bc12b80b7f0470daad60c2893f5b7d84423b",
+        "manifest_sha256": "347d37f67c5bd204617583de36c2204e562415ef9b4af0b935ae6113fcca86a3",
+        "input_config_sha256": "4db70c5c01691c8a948a99591ddfb15681578f97cd1291991c64568701818cab"
+      },
+      {
+        "job": "flash1017-install-only-v2-20261018",
+        "task": "terminal-bench/adaptive-rejection-sampler",
+        "trial": "adaptive-rejection-sampler__QEJGbeG",
+        "classification": "setup_passed",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-v2-20261018/adaptive-rejection-sampler__QEJGbeG/result.json",
+        "result_sha256": "0791ae260d5a336863391a26e70d678fe017537c61eb9e8082f1c7b8df3fefda",
+        "bootstrap_sha256": "fcebfd336f1b466235db7c3fe8ba5ab12f89adf5748f461affa9f8ab75ebc7a6",
+        "manifest_sha256": "72aa6516e6c4cd285af8b0b7c44cabc2545f0194baa4b6e20286daee4bfce240",
+        "input_config_sha256": "6fc60e637d55c82e22218277b63f76fdb3402ed4c45a8cd710a9a299ab78b549"
+      },
+      {
+        "job": "flash1017-install-only-v2-20261018",
+        "task": "terminal-bench/db-wal-recovery",
+        "trial": "db-wal-recovery__HCpq6qb",
+        "classification": "setup_passed",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-v2-20261018/db-wal-recovery__HCpq6qb/result.json",
+        "result_sha256": "247dd24bab0aeddab02aed1fabddbbda43c9f5e32570fc067915819cc5294a59",
+        "bootstrap_sha256": "51366101df4e7f6425f8fe241b10713287e6f89274173cba25c6ffe708d61dc3",
+        "manifest_sha256": "72aa6516e6c4cd285af8b0b7c44cabc2545f0194baa4b6e20286daee4bfce240",
+        "input_config_sha256": "6fc60e637d55c82e22218277b63f76fdb3402ed4c45a8cd710a9a299ab78b549"
+      },
+      {
+        "job": "flash1017-install-only-v2-20261018",
+        "task": "terminal-bench/kv-store-grpc",
+        "trial": "kv-store-grpc__nqHGLa5",
+        "classification": "setup_passed",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-v2-20261018/kv-store-grpc__nqHGLa5/result.json",
+        "result_sha256": "c540edec6d547acd17f2261ba522a329f7148914d4f42a1a186e14dd4a2cbf05",
+        "bootstrap_sha256": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+        "manifest_sha256": "72aa6516e6c4cd285af8b0b7c44cabc2545f0194baa4b6e20286daee4bfce240",
+        "input_config_sha256": "6fc60e637d55c82e22218277b63f76fdb3402ed4c45a8cd710a9a299ab78b549"
+      },
+      {
+        "job": "flash1017-install-only-v2-20261018",
+        "task": "terminal-bench/query-optimize",
+        "trial": "query-optimize__scB4hts",
+        "classification": "setup_passed",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-v2-20261018/query-optimize__scB4hts/result.json",
+        "result_sha256": "809aacfb8410e2d978f39767c2b7d7a151205293e92f1d6147bd1c24febc739f",
+        "bootstrap_sha256": "4a93e54276aa8f2cc86d505dad8f483806c983d5c140d69bb855ed60c1cd32b6",
+        "manifest_sha256": "72aa6516e6c4cd285af8b0b7c44cabc2545f0194baa4b6e20286daee4bfce240",
+        "input_config_sha256": "6fc60e637d55c82e22218277b63f76fdb3402ed4c45a8cd710a9a299ab78b549"
+      },
+      {
+        "job": "flash1017-install-only-v2-20261018",
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "trial": "torch-pipeline-parallelism__xtbqWbc",
+        "classification": "setup_passed",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-v2-20261018/torch-pipeline-parallelism__xtbqWbc/result.json",
+        "result_sha256": "778b40ce04610552b7b0b34fd7f2b741b945c982680aabba0f060dbe7caba584",
+        "bootstrap_sha256": "fcebfd336f1b466235db7c3fe8ba5ab12f89adf5748f461affa9f8ab75ebc7a6",
+        "manifest_sha256": "72aa6516e6c4cd285af8b0b7c44cabc2545f0194baa4b6e20286daee4bfce240",
+        "input_config_sha256": "6fc60e637d55c82e22218277b63f76fdb3402ed4c45a8cd710a9a299ab78b549"
+      },
+      {
+        "job": "flash1017-install-only-v2-20261018",
+        "task": "terminal-bench/regex-chess",
+        "trial": "regex-chess__ZBNBNv9",
+        "classification": "setup_passed",
+        "model_started": false,
+        "official_assertions_started": false,
+        "result_path": "jobs/dev34-baseline-main-source/jobs/flash1017-install-only-v2-20261018/regex-chess__ZBNBNv9/result.json",
+        "result_sha256": "34bafd3c020a4c9cfc8ed473cb821ad7f767ad29e14270e22157dc33d893c851",
+        "bootstrap_sha256": "9abae99e4800f37de01cc8c2eb9d13d0437c60d0c1c0724f648d551c7f382b77",
+        "manifest_sha256": "72aa6516e6c4cd285af8b0b7c44cabc2545f0194baa4b6e20286daee4bfce240",
+        "input_config_sha256": "6fc60e637d55c82e22218277b63f76fdb3402ed4c45a8cd710a9a299ab78b549"
+      }
+    ],
+    "limitation": "Successful agent installation does not certify unregistered verifier dependencies. All six profiles were explicitly not_configured. No preflight ran a model or official task assertions."
+  },
+  "final_image_integrity": {
+    "observed_at": "2026-10-18T14:10:12.979320+00:00",
+    "original_task_images_verified": 6,
+    "image_ids_and_registry_digests_unchanged": true,
+    "remaining_scored_trial_containers": []
+  },
+  "post_freeze_audit": {
+    "completed_at": "2026-10-18T14:12:12.926370+00:00",
+    "method": "Review all six frozen trajectories for benchmark references, local verifier paths, external hosts and exact provider credentials; inspect official stdout for every trial and the truncation metadata for regex chess.",
+    "official_assertions_executed_tasks": 4,
+    "setup_errors_in_model_phase": 0,
+    "verifier_errors": 2,
+    "verifier_dependency_download_failure_tasks": [
+      "terminal-bench/adaptive-rejection-sampler",
+      "terminal-bench/torch-pipeline-parallelism"
+    ],
+    "benchmark_material_exposure_tasks": [],
+    "hidden_solution_or_test_retrieval_observed": false,
+    "provider_credentials_observed_in_trajectories": false,
+    "public_network_access": "The sampler probed the public R project host while installing R. gRPC /proc reads inspected process command lines, not environment files. No external benchmark-answer retrieval was observed.",
+    "limitation": "Retrospective review cannot prove absence of all exposure or training contamination. These are previously exposed development tasks."
+  },
+  "comparison_note": "Three previous failures passed this time; regex chess was a valid scored failure; sampler and pipeline are unscored because official dependencies failed before pytest. Raw zeros for those infrastructure errors are preserved but are not counted as model failures. These single selected-task trials do not isolate a checkpoint effect or update the entire 34-task pool score.",
+  "accounting_note": "Costs are the unchanged agent client token-based estimates, not independently verified provider billing."
+}

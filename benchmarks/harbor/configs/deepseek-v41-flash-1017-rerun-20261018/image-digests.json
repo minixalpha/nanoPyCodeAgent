@@ -1,0 +1,60 @@
+{
+  "observed_at": "2026-10-18T13:16:26.429384+00:00",
+  "all_match_previous_baseline": true,
+  "images": [
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "image": "alexgshaw/kv-store-grpc:20251031",
+      "image_id": "sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791",
+      "repo_digests": [
+        "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
+      ],
+      "size_bytes": 44171671
+    },
+    {
+      "task": "terminal-bench/regex-chess",
+      "image": "alexgshaw/regex-chess:20251031",
+      "image_id": "sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c",
+      "repo_digests": [
+        "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
+      ],
+      "size_bytes": 55625584
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
+      "repo_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "size_bytes": 29725531
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "image": "alexgshaw/db-wal-recovery:20251031",
+      "image_id": "sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e",
+      "repo_digests": [
+        "alexgshaw/db-wal-recovery@sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e"
+      ],
+      "size_bytes": 175276145
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "image": "alexgshaw/query-optimize:20251031",
+      "image_id": "sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14",
+      "repo_digests": [
+        "alexgshaw/query-optimize@sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14"
+      ],
+      "size_bytes": 120494963
+    },
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "image_id": "sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f",
+      "repo_digests": [
+        "alexgshaw/adaptive-rejection-sampler@sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f"
+      ],
+      "size_bytes": 29731756
+    }
+  ]
+}

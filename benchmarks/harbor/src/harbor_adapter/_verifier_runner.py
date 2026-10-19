@@ -1,4 +1,4 @@
-"""Run a Linux verifier inside its container with bounded timeout retries.
+"""Run a Linux verifier with bounded, explicitly selected recovery rules.
 
 This file is sent to the container as Python source and uses only the standard
 library. It never starts an agent or changes the task's test script.
@@ -7,6 +7,7 @@ library. It never starts an agent or changes the task's test script.
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import signal
 import subprocess
@@ -51,14 +52,41 @@ def _archive(logs, attempt):
             shutil.copy2(source, target / source.name)
 
 
-def run(command, timeout_sec, max_attempts, logs, control):
-    """Return execution status; only our own elapsed deadline is retryable."""
+def dependency_download_failed(logs):
+    """Recognize uv network failures before tests, never a completed test score."""
+    if (logs / "ctrf.json").exists():
+        return False
+    for name in ("reward.txt", "reward.json"):
+        path = logs / name
+        if path.exists():
+            try:
+                value = (float(path.read_text()) if name.endswith(".txt")
+                         else json.loads(path.read_text()).get("reward"))
+            except (ValueError, TypeError, AttributeError):
+                return False
+            if value != 0:
+                return False
+    path = logs / "test-stdout.txt"
+    text = path.read_text(errors="replace") if path.exists() else ""
+    if re.search(
+        r"test session starts|collected \d+|FAILED |ERROR collecting|"
+        r"\b(?:passed|failed|errors?|skipped)\b.*\bin \d", text,
+    ):
+        return False
+    return bool(
+        re.search(r"Failed to (?:download|fetch) `[^`]+`", text)
+        and re.search(r"network timeout|operation timed out|Request failed after", text)
+    )
+
+
+def run(command, timeout_sec, max_attempts, logs, control, retry_dependency_errors=False):
+    """Retry deadlines and, when enabled, pre-test dependency download failures."""
     logs = Path(logs)
     control = Path(control)
     cancelled = control.with_suffix(".cancelled")
     attempts = []
     summary = {"timeout_sec": timeout_sec, "max_attempts": max_attempts,
-               "attempts": attempts}
+               "retry_dependency_errors": retry_dependency_errors, "attempts": attempts}
 
     def interrupted(signum, frame):
         raise InterruptedError("Verifier execution cancelled")
@@ -92,6 +120,8 @@ def run(command, timeout_sec, max_attempts, logs, control):
                 try:
                     record["return_code"] = process.wait(timeout=timeout_sec)
                     record["status"] = "completed"
+                    if retry_dependency_errors and dependency_download_failed(logs):
+                        record["status"] = "dependency_error"
                 except subprocess.TimeoutExpired:
                     _stop_process(process)
                     record["status"] = "timeout"
@@ -139,5 +169,13 @@ if __name__ == "__main__":
     if sys.argv[1] == "cancel":
         cancel(sys.argv[2])
     else:
-        command, timeout, count, logs, control = sys.argv[1:]
-        print(json.dumps(run(command, float(timeout), int(count), logs, control)))
+        arguments = sys.argv[1:]
+        if len(arguments) == 5:
+            command, timeout, count, logs, control = arguments
+            retry_dependencies = False
+        else:
+            command, timeout, count, retry, logs, control = arguments
+            retry_dependencies = retry == "1"
+        print(json.dumps(run(
+            command, float(timeout), int(count), logs, control, retry_dependencies,
+        )))
