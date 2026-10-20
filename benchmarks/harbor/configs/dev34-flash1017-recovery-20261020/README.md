@@ -1,5 +1,7 @@
 # Flash 1017 verifier-recovery supplement
 
+**Completed:** one pass, one scored failure, and one unscored verifier error across three fresh agent trials. The merger passed all three tests in one verifier attempt. The CLI timed out once, then completed with five passing tests and one failing test (10 of 50 predictions wrong); valid zero stopped recovery after two attempts. Model recovery exhausted three 900-second verifier attempts downloading PyTorch/CUDA dependencies before pytest. Original baseline results remain unchanged. See the [English report](../../reports/en/dev34-flash1017-recovery-20261020.md), [complete Simplified Chinese report](../../reports/zh-CN/dev34-flash1017-recovery-20261020.md), and [audited results](../../results/dev34-flash1017-recovery-20261020.json). All three main containers and pre-verifier solution archives are retained; all 50 temporary image-cache relocations were restored and SHA256-verified.
+
 This is a separately authorized three-task experiment, not a regrade or
 replacement of the October 19 dev34 baseline. The original containers were
 deleted and no `/app` solution artifacts were archived. The user explicitly
