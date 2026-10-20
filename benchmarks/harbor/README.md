@@ -303,9 +303,11 @@ ambiguous CTRF report prevents this recovery. Exhaustion raises
 canonical score. The default is false, and the three-attempt limit is shared
 with timeout and dependency recovery.
 
-When future verification may be needed, set `environment.delete=false` to retain
-the stopped task containers and register solution paths such as `/app` in
-`artifacts`. Harbor collects these files before verification. Keep both the
+When future verification may be needed, set Docker's
+`environment.kwargs.keep_containers=true` to retain the stopped task containers
+and register solution paths such as `/app` in `artifacts`.
+`environment.delete=false` alone still removes Docker containers. Harbor collects
+the registered files before verification. Keep both the
 artifact manifest and file hashes with the run evidence; trajectories alone do
 not preserve binaries or the original system state.
 
