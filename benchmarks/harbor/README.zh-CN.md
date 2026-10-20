@@ -238,6 +238,16 @@ Harbor 原生的 provider 凭证和已经配置的 base URL 也会转换为 nano
 评分也会立即停止。依赖错误耗尽尝试后抛出 `VerifierDependencyError`，保留每次
 证据并清除当前评分。默认仍只重试超时；实验计划应记录授权和实际选用的策略。
 
+对单独授权的 pytest 收集失败恢复，还可设置
+`retry_collection_errors=true`。它只重试尚未运行任何测试用例时明确发生的收集中断。
+成功评分、已执行的测试用例或含义不明确的 CTRF 报告都会阻止这种恢复。耗尽次数后
+抛出 `VerifierCollectionError`，保留归档评分，但不发布当前评分。默认值为 false，
+与超时及依赖恢复共享最多三次的尝试上限。
+
+如果之后可能需要继续验证，应设置 `environment.delete=false` 保留已停止的任务
+容器，并在 `artifacts` 中登记 `/app` 等解答路径。Harbor 会在验证前收集这些文件。
+将产物清单和文件哈希与运行证据一起保存；仅有轨迹无法保留二进制文件和原始系统状态。
+
 ## Benchmark 报告
 
 报告提供[英文](reports/en/)和[简体中文](reports/zh-CN/)两个版本，文件名一一对应。

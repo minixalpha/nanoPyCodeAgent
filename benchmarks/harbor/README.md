@@ -295,6 +295,20 @@ valid scored failures stop immediately. Exhausted dependency failures raise
 canonical reward. The default remains timeout-only; record the authorization
 and selected policy in the experiment plan.
 
+For separately authorized recovery of pytest collection failures, also set
+`retry_collection_errors=true`. This retries only an explicit collection abort
+before any test case runs. A successful reward, executed test cases, or an
+ambiguous CTRF report prevents this recovery. Exhaustion raises
+`VerifierCollectionError` and preserves archived rewards without publishing a
+canonical score. The default is false, and the three-attempt limit is shared
+with timeout and dependency recovery.
+
+When future verification may be needed, set `environment.delete=false` to retain
+the stopped task containers and register solution paths such as `/app` in
+`artifacts`. Harbor collects these files before verification. Keep both the
+artifact manifest and file hashes with the run evidence; trajectories alone do
+not preserve binaries or the original system state.
+
 ## Benchmark reports
 
 Reports are available in [English](reports/en/) and

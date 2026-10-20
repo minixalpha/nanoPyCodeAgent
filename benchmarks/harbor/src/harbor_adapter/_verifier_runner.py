@@ -79,14 +79,49 @@ def dependency_download_failed(logs):
     )
 
 
-def run(command, timeout_sec, max_attempts, logs, control, retry_dependency_errors=False):
-    """Retry deadlines and, when enabled, pre-test dependency download failures."""
+def collection_failed(logs):
+    """Recognize aborted pytest collection without retrying executed test cases."""
+    for name in ("reward.txt", "reward.json"):
+        path = logs / name
+        if path.exists():
+            try:
+                value = (float(path.read_text()) if name.endswith(".txt")
+                         else json.loads(path.read_text()).get("reward"))
+            except (ValueError, TypeError, AttributeError):
+                return False
+            if value != 0:
+                return False
+    report = logs / "ctrf.json"
+    if report.exists():
+        try:
+            results = json.loads(report.read_text())["results"]
+            summary = results["summary"]
+            if summary["tests"] != 0 or any(
+                summary.get(key, 0) != 0 for key in ("passed", "failed", "skipped")
+            ) or results.get("tests"):
+                return False
+        except (ValueError, KeyError, TypeError, AttributeError):
+            return False
+    path = logs / "test-stdout.txt"
+    text = path.read_text(errors="replace") if path.exists() else ""
+    if re.search(r"\b\d+ (?:passed|failed|skipped|xfailed|xpassed)\b", text):
+        return False
+    return bool(
+        re.search(r"\bERROR collecting\b", text)
+        and re.search(r"Interrupted: \d+ errors? during collection", text)
+    )
+
+
+def run(command, timeout_sec, max_attempts, logs, control, retry_dependency_errors=False,
+        retry_collection_errors=False):
+    """Retry deadlines and explicitly authorized pre-assertion failures."""
     logs = Path(logs)
     control = Path(control)
     cancelled = control.with_suffix(".cancelled")
     attempts = []
     summary = {"timeout_sec": timeout_sec, "max_attempts": max_attempts,
-               "retry_dependency_errors": retry_dependency_errors, "attempts": attempts}
+               "retry_dependency_errors": retry_dependency_errors,
+               "retry_collection_errors": retry_collection_errors, "attempts": attempts}
 
     def interrupted(signum, frame):
         raise InterruptedError("Verifier execution cancelled")
@@ -122,6 +157,8 @@ def run(command, timeout_sec, max_attempts, logs, control, retry_dependency_erro
                     record["status"] = "completed"
                     if retry_dependency_errors and dependency_download_failed(logs):
                         record["status"] = "dependency_error"
+                    elif retry_collection_errors and collection_failed(logs):
+                        record["status"] = "collection_error"
                 except subprocess.TimeoutExpired:
                     _stop_process(process)
                     record["status"] = "timeout"
@@ -173,9 +210,16 @@ if __name__ == "__main__":
         if len(arguments) == 5:
             command, timeout, count, logs, control = arguments
             retry_dependencies = False
-        else:
+            retry_collection = False
+        elif len(arguments) == 6:
             command, timeout, count, retry, logs, control = arguments
             retry_dependencies = retry == "1"
+            retry_collection = False
+        else:
+            command, timeout, count, retry, collection, logs, control = arguments
+            retry_dependencies = retry == "1"
+            retry_collection = collection == "1"
         print(json.dumps(run(
             command, float(timeout), int(count), logs, control, retry_dependencies,
+            retry_collection,
         )))
