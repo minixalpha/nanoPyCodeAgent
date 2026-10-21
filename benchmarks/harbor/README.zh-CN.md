@@ -250,6 +250,25 @@ Harbor 原生的 provider 凭证和已经配置的 base URL 也会转换为 nano
 容器。Harbor 会在验证前收集已登记的文件。
 将产物清单和文件哈希与运行证据一起保存；仅有轨迹无法保留二进制文件和原始系统状态。
 
+对于明确授权、使用已保留 Docker trial 的额外 verifier 批次，可通过仓库入口执行，
+无需启动 agent：
+
+```bash
+uv run --project benchmarks/harbor python -m harbor_adapter verify-retained \
+  --trial-dir jobs/example/task__trial \
+  --task-dir /path/to/the/original/task \
+  --container task__trial__env-main-1 \
+  --output-dir jobs/example-additional-verifier-batch
+```
+
+原项目的所有服务必须处于停止状态。该命令启动原来的容器，等待服务健康检查通过，
+核对冻结的 `/app` 产物和原始测试的哈希，并使用题目原生时限执行最多三次尝试。
+可选的 `--retry-dependency-errors` 和 `--retry-collection-errors` 标志与对应的
+verifier 参数一样，需要单独授权。任何已完成的评分都会结束该批次，包括得分为 0。
+原 trial 日志会暂存在保留容器内，并在结束后恢复。新增尝试日志、执行源码、策略、
+哈希和完整性检查写入单独的输出目录。批次结束后，容器会被停止并继续保留。
+该命令不会修改原 trial 的结果，也不会自动授权后续重复批次。
+
 ## Benchmark 报告
 
 报告提供[英文](reports/en/)和[简体中文](reports/zh-CN/)两个版本，文件名一一对应。

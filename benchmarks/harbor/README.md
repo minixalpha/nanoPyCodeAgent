@@ -311,6 +311,29 @@ the registered files before verification. Keep both the
 artifact manifest and file hashes with the run evidence; trajectories alone do
 not preserve binaries or the original system state.
 
+For an explicitly authorized additional verifier batch on a retained Docker
+trial, use the repository entry point without starting an agent:
+
+```bash
+uv run --project benchmarks/harbor python -m harbor_adapter verify-retained \
+  --trial-dir jobs/example/task__trial \
+  --task-dir /path/to/the/original/task \
+  --container task__trial__env-main-1 \
+  --output-dir jobs/example-additional-verifier-batch
+```
+
+All original project services must be stopped. The command starts those same
+containers, waits for service health checks, verifies frozen `/app` artifacts
+and original test hashes, and runs at most three attempts with the native task
+timeout. The optional `--retry-dependency-errors` and
+`--retry-collection-errors` flags require the same separate authorization as
+their verifier kwargs. Any completed score, including zero, stops the batch.
+The original trial logs are temporarily set aside inside the retained container
+and restored afterward. New attempt logs, implementation sources, policy,
+hashes, and integrity checks go into the separate output directory. Containers
+are stopped and retained after the batch. This does not change the original
+trial result or authorize repeated batches automatically.
+
 ## Benchmark reports
 
 Reports are available in [English](reports/en/) and

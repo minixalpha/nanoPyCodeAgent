@@ -202,11 +202,45 @@ def cancel(control):
     raise RuntimeError("Verifier runner did not stop after cancellation")
 
 
+def run_batch(command, timeout_sec, max_attempts, logs, control, archive,
+              retry_dependency_errors=False, retry_collection_errors=False):
+    """Keep a new batch separate and restore the previous verifier evidence."""
+    logs, archive = Path(logs).resolve(), Path(archive).resolve()
+    if logs == archive or logs in archive.parents or archive in logs.parents:
+        raise ValueError("Batch archive must be outside the verifier directory")
+    archive.mkdir(parents=True, exist_ok=False)
+    original, current = archive / "original", archive / "verifier"
+    original.mkdir()
+    current.mkdir()
+    moved = []
+    try:
+        for path in list(logs.iterdir()):
+            shutil.move(str(path), original / path.name)
+            moved.append(path.name)
+    except BaseException:
+        for name in moved:
+            shutil.move(str(original / name), logs / name)
+        raise
+    try:
+        return run(command, timeout_sec, max_attempts, logs, control,
+                   retry_dependency_errors, retry_collection_errors)
+    finally:
+        try:
+            for path in list(logs.iterdir()):
+                shutil.move(str(path), current / path.name)
+        finally:
+            for name in moved:
+                shutil.move(str(original / name), logs / name)
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "cancel":
         cancel(sys.argv[2])
     else:
         arguments = sys.argv[1:]
+        archive = arguments.pop(1) if arguments[0] == "batch" else None
+        if archive is not None:
+            arguments.pop(0)
         if len(arguments) == 5:
             command, timeout, count, logs, control = arguments
             retry_dependencies = False
@@ -219,7 +253,9 @@ if __name__ == "__main__":
             command, timeout, count, retry, collection, logs, control = arguments
             retry_dependencies = retry == "1"
             retry_collection = collection == "1"
-        print(json.dumps(run(
+        runner = run if archive is None else lambda *args: run_batch(
+            *args[:5], archive, *args[5:])
+        print(json.dumps(runner(
             command, float(timeout), int(count), logs, control, retry_dependencies,
             retry_collection,
         )))
