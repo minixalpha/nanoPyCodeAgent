@@ -1,0 +1,21 @@
+{
+  "kind": "separately authorized verifier-only continuation",
+  "authorization": "User requested three additional verifier attempts for pytorch-model-recovery on 2026-10-21.",
+  "original_supplement": "benchmarks/harbor/results/dev34-flash1017-recovery-20261020.json",
+  "original_supplement_sha256": "37249473185caa2980fd5a322a375ef5da6bde1a7dd43e2964160def218a93b6",
+  "trial_dir": "jobs/runtime-source/jobs/dev3-1017-pytorch-model-recovery-recovery-20261020/pytorch-model-recovery__nCs7Y4H",
+  "task_dir": "/home/minix/.cache/harbor/tasks/packages/terminal-bench/pytorch-model-recovery/2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+  "container": "pytorch-model-recovery__ncs7y4h__env-main-1",
+  "output_dir": "jobs/pytorch-model-recovery-verifier-20261021",
+  "model_calls": 0,
+  "same_agent_output": true,
+  "max_attempts_this_batch": 3,
+  "previous_attempts_on_this_output": 3,
+  "native_timeout_seconds_per_attempt": 900,
+  "retry_dependency_errors": true,
+  "retry_collection_errors": true,
+  "stop_after_any_completed_score": true,
+  "dependency_profile": "not_configured; previous native dependency preflight is not a verifier dependency preflight",
+  "keep_container": true,
+  "preserve_original_trial_evidence": true
+}

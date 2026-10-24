@@ -66,6 +66,11 @@ uv 0.9.5、Python 3.13、pytest 8.4.1 和 pytest-json-ctrf 0.3.5，不执行题�
 参考解。未知的 QEMU 版本会在安装阶段报错，要求先检查对应预检配置；没有预检配置
 的其他题目明确记录为 `not_configured`。其他题目需要预检时，在这里新增配置及回归测试。
 
+已检查的 `pytorch-model-recovery` 版本也有仅准备依赖的配置。它使用原始 uv 0.9.5
+安装器和验证器所需的 Python 3.13、pytest 8.4.1、torch 2.7.1、pytest-json-ctrf
+0.3.5，随后仅在 `/tmp` 执行 `pytest --version`。它不导入提交的模型，也不运行
+题目测试。其他题目版本需要重新检查对应配置。
+
 每次安装都会写入 `agent/bootstrap.json`，失败时也保留已完成的步骤。预检失败会
 在模型调用前终止 trial。官方验证脚本保持原样，执行时仍可能访问网络，所以预检
 通过不能保证后续没有网络故障。完整标准运行默认启用下述验证超时重试，整题重试
@@ -237,6 +242,45 @@ Harbor 原生的 provider 凭证和已经配置的 base URL 也会转换为 nano
 只要已有 CTRF 报告、pytest 执行输出或成功评分，就不会进行这种恢复；有效的失败
 评分也会立即停止。依赖错误耗尽尝试后抛出 `VerifierDependencyError`，保留每次
 证据并清除当前评分。默认仍只重试超时；实验计划应记录授权和实际选用的策略。
+
+对单独授权的 pytest 收集失败恢复，还可设置
+`retry_collection_errors=true`。它只重试尚未运行任何测试用例时明确发生的收集中断。
+成功评分、已执行的测试用例或含义不明确的 CTRF 报告都会阻止这种恢复。耗尽次数后
+抛出 `VerifierCollectionError`，保留归档评分，但不发布当前评分。默认值为 false，
+与超时及依赖恢复共享最多三次的尝试上限。
+
+如果之后可能需要继续验证，应设置 Docker 的
+`environment.kwargs.keep_containers=true` 保留已停止的任务容器，并在 `artifacts`
+中登记 `/app` 等解答路径。仅设置 `environment.delete=false` 仍会删除 Docker
+容器。Harbor 会在验证前收集已登记的文件。
+将产物清单和文件哈希与运行证据一起保存；仅有轨迹无法保留二进制文件和原始系统状态。
+
+对于明确授权、使用已保留 Docker trial 的额外 verifier 批次，可通过仓库入口执行，
+无需启动 agent：
+
+```bash
+uv run --project benchmarks/harbor python -m harbor_adapter verify-retained \
+  --trial-dir jobs/example/task__trial \
+  --task-dir /path/to/the/original/task \
+  --container task__trial__env-main-1 \
+  --output-dir jobs/example-additional-verifier-batch
+```
+
+原项目的所有服务必须处于停止状态。该命令启动原来的容器，等待服务健康检查通过，
+核对冻结的 `/app` 产物和原始测试的哈希，并使用题目原生时限执行最多三次尝试。
+可选的 `--retry-dependency-errors` 和 `--retry-collection-errors` 标志与对应的
+verifier 参数一样，需要单独授权。任何已完成的评分都会结束该批次，包括得分为 0。
+原 trial 日志会暂存在保留容器内，并在结束后恢复。新增尝试日志、执行源码、策略、
+哈希和完整性检查写入单独的输出目录。批次结束后，容器会被停止并继续保留。
+该命令不会修改原 trial 的结果，也不会自动授权后续重复批次。
+
+若要为保留解答的依赖准备单独分配时间，可添加 `--dependency-timeout-sec 3600`。
+这要求精确题目版本已有检查过的依赖配置，并核对其中登记的任务文件哈希。依赖准备
+在同一容器中、正式验证前执行一次，日志和状态单独记录到 `dependency-preparation/`。
+准备超时或以非零状态退出时，结果为安装失败、不评分，也不会启动正式验证。准备
+成功后，保持原样的官方验证脚本按原生单次时限执行（`pytorch-model-recovery` 为
+900 秒）。脚本内剩余的依赖检查仍计入这 900 秒。更长的准备时限不会延长正式验证
+时限。即使解答相同，也应将这一准备策略与先前 baseline 分开记录。
 
 ## Benchmark 报告
 

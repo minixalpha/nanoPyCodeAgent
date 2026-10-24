@@ -1,0 +1,311 @@
+{
+  "observed_at": "2026-10-19T13:14:02.324661+00:00",
+  "images": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "image_id": "sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f",
+      "repo_digests": [
+        "alexgshaw/adaptive-rejection-sampler@sha256:985bed39e8448bc95f138b5f766b59003a95c4be171c96af8e76448338f3dd8f"
+      ],
+      "size_bytes": 29731756
+    },
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "image": "alexgshaw/build-cython-ext:20251031",
+      "image_id": "sha256:3612a38fadb89a96f74a1a951fb0b0af734198fd160571eeaba6401593234594",
+      "repo_digests": [
+        "alexgshaw/build-cython-ext@sha256:3612a38fadb89a96f74a1a951fb0b0af734198fd160571eeaba6401593234594"
+      ],
+      "size_bytes": 303222492
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "image": "alexgshaw/cancel-async-tasks:20251031",
+      "image_id": "sha256:84c7fae6b256dcc56a350790e2a9715eefc7dad662a9d8e8a472363aa71ef18d",
+      "repo_digests": [
+        "alexgshaw/cancel-async-tasks@sha256:84c7fae6b256dcc56a350790e2a9715eefc7dad662a9d8e8a472363aa71ef18d"
+      ],
+      "size_bytes": 44171676
+    },
+    {
+      "task": "terminal-bench/cobol-modernization",
+      "image": "alexgshaw/cobol-modernization:20251031",
+      "image_id": "sha256:593ab9df3d83f771e927888b2d9436b380cdf7ec4d0af2a9f0802d541edebba0",
+      "repo_digests": [
+        "alexgshaw/cobol-modernization@sha256:593ab9df3d83f771e927888b2d9436b380cdf7ec4d0af2a9f0802d541edebba0"
+      ],
+      "size_bytes": 162020401
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "image": "alexgshaw/db-wal-recovery:20251031",
+      "image_id": "sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e",
+      "repo_digests": [
+        "alexgshaw/db-wal-recovery@sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e"
+      ],
+      "size_bytes": 175276145
+    },
+    {
+      "task": "terminal-bench/fix-code-vulnerability",
+      "image": "alexgshaw/fix-code-vulnerability:20251031",
+      "image_id": "sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0",
+      "repo_digests": [
+        "alexgshaw/fix-code-vulnerability@sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0"
+      ],
+      "size_bytes": 190696453
+    },
+    {
+      "task": "terminal-bench/git-multibranch",
+      "image": "alexgshaw/git-multibranch:20251031",
+      "image_id": "sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5",
+      "repo_digests": [
+        "alexgshaw/git-multibranch@sha256:5bc449921c138295f6ddd8dca2977319fee2ce523811dbe56cec4ca663385fb5"
+      ],
+      "size_bytes": 222134454
+    },
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "image": "alexgshaw/kv-store-grpc:20251031",
+      "image_id": "sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791",
+      "repo_digests": [
+        "alexgshaw/kv-store-grpc@sha256:3399400800dcb207634daa42bc1b052e831e285cc9d221eea66c47bc0fc79791"
+      ],
+      "size_bytes": 44171671
+    },
+    {
+      "task": "terminal-bench/log-summary-date-ranges",
+      "image": "alexgshaw/log-summary-date-ranges:20251031",
+      "image_id": "sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51",
+      "repo_digests": [
+        "alexgshaw/log-summary-date-ranges@sha256:cbeb6ba905c2fec294f16cd5e16e3ea7f2e04d38ac2484d51a11de262aa7dc51"
+      ],
+      "size_bytes": 44866158
+    },
+    {
+      "task": "terminal-bench/merge-diff-arc-agi-task",
+      "image": "alexgshaw/merge-diff-arc-agi-task:20251031",
+      "image_id": "sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4",
+      "repo_digests": [
+        "alexgshaw/merge-diff-arc-agi-task@sha256:bfc2a235f2ceea64ffb1ffc5529c2acebf570bff61f3668f0e5669ef570c17d4"
+      ],
+      "size_bytes": 29728285
+    },
+    {
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "image": "alexgshaw/model-extraction-relu-logits:20251031",
+      "image_id": "sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce",
+      "repo_digests": [
+        "alexgshaw/model-extraction-relu-logits@sha256:52fe1f089f38650f0dc22d7531ee6e01ebd526de1b349aaa2ecb331dca9fabce"
+      ],
+      "size_bytes": 83698971
+    },
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "image": "alexgshaw/multi-source-data-merger:20251031",
+      "image_id": "sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e",
+      "repo_digests": [
+        "alexgshaw/multi-source-data-merger@sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e"
+      ],
+      "size_bytes": 220880128
+    },
+    {
+      "task": "terminal-bench/nginx-request-logging",
+      "image": "alexgshaw/nginx-request-logging:20251031",
+      "image_id": "sha256:693e64431a0dbf45952e8b91a298d54fd60247e501c6623fb8fa3ebc07fc3d3d",
+      "repo_digests": [
+        "alexgshaw/nginx-request-logging@sha256:693e64431a0dbf45952e8b91a298d54fd60247e501c6623fb8fa3ebc07fc3d3d"
+      ],
+      "size_bytes": 67285778
+    },
+    {
+      "task": "terminal-bench/openssl-selfsigned-cert",
+      "image": "alexgshaw/openssl-selfsigned-cert:20251031",
+      "image_id": "sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12",
+      "repo_digests": [
+        "alexgshaw/openssl-selfsigned-cert@sha256:4c948a4e630af2435ae0a19108fc0814a946ac2fa29a512469e0fc77b38c8c12"
+      ],
+      "size_bytes": 44173158
+    },
+    {
+      "task": "terminal-bench/pypi-server",
+      "image": "alexgshaw/pypi-server:20251031",
+      "image_id": "sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276",
+      "repo_digests": [
+        "alexgshaw/pypi-server@sha256:d18bb30f47c7dcaa3acdbc31ac7413c98eadca2ea16540bbd380f2f063b95276"
+      ],
+      "size_bytes": 83726049
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "image": "alexgshaw/pytorch-model-cli:20251031",
+      "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "repo_digests": [
+        "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67"
+      ],
+      "size_bytes": 44349611
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "image": "alexgshaw/pytorch-model-recovery:20260430",
+      "image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+      "repo_digests": [
+        "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+      ],
+      "size_bytes": 269661811
+    },
+    {
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "image": "alexgshaw/qemu-alpine-ssh:20251031",
+      "image_id": "sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964",
+      "repo_digests": [
+        "alexgshaw/qemu-alpine-ssh@sha256:541e8214a8c4faa7b556531b899d45da21048fa2ca6dd328d8cb6c4cffa8e964"
+      ],
+      "size_bytes": 1308553944
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "image": "alexgshaw/query-optimize:20251031",
+      "image_id": "sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14",
+      "repo_digests": [
+        "alexgshaw/query-optimize@sha256:28de7da87004eab5b29bd5eaf1823579bc5b73ccea4b80349a5623185770da14"
+      ],
+      "size_bytes": 120494963
+    },
+    {
+      "task": "terminal-bench/regex-log",
+      "image": "alexgshaw/regex-log:20251031",
+      "image_id": "sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9",
+      "repo_digests": [
+        "alexgshaw/regex-log@sha256:90101b2e815323a8da20528a1439bebc407eb9761c9c68a3d557730856c878e9"
+      ],
+      "size_bytes": 29725514
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "image_id": "sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b",
+      "repo_digests": [
+        "alexgshaw/torch-pipeline-parallelism@sha256:3cb7b39d86f1704b20e668851da0b08b34b3270c01d583f136d65190984a8d1b"
+      ],
+      "size_bytes": 29725531
+    },
+    {
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "image": "alexgshaw/torch-tensor-parallelism:20251031",
+      "image_id": "sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690",
+      "repo_digests": [
+        "alexgshaw/torch-tensor-parallelism@sha256:c50ac169e11465f41b49749fe87e4487f24d31a0c39c0906cd3242cc5499c690"
+      ],
+      "size_bytes": 29725529
+    },
+    {
+      "task": "terminal-bench/write-compressor",
+      "image": "alexgshaw/write-compressor:20251031",
+      "image_id": "sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1",
+      "repo_digests": [
+        "alexgshaw/write-compressor@sha256:3618e1f8a997b437c09cd3dbaac736705809c05f6f12f584b65722175970ebe1"
+      ],
+      "size_bytes": 291927726
+    },
+    {
+      "task": "terminal-bench/constraints-scheduling",
+      "image": "alexgshaw/constraints-scheduling:20251031",
+      "image_id": "sha256:567ce5a189f8d11ac461790876e934cc7af38391baf89a78f95f4dafc1fec3b0",
+      "repo_digests": [
+        "alexgshaw/constraints-scheduling@sha256:567ce5a189f8d11ac461790876e934cc7af38391baf89a78f95f4dafc1fec3b0"
+      ],
+      "size_bytes": 49852952
+    },
+    {
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "image": "alexgshaw/custom-memory-heap-crash:20251031",
+      "image_id": "sha256:1895d7d6240d5fb2ec774d6bfdd1057d170f8d199c15c582e4585d3c63802557",
+      "repo_digests": [
+        "alexgshaw/custom-memory-heap-crash@sha256:1895d7d6240d5fb2ec774d6bfdd1057d170f8d199c15c582e4585d3c63802557"
+      ],
+      "size_bytes": 1267999268
+    },
+    {
+      "task": "terminal-bench/dna-assembly",
+      "image": "alexgshaw/dna-assembly:20251031",
+      "image_id": "sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569",
+      "repo_digests": [
+        "alexgshaw/dna-assembly@sha256:d1adf6835f1dd91205ba70e452c699d0aea601010038e5617f370716efb50569"
+      ],
+      "size_bytes": 29727501
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+      "image_id": "sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774",
+      "repo_digests": [
+        "alexgshaw/llm-inference-batching-scheduler@sha256:19e79aa49be4e55dccca1dde966515ebe6852314b6010bcb9230afb48b996774"
+      ],
+      "size_bytes": 44188631
+    },
+    {
+      "task": "terminal-bench/path-tracing",
+      "image": "alexgshaw/path-tracing:20251031",
+      "image_id": "sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482",
+      "repo_digests": [
+        "alexgshaw/path-tracing@sha256:4b44725102cd627dfa895191a5a30d16dae3c5623bb43da6459f79135db6b482"
+      ],
+      "size_bytes": 399390468
+    },
+    {
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "image": "alexgshaw/schemelike-metacircular-eval:20251031",
+      "image_id": "sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db",
+      "repo_digests": [
+        "alexgshaw/schemelike-metacircular-eval@sha256:b485be38bf80d56c1a4cd9da95bbf7ec129dc03f6786b86c0525518a96f6d1db"
+      ],
+      "size_bytes": 44188336
+    },
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "image": "alexgshaw/caffe-cifar-10:20260403",
+      "image_id": "sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215",
+      "repo_digests": [
+        "alexgshaw/caffe-cifar-10@sha256:929a6d631b592c82e0d0f5d4a65cf03c946dc554cfc9bb09916e82076e7d3215"
+      ],
+      "size_bytes": 213171982
+    },
+    {
+      "task": "terminal-bench/circuit-fibsqrt",
+      "image": "alexgshaw/circuit-fibsqrt:20251031",
+      "image_id": "sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a",
+      "repo_digests": [
+        "alexgshaw/circuit-fibsqrt@sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a"
+      ],
+      "size_bytes": 149136738
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "image": "alexgshaw/mteb-leaderboard:20260430",
+      "image_id": "sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4",
+      "repo_digests": [
+        "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4"
+      ],
+      "size_bytes": 663825427
+    },
+    {
+      "task": "terminal-bench/regex-chess",
+      "image": "alexgshaw/regex-chess:20251031",
+      "image_id": "sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c",
+      "repo_digests": [
+        "alexgshaw/regex-chess@sha256:e3b6d61d2d3930fbbdc5f7bf091a7f8b7f6125e1951ef8a7dbe165b1ef62942c"
+      ],
+      "size_bytes": 55625584
+    },
+    {
+      "task": "terminal-bench/build-pov-ray",
+      "image": "alexgshaw/build-pov-ray:20251031",
+      "image_id": "sha256:874baf49341e2853a15a9184e308c7eb632e97f434359fcff2891c6e5ca1b39b",
+      "repo_digests": [
+        "alexgshaw/build-pov-ray@sha256:874baf49341e2853a15a9184e308c7eb632e97f434359fcff2891c6e5ca1b39b"
+      ],
+      "size_bytes": 163066497
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "separately authorized dependency preparation followed by native-timeout verification",
+  "authorization": "User approved giving dependency preparation more time while retaining the original formal verification limit on 2026-10-24.",
+  "task": "terminal-bench/pytorch-model-recovery",
+  "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+  "trial_dir": "jobs/runtime-source/jobs/dev3-1017-pytorch-model-recovery-recovery-20261020/pytorch-model-recovery__nCs7Y4H",
+  "task_dir": "/home/minix/.cache/harbor/tasks/packages/terminal-bench/pytorch-model-recovery/2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+  "container": "pytorch-model-recovery__ncs7y4h__env-main-1",
+  "output_dir": "jobs/pytorch-model-recovery-prepared-20261024",
+  "dependency_preparation": {
+    "profile": "pytorch-model-recovery-v1",
+    "timeout_seconds": 3600,
+    "max_attempts": 1,
+    "executes_task_tests": false,
+    "imports_submitted_model": false
+  },
+  "formal_verification": {
+    "native_timeout_seconds": 900,
+    "max_attempts": 1,
+    "official_script_unchanged": true
+  },
+  "model_calls": 0,
+  "frozen_model_sha256": "098642cbf41010a7fab7a9cf32995b49300cc3ccb1d724e7d57d729330f0bb4e",
+  "previous_verifier_attempts_on_this_solution": 6,
+  "preserve_original_trial_evidence": true,
+  "keep_containers": true,
+  "earlier_experiment_sha256": {
+    "benchmarks/harbor/results/dev34-flash1017-recovery-20261020.json": "37249473185caa2980fd5a322a375ef5da6bde1a7dd43e2964160def218a93b6",
+    "benchmarks/harbor/results/pytorch-model-recovery-verifier-20261021.json": "30a91d03fc2af479205d33be9b1ad9d340accca50216f49c5a7fd492ba75703f"
+  },
+  "comparison_note": "Additional dependency preparation changes the evaluation setup; report this continuation separately without rewriting earlier baseline or supplement results."
+}
