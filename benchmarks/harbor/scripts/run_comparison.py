@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import subprocess
 
 
@@ -57,11 +58,16 @@ def validate_plan(root, plan_path, plan):
             ["git", "diff", "--exit-code", "HEAD", "--", "src", "benchmarks/harbor/src"],
             cwd=source, check=True, stdout=subprocess.DEVNULL,
         )
-        expected = plan_path.parent / arm["prompt_file"]
-        if digest(expected) != arm["prompt_sha256"]:
-            raise ValueError(f"Prompt file changed: {expected}")
-        if prompt_from_source(source / "src/nanopycodeagent/agent.py") != expected.read_text():
-            raise ValueError(f"Source prompt does not match the plan: {source}")
+        if arm.get("agent") == "pi":
+            from harbor_adapter.pi import distribution_digest, distribution_files
+            if distribution_digest(distribution_files(Path(arm["distribution_path"]))) != arm["distribution_sha256"]:
+                raise ValueError("Registered Pi distribution changed")
+        else:
+            expected = plan_path.parent / arm["prompt_file"]
+            if digest(expected) != arm["prompt_sha256"]:
+                raise ValueError(f"Prompt file changed: {expected}")
+            if prompt_from_source(source / "src/nanopycodeagent/agent.py") != expected.read_text():
+                raise ValueError(f"Source prompt does not match the plan: {source}")
     for task in plan["tasks"]:
         cache = Path.home() / ".cache/harbor/tasks/packages" / task["name"] / task["ref"].split(":")[1]
         for name, expected in task["task_file_sha256"].items():
@@ -84,6 +90,9 @@ def run_job(root, plan, job, record, install_only):
         if previous["status"] == "finished":
             return previous
         raise RuntimeError(f"Previously started job requires inspection; refusing to retry: {status_path}")
+    minimum = plan.get("minimum_free_disk_bytes", 0)
+    if shutil.disk_usage(root).free < minimum:
+        raise RuntimeError(f"Insufficient free disk space: this plan requires {minimum} bytes")
     source = root / plan["arms"][job["arm"]]["source_root"]
     command = [
         "uv", "run", "--project", "benchmarks/harbor", "python", "-m", "harbor_adapter",
@@ -166,23 +175,37 @@ def accepted_preflights_passed(root, plan):
         if config.get("install_only") is not True or manifest["commit"] != arm["source_ref"]:
             raise ValueError("Accepted installation used a different mode or source revision")
         expected_sources = {}
-        for prefix, package in (("src", "nanopycodeagent"), ("benchmarks/harbor/src", "harbor_adapter")):
+        packages = [("benchmarks/harbor/src", "harbor_adapter")]
+        if arm.get("agent") != "pi":
+            packages.append(("src", "nanopycodeagent"))
+        for prefix, package in packages:
             for path in (source / prefix / package).rglob("*.py"):
                 expected_sources[str(path.relative_to(source / prefix))] = digest(path)
         if not expected_sources or manifest["source_sha256"] != expected_sources:
             raise ValueError("Accepted installation source snapshot differs from the frozen source")
-        wheel = Path(result["config"]["agent"]["kwargs"]["wheel_path"]).resolve()
-        if not wheel.is_relative_to((inputs / "dist").resolve()):
-            raise ValueError("Accepted installation wheel must belong to its recorded inputs")
-        if not (digest(wheel) == manifest["wheel_sha256"] == bootstrap["wheel_sha256"]):
-            raise ValueError("Accepted installation wheel digest differs from its provenance")
+        if arm.get("agent") == "pi":
+            pin = arm["distribution_sha256"]
+            pi_input, = manifest["pi_inputs"]
+            if not (pi_input["distribution_sha256"] == bootstrap["distribution_sha256"] == pin):
+                raise ValueError("Accepted Pi distribution differs from its provenance")
+            from harbor_adapter.pi import distribution_digest
+            if distribution_digest(pi_input["files"]) != pin:
+                raise ValueError("Accepted Pi file manifest differs from its provenance")
+            if digest(inputs / "pi-models.json") != pi_input["model_config_sha256"]:
+                raise ValueError("Accepted Pi model config differs from its provenance")
+        else:
+            wheel = Path(result["config"]["agent"]["kwargs"]["wheel_path"]).resolve()
+            if not wheel.is_relative_to((inputs / "dist").resolve()):
+                raise ValueError("Accepted installation wheel must belong to its recorded inputs")
+            if not (digest(wheel) == manifest["wheel_sha256"] == bootstrap["wheel_sha256"]):
+                raise ValueError("Accepted installation wheel digest differs from its provenance")
     return True
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", type=Path, required=True)
-    parser.add_argument("--phase", choices=["preflight", "model"], required=True)
+    parser.add_argument("--phase", choices=["preflight", "model", "all"], required=True)
     args = parser.parse_args()
     root, plan_path = Path.cwd(), args.plan.resolve()
     plan = json.loads(plan_path.read_text())
@@ -205,9 +228,12 @@ def main():
         len(json.loads((root / job["config"]).read_text())["tasks"])
         for job in plan["preflight"]
     ]
-    if args.phase == "preflight":
+    if args.phase in {"preflight", "all"}:
         states = [run_job(root, plan, j, record, True) for j in plan["preflight"]]
-        return 0 if accepted or preflight_passed(states, expected_counts) else 1
+        if not accepted and not preflight_passed(states, expected_counts):
+            return 1
+        if args.phase == "preflight":
+            return 0
     if not accepted:
         preflight = [json.loads((record / (j["job_name"] + ".json")).read_text()) for j in plan["preflight"]]
         if not preflight_passed(preflight, expected_counts):

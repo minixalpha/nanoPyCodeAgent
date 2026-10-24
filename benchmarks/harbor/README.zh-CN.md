@@ -71,6 +71,27 @@ uv 0.9.5、Python 3.13、pytest 8.4.1 和 pytest-json-ctrf 0.3.5，不执行题�
 通过不能保证后续没有网络故障。完整标准运行默认启用下述验证超时重试，整题重试
 次数为零。CI 会验证这些约定，不调用模型、不启动 Docker。
 
+### Pi agent baseline
+
+同一个标准入口也支持 `harbor_adapter:PiCodeAgent`。在 agent kwargs 中用
+`distribution_path` 和 `distribution_sha256` 注册本地未修改的 Pi 二进制发行包，
+用 `model_config_path` 指定公开模型配置，并可选设置 `thinking`。
+摘要覆盖发行包内每个文件及其权限。工作流会在共享缓存中保存一份按内容寻址的
+发行包快照，安装前再次校验，并为每个任务记录文件清单与公开模型配置。
+Pi 使用原生提示词、工具、上下文压缩和重试行为；不会构建或安装 nanoPyCodeAgent wheel。
+
+目前该 adapter 支持 DeepSeek 官方 OpenAI 兼容 API。公开模型文件必须引用
+`${DEEPSEEK_API_KEY}`，真实密钥通过进程环境提供。个人 Pi 配置、扩展、skills
+和历史会话不会复制到任务环境。禁用模型目录自动更新，以保证已记录的配置可复现。
+仅安装检查会验证实际二进制和模型注册，不调用模型，并沿用相同的已审阅 verifier
+依赖 profile。原生会话及完整事件保存在 `agent/pi/` 和 `agent/pi.txt`。
+用量统计在 Pi 提供数据时包含上下文压缩；费用为估算值，缺失用量会单独标注。
+Pi 目前不生成 ATIF trajectory。
+
+比较运行器支持 Pi arm，以及先安装检查、再执行模型队列的 `--phase all`。
+注册的 `minimum_free_disk_bytes` 会在空间不足时阻止启动新任务。
+已有任务和失败尝试均保留。各 agent 的预算差异必须在实验中说明，不能假设原生默认值相同。
+
 ### 缓存原始任务镜像
 
 如果 Docker 拉取镜像反复停滞，可用缓存工具从同一 Docker Hub 公共仓库分段并行下载：
