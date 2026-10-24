@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import hashlib
 import shlex
 import subprocess
 import sys
@@ -137,3 +138,68 @@ def test_retained_timeout_does_not_publish_an_archived_reward(tmp_path):
     (tmp_path / "verifier").mkdir()
     (tmp_path / "verifier/reward.txt").write_text("1")
     assert batch_result(tmp_path, {"status": "timeout"})["rewards"] is None
+
+
+@pytest.mark.parametrize("preparation", ["sleep 0.2", "exit 2", "sleep 10"])
+def test_dependency_preparation_has_its_own_budget_and_gates_verification(tmp_path, preparation):
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    (logs / "old.txt").write_text("original evidence")
+    before = hashes(logs)
+    archive = tmp_path / "batch"
+    marker = tmp_path / "verification-started"
+    command = f"touch {shlex.quote(str(marker))}; echo 0 > {shlex.quote(str(logs / 'reward.txt'))}"
+    result = subprocess.run([
+        sys.executable, "-c", _RUNNER, "prepared-batch", str(archive), preparation,
+        "0.5", command, "0.1", "1", "0", "0", str(logs), str(tmp_path / "control.pid"),
+    ], capture_output=True, text=True, check=True)
+    record = json.loads(result.stdout)
+    success = preparation == "sleep 0.2"
+    assert marker.exists() is success
+    assert hashes(logs) == before
+    if success:
+        assert record["preparation"]["duration_seconds"] > 0.1
+        assert record["verification"]["status"] == "completed"
+        assert (archive / "verifier/reward.txt").read_text() == "0\n"
+    else:
+        assert record["verification"] is None
+        assert not archive.exists()
+    summary = json.loads((tmp_path / "batch-dependencies/retry-summary.json").read_text())
+    assert summary["timeout_sec"] == 0.5
+    assert len(summary["attempts"]) == 1
+
+
+def test_long_preparation_budget_does_not_extend_the_formal_verifier(tmp_path):
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    (logs / "old.txt").write_text("original evidence")
+    before = hashes(logs)
+    result = subprocess.run([
+        sys.executable, "-c", _RUNNER, "prepared-batch", str(tmp_path / "batch"),
+        "true", "10", "sleep 5", "0.1", "1", "0", "0", str(logs), str(tmp_path / "control.pid"),
+    ], capture_output=True, text=True, check=True)
+    record = json.loads(result.stdout)
+    assert record["verification"]["status"] == "timeout"
+    assert record["verification"]["duration_seconds"] < 2
+    assert hashes(logs) == before
+
+
+def test_dependency_preparation_requires_a_reviewed_revision_and_matching_files(tmp_path, monkeypatch):
+    from harbor_adapter.bootstrap import VERIFIER_PROFILES, VerifierProfile
+    from harbor_adapter.retained import dependency_plan
+
+    trial, task = tmp_path / "trial", tmp_path / "task"
+    trial.mkdir()
+    task.mkdir()
+    (trial / "config.json").write_text(json.dumps({"task": {"name": "terminal-bench/reviewed", "ref": "sha256:abc"}}))
+    (task / "task.toml").write_text("reviewed task")
+    digest = hashlib.sha256((task / "task.toml").read_bytes()).hexdigest()
+    monkeypatch.setitem(VERIFIER_PROFILES, ("terminal-bench/reviewed", "sha256:abc"),
+                        VerifierProfile("reviewed-v1", (), "true", (("task.toml", digest),)))
+    assert dependency_plan(trial, task, 3600)["timeout_seconds"] == 3600
+    (task / "task.toml").write_text("modified task")
+    with pytest.raises(ValueError, match="profile mismatch"):
+        dependency_plan(trial, task, 3600)
+    (trial / "config.json").write_text(json.dumps({"task": {"name": "terminal-bench/reviewed", "ref": "latest"}}))
+    with pytest.raises(ValueError, match="Unknown"):
+        dependency_plan(trial, task, 3600)

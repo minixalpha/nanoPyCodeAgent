@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import shlex
 import signal
 import subprocess
 import sys
@@ -233,14 +234,35 @@ def run_batch(command, timeout_sec, max_attempts, logs, control, archive,
                 shutil.move(str(original / name), logs / name)
 
 
+def run_prepared_batch(preparation_command, preparation_timeout, command,
+                       timeout_sec, max_attempts, logs, control, archive,
+                       retry_dependency_errors=False, retry_collection_errors=False):
+    """Prepare dependencies separately, then preserve the native verifier budget."""
+    preparation_logs = Path(str(archive) + "-dependencies")
+    preparation_logs.mkdir(parents=True, exist_ok=False)
+    preparation = run(
+        f"({preparation_command}) > {shlex.quote(str(preparation_logs / 'test-stdout.txt'))} 2>&1",
+        preparation_timeout, 1, preparation_logs, control,
+    )
+    result = {"preparation": preparation, "verification": None}
+    if preparation["status"] == "completed" and preparation["return_code"] == 0:
+        result["verification"] = run_batch(
+            command, timeout_sec, max_attempts, logs, control, archive,
+            retry_dependency_errors, retry_collection_errors,
+        )
+    return result
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "cancel":
         cancel(sys.argv[2])
     else:
         arguments = sys.argv[1:]
-        archive = arguments.pop(1) if arguments[0] == "batch" else None
-        if archive is not None:
-            arguments.pop(0)
+        mode = arguments.pop(0) if arguments[0] in {"batch", "prepared-batch"} else None
+        archive = arguments.pop(0) if mode else None
+        if mode == "prepared-batch":
+            preparation_command, preparation_timeout = arguments[:2]
+            del arguments[:2]
         if len(arguments) == 5:
             command, timeout, count, logs, control = arguments
             retry_dependencies = False
@@ -253,8 +275,12 @@ if __name__ == "__main__":
             command, timeout, count, retry, collection, logs, control = arguments
             retry_dependencies = retry == "1"
             retry_collection = collection == "1"
-        runner = run if archive is None else lambda *args: run_batch(
-            *args[:5], archive, *args[5:])
+        if mode == "prepared-batch":
+            runner = lambda *args: run_prepared_batch(
+                preparation_command, float(preparation_timeout), *args[:5], archive, *args[5:])
+        else:
+            runner = run if archive is None else lambda *args: run_batch(
+                *args[:5], archive, *args[5:])
         print(json.dumps(runner(
             command, float(timeout), int(count), logs, control, retry_dependencies,
             retry_collection,

@@ -82,6 +82,12 @@ assertions or solution code. Unknown QEMU revisions fail setup pending profile
 review; tasks without a profile explicitly report `not_configured`. Add a
 profile and regression tests when another task needs verifier preflight.
 
+The reviewed `pytorch-model-recovery` revision also has a dependency-only
+profile. It uses the original uv 0.9.5 installer and the verifier's Python 3.13,
+pytest 8.4.1, torch 2.7.1, and pytest-json-ctrf 0.3.5 requirements, then runs only
+`pytest --version` from `/tmp`. It does not import the submitted model or run
+the task's tests. Other revisions require profile review.
+
 Every installation writes `agent/bootstrap.json`, including partial progress
 on failure. Preflight failure stops the trial before any model call. The
 official verifier script remains unchanged and may still access the network
@@ -333,6 +339,18 @@ and restored afterward. New attempt logs, implementation sources, policy,
 hashes, and integrity checks go into the separate output directory. Containers
 are stopped and retained after the batch. This does not change the original
 trial result or authorize repeated batches automatically.
+
+To give dependency preparation its own budget on a retained solution, add
+`--dependency-timeout-sec 3600`. This requires a reviewed profile for the exact
+task revision and checks its registered task-file hashes. Preparation runs once
+in the same container before verification; its logs and status are recorded
+under `dependency-preparation/`. A preparation timeout or nonzero exit is a
+setup failure with no score, and verification does not start. On success, the
+unchanged official verifier script runs with the original per-attempt timeout
+(900 seconds for `pytorch-model-recovery`). Its own remaining dependency checks
+are still included in those 900 seconds. The larger preparation deadline never
+extends the verifier deadline. Record this preparation policy separately from
+earlier baseline results, even when the solution is identical.
 
 ## Benchmark reports
 

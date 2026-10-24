@@ -176,6 +176,7 @@ def main() -> int:
     retained.add_argument("--container", required=True)
     retained.add_argument("--output-dir", type=Path, required=True)
     retained.add_argument("--max-attempts", type=int, default=3)
+    retained.add_argument("--dependency-timeout-sec", type=float, help="Prepare a reviewed dependency profile before verification, with a separate deadline")
     retained.add_argument("--retry-dependency-errors", action="store_true")
     retained.add_argument("--retry-collection-errors", action="store_true")
     args = parser.parse_args()
