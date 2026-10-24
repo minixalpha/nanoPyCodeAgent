@@ -57,6 +57,13 @@ def test_interrupted_job_cannot_silently_restart(tmp_path):
         comparison.run_job(tmp_path, {}, job, tmp_path, False)
 
 
+def test_low_disk_space_stops_before_recording_or_starting_a_trial(tmp_path, monkeypatch):
+    monkeypatch.setattr(comparison.shutil, "disk_usage", lambda path: SimpleNamespace(free=1))
+    with pytest.raises(RuntimeError, match="Insufficient free disk"):
+        comparison.run_job(tmp_path, {"minimum_free_disk_bytes": 2}, {"job_name": "new"}, tmp_path, False)
+    assert not (tmp_path / "new.json").exists()
+
+
 def test_registered_transport_files_cannot_change(tmp_path):
     path = tmp_path / "apt-cache.conf"
     path.write_text("original configuration")

@@ -89,6 +89,34 @@ when it runs; a successful preflight is not a guarantee against later outages.
 Full standard runs enable the timeout retry policy below by default, with zero
 whole-trial retries. CI checks these contracts without model calls or Docker.
 
+### Pi agent baselines
+
+The same entry point also supports `harbor_adapter:PiCodeAgent`. Register a local
+unmodified Pi binary distribution with `distribution_path` and
+`distribution_sha256`, a public `model_config_path`, and optionally `thinking`
+in the agent kwargs. The digest covers every distribution file and its mode.
+The workflow saves one content-addressed distribution snapshot in the shared
+cache, verifies it again before installation, and records its file manifest and
+public model configuration with every job. Pi runs its native prompt, tools,
+compaction, and retry behavior; no nanoPyCodeAgent wheel is installed or built.
+
+Currently this adapter supports the official DeepSeek OpenAI-compatible API.
+The public models file must reference `${DEEPSEEK_API_KEY}`; supply the actual
+key through the process environment. Personal Pi configuration, extensions,
+skills, and session history are not copied into task environments. Catalog
+refresh is disabled so the recorded model configuration remains reproducible.
+Installation-only checks validate the actual binary and provider registration
+without a model call and use the same reviewed verifier dependency profiles.
+Native sessions and completed JSON events remain in `agent/pi/` and `agent/pi.txt`.
+Usage includes compaction when Pi supplies it, and reported costs are estimates.
+Missing usage stays diagnosed. Pi does not currently generate an ATIF trajectory.
+
+The comparison runner supports Pi arms and `--phase all` for installation checks
+followed by the model queue. A registered `minimum_free_disk_bytes` stops new
+jobs before they start when disk space is insufficient. Existing jobs and
+failed attempts are preserved. Agent-specific budget differences must be
+declared in the experiment instead of assuming native agent defaults match.
+
 ### Cache original task images
 
 If Docker image pulls repeatedly stall, the optional cache utility downloads the
