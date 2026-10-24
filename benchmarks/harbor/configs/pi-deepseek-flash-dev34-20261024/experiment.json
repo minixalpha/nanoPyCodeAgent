@@ -1,0 +1,1409 @@
+{
+  "schema_version": 1,
+  "registered_at": "2026-10-24T14:06:54.025652+00:00",
+  "experiment": "pi-deepseek-flash-dev34-20261024",
+  "total_model_runs": 34,
+  "max_concurrent_trials": 2,
+  "whole_trial_retries": 0,
+  "minimum_free_disk_bytes": 16106127360,
+  "log_dir": "jobs/pi-deepseek-flash-dev34-20261024-orchestration",
+  "arms": {
+    "pi": {
+      "agent": "pi",
+      "source_root": "jobs/runtime-source",
+      "source_ref": "d6ed70a5d6a1c5b0f9b6c9d20b4a1c2b49153f67",
+      "distribution_path": "/home/minix/.local/share/mise/installs/pi/1.4.0/pi",
+      "distribution_sha256": "60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9"
+    }
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/adaptive-rejection-sampler",
+      "ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/adaptive-rejection-sampler:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "scientific-computing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "95408217b9c484ffc18a02a91b7706323b6902919c72b24866a32e27a23543e2",
+        "environment/Dockerfile": "e644a3343e339303230f1441b7383f076d21c69a5a7aa6430b4f8a9d27f15c8b",
+        "environment/protected.tar.gz.enc": "7fc9bf1347bb97da8dede04b2c58638f225070913e222d76627068aebd1b1df2",
+        "instruction.md": "e6d28c28acd76bef61817427c74c2a29e3e8d75f535cbd708afcbfd02c54013f",
+        "solution/solve.sh": "fe443a8082b5183ba1623311ba0ee958888aefa633eff93766b9ae14e9bdd84d",
+        "task.toml": "6ed7b37f74beb46e9d47b0f5fad53025667c9548baff4e96d467b56d429fab1a",
+        "tests/test.sh": "38b43560d173cc2b952c3a3e17b8a480216d84e33450515e047bcb0d806b1e0a",
+        "tests/test_outputs.py": "547dc6e107f034f41703722aeceb6d0236e3fb69116fc3f2fbaba11884de352f"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/build-cython-ext",
+      "ref": "sha256:35dc561790e73f13e59837828ac0863c0893edc6b71d42cf7d58656c843adf12",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/build-cython-ext:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "debugging",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "d5f5113941c3963292bae396baa9369571026f46e59437f98ddcc93475dd7729",
+        "environment/Dockerfile": "cb6cf421cb9b69d43bd25cd491e49bda982fbb865d47515178d017eda727194e",
+        "instruction.md": "7e52874e45f88505bd21540229719de6639a401477557d814489981d472f0e34",
+        "solution/solve.sh": "41bbdde88617070366a70e518eedca466a4ea1acd7e96899b2fb7da988e40abc",
+        "task.toml": "c472f0e7522c128fb7f03e00b50c8cdf2e5e6474daa1e094e7441f4b54e770b2",
+        "tests/test.sh": "0156c9c4085258b696ce424cf1ce96cba44d1263c5d73bdf54083fd80237f915",
+        "tests/test_outputs.py": "6549f1a8e04b6163ec08877e6f6b9868bf94563f3a3c72ac1fba9c512c31689e"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/build-pov-ray",
+      "ref": "sha256:4f08dab602fe2e9e2f42051cc6aef684a88cf2822e8b499b3ca19e670759fddb",
+      "native_agent_timeout_seconds": 12000,
+      "verifier_timeout_seconds": 12000.0,
+      "docker_image": "alexgshaw/build-pov-ray:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "38380f64bc631916e264f80ce4d37feedbc783310001475b367d03989d114fdf",
+        "environment/Dockerfile": "44f2b5fc7311d8f336daaaca99dd4216b49355e67f50b494ebacf1b0f7c14e92",
+        "environment/deps/illum1.pov": "5a1f7f53ee0730c4923fcd21cd4a9c34719024d8557920441551ba7d96e75dc4",
+        "instruction.md": "56c8ecdd0084a07f8c97986c43af5c37ed03dd5aa994da6735cf59806162d1b2",
+        "solution/solve.sh": "3da9dbf589656512cd7a7004dc3752d3552a6af939cfe59eff79f91695fa42c7",
+        "task.toml": "b90a47ec26c1191d3c523cc094ea96b170e42fbfe176ef1f814c57d05390c097",
+        "tests/reference_illum1.png": "bb084f430bbc9d5b623a656920670dc06cee6d9132a9d550be4a1b99e41ab9e0",
+        "tests/test.sh": "928d1497ad21aef0c456294e3784f1fddf8493410f23584da89f9e02ec6bd134",
+        "tests/test_outputs.py": "64d6ce107503714ada346e5606832ee886be9950971cf81523e73d8ba28e8d37"
+      },
+      "prior_nanopy_work_budget_seconds": 11820,
+      "pi_agent_timeout_seconds": 12000
+    },
+    {
+      "name": "terminal-bench/caffe-cifar-10",
+      "ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "native_agent_timeout_seconds": 3600,
+      "verifier_timeout_seconds": 1200.0,
+      "docker_image": "alexgshaw/caffe-cifar-10:20260403",
+      "resources": {
+        "cpus": 4,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "machine-learning",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "e918e6852c5c034422b81a6be22d7596fddcee53abe088f56727b2482da32728",
+        "environment/Dockerfile": "b3b8adc915a1afa035b604273af3bc1aa8b90999d2dfd72763218b34cb87abcd",
+        "instruction.md": "46907b0ee048f74269c29a15e0e086546b2b1220149597017da8b5ccc05a0cea",
+        "solution/solve.sh": "771887de1ed557269c7f3160c777519aa9538e1e9b59771b2f6ef38c8952490c",
+        "task.toml": "2831165ad9d9e8bbc646e6d85c0a2290640dcc4f13749547a2937c7675012a8b",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "e99b9f6284e923388fbc21488b1af99fdde46d4a809d3557b0788dbf1cb6b281"
+      },
+      "prior_nanopy_work_budget_seconds": 3420,
+      "pi_agent_timeout_seconds": 3600
+    },
+    {
+      "name": "terminal-bench/cancel-async-tasks",
+      "ref": "sha256:a3d048d351136e48070696cda8bb79660dfd74db1fea3b6da88559f0332699c1",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/cancel-async-tasks:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "9adf86b1279cc44f83fe16e6d340595aa992240f1d87243d204cae32e453693b",
+        "environment/Dockerfile": "1ee7bdb4a7536f5f114c11a3ac6ff42790abfea901fcba6b2a8ea8685f19140e",
+        "instruction.md": "23d22f7039b50682941652c716f96dac314b8585c32c133614cac77dc067f47e",
+        "solution/solve.sh": "4938ca4ad5b7dcd36b414b42a1abb10c058ecefce7462b678f9bd05c9fae1844",
+        "task.toml": "14db0675e04408f2133b0067e8dbddf66a1d6e7baf6b8d38bef8ecccfc4e58a8",
+        "tests/test.py": "f533c0a64db068f582b4733c5b81f2e66b8fa52fcd3efa65752e6bd6d24780aa",
+        "tests/test.sh": "79600a6b863def31b4daa008297423010cd2d6243e689d67503e118e4dc53397",
+        "tests/test_outputs.py": "d6f510b51fafc81b4e9b5cc95535aa13491c8753e0e4171db42c45f4de460ee7"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/circuit-fibsqrt",
+      "ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+      "native_agent_timeout_seconds": 3600,
+      "verifier_timeout_seconds": 3600.0,
+      "docker_image": "alexgshaw/circuit-fibsqrt:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "201f7c889dd6f73dd83ca078e347272b33720fa622f8c757ea6d5770453f4cbd",
+        "environment/Dockerfile": "780c23986778f3e5f842567868af30b1135ed095ca9449e1c90b7f0e0483d3d4",
+        "environment/gates.txt": "032786f94f16605767c62bb61ce4dbba7ab7d3f1046712c975f01c9a04b6ad29",
+        "environment/tests/sim.c": "700645ac6156cdc88ec1e210f7c7d8d9969bb42aec969c410597e8efca796173",
+        "environment/tests/test_outputs.py": "6117b8edb7d567b30e32b16a9244bec4c131ec01e9065d52f6f53f87e36f0438",
+        "instruction.md": "a7f500266a878d04ac9de39fba76220cfad216d8f6b8063bba93bebb3d4ab9ea",
+        "solution/solve.sh": "a4ffab4183815a0eb7646abc1de1fc67695014c060d7ff16e8bca9ec94385d0b",
+        "task.toml": "9f5aa1f7ebbbcec90fd109121e9bd509af3cfff6b4cec701bd91947988f40972",
+        "tests/sim.c": "700645ac6156cdc88ec1e210f7c7d8d9969bb42aec969c410597e8efca796173",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "6117b8edb7d567b30e32b16a9244bec4c131ec01e9065d52f6f53f87e36f0438"
+      },
+      "prior_nanopy_work_budget_seconds": 3420,
+      "pi_agent_timeout_seconds": 3600
+    },
+    {
+      "name": "terminal-bench/cobol-modernization",
+      "ref": "sha256:e03aa03965eee48c9f772d566ff9bcd741fceeac9693123f82a13fdd46be0d88",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/cobol-modernization:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "c89318cf59efcc7040e3d946022e2616161b6733931a080cdeea7b1918e7ecc4",
+        "environment/Dockerfile": "8b175c83fc03ec7d16d6101516bc5100230b592f480e435279f4fe051c9280b2",
+        "environment/data/ACCOUNTS.DAT": "46f63eb29442ebc6716bcd8a0c36f4367910f2783f6b84a307ed9a61ccd1046e",
+        "environment/data/BOOKS.DAT": "db04da646207cd87f8e9c5b6f0b57d95953899f3eef22de1a81423f06ef4a9fd",
+        "environment/data/TRANSACTIONS.DAT": "1fa4cc5420ded94d585c563e8196b85166ebbae2bb8924b20014717fb2fb9ee3",
+        "environment/src/INPUT.DAT": "52fc984f0cf14af1495285d7efe02b9bae13159eea59255560ee938c4f78afee",
+        "environment/src/program.cbl": "27cb0e56f65f52fa75f346720b37a180b8e034ebe7d7622b979f195087bd6ebb",
+        "instruction.md": "a87074f1141b7345394cd88053d0debb0dc8f7de95308882c6538ee9a3b359da",
+        "solution/solve.sh": "7d4a0504e1686c1790bfbc074d4e598f4c631f54c2bc5f3d5fd786574b4810b9",
+        "task.toml": "4b620211dc3d6b1b989f0210c5ecd2f606974581c8bce27bd78659d48cf0cfbd",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "009180a7092583fc8143bb3ffc3957923aa0d61d0aac3a471f76eeb4aae54a88"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/constraints-scheduling",
+      "ref": "sha256:91dd6f87e1ee508328d5aafbd99a6bd1ccc47bc22671b4aaa4060bda492deb53",
+      "native_agent_timeout_seconds": 1200,
+      "verifier_timeout_seconds": 1200.0,
+      "docker_image": "alexgshaw/constraints-scheduling:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "personal-assistant",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "d54a690970149e1216bd4fc066b45069c7948c13e3b1ef2a213a74342805f209",
+        "environment/Dockerfile": "7d9aba072a4a907229728b9739c8cf821fc2c98450babd64452682caf3759c84",
+        "environment/inputs/alice_calendar.ics": "5a5d45804bffd339c2479d49e76fe817b38244d14d389afe1de583443808ecbc",
+        "environment/inputs/bob_calendar.ics": "c97e85dbcdd756758f8a80f4db5fd5c1dcacee79298e4d2262f46de5ff680b50",
+        "environment/inputs/carol_calendar.ics": "32a0f8687637df0a12b8e5c56d49c4192bc3e790856943632d70f237c7c1363b",
+        "instruction.md": "342def78177f9bc41bea4d11af679bc385a9dda2ac8a1e425be384a5b7f937b6",
+        "solution/solve.sh": "802d81ec064fad3050bbade95a2f847ac24e0b7f80fa69b0bcee0347dc92fe77",
+        "task.toml": "7b9842de16d74e8faf8c7c0aa03b0b81145941cb12dd322d81ae23fc48607250",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "1422b345ba3aacdfc4184e962811b6379988435896c50d8cf62903e70990c5d1"
+      },
+      "prior_nanopy_work_budget_seconds": 1020,
+      "pi_agent_timeout_seconds": 1200
+    },
+    {
+      "name": "terminal-bench/custom-memory-heap-crash",
+      "ref": "sha256:61e021e0304c9818a9be2c9173c8a0938ce5d136e95c5422e099f1fdb2dc080e",
+      "native_agent_timeout_seconds": 1800,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/custom-memory-heap-crash:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "debugging",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "a06ed23a2c467aa36d0d4a88e5c020b1076cc25b8d483517239658e9c596dde9",
+        "environment/Dockerfile": "6ee81e5a4fa2540443d7f27d577ba840728fc6aab9f301ab7919103673c78080",
+        "environment/patches/locale_classes.tcc.patch": "16951f4a4df6bf253886ac75f5a39fdbc328e415194493f63cb7589a364aa817",
+        "environment/patches/locale_init.cc.patch": "e97f133ceebd86f8881f972e0e45b0ec0a13a9bfa428d8032008707683d54292",
+        "environment/program/main.cpp": "b94538c76887cc2b2ab739b5ac4731cddd0faa8f4a9892a6265c062bbbeede14",
+        "environment/program/user.cpp": "92b203786fed1bf0b3aa1675c9cd2d82b2651170675064da8ffee73b98ef14f9",
+        "environment/program/user.h": "f43d155995a56c22b9cd1417daef7c3b5a976cdc662a98eef0feb438ae1eee77",
+        "instruction.md": "53c68ae14a3c3af9a97c40bfd9bdc30a5d98b37eaa2f69f763475745f70f108d",
+        "solution/solve.sh": "b0b1d10bea1cd5be14a82b35d522df616df1e67028f90d2a6bef90aaa98511a1",
+        "task.toml": "ed474be1983e212913aa8866ebb66216acbe36aef2339ac375d232aa46617481",
+        "tests/test.sh": "70a2b55f0c5757f6b123a216dfd202be4a646680bced28dddcd31fd8959a058f",
+        "tests/test_outputs.py": "4e1cb33f777fa7fb5e1536f9bea9eace6deccd515c67d4f87570adbe692914ba"
+      },
+      "prior_nanopy_work_budget_seconds": 1620,
+      "pi_agent_timeout_seconds": 1800
+    },
+    {
+      "name": "terminal-bench/db-wal-recovery",
+      "ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/db-wal-recovery:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "file-operations",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "600762031a1a02ecc3b46d70f7683f3ff930b47c8a3d0e27cc31b146158c3126",
+        "environment/Dockerfile": "63a260531c62f4ae72060db17f295c0aa03cfc6321f8162c324b7aa6b3f81302",
+        "environment/main.db": "68cb288eb29e76d814b4e7ee6887b37c415675e644f88173bc191348e290d119",
+        "environment/main.db-wal.encrypted": "68753bdce26196a53194260d001544cc6bb8f9f38e2f2f6826d09798e31e6e26",
+        "instruction.md": "5a20375162921b8911c67035d1905df7fd335d1bed03044271e608b2c3c93b26",
+        "solution/solve.sh": "ed8530c94103bf19783a1d41bc63fe4db478cdd9629f22fee25c45a45699f5e8",
+        "task.toml": "1cdc2c615e259bc10265efbe71b518332070c1c002e226566399e9788f18d0aa",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/dna-assembly",
+      "ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+      "native_agent_timeout_seconds": 1800,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/dna-assembly:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "scientific-computing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "e7855c23d9822f688eec4dd89ca0f1caf91c6a69e1c8f3c9eb544b4ab2a94821",
+        "environment/Dockerfile": "26e9e43a98f0b1d132bb638f44b7dc882b0d0ca32d56fa33048adeee00ab600d",
+        "environment/sequences.fasta": "ebdc361b5fba28eb0a2c7a8a8a444ccb12cc842c8cbc6df5a2c24254f130736f",
+        "instruction.md": "88998c98beabdd966ab46c04ede822bbc74796696aa1bf87c567a9131210533c",
+        "solution/solve.sh": "c976cb118c8ef1befd846ba05fd5cadb1b1f529bc76b9f2ea9cb3049e6e11a47",
+        "task.toml": "7b571544b64d9be1c91526837e5d805c2181afe0e6fd57a7f0676bba36c868d7",
+        "tests/test.sh": "271c8317c98539e3b49233d017fe51fb0e5fba8114e76830fe698565499b2b1d",
+        "tests/test_outputs.py": "5c2d0fd2e5f6303263e9750f67acda7db491ef04841832b4fc62bcfb61b08924"
+      },
+      "prior_nanopy_work_budget_seconds": 1620,
+      "pi_agent_timeout_seconds": 1800
+    },
+    {
+      "name": "terminal-bench/fix-code-vulnerability",
+      "ref": "sha256:d31348aa16b533a15f013420e4d9726dc529e6086adc7d6d48067d22cc18fe71",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/fix-code-vulnerability:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "security",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "87f28dbad183c3a634887696d328ca68a8a0858f132bc48cb7341c22267d38f7",
+        "environment/Dockerfile": "0917470986224df4daf4854a71302ae81c73ba5dd6e25be1232d29b758a5b3ab",
+        "instruction.md": "89b1abdf0af19399f720233b5cdf6b2e8e0ff7b6e3fe3e2a3af0d4d298a8641a",
+        "solution/solve.sh": "7a0131b369d83ae8546ecc3f9b4e23d38240f1bd1f0941e4430fa85b5182ee03",
+        "task.toml": "9aa2bd14ce9408289d199d0608bc3fa65b8b5e23374c9641020de62197dbf1e2",
+        "tests/test.sh": "f1611da693cb4cfc5e8482698c6a1858a5c67220ae9db89b50aed66584e9b17f",
+        "tests/test_outputs.py": "c006a5de95b69bd78055aa26cc055734dbd50718ede25d331f767bfee4ef7f26"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/git-multibranch",
+      "ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/git-multibranch:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "system-administration",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "3b9473429381d9eacabab498cb4a8915aa2bca24fa857ef862e5991d3f81f113",
+        "environment/Dockerfile": "88d9a9f4fef1ae7fddf632799dedf5a2fb6489460a93b610c33dd8b122982821",
+        "environment/default.conf": "a3a4c5d0ac9cfe79b0510e4225c80fa3988c27fbac13622505886bf66449e04a",
+        "instruction.md": "54014a38d7526d65faeb6c11d9b7ed3d4a5cb5d973d68d3da3b68b8c0289e125",
+        "solution/solve.sh": "300ca96b79db8d77f14742109aaf76048aafc4644ced750b1bc5c2761e8d0175",
+        "task.toml": "4b9981604578a31205257cca36a28d0c89c9d8d1058541330acd11d3f8d65f82",
+        "tests/test.sh": "ddbde3eea6ffa8fda105cbd86597a53bd409f41e13223900aa27e77a84b6b155",
+        "tests/test_outputs.py": "f03c6867663b8e8fb7899df51ee4df26411fab62ed491753964b801e591d16c5"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/kv-store-grpc",
+      "ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/kv-store-grpc:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "51fdc2ad06f0adb1270164f247ea41799b2ee2ad15490e48ddbf5e79d3767aaa",
+        "environment/Dockerfile": "47c9982789092437f950736110b2bd18899c39b8fd20f3af3c95b848e564a197",
+        "instruction.md": "f4b3facc199d5b1c78db6e603ffa29ec1b93a77ff7d291e1a92b42e6bf582bed",
+        "solution/solve.sh": "6bee2938ac9731d1156b0ca02b28c3d5793bf2cbe5f995c863d397093af01cb7",
+        "task.toml": "6ff0f30a526bfff86a67b0b53439b9965229c0f368167dc1a5d05f34d82299a3",
+        "tests/test.sh": "c348467a076bf614d0a850e25b2263f85bbf7b4c7a8d344fbd5454a0611a0df8",
+        "tests/test_outputs.py": "115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/llm-inference-batching-scheduler",
+      "ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+      "native_agent_timeout_seconds": 1800,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/llm-inference-batching-scheduler:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "machine-learning",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "ecc9dd635357c184742cf72fc1e452a8946e207b183fc9a7eebbcf07133b911f",
+        "environment/Dockerfile": "10a6193904ee0022ac098504182989893b196dfc74e626a3ca48534a8eacde48",
+        "environment/task_file/input_data/requests_bucket_1.jsonl": "8b3cf1e2b06074162038064dd2c114abe308acd32cec7d365ee63ee81978f7de",
+        "environment/task_file/input_data/requests_bucket_2.jsonl": "e15e2d4c4d55f875c42a6042610d6282f6c0657c39d3e0d0f087268252525cb5",
+        "environment/task_file/scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "environment/task_file/scripts/baseline_packer.py": "547d230d5e6d93197803480cb81cab0ec6ac63fcfa0a24b246f549523f216c4e",
+        "environment/task_file/scripts/cost_model.py": "0cf417fd5ff0112defcd46970d37a290c0763c5a9092e91cb3ebb86c3f20e6ce",
+        "instruction.md": "0817374767533fbf51bb93345ee1bba266263c216c6cc55c096e71b4a1d37dfc",
+        "solution/solve.sh": "cb9efb586d76a893c3027e62029e286eb6c7583dc92dbf1840a3adc236a926d7",
+        "task.toml": "52aaac942f917e6a91ff658e0272195bd1cd842d41d71e302414c52603cc588b",
+        "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tests/cost_model_for_tests.py": "d3e810a99d40327fb8317f6512d879c52c6aeebdf5dcdc0c5e117c7df61c9ab9",
+        "tests/test.sh": "005f980332355e2fe143d4ff4aac11828adf070594bbe7055399c238f06953ca",
+        "tests/test_outputs.py": "80b06b7c4ba0db28832b767d48be74bb462d7f5df5798d9cb58c4f1160d96ffa"
+      },
+      "prior_nanopy_work_budget_seconds": 1620,
+      "pi_agent_timeout_seconds": 1800
+    },
+    {
+      "name": "terminal-bench/log-summary-date-ranges",
+      "ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/log-summary-date-ranges:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-processing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "026000415cb577f3d3d5132902670262f7d5d8f69841903ec06a882292f756b4",
+        "environment/Dockerfile": "b479f6e987b63a6ec118fa1691b8bb85c437b2a6a0fe63feab5ed7154957fdfc",
+        "environment/log_generator_deterministic.py": "beb6eff59979e9aa0be63ce8a0f1b0df1178f92871f04ba9f76fa70cf8beb81c",
+        "instruction.md": "c1d4516ad4ec2238209740eaf01291df9ab48b0028a3fc5df383c6f831453484",
+        "solution/solve.sh": "9f6a8ee8947bdf1c0f31b530b6194ae998d66841a3b785fa2e246ee840350ab6",
+        "task.toml": "9a9593673d6805ef3a301ea734e9c4dbaf80da1b37c0fe9d1f2ceea2a8c57e18",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "2fc06a6ce1944ad82f84fb437395fa75ed8c0eadd385b92e375c27e5bc9cb2b4"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/merge-diff-arc-agi-task",
+      "ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/merge-diff-arc-agi-task:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "debugging",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "d6b48ed0890b12eb68f72c12cd02689bd6bfae2191dd2688949cde6fe77f6a94",
+        "environment/Dockerfile": "4a03ae6f0c60b9c2f45c33f0413b5aa75c9811870254e3ff1968fd0119173fc6",
+        "environment/task-deps/bundle1.bundle": "a759f9b6ffc1a2eee50778d72a1899ad7d724becab84fa30e7aac71ee9e443a5",
+        "environment/task-deps/bundle2.bundle": "75e3e3916a01c980a03715de67b16c729e03661d94a694b5f4223d229bd6593a",
+        "environment/task-deps/examples.json": "5426569e4ea078bbb74039ec712a2d4d35f1f9fa3a5f26bf2a0de4a2c8ef5db8",
+        "instruction.md": "2d826479873e5ac1c94c1f802763bf85c22bb04624384685ebdf6b153fe0278e",
+        "solution/solve.sh": "48d4becc41fda5b6063fe96947474ffe778a29d6924d7b2bb235eb61e5ce555d",
+        "task.toml": "6ced40e06b43b169857509765eb7f07791db558f9437cc7367d2536771c2ca5b",
+        "tests/test.json": "20f116a6b718bbf4874bbe203d15a5c0f85a1d88cb622e2d7529c7e4fb2d4c28",
+        "tests/test.sh": "c9052954cd6ce25c4a375a2fb48e765b1efa5b39f7991b93993cc793af8ab9d2",
+        "tests/test_outputs.py": "2754ba6c5c5f75c9db5ed2c5729d9f5d7e21cb7fdb18aa0c65abdc3e7e85c149"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/model-extraction-relu-logits",
+      "ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/model-extraction-relu-logits:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "mathematics",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "9465accba6c57e5de9a196eed776a16eeb0852a8afc18fc3f8979e2de71b0c7b",
+        "environment/Dockerfile": "598b1f80d3b7194e97cbf02c8d245de30e303909e0cbe6465125d1d3179fddb5",
+        "environment/forward.py": "af1a23efd8e4390d16a29777c28116b2f8623ae3f7b628fe14db9f94dac26f5b",
+        "instruction.md": "c9e179dd099065a34c362a865b0eb9fab5f7d96be582cf117e7519580c036ebe",
+        "solution/solve.sh": "4cea5094f074ff21453d4423aa1b415a104ed90caa55a4acbb4f09941a3994ea",
+        "task.toml": "eb64dfaf8ae88868911ae28855cdc4f767de464001e2704919015b595be6dc29",
+        "tests/test.sh": "3b2d8f5e0353c2bab3515d6387468a863a4f9f241ee131c73f545f3fdf9e2d52",
+        "tests/test_outputs.py": "e5189c7eb9942ede55e1b48a80388590b80a486b75497613f257b3373ad9b2c9"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/mteb-leaderboard",
+      "ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "native_agent_timeout_seconds": 3600,
+      "verifier_timeout_seconds": 3600.0,
+      "docker_image": "alexgshaw/mteb-leaderboard:20260430",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-science",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "ed147a5bc31e9865b16848b2f01d2f9b1e677af57a7c632d7ea2311c0553ca76",
+        "environment/Dockerfile": "271fdb5b34520c0bf2cb6462365363ec52058f127cd9eea3f5da2589df5c1044",
+        "instruction.md": "06ea44106eca0405c25bab00f5b3cfeb611c872093f6c0f82ed057839d1d13de",
+        "solution/solve.sh": "4ed68831d4acf5d80d2d73eec1f21efd0896a6f51f23020f572cfc0af6da0410",
+        "task.toml": "86574bd1c6c4fefd2e64eee9c2caa53d87c4bcf2e51547912440a0ddbd0badb8",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "b28f8fc8b7614801305813c402be52f4be1e75de6658ecdfdf9383aa793892cf"
+      },
+      "prior_nanopy_work_budget_seconds": 3420,
+      "pi_agent_timeout_seconds": 3600
+    },
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/multi-source-data-merger:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-processing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "9bf37162a4c1b88ed93627830bb8512ebae154325d7cb069c883144a0e4c69d6",
+        "environment/Dockerfile": "c95a40d3d35b473dc15ae1e8784ba7fb1725805c0583fc574dd2764325d75e4f",
+        "environment/data/source_a/users.json": "75e51e2d3ab0bdba2269d7cf3757576f84f3ee2c13407d2db94289a5958a1778",
+        "environment/data/source_b/users.csv": "8e87d16dc47d166edd8e56165955bad265b630d53d02762367c816affb5fa760",
+        "environment/data/source_c/users.parquet": "23d1ea51c4170bdba53febb885a0f495e28de525a52667347b2932136b9a72fe",
+        "instruction.md": "d1d28bb6e37f7a255a1b7f78aae8591f35c0494f33e4913392424ad954aab944",
+        "solution/solve.sh": "1b3d0d50e31930d042495d48f4c8e95f1a9c1a979c803b7f7cec651322537e1e",
+        "task.toml": "ee3964c0ee040f0a0cb121cefefbc15443d127684acb003fa5b61dd42f31c694",
+        "tests/test.sh": "d5a00e64413c0e1ae452f38a1aa1a47c3ed7b4416bbfccae1a4c053025a336d1",
+        "tests/test_outputs.py": "a070888930cf829aeca039771260b1386bda990ea805f313468d381ba3608ca5"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/nginx-request-logging",
+      "ref": "sha256:9d1b8bebd989ea0bc8080c3b159480068caf183c5fd61385868b2574b206e097",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/nginx-request-logging:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "system-administration",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "d79997586d1c14ed8dbfea050e3580b25500e04c8345acfd3f294152433c795a",
+        "environment/Dockerfile": "43003466d89ab83484a3fa618e35b58cdb74a002b1e8716ef30f12b3ac8302d8",
+        "instruction.md": "26a7ac98aced6107f147206790ada77bbf8ed3c25fb360cf323d5fc6889edf99",
+        "solution/solve.sh": "2454bbbf7c201a9a778165f286373ba2cb991a0eb1d026a8005d57ae71250dd9",
+        "task.toml": "b7a78d00be13656f75069197100b7b8c4fd268decf6f78929c853b3222a2729d",
+        "tests/test.sh": "27761195f53cbfe5941fe39b573631f6c926869e64b7c43220377e1e116528e7",
+        "tests/test_outputs.py": "045cc716c14efde3b0dcff5fc7c85ec5d18bfc6ce66f8b40a418fa2a3a4acda0"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/openssl-selfsigned-cert",
+      "ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/openssl-selfsigned-cert:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "security",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "5dfa88651890cda06fa2a25babd3b813818767635e88bbabecc8305d5bb3942f",
+        "environment/Dockerfile": "f590b523038be43afcaf5291d7b9e8ed1333c48d9994e77b8dee2f2c352f0f40",
+        "instruction.md": "38054a3371f7c2c853478a2f9af0bff858437d5b28a9a07483238f06e566921f",
+        "solution/solve.sh": "58cf3c844e907745cd81fb4bd75efb3d080e2f0e82b589c56c954ae6e1756510",
+        "task.toml": "75c8913f0fa15890786c11999cde920b8bfc10d4ce8a14edf1e76985a2ac5800",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "90970bb3c372e8e7fb6bb9ac5f649ba73eb38e1a5ea2e922a9057a72b6b4192d"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/path-tracing",
+      "ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+      "native_agent_timeout_seconds": 1800,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/path-tracing:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "3e4fc952b3f9a860c7ee7837b3f3c686f1283ee7821b014265dba7c94d7fc849",
+        "environment/Dockerfile": "7aca02e4e20b04ed2269d627a29dd4e7337a02764a9652b641452bf09836a3d5",
+        "environment/orig.c": "665c1bde0907740890ac114d6b36af1f3fd00449fa287583817f778bb5da200c",
+        "instruction.md": "9f36e02d636f5dc0946619bc518f2e51c24fa75251da9d1f0ca9eca612cb9572",
+        "solution/solve.sh": "d107abde101eecee6838da80cc52a3d480c93956fff3a9343a299ea01b3fe9e6",
+        "task.toml": "cf47013f69bf1b43242da984f231d4daf364fdf44d3845f2eea2ca2cb9308c46",
+        "tests/test.sh": "a719dbb1ba7ae76df095e9d815941dfa4c55edaf11f173b9c3c3097afa838548",
+        "tests/test_outputs.py": "572e68b2843191d29592faf42a405861b7958d8e894868b74c5a8886b53eb879"
+      },
+      "prior_nanopy_work_budget_seconds": 1620,
+      "pi_agent_timeout_seconds": 1800
+    },
+    {
+      "name": "terminal-bench/pypi-server",
+      "ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pypi-server:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "906a096a2cc7b9afc738ff5ad5fbd605be65c103f5069c6673915223b9b187e3",
+        "environment/Dockerfile": "17a4e67580e4f2c6a151d04b9d74eb020666e7eec8e5259c4a5411f9e93858d0",
+        "instruction.md": "1c537e4a311a8e71155e121f57bfc03f742fbfb99d05314cd03e433996a28a31",
+        "solution/solve.sh": "1143c0eade4932ec3aeaa5013fb5e23bbcccca15dead294aa03b6af88750775a",
+        "task.toml": "07c39d7a733c89adadf74bb63a3e906c3694feb6c490d5fc85ac187c003fd447",
+        "tests/test.sh": "d2b1220e42bcfdcce87907ac5bbd69ac210a3c94926545ca2439636786e7784e",
+        "tests/test_outputs.py": "82c6351722e9aa984ff1d701bf57df3150ce51466df2b70afa1aa62d2650be4c"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/pytorch-model-cli",
+      "ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pytorch-model-cli:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "model-training",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "35a093fa5f1592737784ba718c2e3e9ae17ff8b5e53e003fae560ddce091039c",
+        "environment/Dockerfile": "8fd5c0f21a6914cd440d10c84c9db06fec606f20dc3e0363b17a3b8c220dc4d9",
+        "environment/task-deps/cJSON.c": "0e7995261640c96db16ed2c91a5d981efa917cf5e72d0f97ec45a1179ae3ad73",
+        "environment/task-deps/cJSON.h": "0909160541bcc510e0b2d8c7a9cc051fa1459a0f13be4d8e56346a15491f2f2f",
+        "environment/task-deps/image.png": "f4d5dfefe463939996541404340e7099d5957b56e1df3760d13b5d2de754db53",
+        "environment/task-deps/lodepng.cpp": "67873c5f6272f779a143a9c81070e8783327c5552d0b9de2aaee2cb779308917",
+        "environment/task-deps/lodepng.h": "b735b7e0357319973e9488d520d7f270d734a6e9e1bf924fb1d5b8d26d7e97ce",
+        "environment/task-deps/model.pth": "a32103eef09936e586b1a7dc7e64d279500a38ff30fdd6df2167e28eb954eee6",
+        "environment/task-deps/model.py": "e4d3a5c728449656d0efde7871ee227619348352769795ed1be1a8b7f835fddc",
+        "instruction.md": "ce36ee1f6c589f81ee6a6be4967e25c76a2ed697006928023f42dfb9f28a6750",
+        "solution/solve.sh": "3b34e561c9ef0a53c9948655847846eb4811aaac67b990480aa6aac1b04bfe66",
+        "task.toml": "fc1c018efbd5d0537ac0741d53d1ebad3886faa51d14cbde8ec953856411bc0d",
+        "tests/test.sh": "43fb67e537c7adc2df11c2367f47c876cb5d16a7c1ae16d0339c3a3364bb2b06",
+        "tests/test_outputs.py": "370702c57a4e0c85f70ee37a5c357ae3a5df8480a275bb6263b0376f2f6c093b"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/pytorch-model-recovery",
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pytorch-model-recovery:20260430",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "model-training",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "e080308a05703b40edd16f53aea41a0e6b9874750ecee35bb432029d0d44bf53",
+        "environment/Dockerfile": "8a6b7edbb9e7c241e447f15a71e13e5d043b25169be2fd9802b84f5be3d56eb6",
+        "environment/dataset.pt": "6db65e4ec1c0760209c2dd997ef582e4a1519ab38e0312339999c460a696960d",
+        "environment/weights.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080",
+        "instruction.md": "2bef07dc28be3ab2c35ae389584034c2e4dde92c2c31b3eb6bd829628c8c3f4a",
+        "solution/solve.sh": "175a7802777b43e0fa4f629d71f7c68fb40706813c342aaddc72108d89bd5b2c",
+        "task.toml": "851a51204f53482a31f47cdf8833128cf421113b0331011286940fc857c37dfd",
+        "tests/test.sh": "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e",
+        "tests/test_outputs.py": "5d4d57c43e6913bf3d0081da764ad36d1b7275e3bb114a05abda529afe563905",
+        "tests/weights_gtruth.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/qemu-alpine-ssh",
+      "ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/qemu-alpine-ssh:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "system-administration",
+      "verifier_dependency_profile": "qemu-alpine-ssh-v1",
+      "task_file_sha256": {
+        "README.md": "72f1c83fa1e3e6381ef85dd82fd109ee18cdeac090311cf3212a0a8cff0a32a5",
+        "environment/Dockerfile": "015ce0601ff54758f66b33f4952e0d3a577d84c09aed8f3ec5945a570e8d168a",
+        "instruction.md": "8348c60490cb90bc690cba259dfe98996da4c3294c6d42bba1119b00c64de4de",
+        "solution/solve.sh": "1cd31186c427b91bb00499d22aa4f0214fc1ca93b40b6e4cfa969611b848db2a",
+        "task.toml": "10a43ec6ee732eeba852c377f12e23178f7fa5a4868143f3699a15565ffb64c7",
+        "tests/test.sh": "3b244479776c4ee3639631112799f2cde22cbb80ac10511715e3a8f32909c289",
+        "tests/test_outputs.py": "83ccb4bdcd259b342212bebefe395f289858b4dc55b2ee7ae0dab238ad2e9718"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/query-optimize",
+      "ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/query-optimize:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-science",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "a82c53e333a0ac0b0b410b5e26cb8e7305dece31db84d340248ffb13d5a45160",
+        "environment/Dockerfile": "064818771f200e0517d22068f87229a7a95d0a82b0778c84ca7203bf1926a0b8",
+        "environment/task-deps/my-sql-query.sql": "43382792f0f438625d643e34abe144febd5669518f4ab1ab550a15c6d9314a21",
+        "instruction.md": "473e12d320d2732f679fb631c2a4dab4a01deea6775686718ae0c417b8a39447",
+        "solution/solve.sh": "0d95f3cedb287ff9d47c796cbaf812c300d1222c10fa80c49e8acb0e81eb6978",
+        "task.toml": "6e88f2a86df699594bcb1bf81df4ed694505f79c9420f671335b02524bbe3868",
+        "tests/golden.sql": "4da1885d56b3ffa7b7b22b422996d018795611f6963499d551582881b74b84fd",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "2068ae80c57af8d52a7ae510f0666732c057806e556b480970f36f14bae683f6"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/regex-chess",
+      "ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+      "native_agent_timeout_seconds": 3600,
+      "verifier_timeout_seconds": 3600.0,
+      "docker_image": "alexgshaw/regex-chess:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "9296cbee592fc996c58d228b51fee303647e5ecfae82d5666d42a40cb30ec355",
+        "environment/Dockerfile": "2616cd775252303839dfda0ee2f047eb862952b053b0103bd6b2460ef90c11b7",
+        "environment/check.py": "f9c416ae9ea01dcdd5f6a43170c8434b8c0a0b389a4a30876a2048e277d191c7",
+        "instruction.md": "a6ed3fcc54fc92d71a84af921942422d299ca89b410dcd92cd05a53d0d06436c",
+        "solution/solve.sh": "b728bf0ea392a3d244afbd0818d36933c8d3e190e47743c1382cd518d518a2e9",
+        "task.toml": "07fe52636fcc4bc9fff25d5630af145b97a5331219d719cc8decb4ca67ea21d4",
+        "tests/test.sh": "8f7f00a1c4dde7fcca6c918c768f2aba432b8c4007c15989716c68091950da87",
+        "tests/test_outputs.py": "4983c44d21c56dd8191381eff0304afc8b87bb714527ea9036b3319c015a30b4"
+      },
+      "prior_nanopy_work_budget_seconds": 3420,
+      "pi_agent_timeout_seconds": 3600
+    },
+    {
+      "name": "terminal-bench/regex-log",
+      "ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/regex-log:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-processing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "29ffd98c55dbb6f4844f1b9d8c1769b2155c117ee475e0df6bbc5ef330d239b3",
+        "environment/Dockerfile": "5f264ff0bf62a49aee3c6398447de5108df141e7a2ad35c6de8ef39fa62049c6",
+        "instruction.md": "4f7ac05e70cf9220ea0f1e5a052c5f908cd0fa884e847d80b0bd51bae2e96f9c",
+        "solution/solve.sh": "7e670d4f2b4bccb1e4db38f2a173e085ceda028c38167912b466b0a84fcc0999",
+        "task.toml": "6bc98525852755caf1fe34c174c2f10f4328adb4ce6c1968dcafe1c877e4e160",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "345c3bd09ab6f6fe8c8361a58c0a47bf0a13b3fcb38a5ac7824e44ff855e8f72"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/schemelike-metacircular-eval",
+      "ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "native_agent_timeout_seconds": 2400,
+      "verifier_timeout_seconds": 2400.0,
+      "docker_image": "alexgshaw/schemelike-metacircular-eval:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "095d3ec6dcc0fe0c7a7e92355456dcea6992f91d1f8d397669b8cfe18475f506",
+        "environment/Dockerfile": "9b3df76222e16aad360fbd34cb0f71a0be8986052c065b10b92c0cdf417b25c7",
+        "environment/tests/interp.py": "efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1",
+        "environment/tests/shadow_test/01-factorial.scm": "540e81fac476f04dc510ba107721d606ac980760088b2136889e7d4bf884e5c5",
+        "environment/tests/shadow_test/02-fibonacci.scm": "628957171e0c4a3ee373635923fcd29e75bdf4bf13a402ac26fe94a5fc1443ac",
+        "environment/tests/shadow_test/03-list-operations.scm": "fe8f17f59fe4045582fce363d52df95ba7c4de7345542c8bd4993a9f2f396235",
+        "environment/tests/shadow_test/04-higher-order.scm": "9c2eba8c91bb7b224de56d789207d2eaad98bbe1f8c360d6eca4f014f42f9230",
+        "environment/tests/shadow_test/05-simple-io.scm": "1eba30db30824fcf6048ea8e49b84e85c866cefce30862fce49b300e4416843c",
+        "environment/tests/shadow_test/06-interactive-io.scm": "4fbc0e2d6e42c5a9495e549ccb13c02fcaeddf8fdaf8d2cf5de833116f12610a",
+        "environment/tests/shadow_test/08-progn-sequencing.scm": "3bf8236dc5356d29ab8dbfe1b0f4c519354fbb23c8f3eaf946779c28b80feea3",
+        "environment/tests/shadow_test/09-mutual-recursion.scm": "3bfa1f77e602c7039f8c8c70315e6d4fff6eed737dab0f0398e5bdf690137c2c",
+        "environment/tests/shadow_test/10-advanced-features.scm": "b69ef497088fcf0aec388789a17561b783b8cdd5915719915a51c5ba189c31ff",
+        "environment/tests/shadow_test/accumulator_patterns.scm": "8b9192796a6f9c3155cc5e44d0a0ba6a46d20a0d94e265b69b23ec8af43e4a07",
+        "environment/tests/shadow_test/binary_tree.scm": "5a3dafc8844969cebb5809f253f4e54de7df480f378da8197f870badef03ee47",
+        "environment/tests/shadow_test/church_numerals.scm": "31d075785f2f605bac3bd9ac2d99fcf7eaaed6686eb9afeab1d40bf5f35bbf2c",
+        "environment/tests/shadow_test/closures.scm": "c7d025a376987f5ee22f529847b66eaf53f0af7033acbb4055cedb734168d612",
+        "environment/tests/shadow_test/continuation_passing.scm": "79e7445c42227846f1adfaf08c17e278aac7a34df77482900b068be4fd248080",
+        "environment/tests/shadow_test/currying.scm": "690a8cccbb1d249c8f6fcabc0193cecc5d0e4c1af39a0bb67c7e95fcff8e393e",
+        "environment/tests/shadow_test/filter_operations.scm": "485a0563b81d002e368c5e4b2b7cc98a5306163701053630f416e3b783a2a238",
+        "environment/tests/shadow_test/fold_operations.scm": "461b33db6b3f5580122d4c6dff0fd6d11c7f044865ffd684ade67d9b296a5a24",
+        "environment/tests/shadow_test/function_composition.scm": "65ceee00188b12c3549134449e2f938d010c2c97dba090f5b53244abb3579b1f",
+        "environment/tests/shadow_test/lazy_evaluation.scm": "edd95748de14aadf916c65209b5bcb8759d3e33b7ec935289a5128a656d33bec",
+        "environment/tests/shadow_test/list_operations.scm": "660963851ecb49639f66557bd88db1e73db323186742145f33cb2e14d3af1103",
+        "environment/tests/shadow_test/map_operations.scm": "974ac42d892f4b62b9b21ef7844581624dad811b38d35944f1005cc47f249856",
+        "environment/tests/shadow_test/memoization.scm": "25482c1912fab1235651b1b7acd727f2ea6a55dc5c1919f841b44cfc32107b05",
+        "environment/tests/shadow_test/mutual_recursion.scm": "2fbc9562e863cb2b325f86419fb2a7588265aaf5576295550722ee4274663712",
+        "environment/tests/shadow_test/nested_defines.scm": "23ad3b2f936949501466da784511ea2e6215e2b198ca371bef86f6af877ca923",
+        "environment/tests/shadow_test/oeis_sequences.scm": "1b586df6af2429a54808f7587f60021ba2b2c9bcc2ef2f9cbe44339699853c62",
+        "environment/tests/shadow_test/oeis_sequences2.scm": "300da0b0dc20b883e01142adea9eb6da1a583a1b969ac0be47aa32c1ab66340e",
+        "environment/tests/shadow_test/oeis_sequences3.scm": "dea198e874bf518b93c8406a843b64c1586cf4ce780fec8c444f8343e9322c75",
+        "environment/tests/shadow_test/recursive_structures.scm": "64f1a430bf04a627f5e27bf004805544b60406f8a123d186516774dfcf3846cd",
+        "environment/tests/shadow_test/test_read.scm": "fda448c22685e2f9af37ff7b986ee5e906d485a2db16f62eec113149f866870f",
+        "environment/tests/shadow_test/variadic_functions.scm": "ac940ac0273e87ee06280fee192194ab5cdc14c88b61da9cfba92105e66b8f2f",
+        "environment/tests/shadow_test/y_combinator.scm": "38d25b02d54342ab5610ad03fcef68c5f1d4eef8902295645f6acceb853c9860",
+        "environment/tests/test/01-factorial.scm": "2623000a742c63d50ae1851854826247caee129c7d1613be6c7131d21f26a6ad",
+        "environment/tests/test/02-fibonacci.scm": "db769cef446d5da9e9b1abccdf9ca644e239938095a98c21551aee25255a57d4",
+        "environment/tests/test/03-list-operations.scm": "1a14b4100dedef30010fed62ea9fd295add1b0facb2e8e6e27c8d8eb3d90111b",
+        "environment/tests/test/04-higher-order.scm": "59cd17bbffad641a37729b17c5bf9178b8bae7289fe89cc7135eb0bfec2b4fd6",
+        "environment/tests/test/05-simple-io.scm": "3deeb3275df1b771449ebaebfcb9a934f375415e138c5e9f3685516c69a1f7a0",
+        "environment/tests/test/06-interactive-io.scm": "aa3cae79b79dca90ac9d61a1babf64d6a5bb6559798c7727c11be02d8ddfd216",
+        "environment/tests/test/08-progn-sequencing.scm": "4c0a4d980cf4223d1d17715d58adbe27dc120eced257a0d9f42de952c094bc5b",
+        "environment/tests/test/09-mutual-recursion.scm": "939e18f4bd25b5ab0e2a4a767bf7eb6b0d8fb3530d28bf236f06cf27f2d90ee8",
+        "environment/tests/test/10-advanced-features.scm": "c4cc5fb412df363875768c6a1e645255f6bc8f9ddf988d1ec2f4a266cedb8ec7",
+        "environment/tests/test/README.md": "1f2174c7f12721f9f1898cda190c2886fb3ef9d35fd085f315da5814657104ae",
+        "environment/tests/test/accumulator_patterns.scm": "50d246e00577d1f3ab3f0462c2b9618ea63680c33fcca12369cd1707b010cb5f",
+        "environment/tests/test/binary_tree.scm": "c95f59ccac1ea4a9c846afddc993aa40ac081c0f9e6731544530109b269b67ae",
+        "environment/tests/test/calculator.scm": "a09213ec8a2ec52486b9346c420ddb7c537576ef71b1cc5c6ec61d13d9139f61",
+        "environment/tests/test/church_numerals.scm": "f37d858f32a9c5ba8868d094018c92516acadf0ea4e55b7c36f14320cb0c69a6",
+        "environment/tests/test/closures.scm": "3ecfc35289479288876e20bf7f55e5b8eda84acd35937e89e3d062308a99aeff",
+        "environment/tests/test/continuation_passing.scm": "01049581e582f7d35ef40ef68e1827d012da619beea57c1c74675a5f245318d7",
+        "environment/tests/test/currying.scm": "2844d54eee9a94af05a11b4aae06d6e7823d193f17235c8f90bf98926cbca75d",
+        "environment/tests/test/filter_operations.scm": "f6bc75f6da9ece96c0616e3570e4df59d0f2eb4655375d3a46b0349c86cc5dd8",
+        "environment/tests/test/fold_operations.scm": "05aab492ad914baecd19cf454ed587e7a031e94b8990500eb1c869c15da6fc0b",
+        "environment/tests/test/function_composition.scm": "9b56dc78823e7d35adb213744c0f8e95684074d6a12bb98c8c05755788be5b06",
+        "environment/tests/test/lazy_evaluation.scm": "ea5912a53a35b65bf2bee9483dca90814b8baf52ae3ae50c2d4589f794dca54d",
+        "environment/tests/test/list_operations.scm": "d7e70621afbbb787cf646e2089bccfbd3681fbb2e70325f3e50f56ccd30dbd9d",
+        "environment/tests/test/map_operations.scm": "0cebddb3d4a50e4b6f6bfc0e8c12762d3f42609030aef077d8ab4bedda4718d9",
+        "environment/tests/test/memoization.scm": "cf8202df22407dbba72ca7f660d8ab7cd4ca962b215c36cc491d5c1a474c160b",
+        "environment/tests/test/mutual_recursion.scm": "a3dc23a96ec1cf05b0be4a4f0b6d3da9e2bad1aa3f7a83c7566f71f980a67fe2",
+        "environment/tests/test/nested_defines.scm": "21faa0ccaf744cb8c9d283bbfd0c36e195c803c85f511e70a99267c0a85b6216",
+        "environment/tests/test/oeis_sequences.scm": "d1f77161b367176b3dfab55a34466e511c602c7ae359e05f5a715627b93dca6a",
+        "environment/tests/test/oeis_sequences2.scm": "5679ef0f99743114d8c06edcdcde1fea9474b71aeb57c2069f1ee33df1970bce",
+        "environment/tests/test/oeis_sequences3.scm": "5dc8b44158b2648a6e9766f6bcdf21553a07bf487d79e64ebb418511ef3b8186",
+        "environment/tests/test/recursive_structures.scm": "67838ff5bac26ea359139720adec1d5700176147b0062065c7def9715e8a2aeb",
+        "environment/tests/test/test_read.scm": "5b9ee381c3cf45b2fc8c2e7b490857fb67f1ac78653b586d7f2848daf6853809",
+        "environment/tests/test/variadic_functions.scm": "c9b847c50840c6977904e5033a07f6108cc3a54012b02d916e79025fb43e0f6e",
+        "environment/tests/test/y_combinator.scm": "971144dcb2b04aaa3b34d9279459bd7d2e8256c585d17809465848c2589d36d8",
+        "environment/tests/test_outputs.py": "fbb84e3c0c2f72ed7de90f54380f860052c16155e7d0c9076cd57c966e9be7ed",
+        "instruction.md": "3af5f9567b62f93683db7518ec6fcb609f83796258aa02166b5a7091c5b69031",
+        "solution/solve.sh": "e2c5b0ac2bef4801a1891e13c108813381877426c1a7f01bab86b4fc1f712510",
+        "task.toml": "8dae8eb226183b0ca92331c1106152a7abc93b03b4e5a95291b86a4ddc9b44e0",
+        "tests/interp.py": "efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1",
+        "tests/shadow_test/01-factorial.scm": "540e81fac476f04dc510ba107721d606ac980760088b2136889e7d4bf884e5c5",
+        "tests/shadow_test/02-fibonacci.scm": "628957171e0c4a3ee373635923fcd29e75bdf4bf13a402ac26fe94a5fc1443ac",
+        "tests/shadow_test/03-list-operations.scm": "fe8f17f59fe4045582fce363d52df95ba7c4de7345542c8bd4993a9f2f396235",
+        "tests/shadow_test/04-higher-order.scm": "9c2eba8c91bb7b224de56d789207d2eaad98bbe1f8c360d6eca4f014f42f9230",
+        "tests/shadow_test/05-simple-io.scm": "1eba30db30824fcf6048ea8e49b84e85c866cefce30862fce49b300e4416843c",
+        "tests/shadow_test/06-interactive-io.scm": "4fbc0e2d6e42c5a9495e549ccb13c02fcaeddf8fdaf8d2cf5de833116f12610a",
+        "tests/shadow_test/08-progn-sequencing.scm": "3bf8236dc5356d29ab8dbfe1b0f4c519354fbb23c8f3eaf946779c28b80feea3",
+        "tests/shadow_test/09-mutual-recursion.scm": "3bfa1f77e602c7039f8c8c70315e6d4fff6eed737dab0f0398e5bdf690137c2c",
+        "tests/shadow_test/10-advanced-features.scm": "b69ef497088fcf0aec388789a17561b783b8cdd5915719915a51c5ba189c31ff",
+        "tests/shadow_test/accumulator_patterns.scm": "8b9192796a6f9c3155cc5e44d0a0ba6a46d20a0d94e265b69b23ec8af43e4a07",
+        "tests/shadow_test/binary_tree.scm": "5a3dafc8844969cebb5809f253f4e54de7df480f378da8197f870badef03ee47",
+        "tests/shadow_test/church_numerals.scm": "31d075785f2f605bac3bd9ac2d99fcf7eaaed6686eb9afeab1d40bf5f35bbf2c",
+        "tests/shadow_test/closures.scm": "c7d025a376987f5ee22f529847b66eaf53f0af7033acbb4055cedb734168d612",
+        "tests/shadow_test/continuation_passing.scm": "79e7445c42227846f1adfaf08c17e278aac7a34df77482900b068be4fd248080",
+        "tests/shadow_test/currying.scm": "690a8cccbb1d249c8f6fcabc0193cecc5d0e4c1af39a0bb67c7e95fcff8e393e",
+        "tests/shadow_test/filter_operations.scm": "485a0563b81d002e368c5e4b2b7cc98a5306163701053630f416e3b783a2a238",
+        "tests/shadow_test/fold_operations.scm": "461b33db6b3f5580122d4c6dff0fd6d11c7f044865ffd684ade67d9b296a5a24",
+        "tests/shadow_test/function_composition.scm": "65ceee00188b12c3549134449e2f938d010c2c97dba090f5b53244abb3579b1f",
+        "tests/shadow_test/lazy_evaluation.scm": "edd95748de14aadf916c65209b5bcb8759d3e33b7ec935289a5128a656d33bec",
+        "tests/shadow_test/list_operations.scm": "660963851ecb49639f66557bd88db1e73db323186742145f33cb2e14d3af1103",
+        "tests/shadow_test/map_operations.scm": "974ac42d892f4b62b9b21ef7844581624dad811b38d35944f1005cc47f249856",
+        "tests/shadow_test/memoization.scm": "25482c1912fab1235651b1b7acd727f2ea6a55dc5c1919f841b44cfc32107b05",
+        "tests/shadow_test/mutual_recursion.scm": "2fbc9562e863cb2b325f86419fb2a7588265aaf5576295550722ee4274663712",
+        "tests/shadow_test/nested_defines.scm": "23ad3b2f936949501466da784511ea2e6215e2b198ca371bef86f6af877ca923",
+        "tests/shadow_test/oeis_sequences.scm": "1b586df6af2429a54808f7587f60021ba2b2c9bcc2ef2f9cbe44339699853c62",
+        "tests/shadow_test/oeis_sequences2.scm": "300da0b0dc20b883e01142adea9eb6da1a583a1b969ac0be47aa32c1ab66340e",
+        "tests/shadow_test/oeis_sequences3.scm": "dea198e874bf518b93c8406a843b64c1586cf4ce780fec8c444f8343e9322c75",
+        "tests/shadow_test/recursive_structures.scm": "64f1a430bf04a627f5e27bf004805544b60406f8a123d186516774dfcf3846cd",
+        "tests/shadow_test/test_read.scm": "fda448c22685e2f9af37ff7b986ee5e906d485a2db16f62eec113149f866870f",
+        "tests/shadow_test/variadic_functions.scm": "ac940ac0273e87ee06280fee192194ab5cdc14c88b61da9cfba92105e66b8f2f",
+        "tests/shadow_test/y_combinator.scm": "38d25b02d54342ab5610ad03fcef68c5f1d4eef8902295645f6acceb853c9860",
+        "tests/test/01-factorial.scm": "2623000a742c63d50ae1851854826247caee129c7d1613be6c7131d21f26a6ad",
+        "tests/test/02-fibonacci.scm": "db769cef446d5da9e9b1abccdf9ca644e239938095a98c21551aee25255a57d4",
+        "tests/test/03-list-operations.scm": "1a14b4100dedef30010fed62ea9fd295add1b0facb2e8e6e27c8d8eb3d90111b",
+        "tests/test/04-higher-order.scm": "59cd17bbffad641a37729b17c5bf9178b8bae7289fe89cc7135eb0bfec2b4fd6",
+        "tests/test/05-simple-io.scm": "3deeb3275df1b771449ebaebfcb9a934f375415e138c5e9f3685516c69a1f7a0",
+        "tests/test/06-interactive-io.scm": "aa3cae79b79dca90ac9d61a1babf64d6a5bb6559798c7727c11be02d8ddfd216",
+        "tests/test/08-progn-sequencing.scm": "4c0a4d980cf4223d1d17715d58adbe27dc120eced257a0d9f42de952c094bc5b",
+        "tests/test/09-mutual-recursion.scm": "939e18f4bd25b5ab0e2a4a767bf7eb6b0d8fb3530d28bf236f06cf27f2d90ee8",
+        "tests/test/10-advanced-features.scm": "c4cc5fb412df363875768c6a1e645255f6bc8f9ddf988d1ec2f4a266cedb8ec7",
+        "tests/test/README.md": "1f2174c7f12721f9f1898cda190c2886fb3ef9d35fd085f315da5814657104ae",
+        "tests/test/accumulator_patterns.scm": "50d246e00577d1f3ab3f0462c2b9618ea63680c33fcca12369cd1707b010cb5f",
+        "tests/test/binary_tree.scm": "c95f59ccac1ea4a9c846afddc993aa40ac081c0f9e6731544530109b269b67ae",
+        "tests/test/calculator.scm": "a09213ec8a2ec52486b9346c420ddb7c537576ef71b1cc5c6ec61d13d9139f61",
+        "tests/test/church_numerals.scm": "f37d858f32a9c5ba8868d094018c92516acadf0ea4e55b7c36f14320cb0c69a6",
+        "tests/test/closures.scm": "3ecfc35289479288876e20bf7f55e5b8eda84acd35937e89e3d062308a99aeff",
+        "tests/test/continuation_passing.scm": "01049581e582f7d35ef40ef68e1827d012da619beea57c1c74675a5f245318d7",
+        "tests/test/currying.scm": "2844d54eee9a94af05a11b4aae06d6e7823d193f17235c8f90bf98926cbca75d",
+        "tests/test/filter_operations.scm": "f6bc75f6da9ece96c0616e3570e4df59d0f2eb4655375d3a46b0349c86cc5dd8",
+        "tests/test/fold_operations.scm": "05aab492ad914baecd19cf454ed587e7a031e94b8990500eb1c869c15da6fc0b",
+        "tests/test/function_composition.scm": "9b56dc78823e7d35adb213744c0f8e95684074d6a12bb98c8c05755788be5b06",
+        "tests/test/lazy_evaluation.scm": "ea5912a53a35b65bf2bee9483dca90814b8baf52ae3ae50c2d4589f794dca54d",
+        "tests/test/list_operations.scm": "d7e70621afbbb787cf646e2089bccfbd3681fbb2e70325f3e50f56ccd30dbd9d",
+        "tests/test/map_operations.scm": "0cebddb3d4a50e4b6f6bfc0e8c12762d3f42609030aef077d8ab4bedda4718d9",
+        "tests/test/memoization.scm": "cf8202df22407dbba72ca7f660d8ab7cd4ca962b215c36cc491d5c1a474c160b",
+        "tests/test/mutual_recursion.scm": "a3dc23a96ec1cf05b0be4a4f0b6d3da9e2bad1aa3f7a83c7566f71f980a67fe2",
+        "tests/test/nested_defines.scm": "21faa0ccaf744cb8c9d283bbfd0c36e195c803c85f511e70a99267c0a85b6216",
+        "tests/test/oeis_sequences.scm": "d1f77161b367176b3dfab55a34466e511c602c7ae359e05f5a715627b93dca6a",
+        "tests/test/oeis_sequences2.scm": "5679ef0f99743114d8c06edcdcde1fea9474b71aeb57c2069f1ee33df1970bce",
+        "tests/test/oeis_sequences3.scm": "5dc8b44158b2648a6e9766f6bcdf21553a07bf487d79e64ebb418511ef3b8186",
+        "tests/test/recursive_structures.scm": "67838ff5bac26ea359139720adec1d5700176147b0062065c7def9715e8a2aeb",
+        "tests/test/test_read.scm": "5b9ee381c3cf45b2fc8c2e7b490857fb67f1ac78653b586d7f2848daf6853809",
+        "tests/test/variadic_functions.scm": "c9b847c50840c6977904e5033a07f6108cc3a54012b02d916e79025fb43e0f6e",
+        "tests/test/y_combinator.scm": "971144dcb2b04aaa3b34d9279459bd7d2e8256c585d17809465848c2589d36d8",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "fbb84e3c0c2f72ed7de90f54380f860052c16155e7d0c9076cd57c966e9be7ed"
+      },
+      "prior_nanopy_work_budget_seconds": 2220,
+      "pi_agent_timeout_seconds": 2400
+    },
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "297ddea07c230dfd246a8ab07337dd7abcd8e5e2a2b2e26590cb0a8af779839c",
+        "environment/Dockerfile": "c357ea41e4a4013c5c5980b8fef04af6a5ae250ccc6697cf3bad3127401a931f",
+        "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+        "solution/solve.sh": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+        "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+        "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+        "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/torch-tensor-parallelism",
+      "ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-tensor-parallelism:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "4c1b3c3be30548f1f94c6f5503b1bc74b006af7f192dc4cd026f411df1a54604",
+        "environment/Dockerfile": "5f264ff0bf62a49aee3c6398447de5108df141e7a2ad35c6de8ef39fa62049c6",
+        "instruction.md": "13bde2ab165d72a311e2bf066d5d6c3c8761bf9d3dd39d1b23eda23bc546b910",
+        "solution/solve.sh": "d083b7cbf9dbb6cc2ff38c8f2acc150f0059c04aea42d6c2183aeaecc5a19385",
+        "task.toml": "72fd2a5500d1fe8795dcae76cccb1a29fb25894881a7475f2fa519c87d425a8d",
+        "tests/test.sh": "a7e6c9408b2401e4e7448371f7ddc72f3284caccfb56277d3cd4e98051868cdf",
+        "tests/test_outputs.py": "4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/write-compressor",
+      "ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/write-compressor:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "603015a28500a28f0838fea2c43a5168613746bfd07737920f4bae40b5a326f7",
+        "environment/Dockerfile": "9a583d29d46818f6ff2be7c6a0879d03343106e5376fd5a48eb5926b402bb93b",
+        "environment/data.txt": "0fc483d0fb31128dfa41ed11adca56c88688888189826ef9daeafd7559b4fa4e",
+        "environment/decomp.c": "7f8d9ef66943f912a217aa48f4ef5efc967b44c2b21d0f56df029b5ab413f62a",
+        "environment/main.rs": "fa53d6572fca95903e30d2d953f1e428bb8b63513ff218ebee9bc60a425ab389",
+        "instruction.md": "c4fc3e73e44deeac95f1cd4a34a2d87e853b22ceec2b2824767f5f087b470bb2",
+        "solution/solve.sh": "01550b7de7ab1320b1898eae055226bb7c73bee259c75102d2240c974a730409",
+        "task.toml": "6066a509066433c97c417fea68c4e3e73996f698dcdcbabe07718835eea355a6",
+        "tests/original-data.txt": "0fc483d0fb31128dfa41ed11adca56c88688888189826ef9daeafd7559b4fa4e",
+        "tests/original-decomp.c": "7f8d9ef66943f912a217aa48f4ef5efc967b44c2b21d0f56df029b5ab413f62a",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "809f486053e3ffbce852111dee1f63d80ab31297bd33172389e50278bed384e2"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    }
+  ],
+  "preflight": [
+    {
+      "arm": "pi",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/install-only.json",
+      "config_sha256": "246429e25d0b54aff9db85f2f93435e80e714be666595b2f4e7fa32a14f11795",
+      "job_name": "pi-flash-dev34-install-20261024"
+    }
+  ],
+  "queue": [
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/adaptive-rejection-sampler.json",
+      "config_sha256": "e737e23d0d9e761c13d934411a79055c35cf4a7c13502d79717dca7ce790a9a5",
+      "job_name": "pi-flash-dev34-adaptive-rejection-sampler-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/build-cython-ext",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/build-cython-ext.json",
+      "config_sha256": "da458c548221b2a1066d4aa30ddc778ad6e3cc3c33c8602e2e1a9cb12df6fb23",
+      "job_name": "pi-flash-dev34-build-cython-ext-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/cancel-async-tasks",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/cancel-async-tasks.json",
+      "config_sha256": "cfb498953fe328ee6f005d8783e385616b69c3434fb1c8ecd1aab178bd4c0dce",
+      "job_name": "pi-flash-dev34-cancel-async-tasks-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/cobol-modernization",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/cobol-modernization.json",
+      "config_sha256": "96d36cedda0a82b9f07a76459212f7ed0c8488b71092ae684773312c4b3917b6",
+      "job_name": "pi-flash-dev34-cobol-modernization-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/db-wal-recovery",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/db-wal-recovery.json",
+      "config_sha256": "c7942215a12854d5f9ee54ca7340ba3f9e89190856efab054742bf2fdb4b305c",
+      "job_name": "pi-flash-dev34-db-wal-recovery-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/fix-code-vulnerability",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/fix-code-vulnerability.json",
+      "config_sha256": "6bd358f64d0b58b38784faac7b784f678bf5d679f25e44759fc0440e57ab1651",
+      "job_name": "pi-flash-dev34-fix-code-vulnerability-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/git-multibranch",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/git-multibranch.json",
+      "config_sha256": "ec21d2f29cc528fce2f36897b2f1a82262fbb44a818e7195856d791725d5e928",
+      "job_name": "pi-flash-dev34-git-multibranch-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/kv-store-grpc",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/kv-store-grpc.json",
+      "config_sha256": "3251f511205c9f21a6390e904392661352addee3db92d8498c6d1fb90548b4fe",
+      "job_name": "pi-flash-dev34-kv-store-grpc-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/log-summary-date-ranges",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/log-summary-date-ranges.json",
+      "config_sha256": "7c859a4ba515eb7a3d4ca332b5a72acb099e4d8146c7412b25be532084068351",
+      "job_name": "pi-flash-dev34-log-summary-date-ranges-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/merge-diff-arc-agi-task",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/merge-diff-arc-agi-task.json",
+      "config_sha256": "44fb82b39850f58dfdb7d3d4da903f043dd37e5c83bc48312798612870df1f92",
+      "job_name": "pi-flash-dev34-merge-diff-arc-agi-task-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/model-extraction-relu-logits.json",
+      "config_sha256": "89451efa0da9e693d359be60cbcfca12ab8148c5d081c6da8acd2fd6f933d3d5",
+      "job_name": "pi-flash-dev34-model-extraction-relu-logits-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/multi-source-data-merger",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/multi-source-data-merger.json",
+      "config_sha256": "c168fada695ee17b8da44d005693b0d701be6cc843dd1a037e4feac9c24621de",
+      "job_name": "pi-flash-dev34-multi-source-data-merger-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/nginx-request-logging",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/nginx-request-logging.json",
+      "config_sha256": "6a9adf41ab2bf874c0ea037085d9ccd42573589b7010d5d3a56f0b8fe9b356b4",
+      "job_name": "pi-flash-dev34-nginx-request-logging-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/openssl-selfsigned-cert",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/openssl-selfsigned-cert.json",
+      "config_sha256": "f9f0ec331c08d2db293109d7d40012f92249cfc206b0873b3ae9c0230089d813",
+      "job_name": "pi-flash-dev34-openssl-selfsigned-cert-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/pypi-server",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/pypi-server.json",
+      "config_sha256": "e4238419099c1eaf7da9f3bbcf8cc72a8d382e1a27ce2bdc95182c62af110943",
+      "job_name": "pi-flash-dev34-pypi-server-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/pytorch-model-cli",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/pytorch-model-cli.json",
+      "config_sha256": "f84653ea98195696e9377fa5504362b20a7ebab746e4a44eac469133399d1226",
+      "job_name": "pi-flash-dev34-pytorch-model-cli-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/pytorch-model-recovery",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/pytorch-model-recovery.json",
+      "config_sha256": "ca8d05456eefa36a767610781835c0e3ebfa6a587c12aa814ad4a940d507dd12",
+      "job_name": "pi-flash-dev34-pytorch-model-recovery-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/qemu-alpine-ssh.json",
+      "config_sha256": "eba0397cf677116056fe2c64cfd3883252288c1263ce2b65a9c51657a8de9f9c",
+      "job_name": "pi-flash-dev34-qemu-alpine-ssh-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/query-optimize",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/query-optimize.json",
+      "config_sha256": "9f33dd57e5beba6e14b9ff9e1e163d1bf9cd6742402b386aaca792965636c482",
+      "job_name": "pi-flash-dev34-query-optimize-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/regex-log",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/regex-log.json",
+      "config_sha256": "b150765adf9dd3eda13a9befc40abeaa807479653f8df9eb157e894283e23269",
+      "job_name": "pi-flash-dev34-regex-log-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/torch-pipeline-parallelism.json",
+      "config_sha256": "b8b9f74d9ec270eaa8215b69528e09214d33a3d565a9b7e5301de44342773347",
+      "job_name": "pi-flash-dev34-torch-pipeline-parallelism-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/torch-tensor-parallelism.json",
+      "config_sha256": "c66e31078c9ac76e056984c16b19338004c203afc6cb700ed6fa219979362737",
+      "job_name": "pi-flash-dev34-torch-tensor-parallelism-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/write-compressor",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/write-compressor.json",
+      "config_sha256": "4c3398cec611bc726de21f2833be71a6d8c5332b37fbed155b72eea43bc73ac5",
+      "job_name": "pi-flash-dev34-write-compressor-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/constraints-scheduling",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/constraints-scheduling.json",
+      "config_sha256": "5b7ad367963a6894d17eef2ae698f6f4ba329ac779072abacb5f8f8eb5f13f5b",
+      "job_name": "pi-flash-dev34-constraints-scheduling-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/custom-memory-heap-crash.json",
+      "config_sha256": "02f32088faca67cd0b81860022c5c03861f41f772058b1c18e72b903439fee59",
+      "job_name": "pi-flash-dev34-custom-memory-heap-crash-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/dna-assembly",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/dna-assembly.json",
+      "config_sha256": "1e21697089756a67a11683a935a00b1f4f0373c8d9e5977cd73ea9ad6754db86",
+      "job_name": "pi-flash-dev34-dna-assembly-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/llm-inference-batching-scheduler.json",
+      "config_sha256": "990ffdb0670445825f8ce37707ca3c18625e37608fcd22ebd8f9f8c30b90cbf6",
+      "job_name": "pi-flash-dev34-llm-inference-batching-scheduler-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/path-tracing",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/path-tracing.json",
+      "config_sha256": "e6aef64f083166c6eb4c506a1f7c1ea01d406f4c6e2a9dd87d5fbff5c24bd92f",
+      "job_name": "pi-flash-dev34-path-tracing-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/schemelike-metacircular-eval.json",
+      "config_sha256": "8c25426015609bd39dc1002c9da30aca4c2979731701c2683a320dbeffc6eb20",
+      "job_name": "pi-flash-dev34-schemelike-metacircular-eval-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/caffe-cifar-10",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/caffe-cifar-10.json",
+      "config_sha256": "ef0fa08a4a2ffb6f7652dd1b918ab0a1e397e4082a96c8518cb64261e787791a",
+      "job_name": "pi-flash-dev34-caffe-cifar-10-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/circuit-fibsqrt",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/circuit-fibsqrt.json",
+      "config_sha256": "141731de25773e5e87c6c4157968f2526820430dac6d153411d961fdfbd017ca",
+      "job_name": "pi-flash-dev34-circuit-fibsqrt-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/mteb-leaderboard",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/mteb-leaderboard.json",
+      "config_sha256": "712201f8c47c3995c2e3f553b08c1b3883df7b4cde6078bd6fb450675e92c6ad",
+      "job_name": "pi-flash-dev34-mteb-leaderboard-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/regex-chess",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/regex-chess.json",
+      "config_sha256": "f8402e08659eff542793bd3e9f95960f47f659265f1424ec22e2c19d32e1260b",
+      "job_name": "pi-flash-dev34-regex-chess-20261024"
+    },
+    {
+      "arm": "pi",
+      "repeat": 1,
+      "task": "terminal-bench/build-pov-ray",
+      "config": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/build-pov-ray.json",
+      "config_sha256": "2c77147b66971c37fbafa1597046389864cee4d3137940c9fd05f3f33dedafbf",
+      "job_name": "pi-flash-dev34-build-pov-ray-20261024"
+    }
+  ],
+  "additional_file_sha256": {
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/selection.json": "4572b1cc432a16b9c5d1dd554c8d2189ae80414f386a90bf03829bc4d0c3da85",
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/pi-distribution.json": "0e1e2cdbef4ede58b2beed0f4c3655099fb2d6f7e3f6d2ca369879fa24546eb1",
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/pi-models.json": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/dependency-cache.compose.json": "47a2c7370d7e5359c401a74efbc4fef63168229f54e164e88a7974e00af94ce1",
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/dependency-release-manifest.json": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/apt-cache.conf": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/prior-image-digests.json": "fd9abd24bcc397d172ac0ad4e3faa875a2da8c482b35651a2ab296e04c3adcc4",
+    "benchmarks/harbor/scripts/apt_index_proxy.py": "bc15f7adf1d7968d627ceca4683ab86742a7188a1b1955ba1fef37ba48e8a936",
+    "benchmarks/harbor/scripts/cache_image.py": "639709c03a7b0c3eb6aa78b4e87e6184b49b4b102853a31e33dd832d759180c0",
+    "benchmarks/harbor/scripts/uv_release_cache.py": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+    "benchmarks/harbor/scripts/run_comparison.py": "b5f16a23b4495ab7e4a7028eb697649c0b8b22cbef6b03a4493437ba0f5204c7",
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/image-digests.json": "7f21855951ff5fff62cb16e686d93e4aae726be117dad049641c67956ab00d46"
+  },
+  "model_policy": {
+    "model": "deepseek/deepseek-flash",
+    "api": "openai-completions",
+    "base_url": "https://api.deepseek.com",
+    "thinking": "high",
+    "model_config": "pi-models.json",
+    "model_metadata_max_tokens": 384000,
+    "pricing": "Peak-rate estimates from the registered Pi model config; not billing reconciliation. Official pricing also has off-peak discounts.",
+    "alias": "Official documentation checked 2026-10-24 maps deepseek-flash to DeepSeek-V4.1-Flash-1017; the alias is mutable."
+  },
+  "budget_policy": "Original task-native agent timeouts, original resources, and 1800-second setup. Stock Pi loop and generation behavior: no injected 100-turn cap or 180-second finalization reminder. Model metadata maxTokens=384000 is preserved from the local provider configuration. This differs from the historical Nano baseline (100 replies, 65536 requested output tokens, native timeout minus 180 seconds for work), so this is an agent baseline rather than a matched-budget causal comparison. Temperature unset.",
+  "verifier_policy": "Original official tests and native per-attempt timeouts. Only verifier timeouts retry, at most three total attempts on the same output. No dependency-error recovery or whole-trial retry. Preserve setup errors and verifier errors separately from scored failures.",
+  "preflight_policy": "Fresh install-only checks for all 34 tasks before any model trial. QEMU has the registered qemu-alpine-ssh-v1 profile; the other 33 explicitly report not_configured. Binary installation success does not certify unsupported verifier dependencies.",
+  "queue_policy": "Ascending native agent timeout then task name; consecutive pair barriers; at most two task trials at once; exactly one fresh output per task.",
+  "information_policy": "All 34 tasks are the existing development pool with prior exposure. No outcome-based task replacement. Review only operational metadata while running; freeze all new outputs before inspecting new trajectories or hidden tests. Keep the remaining 55 tasks unopened.",
+  "status_at_registration": "not_started: insufficient free system disk; no installation preflight or model trial has started",
+  "runtime_environment": "Use UV_PROJECT_ENVIRONMENT=/tmp/nanopy-pi-dev34-harbor-venv. Do not reuse or modify another worktree virtualenv."
+}
