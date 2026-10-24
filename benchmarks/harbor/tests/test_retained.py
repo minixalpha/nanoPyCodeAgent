@@ -140,7 +140,7 @@ def test_retained_timeout_does_not_publish_an_archived_reward(tmp_path):
     assert batch_result(tmp_path, {"status": "timeout"})["rewards"] is None
 
 
-@pytest.mark.parametrize("preparation", ["sleep 0.2", "exit 2", "sleep 10"])
+@pytest.mark.parametrize("preparation", ["sleep 1", "exit 2", "sleep 10"])
 def test_dependency_preparation_has_its_own_budget_and_gates_verification(tmp_path, preparation):
     logs = tmp_path / "logs"
     logs.mkdir()
@@ -151,21 +151,21 @@ def test_dependency_preparation_has_its_own_budget_and_gates_verification(tmp_pa
     command = f"touch {shlex.quote(str(marker))}; echo 0 > {shlex.quote(str(logs / 'reward.txt'))}"
     result = subprocess.run([
         sys.executable, "-c", _RUNNER, "prepared-batch", str(archive), preparation,
-        "0.5", command, "0.1", "1", "0", "0", str(logs), str(tmp_path / "control.pid"),
+        "2", command, "0.5", "1", "0", "0", str(logs), str(tmp_path / "control.pid"),
     ], capture_output=True, text=True, check=True)
     record = json.loads(result.stdout)
-    success = preparation == "sleep 0.2"
+    success = preparation == "sleep 1"
     assert marker.exists() is success
     assert hashes(logs) == before
     if success:
-        assert record["preparation"]["duration_seconds"] > 0.1
+        assert record["preparation"]["duration_seconds"] > 0.5
         assert record["verification"]["status"] == "completed"
         assert (archive / "verifier/reward.txt").read_text() == "0\n"
     else:
         assert record["verification"] is None
         assert not archive.exists()
     summary = json.loads((tmp_path / "batch-dependencies/retry-summary.json").read_text())
-    assert summary["timeout_sec"] == 0.5
+    assert summary["timeout_sec"] == 2
     assert len(summary["attempts"]) == 1
 
 

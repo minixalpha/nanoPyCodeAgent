@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "experiment": "pytorch-model-recovery-prepared-20261024",
+  "collected_at": "2026-10-24T13:54:30.566833+00:00",
+  "kind": "Separately authorized dependency preparation followed by native-timeout verification of the retained solution.",
+  "task": "terminal-bench/pytorch-model-recovery",
+  "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+  "trial": "pytorch-model-recovery__nCs7Y4H",
+  "source_ref": "f7383dd69cec928ce61e12c49f3850c2edb34be5",
+  "original_core_agent_ref": "ce28b1e826a292d796ba64f13e79199b66f65758",
+  "original_runtime_source_ref": "40fdd041c370a96dc06f86b436eacc01ce1566d7",
+  "new_model_calls": 0,
+  "new_model_cost_usd": 0,
+  "earlier_experiment_sha256": {
+    "benchmarks/harbor/results/dev34-flash1017-recovery-20261020.json": "37249473185caa2980fd5a322a375ef5da6bde1a7dd43e2964160def218a93b6",
+    "benchmarks/harbor/results/pytorch-model-recovery-verifier-20261021.json": "30a91d03fc2af479205d33be9b1ad9d340accca50216f49c5a7fd492ba75703f"
+  },
+  "plan": {
+    "path": "benchmarks/harbor/configs/pytorch-model-recovery-prepared-20261024.json",
+    "sha256": "d306487694979a679bab9d4df3a5944b2f16c2af266868ae2b639d38ce5040e4"
+  },
+  "dependency_preparation": {
+    "profile": "pytorch-model-recovery-v1",
+    "timeout_seconds": 3600.0,
+    "command": "set -euo pipefail; cd /tmp; command -v curl; curl -LsSf https://astral.sh/uv/0.9.5/install.sh | sh; export PATH=\"$HOME/.local/bin:$PATH\"; uv --version | grep -Eq '^uv 0\\.9\\.5( |$)'; uvx -p 3.13 -w pytest==8.4.1 -w torch==2.7.1 -w pytest-json-ctrf==0.3.5 pytest --version",
+    "apt_prerequisites": [
+      "curl"
+    ],
+    "task_files_sha256": {
+      "task.toml": "851a51204f53482a31f47cdf8833128cf421113b0331011286940fc857c37dfd",
+      "tests/test.sh": "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e"
+    },
+    "result": {
+      "attempt": 1,
+      "status": "completed",
+      "return_code": 0,
+      "duration_seconds": 1127.5886361699959
+    },
+    "status": "passed",
+    "task_tests_executed": false,
+    "submitted_model_imported": false
+  },
+  "formal_verifier_policy": {
+    "native_timeout_seconds": 900,
+    "max_attempts": 1,
+    "official_script_unchanged": true,
+    "remaining_script_bootstrap_included_in_native_budget": true
+  },
+  "verifier_result": {
+    "status": "scored",
+    "rewards": {
+      "reward": 1.0
+    },
+    "last_attempt": {
+      "attempt": 1,
+      "status": "completed",
+      "return_code": 0,
+      "duration_seconds": 49.933707160002086
+    },
+    "dependency_preparation": {
+      "attempt": 1,
+      "status": "completed",
+      "return_code": 0,
+      "duration_seconds": 1127.5886361699959
+    }
+  },
+  "formal_attempts": [
+    {
+      "attempt": 1,
+      "status": "completed",
+      "return_code": 0,
+      "duration_seconds": 49.933707160002086,
+      "overall_attempt_on_this_solution": 7,
+      "pytest_session_observed": true,
+      "raw_reward": "1",
+      "ctrf_summary": {
+        "tests": 5,
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1792849927.1654904,
+        "stop": 1792849932.1679828
+      },
+      "ctrf_tests": [
+        {
+          "name": "test_outputs.py::test_weights_file_unchanged",
+          "status": "passed",
+          "duration": 0.039344387012533844,
+          "start": 1792849929.2241943,
+          "stop": 1792849929.2638535,
+          "retries": 0,
+          "file_path": "test_outputs.py"
+        },
+        {
+          "name": "test_outputs.py::test_model_file_exists",
+          "status": "passed",
+          "duration": 0.0003131080011371523,
+          "start": 1792849929.2640839,
+          "stop": 1792849929.2645166,
+          "retries": 0,
+          "file_path": "test_outputs.py"
+        },
+        {
+          "name": "test_outputs.py::test_model_loads_weights",
+          "status": "passed",
+          "duration": 0.3143234669987578,
+          "start": 1792849929.264651,
+          "stop": 1792849929.5791852,
+          "retries": 0,
+          "file_path": "test_outputs.py"
+        },
+        {
+          "name": "test_outputs.py::test_state_dicts_match",
+          "status": "passed",
+          "duration": 0.2818363909900654,
+          "start": 1792849929.5794127,
+          "stop": 1792849929.8615518,
+          "retries": 0,
+          "file_path": "test_outputs.py"
+        },
+        {
+          "name": "test_outputs.py::test_model_loss",
+          "status": "passed",
+          "duration": 2.3055918629979715,
+          "start": 1792849929.8618186,
+          "stop": 1792849932.1676106,
+          "retries": 0,
+          "file_path": "test_outputs.py"
+        }
+      ],
+      "log_sha256": {
+        "ctrf.json": "de772fb927affbed04f1d82bfa64cc89d4dda5b1901e6bdfafdfbe3b617a5e21",
+        "reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "test-stdout.txt": "144b38a364b60e2a201c580ee50469cd510de46e58c541aa5ec4f5d3d12a67e2"
+      }
+    }
+  ],
+  "overall_verifier_attempts_on_this_solution": 7,
+  "frozen_solution_sha256": "098642cbf41010a7fab7a9cf32995b49300cc3ccb1d724e7d57d729330f0bb4e",
+  "frozen_solution_and_test_sha256": {
+    "/app/__pycache__/recovered_model.cpython-313.pyc": "c492a45a453bba7c9fc0db2bce81b3bac895ca649841b91e2919e13f4ac59071",
+    "/app/dataset.pt": "6db65e4ec1c0760209c2dd997ef582e4a1519ab38e0312339999c460a696960d",
+    "/app/model.pt": "098642cbf41010a7fab7a9cf32995b49300cc3ccb1d724e7d57d729330f0bb4e",
+    "/app/recovered_model.py": "602526444f3517d52c011a3291c3b492d6a86b4bd5200011b4027bc2ee86f3f7",
+    "/app/tune_model.py": "e2e9e6bbdb6e13f9e7e57d28f8c4e66932bfeff8dc468df2ae2034b8b9e92e71",
+    "/app/verify.py": "ed8ec4d7d52bbd849c15f8acc066825af6354fb729f265e9d223307835381c9e",
+    "/app/weights.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080",
+    "/tests/test.sh": "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e",
+    "/tests/test_outputs.py": "5d4d57c43e6913bf3d0081da764ad36d1b7275e3bb114a05abda529afe563905",
+    "/tests/weights_gtruth.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080"
+  },
+  "original_trial_sha256": {
+    "agent/bootstrap.json": "2acec152ff538811be8b32bbec76c38b2d5e9b3b285e0d600c4c49af6970a9b6",
+    "agent/nanopycodeagent.txt": "036c564ae66e993149b0a73d6de0e24292f3b06331b035c929d109e019d5025a",
+    "agent/trajectory.json": "73b4f374dbfb89dd3d3b94d572136c2f613bc1666aad87b8a6454c3316bb3f3d",
+    "artifacts/app/__pycache__/recovered_model.cpython-313.pyc": "c492a45a453bba7c9fc0db2bce81b3bac895ca649841b91e2919e13f4ac59071",
+    "artifacts/app/dataset.pt": "6db65e4ec1c0760209c2dd997ef582e4a1519ab38e0312339999c460a696960d",
+    "artifacts/app/model.pt": "098642cbf41010a7fab7a9cf32995b49300cc3ccb1d724e7d57d729330f0bb4e",
+    "artifacts/app/recovered_model.py": "602526444f3517d52c011a3291c3b492d6a86b4bd5200011b4027bc2ee86f3f7",
+    "artifacts/app/tune_model.py": "e2e9e6bbdb6e13f9e7e57d28f8c4e66932bfeff8dc468df2ae2034b8b9e92e71",
+    "artifacts/app/verify.py": "ed8ec4d7d52bbd849c15f8acc066825af6354fb729f265e9d223307835381c9e",
+    "artifacts/app/weights.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080",
+    "artifacts/manifest.json": "502e6df5db116b0d94d1f1c7cd9a32405cab81979a51f3dbecb38c424c665aa6",
+    "config.json": "125c1fdecd4add7009fa787adb79226e020e0f8598b12413864ac3c8f3502c83",
+    "exception.txt": "56305954e60464b84bd02c84ce5d5373a0bab576da8c5d926ed395a9978e7f95",
+    "lock.json": "5dc26291064142102bbfc4f3a90176a232d1824518915e9ad6da782c755635f5",
+    "result.json": "2a61cc964ad2a684e2b4adb3e5d333f75093db51320f7e448a2cb83446998e34",
+    "trial.log": "6504d89623d40eeab818172245fa3795d77f6349871df0f88d363e6674cde42e",
+    "verifier/attempts/1/test-stdout.txt": "4d00e96829b6291622f1a138c491042c44d5d2790880e9253ac72d363d906864",
+    "verifier/attempts/2/test-stdout.txt": "e951235c90184be58c1908b676fd33ddbf8e9199c8fd61bf416f0d1e80934690",
+    "verifier/attempts/3/test-stdout.txt": "034e509e6d5e1e587085482f987d108a25588d854b1404f6f0a3b424ba2c29d8",
+    "verifier/retry-summary.json": "8609c874195c9b06450a4a0667270aac906444ee1adfa675f486aa19450b55ea",
+    "verifier/test-stdout.txt": "034e509e6d5e1e587085482f987d108a25588d854b1404f6f0a3b424ba2c29d8"
+  },
+  "integrity": {
+    "original_trial_unchanged": true,
+    "frozen_solution_unchanged": true,
+    "original_tests_unchanged": true,
+    "finished_at": "2026-10-24T13:52:13.051848+00:00"
+  },
+  "retained_containers": [
+    {
+      "id": "85ece21e3a35b6db0e4452943ead6ad0581681a74051ad71d1e8579784189a50",
+      "name": "pytorch-model-recovery__ncs7y4h__env-apt-index-cache-1",
+      "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-24T13:32:33.039408218Z",
+        "FinishedAt": "2026-10-24T13:52:33.237887449Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-24T06:52:27.821406816-07:00",
+              "End": "2026-10-24T06:52:27.918941886-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:28.91935326-07:00",
+              "End": "2026-10-24T06:52:29.019166792-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:30.020248952-07:00",
+              "End": "2026-10-24T06:52:30.117255175-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:31.118601761-07:00",
+              "End": "2026-10-24T06:52:31.218089856-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:32.219416666-07:00",
+              "End": "2026-10-24T06:52:32.321832994-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "c0f5a78624e44c79f078c5dd77fc6a925c0a435611941374206d77283c0d7976",
+      "name": "pytorch-model-recovery__ncs7y4h__env-uv-release-cache-1",
+      "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-24T13:32:33.132520459Z",
+        "FinishedAt": "2026-10-24T13:52:23.116543156Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-24T06:52:17.976422201-07:00",
+              "End": "2026-10-24T06:52:18.083696921-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:19.085021225-07:00",
+              "End": "2026-10-24T06:52:19.175401171-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:20.176313232-07:00",
+              "End": "2026-10-24T06:52:20.281013918-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:21.282156914-07:00",
+              "End": "2026-10-24T06:52:21.373813343-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-24T06:52:22.374700737-07:00",
+              "End": "2026-10-24T06:52:22.47747711-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e8f4a6bb804bc8ef8f5e0acde059fd6205efc9cd4966b0029149873af31619fd",
+      "name": "pytorch-model-recovery__ncs7y4h__env-main-1",
+      "image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-24T13:32:32.926729841Z",
+        "FinishedAt": "2026-10-24T13:52:43.353900192Z"
+      }
+    }
+  ],
+  "executed_implementation_sha256": {
+    "retained.py": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+    "_verifier_runner.py": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+    "bootstrap.py": "7e79712812e3554a4f3912448c095f5966f59b35f4e5dca285dc186487956a13",
+    "__main__.py": "c5a12867226b94c679c162bfac2a098de1af4255c2964b4f9be9bc65355260ee"
+  },
+  "storage_maintenance": {
+    "duplicate_image_cache_bytes_temporarily_relocated": 1576934879,
+    "restored_files": 50,
+    "restoration_hashes_verified": true,
+    "pending_cleanup": false
+  },
+  "local_harbor_tests_passed": 209,
+  "documentation_sync": {
+    "english": "benchmarks/harbor/reports/en/pytorch-model-recovery-prepared-20261024.md",
+    "chinese": "benchmarks/harbor/reports/zh-CN/pytorch-model-recovery-prepared-20261024.md",
+    "status": "complete report pair"
+  },
+  "evidence_sha256": {
+    "jobs/pytorch-model-recovery-prepared-20261024/completion.json": "fee46deaa58dd0250ec093e249bbfe4bb3ecc0b8befeb42644a017fd26e4ac9a",
+    "jobs/pytorch-model-recovery-prepared-20261024/container-retention.json": "aa56ac9c810460e14d42d57fc26812c821b278c40c3a39aa4586a59d067dd2d1",
+    "jobs/pytorch-model-recovery-prepared-20261024/dependency-preparation/attempts/1/test-stdout.txt": "87e806a4ad5c7e8fae0b0363a7a6fc242f90bfad72dacdcced8a920706172bbf",
+    "jobs/pytorch-model-recovery-prepared-20261024/dependency-preparation/retry-summary.json": "52bc20894babd6711a3cd82205b5098198d708e2c1c21a49911923b5781a7c67",
+    "jobs/pytorch-model-recovery-prepared-20261024/dependency-preparation/test-stdout.txt": "87e806a4ad5c7e8fae0b0363a7a6fc242f90bfad72dacdcced8a920706172bbf",
+    "jobs/pytorch-model-recovery-prepared-20261024/integrity.json": "f3632d7654af3effb1fd30ff08d2afebdb92c5b351b22d1b57746c0ca507dbd7",
+    "jobs/pytorch-model-recovery-prepared-20261024/registration.json": "154eb469b5d7b2177d082a08cddaafb729ea5a1eb00c315a72c4bab555cae894",
+    "jobs/pytorch-model-recovery-prepared-20261024/result.json": "e185489f5e38bd0fb99468d67075171c8bd8184913b64da525eb7a12562ac4fe",
+    "jobs/pytorch-model-recovery-prepared-20261024/runner-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jobs/pytorch-model-recovery-prepared-20261024/runner-stdout.txt": "4b618522ae681d593336b65b3473f45176b93a3681bb96603f426840dc65c6de",
+    "jobs/pytorch-model-recovery-prepared-20261024/source/__main__.py": "c5a12867226b94c679c162bfac2a098de1af4255c2964b4f9be9bc65355260ee",
+    "jobs/pytorch-model-recovery-prepared-20261024/source/_verifier_runner.py": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+    "jobs/pytorch-model-recovery-prepared-20261024/source/bootstrap.py": "7e79712812e3554a4f3912448c095f5966f59b35f4e5dca285dc186487956a13",
+    "jobs/pytorch-model-recovery-prepared-20261024/source/retained.py": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+    "jobs/pytorch-model-recovery-prepared-20261024/storage-and-phase-history.jsonl": "5ab0a3b9bff6264d42801e2390a47b12d991ac2476a7658bec79ccd7e853b361",
+    "jobs/pytorch-model-recovery-prepared-20261024/verifier/attempts/1/ctrf.json": "de772fb927affbed04f1d82bfa64cc89d4dda5b1901e6bdfafdfbe3b617a5e21",
+    "jobs/pytorch-model-recovery-prepared-20261024/verifier/attempts/1/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "jobs/pytorch-model-recovery-prepared-20261024/verifier/attempts/1/test-stdout.txt": "144b38a364b60e2a201c580ee50469cd510de46e58c541aa5ec4f5d3d12a67e2",
+    "jobs/pytorch-model-recovery-prepared-20261024/verifier/ctrf.json": "de772fb927affbed04f1d82bfa64cc89d4dda5b1901e6bdfafdfbe3b617a5e21",
+    "jobs/pytorch-model-recovery-prepared-20261024/verifier/retry-summary.json": "7d378761ee2484b9bece7e2931dff1f8f1853467024ccbb2ded6a9baefba9289",
+    "jobs/pytorch-model-recovery-prepared-20261024/verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "jobs/pytorch-model-recovery-prepared-20261024/verifier/test-stdout.txt": "144b38a364b60e2a201c580ee50469cd510de46e58c541aa5ec4f5d3d12a67e2"
+  },
+  "scope_note": "Preparation is a changed evaluation setup. Both earlier experiments remain unchanged; do not substitute this continuation for the original baseline or report a composite score.",
+  "monitor_note": "The live /logs/verifier directory contains the original trial evidence until preparation succeeds and again after batch restoration. Archived per-batch logs are authoritative for new verification."
+}
