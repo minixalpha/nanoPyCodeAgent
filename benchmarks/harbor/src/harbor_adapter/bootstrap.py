@@ -145,6 +145,16 @@ QEMU_PREFLIGHT = (
     "command -v sshpass; "
     "uvx -p 3.13 -w pytest==8.4.1 -w pytest-json-ctrf==0.3.5 pytest --version"
 )
+PYTORCH_RECOVERY_TASK = "terminal-bench/pytorch-model-recovery"
+PYTORCH_RECOVERY_REF = "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc"
+PYTORCH_RECOVERY_PREFLIGHT = (
+    "set -euo pipefail; cd /tmp; command -v curl; "
+    "curl -LsSf https://astral.sh/uv/0.9.5/install.sh | sh; "
+    'export PATH="$HOME/.local/bin:$PATH"; '
+    "uv --version | grep -Eq '^uv 0\\.9\\.5( |$)'; "
+    "uvx -p 3.13 -w pytest==8.4.1 -w torch==2.7.1 "
+    "-w pytest-json-ctrf==0.3.5 pytest --version"
+)
 
 
 @dataclass(frozen=True)
@@ -152,11 +162,17 @@ class VerifierProfile:
     name: str
     apt_packages: tuple[str, ...]
     command: str
+    task_files_sha256: tuple[tuple[str, str], ...] = ()
 
 
 VERIFIER_PROFILES = {
     (QEMU_TASK, QEMU_REF): VerifierProfile(
         "qemu-alpine-ssh-v1", ("curl", "sshpass"), QEMU_PREFLIGHT,
+    ),
+    (PYTORCH_RECOVERY_TASK, PYTORCH_RECOVERY_REF): VerifierProfile(
+        "pytorch-model-recovery-v1", ("curl",), PYTORCH_RECOVERY_PREFLIGHT,
+        (("task.toml", "851a51204f53482a31f47cdf8833128cf421113b0331011286940fc857c37dfd"),
+         ("tests/test.sh", "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e")),
     ),
 }
 

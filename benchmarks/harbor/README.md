@@ -82,6 +82,12 @@ assertions or solution code. Unknown QEMU revisions fail setup pending profile
 review; tasks without a profile explicitly report `not_configured`. Add a
 profile and regression tests when another task needs verifier preflight.
 
+The reviewed `pytorch-model-recovery` revision also has a dependency-only
+profile. It uses the original uv 0.9.5 installer and the verifier's Python 3.13,
+pytest 8.4.1, torch 2.7.1, and pytest-json-ctrf 0.3.5 requirements, then runs only
+`pytest --version` from `/tmp`. It does not import the submitted model or run
+the task's tests. Other revisions require profile review.
+
 Every installation writes `agent/bootstrap.json`, including partial progress
 on failure. Preflight failure stops the trial before any model call. The
 official verifier script remains unchanged and may still access the network
@@ -294,6 +300,57 @@ valid scored failures stop immediately. Exhausted dependency failures raise
 `VerifierDependencyError`, retain every attempt's evidence, and leave no
 canonical reward. The default remains timeout-only; record the authorization
 and selected policy in the experiment plan.
+
+For separately authorized recovery of pytest collection failures, also set
+`retry_collection_errors=true`. This retries only an explicit collection abort
+before any test case runs. A successful reward, executed test cases, or an
+ambiguous CTRF report prevents this recovery. Exhaustion raises
+`VerifierCollectionError` and preserves archived rewards without publishing a
+canonical score. The default is false, and the three-attempt limit is shared
+with timeout and dependency recovery.
+
+When future verification may be needed, set Docker's
+`environment.kwargs.keep_containers=true` to retain the stopped task containers
+and register solution paths such as `/app` in `artifacts`.
+`environment.delete=false` alone still removes Docker containers. Harbor collects
+the registered files before verification. Keep both the
+artifact manifest and file hashes with the run evidence; trajectories alone do
+not preserve binaries or the original system state.
+
+For an explicitly authorized additional verifier batch on a retained Docker
+trial, use the repository entry point without starting an agent:
+
+```bash
+uv run --project benchmarks/harbor python -m harbor_adapter verify-retained \
+  --trial-dir jobs/example/task__trial \
+  --task-dir /path/to/the/original/task \
+  --container task__trial__env-main-1 \
+  --output-dir jobs/example-additional-verifier-batch
+```
+
+All original project services must be stopped. The command starts those same
+containers, waits for service health checks, verifies frozen `/app` artifacts
+and original test hashes, and runs at most three attempts with the native task
+timeout. The optional `--retry-dependency-errors` and
+`--retry-collection-errors` flags require the same separate authorization as
+their verifier kwargs. Any completed score, including zero, stops the batch.
+The original trial logs are temporarily set aside inside the retained container
+and restored afterward. New attempt logs, implementation sources, policy,
+hashes, and integrity checks go into the separate output directory. Containers
+are stopped and retained after the batch. This does not change the original
+trial result or authorize repeated batches automatically.
+
+To give dependency preparation its own budget on a retained solution, add
+`--dependency-timeout-sec 3600`. This requires a reviewed profile for the exact
+task revision and checks its registered task-file hashes. Preparation runs once
+in the same container before verification; its logs and status are recorded
+under `dependency-preparation/`. A preparation timeout or nonzero exit is a
+setup failure with no score, and verification does not start. On success, the
+unchanged official verifier script runs with the original per-attempt timeout
+(900 seconds for `pytorch-model-recovery`). Its own remaining dependency checks
+are still included in those 900 seconds. The larger preparation deadline never
+extends the verifier deadline. Record this preparation policy separately from
+earlier baseline results, even when the solution is identical.
 
 ## Benchmark reports
 

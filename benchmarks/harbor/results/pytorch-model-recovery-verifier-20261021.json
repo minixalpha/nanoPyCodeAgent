@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "experiment": "pytorch-model-recovery-verifier-20261021",
+  "collected_at": "2026-10-21T14:04:39.704238+00:00",
+  "kind": "Separately authorized verifier-only continuation of the retained 2026-10-20 solution.",
+  "task": "terminal-bench/pytorch-model-recovery",
+  "trial": "pytorch-model-recovery__nCs7Y4H",
+  "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+  "model_for_original_solution": "deepseek/deepseek-flash",
+  "provider_checkpoint_for_original_solution": {
+    "api_model": "deepseek-flash",
+    "reported_checkpoint": "DeepSeek-V4.1-Flash-1017",
+    "verification": "Official documentation checked before execution maps deepseek-flash to this checkpoint; the API alias is not an immutable checkpoint pin.",
+    "checked_at": "2026-10-20T13:42:17.189959+00:00",
+    "sources": [
+      "https://api-docs.deepseek.com/quick_start/agent_integrations/",
+      "https://api-docs.deepseek.com/news/news261017/"
+    ]
+  },
+  "core_agent_ref": "ce28b1e826a292d796ba64f13e79199b66f65758",
+  "original_runtime_source_ref": "40fdd041c370a96dc06f86b436eacc01ce1566d7",
+  "new_model_calls": 0,
+  "new_model_cost_usd": 0,
+  "prior_supplement": {
+    "path": "benchmarks/harbor/results/dev34-flash1017-recovery-20261020.json",
+    "sha256": "37249473185caa2980fd5a322a375ef5da6bde1a7dd43e2964160def218a93b6",
+    "original_verifier_attempts": 3,
+    "original_reward": null
+  },
+  "plan": {
+    "path": "benchmarks/harbor/configs/pytorch-model-recovery-verifier-20261021.json",
+    "sha256": "5ce1cc0ea847209b32c1216f0c0dd6a9f6a1f07855d7cc75c8a9f04d16f903c6"
+  },
+  "policy": {
+    "native_timeout_seconds": 900.0,
+    "max_attempts": 3,
+    "retry_dependency_errors": true,
+    "retry_collection_errors": true
+  },
+  "verifier_result": {
+    "status": "verifier_error",
+    "rewards": null,
+    "last_attempt": {
+      "attempt": 3,
+      "status": "timeout",
+      "duration_seconds": 900.0021111120004
+    },
+    "error": "timeout"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "timeout",
+      "duration_seconds": 900.0023519049864,
+      "overall_attempt_on_this_solution": 4,
+      "raw_archived_reward": null,
+      "pytest_session_observed": false,
+      "ctrf_summary": null,
+      "log_sha256": {
+        "test-stdout.txt": "d995ee6332259ba48b14ca31fb499580871ba5c59fc64aff160e5b917a73898b"
+      }
+    },
+    {
+      "attempt": 2,
+      "status": "timeout",
+      "duration_seconds": 900.0024621869961,
+      "overall_attempt_on_this_solution": 5,
+      "raw_archived_reward": null,
+      "pytest_session_observed": false,
+      "ctrf_summary": null,
+      "log_sha256": {
+        "test-stdout.txt": "55c18cf5e336d18234b1efaed4ca4c99d1af22abe6355b38931be0603a10ee53"
+      }
+    },
+    {
+      "attempt": 3,
+      "status": "timeout",
+      "duration_seconds": 900.0021111120004,
+      "overall_attempt_on_this_solution": 6,
+      "raw_archived_reward": null,
+      "pytest_session_observed": false,
+      "ctrf_summary": null,
+      "log_sha256": {
+        "test-stdout.txt": "bb67828a56c69a8b469f3b21ec09f908ba73eba916ef167d27c507f652756550"
+      }
+    }
+  ],
+  "overall_verifier_attempts_on_this_solution": 6,
+  "verifier_seconds_this_batch": 2700.006925203983,
+  "retained_container": [
+    {
+      "id": "85ece21e3a35b6db0e4452943ead6ad0581681a74051ad71d1e8579784189a50",
+      "name": "pytorch-model-recovery__ncs7y4h__env-apt-index-cache-1",
+      "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-21T13:17:06.610491279Z",
+        "FinishedAt": "2026-10-21T14:02:26.45335586Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-21T07:02:21.279207299-07:00",
+              "End": "2026-10-21T07:02:21.375029931-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:22.376356703-07:00",
+              "End": "2026-10-21T07:02:22.475384192-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:23.476451432-07:00",
+              "End": "2026-10-21T07:02:23.574333533-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:24.574996172-07:00",
+              "End": "2026-10-21T07:02:24.680012342-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:25.680436283-07:00",
+              "End": "2026-10-21T07:02:25.775505581-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "c0f5a78624e44c79f078c5dd77fc6a925c0a435611941374206d77283c0d7976",
+      "name": "pytorch-model-recovery__ncs7y4h__env-uv-release-cache-1",
+      "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-21T13:17:06.687241526Z",
+        "FinishedAt": "2026-10-21T14:02:16.343893305Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-21T07:02:11.159655249-07:00",
+              "End": "2026-10-21T07:02:11.261993952-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:12.262851803-07:00",
+              "End": "2026-10-21T07:02:12.355403643-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:13.356021632-07:00",
+              "End": "2026-10-21T07:02:13.458588952-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:14.459721514-07:00",
+              "End": "2026-10-21T07:02:14.568135008-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-21T07:02:15.56934414-07:00",
+              "End": "2026-10-21T07:02:15.659450418-07:00",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e8f4a6bb804bc8ef8f5e0acde059fd6205efc9cd4966b0029149873af31619fd",
+      "name": "pytorch-model-recovery__ncs7y4h__env-main-1",
+      "image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-21T13:17:06.50181432Z",
+        "FinishedAt": "2026-10-21T14:02:36.563205749Z"
+      }
+    }
+  ],
+  "same_container_id": "e8f4a6bb804bc8ef8f5e0acde059fd6205efc9cd4966b0029149873af31619fd",
+  "same_image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+  "solution_model_sha256": "098642cbf41010a7fab7a9cf32995b49300cc3ccb1d724e7d57d729330f0bb4e",
+  "frozen_solution_and_original_tests_sha256": {
+    "/app/__pycache__/recovered_model.cpython-313.pyc": "c492a45a453bba7c9fc0db2bce81b3bac895ca649841b91e2919e13f4ac59071",
+    "/app/dataset.pt": "6db65e4ec1c0760209c2dd997ef582e4a1519ab38e0312339999c460a696960d",
+    "/app/model.pt": "098642cbf41010a7fab7a9cf32995b49300cc3ccb1d724e7d57d729330f0bb4e",
+    "/app/recovered_model.py": "602526444f3517d52c011a3291c3b492d6a86b4bd5200011b4027bc2ee86f3f7",
+    "/app/tune_model.py": "e2e9e6bbdb6e13f9e7e57d28f8c4e66932bfeff8dc468df2ae2034b8b9e92e71",
+    "/app/verify.py": "ed8ec4d7d52bbd849c15f8acc066825af6354fb729f265e9d223307835381c9e",
+    "/app/weights.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080",
+    "/tests/test.sh": "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e",
+    "/tests/test_outputs.py": "5d4d57c43e6913bf3d0081da764ad36d1b7275e3bb114a05abda529afe563905",
+    "/tests/weights_gtruth.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080"
+  },
+  "integrity": {
+    "original_trial_unchanged": true,
+    "frozen_solution_unchanged": true,
+    "original_tests_unchanged": true,
+    "finished_at": "2026-10-21T14:02:06.276461+00:00"
+  },
+  "original_trial_sha256": {
+    "agent/bootstrap.json": "2acec152ff538811be8b32bbec76c38b2d5e9b3b285e0d600c4c49af6970a9b6",
+    "agent/nanopycodeagent.txt": "036c564ae66e993149b0a73d6de0e24292f3b06331b035c929d109e019d5025a",
+    "agent/trajectory.json": "73b4f374dbfb89dd3d3b94d572136c2f613bc1666aad87b8a6454c3316bb3f3d",
+    "artifacts/app/__pycache__/recovered_model.cpython-313.pyc": "c492a45a453bba7c9fc0db2bce81b3bac895ca649841b91e2919e13f4ac59071",
+    "artifacts/app/dataset.pt": "6db65e4ec1c0760209c2dd997ef582e4a1519ab38e0312339999c460a696960d",
+    "artifacts/app/model.pt": "098642cbf41010a7fab7a9cf32995b49300cc3ccb1d724e7d57d729330f0bb4e",
+    "artifacts/app/recovered_model.py": "602526444f3517d52c011a3291c3b492d6a86b4bd5200011b4027bc2ee86f3f7",
+    "artifacts/app/tune_model.py": "e2e9e6bbdb6e13f9e7e57d28f8c4e66932bfeff8dc468df2ae2034b8b9e92e71",
+    "artifacts/app/verify.py": "ed8ec4d7d52bbd849c15f8acc066825af6354fb729f265e9d223307835381c9e",
+    "artifacts/app/weights.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080",
+    "artifacts/manifest.json": "502e6df5db116b0d94d1f1c7cd9a32405cab81979a51f3dbecb38c424c665aa6",
+    "config.json": "125c1fdecd4add7009fa787adb79226e020e0f8598b12413864ac3c8f3502c83",
+    "exception.txt": "56305954e60464b84bd02c84ce5d5373a0bab576da8c5d926ed395a9978e7f95",
+    "lock.json": "5dc26291064142102bbfc4f3a90176a232d1824518915e9ad6da782c755635f5",
+    "result.json": "2a61cc964ad2a684e2b4adb3e5d333f75093db51320f7e448a2cb83446998e34",
+    "trial.log": "6504d89623d40eeab818172245fa3795d77f6349871df0f88d363e6674cde42e",
+    "verifier/attempts/1/test-stdout.txt": "4d00e96829b6291622f1a138c491042c44d5d2790880e9253ac72d363d906864",
+    "verifier/attempts/2/test-stdout.txt": "e951235c90184be58c1908b676fd33ddbf8e9199c8fd61bf416f0d1e80934690",
+    "verifier/attempts/3/test-stdout.txt": "034e509e6d5e1e587085482f987d108a25588d854b1404f6f0a3b424ba2c29d8",
+    "verifier/retry-summary.json": "8609c874195c9b06450a4a0667270aac906444ee1adfa675f486aa19450b55ea",
+    "verifier/test-stdout.txt": "034e509e6d5e1e587085482f987d108a25588d854b1404f6f0a3b424ba2c29d8"
+  },
+  "executed_implementation_sha256": {
+    "retained.py": "8d7641607c660bf50d1104228d5a15f2a2b8ec04761c52e9445338217e125dad",
+    "_verifier_runner.py": "be2f51d137fe97b65d8e1ef4e0134fd6f3f1f379f234e1de3f3a705d3a28a632"
+  },
+  "implementation_note": "The executed source snapshot is archived. Service health waiting and result classification were hardened in the published host command after this batch started; the in-container attempt runner and attempt policy were unchanged.",
+  "startup_observation": "Attempt 1 reported brief APT cache proxy connection refusals at service startup, used existing package indexes and installed curl, then reached the original uv downloads. Later attempts ran after both sidecars became healthy.",
+  "storage": {
+    "minimum_sampled_root_free_bytes": 2745761792,
+    "verified_duplicate_image_cache_bytes_temporarily_relocated": 1576934879,
+    "image_cache_files_restored": 50,
+    "image_cache_restoration_hashes_verified": true,
+    "stale_partial_download_bytes_archived": 5753708793,
+    "stale_partial_download_directories": 37,
+    "stale_archive_dirs": [
+      "/tmp/nanopy-pytorch-recovery-20261021-stale-downloads-after-attempt2",
+      "/tmp/nanopy-pytorch-recovery-20261021-stale-downloads"
+    ],
+    "stale_archive_hashes_verified": true,
+    "active_downloads_and_completed_packages_modified_by_maintenance": false
+  },
+  "documentation_sync": {
+    "english_report": "benchmarks/harbor/reports/en/pytorch-model-recovery-verifier-20261021.md",
+    "chinese_report": "benchmarks/harbor/reports/zh-CN/pytorch-model-recovery-verifier-20261021.md",
+    "status": "full report pair"
+  },
+  "evidence_sha256": {
+    "jobs/pytorch-model-recovery-verifier-20261021/completion.json": "da28436999984826b327a43833536ae1a6f6c005bfdfa2493ff648ec1616ecc6",
+    "jobs/pytorch-model-recovery-verifier-20261021/container-retention.json": "712d18ee20a4ebc53d9acfb7880b12285990cc76d982f56bf02e105c255e0602",
+    "jobs/pytorch-model-recovery-verifier-20261021/integrity.json": "3313ccb0479dc64bf79c523ff70115bc7c501563753e634c1e17394f1b559ae5",
+    "jobs/pytorch-model-recovery-verifier-20261021/registration.json": "3bcff0ae00373f1e0291dd2d50b8acb636c9a9d2288913bf076e73330cddb09e",
+    "jobs/pytorch-model-recovery-verifier-20261021/result.json": "06ff86ee7d172ebf2460e981202f1d290d973d140a42d5a01de7a7baea62102d",
+    "jobs/pytorch-model-recovery-verifier-20261021/runner-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "jobs/pytorch-model-recovery-verifier-20261021/runner-stdout.txt": "5fdd1ea303c5803ab38bbd197634ce0afca04301900c828abf7355a67a66eb79",
+    "jobs/pytorch-model-recovery-verifier-20261021/source/_verifier_runner.py": "be2f51d137fe97b65d8e1ef4e0134fd6f3f1f379f234e1de3f3a705d3a28a632",
+    "jobs/pytorch-model-recovery-verifier-20261021/source/retained.py": "8d7641607c660bf50d1104228d5a15f2a2b8ec04761c52e9445338217e125dad",
+    "jobs/pytorch-model-recovery-verifier-20261021/stale-download-archive-after-attempt2.json": "ee803db9c1a629f5bf40fe6eb6f1bc8961be35ab686bbdebadf4bc5c455cb66e",
+    "jobs/pytorch-model-recovery-verifier-20261021/stale-download-archive.json": "315f82f1dfd51bc2af2221a22b36a61fc45792bd3ea76c5cc1a858ce46f6f2d2",
+    "jobs/pytorch-model-recovery-verifier-20261021/storage-and-phase-history.jsonl": "9cd5ec31c5f92ee3d175a77ea5d7275d38f865c66cb89d9c8d985580672d52fe",
+    "jobs/pytorch-model-recovery-verifier-20261021/verifier/attempts/1/test-stdout.txt": "d995ee6332259ba48b14ca31fb499580871ba5c59fc64aff160e5b917a73898b",
+    "jobs/pytorch-model-recovery-verifier-20261021/verifier/attempts/2/test-stdout.txt": "55c18cf5e336d18234b1efaed4ca4c99d1af22abe6355b38931be0603a10ee53",
+    "jobs/pytorch-model-recovery-verifier-20261021/verifier/attempts/3/test-stdout.txt": "bb67828a56c69a8b469f3b21ec09f908ba73eba916ef167d27c507f652756550",
+    "jobs/pytorch-model-recovery-verifier-20261021/verifier/retry-summary.json": "5effb74466c22e41e4f4b59a5d8ec0ec33dd79b325fc219cabac1d889fee4656",
+    "jobs/pytorch-model-recovery-verifier-20261021/verifier/test-stdout.txt": "bb67828a56c69a8b469f3b21ec09f908ba73eba916ef167d27c507f652756550",
+    "jobs/pytorch-model-recovery-verifier-20261021/working-tree.patch": "c03b33c3b5c15899163909c5239aa228cfdaa8196391c6c5ea57cc6d0bcb370f"
+  },
+  "scope_note": "Both the 2026-10-19 dev34 baseline and the 2026-10-20 three-task supplement remain unchanged. This batch does not create a new Harbor native trial result or a composite dev34 score."
+}

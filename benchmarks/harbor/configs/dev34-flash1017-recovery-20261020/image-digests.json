@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-10-20T13:45:35.955916+00:00",
+  "original_identities_match": true,
+  "images": [
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "image": "alexgshaw/multi-source-data-merger:20251031",
+      "image_id": "sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e",
+      "repo_digests": [
+        "alexgshaw/multi-source-data-merger@sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e"
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "image": "alexgshaw/pytorch-model-cli:20251031",
+      "image_id": "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "repo_digests": [
+        "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67"
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "image": "alexgshaw/pytorch-model-recovery:20260430",
+      "image_id": "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+      "repo_digests": [
+        "alexgshaw/pytorch-model-recovery@sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "selected_at": "2026-10-19T14:17:10.343499+00:00",
+  "selection_method": "Only the three original jobs whose host-network failures occurred before any native trial or model output existed. No outcome-based selection.",
+  "dataset_ref": "sha256:7d7bdc1cbedad549fc1140404bd4dc45e5fd0ea7c4186773687d177ad3a0699a",
+  "tasks": [
+    {
+      "name": "terminal-bench/git-multibranch",
+      "ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa"
+    },
+    {
+      "name": "terminal-bench/kv-store-grpc",
+      "ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307"
+    },
+    {
+      "name": "terminal-bench/log-summary-date-ranges",
+      "ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6"
+    }
+  ]
+}

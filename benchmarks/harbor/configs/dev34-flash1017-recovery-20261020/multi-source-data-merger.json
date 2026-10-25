@@ -1,0 +1,41 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 720
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49"
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-recovery-20261020/benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/dependency-cache.compose.json"
+    ],
+    "delete": false
+  },
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "retry_dependency_errors": true,
+      "retry_collection_errors": true
+    }
+  },
+  "artifacts": [
+    "/app",
+    "/data"
+  ]
+}

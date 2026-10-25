@@ -170,7 +170,19 @@ def main() -> int:
     cache = commands.add_parser("import-apt", help="Import a manifest and its sibling packages/ directory")
     cache.add_argument("manifest", type=Path)
     cache.add_argument("--cache-dir", type=Path, default=default_cache_dir())
+    retained = commands.add_parser("verify-retained", help="Run an authorized verifier batch on an unchanged retained solution, without model calls")
+    retained.add_argument("--trial-dir", type=Path, required=True)
+    retained.add_argument("--task-dir", type=Path, required=True)
+    retained.add_argument("--container", required=True)
+    retained.add_argument("--output-dir", type=Path, required=True)
+    retained.add_argument("--max-attempts", type=int, default=3)
+    retained.add_argument("--dependency-timeout-sec", type=float, help="Prepare a reviewed dependency profile before verification, with a separate deadline")
+    retained.add_argument("--retry-dependency-errors", action="store_true")
+    retained.add_argument("--retry-collection-errors", action="store_true")
     args = parser.parse_args()
+    if args.command == "verify-retained":
+        from .retained import verify_retained
+        return verify_retained(args)
     if args.command == "import-apt":
         count = AptCache(args.cache_dir.expanduser().resolve()).import_manifest(args.manifest)
         print(f"Imported {count} verified APT packages into {args.cache_dir}")

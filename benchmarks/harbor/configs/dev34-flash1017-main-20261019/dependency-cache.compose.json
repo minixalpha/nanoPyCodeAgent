@@ -1,0 +1,100 @@
+{
+  "services": {
+    "main": {
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/configs/dev34-flash1017-main-20261019/apt-cache.conf",
+          "target": "/etc/apt/apt.conf.d/99nanopy-index-cache",
+          "read_only": true
+        }
+      ],
+      "environment": {
+        "UV_INSTALLER_GITHUB_BASE_URL": "http://127.0.0.1:18743",
+        "UV_PYTHON_INSTALL_MIRROR": "http://127.0.0.1:18743/astral-sh/python-build-standalone/releases/download"
+      }
+    },
+    "apt-index-cache": {
+      "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "network_mode": "service:main",
+      "entrypoint": [
+        "python3",
+        "/proxy/apt_index_proxy.py",
+        "--bind",
+        "127.0.0.1",
+        "--port",
+        "18742",
+        "--cache",
+        "/cache",
+        "--workers",
+        "16"
+      ],
+      "user": "1000:1000",
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "mem_limit": "256m",
+      "cpus": 0.5,
+      "volumes": [
+        "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/scripts/apt_index_proxy.py:/proxy/apt_index_proxy.py:ro",
+        "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/scripts/cache_image.py:/proxy/cache_image.py:ro",
+        "/home/minix/projects/nanoPyCodeAgent/.cache/nanopy-harbor/apt-indexes:/cache"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD",
+          "python3",
+          "-c",
+          "import socket; socket.create_connection((\"127.0.0.1\",18742), timeout=2).close()"
+        ],
+        "interval": "1s",
+        "timeout": "3s",
+        "retries": 30
+      }
+    },
+    "uv-release-cache": {
+      "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "network_mode": "service:main",
+      "entrypoint": [
+        "python3",
+        "/proxy/uv_release_cache.py",
+        "serve",
+        "--cache",
+        "/cache",
+        "--manifest",
+        "/manifest.json"
+      ],
+      "user": "1000:1000",
+      "read_only": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cpus": 0.5,
+      "mem_limit": "256m",
+      "volumes": [
+        "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/scripts/uv_release_cache.py:/proxy/uv_release_cache.py:ro",
+        "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/scripts/cache_image.py:/proxy/cache_image.py:ro",
+        "/home/minix/projects/nanoPyCodeAgent/.cache/nanopy-harbor/uv-releases:/cache:ro",
+        "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/configs/dev34-flash1017-main-20261019/dependency-release-manifest.json:/manifest.json:ro"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD",
+          "python3",
+          "-c",
+          "import socket; socket.create_connection((\"127.0.0.1\",18743), timeout=2).close()"
+        ],
+        "interval": "1s",
+        "timeout": "3s",
+        "retries": 30
+      }
+    }
+  }
+}

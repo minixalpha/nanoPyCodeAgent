@@ -1,0 +1,35 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "max_turns": 100,
+        "max_tokens": 65536,
+        "time_budget_seconds": 3420
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "name": "terminal-bench/regex-chess",
+      "ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78"
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/configs/dev34-flash1017-main-20261019/dependency-cache.compose.json"
+    ]
+  },
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "retry_dependency_errors": false
+    }
+  }
+}

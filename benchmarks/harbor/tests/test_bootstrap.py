@@ -135,6 +135,22 @@ def test_profile_is_scoped_to_reviewed_task_revision(tmp_path):
         verifier_profile(logs_dir, "qemu-alpine-ssh")
 
 
+def test_pytorch_recovery_profile_pins_the_original_verifier_dependencies(tmp_path):
+    from harbor_adapter.bootstrap import PYTORCH_RECOVERY_REF, PYTORCH_RECOVERY_TASK
+
+    (tmp_path / "config.json").write_text(json.dumps({"task": {
+        "name": PYTORCH_RECOVERY_TASK, "ref": PYTORCH_RECOVERY_REF,
+    }}))
+    profile = verifier_profile(tmp_path / "agent", "pytorch-model-recovery")
+    assert profile.name == "pytorch-model-recovery-v1"
+    for value in ["uv/0.9.5/install.sh", "-p 3.13", "pytest==8.4.1", "torch==2.7.1",
+                  "pytest-json-ctrf==0.3.5", "pytest --version", "cd /tmp"]:
+        assert value in profile.command
+    assert "/tests" not in profile.command and "/app" not in profile.command
+    assert "--index" not in profile.command and "--extra-index" not in profile.command
+    assert set(dict(profile.task_files_sha256)) == {"task.toml", "tests/test.sh"}
+
+
 @pytest.mark.parametrize("task", [
     {"path": "/tasks/qemu-alpine-ssh"},
     {"path": "/dataset/qemu-alpine-ssh", "source": "local-dataset"},
