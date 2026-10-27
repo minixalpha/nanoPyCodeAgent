@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 
 
 class BatchImages:
@@ -64,8 +65,14 @@ class BatchImages:
             if installed is None:
                 reference = entry["repo_digests"][0]
                 with (self.record / "image-downloads.log").open("a") as log:
-                    subprocess.run(["docker", "pull", reference], check=True, stdout=log, stderr=subprocess.STDOUT)
-                    subprocess.run(["docker", "tag", reference, entry["image"]], check=True, stdout=log, stderr=subprocess.STDOUT)
+                    if self.policy.get("cache_dir"):
+                        subprocess.run([
+                            sys.executable, str(self.root / "benchmarks/harbor/scripts/cache_image.py"),
+                            entry["image"], "--cache", self.policy["cache_dir"], "--load",
+                        ], check=True, stdout=log, stderr=subprocess.STDOUT)
+                    else:
+                        subprocess.run(["docker", "pull", reference], check=True, stdout=log, stderr=subprocess.STDOUT)
+                        subprocess.run(["docker", "tag", reference, entry["image"]], check=True, stdout=log, stderr=subprocess.STDOUT)
                 installed = self.inspect(entry["image"])
                 self.event("restored", entry)
             if (installed["Id"] != entry["image_id"]

@@ -92,6 +92,17 @@ def test_batch_restores_by_digest_and_verifies_identity(batch_images, monkeypatc
                      ["docker", "tag", entry["repo_digests"][0], entry["image"]]]
 
 
+def test_batch_can_use_existing_verified_range_cache(batch_images, monkeypatch):
+    manager, jobs, entry, calls = batch_images
+    manager.policy["cache_dir"] = "/cache/images"
+    sequence = iter([None, {"Id": entry["image_id"], "RepoDigests": entry["repo_digests"]}])
+    monkeypatch.setattr(manager, "inspect", lambda image: next(sequence))
+    manager.prepare(jobs)
+    assert len(calls) == 1
+    assert calls[0][1].endswith("scripts/cache_image.py")
+    assert calls[0][2:] == [entry["image"], "--cache", "/cache/images", "--load"]
+
+
 def test_batch_rejects_a_changed_tag_before_running_jobs(batch_images, monkeypatch):
     manager, jobs, _, _ = batch_images
     monkeypatch.setattr(manager, "inspect", lambda image: {"Id": "sha256:different", "RepoDigests": []})

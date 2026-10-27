@@ -3,7 +3,7 @@
 **Status: starting native installation preflight on October 27.** After the
 repository relocation, the project volume has approximately 69 GiB free and
 Docker's system volume approximately 20 GiB. The active
-[v2 plan](experiment-v2.json) restores and verifies the original images one
+[v3 plan](experiment-v3.json) restores and verifies the original images one
 batch at a time, then removes only image references absent from the initial
 Docker inventory. Existing recovery containers and their images are preserved.
 Model work remains gated on successful native installation checks for all tasks.
@@ -48,7 +48,7 @@ native sessions and completed JSON events rather than generating an ATIF trace.
 
 ## Task, budget, and infrastructure policy
 
-The [active experiment plan](experiment-v2.json) registers all 34 fresh model trials,
+The [active experiment plan](experiment-v3.json) registers all 34 fresh model trials,
 their fixed order, configurations, source revision, distribution, infrastructure
 hashes, and installation checks. Maximum concurrency is two, with consecutive
 pair barriers and no whole-trial retries. Preserve every failed setup or launch
@@ -89,7 +89,7 @@ runs all installation checks; models start only if those checks succeed.
 export UV_PROJECT_ENVIRONMENT="$PWD/jobs/harbor-runtime-venv"
 uv run --frozen --project jobs/runtime-source/benchmarks/harbor \
   python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v2.json \
+  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v3.json \
   --phase all
 ```
 
@@ -101,7 +101,7 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 
 Each invocation runs from the frozen runtime checkout. Native jobs and input
 manifests are stored under `jobs/runtime-source/jobs/`; orchestration state is
-stored under `jobs/pi-deepseek-flash-dev34-20261027-orchestration/`. Existing
+stored under `jobs/pi-deepseek-flash-dev34-20261027-transport-v3-orchestration/`. Existing
 records cannot be overwritten. A previous interrupted job requires inspection.
 If preflight fails, preserve it and register any corrective installation check
 separately before authorizing model work from the resulting evidence.
@@ -143,3 +143,10 @@ virtual environment resides on the project volume. The official model alias was
 rechecked on October 27 and still maps to DeepSeek-V4.1-Flash-1017. All 51 v2 job
 configurations and complete task-file sets validated; 55 relevant workflow tests
 passed, including image identity, preservation, eviction, and disk-space guards.
+
+The v2 controller was stopped during the first stalled Docker layer download,
+before any native job or model call. Its launch and image-download evidence
+remain local. The active v3 plan uses the existing SHA256-verified range-cache
+utility to restore the same registered images, then applies the same batch
+eviction policy. No task configuration, agent output, or verifier policy changed.
+All 56 relevant workflow tests passed after this amendment.
