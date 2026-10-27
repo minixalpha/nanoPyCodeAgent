@@ -1,0 +1,32 @@
+{
+  "n_concurrent_trials": 1,
+  "n_attempts": 1,
+  "retry": {
+    "max_retries": 0
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:PiCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "distribution_path": "/home/minix/.local/share/mise/installs/pi/1.4.0/pi",
+        "distribution_sha256": "60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9",
+        "model_config_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-deepseek-flash-dev34-20261024/benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/pi-models.json",
+        "thinking": "high"
+      }
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-deepseek-flash-dev34-20261024/benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/storage-v2/dependency-cache.compose.json"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49"
+    }
+  ]
+}

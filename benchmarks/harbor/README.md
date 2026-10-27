@@ -116,6 +116,10 @@ followed by the model queue. A registered `minimum_free_disk_bytes` stops new
 jobs before they start when disk space is insufficient. Existing jobs and
 failed attempts are preserved. Agent-specific budget differences must be
 declared in the experiment instead of assuming native agent defaults match.
+For constrained Docker storage, an optional `batch_images` plan restores each
+batch by registered repository digest, verifies image identities, and evicts
+only image references absent from the run's initial inventory. It checks the
+actual Docker storage volume and never forces image or container deletion.
 
 ### Cache original task images
 

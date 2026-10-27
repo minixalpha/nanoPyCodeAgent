@@ -15,6 +15,85 @@ import shutil
 import subprocess
 
 
+class BatchImages:
+    """Restore pinned images per batch and evict only this run's new cache."""
+
+    def __init__(self, root, plan, record):
+        self.policy = plan.get("batch_images")
+        self.record = record
+        if not self.policy:
+            return
+        evidence = json.loads((root / self.policy["manifest"]).read_text())
+        self.images = {item["task"]: item for item in evidence["images"]}
+        inventory = record / "initial-docker-images.json"
+        if not inventory.exists():
+            ids = subprocess.check_output(["docker", "image", "ls", "--quiet", "--no-trunc"], text=True).splitlines()
+            inventory.write_text(json.dumps(sorted(set(ids)), indent=2) + "\n")
+        self.protected = set(json.loads(inventory.read_text()))
+        self.root = root
+
+    def inspect(self, image):
+        result = subprocess.run(["docker", "image", "inspect", image], text=True, capture_output=True)
+        if result.returncode:
+            if "No such image" in result.stderr or "No such object" in result.stderr:
+                return None
+            raise RuntimeError(f"Cannot inspect Docker image: {result.stderr}")
+        return json.loads(result.stdout)[0]
+
+    def entries(self, jobs):
+        result = {}
+        for job in jobs:
+            config = json.loads((self.root / job["config"]).read_text())
+            for task in config["tasks"]:
+                entry = self.images[task["name"]]
+                result[entry["image"]] = entry
+        return list(result.values())
+
+    def event(self, action, entry):
+        with (self.record / "image-cache.jsonl").open("a") as stream:
+            stream.write(json.dumps({"at": datetime.now(timezone.utc).isoformat(), "action": action, "image": entry["image"], "image_id": entry["image_id"]}) + "\n")
+
+    def prepare(self, jobs):
+        if not self.policy:
+            return
+        free = shutil.disk_usage(self.policy["storage_path"]).free
+        if free < self.policy["minimum_free_disk_bytes"]:
+            raise RuntimeError("Insufficient Docker storage before image restoration")
+        for entry in self.entries(jobs):
+            installed = self.inspect(entry["image"])
+            if installed is None:
+                reference = entry["repo_digests"][0]
+                with (self.record / "image-downloads.log").open("a") as log:
+                    subprocess.run(["docker", "pull", reference], check=True, stdout=log, stderr=subprocess.STDOUT)
+                    subprocess.run(["docker", "tag", reference, entry["image"]], check=True, stdout=log, stderr=subprocess.STDOUT)
+                installed = self.inspect(entry["image"])
+                self.event("restored", entry)
+            if (installed["Id"] != entry["image_id"]
+                    or not set(entry["repo_digests"]) <= set(installed["RepoDigests"])):
+                raise ValueError(f"Docker image differs from registration: {entry['image']}")
+            self.event("verified", entry)
+
+    def release(self, jobs):
+        if not self.policy:
+            return
+        for entry in self.entries(jobs):
+            if entry["image_id"] in self.protected:
+                continue
+            installed = self.inspect(entry["image"])
+            if installed is None:
+                continue
+            if installed["Id"] != entry["image_id"]:
+                raise ValueError("Refusing to evict a different image")
+            # No force: Docker preserves images referenced by any remaining
+            # container. Keep both successful and failed task files/logs.
+            with (self.record / "image-downloads.log").open("a") as log:
+                for reference in [entry["image"], *entry["repo_digests"]]:
+                    if self.inspect(reference) is None:
+                        continue
+                    subprocess.run(["docker", "image", "rm", reference], check=True, stdout=log, stderr=subprocess.STDOUT)
+            self.event("evicted", entry)
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -224,12 +303,17 @@ def main():
             raise ValueError("The registered plan is immutable")
     else:
         registration.write_text(json.dumps(current, indent=2) + "\n")
+    images = BatchImages(root, plan, record)
     expected_counts = [
         len(json.loads((root / job["config"]).read_text())["tasks"])
         for job in plan["preflight"]
     ]
     if args.phase in {"preflight", "all"}:
-        states = [run_job(root, plan, j, record, True) for j in plan["preflight"]]
+        states = []
+        for job in plan["preflight"]:
+            images.prepare([job])
+            states.append(run_job(root, plan, job, record, True))
+            images.release([job])
         if not accepted and not preflight_passed(states, expected_counts):
             return 1
         if args.phase == "preflight":
@@ -242,8 +326,10 @@ def main():
     with ThreadPoolExecutor(max_workers=2) as pool:
         for offset in range(0, len(plan["queue"]), 2):
             batch = plan["queue"][offset:offset + 2]
+            images.prepare(batch)
             futures = [pool.submit(run_job, root, plan, job, record, False) for job in batch]
             states.extend(f.result() for f in futures)
+            images.release(batch)
     return int(any(s["exit_code"] != 0 for s in states))
 
 

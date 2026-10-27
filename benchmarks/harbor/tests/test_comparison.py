@@ -64,6 +64,61 @@ def test_low_disk_space_stops_before_recording_or_starting_a_trial(tmp_path, mon
     assert not (tmp_path / "new.json").exists()
 
 
+@pytest.fixture
+def batch_images(tmp_path, monkeypatch):
+    entry = {"task": "org/task", "image": "owner/task:tag", "image_id": "sha256:expected",
+             "repo_digests": ["owner/task@sha256:expected"]}
+    (tmp_path / "images.json").write_text(json.dumps({"images": [entry]}))
+    (tmp_path / "config.json").write_text(json.dumps({"tasks": [{"name": "org/task"}]}))
+    monkeypatch.setattr(comparison.subprocess, "check_output", lambda *a, **k: "sha256:protected\n")
+    monkeypatch.setattr(comparison.shutil, "disk_usage", lambda p: SimpleNamespace(free=100))
+    calls = []
+    def run(command, **kwargs):
+        calls.append(command)
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+    monkeypatch.setattr(comparison.subprocess, "run", run)
+    plan = {"batch_images": {"manifest": "images.json", "storage_path": str(tmp_path),
+                              "minimum_free_disk_bytes": 50}}
+    manager = comparison.BatchImages(tmp_path, plan, tmp_path)
+    return manager, [{"config": "config.json"}], entry, calls
+
+
+def test_batch_restores_by_digest_and_verifies_identity(batch_images, monkeypatch):
+    manager, jobs, entry, calls = batch_images
+    sequence = iter([None, {"Id": entry["image_id"], "RepoDigests": entry["repo_digests"]}])
+    monkeypatch.setattr(manager, "inspect", lambda image: next(sequence))
+    manager.prepare(jobs)
+    assert calls == [["docker", "pull", entry["repo_digests"][0]],
+                     ["docker", "tag", entry["repo_digests"][0], entry["image"]]]
+
+
+def test_batch_rejects_a_changed_tag_before_running_jobs(batch_images, monkeypatch):
+    manager, jobs, _, _ = batch_images
+    monkeypatch.setattr(manager, "inspect", lambda image: {"Id": "sha256:different", "RepoDigests": []})
+    with pytest.raises(ValueError, match="differs from registration"):
+        manager.prepare(jobs)
+
+
+def test_batch_preserves_preexisting_images_and_never_forces_eviction(batch_images, monkeypatch):
+    manager, jobs, entry, calls = batch_images
+    monkeypatch.setattr(manager, "inspect", lambda image: {"Id": entry["image_id"]})
+    manager.release(jobs)
+    assert calls == [["docker", "image", "rm", entry["image"]],
+                     ["docker", "image", "rm", entry["repo_digests"][0]]]
+    calls.clear()
+    manager.protected.add(entry["image_id"])
+    manager.release(jobs)
+    assert calls == []
+
+
+def test_batch_checks_actual_docker_storage_before_downloading(batch_images, monkeypatch):
+    manager, jobs, _, calls = batch_images
+    monkeypatch.setattr(comparison.shutil, "disk_usage", lambda path: SimpleNamespace(free=1))
+    with pytest.raises(RuntimeError, match="Insufficient Docker storage"):
+        manager.prepare(jobs)
+    assert calls == []
+
+
 def test_registered_transport_files_cannot_change(tmp_path):
     path = tmp_path / "apt-cache.conf"
     path.write_text("original configuration")

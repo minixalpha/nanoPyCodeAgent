@@ -1,0 +1,37 @@
+{
+  "n_concurrent_trials": 2,
+  "n_attempts": 1,
+  "retry": {
+    "max_retries": 0
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:PiCodeAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "distribution_path": "/home/minix/.local/share/mise/installs/pi/1.4.0/pi",
+        "distribution_sha256": "60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9",
+        "model_config_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-deepseek-flash-dev34-20261024/benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/pi-models.json",
+        "thinking": "high"
+      }
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-deepseek-flash-dev34-20261024/benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/storage-v2/dependency-cache.compose.json"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb"
+    },
+    {
+      "name": "terminal-bench/torch-tensor-parallelism",
+      "ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684"
+    }
+  ],
+  "install_only": true
+}

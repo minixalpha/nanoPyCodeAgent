@@ -91,6 +91,9 @@ Pi 目前不生成 ATIF trajectory。
 比较运行器支持 Pi arm，以及先安装检查、再执行模型队列的 `--phase all`。
 注册的 `minimum_free_disk_bytes` 会在空间不足时阻止启动新任务。
 已有任务和失败尝试均保留。各 agent 的预算差异必须在实验中说明，不能假设原生默认值相同。
+Docker 空间受限时，可以通过 `batch_images` 计划按批恢复已注册 repository digest
+对应的镜像、验证镜像身份，并仅清理本轮初始清单中不存在的镜像引用。
+运行器会检查 Docker 实际存储分区，且不会强制删除镜像或容器。
 
 ### 缓存原始任务镜像
 

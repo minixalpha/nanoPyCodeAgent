@@ -1,10 +1,13 @@
 # Pi + DeepSeek Flash dev34 agent baseline
 
-**Status: prepared, not started.** The system disk had approximately 824 MiB
-free at the last preparation check. No container installation preflight, model
-trial, or official verifier has run for this experiment. The runner requires
-at least 15 GiB free before starting new jobs. Existing recovery containers are
-preserved pending a storage decision.
+**Status: starting native installation preflight on October 27.** After the
+repository relocation, the project volume has approximately 69 GiB free and
+Docker's system volume approximately 20 GiB. The active
+[v2 plan](experiment-v2.json) restores and verifies the original images one
+batch at a time, then removes only image references absent from the initial
+Docker inventory. Existing recovery containers and their images are preserved.
+Model work remains gated on successful native installation checks for all tasks.
+The [original registration](experiment.json) remains unchanged and unexecuted.
 
 This experiment establishes the first external-agent baseline on the existing
 34-task development pool. The [selection](selection.json) is byte-identical to
@@ -45,7 +48,7 @@ native sessions and completed JSON events rather than generating an ATIF trace.
 
 ## Task, budget, and infrastructure policy
 
-The [experiment plan](experiment.json) registers all 34 fresh model trials,
+The [active experiment plan](experiment-v2.json) registers all 34 fresh model trials,
 their fixed order, configurations, source revision, distribution, infrastructure
 hashes, and installation checks. Maximum concurrency is two, with consecutive
 pair barriers and no whole-trial retries. Preserve every failed setup or launch
@@ -76,17 +79,17 @@ preserves upstream filenames, sizes, SHA256 digests, and native package checks.
 The worktree's ignored `.cache` link points to the repository's shared cache.
 No task images, official tests, or package origins are substituted.
 
-## Run after resolving disk space
+## Execute
 
 From this experiment worktree's root, provide `DEEPSEEK_API_KEY` in the process
 environment and use an isolated virtual environment. The command below first
 runs all installation checks; models start only if those checks succeed.
 
 ```bash
-export UV_PROJECT_ENVIRONMENT=/tmp/nanopy-pi-dev34-harbor-venv
+export UV_PROJECT_ENVIRONMENT="$PWD/jobs/harbor-runtime-venv"
 uv run --frozen --project jobs/runtime-source/benchmarks/harbor \
   python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment.json \
+  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v2.json \
   --phase all
 ```
 
@@ -98,7 +101,7 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 
 Each invocation runs from the frozen runtime checkout. Native jobs and input
 manifests are stored under `jobs/runtime-source/jobs/`; orchestration state is
-stored under `jobs/pi-deepseek-flash-dev34-20261024-orchestration/`. Existing
+stored under `jobs/pi-deepseek-flash-dev34-20261027-orchestration/`. Existing
 records cannot be overwritten. A previous interrupted job requires inspection.
 If preflight fails, preserve it and register any corrective installation check
 separately before authorizing model work from the resulting evidence.
@@ -119,3 +122,24 @@ no result report exists while the experiment remains unstarted.
 - All **34** registered task-file sets and Docker image identities matched the
   previous run. See [image evidence](image-digests.json).
 - Container dependency preflight: **pending**. Model trials: **0/34 started**.
+
+## October 27 storage amendment
+
+The v2 registration splits installation into 17 consecutive two-task batches.
+Before each installation or model batch, the runner restores missing images
+using their original repository digests and checks their recorded identities.
+It requires 15 GiB free on Docker's actual storage volume before restoration.
+After each batch, it removes newly introduced image references without force;
+Docker must retain images referenced by any remaining container. Raw task files,
+logs, official tests, original images, and frozen outputs remain unchanged.
+Initial Docker image IDs and all restore/verify/evict events are recorded in the
+orchestration directory. This changes image-cache residency, not image contents.
+The existing cache sidecars remain isolated and unchanged.
+
+The agent runtime, Pi 1.4.0 distribution, high reasoning setting, model provider,
+34 task revisions, model ordering, resources, and timeout policies are unchanged.
+Canonical paths in `storage-v2/` reflect the repository relocation. The isolated
+virtual environment resides on the project volume. The official model alias was
+rechecked on October 27 and still maps to DeepSeek-V4.1-Flash-1017. All 51 v2 job
+configurations and complete task-file sets validated; 55 relevant workflow tests
+passed, including image identity, preservation, eviction, and disk-space guards.
