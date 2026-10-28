@@ -1,9 +1,10 @@
 # Pi + DeepSeek Flash dev34 agent baseline
 
-**Status: starting native installation preflight on October 27.** After the
+**Status: 16/34 Pi installation checks passed; resuming the remaining 18 on
+October 28. No model outputs yet.** After the
 repository relocation, the project volume has approximately 69 GiB free and
 Docker's system volume approximately 20 GiB. The active
-[v3 plan](experiment-v3.json) restores and verifies the original images one
+[v4 plan](experiment-v4.json) restores and verifies the original images one
 batch at a time, then removes only image references absent from the initial
 Docker inventory. Existing recovery containers and their images are preserved.
 Model work remains gated on successful native installation checks for all tasks.
@@ -48,7 +49,7 @@ native sessions and completed JSON events rather than generating an ATIF trace.
 
 ## Task, budget, and infrastructure policy
 
-The [active experiment plan](experiment-v3.json) registers all 34 fresh model trials,
+The [active experiment plan](experiment-v4.json) registers all 34 fresh model trials,
 their fixed order, configurations, source revision, distribution, infrastructure
 hashes, and installation checks. Maximum concurrency is two, with consecutive
 pair barriers and no whole-trial retries. Preserve every failed setup or launch
@@ -69,8 +70,9 @@ that isolates harness behavior under identical internal budgets.
 Fresh installation-only checks must finish for all 34 tasks before any model
 trial. QEMU has the reviewed `qemu-alpine-ssh-v1` verifier profile. The other
 33 tasks must explicitly report `not_configured`; successful Pi installation
-does not certify their verifier dependencies. At preparation time **all 34
-native installation checks are pending**, including QEMU.
+does not certify their verifier dependencies. Sixteen Pi installation checks
+have completed successfully; **18 remain pending, including QEMU's verifier
+dependency preflight**.
 
 The [dependency transport](dependency-cache.compose.json) reuses the reviewed
 loopback APT-index and original uv/Python release-cache sidecars. The
@@ -89,7 +91,7 @@ runs all installation checks; models start only if those checks succeed.
 export UV_PROJECT_ENVIRONMENT="$PWD/jobs/harbor-runtime-venv"
 uv run --frozen --project jobs/runtime-source/benchmarks/harbor \
   python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v3.json \
+  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v4.json \
   --phase all
 ```
 
@@ -101,7 +103,7 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 
 Each invocation runs from the frozen runtime checkout. Native jobs and input
 manifests are stored under `jobs/runtime-source/jobs/`; orchestration state is
-stored under `jobs/pi-deepseek-flash-dev34-20261027-transport-v3-orchestration/`. Existing
+stored under `jobs/pi-deepseek-flash-dev34-20261028-transport-v4-orchestration/`. Existing
 records cannot be overwritten. A previous interrupted job requires inspection.
 If preflight fails, preserve it and register any corrective installation check
 separately before authorizing model work from the resulting evidence.
@@ -150,3 +152,32 @@ remain local. The active v3 plan uses the existing SHA256-verified range-cache
 utility to restore the same registered images, then applies the same batch
 eviction policy. No task configuration, agent output, or verifier policy changed.
 All 56 relevant workflow tests passed after this amendment.
+
+## October 28 image-transfer recovery
+
+V3 completed eight installation jobs covering 16 tasks, all successfully.
+It then stopped while restoring QEMU's original 991,743,246-byte image layer:
+253 one-MiB ranges remained saved, with no QEMU native trial or model work.
+The original logs reported a registry `HTTPError` but did not preserve its
+status code, so the exact historical HTTP status is unknown. A fresh-token
+manifest request succeeded and matched the registered image digest.
+
+The image-cache utility previously held one anonymous pull token for the entire
+image transfer. It now refreshes expiring tokens and retries once with fresh
+credentials on HTTP 401, coordinating refreshes between range workers. Saved
+ranges remain resumable; complete blobs still require full SHA256 verification.
+Sanitized failures retain HTTP status codes without exposing signed URLs.
+These fixes address token expiry during long transfers; the original failure's
+status cannot be established retrospectively.
+
+The [v4 plan](experiment-v4.json) binds the 16 successful native installation
+records through [resume evidence](preflight-resume-evidence.json), including
+results, bootstrap records, original input configurations, source manifests,
+and Pi model snapshots. The strict existing acceptance checks validated every
+record as installation-only from the same frozen runtime and distribution.
+The v4 orchestration directory links to the original eight completed job
+records; the runner skips their image preparation and native execution.
+All remaining installations are fresh. Previous transfer failures and launch
+evidence remain preserved. Model work is still gated on all 34 successful
+installation checks, and the agent/model/task/budget/verifier policies are unchanged.
+The complete Harbor workflow suite passed **199 tests** after these changes.

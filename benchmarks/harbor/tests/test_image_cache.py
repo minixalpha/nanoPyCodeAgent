@@ -152,3 +152,63 @@ def test_redirect_does_not_forward_registry_authorization():
     assert redirected.get_header("Range") == "bytes=0-2"
     with pytest.raises(ValueError, match="HTTPS"):
         cache_image.SafeRedirect().redirect_request(request, None, 307, "", {}, "http://cdn.docker.com/blob")
+
+
+def test_registry_refreshes_expiring_token_before_later_ranges(monkeypatch):
+    clock = [0]
+    tokens = []
+    def get(url, headers=None, limit=None):
+        if url.startswith("https://auth.docker.io/"):
+            token = f"token-{len(tokens)}"
+            tokens.append(token)
+            return 200, {}, json.dumps({"token": token, "expires_in": 300}).encode()
+        return 206, {}, headers["Authorization"].encode()
+    monkeypatch.setattr(cache_image, "get", get)
+    monkeypatch.setattr(cache_image.time, "monotonic", lambda: clock[0])
+    auth = cache_image.RegistryAuth("example/task")
+    assert auth.get("blob")[2] == b"Bearer token-0"
+    clock[0] = 271
+    assert auth.get("blob")[2] == b"Bearer token-1"
+    assert len(tokens) == 2
+
+
+def test_registry_refreshes_once_on_unauthorized_and_preserves_range(monkeypatch):
+    calls = []
+    tokens = iter(["old", "new"])
+    def get(url, headers=None, limit=None):
+        if url.startswith("https://auth.docker.io/"):
+            return 200, {}, json.dumps({"token": next(tokens)}).encode()
+        calls.append(headers.copy())
+        if headers["Authorization"] == "Bearer old":
+            raise cache_image.RegistryHTTPError(401)
+        return 206, {}, b"abc"
+    monkeypatch.setattr(cache_image, "get", get)
+    assert cache_image.RegistryAuth("example/task").get("blob", {"Range": "bytes=0-2"})[2] == b"abc"
+    assert [call["Range"] for call in calls] == ["bytes=0-2", "bytes=0-2"]
+
+
+def test_registry_does_not_refresh_indefinitely_or_on_rate_limits(monkeypatch):
+    for status, expected_calls in [(401, 2), (429, 1)]:
+        calls = []
+        def get(url, headers=None, limit=None):
+            if url.startswith("https://auth.docker.io/"):
+                return 200, {}, b'{"token":"token"}'
+            calls.append(url)
+            raise cache_image.RegistryHTTPError(status)
+        monkeypatch.setattr(cache_image, "get", get)
+        with pytest.raises(cache_image.RegistryHTTPError) as error:
+            cache_image.RegistryAuth("example/task").get("blob")
+        assert error.value.status == status
+        assert len(calls) == expected_calls
+
+
+def test_http_diagnostic_does_not_expose_signed_url(monkeypatch):
+    secret_url = "https://cdn.example/blob?signature=private"
+    class Opener:
+        def open(self, *args, **kwargs):
+            raise cache_image.HTTPError(secret_url, 401, "unauthorized", {}, None)
+    monkeypatch.setattr(cache_image, "build_opener", lambda *args: Opener())
+    with pytest.raises(cache_image.RegistryHTTPError) as error:
+        cache_image.get(secret_url)
+    assert str(error.value) == "Registry request failed: HTTP 401"
+    assert "private" not in str(error.value)

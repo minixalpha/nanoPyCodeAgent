@@ -117,6 +117,10 @@ python benchmarks/harbor/scripts/cache_image.py \
 这个步骤只准备 Docker 镜像缓存；随后仍需使用标准 benchmark 入口并执行安装预检，
 之前出现的环境启动失败应单独保留。
 
+大镜像传输会在匿名 registry 令牌到期前刷新令牌，并在收到 HTTP 401 后刷新一次。
+中断的传输会复用已保存的分段，导入前仍校验完整 blob 摘要。
+HTTP 错误仅报告状态码，不暴露带签名的 URL。
+
 ### 缓存不可变的 APT 索引
 
 如果原始 APT 索引下载反复停滞，可用可选的宿主机代理，通过校验过的并行分段请求

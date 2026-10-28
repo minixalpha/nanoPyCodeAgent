@@ -17,8 +17,9 @@ from pathlib import Path
 import re
 import subprocess
 import tarfile
+import threading
 import time
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
@@ -43,6 +44,14 @@ class SafeRedirect(HTTPRedirectHandler):
         return redirected
 
 
+class RegistryHTTPError(RuntimeError):
+    """Report an HTTP status without leaking signed URLs or request headers."""
+
+    def __init__(self, status):
+        self.status = status
+        super().__init__(f"Registry request failed: HTTP {status}")
+
+
 def get(url, headers=None, limit=4 * 1024 * 1024):
     # Never include exception URLs: blob redirects may contain signed queries.
     for attempt in range(3):
@@ -52,10 +61,53 @@ def get(url, headers=None, limit=4 * 1024 * 1024):
                 if len(data) > limit:
                     raise ValueError("Response exceeds requested size")
                 return r.status, dict(r.headers.items()), data
+        except HTTPError as error:
+            if error.code == 401 or attempt == 2:
+                raise RegistryHTTPError(error.code) from None
+            time.sleep(attempt + 1)
         except (URLError, TimeoutError, OSError, IncompleteRead) as error:
             if attempt == 2:
                 raise RuntimeError(f"Registry request failed: {type(error).__name__}") from None
             time.sleep(attempt + 1)
+
+
+class RegistryAuth:
+    """Refresh anonymous pull tokens during long, parallel range downloads."""
+
+    def __init__(self, repository):
+        self.url = "https://auth.docker.io/token?service=registry.docker.io&scope=repository:" + repository + ":pull"
+        self._token = None
+        self._expires_at = 0
+        self._lock = threading.Lock()
+
+    def token(self, rejected=None):
+        with self._lock:
+            if rejected is not None and rejected == self._token:
+                self._expires_at = 0
+            if self._token is None or time.monotonic() >= self._expires_at:
+                _, _, raw = get(self.url)
+                data = json.loads(raw)
+                token = data.get("token") or data.get("access_token")
+                if not isinstance(token, str) or not token:
+                    raise ValueError("Registry did not return a pull token")
+                self._token = token
+                self._expires_at = time.monotonic() + max(1, float(data.get("expires_in", 300)) - 30)
+            return self._token
+
+    def get(self, url, headers=None, limit=4 * 1024 * 1024):
+        rejected = None
+        for attempt in range(2):
+            token = self.token(rejected)
+            request_headers = {
+                "Accept": ", ".join(MANIFEST_TYPES), **(headers or {}),
+                "Authorization": "Bearer " + token,
+            }
+            try:
+                return get(url, request_headers, limit)
+            except RegistryHTTPError as error:
+                if error.status != 401 or attempt:
+                    raise
+                rejected = token
 
 
 def sha(data):
@@ -80,7 +132,8 @@ def verify(path, descriptor):
         raise ValueError("Blob SHA256 mismatch")
 
 
-def fetch_blob(cache, descriptor, url, headers, workers=8, chunk_size=1024 * 1024):
+def fetch_blob(cache, descriptor, url, headers, workers=8, chunk_size=1024 * 1024, *, request=None):
+    request = request or get
     path = blob_path(cache, descriptor)
     if path.exists():
         verify(path, descriptor)
@@ -96,7 +149,7 @@ def fetch_blob(cache, descriptor, url, headers, workers=8, chunk_size=1024 * 102
         if part.exists() and part.stat().st_size == end - start + 1:
             return part
         for attempt in range(3):
-            status, response_headers, data = get(
+            status, response_headers, data = request(
                 url, {**headers, "Range": f"bytes={start}-{end}"}, end - start + 1,
             )
             response_headers = {k.lower(): v for k, v in response_headers.items()}
@@ -187,10 +240,9 @@ def cache_image(image, cache, workers=8, load=False):
         raise ValueError("Expected a public Docker Hub owner/repository:tag")
     cache.mkdir(parents=True, exist_ok=True)
     repo, tag = image.rsplit(":", 1)
-    _, _, raw_token = get("https://auth.docker.io/token?service=registry.docker.io&scope=repository:" + repo + ":pull")
-    headers = {"Authorization": "Bearer " + json.loads(raw_token)["token"], "Accept": ", ".join(MANIFEST_TYPES)}
+    auth = RegistryAuth(repo)
     base = "https://registry-1.docker.io/v2/" + repo
-    _, response_headers, raw = get(base + "/manifests/" + tag, headers)
+    _, response_headers, raw = auth.get(base + "/manifests/" + tag)
     response_headers = {k.lower(): v for k, v in response_headers.items()}
     if response_headers.get("docker-content-digest") != sha(raw):
         raise ValueError("Registry manifest digest mismatch")
@@ -204,7 +256,7 @@ def cache_image(image, cache, workers=8, load=False):
     lock_path.write_text(json.dumps(lock, indent=2) + "\n")
     print(json.dumps(lock), flush=True)
     for descriptor in [manifest["config"], *manifest["layers"]]:
-        fetch_blob(cache, descriptor, base + "/blobs/" + descriptor["digest"], headers, workers)
+        fetch_blob(cache, descriptor, base + "/blobs/" + descriptor["digest"], {}, workers, request=auth.get)
         print(json.dumps({"verified_blob": descriptor["digest"], "bytes": descriptor["size"]}), flush=True)
     output = cache / (lock_path.stem + ".oci.tar")
     write_archive(cache, image, raw, output)

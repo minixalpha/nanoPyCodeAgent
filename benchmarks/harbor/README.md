@@ -147,6 +147,9 @@ can be reused after an interrupted download, with complete blobs revalidated.
 Keep the manifest lock records with the run evidence. This only warms Docker's
 image cache: continue using the standard benchmark entry point and installation
 preflight, and retain any earlier environment-start failures separately.
+Long image transfers refresh anonymous registry tokens before expiry and once
+after HTTP 401. Interrupted transfers reuse saved ranges, then verify the full
+blob digest before import. HTTP errors report status codes without signed URLs.
 
 ### Cache immutable APT indexes
 

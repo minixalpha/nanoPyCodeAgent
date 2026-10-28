@@ -203,6 +203,11 @@ def run_job(root, plan, job, record, install_only):
     return state
 
 
+def finished_job(record, job):
+    path = record / (job["job_name"] + ".json")
+    return path.exists() and json.loads(path.read_text()).get("status") == "finished"
+
+
 def preflight_passed(states, expected_counts):
     return bool(states) and len(states) == len(expected_counts) and all(
         s.get("exit_code") == 0
@@ -318,9 +323,12 @@ def main():
     if args.phase in {"preflight", "all"}:
         states = []
         for job in plan["preflight"]:
-            images.prepare([job])
+            completed = finished_job(record, job)
+            if not completed:
+                images.prepare([job])
             states.append(run_job(root, plan, job, record, True))
-            images.release([job])
+            if not completed:
+                images.release([job])
         if not accepted and not preflight_passed(states, expected_counts):
             return 1
         if args.phase == "preflight":
@@ -333,10 +341,11 @@ def main():
     with ThreadPoolExecutor(max_workers=2) as pool:
         for offset in range(0, len(plan["queue"]), 2):
             batch = plan["queue"][offset:offset + 2]
-            images.prepare(batch)
+            pending = [job for job in batch if not finished_job(record, job)]
+            images.prepare(pending)
             futures = [pool.submit(run_job, root, plan, job, record, False) for job in batch]
             states.extend(f.result() for f in futures)
-            images.release(batch)
+            images.release(pending)
     return int(any(s["exit_code"] != 0 for s in states))
 
 
