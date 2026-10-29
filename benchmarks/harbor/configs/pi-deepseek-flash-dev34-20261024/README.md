@@ -1,8 +1,8 @@
 # Pi + DeepSeek Flash dev34 agent baseline
 
 **Status: six model attempts ended (three passes, one scored failure, two agent
-timeouts). New scheduling is held for a timeout-boundary correction. Existing
-outputs remain unchanged and will not be retried.** After the
+timeouts). Corrected-source installation checks are running for the remaining
+28 tasks before model execution resumes. Existing outputs remain unchanged.** After the
 October 27 repository relocation, the project volume had approximately 69 GiB
 free and Docker's system volume approximately 20 GiB. The active
 [v7 plan](experiment-v7.json) restores and verifies the original images one
@@ -307,3 +307,7 @@ supervisor before the remaining model work. New model configurations require
 `jobs/runtime-source`; the remaining jobs and fresh installation evidence live
 under `jobs/supervised-source/jobs/`. The original task ordering, Pi/model
 settings, per-task budgets, and concurrency limit remain unchanged.
+
+The first corrected-source installation pair completed successfully, including
+the new process-supervision startup probe. Remaining fresh checks continue
+before the 28-task model suffix; the original six attempts stay untouched.
