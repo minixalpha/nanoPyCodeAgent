@@ -1,10 +1,10 @@
 # Pi + DeepSeek Flash dev34 agent baseline
 
-**Status: 16/34 Pi installation checks passed; resuming the remaining 18 on
-October 28. No model outputs yet.** After the
+**Status: 30/34 Pi installation checks passed; restoring the original MTEB
+image before the remaining four checks on October 29. No model outputs yet.** After the
 repository relocation, the project volume has approximately 69 GiB free and
 Docker's system volume approximately 20 GiB. The active
-[v4 plan](experiment-v4.json) restores and verifies the original images one
+[v5 plan](experiment-v5.json) restores and verifies the original images one
 batch at a time, then removes only image references absent from the initial
 Docker inventory. Existing recovery containers and their images are preserved.
 Model work remains gated on successful native installation checks for all tasks.
@@ -49,7 +49,7 @@ native sessions and completed JSON events rather than generating an ATIF trace.
 
 ## Task, budget, and infrastructure policy
 
-The [active experiment plan](experiment-v4.json) registers all 34 fresh model trials,
+The [active experiment plan](experiment-v5.json) registers all 34 fresh model trials,
 their fixed order, configurations, source revision, distribution, infrastructure
 hashes, and installation checks. Maximum concurrency is two, with consecutive
 pair barriers and no whole-trial retries. Preserve every failed setup or launch
@@ -70,9 +70,10 @@ that isolates harness behavior under identical internal budgets.
 Fresh installation-only checks must finish for all 34 tasks before any model
 trial. QEMU has the reviewed `qemu-alpine-ssh-v1` verifier profile. The other
 33 tasks must explicitly report `not_configured`; successful Pi installation
-does not certify their verifier dependencies. Sixteen Pi installation checks
-have completed successfully; **18 remain pending, including QEMU's verifier
-dependency preflight**.
+does not certify their verifier dependencies. Thirty Pi installation checks
+have completed successfully, including **QEMU's verifier dependency preflight**.
+Four installation checks remain pending; unsupported verifier profiles remain
+explicitly `not_configured`.
 
 The [dependency transport](dependency-cache.compose.json) reuses the reviewed
 loopback APT-index and original uv/Python release-cache sidecars. The
@@ -91,7 +92,7 @@ runs all installation checks; models start only if those checks succeed.
 export UV_PROJECT_ENVIRONMENT="$PWD/jobs/harbor-runtime-venv"
 uv run --frozen --project jobs/runtime-source/benchmarks/harbor \
   python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v4.json \
+  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v5.json \
   --phase all
 ```
 
@@ -103,7 +104,7 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 
 Each invocation runs from the frozen runtime checkout. Native jobs and input
 manifests are stored under `jobs/runtime-source/jobs/`; orchestration state is
-stored under `jobs/pi-deepseek-flash-dev34-20261028-transport-v4-orchestration/`. Existing
+stored under `jobs/pi-deepseek-flash-dev34-20261029-transport-v5-orchestration/`. Existing
 records cannot be overwritten. A previous interrupted job requires inspection.
 If preflight fails, preserve it and register any corrective installation check
 separately before authorizing model work from the resulting evidence.
@@ -181,3 +182,42 @@ All remaining installations are fresh. Previous transfer failures and launch
 evidence remain preserved. Model work is still gated on all 34 successful
 installation checks, and the agent/model/task/budget/verifier policies are unchanged.
 The complete Harbor workflow suite passed **199 tests** after these changes.
+
+## October 29 MTEB image restoration
+
+V4 successfully completed 30 installation checks, including QEMU's registered
+verifier dependency profile. Before starting pair 16, the range-cache utility
+rejected MTEB's multi-architecture OCI index, which is outside the utility's
+documented single-platform support. No native pair-16 trial, model call, or
+verifier execution occurred. This is an image-transfer failure, separate from
+task setup and task scores. Its original logs remain preserved.
+
+The original registered reference is
+`alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4`.
+A native Docker pull reached its 600-second timeout before installing the image.
+The cache utility now supports this format: it retains the original parent
+index, selects exactly one Linux amd64 image manifest by digest, verifies its
+size and SHA256, and downloads the original native layers through the existing
+verified range path. The native configuration and compressed/uncompressed layer
+digests remain unchanged. Other platform and attestation references remain
+unchanged in the parent index; their blobs are not fetched. Docker imports with
+`--platform linux/amd64`, and both the utility and runner require the original
+parent image/repository digest after loading. Image residency follows the same
+batch-cache policy as other task images.
+
+An isolated real-Docker import probe using the repository cache writer confirmed
+that this preserves the parent image ID and repository digest. Its temporary
+image was removed. See [import evidence](oci-index-import-evidence.json), which
+also records the native-pull timeout. The complete Harbor workflow suite passed
+**206 tests**, including native-platform selection, parent/child preservation,
+and rejection of mismatched or ambiguous manifests.
+
+The [v5 plan](experiment-v5.json) reuses
+[30 strictly validated native installation records](preflight-resume-30-evidence.json),
+with all prior results, bootstrap records, manifests, configurations, and model
+snapshots bound by hash. Completed checks are never rerun. The initial protected
+inventory includes the previous protected images and the images already present
+when recovery resumes. The four remaining checks run fresh, then the unchanged
+34-task model queue begins automatically after complete installation success.
+The adapter source, Pi distribution, model settings, task revisions, resources,
+budgets, and verifier policy remain unchanged; no adapter code changed here.

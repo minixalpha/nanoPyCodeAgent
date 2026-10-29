@@ -139,9 +139,14 @@ uncompressed layer must match the original image configuration. The resulting
 preserves the original manifest, configuration, and compressed layers byte for
 byte. Docker import must retain the original repository digest.
 
-This Linux utility supports public single-platform `linux/amd64` images with
-gzip layers and SHA256 descriptors. `--load` requires Docker's containerd image
-store. Use one cache writer at a time; `--workers` controls parallel range
+This Linux utility supports public `linux/amd64` images with gzip layers and
+SHA256 descriptors. For OCI indexes and Docker manifest lists, it retains the
+unmodified parent index and the unique native image manifest, downloading only
+that platform's layers. Other platforms and attestations remain referenced in
+the original index; their blobs are not fetched. Docker loads the native
+platform explicitly and must retain the original parent repository digest.
+`--load` requires Docker's containerd image store and platform-selective imports.
+Use one cache writer at a time; `--workers` controls parallel range
 requests (default eight, maximum sixteen). Completed blobs and partial ranges
 can be reused after an interrupted download, with complete blobs revalidated.
 Keep the manifest lock records with the run evidence. This only warms Docker's

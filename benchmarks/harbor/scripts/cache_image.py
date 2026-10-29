@@ -2,7 +2,8 @@
 
 For slow or interrupted Docker pulls, create an OCI archive, then optionally
 load it into Docker's containerd image store. No layers are edited or rebuilt.
-Only single-platform Linux images with SHA256 and gzip layers are supported.
+Linux amd64 images with SHA256 and gzip layers are supported. OCI indexes and
+Docker manifest lists retain their original bytes while loading that platform.
 """
 
 import argparse
@@ -27,6 +28,10 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener
 MANIFEST_TYPES = (
     "application/vnd.docker.distribution.manifest.v2+json",
     "application/vnd.oci.image.manifest.v1+json",
+)
+INDEX_TYPES = (
+    "application/vnd.docker.distribution.manifest.list.v2+json",
+    "application/vnd.oci.image.index.v1+json",
 )
 LAYER_TYPES = {
     "application/vnd.docker.image.rootfs.diff.tar.gzip",
@@ -99,7 +104,7 @@ class RegistryAuth:
         for attempt in range(2):
             token = self.token(rejected)
             request_headers = {
-                "Accept": ", ".join(MANIFEST_TYPES), **(headers or {}),
+                "Accept": ", ".join((*MANIFEST_TYPES, *INDEX_TYPES)), **(headers or {}),
                 "Authorization": "Bearer " + token,
             }
             try:
@@ -199,7 +204,22 @@ def validate_layers(cache, manifest):
     return config
 
 
-def write_archive(cache, image, raw_manifest, output):
+def native_descriptor(index):
+    """Select exactly one explicit Linux amd64 child without changing its index."""
+    if index.get("schemaVersion") != 2 or index.get("mediaType") not in INDEX_TYPES:
+        raise ValueError("Expected a schema 2 OCI index or Docker manifest list")
+    matches = [item for item in index.get("manifests", []) if (
+        item.get("platform", {}).get("os") == "linux"
+        and item.get("platform", {}).get("architecture") == "amd64"
+        and item.get("platform", {}).get("variant") in {None, "", "v1"}
+    )]
+    if len(matches) != 1 or matches[0].get("mediaType") not in MANIFEST_TYPES:
+        raise ValueError("Image index requires exactly one Linux amd64 image manifest")
+    blob_path(Path("."), matches[0])
+    return matches[0]
+
+
+def write_archive(cache, image, raw_manifest, output, *, root_index=None):
     manifest = json.loads(raw_manifest)
     if manifest.get("schemaVersion") != 2 or manifest.get("mediaType") not in MANIFEST_TYPES:
         raise ValueError("Only single-platform schema 2 image manifests are supported")
@@ -211,8 +231,17 @@ def write_archive(cache, image, raw_manifest, output):
     manifest_path = blob_path(cache, manifest_descriptor)
     manifest_path.write_bytes(raw_manifest)
     descriptors.append(manifest_descriptor)
+    reference = manifest_descriptor
+    if root_index is not None:
+        index = json.loads(root_index)
+        selected = native_descriptor(index)
+        if selected["digest"] != sha(raw_manifest) or selected["size"] != len(raw_manifest):
+            raise ValueError("Selected image manifest differs from its original index")
+        reference = {"mediaType": index["mediaType"], "size": len(root_index), "digest": sha(root_index)}
+        blob_path(cache, reference).write_bytes(root_index)
+        descriptors.append(reference)
     index = {"schemaVersion": 2, "manifests": [{
-        **manifest_descriptor, "annotations": {
+        **reference, "annotations": {
             "io.containerd.image.name": "docker.io/" + image,
             "org.opencontainers.image.ref.name": image.rsplit(":", 1)[1],
         },
@@ -247,9 +276,20 @@ def cache_image(image, cache, workers=8, load=False):
     if response_headers.get("docker-content-digest") != sha(raw):
         raise ValueError("Registry manifest digest mismatch")
     manifest = json.loads(raw)
+    root_index = None
+    root_digest = sha(raw)
+    if manifest.get("mediaType") in INDEX_TYPES:
+        root_index = raw
+        selected = native_descriptor(manifest)
+        _, child_headers, raw = auth.get(base + "/manifests/" + selected["digest"])
+        child_headers = {k.lower(): v for k, v in child_headers.items()}
+        if (len(raw) != selected["size"] or sha(raw) != selected["digest"]
+                or child_headers.get("docker-content-digest") != selected["digest"]):
+            raise ValueError("Native image manifest size or digest differs from its index")
+        manifest = json.loads(raw)
     if manifest.get("mediaType") not in MANIFEST_TYPES or manifest.get("schemaVersion") != 2:
-        raise ValueError("Only single-platform schema 2 image manifests are supported")
-    lock = {"image": image, "manifest_digest": sha(raw), "config_digest": manifest["config"]["digest"]}
+        raise ValueError("Only schema 2 image manifests and native-platform indexes are supported")
+    lock = {"image": image, "manifest_digest": root_digest, "config_digest": manifest["config"]["digest"]}
     lock_path = cache / (image.replace("/", "_").replace(":", "_") + ".json")
     if lock_path.exists() and json.loads(lock_path.read_text()) != lock:
         raise ValueError("Image tag changed since the first cache request")
@@ -259,12 +299,13 @@ def cache_image(image, cache, workers=8, load=False):
         fetch_blob(cache, descriptor, base + "/blobs/" + descriptor["digest"], {}, workers, request=auth.get)
         print(json.dumps({"verified_blob": descriptor["digest"], "bytes": descriptor["size"]}), flush=True)
     output = cache / (lock_path.stem + ".oci.tar")
-    write_archive(cache, image, raw, output)
+    write_archive(cache, image, raw, output, root_index=root_index)
     if load:
         driver = subprocess.check_output(["docker", "info", "--format", "{{json .DriverStatus}}"], text=True)
         if "io.containerd.snapshotter.v1" not in driver:
             raise ValueError("OCI import requires Docker's containerd image store")
-        subprocess.run(["docker", "load", "--quiet", "--input", str(output)], check=True)
+        platform = ["--platform", "linux/amd64"] if root_index is not None else []
+        subprocess.run(["docker", "load", "--quiet", *platform, "--input", str(output)], check=True)
         installed = json.loads(subprocess.check_output(["docker", "image", "inspect", image], text=True))[0]
         if not any(ref.endswith("@" + lock["manifest_digest"]) for ref in installed["RepoDigests"]):
             raise ValueError("Imported image does not retain the original manifest digest")

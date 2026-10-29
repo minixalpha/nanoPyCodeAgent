@@ -110,8 +110,12 @@ python benchmarks/harbor/scripts/cache_image.py \
 生成的 [OCI 归档](https://github.com/opencontainers/image-spec/blob/main/image-layout.md)
 逐字节保留原始 manifest、配置和压缩层；Docker 导入后必须保留原始仓库摘要。
 
-该 Linux 工具支持使用 gzip 层和 SHA256 描述符的公共单平台 `linux/amd64` 镜像。
-`--load` 需要 Docker 的 containerd 镜像存储。同一缓存目录同时只允许一个写入进程；
+该 Linux 工具支持使用 gzip 层和 SHA256 描述符的公共 `linux/amd64` 镜像。
+对于 OCI index 和 Docker manifest list，会保留未修改的父索引及唯一的本机平台
+镜像 manifest，只下载该平台的层。其他平台及 attestation 仍由原始索引引用，
+但不会下载它们的 blob。Docker 显式加载本机平台，并且必须保留原始父索引的仓库摘要。
+`--load` 需要 Docker 的 containerd 镜像存储及按平台导入能力。
+同一缓存目录同时只允许一个写入进程；
 `--workers` 控制分段请求并发数，默认 8、最多 16。下载中断后可复用已完成的对象和分段，
 完整对象会重新校验。请将 manifest 锁定记录纳入实验的证据归档。
 这个步骤只准备 Docker 镜像缓存；随后仍需使用标准 benchmark 入口并执行安装预检，

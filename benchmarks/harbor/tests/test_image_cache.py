@@ -212,3 +212,62 @@ def test_http_diagnostic_does_not_expose_signed_url(monkeypatch):
         cache_image.get(secret_url)
     assert str(error.value) == "Registry request failed: HTTP 401"
     assert "private" not in str(error.value)
+
+
+def fixture_index(raw, platforms=None):
+    child = descriptor(raw, cache_image.MANIFEST_TYPES[0])
+    platforms = platforms or [{"os": "linux", "architecture": "amd64"}, {"os": "linux", "architecture": "arm64"}]
+    return json.dumps({"schemaVersion": 2, "mediaType": cache_image.INDEX_TYPES[1],
+                       "manifests": [{**child, "platform": platform} for platform in platforms]}).encode()
+
+
+def test_index_archive_preserves_parent_child_and_native_layers(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    index = fixture_index(raw)
+    output = tmp_path / "indexed.tar"
+    cache_image.write_archive(tmp_path, "example/task:version", raw, output, root_index=index)
+    with tarfile.open(output) as archive:
+        reference = json.load(archive.extractfile("index.json"))["manifests"][0]
+        assert reference["digest"] == cache_image.sha(index)
+        assert archive.extractfile("blobs/sha256/" + cache_image.sha(index).split(":")[1]).read() == index
+        assert archive.extractfile("blobs/sha256/" + cache_image.sha(raw).split(":")[1]).read() == raw
+        for item in json.loads(raw)["layers"]:
+            assert cache_image.sha(archive.extractfile("blobs/sha256/" + item["digest"].split(":")[1]).read()) == item["digest"]
+
+
+@pytest.mark.parametrize("platforms", [
+    [{"os": "linux", "architecture": "arm64"}],
+    [{"os": "linux", "architecture": "amd64"}] * 2,
+    [{"os": "linux", "architecture": "amd64", "variant": "v3"}],
+    [{"os": "windows", "architecture": "amd64"}],
+])
+def test_index_rejects_missing_or_ambiguous_native_platform(platforms):
+    with pytest.raises(ValueError, match="exactly one Linux amd64"):
+        cache_image.native_descriptor(json.loads(fixture_index(b"child", platforms)))
+
+
+def test_index_rejects_a_different_native_manifest(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    with pytest.raises(ValueError, match="differs from its original index"):
+        cache_image.write_archive(tmp_path, "example/task:version", raw, tmp_path / "image.tar",
+                                  root_index=fixture_index(b"different manifest"))
+    assert not (tmp_path / "image.tar").exists()
+
+
+def test_registry_index_loads_selected_child_by_digest_and_keeps_parent_pin(tmp_path, monkeypatch):
+    raw = fixture_manifest(tmp_path)
+    index = fixture_index(raw)
+    requests = []
+    def get(url, headers=None, limit=None):
+        requests.append(url)
+        if url.startswith("https://auth.docker.io/"):
+            return 200, {}, b'{"token":"anonymous-token"}'
+        body = index if url.endswith("/version") else raw
+        return 200, {"Docker-Content-Digest": cache_image.sha(body)}, body
+    monkeypatch.setattr(cache_image, "get", get)
+    cache_image.cache_image("example/task:version", tmp_path)
+    assert requests[-1].endswith("/manifests/" + cache_image.sha(raw))
+    lock = json.loads((tmp_path / "example_task_version.json").read_text())
+    assert lock["manifest_digest"] == cache_image.sha(index)
+    with tarfile.open(tmp_path / "example_task_version.oci.tar") as archive:
+        assert json.load(archive.extractfile("index.json"))["manifests"][0]["digest"] == cache_image.sha(index)

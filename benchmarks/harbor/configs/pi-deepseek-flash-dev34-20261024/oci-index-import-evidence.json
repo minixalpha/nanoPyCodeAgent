@@ -1,0 +1,16 @@
+{
+  "observed_at": "2026-10-29T13:24:10.456460+00:00",
+  "kind": "isolated synthetic native-platform import, using the repository cache writer",
+  "root_digest": "sha256:74c3bf04c184bde95a6fc8642ca2fde51e68775085c0627a3762287b7e27b610",
+  "native_manifest_digest": "sha256:c545cf966677b726472e333f2822a0f8ca2b851b3069609a17b0f9f62753a8ea",
+  "archive_sha256": "8f9480da60a45b5c41661284adfa3f3f3e427baa077a7852c2ff809539202b47",
+  "parent_index_preserved": true,
+  "repository_digest_preserved": true,
+  "other_platform_metadata_retained": true,
+  "native_pull_attempt": {
+    "image": "alexgshaw/mteb-leaderboard@sha256:a8538f4882ff132e0a20a75be3fffc07164318a7425ad19a6b4bf5268107feb4",
+    "timeout_seconds": 600,
+    "exit_code": 124,
+    "native_trials_started": 0
+  }
+}
