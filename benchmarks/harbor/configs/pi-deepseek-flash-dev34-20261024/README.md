@@ -5,7 +5,7 @@ timeouts). New scheduling is held for a timeout-boundary correction. Existing
 outputs remain unchanged and will not be retried.** After the
 October 27 repository relocation, the project volume had approximately 69 GiB
 free and Docker's system volume approximately 20 GiB. The active
-[v6 plan](experiment-v6.json) restores and verifies the original images one
+[v7 plan](experiment-v7.json) restores and verifies the original images one
 batch at a time, then removes only image references absent from the initial
 Docker inventory. Existing recovery containers and their images are preserved.
 Model work remains gated on successful native installation checks for all tasks.
@@ -50,7 +50,7 @@ native sessions and completed JSON events rather than generating an ATIF trace.
 
 ## Task, budget, and infrastructure policy
 
-The [active experiment plan](experiment-v6.json) registers all 34 fresh model trials,
+The [active experiment plan](experiment-v7.json) registers all 34 fresh model trials,
 their fixed order, configurations, source revision, distribution, infrastructure
 hashes, and installation checks. Maximum concurrency is two, with consecutive
 pair barriers and no whole-trial retries. Preserve every failed setup or launch
@@ -90,10 +90,10 @@ environment and use an isolated virtual environment. The command below first
 runs all installation checks; models start only if those checks succeed.
 
 ```bash
-export UV_PROJECT_ENVIRONMENT="$PWD/jobs/harbor-runtime-venv"
-uv run --frozen --project jobs/runtime-source/benchmarks/harbor \
+export UV_PROJECT_ENVIRONMENT="$PWD/jobs/harbor-supervised-runtime-venv"
+uv run --frozen --project jobs/supervised-source/benchmarks/harbor \
   python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v6.json \
+  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v7.json \
   --phase all
 ```
 
@@ -105,7 +105,7 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 
 Each invocation runs from the frozen runtime checkout. Native jobs and input
 manifests are stored under `jobs/runtime-source/jobs/`; orchestration state is
-stored under `jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/`. Existing
+stored under `jobs/pi-deepseek-flash-dev34-20261029-supervision-v7-orchestration/`. Existing
 records cannot be overwritten. A previous interrupted job requires inspection.
 If preflight fails, preserve it and register any corrective installation check
 separately before authorizing model work from the resulting evidence.
@@ -297,3 +297,13 @@ A real network-disabled Docker probe also confirmed that a detached tool stops
 writing before cancellation returns. Earlier timeout attempts remain excluded
 from ordinary scored-failure counts because their frozen boundary is invalid or
 unverified; the amendment does not retroactively validate those outputs.
+
+The [v7 plan](experiment-v7.json) preserves the six completed model states and
+all original installation evidence. It registers a separate `pi_supervised` arm
+for the 28 unstarted tasks, frozen at `29db8d7abbbe5f1660b8fb4d7caeeb0d183dc64d`.
+Fourteen fresh two-task installation jobs exercise that source and its
+supervisor before the remaining model work. New model configurations require
+`verifier.kwargs.require_agent_quiescence=true`. The original six models retain
+`jobs/runtime-source`; the remaining jobs and fresh installation evidence live
+under `jobs/supervised-source/jobs/`. The original task ordering, Pi/model
+settings, per-task budgets, and concurrency limit remain unchanged.
