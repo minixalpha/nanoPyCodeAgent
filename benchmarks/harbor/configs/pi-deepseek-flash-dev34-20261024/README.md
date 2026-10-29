@@ -1,9 +1,10 @@
 # Pi + DeepSeek Flash dev34 agent baseline
 
-**Status: 30/34 Pi installation checks passed; restoring the original MTEB
-image before the remaining four checks on October 29. No model outputs yet.** After the
-repository relocation, the project volume has approximately 69 GiB free and
-Docker's system volume approximately 20 GiB. The active
+**Status: all 34 Pi installation checks passed; the first two model tasks
+started on October 29. Actual assistant replies and tool calls were
+confirmed without inspecting task content. Results are still being collected.** After the
+October 27 repository relocation, the project volume had approximately 69 GiB
+free and Docker's system volume approximately 20 GiB. The active
 [v6 plan](experiment-v6.json) restores and verifies the original images one
 batch at a time, then removes only image references absent from the initial
 Docker inventory. Existing recovery containers and their images are preserved.
@@ -70,10 +71,10 @@ that isolates harness behavior under identical internal budgets.
 Fresh installation-only checks must finish for all 34 tasks before any model
 trial. QEMU has the reviewed `qemu-alpine-ssh-v1` verifier profile. The other
 33 tasks must explicitly report `not_configured`; successful Pi installation
-does not certify their verifier dependencies. Thirty Pi installation checks
-have completed successfully, including **QEMU's verifier dependency preflight**.
-Four installation checks remain pending; unsupported verifier profiles remain
-explicitly `not_configured`.
+does not certify their verifier dependencies. All 34 Pi installation checks have completed successfully, including
+**QEMU's verifier dependency preflight**. The other 33 verifier profiles remain
+explicitly `not_configured`; their installation success does not certify
+verifier dependencies.
 
 The [dependency transport](dependency-cache.compose.json) reuses the reviewed
 loopback APT-index and original uv/Python release-cache sidecars. The
@@ -246,3 +247,18 @@ behavior changed.
 The full Harbor workflow suite passed **210 tests** after native-attestation
 completeness checks. All v6 source, configuration, task, image, and reused
 installation-evidence hashes validated before launch.
+
+## Installation complete; model execution started
+
+All 34 native installation checks have completed successfully and passed strict
+provenance validation; see [complete installation evidence](preflight-complete-evidence.json).
+QEMU's registered verifier profile passed, and the other 33 profiles remain
+`not_configured`. MTEB's original parent image/repository digest was confirmed
+after the real import, and its installation check passed.
+
+The model gate opened automatically. The first two tasks,
+`adaptive-rejection-sampler` and `build-cython-ext`, have received actual model
+replies and are executing tools. Operational counters alone were inspected;
+new task trajectories and official hidden-test contents remain unreviewed.
+The fixed queue continues with concurrency two. All 34 model outputs must
+freeze before result/trace analysis and complete bilingual reporting.
