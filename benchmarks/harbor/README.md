@@ -142,8 +142,10 @@ byte. Docker import must retain the original repository digest.
 This Linux utility supports public `linux/amd64` images with gzip layers and
 SHA256 descriptors. For OCI indexes and Docker manifest lists, it retains the
 unmodified parent index and the unique native image manifest, downloading only
-that platform's layers. Other platforms and attestations remain referenced in
-the original index; their blobs are not fetched. Docker loads the native
+that platform's layers. Attestations associated with the selected image retain
+their original manifest, configuration, and in-toto payloads, each verified by
+digest. Other platforms and their attestations remain referenced in the
+original index without fetching their blobs. Docker loads the native
 platform explicitly and must retain the original parent repository digest.
 `--load` requires Docker's containerd image store and platform-selective imports.
 Use one cache writer at a time; `--workers` controls parallel range

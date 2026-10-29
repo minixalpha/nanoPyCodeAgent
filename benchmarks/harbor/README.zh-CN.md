@@ -112,7 +112,8 @@ python benchmarks/harbor/scripts/cache_image.py \
 
 该 Linux 工具支持使用 gzip 层和 SHA256 描述符的公共 `linux/amd64` 镜像。
 对于 OCI index 和 Docker manifest list，会保留未修改的父索引及唯一的本机平台
-镜像 manifest，只下载该平台的层。其他平台及 attestation 仍由原始索引引用，
+镜像 manifest，只下载该平台的层。本机镜像关联的 attestation 会保留原始 manifest、
+配置和 in-toto payload，并逐个校验摘要。其他平台及其 attestation 仍由原始索引引用，
 但不会下载它们的 blob。Docker 显式加载本机平台，并且必须保留原始父索引的仓库摘要。
 `--load` 需要 Docker 的 containerd 镜像存储及按平台导入能力。
 同一缓存目录同时只允许一个写入进程；

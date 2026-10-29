@@ -1,0 +1,9 @@
+{
+  "observed_at": "2026-10-29T13:33:31.180831+00:00",
+  "kind": "isolated four-descriptor index with native attestation and absent ARM image/attestation; actual repository cache writer",
+  "parent_index_preserved": true,
+  "repository_digest_preserved": true,
+  "native_attestation_preserved": true,
+  "non_native_blobs_not_fetched": true,
+  "archive_sha256": "1d2a6f1ad9cc8a5f18eb79bfa59e7989d192ff0a159333c49651792980a61cf5"
+}

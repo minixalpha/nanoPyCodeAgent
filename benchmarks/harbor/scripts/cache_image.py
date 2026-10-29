@@ -219,6 +219,42 @@ def native_descriptor(index):
     return matches[0]
 
 
+def native_attestations(index):
+    subject = native_descriptor(index)["digest"]
+    matches = [item for item in index.get("manifests", []) if (
+        item.get("annotations", {}).get("vnd.docker.reference.type") == "attestation-manifest"
+        and item.get("annotations", {}).get("vnd.docker.reference.digest") == subject
+    )]
+    for item in matches:
+        if item.get("mediaType") not in MANIFEST_TYPES:
+            raise ValueError("Unsupported native attestation manifest type")
+        blob_path(Path("."), item)
+    return matches
+
+
+def attestation_blobs(raw):
+    manifest = json.loads(raw)
+    if (manifest.get("schemaVersion") != 2 or manifest.get("mediaType") not in MANIFEST_TYPES
+            or any(item.get("mediaType") != "application/vnd.in-toto+json" for item in manifest.get("layers", []))):
+        raise ValueError("Expected a schema 2 in-toto attestation manifest")
+    return [manifest["config"], *manifest.get("layers", [])]
+
+
+def fetch_manifest(cache, auth, base, descriptor):
+    path = blob_path(cache, descriptor)
+    if path.exists():
+        verify(path, descriptor)
+        return path.read_bytes()
+    _, headers, raw = auth.get(base + "/manifests/" + descriptor["digest"])
+    headers = {k.lower(): v for k, v in headers.items()}
+    if (len(raw) != descriptor["size"] or sha(raw) != descriptor["digest"]
+            or headers.get("docker-content-digest") != descriptor["digest"]):
+        raise ValueError("Image manifest size or digest differs from its index")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(raw)
+    return raw
+
+
 def write_archive(cache, image, raw_manifest, output, *, root_index=None):
     manifest = json.loads(raw_manifest)
     if manifest.get("schemaVersion") != 2 or manifest.get("mediaType") not in MANIFEST_TYPES:
@@ -240,6 +276,16 @@ def write_archive(cache, image, raw_manifest, output, *, root_index=None):
         reference = {"mediaType": index["mediaType"], "size": len(root_index), "digest": sha(root_index)}
         blob_path(cache, reference).write_bytes(root_index)
         descriptors.append(reference)
+        # Docker's platform filter also retains attestations whose subject is
+        # the selected image. Their original config and in-toto payloads are
+        # metadata, not executable filesystem layers.
+        for attestation in native_attestations(index):
+            path = blob_path(cache, attestation)
+            verify(path, attestation)
+            metadata = attestation_blobs(path.read_bytes())
+            for item in metadata:
+                verify(blob_path(cache, item), item)
+            descriptors.extend([attestation, *metadata])
     index = {"schemaVersion": 2, "manifests": [{
         **reference, "annotations": {
             "io.containerd.image.name": "docker.io/" + image,
@@ -281,11 +327,7 @@ def cache_image(image, cache, workers=8, load=False):
     if manifest.get("mediaType") in INDEX_TYPES:
         root_index = raw
         selected = native_descriptor(manifest)
-        _, child_headers, raw = auth.get(base + "/manifests/" + selected["digest"])
-        child_headers = {k.lower(): v for k, v in child_headers.items()}
-        if (len(raw) != selected["size"] or sha(raw) != selected["digest"]
-                or child_headers.get("docker-content-digest") != selected["digest"]):
-            raise ValueError("Native image manifest size or digest differs from its index")
+        raw = fetch_manifest(cache, auth, base, selected)
         manifest = json.loads(raw)
     if manifest.get("mediaType") not in MANIFEST_TYPES or manifest.get("schemaVersion") != 2:
         raise ValueError("Only schema 2 image manifests and native-platform indexes are supported")
@@ -295,6 +337,12 @@ def cache_image(image, cache, workers=8, load=False):
         raise ValueError("Image tag changed since the first cache request")
     lock_path.write_text(json.dumps(lock, indent=2) + "\n")
     print(json.dumps(lock), flush=True)
+    if root_index is not None:
+        for item in native_attestations(json.loads(root_index)):
+            metadata = fetch_manifest(cache, auth, base, item)
+            for node in attestation_blobs(metadata):
+                fetch_blob(cache, node, base + "/blobs/" + node["digest"], {}, workers, request=auth.get)
+            print(json.dumps({"verified_native_attestation": item["digest"]}), flush=True)
     for descriptor in [manifest["config"], *manifest["layers"]]:
         fetch_blob(cache, descriptor, base + "/blobs/" + descriptor["digest"], {}, workers, request=auth.get)
         print(json.dumps({"verified_blob": descriptor["digest"], "bytes": descriptor["size"]}), flush=True)

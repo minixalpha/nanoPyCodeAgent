@@ -4,7 +4,7 @@
 image before the remaining four checks on October 29. No model outputs yet.** After the
 repository relocation, the project volume has approximately 69 GiB free and
 Docker's system volume approximately 20 GiB. The active
-[v5 plan](experiment-v5.json) restores and verifies the original images one
+[v6 plan](experiment-v6.json) restores and verifies the original images one
 batch at a time, then removes only image references absent from the initial
 Docker inventory. Existing recovery containers and their images are preserved.
 Model work remains gated on successful native installation checks for all tasks.
@@ -49,7 +49,7 @@ native sessions and completed JSON events rather than generating an ATIF trace.
 
 ## Task, budget, and infrastructure policy
 
-The [active experiment plan](experiment-v5.json) registers all 34 fresh model trials,
+The [active experiment plan](experiment-v6.json) registers all 34 fresh model trials,
 their fixed order, configurations, source revision, distribution, infrastructure
 hashes, and installation checks. Maximum concurrency is two, with consecutive
 pair barriers and no whole-trial retries. Preserve every failed setup or launch
@@ -92,7 +92,7 @@ runs all installation checks; models start only if those checks succeed.
 export UV_PROJECT_ENVIRONMENT="$PWD/jobs/harbor-runtime-venv"
 uv run --frozen --project jobs/runtime-source/benchmarks/harbor \
   python benchmarks/harbor/scripts/run_comparison.py \
-  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v5.json \
+  --plan benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/experiment-v6.json \
   --phase all
 ```
 
@@ -104,7 +104,7 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 
 Each invocation runs from the frozen runtime checkout. Native jobs and input
 manifests are stored under `jobs/runtime-source/jobs/`; orchestration state is
-stored under `jobs/pi-deepseek-flash-dev34-20261029-transport-v5-orchestration/`. Existing
+stored under `jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/`. Existing
 records cannot be overwritten. A previous interrupted job requires inspection.
 If preflight fails, preserve it and register any corrective installation check
 separately before authorizing model work from the resulting evidence.
@@ -199,8 +199,10 @@ The cache utility now supports this format: it retains the original parent
 index, selects exactly one Linux amd64 image manifest by digest, verifies its
 size and SHA256, and downloads the original native layers through the existing
 verified range path. The native configuration and compressed/uncompressed layer
-digests remain unchanged. Other platform and attestation references remain
-unchanged in the parent index; their blobs are not fetched. Docker imports with
+digests remain unchanged. Native-platform attestations preserve their original
+manifest, configuration, and in-toto payloads with digest verification. Other
+platform and attestation references remain unchanged in the parent index, with
+their blobs unfetched. Docker imports with
 `--platform linux/amd64`, and both the utility and runner require the original
 parent image/repository digest after loading. Image residency follows the same
 batch-cache policy as other task images.
@@ -221,3 +223,26 @@ when recovery resumes. The four remaining checks run fresh, then the unchanged
 34-task model queue begins automatically after complete installation success.
 The adapter source, Pi distribution, model settings, task revisions, resources,
 budgets, and verifier policy remain unchanged; no adapter code changed here.
+
+## Native-attestation completeness amendment
+
+The initial index probe covered an absent non-native image. A subsequent
+isolated four-descriptor probe matching MTEB's index shape showed that Docker's
+native-platform importer also requires attestations associated with that native
+image. V5 was stopped during image transfer before pair 16 or any model work.
+The new cache path fetches those original attestation manifests and their config
+and in-toto payloads by descriptor, verifies all sizes and SHA256 digests, and
+includes them unchanged in the OCI archive. It leaves the ARM image and ARM
+attestation unfetched, preserving all their original references in the index.
+
+A real-Docker probe of the complete native-attestation graph now succeeds and
+preserves the original parent image/repository digest. Its temporary image was
+removed; see [attestation import evidence](oci-index-attestation-import-evidence.json).
+The [v6 plan](experiment-v6.json) preserves the same 30 validated installation
+records and all earlier transfer evidence, resumes the original image bytes,
+and retains the unchanged model/preflight gate. No native agent or verifier
+behavior changed.
+
+The full Harbor workflow suite passed **210 tests** after native-attestation
+completeness checks. All v6 source, configuration, task, image, and reused
+installation-evidence hashes validated before launch.

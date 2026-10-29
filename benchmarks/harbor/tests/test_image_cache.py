@@ -271,3 +271,73 @@ def test_registry_index_loads_selected_child_by_digest_and_keeps_parent_pin(tmp_
     assert lock["manifest_digest"] == cache_image.sha(index)
     with tarfile.open(tmp_path / "example_task_version.oci.tar") as archive:
         assert json.load(archive.extractfile("index.json"))["manifests"][0]["digest"] == cache_image.sha(index)
+
+
+def fixture_attested_index(cache, native_raw):
+    index = json.loads(fixture_index(native_raw))
+    index["manifests"][1].update(digest=cache_image.sha(b"absent ARM manifest"), size=19)
+    config = put(cache, b'{"architecture":"unknown","os":"unknown","rootfs":{"type":"layers","diff_ids":[]}}', "application/vnd.oci.image.config.v1+json")
+    payload = put(cache, b'{"_type":"https://in-toto.io/Statement/v0.1"}', "application/vnd.in-toto+json")
+    raw = json.dumps({"schemaVersion": 2, "mediaType": cache_image.MANIFEST_TYPES[1],
+                      "config": config, "layers": [payload]}).encode()
+    attestation = put(cache, raw, cache_image.MANIFEST_TYPES[1])
+    attestation.update(platform={"os": "unknown", "architecture": "unknown"},
+                       annotations={"vnd.docker.reference.type": "attestation-manifest",
+                                    "vnd.docker.reference.digest": cache_image.sha(native_raw)})
+    absent = {**attestation, "digest": cache_image.sha(b"absent ARM attestation"),
+              "annotations": {"vnd.docker.reference.type": "attestation-manifest",
+                              "vnd.docker.reference.digest": index["manifests"][1]["digest"]}}
+    index["manifests"].extend([attestation, absent])
+    return json.dumps(index).encode(), attestation, [config, payload]
+
+
+def test_index_preserves_native_attestations_without_fetching_other_platforms(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    index, attestation, metadata = fixture_attested_index(tmp_path, raw)
+    assert cache_image.native_attestations(json.loads(index)) == [attestation]
+    output = tmp_path / "attested.tar"
+    cache_image.write_archive(tmp_path, "example/task:version", raw, output, root_index=index)
+    with tarfile.open(output) as archive:
+        for item in [attestation, *metadata]:
+            blob = archive.extractfile("blobs/sha256/" + item["digest"].split(":")[1]).read()
+            assert cache_image.sha(blob) == item["digest"]
+        for item in [json.loads(index)["manifests"][1], json.loads(index)["manifests"][3]]:
+            assert "blobs/sha256/" + item["digest"].split(":")[1] not in archive.getnames()
+
+
+def test_index_refuses_corrupt_attestation_payload(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    index, _, metadata = fixture_attested_index(tmp_path, raw)
+    cache_image.blob_path(tmp_path, metadata[1]).write_bytes(b"corrupt")
+    with pytest.raises(ValueError, match="size mismatch|SHA256 mismatch"):
+        cache_image.write_archive(tmp_path, "example/task:version", raw, tmp_path / "bad.tar", root_index=index)
+
+
+def test_attestation_metadata_is_never_treated_as_an_executable_image(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    with pytest.raises(ValueError, match="in-toto"):
+        cache_image.attestation_blobs(raw)
+
+
+def test_registry_fetches_native_attestation_graph_and_skips_arm_graph(tmp_path, monkeypatch):
+    raw = fixture_manifest(tmp_path)
+    index, attestation, metadata = fixture_attested_index(tmp_path, raw)
+    bodies = {cache_image.sha(raw): raw}
+    for item in [attestation, *metadata]:
+        path = cache_image.blob_path(tmp_path, item)
+        bodies[item["digest"]] = path.read_bytes()
+        path.unlink()
+    requests = []
+    def get(url, headers=None, limit=None):
+        requests.append(url)
+        if url.startswith("https://auth.docker.io/"):
+            return 200, {}, b'{"token":"anonymous-token"}'
+        body = index if url.endswith("/version") else bodies[url.rsplit("/", 1)[1]]
+        return 200, {"Docker-Content-Digest": cache_image.sha(body)}, body
+    monkeypatch.setattr(cache_image, "get", get)
+    cache_image.cache_image("example/task:version", tmp_path)
+    assert any(url.endswith("/manifests/" + attestation["digest"]) for url in requests)
+    for item in metadata:
+        cache_image.verify(cache_image.blob_path(tmp_path, item), item)
+    for item in [json.loads(index)["manifests"][1], json.loads(index)["manifests"][3]]:
+        assert not any(url.endswith(item["digest"]) for url in requests)
