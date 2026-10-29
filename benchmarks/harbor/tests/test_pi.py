@@ -50,7 +50,7 @@ class Environment:
         stdout = ""
         if command.endswith("--version"):
             stdout = "1.4.0\n"
-        elif "; python3 -c " in command:
+        elif "; python3 -c " in command or "; python3 -I -c " in command:
             stdout = json.dumps(self.completion)
         return SimpleNamespace(return_code=0, stdout=stdout, stderr="")
 
@@ -172,3 +172,31 @@ def test_missing_output_keeps_usage_unknown(tmp_path, inputs):
     adapter(tmp_path, inputs).populate_context_post_run(context)
     assert context.n_input_tokens is None
     assert context.cost_usd is None
+
+
+def test_transport_cancellation_waits_for_root_process_cleanup(tmp_path, inputs, monkeypatch):
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "test-secret")
+    class CancelledEnvironment(Environment):
+        async def exec(self, **kwargs):
+            self.calls.append(kwargs)
+            if len(self.calls) == 1:
+                raise asyncio.CancelledError()
+            return SimpleNamespace(return_code=0, stdout="", stderr="")
+    environment = CancelledEnvironment()
+    with pytest.raises(asyncio.CancelledError):
+        asyncio.run(adapter(tmp_path, inputs).run("test", environment, AgentContext()))
+    assert environment.calls[-1]["user"] == "root"
+    assert "cancel" in environment.calls[-1]["command"]
+    assert environment.calls[-1].get("env") is None
+
+
+def test_cancelled_run_marks_known_usage_and_cost_as_partial(tmp_path, inputs):
+    (tmp_path / "process-supervision.json").write_text(json.dumps({"status": "cancelled", "processes_stopped": True}))
+    (tmp_path / "pi.txt").write_text(json.dumps({"type": "message_end", "message": {
+        "role": "assistant", "usage": {"input": 10, "output": 5, "cost": {"total": .1}},
+    }}))
+    context = AgentContext()
+    adapter(tmp_path, inputs).populate_context_post_run(context)
+    assert context.cost_usd == .1
+    assert context.metadata["pi"]["usage_is_partial"] is True
+    assert context.metadata["pi"]["cost_is_partial"] is True

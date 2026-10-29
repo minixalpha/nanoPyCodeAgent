@@ -87,6 +87,12 @@ Pi 使用原生提示词、工具、上下文压缩和重试行为；不会构�
 依赖 profile。原生会话及完整事件保存在 `agent/pi/` 和 `agent/pi.txt`。
 用量统计在 Pi 提供数据时包含上下文压缩；费用为估算值，缺失用量会单独标注。
 Pi 目前不生成 ATIF trajectory。
+在 Linux 上，Pi 命令由 child subreaper 托管。取消执行时，运行器会先停止整个
+进程树（包括工具创建的独立会话），再将控制权交回 Harbor。正常完成的任务仍可
+保留有意启动的后台服务。设置 `verifier.kwargs.require_agent_quiescence=true`
+后，执行官方断言前必须有正常完成或已确认取消的进程托管记录；记录缺失或不完整
+时停止评分。安装检查会在不调用模型的前提下验证运行器；中断执行的用量和费用
+总计会标记为部分数据。
 
 比较运行器支持 Pi arm，以及先安装检查、再执行模型队列的 `--phase all`。
 注册的 `minimum_free_disk_bytes` 会在空间不足时阻止启动新任务。

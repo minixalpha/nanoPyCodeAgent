@@ -1,0 +1,245 @@
+{
+  "observed_at": "2026-10-29T14:57:26.714324+00:00",
+  "policy": "Preserve every original output and native reward. These timeout trials do not establish a verified frozen boundary. Metadata only was inspected; no solution or hidden-test content was reviewed. No completed model trial is retried.",
+  "cases": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "exception_type": "AgentTimeoutError",
+      "agent_execution": {
+        "started_at": "2026-10-29T13:54:34.019472Z",
+        "finished_at": "2026-10-29T14:09:35.305831Z"
+      },
+      "verifier": {
+        "started_at": "2026-10-29T14:09:35.589907Z",
+        "finished_at": "2026-10-29T14:16:29.067351Z"
+      },
+      "native_rewards": {
+        "reward": 0.0
+      },
+      "result_sha256": "54f5f469df311a50cc463503f529e0ad7188823891ab31840965ef4c78bfef97",
+      "pi_events_sha256": "70022bc1980da1fef1d93a9105d5b7da64753d01d526d93cd32184b677e5ec8b",
+      "post_agent_deadline_metadata": [
+        {
+          "timestamp": "2026-10-29T14:09:52.609000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:09:52.615000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:09:57.440000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:09:57.446000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:17.261000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:17.270000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:21.173000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:21.194000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:25.093000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:54.575000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:57.583000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:11:57.590000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:01.777000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:01.798000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:56.451000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:56.480000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:59.037000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:59.041000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:13:09.546000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:13:55.368000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:13:57.962000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:14:57.538000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:15:01.266000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:15:01.271000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:15:08.602000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:16:09.197000+00:00",
+          "role": "toolResult",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:16:12.110000+00:00",
+          "role": "assistant",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:09:52.618000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:09:57.455000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:17.274000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:21.196000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:10:54.577000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:11:57.592000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:01.799000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:56.483000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:12:59.043000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:13:55.371000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:14:57.540000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:15:01.273000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        },
+        {
+          "timestamp": "2026-10-29T14:16:09.201000+00:00",
+          "role": "assistant_creation",
+          "after_verifier_started": true
+        }
+      ],
+      "analytical_status": "invalid_frozen_boundary"
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "exception_type": "AgentTimeoutError",
+      "agent_execution": {
+        "started_at": "2026-10-29T14:26:49.171477Z",
+        "finished_at": "2026-10-29T14:41:47.862235Z"
+      },
+      "verifier": {
+        "started_at": "2026-10-29T14:41:48.136670Z",
+        "finished_at": "2026-10-29T14:42:23.786394Z"
+      },
+      "native_rewards": {
+        "reward": 0.0
+      },
+      "result_sha256": "1318b9f55b8ca84b5c8067ba5a36ee2d7b953acb550f3e01062d2612090a0755",
+      "pi_events_sha256": "fb60c26f364cb61eff8742cf53feb87feb9743f73c4afdb06e3314b343aed3cf",
+      "post_agent_deadline_metadata": [],
+      "analytical_status": "timeout_without_verified_quiescence"
+    }
+  ]
+}

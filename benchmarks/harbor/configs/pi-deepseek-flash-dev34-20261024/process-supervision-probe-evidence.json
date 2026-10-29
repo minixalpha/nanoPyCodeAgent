@@ -1,0 +1,13 @@
+{
+  "observed_at": "2026-10-29T14:58:28.080840+00:00",
+  "kind": "isolated network-disabled Docker probe; a tool forks a new session and writes repeatedly",
+  "runner_sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+  "base_image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+  "no_model_calls": true,
+  "state": {
+    "status": "cancelled",
+    "processes_stopped": true,
+    "stopped_processes": 2
+  },
+  "output_frozen": true
+}

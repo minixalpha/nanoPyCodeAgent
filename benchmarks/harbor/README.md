@@ -110,6 +110,13 @@ without a model call and use the same reviewed verifier dependency profiles.
 Native sessions and completed JSON events remain in `agent/pi/` and `agent/pi.txt`.
 Usage includes compaction when Pi supplies it, and reported costs are estimates.
 Missing usage stays diagnosed. Pi does not currently generate an ATIF trajectory.
+On Linux, the Pi command runs under a child subreaper. Cancellation stops its
+process tree, including detached tool sessions, before control returns to Harbor.
+Successful runs retain intentional background services. Set
+`verifier.kwargs.require_agent_quiescence=true` to require a completed or
+confirmed-cancelled supervision record before any official assertion executes.
+Missing or incomplete records stop grading. Installation checks exercise the
+supervisor without a model call; interrupted usage/cost totals remain partial.
 
 The comparison runner supports Pi arms and `--phase all` for installation checks
 followed by the model queue. A registered `minimum_free_disk_bytes` stops new

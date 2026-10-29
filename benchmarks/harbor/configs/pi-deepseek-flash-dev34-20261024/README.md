@@ -1,8 +1,8 @@
 # Pi + DeepSeek Flash dev34 agent baseline
 
-**Status: all 34 Pi installation checks passed; the first two model tasks
-started on October 29. Actual assistant replies and tool calls were
-confirmed without inspecting task content. Results are still being collected.** After the
+**Status: six model attempts ended (three passes, one scored failure, two agent
+timeouts). New scheduling is held for a timeout-boundary correction. Existing
+outputs remain unchanged and will not be retried.** After the
 October 27 repository relocation, the project volume had approximately 69 GiB
 free and Docker's system volume approximately 20 GiB. The active
 [v6 plan](experiment-v6.json) restores and verifies the original images one
@@ -262,3 +262,38 @@ replies and are executing tools. Operational counters alone were inspected;
 new task trajectories and official hidden-test contents remain unreviewed.
 The fixed queue continues with concurrency two. All 34 model outputs must
 freeze before result/trace analysis and complete bilingual reporting.
+
+## Timeout-boundary correction after the first six attempts
+
+Operational timestamps confirmed that the adaptive rejection sampler continued
+producing assistant/tool events after Harbor recorded its agent timeout and
+started verification. The frozen-output boundary is invalid for that attempt.
+WAL recovery also timed out without a supervision acknowledgement, so its
+boundary remains unverified. Both native zero rewards and all original outputs
+are preserved, with these attempts separated from ordinary scored failures.
+See [timeout-boundary evidence](timeout-boundary-evidence.json); only event
+timestamps and lifecycle metadata were reviewed, not solution or hidden-test
+content. The other four completed native results remain unchanged.
+
+The original scheduling controller stopped at the completed-pair boundary before
+starting task seven. The corrected adapter supervises Pi and all descendants
+through a Linux child subreaper, including tools that start separate sessions.
+Cancellation freezes and kills that process tree and waits for confirmation
+before Harbor can start its verifier. A required verifier guard refuses missing
+or incomplete confirmation. Normal completion retains intentional solution
+servers. Agent timeouts, model settings, prompt, tools, and Pi distribution are
+unchanged; interrupted usage/cost totals are explicitly partial.
+
+An isolated network-disabled Docker test confirmed that a detached tool stops
+writing before cancellation returns; see
+[supervision probe evidence](process-supervision-probe-evidence.json).
+The corrected adapter will run from a newly frozen checkout. Its 28 unstarted
+tasks require fresh installation checks, including a supervisor startup probe,
+before any further model work. The six existing model attempts remain under
+their original source reference and are never replaced.
+
+The corrected supervision and grading boundary passed **225 Harbor tests**.
+A real network-disabled Docker probe also confirmed that a detached tool stops
+writing before cancellation returns. Earlier timeout attempts remain excluded
+from ordinary scored-failure counts because their frozen boundary is invalid or
+unverified; the amendment does not retroactively validate those outputs.

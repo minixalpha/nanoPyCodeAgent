@@ -1,14 +1,18 @@
 """Run an unmodified, hash-pinned Pi distribution with shared Harbor bootstrap."""
 
+import asyncio
 import hashlib
 import json
 from pathlib import Path
 import shlex
+import uuid
 
 from harbor.agents.installed.base import CliFlag, with_prompt_template
 from harbor.agents.model_connection import ModelConnectionSpec
 
 from .adapter import NanoPyCodeAgent
+
+_RUNNER = Path(__file__).with_name("_agent_runner.py").read_text()
 
 
 def distribution_files(root: Path) -> dict:
@@ -82,6 +86,8 @@ class PiCodeAgent(NanoPyCodeAgent):
         return stdout.strip().splitlines()[-1]
 
     async def _install_agent(self, environment) -> None:
+        self.logs_dir.mkdir(parents=True, exist_ok=True)
+        (self.logs_dir / "process-supervision-required").write_text("pi\n")
         actual = distribution_digest(distribution_files(self._distribution))
         if actual != self._distribution_sha256:
             raise ValueError("Pi distribution changed after registration")
@@ -98,6 +104,11 @@ class PiCodeAgent(NanoPyCodeAgent):
             environment, content=json.dumps(self._model_config),
             remote_path="/tmp/harbor-pi-agent/models.json", filename="models.json",
         )
+        probe = f"/tmp/harbor-pi-supervision-probe-{uuid.uuid4().hex}"
+        await self.exec_as_agent(environment, command=shlex.join([
+            "python3", "-I", "-c", _RUNNER, "run", probe + ".json", probe + "-result.json", "true",
+        ]))
+        self._bootstrap_record["process_supervision_probe"] = "passed"
         # Validate the real binary and provider configuration without a model call.
         await self.exec_as_agent(
             environment,
@@ -120,18 +131,29 @@ class PiCodeAgent(NanoPyCodeAgent):
             " except (ValueError,AttributeError): skip=False\n"
             " if not skip: print(line,end='',flush=True)\n"
         )
-        await self.exec_as_agent(
-            environment,
-            command=(
-                "set -euo pipefail; /opt/harbor-pi/pi --print --mode json --offline "
-                "--session-dir /logs/agent/pi/sessions "
-                f"--provider deepseek --model {shlex.quote(model)} "
-                f"{self.build_cli_flags()} -- {shlex.quote(instruction)} "
-                "</dev/null 2>/logs/agent/pi-stderr.txt | "
-                f"python3 -u -c {shlex.quote(event_filter)} | tee /logs/agent/pi.txt"
-            ),
-            env={"PI_CODING_AGENT_DIR": "/tmp/harbor-pi-agent", "DEEPSEEK_API_KEY": key},
+        command = (
+            "set -euo pipefail; /opt/harbor-pi/pi --print --mode json --offline "
+            "--session-dir /logs/agent/pi/sessions "
+            f"--provider deepseek --model {shlex.quote(model)} "
+            f"{self.build_cli_flags()} -- {shlex.quote(instruction)} "
+            "</dev/null 2>/logs/agent/pi-stderr.txt | "
+            f"python3 -I -u -c {shlex.quote(event_filter)} | tee /logs/agent/pi.txt"
         )
+        control = f"/tmp/harbor-pi-{uuid.uuid4().hex}.json"
+        record = "/logs/agent/process-supervision.json"
+        try:
+            await self.exec_as_agent(
+                environment,
+                command=shlex.join(["python3", "-I", "-c", _RUNNER, "run", control, record, command]),
+                env={"PI_CODING_AGENT_DIR": "/tmp/harbor-pi-agent", "DEEPSEEK_API_KEY": key},
+            )
+        except BaseException:
+            cleanup = await asyncio.shield(asyncio.wait_for(environment.exec(
+                command=shlex.join(["python3", "-I", "-c", _RUNNER, "cancel", control, record]), user="root",
+            ), timeout=12))
+            if cleanup.return_code != 0:
+                raise RuntimeError("Pi subprocess cleanup did not confirm cancellation")
+            raise
         # Pi may finish its event stream after an API error with exit code zero.
         # Do not misclassify that as an ordinary scored task failure.
         check = (
@@ -144,7 +166,7 @@ class PiCodeAgent(NanoPyCodeAgent):
             " if event.get('type')=='message_end' and event.get('message',{}).get('role')=='assistant': assistant=event['message']\n"
             "print(json.dumps({'settled': last.get('type')=='agent_settled' and not last.get('aborted'), 'stop_reason': assistant.get('stopReason')}))\n"
         )
-        output = await self.exec_as_agent(environment, command=f"python3 -c {shlex.quote(check)}")
+        output = await self.exec_as_agent(environment, command=f"python3 -I -c {shlex.quote(check)}")
         status = json.loads(output.stdout)
         if not status["settled"] or status["stop_reason"] != "stop":
             raise RuntimeError(f"Pi did not finish successfully: {status}")
@@ -152,6 +174,18 @@ class PiCodeAgent(NanoPyCodeAgent):
     def populate_context_post_run(self, context) -> None:
         context.metadata = context.metadata or {}
         context.metadata["bootstrap"] = self._bootstrap_record
+        supervision = None
+        supervision_path = self.logs_dir / "process-supervision.json"
+        if supervision_path.exists():
+            try:
+                supervision = json.loads(supervision_path.read_text())
+            except (OSError, ValueError):
+                supervision = {"status": "invalid"}
+            context.metadata["process_supervision"] = supervision
+        interrupted = supervision is not None and (
+            not isinstance(supervision, dict) or supervision.get("status") != "completed"
+            or supervision.get("return_code") != 0
+        )
         output = self.logs_dir / "pi.txt"
         if not output.exists():
             return
@@ -182,7 +216,7 @@ class PiCodeAgent(NanoPyCodeAgent):
             "version": self._pi_version, "usage_records": len(usages),
             "missing_usage_records": missing, "assistant_errors": errors,
             "cost_is_estimated": True,
-            "usage_is_partial": missing > 0,
+            "usage_is_partial": missing > 0 or interrupted,
         }
         if usages:
             context.n_input_tokens = sum(u.get("input", 0) + u.get("cacheRead", 0) + u.get("cacheWrite", 0) for u in usages)
@@ -190,4 +224,4 @@ class PiCodeAgent(NanoPyCodeAgent):
             context.n_cache_tokens = sum(u.get("cacheRead", 0) for u in usages)
             costs = [u["cost"]["total"] for u in usages if "total" in u.get("cost", {})]
             context.cost_usd = sum(costs) if len(costs) == len(usages) else None
-            context.metadata["pi"]["cost_is_partial"] = missing > 0 or len(costs) != len(usages)
+            context.metadata["pi"]["cost_is_partial"] = missing > 0 or len(costs) != len(usages) or interrupted
