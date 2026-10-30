@@ -1,0 +1,1215 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-10-30T16:20:53.637565+00:00",
+  "model_jobs_started": 0,
+  "experiment": {
+    "path": "benchmarks/harbor/configs/deepseek-harness-dev34-20261030/experiment.json",
+    "sha256": "fb59d5618c44e691babb80b2ea8323eb45edf9f45383e61344d747b870bc6d6e"
+  },
+  "profile_metadata_amendment": {
+    "path": "benchmarks/harbor/configs/deepseek-harness-dev34-20261030/profile-metadata-amendment.json",
+    "sha256": "f27cf8b8939506f1ec68d964322aa9ef4af6da4a0f2e9f95c1b32aaed59fb7de"
+  },
+  "adapter_ref": "5b503ab6d04af2f6a719ec0dbe5418bfad4bf128",
+  "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+  "summary": {
+    "installation_passed": 34,
+    "sdk_initialization_passed": 34,
+    "supervision_probe_passed": 34,
+    "verifier_dependency_profiles_passed": 2,
+    "verifier_dependency_profiles_not_configured": 32,
+    "model_executions": 0
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "task_ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "job": "dsh-dev34-install-pair-01-20261030",
+      "trial": "adaptive-rejection-sampler__BuqYqRV",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-01-20261030.json",
+          "sha256": "35b97de60af32fd25dcb0223dfc5cade5f491cc0361a2424e7973cde21826860"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030-input/manifest.json",
+          "sha256": "a47999c0d83ce04d3b6ace156f7e73b9763cd4e495e9c51708547b99285a07ca"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030-input/summary.json",
+          "sha256": "61bae69a5c87321a32a782a96fcd43e627d9c45049a7cf9cb24648e5d1143a31"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030/adaptive-rejection-sampler__BuqYqRV/result.json",
+          "sha256": "9543b465485a93422a68d7741ee610603545d2e9b41cec779106bdef39c4d225"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030/adaptive-rejection-sampler__BuqYqRV/agent/bootstrap.json",
+          "sha256": "36699c5279f25d50f5b87aa7cc65a98e6c3ee72ff24f5ec4a88bc3751509d809"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/build-cython-ext",
+      "task_ref": "sha256:35dc561790e73f13e59837828ac0863c0893edc6b71d42cf7d58656c843adf12",
+      "job": "dsh-dev34-install-pair-01-20261030",
+      "trial": "build-cython-ext__4W44WcX",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-01-20261030.json",
+          "sha256": "35b97de60af32fd25dcb0223dfc5cade5f491cc0361a2424e7973cde21826860"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030-input/manifest.json",
+          "sha256": "a47999c0d83ce04d3b6ace156f7e73b9763cd4e495e9c51708547b99285a07ca"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030-input/summary.json",
+          "sha256": "61bae69a5c87321a32a782a96fcd43e627d9c45049a7cf9cb24648e5d1143a31"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030/build-cython-ext__4W44WcX/result.json",
+          "sha256": "cc060ca2421d5d182bc554c9f5f9f003521ec0f4a25b9fc3fbce0bc6e0edc8f7"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-01-20261030/build-cython-ext__4W44WcX/agent/bootstrap.json",
+          "sha256": "0c82eb159d150060290eebcfbe93607927cd4537bc16959451b2dcc648d61767"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/cancel-async-tasks",
+      "task_ref": "sha256:a3d048d351136e48070696cda8bb79660dfd74db1fea3b6da88559f0332699c1",
+      "job": "dsh-dev34-install-pair-02-20261030",
+      "trial": "cancel-async-tasks__cagFx9t",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-02-20261030.json",
+          "sha256": "b5a81d0535ecaaac098b9b5b4839c5d5946950d70de5aba646fd27bd700320d1"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030-input/manifest.json",
+          "sha256": "0a7a13cc673070c646be8d06fd8fbd2013c06f32a1fff6131d03d1c77755f95c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030-input/summary.json",
+          "sha256": "1d57bea97ec7cd5d3cc348e065195ac5579e7d1a3786a177b8b3c5a0e2389a42"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030/cancel-async-tasks__cagFx9t/result.json",
+          "sha256": "880f693138aae3abba7bfdb0a178aaadbc8c9629e329656d4ccda8ee84a93d1e"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030/cancel-async-tasks__cagFx9t/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/cobol-modernization",
+      "task_ref": "sha256:e03aa03965eee48c9f772d566ff9bcd741fceeac9693123f82a13fdd46be0d88",
+      "job": "dsh-dev34-install-pair-02-20261030",
+      "trial": "cobol-modernization__Uorq3pW",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-02-20261030.json",
+          "sha256": "b5a81d0535ecaaac098b9b5b4839c5d5946950d70de5aba646fd27bd700320d1"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030-input/manifest.json",
+          "sha256": "0a7a13cc673070c646be8d06fd8fbd2013c06f32a1fff6131d03d1c77755f95c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030-input/summary.json",
+          "sha256": "1d57bea97ec7cd5d3cc348e065195ac5579e7d1a3786a177b8b3c5a0e2389a42"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030/cobol-modernization__Uorq3pW/result.json",
+          "sha256": "92b26a3a93ff64857ecd4b6d65b6853308aefb3eb3f190614967d1a790f3a567"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-02-20261030/cobol-modernization__Uorq3pW/agent/bootstrap.json",
+          "sha256": "d75e36e5346e74a3f1b464b24b6e3bbf159103f626e474d7833ffed5bb202221"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "task_ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "job": "dsh-dev34-install-pair-03-20261030",
+      "trial": "db-wal-recovery__SsWt56x",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-03-20261030.json",
+          "sha256": "7997484bc8cf759eac5ad91dcbc9aee1a310d1ab9de5d962aa2dab6f4141e2ad"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030-input/manifest.json",
+          "sha256": "2f35cbc799352d952caabace8f9ed3eb9f9d6bea62f390088e9c92698362d61e"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030-input/summary.json",
+          "sha256": "90943816f7581a3676aa4a7c4f6052ec055de61c1de145e8c58c17af03fc400f"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030/db-wal-recovery__SsWt56x/result.json",
+          "sha256": "625c9a6e005e000984e7fc8111f481fd86ee259893d3c8f5cffe18b4b6291160"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030/db-wal-recovery__SsWt56x/agent/bootstrap.json",
+          "sha256": "317eb4d1a905a9446f48890f4be51b9acf3c0e230c0770b360285bae70d579b1"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/fix-code-vulnerability",
+      "task_ref": "sha256:d31348aa16b533a15f013420e4d9726dc529e6086adc7d6d48067d22cc18fe71",
+      "job": "dsh-dev34-install-pair-03-20261030",
+      "trial": "fix-code-vulnerability__7tYLPYo",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-03-20261030.json",
+          "sha256": "7997484bc8cf759eac5ad91dcbc9aee1a310d1ab9de5d962aa2dab6f4141e2ad"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030-input/manifest.json",
+          "sha256": "2f35cbc799352d952caabace8f9ed3eb9f9d6bea62f390088e9c92698362d61e"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030-input/summary.json",
+          "sha256": "90943816f7581a3676aa4a7c4f6052ec055de61c1de145e8c58c17af03fc400f"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030/fix-code-vulnerability__7tYLPYo/result.json",
+          "sha256": "26f8e8a79707a4f334422558031a0e2faafef53aad085ca04a688f8a2623a926"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-03-20261030/fix-code-vulnerability__7tYLPYo/agent/bootstrap.json",
+          "sha256": "a243941e9357e36a407ff4cfd4cf32498b67756cf083283184e3ac20269ed125"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/git-multibranch",
+      "task_ref": "sha256:7759a92a373c967dd31535975bad8659410644025673fe62385444fd2605c5fa",
+      "job": "dsh-dev34-install-pair-04-20261030",
+      "trial": "git-multibranch__uksBvS7",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-04-20261030.json",
+          "sha256": "08cc0bb602fdc5741e4432833ada51081e2d311d3030c63b700961c658545130"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030-input/manifest.json",
+          "sha256": "e46c64ccb95f0ed5b47e11db1c4404df71ab21a2096ddfc3df560a3e3c8a36d1"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030-input/summary.json",
+          "sha256": "1262258e1c174e5c3e0cae701841e515c4e61714297ad141f6ba5d7ce637ce4a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030/git-multibranch__uksBvS7/result.json",
+          "sha256": "aa8f47a7aa4d3e558ef34fb2ee22f9ec7cdcf7c44f4eb0a54c64e5d204384ac5"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030/git-multibranch__uksBvS7/agent/bootstrap.json",
+          "sha256": "139a6fd0776dee86f5a0306ebdadb3f1a4e79938a27aa2a5edcdd96dfa9be907"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "task_ref": "sha256:973c5d4c111fb61a344457936f1c36400acd2d9e44389e7b319586fe23a7a307",
+      "job": "dsh-dev34-install-pair-04-20261030",
+      "trial": "kv-store-grpc__V6nNm5R",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-04-20261030.json",
+          "sha256": "08cc0bb602fdc5741e4432833ada51081e2d311d3030c63b700961c658545130"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030-input/manifest.json",
+          "sha256": "e46c64ccb95f0ed5b47e11db1c4404df71ab21a2096ddfc3df560a3e3c8a36d1"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030-input/summary.json",
+          "sha256": "1262258e1c174e5c3e0cae701841e515c4e61714297ad141f6ba5d7ce637ce4a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030/kv-store-grpc__V6nNm5R/result.json",
+          "sha256": "ed6e15f3638c215e50b21a7dce5a86eebcbbb07ad5778fa02eace1d89371baad"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-04-20261030/kv-store-grpc__V6nNm5R/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/log-summary-date-ranges",
+      "task_ref": "sha256:27b074a2f10fff7606e096f3abd8dced418ad8fda0f53d88acbe477f2d9ceaf6",
+      "job": "dsh-dev34-install-pair-05-20261030",
+      "trial": "log-summary-date-ranges__6dcMfYE",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-05-20261030.json",
+          "sha256": "b75fd05b46d16329753c582920cd1b08b75695f6a4728f293ecbc6bb2dcd20ed"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030-input/manifest.json",
+          "sha256": "09adca648d3cd50c864e95c0b3d36326b7db09b5227435580427cccd893102bd"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030-input/summary.json",
+          "sha256": "0196f9f1298444e0a42ff5070ccd7f89717ba14cb8bc5edb34ec404e066de7b4"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030/log-summary-date-ranges__6dcMfYE/result.json",
+          "sha256": "2c5d6232aeec9ee5b4c040a0a9ef0e5e76f360bf880579cba4bae9d10b69ad5d"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030/log-summary-date-ranges__6dcMfYE/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/merge-diff-arc-agi-task",
+      "task_ref": "sha256:6aab6511a5344ce87698293bb1ce4cc51d9a45f1ad9f0c075d2a83197b36727d",
+      "job": "dsh-dev34-install-pair-05-20261030",
+      "trial": "merge-diff-arc-agi-task__RGHcv6Z",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-05-20261030.json",
+          "sha256": "b75fd05b46d16329753c582920cd1b08b75695f6a4728f293ecbc6bb2dcd20ed"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030-input/manifest.json",
+          "sha256": "09adca648d3cd50c864e95c0b3d36326b7db09b5227435580427cccd893102bd"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030-input/summary.json",
+          "sha256": "0196f9f1298444e0a42ff5070ccd7f89717ba14cb8bc5edb34ec404e066de7b4"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030/merge-diff-arc-agi-task__RGHcv6Z/result.json",
+          "sha256": "2cdf1b3a5485cdbc6db2f390c5186dec2939d374c476543f04edad59a0c66a14"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-05-20261030/merge-diff-arc-agi-task__RGHcv6Z/agent/bootstrap.json",
+          "sha256": "36699c5279f25d50f5b87aa7cc65a98e6c3ee72ff24f5ec4a88bc3751509d809"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "task_ref": "sha256:1ae5045ad68b5d34c3398b612066a07c4a08b6dc330d28868ec4021e17c94b17",
+      "job": "dsh-dev34-install-pair-06-20261030",
+      "trial": "model-extraction-relu-logits__Ky6SN6a",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-06-20261030.json",
+          "sha256": "f7c8461d95344962910447b29e0b4b942794d2aeb5d854e245100ba2f7b5a45b"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030-input/manifest.json",
+          "sha256": "c0f6916a703f0c9110e958bf0f797a2b4a261f65c6be3fc137d3a54daf01db73"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030-input/summary.json",
+          "sha256": "b13d0543f0cb1c0f367e6f74317c2fe759e399297e2061665719c64847dfdb22"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030/model-extraction-relu-logits__Ky6SN6a/result.json",
+          "sha256": "1cf09cef6d5f195c6f64e1dddf49fe52fe61583e8a6ffaf75bb9e6454ae2c99e"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030/model-extraction-relu-logits__Ky6SN6a/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "task_ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "job": "dsh-dev34-install-pair-06-20261030",
+      "trial": "multi-source-data-merger__pxBy43s",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-06-20261030.json",
+          "sha256": "f7c8461d95344962910447b29e0b4b942794d2aeb5d854e245100ba2f7b5a45b"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030-input/manifest.json",
+          "sha256": "c0f6916a703f0c9110e958bf0f797a2b4a261f65c6be3fc137d3a54daf01db73"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030-input/summary.json",
+          "sha256": "b13d0543f0cb1c0f367e6f74317c2fe759e399297e2061665719c64847dfdb22"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030/multi-source-data-merger__pxBy43s/result.json",
+          "sha256": "cad316ea002c327d02d2eebdcb379f5cc2b631396cefc82cb34d306f4e92c16c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-06-20261030/multi-source-data-merger__pxBy43s/agent/bootstrap.json",
+          "sha256": "38a018af813827b21bff5685e056300a44dc7899ae803e02ae564568808be3fd"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/nginx-request-logging",
+      "task_ref": "sha256:9d1b8bebd989ea0bc8080c3b159480068caf183c5fd61385868b2574b206e097",
+      "job": "dsh-dev34-install-pair-07-20261030",
+      "trial": "nginx-request-logging__ra8o6iV",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-07-20261030.json",
+          "sha256": "8dc0becd58a3de76db3fbb638e01e6a0296fd3680cc37c50cec9288f94d57d41"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030-input/manifest.json",
+          "sha256": "59297ca64e29863872cfa97ab882a77328d38ad7f5584a6890489c8825f81800"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030-input/summary.json",
+          "sha256": "37b07dd932adf6c214a49be3fcc88a67ee069f1d178d036b372829d6ffe85a48"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030/nginx-request-logging__ra8o6iV/result.json",
+          "sha256": "5f06c592c06135e40b91172af316333c4edca880235a1f386784ea97acc24d59"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030/nginx-request-logging__ra8o6iV/agent/bootstrap.json",
+          "sha256": "1ca2baf6b033a6a37c7bfa6b0baa648f7b5784697774fa5af801e7ac35f2f27e"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/openssl-selfsigned-cert",
+      "task_ref": "sha256:d4afa2bd2a9ba1420db8d6cfde42ffdb4873ae2d955c35014e8da94444c83302",
+      "job": "dsh-dev34-install-pair-07-20261030",
+      "trial": "openssl-selfsigned-cert__6stQ3ja",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-07-20261030.json",
+          "sha256": "8dc0becd58a3de76db3fbb638e01e6a0296fd3680cc37c50cec9288f94d57d41"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030-input/manifest.json",
+          "sha256": "59297ca64e29863872cfa97ab882a77328d38ad7f5584a6890489c8825f81800"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030-input/summary.json",
+          "sha256": "37b07dd932adf6c214a49be3fcc88a67ee069f1d178d036b372829d6ffe85a48"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030/openssl-selfsigned-cert__6stQ3ja/result.json",
+          "sha256": "6b07e89c5e841b478bfc4241ecf3808dd391f9cff3e3e95dff16d50a6d28823b"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-07-20261030/openssl-selfsigned-cert__6stQ3ja/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/pypi-server",
+      "task_ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1",
+      "job": "dsh-dev34-install-pair-08-20261030",
+      "trial": "pypi-server__4jBWBVR",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-08-20261030.json",
+          "sha256": "9d4230aae5324a094c5d2ec43236b6cb651cd777805d46821527cdd8c607d4eb"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030-input/manifest.json",
+          "sha256": "97bdcff4c34faf3d787c3860d68f8b958812d6ae51f20ed00012b62abb4da721"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030-input/summary.json",
+          "sha256": "53288df2ea90779162c20bd6ebdfc7b38a8d38f90acf3794a9e47f2ad711e2a7"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030/pypi-server__4jBWBVR/result.json",
+          "sha256": "73709f5a967b2caf1082b5a45144fa483bfdb0643f599e792db0ad5da11f3a9c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030/pypi-server__4jBWBVR/agent/bootstrap.json",
+          "sha256": "1ca2baf6b033a6a37c7bfa6b0baa648f7b5784697774fa5af801e7ac35f2f27e"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "task_ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "job": "dsh-dev34-install-pair-08-20261030",
+      "trial": "pytorch-model-cli__Lnfimqu",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-08-20261030.json",
+          "sha256": "9d4230aae5324a094c5d2ec43236b6cb651cd777805d46821527cdd8c607d4eb"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030-input/manifest.json",
+          "sha256": "97bdcff4c34faf3d787c3860d68f8b958812d6ae51f20ed00012b62abb4da721"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030-input/summary.json",
+          "sha256": "53288df2ea90779162c20bd6ebdfc7b38a8d38f90acf3794a9e47f2ad711e2a7"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030/pytorch-model-cli__Lnfimqu/result.json",
+          "sha256": "a50ce1fd10a899155353e312aa5ef356fb05194cfba6f73e899c9e9da4fec620"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-08-20261030/pytorch-model-cli__Lnfimqu/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "job": "dsh-dev34-install-pair-09-20261030",
+      "trial": "pytorch-model-recovery__FCnSvrf",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "pytorch-model-recovery-v1",
+        "status": "passed"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-09-20261030.json",
+          "sha256": "cee92389b124bfbca5c1d05a1c3cd1467b2986ef9a6bef7248537dcc3ba81f93"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030-input/manifest.json",
+          "sha256": "00a879f86f550d9aea4530e2fd058f04890540a26c0b2a15f44b2d5f50b01803"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030-input/summary.json",
+          "sha256": "4f447719c1b8d78ab9aede92dddd9145abfbfb292efc75b40e7cffac7184ec45"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030/pytorch-model-recovery__FCnSvrf/result.json",
+          "sha256": "6a7bf4ba88b91f90a6cd845403006de53b7ac3ad2df1db84d8f09ca0125730ef"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030/pytorch-model-recovery__FCnSvrf/agent/bootstrap.json",
+          "sha256": "b97b124b61cfc3b413b29b69460372d0b964474f0b96133c4a5571d9df639c45"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "task_ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+      "job": "dsh-dev34-install-pair-09-20261030",
+      "trial": "qemu-alpine-ssh__eb5Y6dk",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "qemu-alpine-ssh-v1",
+        "status": "passed"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-09-20261030.json",
+          "sha256": "cee92389b124bfbca5c1d05a1c3cd1467b2986ef9a6bef7248537dcc3ba81f93"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030-input/manifest.json",
+          "sha256": "00a879f86f550d9aea4530e2fd058f04890540a26c0b2a15f44b2d5f50b01803"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030-input/summary.json",
+          "sha256": "4f447719c1b8d78ab9aede92dddd9145abfbfb292efc75b40e7cffac7184ec45"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030/qemu-alpine-ssh__eb5Y6dk/result.json",
+          "sha256": "0e3ccd245745a31c01eadf8d10e4ae5a061d083fc07e828211a99560cf9196c3"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-09-20261030/qemu-alpine-ssh__eb5Y6dk/agent/bootstrap.json",
+          "sha256": "1e672441c98d4e4e39bbb460a3c2c7e1d185954628be757adf5af4f0eef9a767"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "task_ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "job": "dsh-dev34-install-pair-10-20261030",
+      "trial": "query-optimize__AbiSxXy",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-10-20261030.json",
+          "sha256": "b70a073249ebb1d2a688c3a6f5f068519f67beef0423e5179f966bc93e866138"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030-input/manifest.json",
+          "sha256": "502459c6482d86928087898c676b5390c2229d0009c952fb02da783352bcf51a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030-input/summary.json",
+          "sha256": "d6654fb376206566eb2d98c82cbb9f0a3ecbe0047456c5e74878530ca465e258"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030/query-optimize__AbiSxXy/result.json",
+          "sha256": "6fa73803640f1d1bc557ef8bac23af91149d7f55c10bb5c7112e45239115812c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030/query-optimize__AbiSxXy/agent/bootstrap.json",
+          "sha256": "89006797609af114ee0903b557c5ff434b3ef6071d8346100829e653fceb38ca"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/regex-log",
+      "task_ref": "sha256:802c16cfd132e6c457529cb864be5a757c1b23b6cadc57f2d01983cb0110292a",
+      "job": "dsh-dev34-install-pair-10-20261030",
+      "trial": "regex-log__VD4fbS3",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-10-20261030.json",
+          "sha256": "b70a073249ebb1d2a688c3a6f5f068519f67beef0423e5179f966bc93e866138"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030-input/manifest.json",
+          "sha256": "502459c6482d86928087898c676b5390c2229d0009c952fb02da783352bcf51a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030-input/summary.json",
+          "sha256": "d6654fb376206566eb2d98c82cbb9f0a3ecbe0047456c5e74878530ca465e258"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030/regex-log__VD4fbS3/result.json",
+          "sha256": "091663f68b91509c2337d427b83e75b3b4a7df9bfcad6e94afd4ec565831af3f"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-10-20261030/regex-log__VD4fbS3/agent/bootstrap.json",
+          "sha256": "36699c5279f25d50f5b87aa7cc65a98e6c3ee72ff24f5ec4a88bc3751509d809"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "job": "dsh-dev34-install-pair-11-20261030",
+      "trial": "torch-pipeline-parallelism__AmhPcjR",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-11-20261030.json",
+          "sha256": "0b35669d6acce8ac74eb247f50d00c36a944b274020be486bfd49821eb7abcc3"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030-input/manifest.json",
+          "sha256": "8b148e8e8bc4495d1806a39c7e4e37d1690172ff925179890fd0918f4583365d"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030-input/summary.json",
+          "sha256": "2014331be4e6536020bbba6ae8705958c391f21cf40b4cbf45d042eebad3a727"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030/torch-pipeline-parallelism__AmhPcjR/result.json",
+          "sha256": "bc184f6f88666ccdfe68e25811e45b5ebcacc321b247307bb88bff5408efd968"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030/torch-pipeline-parallelism__AmhPcjR/agent/bootstrap.json",
+          "sha256": "36699c5279f25d50f5b87aa7cc65a98e6c3ee72ff24f5ec4a88bc3751509d809"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "job": "dsh-dev34-install-pair-11-20261030",
+      "trial": "torch-tensor-parallelism__NVe5csr",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-11-20261030.json",
+          "sha256": "0b35669d6acce8ac74eb247f50d00c36a944b274020be486bfd49821eb7abcc3"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030-input/manifest.json",
+          "sha256": "8b148e8e8bc4495d1806a39c7e4e37d1690172ff925179890fd0918f4583365d"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030-input/summary.json",
+          "sha256": "2014331be4e6536020bbba6ae8705958c391f21cf40b4cbf45d042eebad3a727"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030/torch-tensor-parallelism__NVe5csr/result.json",
+          "sha256": "5ee413a851303fa81a99928b7a8b2653bf933f2452672b1b52841cc827edaf7c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-11-20261030/torch-tensor-parallelism__NVe5csr/agent/bootstrap.json",
+          "sha256": "36699c5279f25d50f5b87aa7cc65a98e6c3ee72ff24f5ec4a88bc3751509d809"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/constraints-scheduling",
+      "task_ref": "sha256:91dd6f87e1ee508328d5aafbd99a6bd1ccc47bc22671b4aaa4060bda492deb53",
+      "job": "dsh-dev34-install-pair-12-20261030",
+      "trial": "constraints-scheduling__4EcXjX2",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-12-20261030.json",
+          "sha256": "bef506c7122cdd23faccdea2f9631b32c7dbc89fbdf961313f822c9aaee85c7a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030-input/manifest.json",
+          "sha256": "93bcf89c9a1af9248e825cca85eb2bade9579b60a8a79fb12ff0ce7e8870537d"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030-input/summary.json",
+          "sha256": "6f527aa51e0909c36993a35e0784ed31c01418d97d8355d745e979cda8351577"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030/constraints-scheduling__4EcXjX2/result.json",
+          "sha256": "6aacea30f7ff30f3913b0b76892263bf23add9253d86e0f76ea0b8fe4b1067fd"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030/constraints-scheduling__4EcXjX2/agent/bootstrap.json",
+          "sha256": "cf2881c5ea9a508fcf319b2a6befc60d39bd25004a7d4f3d2b194579b31fe401"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/write-compressor",
+      "task_ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e",
+      "job": "dsh-dev34-install-pair-12-20261030",
+      "trial": "write-compressor__HFAgpjW",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-12-20261030.json",
+          "sha256": "bef506c7122cdd23faccdea2f9631b32c7dbc89fbdf961313f822c9aaee85c7a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030-input/manifest.json",
+          "sha256": "93bcf89c9a1af9248e825cca85eb2bade9579b60a8a79fb12ff0ce7e8870537d"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030-input/summary.json",
+          "sha256": "6f527aa51e0909c36993a35e0784ed31c01418d97d8355d745e979cda8351577"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030/write-compressor__HFAgpjW/result.json",
+          "sha256": "1e5a5194aedd3712d9af22c4a6c25124068a632a8e8846e7c7700820acada7a1"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-12-20261030/write-compressor__HFAgpjW/agent/bootstrap.json",
+          "sha256": "106fca350e150fcc87b6003fc699eec6e057797103b83a4c169cf5c14a6b293c"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "task_ref": "sha256:61e021e0304c9818a9be2c9173c8a0938ce5d136e95c5422e099f1fdb2dc080e",
+      "job": "dsh-dev34-install-pair-13-20261030",
+      "trial": "custom-memory-heap-crash__DQuhNvN",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-13-20261030.json",
+          "sha256": "88e9bcb621608f17e1c371707074425eab1e5e60a56c7999eced6cbdf394cb65"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030-input/manifest.json",
+          "sha256": "eb140223825530b724c6b4a7455a51a44b4a6d9a0c0048a20bab069bf7111446"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030-input/summary.json",
+          "sha256": "995297252ae987cf60c3d4b780ab768e4b51f1bf0bdb0c2327fddcf92ba9547c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030/custom-memory-heap-crash__DQuhNvN/result.json",
+          "sha256": "8e1e193dd8d4b1bfeb8cb65a45a488e946deabf848ea8322e28bc630c0465449"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030/custom-memory-heap-crash__DQuhNvN/agent/bootstrap.json",
+          "sha256": "747599891fefaac25e7ab1119fee62bb88a9bf9b3e036a496c37c79d15610b74"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/dna-assembly",
+      "task_ref": "sha256:e41a8e94d86019949b08d3b5f88a85f6d943ba0fd85d5e1d5ebb95cb8f66223f",
+      "job": "dsh-dev34-install-pair-13-20261030",
+      "trial": "dna-assembly__38WuERG",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-13-20261030.json",
+          "sha256": "88e9bcb621608f17e1c371707074425eab1e5e60a56c7999eced6cbdf394cb65"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030-input/manifest.json",
+          "sha256": "eb140223825530b724c6b4a7455a51a44b4a6d9a0c0048a20bab069bf7111446"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030-input/summary.json",
+          "sha256": "995297252ae987cf60c3d4b780ab768e4b51f1bf0bdb0c2327fddcf92ba9547c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030/dna-assembly__38WuERG/result.json",
+          "sha256": "b005dd171d4df9c4d790f4518fad8122370217d3252fa14b9bd6cd4c21508aa7"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-13-20261030/dna-assembly__38WuERG/agent/bootstrap.json",
+          "sha256": "36699c5279f25d50f5b87aa7cc65a98e6c3ee72ff24f5ec4a88bc3751509d809"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "task_ref": "sha256:a3bf47589118daec5124fe3689b4439802c805b2f4ed9d402a48ae73ca2fea67",
+      "job": "dsh-dev34-install-pair-14-20261030",
+      "trial": "llm-inference-batching-scheduler__kd5nP2N",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-14-20261030.json",
+          "sha256": "e6b14ee3f5a53b3bd0d4b6c54b92db8fc78046dfe82ed834985bccc8bdb56c64"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030-input/manifest.json",
+          "sha256": "86d588aafeabba43bd931a297bc78b960761b2f9b878bece05301deab3defad3"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030-input/summary.json",
+          "sha256": "2cef49e9735b839280086ea02251978e776fbebbde556d0bb5ecc2dcbebbaa64"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030/llm-inference-batching-scheduler__kd5nP2N/result.json",
+          "sha256": "d9d86f9778f07453b8949b1eafe18f8349d059f247d623410e90f63c9a504561"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030/llm-inference-batching-scheduler__kd5nP2N/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/path-tracing",
+      "task_ref": "sha256:cf56094c881a488b27e9f204a638a7e78ed7d55e12dc3064108c93357190314c",
+      "job": "dsh-dev34-install-pair-14-20261030",
+      "trial": "path-tracing__2oz9xrm",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-14-20261030.json",
+          "sha256": "e6b14ee3f5a53b3bd0d4b6c54b92db8fc78046dfe82ed834985bccc8bdb56c64"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030-input/manifest.json",
+          "sha256": "86d588aafeabba43bd931a297bc78b960761b2f9b878bece05301deab3defad3"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030-input/summary.json",
+          "sha256": "2cef49e9735b839280086ea02251978e776fbebbde556d0bb5ecc2dcbebbaa64"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030/path-tracing__2oz9xrm/result.json",
+          "sha256": "0878bb05a625a7f36d0f90fd39f02e30e522daa6af9781399da7f34930b0aedb"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-14-20261030/path-tracing__2oz9xrm/agent/bootstrap.json",
+          "sha256": "8a3916db45911667d182143670fe4edfb134d999147e568a8af01013ff22ca93"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/caffe-cifar-10",
+      "task_ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf",
+      "job": "dsh-dev34-install-pair-15-20261030",
+      "trial": "caffe-cifar-10__gofkboQ",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-15-20261030.json",
+          "sha256": "7d3111e619275c66f4adad6cb420171e1d1c5ae80401b38288dc830874f313de"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030-input/manifest.json",
+          "sha256": "2c81a93d2ba080cb4bcc3c359eb10e95b4074eb5c324f2076fb5db330fab8942"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030-input/summary.json",
+          "sha256": "be4267f0ea72f63625f79ab7f8c43a598fb2eb358464564bda289a9b8e3db02b"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030/caffe-cifar-10__gofkboQ/result.json",
+          "sha256": "56e49dc1210e839e68a550346dd1011637a9780345c7a5a9cdf84fea3c360e75"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030/caffe-cifar-10__gofkboQ/agent/bootstrap.json",
+          "sha256": "0256d0d014edd0ec4cde0e209dc02e20f807b269ad243938f203c3120b85bc9d"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "task_ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6",
+      "job": "dsh-dev34-install-pair-15-20261030",
+      "trial": "schemelike-metacircular-eval__sesEXMa",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-15-20261030.json",
+          "sha256": "7d3111e619275c66f4adad6cb420171e1d1c5ae80401b38288dc830874f313de"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030-input/manifest.json",
+          "sha256": "2c81a93d2ba080cb4bcc3c359eb10e95b4074eb5c324f2076fb5db330fab8942"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030-input/summary.json",
+          "sha256": "be4267f0ea72f63625f79ab7f8c43a598fb2eb358464564bda289a9b8e3db02b"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030/schemelike-metacircular-eval__sesEXMa/result.json",
+          "sha256": "a13296c3bbd5cfb2e2e6e7c0e37d360492178221e49a2cd868078abe876d7629"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-15-20261030/schemelike-metacircular-eval__sesEXMa/agent/bootstrap.json",
+          "sha256": "8c54bd5f6bda5759a824483e4799970db539ed9cb18f1b1962bf978e392bc02a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/circuit-fibsqrt",
+      "task_ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3",
+      "job": "dsh-dev34-install-pair-16-20261030",
+      "trial": "circuit-fibsqrt__6JWTyKR",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-16-20261030.json",
+          "sha256": "03782151798a8c423bf3dd80c0381749060f14443fa18573990d0a52cece5bc3"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030-input/manifest.json",
+          "sha256": "757978d6b034758a75027aac61264ae6eb72243da9338ffafdeae28cfa78051b"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030-input/summary.json",
+          "sha256": "40055254b4c8127df523ee89e946b0426f1f65b2935643c17bb447d5f40f3a5c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030/circuit-fibsqrt__6JWTyKR/result.json",
+          "sha256": "2a6b3a5ec5956d1249a5663543ac1149cb4a1fecfaadd0b7c34a6a1721939c60"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030/circuit-fibsqrt__6JWTyKR/agent/bootstrap.json",
+          "sha256": "933708cbc5cd3c97f336c849d1eee8af9f3b824eddd6aa7506dc53f1657d8247"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/mteb-leaderboard",
+      "task_ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c",
+      "job": "dsh-dev34-install-pair-16-20261030",
+      "trial": "mteb-leaderboard__KCD6tEf",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-16-20261030.json",
+          "sha256": "03782151798a8c423bf3dd80c0381749060f14443fa18573990d0a52cece5bc3"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030-input/manifest.json",
+          "sha256": "757978d6b034758a75027aac61264ae6eb72243da9338ffafdeae28cfa78051b"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030-input/summary.json",
+          "sha256": "40055254b4c8127df523ee89e946b0426f1f65b2935643c17bb447d5f40f3a5c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030/mteb-leaderboard__KCD6tEf/result.json",
+          "sha256": "06d54613223f16144e4d17d9c12e0a9061487bc4fffba4d0d146ef0e55cefdfb"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-16-20261030/mteb-leaderboard__KCD6tEf/agent/bootstrap.json",
+          "sha256": "8a30f5515bd2ccd7749dc2993f8a83b0b668c109ec78febbf08cad59e3b4caa1"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/build-pov-ray",
+      "task_ref": "sha256:4f08dab602fe2e9e2f42051cc6aef684a88cf2822e8b499b3ca19e670759fddb",
+      "job": "dsh-dev34-install-pair-17-20261030",
+      "trial": "build-pov-ray__TbS8MbA",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-17-20261030.json",
+          "sha256": "a0b54e31b9726f209c2972852b2ed83fc504600eace0db69d14235ef16e91e0a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030-input/manifest.json",
+          "sha256": "f8e99d12bdfa6699177b64203869a4cee08d713a5349a251f445a60eb6eddd80"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030-input/summary.json",
+          "sha256": "32a7d803060d971c6db5bfe036524455d3000efa4997f37f4e8887acc1d62e32"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030/build-pov-ray__TbS8MbA/result.json",
+          "sha256": "f9a470171cc88e6a3728a04b99d9ef0d9abf92d9768cc9e63cbdd93686b1582c"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030/build-pov-ray__TbS8MbA/agent/bootstrap.json",
+          "sha256": "0256d0d014edd0ec4cde0e209dc02e20f807b269ad243938f203c3120b85bc9d"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/regex-chess",
+      "task_ref": "sha256:e763e0ac1c9759081af0a4a82ba51b8cf9ae5485a93de3bbe42d7d344597bd78",
+      "job": "dsh-dev34-install-pair-17-20261030",
+      "trial": "regex-chess__3FtpzJU",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev34-20261030-orchestration/dsh-dev34-install-pair-17-20261030.json",
+          "sha256": "a0b54e31b9726f209c2972852b2ed83fc504600eace0db69d14235ef16e91e0a"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030-input/manifest.json",
+          "sha256": "f8e99d12bdfa6699177b64203869a4cee08d713a5349a251f445a60eb6eddd80"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030-input/summary.json",
+          "sha256": "32a7d803060d971c6db5bfe036524455d3000efa4997f37f4e8887acc1d62e32"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030/regex-chess__3FtpzJU/result.json",
+          "sha256": "a0d6f78c049b56f4ca2e954e982800a488134b1c3b3af8b1fbe10abc701e386d"
+        },
+        {
+          "path": "jobs/deepseek-harness-runtime-source/jobs/dsh-dev34-install-pair-17-20261030/regex-chess__3FtpzJU/agent/bootstrap.json",
+          "sha256": "62d476124327f88ea2dcd763179ac4379f3c0bb29655570666f2daa5437e8c86"
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,11 @@
 # DeepSeek Harness on the Pi 34-task development pool
 
-Status: the 34-task installation phase is running; no model trials
-have started. The official keyless SDK smoke and corrected WAL container
+Status: all 34 installation checks passed. Model execution has not started;
+using the existing Pi-configured DeepSeek credential is awaiting explicit
+maintainer authorization after automatic approval review blocked that source.
+The [preflight audit](preflight-evidence.json) records SDK initialization and
+process supervision success for every task, two passed verifier dependency
+profiles, and 32 explicitly unconfigured profiles. The official keyless SDK smoke and corrected WAL container
 installation smoke passed. The first WAL setup failure is preserved in
 [setup evidence](setup-evidence.json).
 
@@ -119,5 +123,5 @@ The frozen current adapter registers both `qemu-alpine-ssh-v1` and
 enforces both. The other 32 tasks have no registered verifier profile. This
 corrects the plan's descriptive profile fields only; it changes no execution,
 task, source, dependency, timeout, or model setting. The original plan and its
-execution registration remain immutable. QEMU's profile has passed; PyTorch's
-profile is running. Native bootstrap records determine the final status.
+execution registration remain immutable. Both QEMU's and PyTorch's dependency
+profiles passed their native preflight checks.
