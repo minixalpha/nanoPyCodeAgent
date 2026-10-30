@@ -128,6 +128,11 @@ batch by registered repository digest, verifies image identities, and evicts
 only image references absent from the run's initial inventory. It checks the
 actual Docker storage volume and never forces image or container deletion.
 
+The first [Pi + DeepSeek Flash dev34 report](reports/en/pi-deepseek-flash-dev34-20261024.md)
+preserves all 34 attempts, the supervision amendment, two unscored legacy
+timeouts, public-reference exposure, and partial accounting. It does not claim
+a complete, uncontaminated 34-task pass rate.
+
 ### Cache original task images
 
 If Docker image pulls repeatedly stall, the optional cache utility downloads the

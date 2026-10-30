@@ -1,8 +1,12 @@
 # Pi + DeepSeek Flash dev34 agent baseline
 
-**Status: six model attempts ended (three passes, one scored failure, two agent
-timeouts). Corrected-source installation checks are running for the remaining
-28 tasks before model execution resumes. Existing outputs remain unchanged.** After the
+**Status: all 34 model attempts finished. The audited outcomes are 26 official
+passes, six scored failures, and two unscored legacy timeout attempts. One pass
+followed confirmed cancellation at the time limit; another accessed public
+reference tests and a solution. No complete, uncontaminated 34-task pass rate
+is claimed.** See the complete [English report](../../reports/en/pi-deepseek-flash-dev34-20261024.md),
+[Simplified Chinese report](../../reports/zh-CN/pi-deepseek-flash-dev34-20261024.md),
+and [audited results](../../results/pi-deepseek-flash-dev34-20261024.json). After the
 October 27 repository relocation, the project volume had approximately 69 GiB
 free and Docker's system volume approximately 20 GiB. The active
 [v7 plan](experiment-v7.json) restores and verifies the original images one
@@ -20,16 +24,17 @@ checked against the October 19 registration. The other 55 tasks remain unopened.
 ## Frozen agent and model
 
 - Agent: upstream Pi **1.4.0**, using the existing local binary distribution.
-- Runtime adapter checkout: `jobs/runtime-source`, detached at
-  `d6ed70a5d6a1c5b0f9b6c9d20b4a1c2b49153f67`.
+- Runtime adapter checkouts: the first six attempts retain `jobs/runtime-source`,
+  detached at `d6ed70a5d6a1c5b0f9b6c9d20b4a1c2b49153f67`; the remaining
+  28 use `jobs/supervised-source`, detached at
+  `29db8d7abbbe5f1660b8fb4d7caeeb0d183dc64d`.
 - [Distribution manifest](pi-distribution.json): all files and permissions,
   pinned by `60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9`.
   This pins the installed local bytes; an upstream release archive checksum has
   not been independently checked. No Pi source or binary is modified.
 - Model: `deepseek/deepseek-flash`, through the official OpenAI-compatible API at
   `https://api.deepseek.com`.
-- Reasoning: **high**, provisionally selected pending maintainer preference,
-  before any model work. Temperature is unset.
+- Reasoning: **high**, selected before any model work. Temperature is unset.
 - [Public model configuration](pi-models.json): the local DeepSeek provider's
   capabilities and compatibility settings, with credentials replaced by the
   `${DEEPSEEK_API_KEY}` environment reference. No other provider is copied.
@@ -104,7 +109,8 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 ```
 
 Each invocation runs from the frozen runtime checkout. Native jobs and input
-manifests are stored under `jobs/runtime-source/jobs/`; orchestration state is
+manifests are stored under `jobs/runtime-source/jobs/` for the first six attempts
+and `jobs/supervised-source/jobs/` for the remaining 28; orchestration state is
 stored under `jobs/pi-deepseek-flash-dev34-20261029-supervision-v7-orchestration/`. Existing
 records cannot be overwritten. A previous interrupted job requires inspection.
 If preflight fails, preserve it and register any corrective installation check
@@ -113,10 +119,10 @@ separately before authorizing model work from the resulting evidence.
 During execution, inspect operational stages only. Freeze all 34 outputs before
 reviewing new task trajectories or hidden-test content. Keep setup and verifier
 errors separate from scored task failures. Once the run finishes, produce both
-complete English and Simplified Chinese reports together, plus audited results;
-no result report exists while the experiment remains unstarted.
+complete English and Simplified Chinese reports together, plus audited results.
+Both reports and the results are now complete; raw trajectories remain local.
 
-## Preparation evidence
+## Original preparation evidence (before execution)
 
 - The Harbor workflow suite passed **187 tests** before the final usage/error
   accounting changes; all **51 relevant tests** passed after those changes.
@@ -308,6 +314,30 @@ supervisor before the remaining model work. New model configurations require
 under `jobs/supervised-source/jobs/`. The original task ordering, Pi/model
 settings, per-task budgets, and concurrency limit remain unchanged.
 
-The first corrected-source installation pair completed successfully, including
-the new process-supervision startup probe. Remaining fresh checks continue
-before the 28-task model suffix; the original six attempts stay untouched.
+All 28 corrected-source installation checks completed successfully, including
+the process-supervision startup probe. The remaining 28 model attempts then
+finished without replaying or replacing any of the first six outputs.
+
+## Completed output freeze and audit
+
+The last model job finished at `2026-10-29T19:11:52.019151+00:00`. The
+[output freeze](outputs-freeze.json) hashed 1,449 files at
+`2026-10-30T13:54:30.827662+00:00`, before new solution/hidden-test-content
+review. All frozen hashes, source snapshots, task revisions, Pi distribution
+pins, public model configurations, pair barriers, and installation gates were
+verified. Final v7 plan validation passed. No model trial or verifier was retried.
+
+The standard summaries retain 25 normal passes, six normal scored failures,
+and three `AgentTimeoutError` execution errors. Caffe's corrected-source timeout
+acknowledged 13 stopped processes before all six official tests passed; the
+audit accepts its raw one while retaining its exception. Sampler and WAL retain
+raw zeros and analytically null outcomes because their old timeout boundaries
+are invalid/unverified. Sampler also suffered a verifier dependency error before
+pytest; this overlaps its boundary exclusion rather than adding another task.
+
+Pipeline parallelism's official pass is flagged because Pi downloaded and read
+public reference tests and a solution. WAL and the inference scheduler printed
+the provider key into four local event/session files. Raw traces and key values
+are not published; rotate the exposed key before another experiment. The full
+report pair documents these findings, partial usage, and differences from the
+historical Nano budget. All controllers and trial containers have exited.
