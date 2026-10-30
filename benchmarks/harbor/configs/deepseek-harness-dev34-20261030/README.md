@@ -37,8 +37,8 @@ reminders.
 All tasks require fresh installation-only checks before the model queue opens.
 These checks install hash-pinned SDK/runtime wheels and their Python
 dependencies, initialize the actual SDK profile/provider/model without a task
-prompt, and exercise the Linux process supervisor. QEMU additionally runs its
-reviewed verifier dependency profile. The other 33 verifier profiles are
+prompt, and exercise the Linux process supervisor. QEMU and PyTorch model
+recovery additionally run their reviewed verifier dependency profiles. The other 32 verifier profiles are
 explicitly `not_configured`; agent installation success does not certify them.
 
 The existing APT-index and original uv/Python release caches retain upstream
@@ -109,3 +109,15 @@ from the frozen source root. Native outputs and per-job input manifests remain
 under `jobs/deepseek-harness-runtime-source/jobs/`. Orchestration and image-cache
 events remain under `jobs/deepseek-harness-dev34-20261030-orchestration/`.
 The runner refuses to overwrite or replay previously started model jobs.
+
+## Verifier profile metadata correction
+
+The [metadata amendment](profile-metadata-amendment.json), registered before
+model work, corrects a historical Pi description copied into `experiment.json`.
+The frozen current adapter registers both `qemu-alpine-ssh-v1` and
+`pytorch-model-recovery-v1` for these selected revisions, and automatically
+enforces both. The other 32 tasks have no registered verifier profile. This
+corrects the plan's descriptive profile fields only; it changes no execution,
+task, source, dependency, timeout, or model setting. The original plan and its
+execution registration remain immutable. QEMU's profile has passed; PyTorch's
+profile is running. Native bootstrap records determine the final status.
