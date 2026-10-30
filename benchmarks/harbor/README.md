@@ -107,9 +107,18 @@ skills, and session history are not copied into task environments. Catalog
 refresh is disabled so the recorded model configuration remains reproducible.
 Installation-only checks validate the actual binary and provider registration
 without a model call and use the same reviewed verifier dependency profiles.
+They reject model-loading diagnostics even when Pi exits zero, and require the
+requested provider/model in the offline listing. Jobs with multiple Pi agents
+preserve distinct public configurations in immutable job-local files; the
+manifest records each `model_config_file` and its digest. Concurrent preparations
+reuse a verified distribution published by another process and clean staging
+directories on success or failure.
 Native sessions and completed JSON events remain in `agent/pi/` and `agent/pi.txt`.
 Usage includes compaction when Pi supplies it, and reported costs are estimates.
 Missing usage stays diagnosed. Pi does not currently generate an ATIF trajectory.
+Failed assistant streams with initialized zero usage remain unknown even if a
+native retry succeeds. Known token and cost subtotals are retained, with partial
+accounting flags for missing usage or cost.
 On Linux, the Pi command runs under a child subreaper. Cancellation stops its
 process tree, including detached tool sessions, before control returns to Harbor.
 Successful runs retain intentional background services. Set

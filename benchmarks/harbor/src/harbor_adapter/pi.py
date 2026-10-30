@@ -52,6 +52,17 @@ def read_model_config(path: Path) -> dict:
     return config
 
 
+def validate_model_registration(stdout: str, stderr: str, model_name: str) -> None:
+    """Pi can exit zero after rejecting models.json and using built-in models."""
+    requested = tuple(model_name.split("/", 1))
+    rows = {tuple(line.split()[:2]) for line in stdout.splitlines()}
+    if stderr.strip() or requested not in rows:
+        raise ValueError(
+            f"Pi model registration failed for {model_name}: "
+            f"{stderr.strip() or 'requested provider/model missing from listing'}"
+        )
+
+
 class PiCodeAgent(NanoPyCodeAgent):
     """Share verified dependencies/preflight, replacing Nano's install and run."""
 
@@ -110,11 +121,13 @@ class PiCodeAgent(NanoPyCodeAgent):
         ]))
         self._bootstrap_record["process_supervision_probe"] = "passed"
         # Validate the real binary and provider configuration without a model call.
-        await self.exec_as_agent(
+        _, model = self.model_name.split("/", 1)
+        listing = await self.exec_as_agent(
             environment,
-            command="/opt/harbor-pi/pi --offline --list-models deepseek-flash",
+            command=f"/opt/harbor-pi/pi --offline --list-models {shlex.quote(model)}",
             env={"PI_CODING_AGENT_DIR": "/tmp/harbor-pi-agent", "DEEPSEEK_API_KEY": "preflight-only"},
         )
+        validate_model_registration(listing.stdout, listing.stderr, self.model_name)
 
     @with_prompt_template
     async def run(self, instruction, environment, context) -> None:
@@ -202,8 +215,16 @@ class PiCodeAgent(NanoPyCodeAgent):
             if event.get("type") == "message_end" and message.get("role") == "assistant":
                 if message.get("stopReason") in {"error", "aborted"}:
                     errors.append(message.get("stopReason"))
-                if "usage" in message:
-                    usages.append(message["usage"])
+                usage = message.get("usage")
+                # Failed streams can retain Pi's initialized all-zero usage
+                # when the connection closes before the provider usage chunk.
+                unknown_failure_usage = message.get("stopReason") in {"error", "aborted"} and (
+                    not usage or not any(usage.get(key, 0) for key in (
+                        "input", "output", "cacheRead", "cacheWrite", "totalTokens",
+                    ))
+                )
+                if usage and not unknown_failure_usage:
+                    usages.append(usage)
                 else:
                     missing += 1
             elif event.get("type") == "compaction_end" and event.get("result"):
@@ -216,12 +237,13 @@ class PiCodeAgent(NanoPyCodeAgent):
             "version": self._pi_version, "usage_records": len(usages),
             "missing_usage_records": missing, "assistant_errors": errors,
             "cost_is_estimated": True,
-            "usage_is_partial": missing > 0 or interrupted,
+            "usage_is_partial": not usages or missing > 0 or interrupted,
+            "cost_is_partial": not usages or missing > 0 or interrupted,
         }
         if usages:
             context.n_input_tokens = sum(u.get("input", 0) + u.get("cacheRead", 0) + u.get("cacheWrite", 0) for u in usages)
             context.n_output_tokens = sum(u.get("output", 0) for u in usages)
             context.n_cache_tokens = sum(u.get("cacheRead", 0) for u in usages)
             costs = [u["cost"]["total"] for u in usages if "total" in u.get("cost", {})]
-            context.cost_usd = sum(costs) if len(costs) == len(usages) else None
+            context.cost_usd = sum(costs) if costs else None
             context.metadata["pi"]["cost_is_partial"] = missing > 0 or len(costs) != len(usages) or interrupted

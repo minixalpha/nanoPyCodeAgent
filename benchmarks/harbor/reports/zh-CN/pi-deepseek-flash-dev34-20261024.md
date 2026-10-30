@@ -202,3 +202,19 @@ uv run --project benchmarks/harbor python -m harbor_adapter run --config <config
 原生产物保存在忽略的 `jobs/runtime-source/jobs/` 和
 `jobs/supervised-source/jobs/` 下；报告和审计 JSON 构成可分享的 baseline 记录。
 完整英文与简体中文报告在同一变更中维护。
+
+## 运行后的工作流评审
+
+本轮结束后修正了四个可复现的工作流缺陷：模型加载警告即使返回零退出码也可能
+掩盖配置回退；多个 Pi 配置可能覆盖同一任务的快照；失败流初始化的零用量在
+重试成功后可能被标为完整；共享分发包首次并发发布可能使一次准备中止。
+回归测试在本轮评测使用的修正源码上复现了九个失败，更新后的完整 Harbor
+测试集 **238 项通过**。固定的 Pi 1.4.0 离线探针接受了已登记配置，并在不调用
+模型的情况下，拒绝了虽然退出码为零、但 `maxTokens` 无效的配置。
+
+[评审证据](../../configs/pi-deepseek-flash-dev34-20261024/review-fixes-evidence.json)
+记录了修复和归档检查。每个归档模型任务只有一个 Pi agent，使用已登记的有效
+公开模型配置；在检查的任务日志/事件中未发现模型加载警告或失败的零用量
+assistant 事件。全部 1,449 个冻结文件哈希仍匹配。原始评测源码、异常、用量、
+结论和结果 JSON 均保持不变；这些工作流修复用于后续运行，不表示重新运行过
+这份 baseline。

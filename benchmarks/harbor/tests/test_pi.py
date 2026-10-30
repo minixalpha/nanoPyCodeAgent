@@ -1,14 +1,19 @@
 """Pi provenance, native execution, and usage accounting contracts."""
 
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
+import errno
+import hashlib
 import json
 from pathlib import Path
+from threading import Barrier
 from types import SimpleNamespace
 
 import pytest
 from harbor.models.agent.context import AgentContext
 
 from harbor_adapter import PiCodeAgent
+from harbor_adapter import __main__ as workflow
 from harbor_adapter.__main__ import snapshot_pi, standard_config
 from harbor_adapter.pi import distribution_digest, distribution_files, read_model_config
 
@@ -43,6 +48,8 @@ class Environment:
         self.calls = []
         self.uploads = []
         self.completion = {"settled": True, "stop_reason": "stop"}
+        self.model_listing = "provider  model\ndeepseek  deepseek-flash\n"
+        self.model_warning = ""
 
     async def exec(self, **kwargs):
         self.calls.append(kwargs)
@@ -52,6 +59,8 @@ class Environment:
             stdout = "1.4.0\n"
         elif "; python3 -c " in command or "; python3 -I -c " in command:
             stdout = json.dumps(self.completion)
+        elif "--list-models" in command:
+            return SimpleNamespace(return_code=0, stdout=self.model_listing, stderr=self.model_warning)
         return SimpleNamespace(return_code=0, stdout=stdout, stderr="")
 
     async def upload_dir(self, source, target):
@@ -100,6 +109,73 @@ def test_changed_executable_permissions_and_symlinks_are_rejected(tmp_path, inpu
         distribution_files(root)
 
 
+def test_snapshot_preserves_distinct_model_settings_in_one_job(tmp_path, inputs):
+    first = SimpleNamespace(kwargs=inputs.copy())
+    alternate = tmp_path / "alternate-models.json"
+    models = json.loads(Path(inputs["model_config_path"]).read_text())
+    models["providers"]["deepseek"]["models"][0]["maxTokens"] = 1000
+    alternate.write_text(json.dumps(models))
+    second = SimpleNamespace(kwargs=inputs | {"model_config_path": str(alternate)})
+    record = tmp_path / "job-input"
+    record.mkdir()
+    manifests = [snapshot_pi(agent, tmp_path / "cache", record) for agent in [first, second]]
+    paths = [Path(agent.kwargs["model_config_path"]) for agent in [first, second]]
+    assert paths[0] != paths[1]
+    assert "maxTokens" not in json.loads(paths[0].read_text())["providers"]["deepseek"]["models"][0]
+    assert json.loads(paths[1].read_text())["providers"]["deepseek"]["models"][0]["maxTokens"] == 1000
+    for path, manifest in zip(paths, manifests):
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == manifest["model_config_sha256"]
+        assert record / manifest["model_config_file"] == path
+    third = SimpleNamespace(kwargs=inputs | {"model_config_path": str(alternate)})
+    snapshot_pi(third, tmp_path / "cache", record)
+    assert third.kwargs["model_config_path"] == str(paths[1])
+
+
+@pytest.mark.parametrize("same_record_name", [False, True])
+def test_concurrent_distribution_publication_reuses_verified_winner(tmp_path, inputs, monkeypatch, same_record_name):
+    barrier = Barrier(2)
+    copytree = workflow.shutil.copytree
+    original = Path(inputs["distribution_path"])
+
+    def stage_together(source, target, *args, **kwargs):
+        result = copytree(source, target, *args, **kwargs)
+        if Path(source) == original:
+            barrier.wait(timeout=5)
+        return result
+
+    monkeypatch.setattr(workflow.shutil, "copytree", stage_together)
+    records = [tmp_path / "a" / "job-input", tmp_path / "b" / ("job-input" if same_record_name else "other-input")]
+    for record in records:
+        record.mkdir(parents=True)
+    agents = [SimpleNamespace(kwargs=inputs.copy()) for _ in records]
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(snapshot_pi, agent, tmp_path / "cache", record) for agent, record in zip(agents, records)]
+        manifests = [future.result(timeout=10) for future in futures]
+    assert manifests[0] == manifests[1]
+    destination = Path(agents[0].kwargs["distribution_path"])
+    assert destination == Path(agents[1].kwargs["distribution_path"])
+    assert distribution_digest(distribution_files(destination)) == inputs["distribution_sha256"]
+    assert list(destination.parent.iterdir()) == [destination]
+
+
+def test_concurrent_cache_winner_is_rejected_if_corrupt(tmp_path, inputs, monkeypatch):
+    cache = tmp_path / "cache"
+    record = tmp_path / "job-input"
+    record.mkdir()
+    destination = cache / "pi-distributions" / inputs["distribution_sha256"]
+
+    def publish_corrupt_winner(source, target):
+        target.mkdir()
+        (target / "pi").write_text("corrupt")
+        (target / "package.json").write_text('{"version": "1.4.0"}')
+        raise OSError(errno.ENOTEMPTY, "Directory not empty")
+
+    monkeypatch.setattr(Path, "rename", publish_corrupt_winner)
+    with pytest.raises(ValueError, match="Cached Pi distribution is corrupt"):
+        snapshot_pi(SimpleNamespace(kwargs=inputs.copy()), cache, record)
+    assert list(destination.parent.iterdir()) == [destination]
+
+
 def test_install_verifies_binary_and_provider_without_calling_model(tmp_path, inputs):
     agent = adapter(tmp_path, inputs)
     env = Environment()
@@ -111,6 +187,31 @@ def test_install_verifies_binary_and_provider_without_calling_model(tmp_path, in
     assert env.calls[-1]["command"].endswith("--list-models deepseek-flash")
     assert env.calls[-1]["env"]["DEEPSEEK_API_KEY"] == "preflight-only"
     assert not any("--print" in call["command"] for call in env.calls)
+
+
+@pytest.mark.parametrize("listing,warning", [
+    ("provider model\ndeepseek deepseek-flash\n", "Warning: errors loading models.json: maxTokens must be number"),
+    ("No models found", ""),
+    ("provider model\nother deepseek-flash\n", ""),
+    ("provider model\ndeepseek other-model\n", ""),
+])
+def test_install_rejects_model_fallback_or_missing_registration(tmp_path, inputs, listing, warning):
+    environment = Environment()
+    environment.model_listing = listing
+    environment.model_warning = warning
+    with pytest.raises(ValueError, match="Pi model registration failed"):
+        asyncio.run(adapter(tmp_path, inputs).install(environment))
+    assert json.loads((tmp_path / "bootstrap.json").read_text())["status"] == "failed"
+
+
+def test_install_probes_the_requested_model_instead_of_a_fixed_id(tmp_path, inputs):
+    models = Path(inputs["model_config_path"])
+    models.write_text(models.read_text().replace('deepseek-flash', 'registered-alternate'))
+    agent = PiCodeAgent(logs_dir=tmp_path, model_name="deepseek/registered-alternate", **inputs)
+    environment = Environment()
+    environment.model_listing = "provider model\ndeepseek registered-alternate\n"
+    asyncio.run(agent.install(environment))
+    assert environment.calls[-1]["command"].endswith("--list-models registered-alternate")
 
 
 def test_install_refuses_modified_binary(tmp_path, inputs):
@@ -172,6 +273,55 @@ def test_missing_output_keeps_usage_unknown(tmp_path, inputs):
     adapter(tmp_path, inputs).populate_context_post_run(context)
     assert context.n_input_tokens is None
     assert context.cost_usd is None
+
+
+@pytest.mark.parametrize("stop_reason", ["error", "aborted"])
+def test_failed_stream_zero_usage_stays_partial_after_successful_retry(tmp_path, inputs, stop_reason):
+    (tmp_path / "process-supervision.json").write_text(json.dumps({"status": "completed", "return_code": 0}))
+    zero = {key: 0 for key in ["input", "output", "cacheRead", "cacheWrite", "totalTokens"]}
+    zero["cost"] = {"total": 0}
+    known = {"input": 10, "output": 5, "cacheRead": 20, "cost": {"total": .2}}
+    events = [{"type": "message_end", "message": {
+        "role": "assistant", "stopReason": reason,
+        "content": [{"type": "text", "text": "Streamed text"}], "usage": usage,
+    }} for reason, usage in [(stop_reason, zero), ("stop", known)]]
+    (tmp_path / "pi.txt").write_text("\n".join(map(json.dumps, events)))
+    context = AgentContext()
+    adapter(tmp_path, inputs).populate_context_post_run(context)
+    assert context.n_input_tokens == 30
+    assert context.n_output_tokens == 5
+    assert context.n_cache_tokens == 20
+    assert context.cost_usd == .2
+    assert context.metadata["pi"]["usage_records"] == 1
+    assert context.metadata["pi"]["missing_usage_records"] == 1
+    assert context.metadata["pi"]["usage_is_partial"] is True
+    assert context.metadata["pi"]["cost_is_partial"] is True
+
+
+def test_failed_stream_only_keeps_token_and_cost_totals_unknown(tmp_path, inputs):
+    (tmp_path / "pi.txt").write_text(json.dumps({"type": "message_end", "message": {
+        "role": "assistant", "stopReason": "error", "content": [{"type": "text", "text": "Partial"}],
+        "usage": {"input": 0, "output": 0, "cost": {"total": 0}},
+    }}))
+    context = AgentContext()
+    adapter(tmp_path, inputs).populate_context_post_run(context)
+    assert context.n_input_tokens is None
+    assert context.cost_usd is None
+    assert context.metadata["pi"]["usage_is_partial"] is True
+    assert context.metadata["pi"]["cost_is_partial"] is True
+
+
+def test_missing_cost_keeps_the_reported_cost_subtotal(tmp_path, inputs):
+    events = [{"type": "message_end", "message": {"role": "assistant", "usage": usage}} for usage in [
+        {"input": 10, "output": 5, "cost": {"total": .2}}, {"input": 10, "output": 5},
+    ]]
+    (tmp_path / "pi.txt").write_text("\n".join(map(json.dumps, events)))
+    context = AgentContext()
+    adapter(tmp_path, inputs).populate_context_post_run(context)
+    assert context.n_input_tokens == 20
+    assert context.cost_usd == .2
+    assert context.metadata["pi"]["usage_is_partial"] is False
+    assert context.metadata["pi"]["cost_is_partial"] is True
 
 
 def test_transport_cancellation_waits_for_root_process_cleanup(tmp_path, inputs, monkeypatch):

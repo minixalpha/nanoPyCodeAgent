@@ -2,6 +2,7 @@
 
 import argparse
 from datetime import datetime, timezone
+import errno
 import hashlib
 import json
 import os
@@ -9,6 +10,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tempfile
 from zipfile import ZipFile
 
 from harbor.models.job.config import JobConfig
@@ -85,20 +87,35 @@ def snapshot_pi(agent, cache: Path, record: Path) -> dict:
     destination = cache / "pi-distributions" / digest
     if not destination.exists():
         destination.parent.mkdir(parents=True, exist_ok=True)
-        temporary = destination.with_name(digest + ".tmp-" + record.name)
-        shutil.copytree(original, temporary)
-        if distribution_files(temporary) != files:
-            raise ValueError("Pi distribution changed while snapshotting")
-        temporary.rename(destination)
-    elif distribution_files(destination) != files:
+        with tempfile.TemporaryDirectory(prefix=digest + ".tmp-", dir=destination.parent) as temporary:
+            staged = Path(temporary) / "distribution"
+            shutil.copytree(original, staged)
+            if distribution_files(staged) != files:
+                raise ValueError("Pi distribution changed while snapshotting")
+            try:
+                staged.rename(destination)
+            except OSError as error:
+                if error.errno not in {errno.EEXIST, errno.ENOTEMPTY}:
+                    raise
+                # Another invocation published first. Validate its bytes below
+                # before reusing it; never overwrite a corrupt cache entry.
+    if distribution_files(destination) != files:
         raise ValueError("Cached Pi distribution is corrupt")
     public_models = read_model_config(Path(agent.kwargs["model_config_path"]))
+    model_bytes = (json.dumps(public_models, indent=2) + "\n").encode()
+    model_digest = hashlib.sha256(model_bytes).hexdigest()
     models = record / "pi-models.json"
-    models.write_text(json.dumps(public_models, indent=2) + "\n")
+    if models.exists() and models.read_bytes() != model_bytes:
+        models = record / f"pi-models-{model_digest}.json"
+    if models.exists():
+        if models.read_bytes() != model_bytes:
+            raise ValueError("Recorded Pi model configuration is corrupt")
+    else:
+        models.write_bytes(model_bytes)
     agent.kwargs.update(distribution_path=str(destination), model_config_path=str(models))
     return {
         "distribution_sha256": digest, "files": files,
-        "model_config_sha256": hashlib.sha256(models.read_bytes()).hexdigest(),
+        "model_config_file": models.name, "model_config_sha256": model_digest,
     }
 
 

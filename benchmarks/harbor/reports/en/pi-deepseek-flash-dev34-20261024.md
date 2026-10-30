@@ -230,3 +230,23 @@ audit. Native artifacts remain in ignored `jobs/runtime-source/jobs/` and
 `jobs/supervised-source/jobs/`; reports and audited JSON are the shareable
 baseline record. A complete English/Simplified Chinese report pair is maintained
 in the same change.
+
+## Post-run workflow review
+
+Four reproducible workflow defects were corrected after this run: zero-exit
+model-loading warnings could hide fallback settings; multiple Pi configurations
+could overwrite one job-local snapshot; failed streams with initialized zero
+usage could be labeled complete after a successful retry; and concurrent first
+publication of a shared distribution could abort one preparation. Regression
+tests reproduced nine failures against the evaluated corrected source, while
+the updated full Harbor suite passed **238 tests**. The pinned Pi 1.4.0 offline
+probe accepted the registered configuration and rejected an invalid `maxTokens`
+configuration despite its zero exit code, without a model call.
+
+The [review evidence](../../configs/pi-deepseek-flash-dev34-20261024/review-fixes-evidence.json)
+records the fixes and archive checks. Each archived model job had one Pi agent
+and the registered valid public model configuration; no model-loading warning
+or failed zero-usage assistant event was found in the checked job logs/events.
+All 1,449 frozen file hashes still match. The original evaluated sources,
+exceptions, usage, outcomes, and result JSON remain unchanged; these workflow
+fixes apply to future runs and do not imply that this baseline was rerun.
