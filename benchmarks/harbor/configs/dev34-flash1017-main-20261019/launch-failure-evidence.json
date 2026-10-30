@@ -1,0 +1,52 @@
+{
+  "collected_at": "2026-10-19T14:17:10.343381+00:00",
+  "original_plan": "experiment-v2.json",
+  "policy": "Preserve every failed launch. Supplemental jobs may only cover tasks with no native trial or model output; generated outputs and scored results are never replaced.",
+  "failed_launches": [
+    {
+      "task": "terminal-bench/git-multibranch",
+      "job": "dev34-1017-git-multibranch-main-20261019",
+      "classification": "launch_error_before_model",
+      "native_trial_results": 0,
+      "model_outputs": 0,
+      "stage": "registry_lookup",
+      "reason": "Host TLS/network connection failed before task execution.",
+      "evidence_sha256": {
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-git-multibranch-main-20261019.json": "3ccd84b057ba3dbc8bb517d9e8148d4b73a7f75709770952af7bef9f2103aa02",
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-git-multibranch-main-20261019.log": "83a71596b69f66e017e55b86971e74b4bd867262d81e3b9844edb20e074e91a3",
+        "jobs/main-source/jobs/dev34-1017-git-multibranch-main-20261019-input/harbor.log": "1667d71a6aea9f63b268b07433bff55c86f5d519ace2bf110e33d58fb6900c37",
+        "jobs/main-source/jobs/dev34-1017-git-multibranch-main-20261019-input/manifest.json": "77bed126c6acc050f7c390441c0b69673afc10c66976acc39600f32fd1297459",
+        "jobs/main-source/jobs/dev34-1017-git-multibranch-main-20261019-input/config.json": "528820d8642370dd93f64a6a7bf7068f005ae6fbc0d855dbf39bdb8aa4ab8823"
+      }
+    },
+    {
+      "task": "terminal-bench/kv-store-grpc",
+      "job": "dev34-1017-kv-store-grpc-main-20261019",
+      "classification": "launch_error_before_model",
+      "native_trial_results": 0,
+      "model_outputs": 0,
+      "stage": "registry_lookup",
+      "reason": "Host TLS/network connection failed before task execution.",
+      "evidence_sha256": {
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-kv-store-grpc-main-20261019.json": "d359bb106f3e23a3ef3e73156cc5f7594a0dc60cefffb5da4aa3ff3e5b4d9a12",
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-kv-store-grpc-main-20261019.log": "deeaa8da35c7499fac9262268a93833b20b58adc22c20e70e79017c10399f12a",
+        "jobs/main-source/jobs/dev34-1017-kv-store-grpc-main-20261019-input/harbor.log": "1667d71a6aea9f63b268b07433bff55c86f5d519ace2bf110e33d58fb6900c37",
+        "jobs/main-source/jobs/dev34-1017-kv-store-grpc-main-20261019-input/manifest.json": "a7912e4feac60685a27c953d2618c5fdd09d93b20983577a4e12b89e0afa7b75",
+        "jobs/main-source/jobs/dev34-1017-kv-store-grpc-main-20261019-input/config.json": "bb9bc3da8927365bfe312c4a5b0454cf2a78b83bb02728e7bf56d0bb01aca484"
+      }
+    },
+    {
+      "task": "terminal-bench/log-summary-date-ranges",
+      "job": "dev34-1017-log-summary-date-ranges-main-20261019",
+      "classification": "launch_error_before_model",
+      "native_trial_results": 0,
+      "model_outputs": 0,
+      "stage": "wheel_build",
+      "reason": "Host TLS/network connection failed before task execution.",
+      "evidence_sha256": {
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-log-summary-date-ranges-main-20261019.json": "6bd96070a09869ff104dee9e3e3d9fd11f3de8d30dad45d9ecc42313be78102f",
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-log-summary-date-ranges-main-20261019.log": "93f786a8169395ffdfd522c157244dd4a7948fcea967f723183538676d961135"
+      }
+    }
+  ]
+}

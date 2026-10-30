@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import shlex
 import signal
 import subprocess
 import sys
@@ -79,14 +80,49 @@ def dependency_download_failed(logs):
     )
 
 
-def run(command, timeout_sec, max_attempts, logs, control, retry_dependency_errors=False):
-    """Retry deadlines and, when enabled, pre-test dependency download failures."""
+def collection_failed(logs):
+    """Recognize aborted pytest collection without retrying executed test cases."""
+    for name in ("reward.txt", "reward.json"):
+        path = logs / name
+        if path.exists():
+            try:
+                value = (float(path.read_text()) if name.endswith(".txt")
+                         else json.loads(path.read_text()).get("reward"))
+            except (ValueError, TypeError, AttributeError):
+                return False
+            if value != 0:
+                return False
+    report = logs / "ctrf.json"
+    if report.exists():
+        try:
+            results = json.loads(report.read_text())["results"]
+            summary = results["summary"]
+            if summary["tests"] != 0 or any(
+                summary.get(key, 0) != 0 for key in ("passed", "failed", "skipped")
+            ) or results.get("tests"):
+                return False
+        except (ValueError, KeyError, TypeError, AttributeError):
+            return False
+    path = logs / "test-stdout.txt"
+    text = path.read_text(errors="replace") if path.exists() else ""
+    if re.search(r"\b\d+ (?:passed|failed|skipped|xfailed|xpassed)\b", text):
+        return False
+    return bool(
+        re.search(r"\bERROR collecting\b", text)
+        and re.search(r"Interrupted: \d+ errors? during collection", text)
+    )
+
+
+def run(command, timeout_sec, max_attempts, logs, control, retry_dependency_errors=False,
+        retry_collection_errors=False):
+    """Retry deadlines and explicitly authorized pre-assertion failures."""
     logs = Path(logs)
     control = Path(control)
     cancelled = control.with_suffix(".cancelled")
     attempts = []
     summary = {"timeout_sec": timeout_sec, "max_attempts": max_attempts,
-               "retry_dependency_errors": retry_dependency_errors, "attempts": attempts}
+               "retry_dependency_errors": retry_dependency_errors,
+               "retry_collection_errors": retry_collection_errors, "attempts": attempts}
 
     def interrupted(signum, frame):
         raise InterruptedError("Verifier execution cancelled")
@@ -122,6 +158,8 @@ def run(command, timeout_sec, max_attempts, logs, control, retry_dependency_erro
                     record["status"] = "completed"
                     if retry_dependency_errors and dependency_download_failed(logs):
                         record["status"] = "dependency_error"
+                    elif retry_collection_errors and collection_failed(logs):
+                        record["status"] = "collection_error"
                 except subprocess.TimeoutExpired:
                     _stop_process(process)
                     record["status"] = "timeout"
@@ -165,17 +203,85 @@ def cancel(control):
     raise RuntimeError("Verifier runner did not stop after cancellation")
 
 
+def run_batch(command, timeout_sec, max_attempts, logs, control, archive,
+              retry_dependency_errors=False, retry_collection_errors=False):
+    """Keep a new batch separate and restore the previous verifier evidence."""
+    logs, archive = Path(logs).resolve(), Path(archive).resolve()
+    if logs == archive or logs in archive.parents or archive in logs.parents:
+        raise ValueError("Batch archive must be outside the verifier directory")
+    archive.mkdir(parents=True, exist_ok=False)
+    original, current = archive / "original", archive / "verifier"
+    original.mkdir()
+    current.mkdir()
+    moved = []
+    try:
+        for path in list(logs.iterdir()):
+            shutil.move(str(path), original / path.name)
+            moved.append(path.name)
+    except BaseException:
+        for name in moved:
+            shutil.move(str(original / name), logs / name)
+        raise
+    try:
+        return run(command, timeout_sec, max_attempts, logs, control,
+                   retry_dependency_errors, retry_collection_errors)
+    finally:
+        try:
+            for path in list(logs.iterdir()):
+                shutil.move(str(path), current / path.name)
+        finally:
+            for name in moved:
+                shutil.move(str(original / name), logs / name)
+
+
+def run_prepared_batch(preparation_command, preparation_timeout, command,
+                       timeout_sec, max_attempts, logs, control, archive,
+                       retry_dependency_errors=False, retry_collection_errors=False):
+    """Prepare dependencies separately, then preserve the native verifier budget."""
+    preparation_logs = Path(str(archive) + "-dependencies")
+    preparation_logs.mkdir(parents=True, exist_ok=False)
+    preparation = run(
+        f"({preparation_command}) > {shlex.quote(str(preparation_logs / 'test-stdout.txt'))} 2>&1",
+        preparation_timeout, 1, preparation_logs, control,
+    )
+    result = {"preparation": preparation, "verification": None}
+    if preparation["status"] == "completed" and preparation["return_code"] == 0:
+        result["verification"] = run_batch(
+            command, timeout_sec, max_attempts, logs, control, archive,
+            retry_dependency_errors, retry_collection_errors,
+        )
+    return result
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "cancel":
         cancel(sys.argv[2])
     else:
         arguments = sys.argv[1:]
+        mode = arguments.pop(0) if arguments[0] in {"batch", "prepared-batch"} else None
+        archive = arguments.pop(0) if mode else None
+        if mode == "prepared-batch":
+            preparation_command, preparation_timeout = arguments[:2]
+            del arguments[:2]
         if len(arguments) == 5:
             command, timeout, count, logs, control = arguments
             retry_dependencies = False
-        else:
+            retry_collection = False
+        elif len(arguments) == 6:
             command, timeout, count, retry, logs, control = arguments
             retry_dependencies = retry == "1"
-        print(json.dumps(run(
+            retry_collection = False
+        else:
+            command, timeout, count, retry, collection, logs, control = arguments
+            retry_dependencies = retry == "1"
+            retry_collection = collection == "1"
+        if mode == "prepared-batch":
+            runner = lambda *args: run_prepared_batch(
+                preparation_command, float(preparation_timeout), *args[:5], archive, *args[5:])
+        else:
+            runner = run if archive is None else lambda *args: run_batch(
+                *args[:5], archive, *args[5:])
+        print(json.dumps(runner(
             command, float(timeout), int(count), logs, control, retry_dependencies,
+            retry_collection,
         )))

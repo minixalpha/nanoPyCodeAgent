@@ -20,6 +20,10 @@ class VerifierDependencyError(RuntimeError):
     """Authorized dependency-download recovery exhausted its attempt budget."""
 
 
+class VerifierCollectionError(RuntimeError):
+    """Authorized pytest collection recovery exhausted its attempt budget."""
+
+
 class AgentQuiescenceError(RuntimeError):
     """The installed agent did not establish a frozen execution boundary."""
 
@@ -45,13 +49,14 @@ class _RetryEnvironment:
     """Delegate Harbor operations, wrapping only the test-script execution."""
 
     def __init__(self, environment, command, timeout_sec, max_attempts, logger,
-                 retry_dependency_errors=False):
+                 retry_dependency_errors=False, retry_collection_errors=False):
         self._environment = environment
         self._command = command
         self._timeout_sec = timeout_sec
         self._max_attempts = max_attempts
         self._logger = logger
         self._retry_dependency_errors = retry_dependency_errors
+        self._retry_collection_errors = retry_collection_errors
 
     def __getattr__(self, name):
         return getattr(self._environment, name)
@@ -63,6 +68,7 @@ class _RetryEnvironment:
         invocation = shlex.join([
             "python3", "-c", _RUNNER, command, str(self._timeout_sec),
             str(self._max_attempts), str(int(self._retry_dependency_errors)),
+            str(int(self._retry_collection_errors)),
             "/logs/verifier", control,
         ])
         try:
@@ -87,6 +93,10 @@ class _RetryEnvironment:
             raise VerifierDependencyError(
                 f"Verifier dependency downloads failed after {self._max_attempts} attempts"
             )
+        if record["status"] == "collection_error":
+            raise VerifierCollectionError(
+                f"Verifier collection failed after {self._max_attempts} attempts"
+            )
         if record["status"] == "timeout":
             raise TimeoutError(
                 f"Verifier timed out after {self._max_attempts} attempts "
@@ -104,19 +114,23 @@ class RetryingVerifier(Verifier):
     """
 
     def __init__(self, *, max_attempts=3, retry_dependency_errors=False,
-                 require_agent_quiescence=False, **kwargs):
+                 retry_collection_errors=False, require_agent_quiescence=False,
+                 **kwargs):
         if type(max_attempts) is not int or not 1 <= max_attempts <= 3:
             raise ValueError("max_attempts must be an integer between 1 and 3")
         if type(retry_dependency_errors) is not bool:
             raise ValueError("retry_dependency_errors must be a boolean")
         if type(require_agent_quiescence) is not bool:
             raise ValueError("require_agent_quiescence must be a boolean")
+        if type(retry_collection_errors) is not bool:
+            raise ValueError("retry_collection_errors must be a boolean")
         super().__init__(**kwargs)
         if self.environment.os != TaskOS.LINUX or self.step_name is not None:
             raise ValueError("RetryingVerifier supports single-step Linux tasks")
         self._max_attempts = max_attempts
         self._retry_dependency_errors = retry_dependency_errors
         self._require_agent_quiescence = require_agent_quiescence
+        self._retry_collection_errors = retry_collection_errors
         self._attempt_timeout = self.task.config.verifier.timeout_sec
         if not math.isfinite(self._attempt_timeout) or self._attempt_timeout <= 0:
             raise ValueError("The task's verifier timeout must be finite and positive")
@@ -152,6 +166,7 @@ class RetryingVerifier(Verifier):
         self.environment = _RetryEnvironment(
             environment, command, self._attempt_timeout, self._max_attempts, self.logger,
             self._retry_dependency_errors,
+            self._retry_collection_errors,
         )
         try:
             return await super().verify()

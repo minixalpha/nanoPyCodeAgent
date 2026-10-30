@@ -1,0 +1,177 @@
+{
+  "checked_at": "2026-10-20T13:44:52.930641+00:00",
+  "original_baseline_path": "/home/minix/projects/nanoPyCodeAgent/jobs/dev34-flash1017-main-20261019/benchmarks/harbor/results/dev34-flash1017-main-20261019.json",
+  "original_baseline_sha256": "b107d3a48b7205bd092ceed12f5e6cf3ccdf8b65ffd7cddddeacb73ee0b9a0a5",
+  "original_baseline_publication_ref": "1ae6e05",
+  "original_aggregate": {
+    "tasks": 34,
+    "classifications": {
+      "passed": 26,
+      "scored_failure": 5,
+      "verifier_error": 3
+    },
+    "passed_fraction_of_pool": 0.7647058823529411,
+    "official_pytest_counts": {
+      "passed": 133,
+      "failed": 8,
+      "skipped": 0,
+      "errors": 1,
+      "xfailed": 0,
+      "xpassed": 0
+    },
+    "verifier_attempts": 37,
+    "verifier_retries": 3,
+    "wall_seconds": 15853.918955,
+    "estimated_known_cost_usd": 1.860998832,
+    "usage_incomplete_tasks": [],
+    "cost_incomplete_tasks": [],
+    "recorded_tokens": {
+      "prompt_tokens": 47814612,
+      "completion_tokens": 1153308,
+      "cached_tokens": 47167872
+    },
+    "assertion_cases": 141,
+    "collection_errors": 1,
+    "agent_trials_started": 34,
+    "host_launch_errors_before_model": 3
+  },
+  "workspace_inspection": "Docker reported no containers and no volumes before starting this supplemental experiment. Original artifact manifests contain empty /logs/artifacts directories only.",
+  "policy": "Preserve original baseline and native evidence unchanged. New solutions are separate trials, not original-output verifier retries.",
+  "trials": [
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "trial": "multi-source-data-merger__ovUnaUM",
+      "original_classification": "verifier_error",
+      "original_raw_reward": 0.0,
+      "original_analytical_score": null,
+      "original_verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 327.15425308000704
+        }
+      ],
+      "evidence_sha256": {
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/result.json": "bd84053547e596ad0f3a8285a80da37e3a22f0eae72f9fe831fea2d526888583",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/config.json": "32879386a7e47a3832e34f78fc25b31375362c8a98f7e94c2f97a56288ab0fda",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/agent/bootstrap.json": "5011ac5d6ab074bd66636cc77aae3a2d966293bcb051b929e7a9cb076f908948",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/agent/trajectory.json": "652ff7db3dd1b8f75a080cb68a12e9a7bbcb73b9ae245b4d52485487e901a424",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/agent/nanopycodeagent.txt": "cb5d1b6d5480a1e87a6236a04545f52a35296ede77de27c7fe9770edbfcc4acd",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/verifier/test-stdout.txt": "7690d05931b29fda94b3c858291f9a35e557ebbe826c715725fda790311dba46",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/verifier/retry-summary.json": "f637a457f9341eefc7e30edd19559bc31c0bca312791506f4320847b38cd5c53",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019-input/manifest.json": "7fda413bc1c8c6a57d8ab89a72c7f81a9b16f7fdc0140b03cd9c9696584be5ae",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019-input/config.json": "175d9eea47f437346fc37f27016c08a2fb591e4cd345044b6254f6e13ab7c701",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-multi-source-data-merger-main-20261019.json": "1fe2a8510681dc681b0d2145503b4bfb72b60fe667e6fd4c0fcd098324b3aa7e",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/verifier/attempts/1/test-stdout.txt": "7690d05931b29fda94b3c858291f9a35e557ebbe826c715725fda790311dba46",
+        "jobs/main-source/jobs/dev34-1017-multi-source-data-merger-main-20261019/multi-source-data-merger__ovUnaUM/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "artifact_manifest_sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "empty",
+          "service": null
+        }
+      ],
+      "original_workspace_available": false
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "trial": "pytorch-model-cli__t73XoLw",
+      "original_classification": "verifier_error",
+      "original_raw_reward": 0.0,
+      "original_analytical_score": null,
+      "original_verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 133.28830967300746
+        }
+      ],
+      "evidence_sha256": {
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/result.json": "4847cac28aefa9154528ed40833214b4401c0065e2eee64aeeb8bdec6ec0fbb1",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/config.json": "b80389d25c6b68223471bb82b4ca1c5f47bedd16e6de6c7ad08887957e8ab398",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/agent/bootstrap.json": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/agent/trajectory.json": "9baf56afbccfcb6f39ab2df5c5c7f21b7684783d5f32fee2693897f337bfe446",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/agent/nanopycodeagent.txt": "c689bf519d6c856396aa49c03dfb0a1bb65ad9dd46eb905372df6f595ca00872",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/verifier/ctrf.json": "0383370176312a002520c110ff53a75664836ed3d627225fd93b76ccd89f9166",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/verifier/test-stdout.txt": "dad670fa7c0265c95408dc5f33e01b4dc9d164574ab5e6625b75ecb289bc306f",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/verifier/retry-summary.json": "9d5e42ed1f72ed1b2bbe1de2724041d8f06eec6bc2e79cad5b52b49131d0ed5b",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019-input/manifest.json": "84502d6134216bcf9b867ed4a206b237fd14dc7a204b226888e75a64fc11ce97",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019-input/config.json": "1b9e5409dc8e2c45449188a96cd3b0399cd99a60900dda4569273848f19ee407",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-pytorch-model-cli-main-20261019.json": "98e3548ee417240c814b98bb07b6dd53a772e83e30e6f555f32565c7dc18ebe1",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/verifier/attempts/1/test-stdout.txt": "dad670fa7c0265c95408dc5f33e01b4dc9d164574ab5e6625b75ecb289bc306f",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/verifier/attempts/1/ctrf.json": "0383370176312a002520c110ff53a75664836ed3d627225fd93b76ccd89f9166",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-cli-main-20261019/pytorch-model-cli__t73XoLw/verifier/attempts/1/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "artifact_manifest_sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "empty",
+          "service": null
+        }
+      ],
+      "original_workspace_available": false
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "trial": "pytorch-model-recovery__hogG9gA",
+      "original_classification": "verifier_error",
+      "original_raw_reward": null,
+      "original_analytical_score": null,
+      "original_verifier_attempts": [
+        {
+          "attempt": 1,
+          "status": "timeout",
+          "duration_seconds": 900.0023410760041
+        },
+        {
+          "attempt": 2,
+          "status": "timeout",
+          "duration_seconds": 900.0023236230045
+        },
+        {
+          "attempt": 3,
+          "status": "timeout",
+          "duration_seconds": 900.00202244299
+        }
+      ],
+      "evidence_sha256": {
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/result.json": "8cd798fd024cae52b15271b61516416a3697d9bb4e834a4f03e46878ea9df759",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/config.json": "fedb449dfc06e5ee34620f44b69539990d5753834b8c0de95ac9a355a8146fb3",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/agent/bootstrap.json": "8b0838a69434e306576e34c0c21d5a7cfc4d98960b8a69a0b1bc58c387078567",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/agent/trajectory.json": "7e4230a06c24c1751916117887130adcfc70429a5f4995669df5fc4afc479b4f",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/agent/nanopycodeagent.txt": "5dee8328da08df739c2285b303ffc9349c305d1b803232d82d68e56d3a6a6925",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/verifier/test-stdout.txt": "d20478d9b2f2a8527862c484b10fd0140c8f86bfa1c587967131dd9c7e998c8d",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/verifier/retry-summary.json": "386028e2e0fa4b477bd4342345e31bd3cdf2377d60cad33e5218d09777e0f43a",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019-input/manifest.json": "992ab17d7c24c8e82ee153e98c5aee1805a191faa57bfab0a5693481ee44cb6f",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019-input/config.json": "4f6cd8791bdb04ff12ed8d1ae1786a1f947298490305e509c0badc0fb02feaaf",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019-input/working-tree.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "jobs/dev34-1017-main-20261019-v2-orchestration/dev34-1017-pytorch-model-recovery-main-20261019.json": "b71e4cca26a8670fcc6294e6744ac49a6d7cbb56661253122d15df8bbbde9da8",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/verifier/attempts/1/test-stdout.txt": "90a456f12a085a8bf4fc5c23c00a01426f771f06a0d62623cf805cf5e57e0c64",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/verifier/attempts/2/test-stdout.txt": "9cff11e64d1ca45fcd585def9798cb2aa91d8908fc88350f24af3a770b909927",
+        "jobs/main-source/jobs/dev34-1017-pytorch-model-recovery-main-20261019/pytorch-model-recovery__hogG9gA/verifier/attempts/3/test-stdout.txt": "d20478d9b2f2a8527862c484b10fd0140c8f86bfa1c587967131dd9c7e998c8d"
+      },
+      "artifact_manifest_sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "empty",
+          "service": null
+        }
+      ],
+      "original_workspace_available": false
+    }
+  ]
+}

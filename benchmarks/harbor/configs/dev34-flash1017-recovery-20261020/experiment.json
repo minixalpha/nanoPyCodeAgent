@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "registered_at": "2026-10-20T13:42:17.189951+00:00",
+  "experiment": "dev34-flash1017-recovery-20261020",
+  "separate_from": "dev34-flash1017-main-20261019",
+  "original_baseline_ref": "ce28b1e826a292d796ba64f13e79199b66f65758",
+  "authorization": "The user explicitly selected three fresh agent trials, one new solution per task, retained workspaces, at most three verifier attempts, and separate reporting from the original baseline.",
+  "model": "deepseek/deepseek-flash",
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "provider_checkpoint": {
+    "api_model": "deepseek-flash",
+    "reported_checkpoint": "DeepSeek-V4.1-Flash-1017",
+    "verification": "Official documentation checked before execution maps deepseek-flash to this checkpoint; the API alias is not an immutable checkpoint pin.",
+    "checked_at": "2026-10-20T13:42:17.189959+00:00",
+    "sources": [
+      "https://api-docs.deepseek.com/quick_start/agent_integrations/",
+      "https://api-docs.deepseek.com/news/news261017/"
+    ]
+  },
+  "arms": {
+    "recovery": {
+      "source_root": "jobs/runtime-source",
+      "source_ref": "40fdd041c370a96dc06f86b436eacc01ce1566d7",
+      "prompt_file": "main-prompt.txt",
+      "prompt_sha256": "37c4d9d44640c0051dc5a20e5954a067b98e8c51be07a48f080aa059e725c55d",
+      "prompt_words": 385,
+      "core_agent_matches_ref": "ce28b1e826a292d796ba64f13e79199b66f65758"
+    }
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/multi-source-data-merger:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-processing",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "9bf37162a4c1b88ed93627830bb8512ebae154325d7cb069c883144a0e4c69d6",
+        "environment/Dockerfile": "c95a40d3d35b473dc15ae1e8784ba7fb1725805c0583fc574dd2764325d75e4f",
+        "environment/data/source_a/users.json": "75e51e2d3ab0bdba2269d7cf3757576f84f3ee2c13407d2db94289a5958a1778",
+        "environment/data/source_b/users.csv": "8e87d16dc47d166edd8e56165955bad265b630d53d02762367c816affb5fa760",
+        "environment/data/source_c/users.parquet": "23d1ea51c4170bdba53febb885a0f495e28de525a52667347b2932136b9a72fe",
+        "instruction.md": "d1d28bb6e37f7a255a1b7f78aae8591f35c0494f33e4913392424ad954aab944",
+        "solution/solve.sh": "1b3d0d50e31930d042495d48f4c8e95f1a9c1a979c803b7f7cec651322537e1e",
+        "task.toml": "ee3964c0ee040f0a0cb121cefefbc15443d127684acb003fa5b61dd42f31c694",
+        "tests/test.sh": "d5a00e64413c0e1ae452f38a1aa1a47c3ed7b4416bbfccae1a4c053025a336d1",
+        "tests/test_outputs.py": "a070888930cf829aeca039771260b1386bda990ea805f313468d381ba3608ca5"
+      }
+    },
+    {
+      "name": "terminal-bench/pytorch-model-cli",
+      "ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pytorch-model-cli:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "model-training",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "35a093fa5f1592737784ba718c2e3e9ae17ff8b5e53e003fae560ddce091039c",
+        "environment/Dockerfile": "8fd5c0f21a6914cd440d10c84c9db06fec606f20dc3e0363b17a3b8c220dc4d9",
+        "environment/task-deps/cJSON.c": "0e7995261640c96db16ed2c91a5d981efa917cf5e72d0f97ec45a1179ae3ad73",
+        "environment/task-deps/cJSON.h": "0909160541bcc510e0b2d8c7a9cc051fa1459a0f13be4d8e56346a15491f2f2f",
+        "environment/task-deps/image.png": "f4d5dfefe463939996541404340e7099d5957b56e1df3760d13b5d2de754db53",
+        "environment/task-deps/lodepng.cpp": "67873c5f6272f779a143a9c81070e8783327c5552d0b9de2aaee2cb779308917",
+        "environment/task-deps/lodepng.h": "b735b7e0357319973e9488d520d7f270d734a6e9e1bf924fb1d5b8d26d7e97ce",
+        "environment/task-deps/model.pth": "a32103eef09936e586b1a7dc7e64d279500a38ff30fdd6df2167e28eb954eee6",
+        "environment/task-deps/model.py": "e4d3a5c728449656d0efde7871ee227619348352769795ed1be1a8b7f835fddc",
+        "instruction.md": "ce36ee1f6c589f81ee6a6be4967e25c76a2ed697006928023f42dfb9f28a6750",
+        "solution/solve.sh": "3b34e561c9ef0a53c9948655847846eb4811aaac67b990480aa6aac1b04bfe66",
+        "task.toml": "fc1c018efbd5d0537ac0741d53d1ebad3886faa51d14cbde8ec953856411bc0d",
+        "tests/test.sh": "43fb67e537c7adc2df11c2367f47c876cb5d16a7c1ae16d0339c3a3364bb2b06",
+        "tests/test_outputs.py": "370702c57a4e0c85f70ee37a5c357ae3a5df8480a275bb6263b0376f2f6c093b"
+      }
+    },
+    {
+      "name": "terminal-bench/pytorch-model-recovery",
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "native_agent_timeout_seconds": 900,
+      "work_budget_seconds": 720,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pytorch-model-recovery:20260430",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "model-training",
+      "verifier_dependency_profile": "not_configured",
+      "task_file_sha256": {
+        "README.md": "e080308a05703b40edd16f53aea41a0e6b9874750ecee35bb432029d0d44bf53",
+        "environment/Dockerfile": "8a6b7edbb9e7c241e447f15a71e13e5d043b25169be2fd9802b84f5be3d56eb6",
+        "environment/dataset.pt": "6db65e4ec1c0760209c2dd997ef582e4a1519ab38e0312339999c460a696960d",
+        "environment/weights.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080",
+        "instruction.md": "2bef07dc28be3ab2c35ae389584034c2e4dde92c2c31b3eb6bd829628c8c3f4a",
+        "solution/solve.sh": "175a7802777b43e0fa4f629d71f7c68fb40706813c342aaddc72108d89bd5b2c",
+        "task.toml": "851a51204f53482a31f47cdf8833128cf421113b0331011286940fc857c37dfd",
+        "tests/test.sh": "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e",
+        "tests/test_outputs.py": "5d4d57c43e6913bf3d0081da764ad36d1b7275e3bb114a05abda529afe563905",
+        "tests/weights_gtruth.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080"
+      }
+    }
+  ],
+  "max_concurrent_trials": 2,
+  "whole_trial_retries": 0,
+  "total_model_runs": 3,
+  "verifier_policy": {
+    "max_attempts": 3,
+    "timeout_seconds": 900,
+    "retry_dependency_errors": true,
+    "retry_collection_errors": true,
+    "stop_on_valid_score": true,
+    "same_container_and_output": true,
+    "test_scripts_unchanged": true
+  },
+  "retention": {
+    "environment_delete": false,
+    "pre_verifier_artifacts": [
+      "/app",
+      "/data for merger only"
+    ],
+    "raw_evidence": "Git-ignored jobs/; solution files, stopped containers, every verifier attempt, and input snapshots retained."
+  },
+  "preflight": [
+    {
+      "arm": "recovery",
+      "config": "benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/install-only.json",
+      "config_sha256": "cf48a0614d74c2af65064071d45ee0be866157b22c332634793e07cf3b75c909",
+      "job_name": "dev3-1017-install-only-recovery-20261020"
+    }
+  ],
+  "queue": [
+    {
+      "arm": "recovery",
+      "task": "terminal-bench/multi-source-data-merger",
+      "config": "benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/multi-source-data-merger.json",
+      "config_sha256": "114e9fddd1072c38a730cb9c60200db17b9470938a2acc52436512e9c631402d",
+      "job_name": "dev3-1017-multi-source-data-merger-recovery-20261020"
+    },
+    {
+      "arm": "recovery",
+      "task": "terminal-bench/pytorch-model-cli",
+      "config": "benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/pytorch-model-cli.json",
+      "config_sha256": "7f734468d91f253547a47cc15f7876d49176bc3efac8a29c79cf43d1c8e8356d",
+      "job_name": "dev3-1017-pytorch-model-cli-recovery-20261020"
+    },
+    {
+      "arm": "recovery",
+      "task": "terminal-bench/pytorch-model-recovery",
+      "config": "benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/pytorch-model-recovery.json",
+      "config_sha256": "d2768117c84a90260d88b2e443b88fcec70b8bdce778e7ffd64ae51bc53b29bb",
+      "job_name": "dev3-1017-pytorch-model-recovery-recovery-20261020"
+    }
+  ],
+  "log_dir": "jobs/dev3-1017-recovery-20261020-orchestration",
+  "additional_file_sha256": {
+    "benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/dependency-cache.compose.json": "310dfa6b358b8f2fa5144d4ac1b64822810f68f8b655335aa7d3f8fe2e39bfe4",
+    "benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/apt-cache.conf": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+    "benchmarks/harbor/configs/dev34-flash1017-recovery-20261020/dependency-release-manifest.json": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+    "benchmarks/harbor/scripts/apt_index_proxy.py": "bc15f7adf1d7968d627ceca4683ab86742a7188a1b1955ba1fef37ba48e8a936",
+    "benchmarks/harbor/scripts/uv_release_cache.py": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+    "benchmarks/harbor/scripts/cache_image.py": "639709c03a7b0c3eb6aa78b4e87e6184b49b4b102853a31e33dd832d759180c0"
+  },
+  "review_policy": "Freeze all three new model outputs before examining their trajectories, artifacts, or official test contents. Monitor only phase metadata, infrastructure logs, and host resources while running.",
+  "interpretation": "New independently generated solutions with authorized recovery; these cannot regrade the deleted original workspaces or overwrite original baseline results. Tasks have prior development exposure; this is not a held-out evaluation."
+}

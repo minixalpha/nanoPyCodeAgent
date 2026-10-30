@@ -82,7 +82,8 @@ class LocalEnvironment:
 
 
 def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3, include_logs=None,
-                  exclude_logs=None, retry_dependency_errors=False):
+                  exclude_logs=None, retry_dependency_errors=False,
+                  retry_collection_errors=False):
     task_dir = tmp_path / "task"
     (task_dir / "tests").mkdir(parents=True)
     (task_dir / "instruction.md").write_text("Write the solution.")
@@ -96,7 +97,8 @@ def make_verifier(tmp_path, script, *, mounted=True, max_attempts=3, include_log
         verifier=VerifierConfig(
             import_path="harbor_adapter:RetryingVerifier",
             kwargs={"max_attempts": max_attempts,
-                    "retry_dependency_errors": retry_dependency_errors},
+                    "retry_dependency_errors": retry_dependency_errors,
+                    "retry_collection_errors": retry_collection_errors},
             include_logs=include_logs or [], exclude_logs=exclude_logs or [],
         ),
     )
@@ -232,6 +234,77 @@ echo 0 > "$LOGS/reward.txt"
 def test_invalid_dependency_retry_flags_are_rejected(value):
     with pytest.raises(ValueError, match="retry_dependency_errors"):
         RetryingVerifier(retry_dependency_errors=value)
+
+
+@pytest.mark.parametrize("mounted", [True, False])
+def test_authorized_collection_retries_stop_on_executed_failure(tmp_path, mounted):
+    verifier, _, _ = make_verifier(tmp_path, '''
+count=$(cat "$STATE" 2>/dev/null || echo 0)
+count=$((count + 1))
+echo "$count" > "$STATE"
+if [ "$count" -lt 3 ]; then
+    echo 'ERROR collecting tests/test_output.py'
+    echo 'Interrupted: 1 error during collection'
+    echo '{"results":{"summary":{"tests":0,"passed":0,"failed":0}}}' > "$LOGS/ctrf.json"
+else
+    echo '1 failed in 0.01s'
+    echo '{"results":{"summary":{"tests":1,"failed":1}}}' > "$LOGS/ctrf.json"
+fi
+echo 0 > "$LOGS/reward.txt"
+''', mounted=mounted, retry_collection_errors=True)
+    assert asyncio.run(verifier.verify()).rewards == {"reward": 0}
+    assert [r["status"] for r in summary(verifier)["attempts"]] == [
+        "collection_error", "collection_error", "completed",
+    ]
+    assert (verifier.trial_paths.verifier_dir / "attempts/1/reward.txt").exists()
+
+
+def test_exhausted_collection_errors_are_unscored(tmp_path):
+    from harbor_adapter.verifier import VerifierCollectionError
+
+    verifier, _, _ = make_verifier(tmp_path, '''
+echo 'ERROR collecting tests/test_output.py'
+echo 'Interrupted: 1 error during collection'
+echo 0 > "$LOGS/reward.txt"
+''', retry_collection_errors=True)
+    with pytest.raises(VerifierCollectionError, match="3 attempts"):
+        asyncio.run(verifier.verify())
+    assert len(summary(verifier)["attempts"]) == 3
+    assert not verifier.trial_paths.reward_text_path.exists()
+    assert (verifier.trial_paths.verifier_dir / "attempts/3/reward.txt").exists()
+
+
+@pytest.mark.parametrize("guard", [
+    'echo "1 failed in 0.1s"',
+    'echo "1 passed in 0.1s"',
+    'echo \'{"results":{"summary":{"tests":1}}}\' > "$LOGS/ctrf.json"',
+    'echo "{}" > "$LOGS/ctrf.json"',
+    'echo 1 > "$LOGS/reward.txt"',
+])
+def test_collection_retries_never_replace_executed_scores(tmp_path, guard):
+    verifier, _, _ = make_verifier(tmp_path, '''
+echo 'ERROR collecting tests/test_output.py'
+echo 'Interrupted: 1 error during collection'
+echo 0 > "$LOGS/reward.txt"
+''' + guard + "\n", retry_collection_errors=True)
+    asyncio.run(verifier.verify())
+    assert len(summary(verifier)["attempts"]) == 1
+
+
+def test_collection_recovery_is_disabled_by_default(tmp_path):
+    verifier, _, _ = make_verifier(tmp_path, '''
+echo 'ERROR collecting tests/test_output.py'
+echo 'Interrupted: 1 error during collection'
+echo 0 > "$LOGS/reward.txt"
+''')
+    assert asyncio.run(verifier.verify()).rewards == {"reward": 0}
+    assert len(summary(verifier)["attempts"]) == 1
+
+
+@pytest.mark.parametrize("value", [1, "true", None])
+def test_invalid_collection_retry_flags_are_rejected(value):
+    with pytest.raises(ValueError, match="retry_collection_errors"):
+        RetryingVerifier(retry_collection_errors=value)
 
 
 @pytest.mark.parametrize("mounted", [True, False])
