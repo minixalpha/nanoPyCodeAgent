@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-30T14:55:28.216309+00:00",
+  "review_target": "PR #54 at 0168e32fc9c976aa18cc49d7fd680399b0e5da6d",
+  "findings": [
+    {
+      "priority": 2,
+      "finding": "Pi can warn and fall back to built-in models while exiting zero.",
+      "fix": "Reject model-loading diagnostics and require the exact requested provider/model in the offline listing."
+    },
+    {
+      "priority": 2,
+      "finding": "Multiple Pi agents can overwrite a shared job-local model snapshot.",
+      "fix": "Preserve distinct immutable configuration files and record each model_config_file plus its SHA256."
+    },
+    {
+      "priority": 2,
+      "finding": "Failed streams can retain initialized zero usage and appear complete after native retry success.",
+      "fix": "Diagnose zero-usage failed assistant messages as unknown, keep known subtotals, and mark usage/cost partial."
+    },
+    {
+      "priority": 2,
+      "finding": "Concurrent first publication of a shared distribution can fail on rename or staging-name collision.",
+      "fix": "Use unique staging directories, atomically publish, verify and reuse a concurrent winner, reject corrupt bytes, and clean temporary directories."
+    }
+  ],
+  "validation": {
+    "full_harbor_tests_passed": 238,
+    "pi_tests_passed": 26,
+    "old_source_regression_failures": 9,
+    "old_source_ref": "29db8d7abbbe5f1660b8fb4d7caeeb0d183dc64d",
+    "old_source_regression_command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=jobs/supervised-source/benchmarks/harbor/src jobs/harbor-supervised-runtime-venv/bin/python -B -m pytest benchmarks/harbor/tests/test_pi.py -q --tb=no -p no:cacheprovider -k \"model_fallback_or_missing_registration or preserves_distinct_model_settings or failed_stream_zero_usage or concurrent_distribution_publication\"",
+    "full_suite_command": "PYTHONPATH=benchmarks/harbor/src jobs/harbor-supervised-runtime-venv/bin/python -m pytest benchmarks/harbor/tests -q",
+    "pinned_pi_1_4_0_offline_probe": [
+      {
+        "configuration": "registered",
+        "pi_exit_code": 0,
+        "accepted": true
+      },
+      {
+        "configuration": "invalid maxTokens string",
+        "pi_exit_code": 0,
+        "accepted": false
+      }
+    ],
+    "model_calls": 0
+  },
+  "archived_baseline_checks": {
+    "model_jobs": 34,
+    "agents_per_model_job": 1,
+    "public_model_config_sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+    "all_archived_public_model_config_hashes_match": true,
+    "model_loading_warning_tasks": [],
+    "failed_zero_usage_event_tasks": [],
+    "frozen_files_rehashed": 1449,
+    "freeze_sha256": "76b775d898bbb84b21f80eee1061806d7d949465f9eef60dcab6dedeb326734b",
+    "results_sha256": "b85d3bf2b0ea9661940f0e6b08e3bea71b2c41ae34da5c89f9ecd5197c6c8ff5",
+    "results_unchanged": true,
+    "native_outputs_or_frozen_sources_modified": false,
+    "model_trials_replayed": 0
+  },
+  "changed_source_sha256": {
+    "benchmarks/harbor/src/harbor_adapter/pi.py": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+    "benchmarks/harbor/src/harbor_adapter/__main__.py": "06f230f53a74bbafdb4958d6649cb5e277d6a7e48ae7ee003c6967717c723000",
+    "benchmarks/harbor/tests/test_pi.py": "31a454c063b3f6f3c74de7816aa854a3f7a625f5e2c18da08857086d47df512b"
+  },
+  "interpretation": "These are post-run workflow fixes. Original source pins, raw outcomes, usage, exceptions, and analytical baseline results remain unchanged. No reviewed defect was observed to change the archived model-job results. Existing timeout integrity exceptions and answer/credential exposure caveats still apply."
+}

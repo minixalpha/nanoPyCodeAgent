@@ -152,3 +152,192 @@ def test_redirect_does_not_forward_registry_authorization():
     assert redirected.get_header("Range") == "bytes=0-2"
     with pytest.raises(ValueError, match="HTTPS"):
         cache_image.SafeRedirect().redirect_request(request, None, 307, "", {}, "http://cdn.docker.com/blob")
+
+
+def test_registry_refreshes_expiring_token_before_later_ranges(monkeypatch):
+    clock = [0]
+    tokens = []
+    def get(url, headers=None, limit=None):
+        if url.startswith("https://auth.docker.io/"):
+            token = f"token-{len(tokens)}"
+            tokens.append(token)
+            return 200, {}, json.dumps({"token": token, "expires_in": 300}).encode()
+        return 206, {}, headers["Authorization"].encode()
+    monkeypatch.setattr(cache_image, "get", get)
+    monkeypatch.setattr(cache_image.time, "monotonic", lambda: clock[0])
+    auth = cache_image.RegistryAuth("example/task")
+    assert auth.get("blob")[2] == b"Bearer token-0"
+    clock[0] = 271
+    assert auth.get("blob")[2] == b"Bearer token-1"
+    assert len(tokens) == 2
+
+
+def test_registry_refreshes_once_on_unauthorized_and_preserves_range(monkeypatch):
+    calls = []
+    tokens = iter(["old", "new"])
+    def get(url, headers=None, limit=None):
+        if url.startswith("https://auth.docker.io/"):
+            return 200, {}, json.dumps({"token": next(tokens)}).encode()
+        calls.append(headers.copy())
+        if headers["Authorization"] == "Bearer old":
+            raise cache_image.RegistryHTTPError(401)
+        return 206, {}, b"abc"
+    monkeypatch.setattr(cache_image, "get", get)
+    assert cache_image.RegistryAuth("example/task").get("blob", {"Range": "bytes=0-2"})[2] == b"abc"
+    assert [call["Range"] for call in calls] == ["bytes=0-2", "bytes=0-2"]
+
+
+def test_registry_does_not_refresh_indefinitely_or_on_rate_limits(monkeypatch):
+    for status, expected_calls in [(401, 2), (429, 1)]:
+        calls = []
+        def get(url, headers=None, limit=None):
+            if url.startswith("https://auth.docker.io/"):
+                return 200, {}, b'{"token":"token"}'
+            calls.append(url)
+            raise cache_image.RegistryHTTPError(status)
+        monkeypatch.setattr(cache_image, "get", get)
+        with pytest.raises(cache_image.RegistryHTTPError) as error:
+            cache_image.RegistryAuth("example/task").get("blob")
+        assert error.value.status == status
+        assert len(calls) == expected_calls
+
+
+def test_http_diagnostic_does_not_expose_signed_url(monkeypatch):
+    secret_url = "https://cdn.example/blob?signature=private"
+    class Opener:
+        def open(self, *args, **kwargs):
+            raise cache_image.HTTPError(secret_url, 401, "unauthorized", {}, None)
+    monkeypatch.setattr(cache_image, "build_opener", lambda *args: Opener())
+    with pytest.raises(cache_image.RegistryHTTPError) as error:
+        cache_image.get(secret_url)
+    assert str(error.value) == "Registry request failed: HTTP 401"
+    assert "private" not in str(error.value)
+
+
+def fixture_index(raw, platforms=None):
+    child = descriptor(raw, cache_image.MANIFEST_TYPES[0])
+    platforms = platforms or [{"os": "linux", "architecture": "amd64"}, {"os": "linux", "architecture": "arm64"}]
+    return json.dumps({"schemaVersion": 2, "mediaType": cache_image.INDEX_TYPES[1],
+                       "manifests": [{**child, "platform": platform} for platform in platforms]}).encode()
+
+
+def test_index_archive_preserves_parent_child_and_native_layers(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    index = fixture_index(raw)
+    output = tmp_path / "indexed.tar"
+    cache_image.write_archive(tmp_path, "example/task:version", raw, output, root_index=index)
+    with tarfile.open(output) as archive:
+        reference = json.load(archive.extractfile("index.json"))["manifests"][0]
+        assert reference["digest"] == cache_image.sha(index)
+        assert archive.extractfile("blobs/sha256/" + cache_image.sha(index).split(":")[1]).read() == index
+        assert archive.extractfile("blobs/sha256/" + cache_image.sha(raw).split(":")[1]).read() == raw
+        for item in json.loads(raw)["layers"]:
+            assert cache_image.sha(archive.extractfile("blobs/sha256/" + item["digest"].split(":")[1]).read()) == item["digest"]
+
+
+@pytest.mark.parametrize("platforms", [
+    [{"os": "linux", "architecture": "arm64"}],
+    [{"os": "linux", "architecture": "amd64"}] * 2,
+    [{"os": "linux", "architecture": "amd64", "variant": "v3"}],
+    [{"os": "windows", "architecture": "amd64"}],
+])
+def test_index_rejects_missing_or_ambiguous_native_platform(platforms):
+    with pytest.raises(ValueError, match="exactly one Linux amd64"):
+        cache_image.native_descriptor(json.loads(fixture_index(b"child", platforms)))
+
+
+def test_index_rejects_a_different_native_manifest(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    with pytest.raises(ValueError, match="differs from its original index"):
+        cache_image.write_archive(tmp_path, "example/task:version", raw, tmp_path / "image.tar",
+                                  root_index=fixture_index(b"different manifest"))
+    assert not (tmp_path / "image.tar").exists()
+
+
+def test_registry_index_loads_selected_child_by_digest_and_keeps_parent_pin(tmp_path, monkeypatch):
+    raw = fixture_manifest(tmp_path)
+    index = fixture_index(raw)
+    requests = []
+    def get(url, headers=None, limit=None):
+        requests.append(url)
+        if url.startswith("https://auth.docker.io/"):
+            return 200, {}, b'{"token":"anonymous-token"}'
+        body = index if url.endswith("/version") else raw
+        return 200, {"Docker-Content-Digest": cache_image.sha(body)}, body
+    monkeypatch.setattr(cache_image, "get", get)
+    cache_image.cache_image("example/task:version", tmp_path)
+    assert requests[-1].endswith("/manifests/" + cache_image.sha(raw))
+    lock = json.loads((tmp_path / "example_task_version.json").read_text())
+    assert lock["manifest_digest"] == cache_image.sha(index)
+    with tarfile.open(tmp_path / "example_task_version.oci.tar") as archive:
+        assert json.load(archive.extractfile("index.json"))["manifests"][0]["digest"] == cache_image.sha(index)
+
+
+def fixture_attested_index(cache, native_raw):
+    index = json.loads(fixture_index(native_raw))
+    index["manifests"][1].update(digest=cache_image.sha(b"absent ARM manifest"), size=19)
+    config = put(cache, b'{"architecture":"unknown","os":"unknown","rootfs":{"type":"layers","diff_ids":[]}}', "application/vnd.oci.image.config.v1+json")
+    payload = put(cache, b'{"_type":"https://in-toto.io/Statement/v0.1"}', "application/vnd.in-toto+json")
+    raw = json.dumps({"schemaVersion": 2, "mediaType": cache_image.MANIFEST_TYPES[1],
+                      "config": config, "layers": [payload]}).encode()
+    attestation = put(cache, raw, cache_image.MANIFEST_TYPES[1])
+    attestation.update(platform={"os": "unknown", "architecture": "unknown"},
+                       annotations={"vnd.docker.reference.type": "attestation-manifest",
+                                    "vnd.docker.reference.digest": cache_image.sha(native_raw)})
+    absent = {**attestation, "digest": cache_image.sha(b"absent ARM attestation"),
+              "annotations": {"vnd.docker.reference.type": "attestation-manifest",
+                              "vnd.docker.reference.digest": index["manifests"][1]["digest"]}}
+    index["manifests"].extend([attestation, absent])
+    return json.dumps(index).encode(), attestation, [config, payload]
+
+
+def test_index_preserves_native_attestations_without_fetching_other_platforms(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    index, attestation, metadata = fixture_attested_index(tmp_path, raw)
+    assert cache_image.native_attestations(json.loads(index)) == [attestation]
+    output = tmp_path / "attested.tar"
+    cache_image.write_archive(tmp_path, "example/task:version", raw, output, root_index=index)
+    with tarfile.open(output) as archive:
+        for item in [attestation, *metadata]:
+            blob = archive.extractfile("blobs/sha256/" + item["digest"].split(":")[1]).read()
+            assert cache_image.sha(blob) == item["digest"]
+        for item in [json.loads(index)["manifests"][1], json.loads(index)["manifests"][3]]:
+            assert "blobs/sha256/" + item["digest"].split(":")[1] not in archive.getnames()
+
+
+def test_index_refuses_corrupt_attestation_payload(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    index, _, metadata = fixture_attested_index(tmp_path, raw)
+    cache_image.blob_path(tmp_path, metadata[1]).write_bytes(b"corrupt")
+    with pytest.raises(ValueError, match="size mismatch|SHA256 mismatch"):
+        cache_image.write_archive(tmp_path, "example/task:version", raw, tmp_path / "bad.tar", root_index=index)
+
+
+def test_attestation_metadata_is_never_treated_as_an_executable_image(tmp_path):
+    raw = fixture_manifest(tmp_path)
+    with pytest.raises(ValueError, match="in-toto"):
+        cache_image.attestation_blobs(raw)
+
+
+def test_registry_fetches_native_attestation_graph_and_skips_arm_graph(tmp_path, monkeypatch):
+    raw = fixture_manifest(tmp_path)
+    index, attestation, metadata = fixture_attested_index(tmp_path, raw)
+    bodies = {cache_image.sha(raw): raw}
+    for item in [attestation, *metadata]:
+        path = cache_image.blob_path(tmp_path, item)
+        bodies[item["digest"]] = path.read_bytes()
+        path.unlink()
+    requests = []
+    def get(url, headers=None, limit=None):
+        requests.append(url)
+        if url.startswith("https://auth.docker.io/"):
+            return 200, {}, b'{"token":"anonymous-token"}'
+        body = index if url.endswith("/version") else bodies[url.rsplit("/", 1)[1]]
+        return 200, {"Docker-Content-Digest": cache_image.sha(body)}, body
+    monkeypatch.setattr(cache_image, "get", get)
+    cache_image.cache_image("example/task:version", tmp_path)
+    assert any(url.endswith("/manifests/" + attestation["digest"]) for url in requests)
+    for item in metadata:
+        cache_image.verify(cache_image.blob_path(tmp_path, item), item)
+    for item in [json.loads(index)["manifests"][1], json.loads(index)["manifests"][3]]:
+        assert not any(url.endswith(item["digest"]) for url in requests)

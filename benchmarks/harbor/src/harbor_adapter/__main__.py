@@ -2,6 +2,7 @@
 
 import argparse
 from datetime import datetime, timezone
+import errno
 import hashlib
 import json
 import os
@@ -9,11 +10,16 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tempfile
 from zipfile import ZipFile
 
 from harbor.models.job.config import JobConfig
 
 from .bootstrap import AptCache, default_cache_dir
+from .pi import distribution_digest, distribution_files, read_model_config
+
+_NANO = "harbor_adapter:NanoPyCodeAgent"
+_PI = "harbor_adapter:PiCodeAgent"
 
 
 def standard_config(raw: dict) -> JobConfig:
@@ -50,20 +56,67 @@ def standard_config(raw: dict) -> JobConfig:
         raise ValueError("Select at least one agent and one trial attempt")
     for agent in config.agents:
         identifiers = [value for value in (agent.import_path, agent.name) if value]
-        if not identifiers or any(
-            value != "harbor_adapter:NanoPyCodeAgent" for value in identifiers
-        ):
-            raise ValueError("The standard workflow requires harbor_adapter:NanoPyCodeAgent")
-        if agent.env or set(agent.kwargs) - {
-            "max_turns", "max_tokens", "time_budget_seconds",
-        }:
+        if not identifiers or len(set(identifiers)) != 1 or identifiers[0] not in {_NANO, _PI}:
+            raise ValueError("The standard workflow requires a repository benchmark adapter")
+        allowed = ({"max_turns", "max_tokens", "time_budget_seconds"}
+                   if identifiers[0] == _NANO else {
+                       "distribution_path", "distribution_sha256", "model_config_path", "thinking",
+                   })
+        if agent.env or set(agent.kwargs) - allowed:
             raise ValueError(
                 "Pass model credentials through the environment; "
-                "agent kwargs may only set budgets"
+                "agent kwargs must use the adapter's supported public settings"
             )
+        if identifiers[0] == _PI:
+            required = {"distribution_path", "distribution_sha256", "model_config_path"}
+            if not required <= agent.kwargs.keys():
+                raise ValueError("Pi requires a hash-pinned distribution and public model config")
+            read_model_config(Path(agent.kwargs["model_config_path"]))
         if not agent.model_name:
             raise ValueError("Each agent requires an explicit model_name")
     return config
+
+
+def snapshot_pi(agent, cache: Path, record: Path) -> dict:
+    """Share one content-addressed binary snapshot across the full task pool."""
+    original = Path(agent.kwargs["distribution_path"]).expanduser().resolve()
+    files = distribution_files(original)
+    digest = distribution_digest(files)
+    if digest != agent.kwargs["distribution_sha256"]:
+        raise ValueError("Pi distribution differs from its registered SHA256")
+    destination = cache / "pi-distributions" / digest
+    if not destination.exists():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix=digest + ".tmp-", dir=destination.parent) as temporary:
+            staged = Path(temporary) / "distribution"
+            shutil.copytree(original, staged)
+            if distribution_files(staged) != files:
+                raise ValueError("Pi distribution changed while snapshotting")
+            try:
+                staged.rename(destination)
+            except OSError as error:
+                if error.errno not in {errno.EEXIST, errno.ENOTEMPTY}:
+                    raise
+                # Another invocation published first. Validate its bytes below
+                # before reusing it; never overwrite a corrupt cache entry.
+    if distribution_files(destination) != files:
+        raise ValueError("Cached Pi distribution is corrupt")
+    public_models = read_model_config(Path(agent.kwargs["model_config_path"]))
+    model_bytes = (json.dumps(public_models, indent=2) + "\n").encode()
+    model_digest = hashlib.sha256(model_bytes).hexdigest()
+    models = record / "pi-models.json"
+    if models.exists() and models.read_bytes() != model_bytes:
+        models = record / f"pi-models-{model_digest}.json"
+    if models.exists():
+        if models.read_bytes() != model_bytes:
+            raise ValueError("Recorded Pi model configuration is corrupt")
+    else:
+        models.write_bytes(model_bytes)
+    agent.kwargs.update(distribution_path=str(destination), model_config_path=str(models))
+    return {
+        "distribution_sha256": digest, "files": files,
+        "model_config_file": models.name, "model_config_sha256": model_digest,
+    }
 
 
 def summarize(job_dir: Path, *, install_only: bool = False) -> dict:
@@ -111,16 +164,23 @@ def run(args) -> int:
     record.chmod(0o700)
     source = record / "source"
     shutil.copytree(root / "benchmarks/harbor/src/harbor_adapter", source / "harbor_adapter", ignore=shutil.ignore_patterns("__pycache__"))
-    shutil.copytree(root / "src/nanopycodeagent", source / "nanopycodeagent", ignore=shutil.ignore_patterns("__pycache__"))
-    subprocess.run(["uv", "build", "--wheel", "--out-dir", str(record / "dist")], check=True)
-    wheel, = (record / "dist").glob("*.whl")
-    with ZipFile(wheel) as archive:
-        for path in (source / "nanopycodeagent").rglob("*.py"):
-            if archive.read(path.relative_to(source).as_posix()) != path.read_bytes():
-                raise ValueError("Source changed during preparation; prepare a new job")
     cache = args.cache_dir.expanduser().resolve()
+    wheel = None
+    if any((agent.import_path or agent.name) == _NANO for agent in config.agents):
+        shutil.copytree(root / "src/nanopycodeagent", source / "nanopycodeagent", ignore=shutil.ignore_patterns("__pycache__"))
+        subprocess.run(["uv", "build", "--wheel", "--out-dir", str(record / "dist")], check=True)
+        wheel, = (record / "dist").glob("*.whl")
+        with ZipFile(wheel) as archive:
+            for path in (source / "nanopycodeagent").rglob("*.py"):
+                if archive.read(path.relative_to(source).as_posix()) != path.read_bytes():
+                    raise ValueError("Source changed during preparation; prepare a new job")
+    pi_inputs = []
     for agent in config.agents:
-        agent.kwargs.update(wheel_path=str(wheel), bootstrap_cache=str(cache))
+        if (agent.import_path or agent.name) == _PI:
+            pi_inputs.append(snapshot_pi(agent, cache, record))
+        else:
+            agent.kwargs["wheel_path"] = str(wheel)
+        agent.kwargs["bootstrap_cache"] = str(cache)
     config_path = record / "config.json"
     config_path.write_text(config.model_dump_json(indent=2) + "\n")
     manifest = {
@@ -129,9 +189,11 @@ def run(args) -> int:
         "branch": subprocess.check_output(["git", "branch", "--show-current"], text=True).strip(),
         "source_kind": "working tree including uncommitted files",
         "source_sha256": {str(p.relative_to(source)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(source.rglob("*.py"))},
-        "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest(),
+        "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest() if wheel else None,
         "cache_dir": str(cache),
     }
+    if pi_inputs:
+        manifest["pi_inputs"] = pi_inputs
     (record / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     (record / "working-tree.patch").write_bytes(subprocess.check_output(["git", "diff", "HEAD"]))
     print(f"Prepared {record}", flush=True)

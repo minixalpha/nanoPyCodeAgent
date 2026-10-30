@@ -76,6 +76,46 @@ uv 0.9.5、Python 3.13、pytest 8.4.1 和 pytest-json-ctrf 0.3.5，不执行题�
 通过不能保证后续没有网络故障。完整标准运行默认启用下述验证超时重试，整题重试
 次数为零。CI 会验证这些约定，不调用模型、不启动 Docker。
 
+### Pi agent baseline
+
+同一个标准入口也支持 `harbor_adapter:PiCodeAgent`。在 agent kwargs 中用
+`distribution_path` 和 `distribution_sha256` 注册本地未修改的 Pi 二进制发行包，
+用 `model_config_path` 指定公开模型配置，并可选设置 `thinking`。
+摘要覆盖发行包内每个文件及其权限。工作流会在共享缓存中保存一份按内容寻址的
+发行包快照，安装前再次校验，并为每个任务记录文件清单与公开模型配置。
+Pi 使用原生提示词、工具、上下文压缩和重试行为；不会构建或安装 nanoPyCodeAgent wheel。
+
+目前该 adapter 支持 DeepSeek 官方 OpenAI 兼容 API。公开模型文件必须引用
+`${DEEPSEEK_API_KEY}`，真实密钥通过进程环境提供。个人 Pi 配置、扩展、skills
+和历史会话不会复制到任务环境。禁用模型目录自动更新，以保证已记录的配置可复现。
+仅安装检查会验证实际二进制和模型注册，不调用模型，并沿用相同的已审阅 verifier
+依赖 profile。原生会话及完整事件保存在 `agent/pi/` 和 `agent/pi.txt`。
+即使 Pi 返回零退出码，模型加载诊断也会导致检查失败；离线列表必须包含请求的
+provider/model。同一任务中多个 Pi agent 的不同公开配置会分别保存为不可变的
+任务本地文件，清单记录各自的 `model_config_file` 和摘要。并发准备会复用其他
+进程已发布且通过核验的分发包，成功或失败后均清理暂存目录。
+用量统计在 Pi 提供数据时包含上下文压缩；费用为估算值，缺失用量会单独标注。
+Pi 目前不生成 ATIF trajectory。
+失败的 assistant 流即使随后通过原生重试成功，其初始化的零用量仍视为未知。
+保留已知 token 和费用小计，并对缺失用量或费用设置不完整标记。
+在 Linux 上，Pi 命令由 child subreaper 托管。取消执行时，运行器会先停止整个
+进程树（包括工具创建的独立会话），再将控制权交回 Harbor。正常完成的任务仍可
+保留有意启动的后台服务。设置 `verifier.kwargs.require_agent_quiescence=true`
+后，执行官方断言前必须有正常完成或已确认取消的进程托管记录；记录缺失或不完整
+时停止评分。安装检查会在不调用模型的前提下验证运行器；中断执行的用量和费用
+总计会标记为部分数据。
+
+比较运行器支持 Pi arm，以及先安装检查、再执行模型队列的 `--phase all`。
+注册的 `minimum_free_disk_bytes` 会在空间不足时阻止启动新任务。
+已有任务和失败尝试均保留。各 agent 的预算差异必须在实验中说明，不能假设原生默认值相同。
+Docker 空间受限时，可以通过 `batch_images` 计划按批恢复已注册 repository digest
+对应的镜像、验证镜像身份，并仅清理本轮初始清单中不存在的镜像引用。
+运行器会检查 Docker 实际存储分区，且不会强制删除镜像或容器。
+
+首份 [Pi + DeepSeek Flash dev34 报告](reports/zh-CN/pi-deepseek-flash-dev34-20261024.md)
+保留了全部 34 次尝试、进程托管修正、两次不评分的旧超时、公开参考材料接触和
+不完整用量统计，不宣称完整且无答案接触的 34 题通过率。
+
 ### 缓存原始任务镜像
 
 如果 Docker 拉取镜像反复停滞，可用缓存工具从同一 Docker Hub 公共仓库分段并行下载：
@@ -91,12 +131,21 @@ python benchmarks/harbor/scripts/cache_image.py \
 生成的 [OCI 归档](https://github.com/opencontainers/image-spec/blob/main/image-layout.md)
 逐字节保留原始 manifest、配置和压缩层；Docker 导入后必须保留原始仓库摘要。
 
-该 Linux 工具支持使用 gzip 层和 SHA256 描述符的公共单平台 `linux/amd64` 镜像。
-`--load` 需要 Docker 的 containerd 镜像存储。同一缓存目录同时只允许一个写入进程；
+该 Linux 工具支持使用 gzip 层和 SHA256 描述符的公共 `linux/amd64` 镜像。
+对于 OCI index 和 Docker manifest list，会保留未修改的父索引及唯一的本机平台
+镜像 manifest，只下载该平台的层。本机镜像关联的 attestation 会保留原始 manifest、
+配置和 in-toto payload，并逐个校验摘要。其他平台及其 attestation 仍由原始索引引用，
+但不会下载它们的 blob。Docker 显式加载本机平台，并且必须保留原始父索引的仓库摘要。
+`--load` 需要 Docker 的 containerd 镜像存储及按平台导入能力。
+同一缓存目录同时只允许一个写入进程；
 `--workers` 控制分段请求并发数，默认 8、最多 16。下载中断后可复用已完成的对象和分段，
 完整对象会重新校验。请将 manifest 锁定记录纳入实验的证据归档。
 这个步骤只准备 Docker 镜像缓存；随后仍需使用标准 benchmark 入口并执行安装预检，
 之前出现的环境启动失败应单独保留。
+
+大镜像传输会在匿名 registry 令牌到期前刷新令牌，并在收到 HTTP 401 后刷新一次。
+中断的传输会复用已保存的分段，导入前仍校验完整 blob 摘要。
+HTTP 错误仅报告状态码，不暴露带签名的 URL。
 
 ### 缓存不可变的 APT 索引
 

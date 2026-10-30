@@ -1,0 +1,316 @@
+{
+  "verified_at": "2026-10-29T13:56:06.008725+00:00",
+  "plan": "experiment-v6.json",
+  "installation_checks_passed": 34,
+  "registered_verifier_profiles_passed": 1,
+  "verifier_profiles_not_configured": 33,
+  "policy": "All 34 native installation-only results pass strict source, distribution, task, bootstrap, and input-config provenance checks. No model call or official task assertion occurred in these installation trials. QEMU is the only reviewed verifier profile.",
+  "accepted_trials": [
+    {
+      "arm": "pi",
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-01-20261027/adaptive-rejection-sampler__6Te54Hh/result.json",
+      "result_sha256": "bede3ee33bf8c4c86efeace98fdf7b9c8f84599b4aa28d2c53fa7b02998b153e",
+      "bootstrap_sha256": "107a57050bf7a93be2c59cc0bcd284fb89f8b9d55747bcf56d6b1492058adb12",
+      "manifest_sha256": "96526880f69848f9b5dda5eede68be14bdf1573066a0ac719d281abb38d34a6a",
+      "input_config_sha256": "b93fb995c12eb836d3041fec030ae61ce43c325964bfbf94e0f39f2231b6464c"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/build-cython-ext",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-01-20261027/build-cython-ext__SoCrSf2/result.json",
+      "result_sha256": "417646b0f96760e99dd3c06d279ce1a5dfa17dae092db405d27d7865ae1cb224",
+      "bootstrap_sha256": "5e97300cf8ae1a899444962ea6a72d0776d7808f7217f645bf4897bac3bc0a7a",
+      "manifest_sha256": "96526880f69848f9b5dda5eede68be14bdf1573066a0ac719d281abb38d34a6a",
+      "input_config_sha256": "b93fb995c12eb836d3041fec030ae61ce43c325964bfbf94e0f39f2231b6464c"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/cancel-async-tasks",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-02-20261027/cancel-async-tasks__4MwHm6o/result.json",
+      "result_sha256": "245f6ffa301f4436f3bf9af3e73c5115eb009890af20b3b8bfcb4ecf381908c5",
+      "bootstrap_sha256": "e36d9db211f82d053f323119da6c0481f2e54c4574c2ff416a549a21cee9ee11",
+      "manifest_sha256": "957281108108cbb73f2540dd3c1dcd3cf7950892697efd2be95c230625c4e2da",
+      "input_config_sha256": "30720241f994771105113fff7dadd8e15713bb659edf367227a320c9b2e4d1f0"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/cobol-modernization",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-02-20261027/cobol-modernization__4x6hSTu/result.json",
+      "result_sha256": "6eba0295f874d2f0584ad1f2756bd3b8da93382f596adae8ee2b75310973f6a3",
+      "bootstrap_sha256": "58a0ffcdf92c941f982406666f7a28dc75c6c2d0ec3ad00ee53a061b0a5ea929",
+      "manifest_sha256": "957281108108cbb73f2540dd3c1dcd3cf7950892697efd2be95c230625c4e2da",
+      "input_config_sha256": "30720241f994771105113fff7dadd8e15713bb659edf367227a320c9b2e4d1f0"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/db-wal-recovery",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-03-20261027/db-wal-recovery__dfqafBo/result.json",
+      "result_sha256": "9b9219d3b76f2adb01bf4ecd00ba4755e6d57e75405b515163eb37adfed301bb",
+      "bootstrap_sha256": "cda890350d8f5d3436179f88f57b28bb479344e1092eed4c0183b83188de87d5",
+      "manifest_sha256": "9c80a452fa536e61e9c630b73e138f6034d7124ace63f9cd20576aa09956dfd6",
+      "input_config_sha256": "a3bd8d582eaa6a2627fb9fad25377b7edd8fa24400454592e1b2714825e656f2"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/fix-code-vulnerability",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-03-20261027/fix-code-vulnerability__PFUMwfw/result.json",
+      "result_sha256": "4c6a58f9c956638e2ea51654e86096e94209ff079e6a60d192340e3baf995f7a",
+      "bootstrap_sha256": "8f35283650fc595d50197361773886d6e38dd32a3536630691181dce490ad32e",
+      "manifest_sha256": "9c80a452fa536e61e9c630b73e138f6034d7124ace63f9cd20576aa09956dfd6",
+      "input_config_sha256": "a3bd8d582eaa6a2627fb9fad25377b7edd8fa24400454592e1b2714825e656f2"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/git-multibranch",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-04-20261027/git-multibranch__eQv2sNb/result.json",
+      "result_sha256": "84cd3c8c13dc436aeded24d289172eb5945dd288da7847bf2b53d6bffc9663ad",
+      "bootstrap_sha256": "1720e3c5fb724d4c6e97a1ee62e8b770141860b4d113115e449d2e0cb04a9d84",
+      "manifest_sha256": "501839c542a32f566b7cdc1ef5cad8bc4e95f6582d2fc581e453ae8c492155f3",
+      "input_config_sha256": "60b13db69aff59276b54e200bcae55c0e1b479e8673caa85753a7f2f23c002aa"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/kv-store-grpc",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-04-20261027/kv-store-grpc__tFkuA9x/result.json",
+      "result_sha256": "d79fa8a665c2a07cb94abfc7a10253e4252a9c110117b0a9b6b12219f1efa5b2",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "501839c542a32f566b7cdc1ef5cad8bc4e95f6582d2fc581e453ae8c492155f3",
+      "input_config_sha256": "60b13db69aff59276b54e200bcae55c0e1b479e8673caa85753a7f2f23c002aa"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/log-summary-date-ranges",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-05-20261027/log-summary-date-ranges__84sKwfB/result.json",
+      "result_sha256": "669bc907ae427deec28a9c94aeedb9bb7e9242c8df70c706ff7f23f9abc29601",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "4ca9dc31f6cdcf0c3b3b3669dfeb5b5801967ae33b2f45f3e6014bf94cc83c30",
+      "input_config_sha256": "9845efd14817cc92ee85e66788e9e915a5b2a5aa51f63e745b0d43c1f14c5496"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/merge-diff-arc-agi-task",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-05-20261027/merge-diff-arc-agi-task__XezJkBY/result.json",
+      "result_sha256": "b68c55449459684b78871f764436a4536f8ca1be67fdf398f49605c2ec5e5cd3",
+      "bootstrap_sha256": "820faecc214746538858149a4d4b04c5b658d94e72a718cd8443ee1ea0642aab",
+      "manifest_sha256": "4ca9dc31f6cdcf0c3b3b3669dfeb5b5801967ae33b2f45f3e6014bf94cc83c30",
+      "input_config_sha256": "9845efd14817cc92ee85e66788e9e915a5b2a5aa51f63e745b0d43c1f14c5496"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/model-extraction-relu-logits",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-06-20261027/model-extraction-relu-logits__yZqevWz/result.json",
+      "result_sha256": "1d2726c8148e02864bc4f1c1f48ecc8b2914a0779bfe797dd718fc7dfa4559e7",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "a715046eff622e710f22c1a8f348c5397993a458eb495fc713dc9acd0bd86cf9",
+      "input_config_sha256": "e654d257d61c8deb61c0486900776b34fc54aa76303b8cbea664b0b8a57daecd"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/multi-source-data-merger",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-06-20261027/multi-source-data-merger__hqtrag6/result.json",
+      "result_sha256": "3ecbd1501eab148728beae4ff1d429276f2b0beb15c6148c7036c763e807e57f",
+      "bootstrap_sha256": "8ca622bedf9c3b7e582ecf18f6400c013835c31b4b5247f2332e65410776b84e",
+      "manifest_sha256": "a715046eff622e710f22c1a8f348c5397993a458eb495fc713dc9acd0bd86cf9",
+      "input_config_sha256": "e654d257d61c8deb61c0486900776b34fc54aa76303b8cbea664b0b8a57daecd"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/nginx-request-logging",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-07-20261027/nginx-request-logging__qAFnPiS/result.json",
+      "result_sha256": "0d935feb932f6a69fbc9de8c9ba116993605e083b51b10ce9a92792593c6a4a7",
+      "bootstrap_sha256": "c4bc7e0dfa218c9eff7094a838fe90d6f5b417c644e12c804ac6f31839944772",
+      "manifest_sha256": "0ef2a0610ef5b5282c5ee938aa3513e941cede4e81e93717ea2aa0d5b9f9d85b",
+      "input_config_sha256": "b89d7dcccc553313e9a0354638005b4236f9394809a24adf5c898029542a0252"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/openssl-selfsigned-cert",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-07-20261027/openssl-selfsigned-cert__KKFCiB5/result.json",
+      "result_sha256": "4b0d018e03547decacfcd0b1f63f5ded07b4145b2480085530ac8d49d7bd15af",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "0ef2a0610ef5b5282c5ee938aa3513e941cede4e81e93717ea2aa0d5b9f9d85b",
+      "input_config_sha256": "b89d7dcccc553313e9a0354638005b4236f9394809a24adf5c898029542a0252"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/pypi-server",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-08-20261027/pypi-server__EY626hM/result.json",
+      "result_sha256": "a8d57e6d03023384f4ba0922543e19e31176f2821cde67414abcf2fc79555970",
+      "bootstrap_sha256": "c4bc7e0dfa218c9eff7094a838fe90d6f5b417c644e12c804ac6f31839944772",
+      "manifest_sha256": "bd0bcb80ff146cd0ffa73c3b7a3009663a5e1ceb4aee96473de6980dcc685592",
+      "input_config_sha256": "6237cd926ec89929381c2e67501744c196f9471b463b5ceec84449f417458563"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/pytorch-model-cli",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-08-20261027/pytorch-model-cli__ydFu92B/result.json",
+      "result_sha256": "5d73a586566ecde607f6f4ecf3ab41f394d70a40df501f8c12f56ab64a99f0c9",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "bd0bcb80ff146cd0ffa73c3b7a3009663a5e1ceb4aee96473de6980dcc685592",
+      "input_config_sha256": "6237cd926ec89929381c2e67501744c196f9471b463b5ceec84449f417458563"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/pytorch-model-recovery",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-09-20261027/pytorch-model-recovery__AnHZLLY/result.json",
+      "result_sha256": "237980344951ee2285e28499288d745bc857c1c96806129340725a5429acb0b4",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "205227ed593d2e7089c95ddeb8c312b63c55fde199f9eee1e53e00abadcddddd",
+      "input_config_sha256": "fac554c1bd86ab46e0b68de769f244729e323622fb51f4f5319505537262e305"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/qemu-alpine-ssh",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-09-20261027/qemu-alpine-ssh__uiSwmJr/result.json",
+      "result_sha256": "35329f2737d85aa325756e9d62650e63ade91222fda61d370d8e5422d63074c6",
+      "bootstrap_sha256": "fc48c7dee6de95fe0edcd1631e1b3dbd900f2652d1ad5cbaa1d4a91f777feb53",
+      "manifest_sha256": "205227ed593d2e7089c95ddeb8c312b63c55fde199f9eee1e53e00abadcddddd",
+      "input_config_sha256": "fac554c1bd86ab46e0b68de769f244729e323622fb51f4f5319505537262e305"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/query-optimize",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-10-20261027/query-optimize__YoXxwZA/result.json",
+      "result_sha256": "783879855d9c2b4b7f592d981231b02d3f8d6ce92f62f2fcdb511556919c0722",
+      "bootstrap_sha256": "37f681eae6736199a9acbe0f9d1b1774eb82c7a097799622073de4b74d61c620",
+      "manifest_sha256": "73029898ccaa50e2329dab019769a02c4e2f2f8494ee2d7d0604942d93136019",
+      "input_config_sha256": "9bc5349337785a8ab8cf60ce4cef6d0251c2dc9eff7c5788d2a98705f058be39"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/regex-log",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-10-20261027/regex-log__N2XBsZY/result.json",
+      "result_sha256": "00bf033a6dc65fd8557f7a2bd9cd6132508565d33815224057086789d8fe98a5",
+      "bootstrap_sha256": "820faecc214746538858149a4d4b04c5b658d94e72a718cd8443ee1ea0642aab",
+      "manifest_sha256": "73029898ccaa50e2329dab019769a02c4e2f2f8494ee2d7d0604942d93136019",
+      "input_config_sha256": "9bc5349337785a8ab8cf60ce4cef6d0251c2dc9eff7c5788d2a98705f058be39"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-11-20261027/torch-pipeline-parallelism__5YUs6Bj/result.json",
+      "result_sha256": "198681d196f12f8a480dcfb2516e75b08f4b77516673f2562d5a82f770a2259a",
+      "bootstrap_sha256": "820faecc214746538858149a4d4b04c5b658d94e72a718cd8443ee1ea0642aab",
+      "manifest_sha256": "c8f0caaef12ec583bc45b0f07d57f28b6e12411a01a2e83f0f9b5fc3358eded3",
+      "input_config_sha256": "76369d400f1b5cdfe50da369ef1cbd9237c488c909d4058a0ac3eb9452f76ffb"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-11-20261027/torch-tensor-parallelism__4sM6zDL/result.json",
+      "result_sha256": "6f06e8262444c01a2bfa76dfdbaf630eb2e9c416b4df66c273f10801aac77950",
+      "bootstrap_sha256": "820faecc214746538858149a4d4b04c5b658d94e72a718cd8443ee1ea0642aab",
+      "manifest_sha256": "c8f0caaef12ec583bc45b0f07d57f28b6e12411a01a2e83f0f9b5fc3358eded3",
+      "input_config_sha256": "76369d400f1b5cdfe50da369ef1cbd9237c488c909d4058a0ac3eb9452f76ffb"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/constraints-scheduling",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-12-20261027/constraints-scheduling__AZGqHo7/result.json",
+      "result_sha256": "d60e5bc61d23265f69ebe35ae2077a57c319220a653d09712fc7942394d2b6ff",
+      "bootstrap_sha256": "cf3d634a13469c9792d5f85e9e97f6a6fd2770edd21edd2323b1a4a0ff9b88bf",
+      "manifest_sha256": "a993aa10afbc62f6d3194be71bfe78702cce21b655dc631ca236e8f3c9e74d0d",
+      "input_config_sha256": "f4bf827824c33c0905f014c04583b1c430227c4cdffad4815671f1df93787a49"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/write-compressor",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-12-20261027/write-compressor__jKdJYs3/result.json",
+      "result_sha256": "2f117df7e8d0f27aeed1e3a86f14255bbc4faeb3e06ef4464c6d0bb5f6556887",
+      "bootstrap_sha256": "a777f4d674a14f3a92030c0d28a0aeea8efc22dac6e5c348302d0ddccc73925e",
+      "manifest_sha256": "a993aa10afbc62f6d3194be71bfe78702cce21b655dc631ca236e8f3c9e74d0d",
+      "input_config_sha256": "f4bf827824c33c0905f014c04583b1c430227c4cdffad4815671f1df93787a49"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/custom-memory-heap-crash",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-13-20261027/custom-memory-heap-crash__7vzaXoA/result.json",
+      "result_sha256": "9869ea4ef71a7e1e8005983d5439985d64d3c52ae4c1db2f0898d5be46f2561d",
+      "bootstrap_sha256": "f7e10349b73b17d26271980d4778162d3b278f8e1d4a71d42a4cb0d23b866852",
+      "manifest_sha256": "49226525f97777a058bd5b6ee687b680643ceea9adb5bdceea3bc8f81b45ae23",
+      "input_config_sha256": "470fee212c4643ad04fed5cd56fd005324bcfe078dab8a5233586ba76083b023"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/dna-assembly",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-13-20261027/dna-assembly__9yECeYj/result.json",
+      "result_sha256": "160dab77106b3651c220484d1b884dd8263aecbb5f78be413cec93e8a352d7e3",
+      "bootstrap_sha256": "820faecc214746538858149a4d4b04c5b658d94e72a718cd8443ee1ea0642aab",
+      "manifest_sha256": "49226525f97777a058bd5b6ee687b680643ceea9adb5bdceea3bc8f81b45ae23",
+      "input_config_sha256": "470fee212c4643ad04fed5cd56fd005324bcfe078dab8a5233586ba76083b023"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/llm-inference-batching-scheduler",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-14-20261027/llm-inference-batching-scheduler__K5Y4oFq/result.json",
+      "result_sha256": "4cf30715e661bc55ded77f425af33e87b309aad80ba102f28e9e2ccf2cef3148",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "6ee748971da3d53d2ee775bce318bd35a01e5b68487c9a1265b951a6c4725622",
+      "input_config_sha256": "997577d496b9f850ad312a4651f1bdae61798a2aeca088b6f4a1bda75b9f1362"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/path-tracing",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-14-20261027/path-tracing__4iWGEgU/result.json",
+      "result_sha256": "b6c8d393ebf552037d56d260f1b3035d5903f8b40a32f083682f518a2f37c2bd",
+      "bootstrap_sha256": "d2f6dec48072dbd7f15f33bdc2361c6fbfd5d345ddd4748d292bac71e13e8e82",
+      "manifest_sha256": "6ee748971da3d53d2ee775bce318bd35a01e5b68487c9a1265b951a6c4725622",
+      "input_config_sha256": "997577d496b9f850ad312a4651f1bdae61798a2aeca088b6f4a1bda75b9f1362"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/caffe-cifar-10",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-15-20261027/caffe-cifar-10__AY4jS2o/result.json",
+      "result_sha256": "64fd984e34c1d1d95be0f12e4b4e6637f67a3b75374a3bc69390f2f0a6df9854",
+      "bootstrap_sha256": "bfe8b063bf0a185c19fb3d6b3eba32ada212d94dfd2b1f082b9a49e957760a0a",
+      "manifest_sha256": "7f82aef91c843c1e9f5a6735a4cda739cca4abde9810d33ca2414dc5d0dc801c",
+      "input_config_sha256": "d1230bcc921e5e92ec82864d2239e01cd7ca620a96904c48ab9cd2914a2acc16"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/schemelike-metacircular-eval",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-15-20261027/schemelike-metacircular-eval__eFmy8Fs/result.json",
+      "result_sha256": "8ef5cdf5b93a0dc5f491d2651abc187516954f3866ff4df1faa18801f0ba9104",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "7f82aef91c843c1e9f5a6735a4cda739cca4abde9810d33ca2414dc5d0dc801c",
+      "input_config_sha256": "d1230bcc921e5e92ec82864d2239e01cd7ca620a96904c48ab9cd2914a2acc16"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/circuit-fibsqrt",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-16-20261027/circuit-fibsqrt__AfGkgwD/result.json",
+      "result_sha256": "4202448e25c322c88057ef409cd3492e152ddcaa1c6f7132fd3e329759d59475",
+      "bootstrap_sha256": "bcfa3a0d9c4be3798cb32bcf016009e48b02df7e31360f67504ac46696df2865",
+      "manifest_sha256": "7a627b27b1887f38ef0352e0dc5fd84ac5043be6a5a76f5372f21afa6ee5ec09",
+      "input_config_sha256": "23cdd0d3a0a4635627074eec6e5a6bb3bb0bbf70b953a89c91a8ae141010d635"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/mteb-leaderboard",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-16-20261027/mteb-leaderboard__ouJofdv/result.json",
+      "result_sha256": "771427d6ac48cfdc28918962faa4ccafeef634328d9520e3628768c8093153c3",
+      "bootstrap_sha256": "66d0aa4ea40df556d0d0e8ac988025d2014de5428848589e768e3aaba0130c7f",
+      "manifest_sha256": "7a627b27b1887f38ef0352e0dc5fd84ac5043be6a5a76f5372f21afa6ee5ec09",
+      "input_config_sha256": "23cdd0d3a0a4635627074eec6e5a6bb3bb0bbf70b953a89c91a8ae141010d635"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/build-pov-ray",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-17-20261027/build-pov-ray__TDQmsPY/result.json",
+      "result_sha256": "beb680a5fcc6e08fb771a6585206c445f5c24236d2cca7056e437344958f2ea0",
+      "bootstrap_sha256": "bfe8b063bf0a185c19fb3d6b3eba32ada212d94dfd2b1f082b9a49e957760a0a",
+      "manifest_sha256": "3ba830a82a70dd2f2d364e2455d0830c2ec566708af927eb4aa850057b7568ef",
+      "input_config_sha256": "763aa30b7b78f981bcb7c81b09cef53c9545e719891160f57efc5c7cc39ebf3d"
+    },
+    {
+      "arm": "pi",
+      "task": "terminal-bench/regex-chess",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-install-pair-17-20261027/regex-chess__tRkUrhv/result.json",
+      "result_sha256": "c54a30aa68acaf53c88957db600d4aa548144318ce8f7875e9b185de9fcb9447",
+      "bootstrap_sha256": "77632931bfa9b4c5e29b6c27520eae7e23e30537a6e23fac4a06964c94d9bf17",
+      "manifest_sha256": "3ba830a82a70dd2f2d364e2455d0830c2ec566708af927eb4aa850057b7568ef",
+      "input_config_sha256": "763aa30b7b78f981bcb7c81b09cef53c9545e719891160f57efc5c7cc39ebf3d"
+    }
+  ]
+}

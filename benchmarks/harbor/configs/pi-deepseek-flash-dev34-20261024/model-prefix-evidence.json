@@ -1,0 +1,98 @@
+{
+  "verified_at": "2026-10-29T15:06:42.217549+00:00",
+  "source_plan": "experiment-v6.json",
+  "source_ref": "d6ed70a5d6a1c5b0f9b6c9d20b4a1c2b49153f67",
+  "policy": "Preserve all six completed model attempts byte-for-byte and never rerun them. Timeout integrity exceptions are recorded separately in timeout-boundary-evidence.json. No new solution or hidden-test content was reviewed.",
+  "completed_model_attempts": [
+    {
+      "job_name": "pi-flash-dev34-adaptive-rejection-sampler-20261027",
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "state_path": "jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/pi-flash-dev34-adaptive-rejection-sampler-20261027.json",
+      "state_sha256": "34930edb4b539f2f797a4467a5ead86bf898fd6079cabf6c63adc4b3023b10ea",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-adaptive-rejection-sampler-20261027/adaptive-rejection-sampler__p4rzaFM/result.json",
+      "result_sha256": "54f5f469df311a50cc463503f529e0ad7188823891ab31840965ef4c78bfef97",
+      "events_sha256": "70022bc1980da1fef1d93a9105d5b7da64753d01d526d93cd32184b677e5ec8b",
+      "manifest_sha256": "1e4792e091786a5affc7b599a1c3a8d996b12e2648c3265e62d5ce858d08af90",
+      "input_config_sha256": "d80a1afeaf576d6f97179c0a8e28af8643e3f8886ddacba5707054f0b6fe6be4",
+      "native_exception_type": "AgentTimeoutError",
+      "native_rewards": {
+        "reward": 0.0
+      }
+    },
+    {
+      "job_name": "pi-flash-dev34-build-cython-ext-20261027",
+      "task": "terminal-bench/build-cython-ext",
+      "state_path": "jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/pi-flash-dev34-build-cython-ext-20261027.json",
+      "state_sha256": "cfbdf5ee5164bd04e78061de307ea6aacfc4c8b1c44819aebbbfff0f203458c6",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-build-cython-ext-20261027/build-cython-ext__PZdLy7W/result.json",
+      "result_sha256": "3a49d523dae23770753f74c93bdff2e97494138a2cd436cde8cd8f4705bc93b9",
+      "events_sha256": "997b216ad3a1b32d6186a02fca6575e3008ec53ba9832a55ed272af7a285e039",
+      "manifest_sha256": "534f51423f4bc9cbeff1a2f09808aa888c2bd073abdb4659a7298f2322febfec",
+      "input_config_sha256": "67ef98793375cac7ace3a013eb2c920bbb74c8636950d1d493b59c545486e411",
+      "native_exception_type": null,
+      "native_rewards": {
+        "reward": 1.0
+      }
+    },
+    {
+      "job_name": "pi-flash-dev34-cancel-async-tasks-20261027",
+      "task": "terminal-bench/cancel-async-tasks",
+      "state_path": "jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/pi-flash-dev34-cancel-async-tasks-20261027.json",
+      "state_sha256": "9ef6450ab54bf76f8dcd2903b1d8ea08f1b97f0f8c7096a9252343a3757114e2",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-cancel-async-tasks-20261027/cancel-async-tasks__WAq9YLK/result.json",
+      "result_sha256": "39339742cbac7e4dc77a7efa1287c5717c9c92f22b57aef56251e8d2e40f8293",
+      "events_sha256": "dab321388ecd82f38a1b3158bc962da4b029e34c7a7471b3986afd9e3edb4faf",
+      "manifest_sha256": "40b9662d7f30f8110fb23213eb78e0f2932d87ce8d475f9d5f708f8e20eb45cc",
+      "input_config_sha256": "b110936d56dd3f287fae2e4de577a17856cefff6eb51d4d0477587f5050fe19f",
+      "native_exception_type": null,
+      "native_rewards": {
+        "reward": 0.0
+      }
+    },
+    {
+      "job_name": "pi-flash-dev34-cobol-modernization-20261027",
+      "task": "terminal-bench/cobol-modernization",
+      "state_path": "jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/pi-flash-dev34-cobol-modernization-20261027.json",
+      "state_sha256": "bf8210929a97395abec3b035c30fa9fc08069d3193c1db8349cbe8bfbbd1e9de",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-cobol-modernization-20261027/cobol-modernization__uGQXih9/result.json",
+      "result_sha256": "7f9ac5e0d92e065f66c1a58229952a9c48a2a61d016cb6e559b6238ec6b6a1fd",
+      "events_sha256": "e309667ca4a8a464ee43d8e372fe0f2cab1426cad8cae6377ee0043c53960430",
+      "manifest_sha256": "29df150affe475379b4d87689a5367d5b4bdba3db50a086ca2eea65741d48abe",
+      "input_config_sha256": "074e443d06eec327ea4ade6ef74dceb808c14309c37dafd11e6d34120ad16ad5",
+      "native_exception_type": null,
+      "native_rewards": {
+        "reward": 1.0
+      }
+    },
+    {
+      "job_name": "pi-flash-dev34-db-wal-recovery-20261027",
+      "task": "terminal-bench/db-wal-recovery",
+      "state_path": "jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/pi-flash-dev34-db-wal-recovery-20261027.json",
+      "state_sha256": "5397db0073e10bedd064ea5d1ae8f665f24738991f3d14c7f4b2103c0dae05df",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-db-wal-recovery-20261027/db-wal-recovery__J9YieXH/result.json",
+      "result_sha256": "1318b9f55b8ca84b5c8067ba5a36ee2d7b953acb550f3e01062d2612090a0755",
+      "events_sha256": "fb60c26f364cb61eff8742cf53feb87feb9743f73c4afdb06e3314b343aed3cf",
+      "manifest_sha256": "cafa7c5dbbe442c8498e20b5a83ac803ab3eb45615c5e45fc2719f7bbe001757",
+      "input_config_sha256": "1372342a226701f3df82b7076fb65492eb0c4ae74f357cfd85d4da1287bdef7c",
+      "native_exception_type": "AgentTimeoutError",
+      "native_rewards": {
+        "reward": 0.0
+      }
+    },
+    {
+      "job_name": "pi-flash-dev34-fix-code-vulnerability-20261027",
+      "task": "terminal-bench/fix-code-vulnerability",
+      "state_path": "jobs/pi-deepseek-flash-dev34-20261029-transport-v6-orchestration/pi-flash-dev34-fix-code-vulnerability-20261027.json",
+      "state_sha256": "54d0fb06804c46365dc92f10e185b17ab26ddbfae9d1d957a6a455f540839c6b",
+      "result_path": "jobs/runtime-source/jobs/pi-flash-dev34-fix-code-vulnerability-20261027/fix-code-vulnerability__4Dqvu3Q/result.json",
+      "result_sha256": "f69a07a3a1588d680942a9aac2f9fb821906f9fe2d08be24d6798d5b13f06a1d",
+      "events_sha256": "3fc3420e80c5381a3d6e7482cc1287ae66d17cba4b1b736984a8c5fad41c4c1b",
+      "manifest_sha256": "5df76d2c959c00eccbdb95c8fa6d782d5e7fa1c0dbb77fab7d6059f1da0751a6",
+      "input_config_sha256": "1072978ce9e8e38d9c8b0d783976d320f89575178ca10db995414798d19b1ebe",
+      "native_exception_type": null,
+      "native_rewards": {
+        "reward": 1.0
+      }
+    }
+  ]
+}

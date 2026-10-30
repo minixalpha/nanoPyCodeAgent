@@ -24,6 +24,27 @@ class VerifierCollectionError(RuntimeError):
     """Authorized pytest collection recovery exhausted its attempt budget."""
 
 
+class AgentQuiescenceError(RuntimeError):
+    """The installed agent did not establish a frozen execution boundary."""
+
+
+def check_agent_quiescence(agent_dir, *, required=False):
+    agent_dir = Path(agent_dir)
+    if not required and not (agent_dir / "process-supervision-required").exists():
+        return
+    try:
+        state = json.loads((agent_dir / "process-supervision.json").read_text())
+    except (OSError, ValueError) as error:
+        raise AgentQuiescenceError("Missing or invalid agent supervision record") from error
+    if not isinstance(state, dict):
+        raise AgentQuiescenceError("Invalid agent supervision record")
+    if state.get("status") == "completed" and type(state.get("return_code")) is int:
+        return
+    if state.get("status") in {"cancelled", "error_stopped"} and state.get("processes_stopped") is True:
+        return
+    raise AgentQuiescenceError("Agent subprocesses have not confirmed a frozen boundary")
+
+
 class _RetryEnvironment:
     """Delegate Harbor operations, wrapping only the test-script execution."""
 
@@ -93,11 +114,14 @@ class RetryingVerifier(Verifier):
     """
 
     def __init__(self, *, max_attempts=3, retry_dependency_errors=False,
-                 retry_collection_errors=False, **kwargs):
+                 retry_collection_errors=False, require_agent_quiescence=False,
+                 **kwargs):
         if type(max_attempts) is not int or not 1 <= max_attempts <= 3:
             raise ValueError("max_attempts must be an integer between 1 and 3")
         if type(retry_dependency_errors) is not bool:
             raise ValueError("retry_dependency_errors must be a boolean")
+        if type(require_agent_quiescence) is not bool:
+            raise ValueError("require_agent_quiescence must be a boolean")
         if type(retry_collection_errors) is not bool:
             raise ValueError("retry_collection_errors must be a boolean")
         super().__init__(**kwargs)
@@ -105,12 +129,15 @@ class RetryingVerifier(Verifier):
             raise ValueError("RetryingVerifier supports single-step Linux tasks")
         self._max_attempts = max_attempts
         self._retry_dependency_errors = retry_dependency_errors
+        self._require_agent_quiescence = require_agent_quiescence
         self._retry_collection_errors = retry_collection_errors
         self._attempt_timeout = self.task.config.verifier.timeout_sec
         if not math.isfinite(self._attempt_timeout) or self._attempt_timeout <= 0:
             raise ValueError("The task's verifier timeout must be finite and positive")
 
     async def verify(self):
+        check_agent_quiescence(self.trial_paths.agent_dir,
+                               required=getattr(self, "_require_agent_quiescence", False))
         # Harbor's outer watchdog covers the entire custom verifier. Reject an
         # insufficient budget instead of silently losing the promised retries.
         config = TrialConfig.model_validate_json(self.trial_paths.config_path.read_text())

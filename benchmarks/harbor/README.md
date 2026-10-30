@@ -95,6 +95,59 @@ when it runs; a successful preflight is not a guarantee against later outages.
 Full standard runs enable the timeout retry policy below by default, with zero
 whole-trial retries. CI checks these contracts without model calls or Docker.
 
+### Pi agent baselines
+
+The same entry point also supports `harbor_adapter:PiCodeAgent`. Register a local
+unmodified Pi binary distribution with `distribution_path` and
+`distribution_sha256`, a public `model_config_path`, and optionally `thinking`
+in the agent kwargs. The digest covers every distribution file and its mode.
+The workflow saves one content-addressed distribution snapshot in the shared
+cache, verifies it again before installation, and records its file manifest and
+public model configuration with every job. Pi runs its native prompt, tools,
+compaction, and retry behavior; no nanoPyCodeAgent wheel is installed or built.
+
+Currently this adapter supports the official DeepSeek OpenAI-compatible API.
+The public models file must reference `${DEEPSEEK_API_KEY}`; supply the actual
+key through the process environment. Personal Pi configuration, extensions,
+skills, and session history are not copied into task environments. Catalog
+refresh is disabled so the recorded model configuration remains reproducible.
+Installation-only checks validate the actual binary and provider registration
+without a model call and use the same reviewed verifier dependency profiles.
+They reject model-loading diagnostics even when Pi exits zero, and require the
+requested provider/model in the offline listing. Jobs with multiple Pi agents
+preserve distinct public configurations in immutable job-local files; the
+manifest records each `model_config_file` and its digest. Concurrent preparations
+reuse a verified distribution published by another process and clean staging
+directories on success or failure.
+Native sessions and completed JSON events remain in `agent/pi/` and `agent/pi.txt`.
+Usage includes compaction when Pi supplies it, and reported costs are estimates.
+Missing usage stays diagnosed. Pi does not currently generate an ATIF trajectory.
+Failed assistant streams with initialized zero usage remain unknown even if a
+native retry succeeds. Known token and cost subtotals are retained, with partial
+accounting flags for missing usage or cost.
+On Linux, the Pi command runs under a child subreaper. Cancellation stops its
+process tree, including detached tool sessions, before control returns to Harbor.
+Successful runs retain intentional background services. Set
+`verifier.kwargs.require_agent_quiescence=true` to require a completed or
+confirmed-cancelled supervision record before any official assertion executes.
+Missing or incomplete records stop grading. Installation checks exercise the
+supervisor without a model call; interrupted usage/cost totals remain partial.
+
+The comparison runner supports Pi arms and `--phase all` for installation checks
+followed by the model queue. A registered `minimum_free_disk_bytes` stops new
+jobs before they start when disk space is insufficient. Existing jobs and
+failed attempts are preserved. Agent-specific budget differences must be
+declared in the experiment instead of assuming native agent defaults match.
+For constrained Docker storage, an optional `batch_images` plan restores each
+batch by registered repository digest, verifies image identities, and evicts
+only image references absent from the run's initial inventory. It checks the
+actual Docker storage volume and never forces image or container deletion.
+
+The first [Pi + DeepSeek Flash dev34 report](reports/en/pi-deepseek-flash-dev34-20261024.md)
+preserves all 34 attempts, the supervision amendment, two unscored legacy
+timeouts, public-reference exposure, and partial accounting. It does not claim
+a complete, uncontaminated 34-task pass rate.
+
 ### Cache original task images
 
 If Docker image pulls repeatedly stall, the optional cache utility downloads the
@@ -113,14 +166,24 @@ uncompressed layer must match the original image configuration. The resulting
 preserves the original manifest, configuration, and compressed layers byte for
 byte. Docker import must retain the original repository digest.
 
-This Linux utility supports public single-platform `linux/amd64` images with
-gzip layers and SHA256 descriptors. `--load` requires Docker's containerd image
-store. Use one cache writer at a time; `--workers` controls parallel range
+This Linux utility supports public `linux/amd64` images with gzip layers and
+SHA256 descriptors. For OCI indexes and Docker manifest lists, it retains the
+unmodified parent index and the unique native image manifest, downloading only
+that platform's layers. Attestations associated with the selected image retain
+their original manifest, configuration, and in-toto payloads, each verified by
+digest. Other platforms and their attestations remain referenced in the
+original index without fetching their blobs. Docker loads the native
+platform explicitly and must retain the original parent repository digest.
+`--load` requires Docker's containerd image store and platform-selective imports.
+Use one cache writer at a time; `--workers` controls parallel range
 requests (default eight, maximum sixteen). Completed blobs and partial ranges
 can be reused after an interrupted download, with complete blobs revalidated.
 Keep the manifest lock records with the run evidence. This only warms Docker's
 image cache: continue using the standard benchmark entry point and installation
 preflight, and retain any earlier environment-start failures separately.
+Long image transfers refresh anonymous registry tokens before expiry and once
+after HTTP 401. Interrupted transfers reuse saved ranges, then verify the full
+blob digest before import. HTTP errors report status codes without signed URLs.
 
 ### Cache immutable APT indexes
 
