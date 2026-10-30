@@ -148,6 +148,11 @@ def validate_plan(root, plan_path, plan):
             from harbor_adapter.pi import distribution_digest, distribution_files
             if distribution_digest(distribution_files(Path(arm["distribution_path"]))) != arm["distribution_sha256"]:
                 raise ValueError("Registered Pi distribution changed")
+        elif arm.get("agent") == "deepseek-harness":
+            from harbor_adapter.deepseek import distribution_files
+            from harbor_adapter.pi import distribution_digest
+            if distribution_digest(distribution_files(Path(arm["distribution_path"]))) != arm["distribution_sha256"]:
+                raise ValueError("Registered DeepSeek distribution changed")
         else:
             expected = plan_path.parent / arm["prompt_file"]
             if digest(expected) != arm["prompt_sha256"]:

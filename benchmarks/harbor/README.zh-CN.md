@@ -116,6 +116,29 @@ Docker 空间受限时，可以通过 `batch_images` 计划按批恢复已注册
 保留了全部 34 次尝试、进程托管修正、两次不评分的旧超时、公开参考材料接触和
 不完整用量统计，不宣称完整且无答案接触的 34 题通过率。
 
+### DeepSeek Harness baseline
+
+`harbor_adapter:DeepSeekHarnessAgent` 使用上游 Python SDK 的 `sdk-minimal`
+配置运行，这是 DeepSeek Harness 的 `BENCHMARK.md` 推荐的基准配置。
+在 agent kwargs 中注册 `distribution_path`、`distribution_sha256` 和可选的
+`reasoning_effort`（默认为 `high`）。分发目录包含离线 `wheels/` 目录，内有
+SDK、原生运行时以及所有 Python 依赖；另有 `distribution.json`，记录
+`version`、`source_commit`、`source_archive_sha256`、`sdk_wheel` 和
+`runtime_wheel`。摘要覆盖每个文件及其权限；标准流程会保存快照并重新校验。
+
+按照选定上游检出的 Python 贡献者文档构建运行时和 SDK。任务安装使用
+Python 3.13 和冻结的 wheel 集合。仅安装检查会初始化真实 SDK 配置和模型，
+但不发送任务提示，并执行已有的验证器依赖预检。模型执行需要
+`DEEPSEEK_API_KEY`，使用官方 Messages 端点。每道题都使用全新的 Harness
+目录与会话，保留上游提示词、工具、上下文压缩、重试及生成默认值。原生日志
+保存在 `agent/dsh/`，SDK 事件、完成状态和诊断信息保存在旁边。
+
+配置必须设置 `verifier.kwargs.require_agent_quiescence=true`。
+共享的 Linux 进程监督器在验证前确认 agent 进程树已被取消。SDK 返回非
+`completed` 的结束原因时记为执行错误。报告的 token 包含原生助手消息和
+压缩请求用量；缺失记录和中断运行仍标记为部分统计，费用保持未知。
+此 baseline 不强制套用 Pi 的生成设置或 Nano 的轮数和工作时间预算。
+
 ### 缓存原始任务镜像
 
 如果 Docker 拉取镜像反复停滞，可用缓存工具从同一 Docker Hub 公共仓库分段并行下载：
