@@ -1,0 +1,42 @@
+{
+  "n_concurrent_trials": 2,
+  "n_attempts": 1,
+  "retry": {
+    "max_retries": 0
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:DeepSeekHarnessAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "distribution_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/deepseek-harness-build-f3803c9/distribution",
+        "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+        "reasoning_effort": "high"
+      }
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/benchmarks/harbor/configs/deepseek-harness-dev34-20261030/dependency-cache.compose.json"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/pypi-server",
+      "ref": "sha256:1a1e0542f58e2d3362fec17a9bbb98667717d9a4a3e9a4c8413d3150a4fa0ff1"
+    },
+    {
+      "name": "terminal-bench/pytorch-model-cli",
+      "ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79"
+    }
+  ],
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "require_agent_quiescence": true
+    }
+  }
+}

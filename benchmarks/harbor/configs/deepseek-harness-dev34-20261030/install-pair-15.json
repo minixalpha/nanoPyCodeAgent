@@ -1,0 +1,42 @@
+{
+  "n_concurrent_trials": 2,
+  "n_attempts": 1,
+  "retry": {
+    "max_retries": 0
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:DeepSeekHarnessAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "distribution_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/deepseek-harness-build-f3803c9/distribution",
+        "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+        "reasoning_effort": "high"
+      }
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/benchmarks/harbor/configs/deepseek-harness-dev34-20261030/dependency-cache.compose.json"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/schemelike-metacircular-eval",
+      "ref": "sha256:58130c2166c3115276dc8592f358e326ff2d81ea852e3d88636c82fd1dff57e6"
+    },
+    {
+      "name": "terminal-bench/caffe-cifar-10",
+      "ref": "sha256:7b0045106d7d5af724efe96b610ba64f7893f5c88528401c573c4d47e384e2bf"
+    }
+  ],
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "require_agent_quiescence": true
+    }
+  }
+}

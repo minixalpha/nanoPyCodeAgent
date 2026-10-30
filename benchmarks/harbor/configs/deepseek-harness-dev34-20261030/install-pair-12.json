@@ -1,0 +1,42 @@
+{
+  "n_concurrent_trials": 2,
+  "n_attempts": 1,
+  "retry": {
+    "max_retries": 0
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:DeepSeekHarnessAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "distribution_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/deepseek-harness-build-f3803c9/distribution",
+        "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+        "reasoning_effort": "high"
+      }
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/benchmarks/harbor/configs/deepseek-harness-dev34-20261030/dependency-cache.compose.json"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/write-compressor",
+      "ref": "sha256:d9ddd9a8e925e2c566b37b2492cbf995afecefe58874e4043ef78d7f3c892c7e"
+    },
+    {
+      "name": "terminal-bench/constraints-scheduling",
+      "ref": "sha256:91dd6f87e1ee508328d5aafbd99a6bd1ccc47bc22671b4aaa4060bda492deb53"
+    }
+  ],
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "require_agent_quiescence": true
+    }
+  }
+}
