@@ -69,7 +69,7 @@ class DeepSeekHarnessAgent(NanoPyCodeAgent):
         return "deepseek-harness"
 
     def get_version_command(self) -> str:
-        return "/opt/harbor-dsh-venv/bin/dsh --version"
+        return "DSH_HOME=/tmp/harbor-dsh-version /opt/harbor-dsh-venv/bin/dsh --version"
 
     def parse_version(self, stdout: str) -> str:
         return stdout.strip().splitlines()[-1]

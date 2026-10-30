@@ -110,6 +110,7 @@ def test_install_initializes_native_sdk_without_model_prompt(tmp_path, inputs):
     assert "--no-index --find-links /opt/harbor-dsh/wheels" in commands
     assert "--preflight" in commands
     assert "--instruction" not in commands
+    assert "DSH_HOME=/tmp/harbor-dsh-version" in agent.get_version_command()
     assert agent._bootstrap_record["sdk_initialization"] == "passed"
     assert (tmp_path / "process-supervision-required").exists()
 
