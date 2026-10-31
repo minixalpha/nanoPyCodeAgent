@@ -1,9 +1,23 @@
 # DeepSeek Harness on the Pi 34-task development pool
 
-Status: all 34 installation checks passed. The maintainer authorized use of
-the existing Pi-configured DeepSeek credential on October 31, 2026, and the
-registered model phase has started. Results remain pending until all outputs
-are frozen and audited.
+Status: completed and audited on October 31, 2026. All 34 registered jobs
+finished: 22 official passes, six scored failures, and six unscored errors
+(two setup, three verifier dependency, one terminal API transport error).
+There were 32 model executions and no whole-trial retries. On the 26 tasks
+accepted in both runs, Harness passed 21 and Pi passed 22. Both lost passes
+have a confirmed SDK service-lifecycle caveat. See the complete
+[English report](../../reports/en/deepseek-harness-dev34-20261030.md),
+[Simplified Chinese report](../../reports/zh-CN/deepseek-harness-dev34-20261030.md),
+and [audited results](../../results/deepseek-harness-dev34-20261030.json).
+
+All 2,506 output files were frozen before reviewing new trajectories or hidden
+tests; the [freeze manifest](outputs-freeze.json) preserves their hashes.
+The [keyless lifecycle diagnostic](sdk-lifecycle-probe.json) was performed
+after freezing and did not replay or alter any task output. Both service
+failures retain their native rewards. The maintainer authorized the existing
+Pi-configured DeepSeek credential on October 31; see [launch evidence](launch-evidence.json).
+All 34 initial installation checks passed, but later network-dependent setup
+failed in two formal jobs.
 The [preflight audit](preflight-evidence.json) records SDK initialization and
 process supervision success for every task, two passed verifier dependency
 profiles, and 32 explicitly unconfigured profiles. The official keyless SDK smoke and corrected WAL container
@@ -91,7 +105,8 @@ now supplies an isolated version-probe home. The corrected smoke initialized
 the actual SDK/profile/model and supervisor successfully. Both native records
 remain preserved; neither is a scored task attempt. The complete Harbor suite
 passed 280 tests before this small integration fix, and all 11 DeepSeek-focused
-tests passed after it.
+tests passed after it. The final complete Harbor suite passed all 280 tests
+with local mock HTTP sockets permitted.
 
 Run from this repository root:
 

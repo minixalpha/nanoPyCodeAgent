@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-10-31T15:50:39.815342+00:00",
+  "profile": "sdk-minimal",
+  "finish_reason": "completed",
+  "local_mock_requests": 2,
+  "real_model_calls": 0,
+  "server_reachable_before_sdk_close": true,
+  "server_reachable_after_sdk_close": false,
+  "probe_sha256": "8dc0d6fe2f627f472e8db8b4e1a6f3aa937d8d5b96d2235197e02db62857c4f5",
+  "upstream_fixture_sha256": "c52ace60539a52721fcdb5b61f7d8f2b9806dbbba9cb2f5fcd2d3b2541b61be9",
+  "runtime_sha256": "28e1eaeac3c594d2ce74c67c4f1e179c58ccf3d4dbb8c0faa719bec5745805f2",
+  "schema_version": 1,
+  "phase": "post_freeze_diagnostic",
+  "upstream_source_ref": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+  "script": "benchmarks/harbor/scripts/probe_deepseek_lifecycle.py",
+  "command": "jobs/dsh-harbor-venv/bin/python benchmarks/harbor/scripts/probe_deepseek_lifecycle.py --upstream-source jobs/deepseek-harness-build-f3803c9/source --runtime jobs/deepseek-harness-build-f3803c9/source/dist-exe/deepseek-harness-sdk-runtime-linux-x64",
+  "interpretation": "With this pinned upstream SDK/runtime, a nohup HTTP server launched through bash is reachable before normal SDK context closure and unreachable afterwards. No benchmark task or model output was replayed. Raw task scores remain unchanged."
+}

@@ -139,6 +139,14 @@ Python 3.13 和冻结的 wheel 集合。仅安装检查会初始化真实 SDK �
 压缩请求用量；缺失记录和中断运行仍标记为部分统计，费用保持未知。
 此 baseline 不强制套用 Pi 的生成设置或 Nano 的轮数和工作时间预算。
 
+首份[官方 Harness dev34 报告](reports/zh-CN/deepseek-harness-dev34-20261030.md)
+在 Pi 已使用的 34 道题上记录了 22 道通过、六道计分失败、六道因错误不计分。
+固定版本的上游运行时在正常关闭 SDK 时会停止托管的后台服务，包括探针中
+通过 `nohup` 启动的服务。这会影响服务题：KV 和 PyPI 在 agent 自测成功后，
+官方检查仍然失败。报告保留这些失败，并记录了
+[无密钥生命周期探针](scripts/probe_deepseek_lifecycle.py)。这些结果衡量的是
+注册的 SDK 配置。
+
 ### 缓存原始任务镜像
 
 如果 Docker 拉取镜像反复停滞，可用缓存工具从同一 Docker Hub 公共仓库分段并行下载：

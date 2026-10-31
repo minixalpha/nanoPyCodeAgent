@@ -175,6 +175,15 @@ Reported tokens include native assistant and compaction usage; missing records
 and interrupted runs remain partial, and cost remains unknown. This baseline
 does not impose Pi's generation settings or Nano's turn and work budgets.
 
+The first [official Harness dev34 report](reports/en/deepseek-harness-dev34-20261030.md)
+records 22 passes, six scored failures, and six unscored errors on Pi's existing
+34-task pool. Normal SDK closure in the pinned upstream runtime stops managed
+background services, including the probe's `nohup` server. This affects service
+tasks: KV and PyPI failed official checks after successful agent self-tests.
+The report retains those failures and documents the
+[keyless lifecycle probe](scripts/probe_deepseek_lifecycle.py). Treat these
+results as measurements of the registered SDK configuration.
+
 ### Cache original task images
 
 If Docker image pulls repeatedly stall, the optional cache utility downloads the
