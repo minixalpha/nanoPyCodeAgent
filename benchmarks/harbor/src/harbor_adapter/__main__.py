@@ -16,10 +16,12 @@ from zipfile import ZipFile
 from harbor.models.job.config import JobConfig
 
 from .bootstrap import AptCache, default_cache_dir
+from .deepseek import distribution_files as deepseek_distribution_files
 from .pi import distribution_digest, distribution_files, read_model_config
 
 _NANO = "harbor_adapter:NanoPyCodeAgent"
 _PI = "harbor_adapter:PiCodeAgent"
+_DEEPSEEK = "harbor_adapter:DeepSeekHarnessAgent"
 
 
 def standard_config(raw: dict) -> JobConfig:
@@ -56,11 +58,13 @@ def standard_config(raw: dict) -> JobConfig:
         raise ValueError("Select at least one agent and one trial attempt")
     for agent in config.agents:
         identifiers = [value for value in (agent.import_path, agent.name) if value]
-        if not identifiers or len(set(identifiers)) != 1 or identifiers[0] not in {_NANO, _PI}:
+        if not identifiers or len(set(identifiers)) != 1 or identifiers[0] not in {_NANO, _PI, _DEEPSEEK}:
             raise ValueError("The standard workflow requires a repository benchmark adapter")
         allowed = ({"max_turns", "max_tokens", "time_budget_seconds"}
                    if identifiers[0] == _NANO else {
                        "distribution_path", "distribution_sha256", "model_config_path", "thinking",
+                   } if identifiers[0] == _PI else {
+                       "distribution_path", "distribution_sha256", "reasoning_effort",
                    })
         if agent.env or set(agent.kwargs) - allowed:
             raise ValueError(
@@ -72,9 +76,43 @@ def standard_config(raw: dict) -> JobConfig:
             if not required <= agent.kwargs.keys():
                 raise ValueError("Pi requires a hash-pinned distribution and public model config")
             read_model_config(Path(agent.kwargs["model_config_path"]))
+        if identifiers[0] == _DEEPSEEK:
+            if not {"distribution_path", "distribution_sha256"} <= agent.kwargs.keys():
+                raise ValueError("DeepSeek requires a hash-pinned distribution")
+            if config.verifier.kwargs.get("require_agent_quiescence") is not True:
+                raise ValueError("DeepSeek requires confirmed agent quiescence before grading")
+            if agent.kwargs.get("reasoning_effort", "high") not in {"off", "low", "high", "max"}:
+                raise ValueError("Unsupported DeepSeek reasoning effort")
         if not agent.model_name:
             raise ValueError("Each agent requires an explicit model_name")
     return config
+
+
+def snapshot_deepseek(agent, cache: Path, record: Path) -> dict:
+    """Publish a verified, immutable offline wheelhouse for all task installs."""
+    original = Path(agent.kwargs["distribution_path"]).expanduser().resolve()
+    files = deepseek_distribution_files(original)
+    digest = distribution_digest(files)
+    if digest != agent.kwargs["distribution_sha256"]:
+        raise ValueError("DeepSeek distribution differs from its registered SHA256")
+    destination = cache / "deepseek-distributions" / digest
+    if not destination.exists():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix=digest + ".tmp-", dir=destination.parent) as temporary:
+            staged = Path(temporary) / "distribution"
+            shutil.copytree(original, staged)
+            if deepseek_distribution_files(staged) != files:
+                raise ValueError("DeepSeek distribution changed while snapshotting")
+            try:
+                staged.rename(destination)
+            except OSError as error:
+                if error.errno not in {errno.EEXIST, errno.ENOTEMPTY}:
+                    raise
+    if deepseek_distribution_files(destination) != files:
+        raise ValueError("Cached DeepSeek distribution is corrupt")
+    agent.kwargs["distribution_path"] = str(destination)
+    return {"distribution_sha256": digest, "files": files,
+            "provenance": json.loads((destination / "distribution.json").read_text())}
 
 
 def snapshot_pi(agent, cache: Path, record: Path) -> dict:
@@ -174,10 +212,12 @@ def run(args) -> int:
             for path in (source / "nanopycodeagent").rglob("*.py"):
                 if archive.read(path.relative_to(source).as_posix()) != path.read_bytes():
                     raise ValueError("Source changed during preparation; prepare a new job")
-    pi_inputs = []
+    pi_inputs, deepseek_inputs = [], []
     for agent in config.agents:
         if (agent.import_path or agent.name) == _PI:
             pi_inputs.append(snapshot_pi(agent, cache, record))
+        elif (agent.import_path or agent.name) == _DEEPSEEK:
+            deepseek_inputs.append(snapshot_deepseek(agent, cache, record))
         else:
             agent.kwargs["wheel_path"] = str(wheel)
         agent.kwargs["bootstrap_cache"] = str(cache)
@@ -194,6 +234,8 @@ def run(args) -> int:
     }
     if pi_inputs:
         manifest["pi_inputs"] = pi_inputs
+    if deepseek_inputs:
+        manifest["deepseek_inputs"] = deepseek_inputs
     (record / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     (record / "working-tree.patch").write_bytes(subprocess.check_output(["git", "diff", "HEAD"]))
     print(f"Prepared {record}", flush=True)

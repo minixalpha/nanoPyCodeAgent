@@ -148,6 +148,33 @@ preserves all 34 attempts, the supervision amendment, two unscored legacy
 timeouts, public-reference exposure, and partial accounting. It does not claim
 a complete, uncontaminated 34-task pass rate.
 
+### DeepSeek Harness baselines
+
+`harbor_adapter:DeepSeekHarnessAgent` runs the upstream Python SDK's
+`sdk-minimal` profile, as recommended by DeepSeek Harness's `BENCHMARK.md`.
+Register `distribution_path`, `distribution_sha256`, and optional
+`reasoning_effort` (default `high`) in the agent kwargs. The distribution is an
+offline `wheels/` directory containing the SDK, native runtime, and all Python
+dependencies, plus `distribution.json` with `version`, `source_commit`,
+`source_archive_sha256`, `sdk_wheel`, and `runtime_wheel`. The digest covers every
+file and permission; the standard workflow snapshots and rechecks the bytes.
+
+Build the runtime and SDK from the selected upstream checkout using its documented
+Python contributor workflow. Task installation uses Python 3.13 and the frozen
+wheelhouse. Installation-only checks initialize the actual SDK profile and model
+without sending a task prompt, and run the existing verifier dependency preflight.
+Model work requires `DEEPSEEK_API_KEY` and uses the official Messages endpoint.
+Each task receives a fresh Harness home and session, with upstream prompts,
+tools, compaction, retries, and generation defaults. Native logs remain in
+`agent/dsh/`; SDK events, completion status, and diagnostics remain beside it.
+
+Configurations must set `verifier.kwargs.require_agent_quiescence=true`.
+The shared Linux supervisor confirms cancellation of the agent process tree
+before verification. A non-completed SDK finish reason is an execution error.
+Reported tokens include native assistant and compaction usage; missing records
+and interrupted runs remain partial, and cost remains unknown. This baseline
+does not impose Pi's generation settings or Nano's turn and work budgets.
+
 ### Cache original task images
 
 If Docker image pulls repeatedly stall, the optional cache utility downloads the
