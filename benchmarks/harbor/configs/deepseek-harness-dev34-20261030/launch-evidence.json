@@ -1,0 +1,9 @@
+{
+  "recorded_at": "2026-10-31T11:03:33.005233+00:00",
+  "authorization": "The maintainer explicitly confirmed use of the existing Pi-configured official DeepSeek API credential and API charges in the conversation on 2026-10-31.",
+  "first_model_job_started_at": "2026-10-31T11:03:13.156046+00:00",
+  "credential_handling": "Loaded only into the controller environment; no secret value is recorded in configuration or published evidence. Raw agent artifacts remain local and require post-run exposure audit.",
+  "plan_unchanged": true,
+  "preflight_evidence": "preflight-evidence.json",
+  "model_phase_log": "jobs/deepseek-harness-dev34-model.log"
+}

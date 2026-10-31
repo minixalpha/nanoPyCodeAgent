@@ -1,8 +1,9 @@
 # DeepSeek Harness on the Pi 34-task development pool
 
-Status: all 34 installation checks passed. Model execution has not started;
-using the existing Pi-configured DeepSeek credential is awaiting explicit
-maintainer authorization after automatic approval review blocked that source.
+Status: all 34 installation checks passed. The maintainer authorized use of
+the existing Pi-configured DeepSeek credential on October 31, 2026, and the
+registered model phase has started. Results remain pending until all outputs
+are frozen and audited.
 The [preflight audit](preflight-evidence.json) records SDK initialization and
 process supervision success for every task, two passed verifier dependency
 profiles, and 32 explicitly unconfigured profiles. The official keyless SDK smoke and corrected WAL container
