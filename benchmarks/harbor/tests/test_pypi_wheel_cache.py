@@ -99,6 +99,19 @@ def test_corrupt_cached_bytes_fail_closed_before_serving(origin):
         cache.wheel(cache.release_file("demo", file["digests"]["sha256"], file["filename"]))
 
 
+def test_audit_retains_current_origin_identity_and_verified_cache_hit(origin, tmp_path, monkeypatch):
+    cache, file, _, _, _, _, _ = origin
+    log = tmp_path / "audit.jsonl"
+    monkeypatch.setattr(proxy, "AUDIT_LOG", log)
+    for _ in range(2):
+        cache.wheel(cache.release_file("demo", file["digests"]["sha256"], file["filename"]))
+    events = [json.loads(line) for line in log.read_text().splitlines()]
+    assert [event["kind"] for event in events] == ["release_metadata", "wheel"] * 2
+    assert events[0]["source_url"] == file["url"]
+    assert all(event["sha256"] == file["digests"]["sha256"] for event in events)
+    assert [events[i]["cache_hit"] for i in (1, 3)] == [False, True]
+
+
 @pytest.mark.parametrize("project,digest,name", [
     ("../demo", "a" * 64, "demo-1.0-py3-none-any.whl"),
     ("demo", "../escape", "demo-1.0-py3-none-any.whl"),

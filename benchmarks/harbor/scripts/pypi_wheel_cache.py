@@ -12,6 +12,7 @@ import fcntl
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import threading
@@ -26,6 +27,7 @@ spec.loader.exec_module(ranges)
 PROJECT = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 WHEEL = re.compile(r"[A-Za-z0-9_.+!-]+\.whl")
 DIGEST = re.compile(r"[a-f0-9]{64}")
+AUDIT_LOG = None
 
 
 def canonical(name):
@@ -33,7 +35,14 @@ def canonical(name):
 
 
 def event(**values):
-    print(json.dumps({"at": datetime.now(timezone.utc).isoformat(), **values}), flush=True)
+    line = json.dumps({"at": datetime.now(timezone.utc).isoformat(),
+                       "instance": os.environ.get("HOSTNAME", "local"), **values})
+    if AUDIT_LOG is not None:
+        with AUDIT_LOG.open("a") as stream:
+            fcntl.flock(stream, fcntl.LOCK_EX)
+            stream.write(line + "\n")
+            stream.flush()
+    print(line, flush=True)
 
 
 def public_json(url, *, accept="application/json"):
@@ -91,6 +100,9 @@ class WheelCache:
                 or type(file["size"]) is not int or file["size"] <= 0):
             raise ValueError("Wheel no longer matches current PyPI metadata")
         official_wheel_url(file["url"], filename)
+        event(kind="release_metadata", project=project, version=version,
+              filename=filename, size=file["size"], sha256=digest,
+              source_url=file["url"])
         return file
 
     def wheel(self, file):
@@ -215,15 +227,21 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
+    global AUDIT_LOG
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cache", type=Path, required=True)
     parser.add_argument("--bind", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=18744)
     parser.add_argument("--workers", type=int, default=16)
     parser.add_argument("--downloads", type=int, default=2)
+    parser.add_argument("--audit-log", type=Path,
+                        help="Append public metadata and verified cache events for the run")
     args = parser.parse_args()
     if not 1 <= args.workers <= 32 or not 1 <= args.downloads <= 4:
         parser.error("Use 1-32 workers and 1-4 concurrent wheel downloads")
+    AUDIT_LOG = args.audit_log
+    if AUDIT_LOG is not None:
+        AUDIT_LOG.parent.mkdir(parents=True, exist_ok=True)
     server = ThreadingHTTPServer((args.bind, args.port), Handler)
     server.cache = WheelCache(args.cache, workers=args.workers, downloads=args.downloads)
     event(kind="ready", bind=args.bind, port=args.port)

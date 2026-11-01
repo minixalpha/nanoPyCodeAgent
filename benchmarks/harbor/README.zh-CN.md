@@ -108,6 +108,9 @@ agent 和验证器时限保持不变。
 题目 sidecar 之间的缓存发布。模型运行前应注册传输配置及脚本，执行仅依赖
 预检，并保留原始题目镜像、脚本、软件包版本、来源以及每次 agent / 验证器时限。
 
+使用 `--audit-log /cache/run-events.jsonl`，可在 sidecar 退出后保留当前发布
+元数据及已校验的缓存命中事件。追加日志使用跨进程锁，并记录来源容器实例。
+
 ### Pi agent baseline
 
 同一个标准入口也支持 `harbor_adapter:PiCodeAgent`。在 agent kwargs 中用

@@ -135,6 +135,10 @@ transport and its scripts before model work, run dependency-only preflight,
 and preserve original task images, scripts, package versions, sources, and
 per-attempt agent/verifier limits.
 
+Use `--audit-log /cache/run-events.jsonl` to retain current release metadata
+and verified cache-hit events after the sidecars exit. The append-only log is
+locked across processes and includes the originating container instance.
+
 ### Pi agent baselines
 
 The same entry point also supports `harbor_adapter:PiCodeAgent`. Register a local
