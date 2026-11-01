@@ -1,8 +1,11 @@
 # Authorized six-task DeepSeek Harness supplement
 
 Status: the [v2 registration](experiment-v2.json) adds verified PyPI wheel
-transport after the initial preparation encountered a setup timeout. Fresh v2
-dependency preflight is pending; no supplemental model executions have started.
+transport after the initial preparation encountered a setup timeout. All six fresh v2
+dependency checks passed. [Preflight evidence](preflight-evidence.json) and
+[launch registration](launch-evidence.json) precede the six formal model jobs.
+Formal execution is now registered; results will be audited after all outputs
+are frozen.
 
 The initial direct-download preflight passed data merger, PyTorch CLI, and query
 optimization. Model recovery exceeded its 1,800-second setup limit while
