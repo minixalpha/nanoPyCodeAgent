@@ -165,6 +165,21 @@ class VerifierProfile:
     task_files_sha256: tuple[tuple[str, str], ...] = ()
 
 
+def python_verifier_command(requirements: tuple[str, ...], *, indexes=()) -> str:
+    """Warm a reviewed uvx environment without importing task code or tests."""
+    return (
+        "set -euo pipefail; cd /tmp; command -v curl; "
+        "curl -LsSf https://astral.sh/uv/0.9.5/install.sh | sh; "
+        'export PATH="$HOME/.local/bin:$PATH"; '
+        "uv --version | grep -Eq '^uv 0\\.9\\.5( |$)'; "
+        + shlex.join([
+            "uvx", *indexes, "-p", "3.13",
+            *[arg for requirement in requirements for arg in ("-w", requirement)],
+            "pytest", "--version",
+        ])
+    )
+
+
 VERIFIER_PROFILES = {
     (QEMU_TASK, QEMU_REF): VerifierProfile(
         "qemu-alpine-ssh-v1", ("curl", "sshpass"), QEMU_PREFLIGHT,
@@ -173,6 +188,49 @@ VERIFIER_PROFILES = {
         "pytorch-model-recovery-v1", ("curl",), PYTORCH_RECOVERY_PREFLIGHT,
         (("task.toml", "851a51204f53482a31f47cdf8833128cf421113b0331011286940fc857c37dfd"),
          ("tests/test.sh", "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e")),
+    ),
+    ("terminal-bench/multi-source-data-merger",
+     "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49"): VerifierProfile(
+        "multi-source-data-merger-v1", ("curl",), python_verifier_command((
+            "pytest==8.4.1", "pandas==2.3.3", "pyarrow==22.0.0", "pytest-json-ctrf==0.3.5",
+        )),
+        (("task.toml", "ee3964c0ee040f0a0cb121cefefbc15443d127684acb003fa5b61dd42f31c694"),
+         ("tests/test.sh", "d5a00e64413c0e1ae452f38a1aa1a47c3ed7b4416bbfccae1a4c053025a336d1")),
+    ),
+    ("terminal-bench/pytorch-model-cli",
+     "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79"): VerifierProfile(
+        "pytorch-model-cli-v1", ("curl", "ffmpeg", "libsm6", "libxext6"),
+        python_verifier_command((
+            "torch==2.7.1", "torchvision==0.22.1", "numpy==2.3.1",
+            "opencv-python==4.11.0.86", "pytest==8.4.1", "pytest-json-ctrf==0.3.5",
+        ), indexes=("--index", "https://download.pytorch.org/whl/cpu",
+                    "--index-strategy", "unsafe-best-match")),
+        (("task.toml", "fc1c018efbd5d0537ac0741d53d1ebad3886faa51d14cbde8ec953856411bc0d"),
+         ("tests/test.sh", "43fb67e537c7adc2df11c2367f47c876cb5d16a7c1ae16d0339c3a3364bb2b06")),
+    ),
+    ("terminal-bench/query-optimize",
+     "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4"): VerifierProfile(
+        "query-optimize-v1", ("curl",), python_verifier_command((
+            "pytest==8.4.1", "pytest-json-ctrf==0.3.5",
+        )),
+        (("task.toml", "6e88f2a86df699594bcb1bf81df4ed694505f79c9420f671335b02524bbe3868"),
+         ("tests/test.sh", "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334")),
+    ),
+    ("terminal-bench/torch-pipeline-parallelism",
+     "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb"): VerifierProfile(
+        "torch-pipeline-parallelism-v1", ("curl",), python_verifier_command((
+            "pytest==8.4.1", "torch==2.7.0", "transformers==4.55.0", "pytest-json-ctrf==0.3.5",
+        )),
+        (("task.toml", "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857"),
+         ("tests/test.sh", "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea")),
+    ),
+    ("terminal-bench/torch-tensor-parallelism",
+     "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684"): VerifierProfile(
+        "torch-tensor-parallelism-v1", ("curl",), python_verifier_command((
+            "pytest==8.4.1", "torch==2.7.0", "pytest-json-ctrf==0.3.5",
+        )),
+        (("task.toml", "72fd2a5500d1fe8795dcae76cccb1a29fb25894881a7475f2fa519c87d425a8d"),
+         ("tests/test.sh", "a7e6c9408b2401e4e7448371f7ddc72f3284caccfb56277d3cd4e98051868cdf")),
     ),
 }
 

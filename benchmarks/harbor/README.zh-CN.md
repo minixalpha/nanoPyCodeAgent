@@ -71,6 +71,13 @@ uv 0.9.5、Python 3.13、pytest 8.4.1 和 pytest-json-ctrf 0.3.5，不执行题�
 0.3.5，随后仅在 `/tmp` 执行 `pytest --version`。它不导入提交的模型，也不运行
 题目测试。其他题目版本需要重新检查对应配置。
 
+已检查的 `multi-source-data-merger`、`pytorch-model-cli`、`query-optimize`、
+`torch-pipeline-parallelism` 和 `torch-tensor-parallelism` 版本也有仅准备依赖的
+配置。它们保留各自原始脚本的 Python 版本、软件包版本、APT 依赖和索引选项，
+仅在 `/tmp` 运行 `pytest --version`。其中仅 CLI 配置添加原脚本中的 PyTorch
+CPU 索引和 `unsafe-best-match` 策略；其他 PyTorch 配置保留原始默认索引。
+每个新检查的配置都记录题目元数据与验证器脚本的哈希。
+
 每次安装都会写入 `agent/bootstrap.json`，失败时也保留已完成的步骤。预检失败会
 在模型调用前终止 trial。官方验证脚本保持原样，执行时仍可能访问网络，所以预检
 通过不能保证后续没有网络故障。完整标准运行默认启用下述验证超时重试，整题重试

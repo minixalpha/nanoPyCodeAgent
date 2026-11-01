@@ -88,6 +88,15 @@ pytest 8.4.1, torch 2.7.1, and pytest-json-ctrf 0.3.5 requirements, then runs on
 `pytest --version` from `/tmp`. It does not import the submitted model or run
 the task's tests. Other revisions require profile review.
 
+Reviewed revisions of `multi-source-data-merger`, `pytorch-model-cli`,
+`query-optimize`, `torch-pipeline-parallelism`, and `torch-tensor-parallelism`
+also have dependency-only profiles. They preserve each original wrapper's
+Python version, package pins, APT dependencies, and index options, and run only
+`pytest --version` from `/tmp`. In particular, only the CLI profile adds the
+original PyTorch CPU index and `unsafe-best-match` strategy; the other PyTorch
+profiles keep their original default index. Task metadata and verifier-wrapper
+hashes are recorded with these five profiles.
+
 Every installation writes `agent/bootstrap.json`, including partial progress
 on failure. Preflight failure stops the trial before any model call. The
 official verifier script remains unchanged and may still access the network

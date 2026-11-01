@@ -5,6 +5,7 @@ from dataclasses import asdict
 import hashlib
 import json
 from pathlib import Path
+import shlex
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
@@ -149,6 +150,43 @@ def test_pytorch_recovery_profile_pins_the_original_verifier_dependencies(tmp_pa
     assert "/tests" not in profile.command and "/app" not in profile.command
     assert "--index" not in profile.command and "--extra-index" not in profile.command
     assert set(dict(profile.task_files_sha256)) == {"task.toml", "tests/test.sh"}
+
+
+@pytest.mark.parametrize("name,requirements,apt_packages", [
+    ("multi-source-data-merger", ["pytest==8.4.1", "pandas==2.3.3", "pyarrow==22.0.0", "pytest-json-ctrf==0.3.5"], ("curl",)),
+    ("pytorch-model-cli", ["torch==2.7.1", "torchvision==0.22.1", "numpy==2.3.1", "opencv-python==4.11.0.86", "pytest==8.4.1", "pytest-json-ctrf==0.3.5"], ("curl", "ffmpeg", "libsm6", "libxext6")),
+    ("query-optimize", ["pytest==8.4.1", "pytest-json-ctrf==0.3.5"], ("curl",)),
+    ("torch-pipeline-parallelism", ["pytest==8.4.1", "torch==2.7.0", "transformers==4.55.0", "pytest-json-ctrf==0.3.5"], ("curl",)),
+    ("torch-tensor-parallelism", ["pytest==8.4.1", "torch==2.7.0", "pytest-json-ctrf==0.3.5"], ("curl",)),
+])
+def test_supplement_profiles_preserve_reviewed_dependencies_and_fail_closed(
+    tmp_path, name, requirements, apt_packages,
+):
+    # The original registration independently pins the reviewed task files.
+    registration = Path(__file__).resolve().parents[1] / "configs/deepseek-harness-dev34-20261030/experiment.json"
+    task = next(t for t in json.loads(registration.read_text())["tasks"]
+                if t["name"] == "terminal-bench/" + name)
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({"task": {"name": task["name"], "ref": task["ref"]}}))
+    profile = verifier_profile(tmp_path / "agent", name)
+    assert profile.apt_packages == apt_packages
+    assert dict(profile.task_files_sha256) == {
+        file: task["task_file_sha256"][file] for file in ("task.toml", "tests/test.sh")
+    }
+    args = shlex.split(profile.command.rsplit("; ", 1)[1])
+    assert [args[i + 1] for i, arg in enumerate(args) if arg == "-w"] == requirements
+    assert args[-2:] == ["pytest", "--version"]
+    assert args[args.index("-p") + 1] == "3.13"
+    assert "cd /tmp" in profile.command and "uv/0.9.5/install.sh" in profile.command
+    assert "/tests" not in profile.command and "/app" not in profile.command
+    if name == "pytorch-model-cli":
+        assert args[1:5] == ["--index", "https://download.pytorch.org/whl/cpu",
+                             "--index-strategy", "unsafe-best-match"]
+    else:
+        assert not any(arg.startswith("--index") for arg in args)
+    config.write_text(json.dumps({"task": {"name": task["name"], "ref": "latest"}}))
+    with pytest.raises(ValueError, match="Unknown .*revision"):
+        verifier_profile(tmp_path / "agent", name)
 
 
 @pytest.mark.parametrize("task", [
