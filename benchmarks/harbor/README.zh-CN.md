@@ -83,6 +83,31 @@ CPU 索引和 `unsafe-best-match` 策略；其他 PyTorch 配置保留原始默�
 通过不能保证后续没有网络故障。完整标准运行默认启用下述验证超时重试，整题重试
 次数为零。CI 会验证这些约定，不调用模型、不启动 Docker。
 
+### 校验后的 PyPI wheel 传输
+
+较大的原始 PyPI wheel 可使用可选的本地回环缓存：
+
+```bash
+python benchmarks/harbor/scripts/pypi_wheel_cache.py \
+  --cache .cache/nanopy-harbor/pypi-ranges --bind 127.0.0.1 --port 18744
+```
+
+Docker 题目中，让 sidecar 与题目共享网络命名空间，并仅向 sidecar 挂载缓存。
+在题目环境中注册 `UV_DEFAULT_INDEX=http://127.0.0.1:18744/simple`。
+服务始终获取当前 PyPI 索引元数据，保留所有版本、依赖要求、撤回标记、哈希和
+额外索引设置，仅将 wheel URL 指向回环缓存。源码分发 URL 与 PEP 658 元数据
+内容保持原样，元数据每次从上游转发。每次 wheel 请求都先根据当前 PyPI 发布
+元数据重新核对文件名、大小、SHA256 和原始 HTTPS URL，再恢复缓存内容。
+元数据不可用或文件损坏时直接失败，不使用离线或替代软件源。
+
+首次请求的 wheel 会先完整下载并校验，再返回内容。应在单独注册的安装时限
+范围内设置合适的 uv HTTP 等待时间（例如 `UV_HTTP_TIMEOUT=600`）。原生
+agent 和验证器时限保持不变。
+
+已有的有界分段下载器会校验每个范围及整个 wheel 的摘要。文件锁保护多个
+题目 sidecar 之间的缓存发布。模型运行前应注册传输配置及脚本，执行仅依赖
+预检，并保留原始题目镜像、脚本、软件包版本、来源以及每次 agent / 验证器时限。
+
 ### Pi agent baseline
 
 同一个标准入口也支持 `harbor_adapter:PiCodeAgent`。在 agent kwargs 中用

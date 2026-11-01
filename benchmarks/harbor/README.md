@@ -104,6 +104,37 @@ when it runs; a successful preflight is not a guarantee against later outages.
 Full standard runs enable the timeout retry policy below by default, with zero
 whole-trial retries. CI checks these contracts without model calls or Docker.
 
+### Verified PyPI wheel transport
+
+Large original PyPI wheels can use the optional loopback cache:
+
+```bash
+python benchmarks/harbor/scripts/pypi_wheel_cache.py \
+  --cache .cache/nanopy-harbor/pypi-ranges --bind 127.0.0.1 --port 18744
+```
+
+For Docker tasks, run it in a sidecar sharing the task's network namespace and
+mount the cache only in that sidecar. Register
+`UV_DEFAULT_INDEX=http://127.0.0.1:18744/simple` in the task environment.
+The service always fetches current PyPI index metadata, preserving all versions,
+requirements, yanks, hashes, and extra-index settings. Only wheel URLs change to
+the loopback cache. Source-distribution URLs and PEP 658 metadata bytes remain
+original; metadata is forwarded fresh. Every wheel request rechecks its
+filename, size, SHA256, and original HTTPS URL against current PyPI release
+metadata before restoring any cached bytes. Metadata outages and corrupt files
+fail closed. The cache is not an offline or alternative package index.
+
+A cold wheel is fully downloaded and verified before its body is served.
+Allow a suitable uv HTTP timeout (for example `UV_HTTP_TIMEOUT=600`) within
+the separately registered setup deadline. Native agent and verifier timeouts
+remain unchanged.
+
+The existing bounded range downloader verifies every range and the complete
+wheel digest. File locks protect publication across task sidecars. Register the
+transport and its scripts before model work, run dependency-only preflight,
+and preserve original task images, scripts, package versions, sources, and
+per-attempt agent/verifier limits.
+
 ### Pi agent baselines
 
 The same entry point also supports `harbor_adapter:PiCodeAgent`. Register a local
