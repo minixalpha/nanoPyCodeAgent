@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "registered_at": "2026-11-01T14:36:34.471637+00:00",
+  "experiment": "deepseek-harness-dev6-supplement-20261101",
+  "total_model_runs": 6,
+  "max_concurrent_trials": 2,
+  "whole_trial_retries": 0,
+  "minimum_free_disk_bytes": 16106127360,
+  "log_dir": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration",
+  "arms": {
+    "deepseek": {
+      "agent": "deepseek-harness",
+      "source_root": "jobs/deepseek-harness-supplement-source",
+      "source_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "distribution_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/deepseek-harness-build-f3803c9/distribution",
+      "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6"
+    }
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/multi-source-data-merger",
+      "ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/multi-source-data-merger:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-processing",
+      "verifier_dependency_profile": "multi-source-data-merger-v1",
+      "task_file_sha256": {
+        "README.md": "9bf37162a4c1b88ed93627830bb8512ebae154325d7cb069c883144a0e4c69d6",
+        "environment/Dockerfile": "c95a40d3d35b473dc15ae1e8784ba7fb1725805c0583fc574dd2764325d75e4f",
+        "environment/data/source_a/users.json": "75e51e2d3ab0bdba2269d7cf3757576f84f3ee2c13407d2db94289a5958a1778",
+        "environment/data/source_b/users.csv": "8e87d16dc47d166edd8e56165955bad265b630d53d02762367c816affb5fa760",
+        "environment/data/source_c/users.parquet": "23d1ea51c4170bdba53febb885a0f495e28de525a52667347b2932136b9a72fe",
+        "instruction.md": "d1d28bb6e37f7a255a1b7f78aae8591f35c0494f33e4913392424ad954aab944",
+        "solution/solve.sh": "1b3d0d50e31930d042495d48f4c8e95f1a9c1a979c803b7f7cec651322537e1e",
+        "task.toml": "ee3964c0ee040f0a0cb121cefefbc15443d127684acb003fa5b61dd42f31c694",
+        "tests/test.sh": "d5a00e64413c0e1ae452f38a1aa1a47c3ed7b4416bbfccae1a4c053025a336d1",
+        "tests/test_outputs.py": "a070888930cf829aeca039771260b1386bda990ea805f313468d381ba3608ca5"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/pytorch-model-cli",
+      "ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pytorch-model-cli:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "model-training",
+      "verifier_dependency_profile": "pytorch-model-cli-v1",
+      "task_file_sha256": {
+        "README.md": "35a093fa5f1592737784ba718c2e3e9ae17ff8b5e53e003fae560ddce091039c",
+        "environment/Dockerfile": "8fd5c0f21a6914cd440d10c84c9db06fec606f20dc3e0363b17a3b8c220dc4d9",
+        "environment/task-deps/cJSON.c": "0e7995261640c96db16ed2c91a5d981efa917cf5e72d0f97ec45a1179ae3ad73",
+        "environment/task-deps/cJSON.h": "0909160541bcc510e0b2d8c7a9cc051fa1459a0f13be4d8e56346a15491f2f2f",
+        "environment/task-deps/image.png": "f4d5dfefe463939996541404340e7099d5957b56e1df3760d13b5d2de754db53",
+        "environment/task-deps/lodepng.cpp": "67873c5f6272f779a143a9c81070e8783327c5552d0b9de2aaee2cb779308917",
+        "environment/task-deps/lodepng.h": "b735b7e0357319973e9488d520d7f270d734a6e9e1bf924fb1d5b8d26d7e97ce",
+        "environment/task-deps/model.pth": "a32103eef09936e586b1a7dc7e64d279500a38ff30fdd6df2167e28eb954eee6",
+        "environment/task-deps/model.py": "e4d3a5c728449656d0efde7871ee227619348352769795ed1be1a8b7f835fddc",
+        "instruction.md": "ce36ee1f6c589f81ee6a6be4967e25c76a2ed697006928023f42dfb9f28a6750",
+        "solution/solve.sh": "3b34e561c9ef0a53c9948655847846eb4811aaac67b990480aa6aac1b04bfe66",
+        "task.toml": "fc1c018efbd5d0537ac0741d53d1ebad3886faa51d14cbde8ec953856411bc0d",
+        "tests/test.sh": "43fb67e537c7adc2df11c2367f47c876cb5d16a7c1ae16d0339c3a3364bb2b06",
+        "tests/test_outputs.py": "370702c57a4e0c85f70ee37a5c357ae3a5df8480a275bb6263b0376f2f6c093b"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/pytorch-model-recovery",
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/pytorch-model-recovery:20260430",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "model-training",
+      "verifier_dependency_profile": "pytorch-model-recovery-v1",
+      "task_file_sha256": {
+        "README.md": "e080308a05703b40edd16f53aea41a0e6b9874750ecee35bb432029d0d44bf53",
+        "environment/Dockerfile": "8a6b7edbb9e7c241e447f15a71e13e5d043b25169be2fd9802b84f5be3d56eb6",
+        "environment/dataset.pt": "6db65e4ec1c0760209c2dd997ef582e4a1519ab38e0312339999c460a696960d",
+        "environment/weights.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080",
+        "instruction.md": "2bef07dc28be3ab2c35ae389584034c2e4dde92c2c31b3eb6bd829628c8c3f4a",
+        "solution/solve.sh": "175a7802777b43e0fa4f629d71f7c68fb40706813c342aaddc72108d89bd5b2c",
+        "task.toml": "851a51204f53482a31f47cdf8833128cf421113b0331011286940fc857c37dfd",
+        "tests/test.sh": "6005f3a75ccfe00d7bed1005264b4a84a1f8e30cd780f8a97b3a804be7cc7a8e",
+        "tests/test_outputs.py": "5d4d57c43e6913bf3d0081da764ad36d1b7275e3bb114a05abda529afe563905",
+        "tests/weights_gtruth.pt": "71471e71c5a311a897362dd5b77413e7ca2ca59abd00a110bdc2cd3f8584d080"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/query-optimize",
+      "ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 1800.0,
+      "docker_image": "alexgshaw/query-optimize:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "data-science",
+      "verifier_dependency_profile": "query-optimize-v1",
+      "task_file_sha256": {
+        "README.md": "a82c53e333a0ac0b0b410b5e26cb8e7305dece31db84d340248ffb13d5a45160",
+        "environment/Dockerfile": "064818771f200e0517d22068f87229a7a95d0a82b0778c84ca7203bf1926a0b8",
+        "environment/task-deps/my-sql-query.sql": "43382792f0f438625d643e34abe144febd5669518f4ab1ab550a15c6d9314a21",
+        "instruction.md": "473e12d320d2732f679fb631c2a4dab4a01deea6775686718ae0c417b8a39447",
+        "solution/solve.sh": "0d95f3cedb287ff9d47c796cbaf812c300d1222c10fa80c49e8acb0e81eb6978",
+        "task.toml": "6e88f2a86df699594bcb1bf81df4ed694505f79c9420f671335b02524bbe3868",
+        "tests/golden.sql": "4da1885d56b3ffa7b7b22b422996d018795611f6963499d551582881b74b84fd",
+        "tests/test.sh": "4770437ea96c3cc84684b4f99d55fb148fcac09f9ea1e8ef49de487716e6c334",
+        "tests/test_outputs.py": "2068ae80c57af8d52a7ae510f0666732c057806e556b480970f36f14bae683f6"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/torch-pipeline-parallelism",
+      "ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-pipeline-parallelism:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "torch-pipeline-parallelism-v1",
+      "task_file_sha256": {
+        "README.md": "297ddea07c230dfd246a8ab07337dd7abcd8e5e2a2b2e26590cb0a8af779839c",
+        "environment/Dockerfile": "c357ea41e4a4013c5c5980b8fef04af6a5ae250ccc6697cf3bad3127401a931f",
+        "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+        "solution/solve.sh": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+        "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+        "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+        "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    },
+    {
+      "name": "terminal-bench/torch-tensor-parallelism",
+      "ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "native_agent_timeout_seconds": 900,
+      "verifier_timeout_seconds": 900.0,
+      "docker_image": "alexgshaw/torch-tensor-parallelism:20251031",
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "category": "software-engineering",
+      "verifier_dependency_profile": "torch-tensor-parallelism-v1",
+      "task_file_sha256": {
+        "README.md": "4c1b3c3be30548f1f94c6f5503b1bc74b006af7f192dc4cd026f411df1a54604",
+        "environment/Dockerfile": "5f264ff0bf62a49aee3c6398447de5108df141e7a2ad35c6de8ef39fa62049c6",
+        "instruction.md": "13bde2ab165d72a311e2bf066d5d6c3c8761bf9d3dd39d1b23eda23bc546b910",
+        "solution/solve.sh": "d083b7cbf9dbb6cc2ff38c8f2acc150f0059c04aea42d6c2183aeaecc5a19385",
+        "task.toml": "72fd2a5500d1fe8795dcae76cccb1a29fb25894881a7475f2fa519c87d425a8d",
+        "tests/test.sh": "a7e6c9408b2401e4e7448371f7ddc72f3284caccfb56277d3cd4e98051868cdf",
+        "tests/test_outputs.py": "4ae4285e15fba1fcf13d7b7c0638ac8c2e2b0797c937abab1fb6b136fd508290"
+      },
+      "prior_nanopy_work_budget_seconds": 720,
+      "pi_agent_timeout_seconds": 900
+    }
+  ],
+  "preflight": [
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-01.json",
+      "config_sha256": "cc4f07cff8a7ec9ffe4de4bdb69322b0ec89b62c72072020d1f9b1f7f0e20e26",
+      "job_name": "dsh-sup6-install-pair-01-20261101"
+    },
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-02.json",
+      "config_sha256": "8c918a0998feb41ac3a974228d1bc3b4ba220fb5d76283c77590755738c1d149",
+      "job_name": "dsh-sup6-install-pair-02-20261101"
+    },
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-03.json",
+      "config_sha256": "b04b132fa453bec7c4f888e6e52dab533b8870dc1c0ea21881fb887c84ac00ba",
+      "job_name": "dsh-sup6-install-pair-03-20261101"
+    }
+  ],
+  "queue": [
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/multi-source-data-merger.json",
+      "config_sha256": "4e25ecef8ce9beb5a0adfb9977242fe32a9a5559b8f691fa686971d4a6d4e4e1",
+      "task": "terminal-bench/multi-source-data-merger",
+      "repeat": 1,
+      "job_name": "dsh-sup6-multi-source-data-merger-20261101"
+    },
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/pytorch-model-cli.json",
+      "config_sha256": "a0805861bc826d29e2bc9205c2c720f725f52a549d970c61b407f786dd73df49",
+      "task": "terminal-bench/pytorch-model-cli",
+      "repeat": 1,
+      "job_name": "dsh-sup6-pytorch-model-cli-20261101"
+    },
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/pytorch-model-recovery.json",
+      "config_sha256": "fddffa4e9c5bac957f87460cdd04276f964fb4c2aa1bcd98124387d95f140c99",
+      "task": "terminal-bench/pytorch-model-recovery",
+      "repeat": 1,
+      "job_name": "dsh-sup6-pytorch-model-recovery-20261101"
+    },
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/query-optimize.json",
+      "config_sha256": "2320f05a860f4c91d1fd1a200740cda5ac8fa67ea65dfab3dc3a5b0ef745b6e0",
+      "task": "terminal-bench/query-optimize",
+      "repeat": 1,
+      "job_name": "dsh-sup6-query-optimize-20261101"
+    },
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/torch-pipeline-parallelism.json",
+      "config_sha256": "bfa979780e67235b1f5472d025ca7b8cb2ea2b4ef2c7f1fab29d5b4fabee8d5c",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "repeat": 1,
+      "job_name": "dsh-sup6-torch-pipeline-parallelism-20261101"
+    },
+    {
+      "arm": "deepseek",
+      "config": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/torch-tensor-parallelism.json",
+      "config_sha256": "11b91bacfe4d1b2fdcf57a23376ae61b16df9c69802bd5465557db95b95976d8",
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "repeat": 1,
+      "job_name": "dsh-sup6-torch-tensor-parallelism-20261101"
+    }
+  ],
+  "additional_file_sha256": {
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/apt-cache.conf": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/deepseek-distribution.json": "34410bdce15ec3b417105eb7f9f6e01a14c47f1bfd0ffe16d76338e7efa51dd2",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/dependency-cache.compose.json": "560bc83f2a88bb907662db1b60ab15f49443a1572822fa633440f3cc76510557",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/dependency-release-manifest.json": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/image-digests.json": "c2405e16c2aaf2d837b6f6594875e197fd13eb94ed094253e4513c315783d030",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-01.json": "cc4f07cff8a7ec9ffe4de4bdb69322b0ec89b62c72072020d1f9b1f7f0e20e26",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-02.json": "8c918a0998feb41ac3a974228d1bc3b4ba220fb5d76283c77590755738c1d149",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-03.json": "b04b132fa453bec7c4f888e6e52dab533b8870dc1c0ea21881fb887c84ac00ba",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/model-alias-check.json": "452c5114c9ac5fc82634ce25ce8a2ee0a8f4e3ee15724f5324bdb1befcf865c3",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/multi-source-data-merger.json": "4e25ecef8ce9beb5a0adfb9977242fe32a9a5559b8f691fa686971d4a6d4e4e1",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/pytorch-model-cli.json": "a0805861bc826d29e2bc9205c2c720f725f52a549d970c61b407f786dd73df49",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/pytorch-model-recovery.json": "fddffa4e9c5bac957f87460cdd04276f964fb4c2aa1bcd98124387d95f140c99",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/query-optimize.json": "2320f05a860f4c91d1fd1a200740cda5ac8fa67ea65dfab3dc3a5b0ef745b6e0",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/selection.json": "5047e6d007ed45ee6887bcf09cceb3475b7075e56551a43143c38b8e00991284",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/torch-pipeline-parallelism.json": "bfa979780e67235b1f5472d025ca7b8cb2ea2b4ef2c7f1fab29d5b4fabee8d5c",
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/torch-tensor-parallelism.json": "11b91bacfe4d1b2fdcf57a23376ae61b16df9c69802bd5465557db95b95976d8",
+    "benchmarks/harbor/scripts/run_comparison.py": "228dbff33c0ec8a2359e612da632ef543dcac4273db2f9a7d0573a24e856fbae",
+    "benchmarks/harbor/scripts/apt_index_proxy.py": "bc15f7adf1d7968d627ceca4683ab86742a7188a1b1955ba1fef37ba48e8a936",
+    "benchmarks/harbor/scripts/cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+    "benchmarks/harbor/scripts/uv_release_cache.py": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+    "benchmarks/harbor/results/deepseek-harness-dev34-20261030.json": "e94ca1e201d032617e9d4649f2cbfbb60127c1257e7a0f3b2696fea808288396"
+  },
+  "batch_images": {
+    "manifest": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/image-digests.json",
+    "storage_path": "/var/lib/docker",
+    "minimum_free_disk_bytes": 16106127360,
+    "cache_dir": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/.cache/nanopy-harbor/images"
+  },
+  "model_policy": {
+    "model": "deepseek/deepseek-flash",
+    "provider": "deepseek-official",
+    "api": "anthropic-messages",
+    "base_url": "https://api.deepseek.com/anthropic",
+    "reasoning_effort": "high",
+    "profile": "sdk-minimal",
+    "temperature": "unset",
+    "sdk_max_tokens": "unset",
+    "upstream_default_max_tokens": 256000,
+    "alias": "Official guide checked 2026-11-01 maps the mutable deepseek-flash alias to DeepSeek-V4.1-Flash-1017."
+  },
+  "budget_policy": "Original task-native timeouts/resources; 1800-second setup. Upstream sdk-minimal prompts, tools, compaction, retries, and generation defaults. No injected turn limit, internal time budget, or finalization reminders. Pi used OpenAI-compatible transport with 384000-token model metadata; this is not a matched-generation-budget causal harness comparison.",
+  "verifier_policy": "Original official tests and native per-attempt timeout; retry only verifier timeouts, at most three total attempts against unchanged agent output. No dependency-error recovery. Require confirmed completion or cancellation before verification.",
+  "preflight_policy": "Fresh install-only checks for all six tasks before any supplemental model job. All six exact revisions have reviewed dependency-only profiles, original package versions/indexes and pytest --version checks. Every formal job repeats setup before model execution. Successful preflight does not guarantee future network availability.",
+  "information_policy": "Outcome-selected supplemental development experiment explicitly requested after auditing the original run. Do not replace original rewards or claim an independent clean benchmark. No prior outputs, solutions, official assertions or diagnostics are passed to the model. Inspect only operational metadata until all supplemental outputs are frozen. The other 55 tasks remain unopened.",
+  "runtime_environment": "UV_PROJECT_ENVIRONMENT=/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv",
+  "status_at_registration": "No supplemental model executions; dependency preflight pending.",
+  "historical_pi_results": "benchmarks/harbor/results/pi-deepseek-flash-dev34-20261024.json",
+  "authorization": {
+    "kind": "separately authorized fresh supplemental attempts",
+    "requested_at_date": "2026-11-01",
+    "scope": "Rerun all six analytically unscored tasks from the first official Harness dev34 run. Keep both attempts. Prior authorization to use the configured official DeepSeek credential remains applicable.",
+    "original_results": "benchmarks/harbor/results/deepseek-harness-dev34-20261030.json",
+    "original_results_sha256": "e94ca1e201d032617e9d4649f2cbfbb60127c1257e7a0f3b2696fea808288396",
+    "original_freeze": "benchmarks/harbor/configs/deepseek-harness-dev34-20261030/outputs-freeze.json",
+    "original_freeze_sha256": "cc421c1429450ac41d355d0df8333f4ab10ca4da0bf47f24bc3892d0724d9c24"
+  },
+  "transport_amendment": "Set UV_HTTP_TIMEOUT=120 seconds in the task environment to tolerate dependency-download stalls (previous default 30). Package versions, sources, official scripts and task-native agent/verifier time limits are unchanged. Existing verified APT and uv/Python release caches are reused. No new wheel mirror or unverified cache."
+}
