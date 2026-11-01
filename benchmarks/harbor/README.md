@@ -228,6 +228,13 @@ The report retains those failures and documents the
 [keyless lifecycle probe](scripts/probe_deepseek_lifecycle.py). Treat these
 results as measurements of the registered SDK configuration.
 
+The separately authorized [six-task supplement](reports/en/deepseek-harness-dev6-supplement-20261101.md)
+reran the unscored tasks with reviewed dependency preflight and verified original
+PyPI wheel transport: four passed, two failed, and none remained unscored. The
+original results stay unchanged. Combining the 28 original accepted attempts
+with these six new attempts gives mixed coverage of 26 passes and eight failures;
+this outcome-selected supplement is not an independent benchmark.
+
 ### Cache original task images
 
 If Docker image pulls repeatedly stall, the optional cache utility downloads the

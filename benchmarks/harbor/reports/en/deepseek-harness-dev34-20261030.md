@@ -1,5 +1,9 @@
 # Official DeepSeek Harness on Pi's 34-task development pool
 
+Follow-up: the separately authorized [November 1 six-task supplement](deepseek-harness-dev6-supplement-20261101.md)
+obtained four passes and two scored failures on these six unscored tasks. The
+original results and audit below remain unchanged.
+
 All **34 registered jobs finished on October 31, 2026**: **22 official passes,
 six scored failures, and six unscored errors**. There were 32 model executions;
 two jobs failed during setup. Two scored failures have a confirmed SDK service

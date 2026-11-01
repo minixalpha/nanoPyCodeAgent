@@ -1,11 +1,20 @@
 # Authorized six-task DeepSeek Harness supplement
 
-Status: the [v2 registration](experiment-v2.json) adds verified PyPI wheel
-transport after the initial preparation encountered a setup timeout. All six fresh v2
-dependency checks passed. [Preflight evidence](preflight-evidence.json) and
+Status: completed and audited on November 1, 2026: **four passes, two scored
+failures, and zero unscored errors**. All six model executions completed normally;
+all official verifiers finished on the first attempt. CLI failed prediction
+comparisons, and pipeline parallelism failed two backward-value comparisons.
+See the [full report](../../reports/en/deepseek-harness-dev6-supplement-20261101.md)
+and [structured results](../../results/deepseek-harness-dev6-supplement-20261101.json).
+
+The [v2 registration](experiment-v2.json) adds verified PyPI wheel transport after
+the initial preparation encountered a setup timeout. All six fresh dependency
+checks passed. [Preflight evidence](preflight-evidence.json) and
 [launch registration](launch-evidence.json) precede the six formal model jobs.
-Formal execution is now registered; results will be audited after all outputs
-are frozen.
+The [freeze manifest](outputs-freeze.json) covers 590 files, frozen before reviewing
+new trajectories or hidden assertions. All 2,506 original frozen files remain
+unchanged. The 28 original accepted attempts plus these six new attempts give
+mixed coverage of 26 passes and eight failures, not an independent clean run.
 
 The initial direct-download preflight passed data merger, PyTorch CLI, and query
 optimization. Model recovery exceeded its 1,800-second setup limit while
