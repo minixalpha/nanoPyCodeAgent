@@ -1,0 +1,71 @@
+{
+  "recorded_at": "2026-11-01T15:28:42.170928+00:00",
+  "range_download": {
+    "filename": "torch-2.7.1-cp313-cp313-manylinux_2_28_x86_64.whl",
+    "path": ".cache/nanopy-harbor/pypi-ranges/blobs/sha256/d632f5417b6980f61404a125b999ca6ebd0b8b4bbdbb5fbbba44374ab619a412",
+    "size": 821033192,
+    "sha256": "d632f5417b6980f61404a125b999ca6ebd0b8b4bbdbb5fbbba44374ab619a412",
+    "elapsed_seconds": 357.6746226220057,
+    "bytes_per_second": 2295475.105226228,
+    "source": "https://pypi.org/pypi/torch/2.7.1/json",
+    "purpose": "Host-side verified transport probe; not injected into the active preflight."
+  },
+  "initial_native_uv_smoke": {
+    "checked_at": "2026-11-01T15:19:10.795930+00:00",
+    "command": [
+      "jobs/uv-0.9.5-probe/uv",
+      "tool",
+      "run",
+      "--python",
+      "/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/bin/python3.13",
+      "--with",
+      "pytest==8.4.1",
+      "--with",
+      "pytest-json-ctrf==0.3.5",
+      "pytest",
+      "--version"
+    ],
+    "uv_version": "0.9.5",
+    "script_sha256": "8369dfbba73fb6410b9dbef79d7ddcd4d1190fef90fbf35d58a91ea41f53fbb1",
+    "exit_code": 0,
+    "stdout": "pytest 8.4.1",
+    "model_calls": 0,
+    "fresh_uv_cache": true,
+    "default_index": "Loopback proxy forwarding current original PyPI metadata and verified wheels."
+  },
+  "final_native_uv_smoke": {
+    "checked_at": "2026-11-01T15:26:24.601919+00:00",
+    "command": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/uv-0.9.5-probe/uv",
+      "tool",
+      "run",
+      "--python",
+      "/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/bin/python3.13",
+      "--with",
+      "pytest==8.4.1",
+      "--with",
+      "pytest-json-ctrf==0.3.5",
+      "pytest",
+      "--version"
+    ],
+    "uv_version": "0.9.5",
+    "script_sha256": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+    "probe_sha256": "02d43b929e97cb8a73c32525203cb9fa439294aa3dbfb55e804a41c009483237",
+    "exit_code": 0,
+    "stdout": "pytest 8.4.1",
+    "model_calls": 0,
+    "fresh_uv_cache": true,
+    "audit_log": "jobs/dsh-pypi-uv-smoke-audit-events.jsonl",
+    "audit_log_sha256": "330958a0b95493071fc429c43ed8c4f25a96ff648b88ff4531dc29fd9976b796",
+    "default_index": "Loopback proxy forwarding current original PyPI metadata and verified wheels."
+  },
+  "validation": {
+    "full_harbor_tests_passed": 301,
+    "pypi_cache_tests_passed": 16
+  },
+  "source_ref": "dc32b26194a06e7b070c5e8876d26ea0fcf3a7d3",
+  "source_files_sha256": {
+    "benchmarks/harbor/scripts/pypi_wheel_cache.py": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+    "benchmarks/harbor/scripts/cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c"
+  }
+}

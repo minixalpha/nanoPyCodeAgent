@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-11-01T14:47:03.295770+00:00",
+  "original_adapter_ref": "5b503ab6d04af2f6a719ec0dbe5418bfad4bf128",
+  "supplement_adapter_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+  "changed_adapter_files": [
+    "benchmarks/harbor/src/harbor_adapter/bootstrap.py"
+  ],
+  "identical_runtime_files_sha256": {
+    "deepseek.py": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+    "_dsh_client.py": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+    "_agent_runner.py": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+    "verifier.py": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+    "_verifier_runner.py": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+    "adapter.py": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02"
+  },
+  "interpretation": "Only bootstrap dependency-profile definitions changed in adapter source. Harness driver, prompt delivery, model settings, agent process supervision and verifier implementation are byte-identical. The separately registered task environment changes UV_HTTP_TIMEOUT from the default 30 to 120 seconds."
+}
