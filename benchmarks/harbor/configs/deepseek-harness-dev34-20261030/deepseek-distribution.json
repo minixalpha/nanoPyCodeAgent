@@ -1,0 +1,58 @@
+{
+  "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+  "provenance": {
+    "source_commit": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+    "source_archive_sha256": "0a851c705c243519cc573d077d8cf23295591498825d82b795b43b37255d43e4",
+    "origin": "https://github.com/deepseek-ai/deepseek-harness.git",
+    "node_version": "26.7.0",
+    "pnpm_version": "11.28.5",
+    "dependency_install": "pnpm install --frozen-lockfile --store-dir /mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/.cache/dsh-pnpm",
+    "runtime_build": "DSH_GATE_CONCURRENCY=4 pnpm exec tsx scripts/build-exe-for-python-sdk.ts --targets=node24-linux-x64 --build-artifacts --compress=GZip",
+    "source_git_metadata": "Original commit objects imported from the local source checkout after the official build required git rev-parse HEAD; source files remain unchanged.",
+    "source_clean_after_build": true,
+    "build_log_sha256": "73ad636ed60974c115c5d4dd0bc3819779908fb0f6cf75c95fe7e834e5838198",
+    "adapter_ref": "65d0fd389c61fc3a98d150be789c33da39e36f6a",
+    "sdk_minimal_smoke": {
+      "status": "passed",
+      "log_sha256": "df510602b41bd2c0a7aa83ed4867d8a5b675b43b2e5cc1748f7b1640b94bb9b4"
+    }
+  },
+  "files": {
+    "build-provenance.json": {
+      "sha256": "36212ebe23e42e7cfab847266bac7a4f8a05d83bbce4e5422f7dcfd2f87d4785",
+      "mode": 420
+    },
+    "distribution.json": {
+      "sha256": "c8d7a7842b835f66eb6dd0230403f0b4af0a26dd0e05ea04810c9667d7ba3d57",
+      "mode": 420
+    },
+    "wheels/annotated_types-0.8.0-py3-none-any.whl": {
+      "sha256": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0",
+      "mode": 420
+    },
+    "wheels/deepseek_harness_runtime_bin-0.2.2a2-py3-none-manylinux_2_28_x86_64.whl": {
+      "sha256": "1fb53195ac1c6d5bee02a63f11488487df74d964ee7fb1603eb268d8116edddc",
+      "mode": 420
+    },
+    "wheels/deepseek_harness_sdk-0.2.2a2-py3-none-any.whl": {
+      "sha256": "282bfb4b373e8b4634447bddc066f6cc0f20da5d422ed5618f37d469823b742f",
+      "mode": 420
+    },
+    "wheels/pydantic-2.13.4-py3-none-any.whl": {
+      "sha256": "45a282cde31d808236fd7ea9d919b128653c8b38b393d1c4ab335c62924d9aba",
+      "mode": 420
+    },
+    "wheels/pydantic_core-2.46.4-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": {
+      "sha256": "9551187363ffc0de2a00b2e47c25aeaeb1020b69b668762966df15fc5659dd5a",
+      "mode": 420
+    },
+    "wheels/typing_extensions-4.16.0-py3-none-any.whl": {
+      "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+      "mode": 420
+    },
+    "wheels/typing_inspection-0.4.4-py3-none-any.whl": {
+      "sha256": "65b8397ba37ccbce054456aaccddfc91e6e3083c92824df348d96ca832f3f147",
+      "mode": 420
+    }
+  }
+}

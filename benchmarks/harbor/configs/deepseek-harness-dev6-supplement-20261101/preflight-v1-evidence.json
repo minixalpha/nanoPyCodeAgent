@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-11-01T15:26:59.206575+00:00",
+  "original_plan": {
+    "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment.json",
+    "sha256": "cb45a79c8c0b128d6807118a656afc32357de40c250bb6064b9d46798a4232ac"
+  },
+  "summary": {
+    "installation_passed": 3,
+    "installation_failed": 1,
+    "installation_not_started": 2,
+    "model_executions": 0,
+    "official_verifier_executions": 0
+  },
+  "reason": "PyTorch model recovery reached the 1800-second setup limit while downloading original verifier dependencies. After pair 2 completed, stop the controller before pair 3 and register verified PyPI wheel transport. No running trial was interrupted by this boundary stop.",
+  "boundary_stop": {
+    "path": "jobs/dsh-supplement-preflight-boundary-stop.json",
+    "sha256": "1a058982408952541e9a98968d4c7e85f36ba050fe6693b1ef994b08ab3b5800"
+  },
+  "controller_exit_code": 130,
+  "active_task_containers_after_stop": 0,
+  "trials": [
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "trial": "multi-source-data-merger__A9ZBWfv",
+      "status": "setup_passed",
+      "exception_type": null,
+      "verifier_profile": {
+        "profile": "multi-source-data-merger-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T14:37:39.038730Z",
+        "finished_at": "2026-11-01T14:39:16.479499Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-01-20261101.json",
+          "sha256": "7907d0ca8916a3f8ac35a763309bf13eef2e06e3a9477f4353d8ef1d2450f79e"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/result.json",
+          "sha256": "c3efdc8bb4fb1048f32aa4c88105b8c1a08262e98c2fbe329d41dd09853ae408"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/agent/bootstrap.json",
+          "sha256": "aa9fa97bcb943c0408ee2557bce7e13bd0f2782ee383b5ff1df2450b2d7b172d"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "trial": "pytorch-model-cli__WHD5rDb",
+      "status": "setup_passed",
+      "exception_type": null,
+      "verifier_profile": {
+        "profile": "pytorch-model-cli-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T14:37:39.001514Z",
+        "finished_at": "2026-11-01T14:52:46.672756Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-01-20261101.json",
+          "sha256": "7907d0ca8916a3f8ac35a763309bf13eef2e06e3a9477f4353d8ef1d2450f79e"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/result.json",
+          "sha256": "1061d55f449577a08bfb866a4572bf1cda8efeba9e58e731b5d70a7972df0d22"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/agent/bootstrap.json",
+          "sha256": "a3c0057981c5d3db5eefa64571d2bcc3354657ae9602961506ab91df8197e94a"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "trial": "pytorch-model-recovery__LD8MzLU",
+      "status": "setup_failed",
+      "exception_type": "AgentSetupTimeoutError",
+      "verifier_profile": {
+        "profile": "pytorch-model-recovery-v1",
+        "status": "incomplete"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T14:53:24.216340Z",
+        "finished_at": "2026-11-01T15:23:24.570179Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-02-20261101.json",
+          "sha256": "61fa3336d6839abc032ab09e74b840c8b17301726df6d2955dfef9bb58eccd82"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/result.json",
+          "sha256": "57b535c90e77e1bfb129bdb32e45f29e825132e0dfde847fcab2be97346db9b3"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/agent/bootstrap.json",
+          "sha256": "569634e2774a66f6a021d30250a11667067e2fb7503586e9cffd6f8eadacdb75"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "trial": "query-optimize__nZVwCmT",
+      "status": "setup_passed",
+      "exception_type": null,
+      "verifier_profile": {
+        "profile": "query-optimize-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T14:53:24.209263Z",
+        "finished_at": "2026-11-01T14:54:26.697416Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-02-20261101.json",
+          "sha256": "61fa3336d6839abc032ab09e74b840c8b17301726df6d2955dfef9bb58eccd82"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/result.json",
+          "sha256": "bcddf59e8ca8e1042bc40c41d2928ef8a7ec7d419cc2fe234f42ae00ba304de2"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/agent/bootstrap.json",
+          "sha256": "1463562f8a5bf45a5156a7d3fb1283b26fac0a33db2574d396c0f3f18b454826"
+        }
+      ]
+    }
+  ]
+}

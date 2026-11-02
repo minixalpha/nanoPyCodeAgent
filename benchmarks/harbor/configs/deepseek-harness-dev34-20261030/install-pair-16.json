@@ -1,0 +1,42 @@
+{
+  "n_concurrent_trials": 2,
+  "n_attempts": 1,
+  "retry": {
+    "max_retries": 0
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:DeepSeekHarnessAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "distribution_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/deepseek-harness-build-f3803c9/distribution",
+        "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+        "reasoning_effort": "high"
+      }
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/benchmarks/harbor/configs/deepseek-harness-dev34-20261030/dependency-cache.compose.json"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/circuit-fibsqrt",
+      "ref": "sha256:9bcffe1054bb33249aa578a9a2a74f3c8cca66b0cb7aa1328233f1d31822aae3"
+    },
+    {
+      "name": "terminal-bench/mteb-leaderboard",
+      "ref": "sha256:484f6d7008a05b5b8640fc6618a384b8c9447cd76f85416c8a595028d29bff9c"
+    }
+  ],
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "require_agent_quiescence": true
+    }
+  }
+}

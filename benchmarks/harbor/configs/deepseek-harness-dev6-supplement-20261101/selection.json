@@ -1,0 +1,13 @@
+{
+  "selection_policy": "All six and only the six analytically unscored original tasks, explicitly requested by the maintainer on 2026-11-01. Fresh supplemental attempts; no best-of selection or replacement of prior records.",
+  "original_results": "benchmarks/harbor/results/deepseek-harness-dev34-20261030.json",
+  "original_results_sha256": "e94ca1e201d032617e9d4649f2cbfbb60127c1257e7a0f3b2696fea808288396",
+  "tasks": [
+    "terminal-bench/multi-source-data-merger",
+    "terminal-bench/pytorch-model-cli",
+    "terminal-bench/pytorch-model-recovery",
+    "terminal-bench/query-optimize",
+    "terminal-bench/torch-pipeline-parallelism",
+    "terminal-bench/torch-tensor-parallelism"
+  ]
+}

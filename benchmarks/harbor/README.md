@@ -88,12 +88,56 @@ pytest 8.4.1, torch 2.7.1, and pytest-json-ctrf 0.3.5 requirements, then runs on
 `pytest --version` from `/tmp`. It does not import the submitted model or run
 the task's tests. Other revisions require profile review.
 
+Reviewed revisions of `multi-source-data-merger`, `pytorch-model-cli`,
+`query-optimize`, `torch-pipeline-parallelism`, and `torch-tensor-parallelism`
+also have dependency-only profiles. They preserve each original wrapper's
+Python version, package pins, APT dependencies, and index options, and run only
+`pytest --version` from `/tmp`. In particular, only the CLI profile adds the
+original PyTorch CPU index and `unsafe-best-match` strategy; the other PyTorch
+profiles keep their original default index. Task metadata and verifier-wrapper
+hashes are recorded with these five profiles.
+
 Every installation writes `agent/bootstrap.json`, including partial progress
 on failure. Preflight failure stops the trial before any model call. The
 official verifier script remains unchanged and may still access the network
 when it runs; a successful preflight is not a guarantee against later outages.
 Full standard runs enable the timeout retry policy below by default, with zero
 whole-trial retries. CI checks these contracts without model calls or Docker.
+
+### Verified PyPI wheel transport
+
+Large original PyPI wheels can use the optional loopback cache:
+
+```bash
+python benchmarks/harbor/scripts/pypi_wheel_cache.py \
+  --cache .cache/nanopy-harbor/pypi-ranges --bind 127.0.0.1 --port 18744
+```
+
+For Docker tasks, run it in a sidecar sharing the task's network namespace and
+mount the cache only in that sidecar. Register
+`UV_DEFAULT_INDEX=http://127.0.0.1:18744/simple` in the task environment.
+The service always fetches current PyPI index metadata, preserving all versions,
+requirements, yanks, hashes, and extra-index settings. Only wheel URLs change to
+the loopback cache. Source-distribution URLs and PEP 658 metadata bytes remain
+original; metadata is forwarded fresh. Every wheel request rechecks its
+filename, size, SHA256, and original HTTPS URL against current PyPI release
+metadata before restoring any cached bytes. Metadata outages and corrupt files
+fail closed. The cache is not an offline or alternative package index.
+
+A cold wheel is fully downloaded and verified before its body is served.
+Allow a suitable uv HTTP timeout (for example `UV_HTTP_TIMEOUT=600`) within
+the separately registered setup deadline. Native agent and verifier timeouts
+remain unchanged.
+
+The existing bounded range downloader verifies every range and the complete
+wheel digest. File locks protect publication across task sidecars. Register the
+transport and its scripts before model work, run dependency-only preflight,
+and preserve original task images, scripts, package versions, sources, and
+per-attempt agent/verifier limits.
+
+Use `--audit-log /cache/run-events.jsonl` to retain current release metadata
+and verified cache-hit events after the sidecars exit. The append-only log is
+locked across processes and includes the originating container instance.
 
 ### Pi agent baselines
 
@@ -147,6 +191,49 @@ The first [Pi + DeepSeek Flash dev34 report](reports/en/pi-deepseek-flash-dev34-
 preserves all 34 attempts, the supervision amendment, two unscored legacy
 timeouts, public-reference exposure, and partial accounting. It does not claim
 a complete, uncontaminated 34-task pass rate.
+
+### DeepSeek Harness baselines
+
+`harbor_adapter:DeepSeekHarnessAgent` runs the upstream Python SDK's
+`sdk-minimal` profile, as recommended by DeepSeek Harness's `BENCHMARK.md`.
+Register `distribution_path`, `distribution_sha256`, and optional
+`reasoning_effort` (default `high`) in the agent kwargs. The distribution is an
+offline `wheels/` directory containing the SDK, native runtime, and all Python
+dependencies, plus `distribution.json` with `version`, `source_commit`,
+`source_archive_sha256`, `sdk_wheel`, and `runtime_wheel`. The digest covers every
+file and permission; the standard workflow snapshots and rechecks the bytes.
+
+Build the runtime and SDK from the selected upstream checkout using its documented
+Python contributor workflow. Task installation uses Python 3.13 and the frozen
+wheelhouse. Installation-only checks initialize the actual SDK profile and model
+without sending a task prompt, and run the existing verifier dependency preflight.
+Model work requires `DEEPSEEK_API_KEY` and uses the official Messages endpoint.
+Each task receives a fresh Harness home and session, with upstream prompts,
+tools, compaction, retries, and generation defaults. Native logs remain in
+`agent/dsh/`; SDK events, completion status, and diagnostics remain beside it.
+
+Configurations must set `verifier.kwargs.require_agent_quiescence=true`.
+The shared Linux supervisor confirms cancellation of the agent process tree
+before verification. A non-completed SDK finish reason is an execution error.
+Reported tokens include native assistant and compaction usage; missing records
+and interrupted runs remain partial, and cost remains unknown. This baseline
+does not impose Pi's generation settings or Nano's turn and work budgets.
+
+The first [official Harness dev34 report](reports/en/deepseek-harness-dev34-20261030.md)
+records 22 passes, six scored failures, and six unscored errors on Pi's existing
+34-task pool. Normal SDK closure in the pinned upstream runtime stops managed
+background services, including the probe's `nohup` server. This affects service
+tasks: KV and PyPI failed official checks after successful agent self-tests.
+The report retains those failures and documents the
+[keyless lifecycle probe](scripts/probe_deepseek_lifecycle.py). Treat these
+results as measurements of the registered SDK configuration.
+
+The separately authorized [six-task supplement](reports/en/deepseek-harness-dev6-supplement-20261101.md)
+reran the unscored tasks with reviewed dependency preflight and verified original
+PyPI wheel transport: four passed, two failed, and none remained unscored. The
+original results stay unchanged. Combining the 28 original accepted attempts
+with these six new attempts gives mixed coverage of 26 passes and eight failures;
+this outcome-selected supplement is not an independent benchmark.
 
 ### Cache original task images
 

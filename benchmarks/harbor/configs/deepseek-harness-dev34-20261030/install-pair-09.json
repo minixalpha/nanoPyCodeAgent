@@ -1,0 +1,42 @@
+{
+  "n_concurrent_trials": 2,
+  "n_attempts": 1,
+  "retry": {
+    "max_retries": 0
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:DeepSeekHarnessAgent",
+      "model_name": "deepseek/deepseek-flash",
+      "override_setup_timeout_sec": 1800,
+      "kwargs": {
+        "distribution_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/deepseek-harness-build-f3803c9/distribution",
+        "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+        "reasoning_effort": "high"
+      }
+    }
+  ],
+  "environment": {
+    "type": "docker",
+    "extra_docker_compose": [
+      "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/benchmarks/harbor/configs/deepseek-harness-dev34-20261030/dependency-cache.compose.json"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terminal-bench/pytorch-model-recovery",
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc"
+    },
+    {
+      "name": "terminal-bench/qemu-alpine-ssh",
+      "ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28"
+    }
+  ],
+  "verifier": {
+    "import_path": "harbor_adapter:RetryingVerifier",
+    "kwargs": {
+      "max_attempts": 3,
+      "require_agent_quiescence": true
+    }
+  }
+}

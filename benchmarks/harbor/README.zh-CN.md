@@ -71,10 +71,45 @@ uv 0.9.5、Python 3.13、pytest 8.4.1 和 pytest-json-ctrf 0.3.5，不执行题�
 0.3.5，随后仅在 `/tmp` 执行 `pytest --version`。它不导入提交的模型，也不运行
 题目测试。其他题目版本需要重新检查对应配置。
 
+已检查的 `multi-source-data-merger`、`pytorch-model-cli`、`query-optimize`、
+`torch-pipeline-parallelism` 和 `torch-tensor-parallelism` 版本也有仅准备依赖的
+配置。它们保留各自原始脚本的 Python 版本、软件包版本、APT 依赖和索引选项，
+仅在 `/tmp` 运行 `pytest --version`。其中仅 CLI 配置添加原脚本中的 PyTorch
+CPU 索引和 `unsafe-best-match` 策略；其他 PyTorch 配置保留原始默认索引。
+每个新检查的配置都记录题目元数据与验证器脚本的哈希。
+
 每次安装都会写入 `agent/bootstrap.json`，失败时也保留已完成的步骤。预检失败会
 在模型调用前终止 trial。官方验证脚本保持原样，执行时仍可能访问网络，所以预检
 通过不能保证后续没有网络故障。完整标准运行默认启用下述验证超时重试，整题重试
 次数为零。CI 会验证这些约定，不调用模型、不启动 Docker。
+
+### 校验后的 PyPI wheel 传输
+
+较大的原始 PyPI wheel 可使用可选的本地回环缓存：
+
+```bash
+python benchmarks/harbor/scripts/pypi_wheel_cache.py \
+  --cache .cache/nanopy-harbor/pypi-ranges --bind 127.0.0.1 --port 18744
+```
+
+Docker 题目中，让 sidecar 与题目共享网络命名空间，并仅向 sidecar 挂载缓存。
+在题目环境中注册 `UV_DEFAULT_INDEX=http://127.0.0.1:18744/simple`。
+服务始终获取当前 PyPI 索引元数据，保留所有版本、依赖要求、撤回标记、哈希和
+额外索引设置，仅将 wheel URL 指向回环缓存。源码分发 URL 与 PEP 658 元数据
+内容保持原样，元数据每次从上游转发。每次 wheel 请求都先根据当前 PyPI 发布
+元数据重新核对文件名、大小、SHA256 和原始 HTTPS URL，再恢复缓存内容。
+元数据不可用或文件损坏时直接失败，不使用离线或替代软件源。
+
+首次请求的 wheel 会先完整下载并校验，再返回内容。应在单独注册的安装时限
+范围内设置合适的 uv HTTP 等待时间（例如 `UV_HTTP_TIMEOUT=600`）。原生
+agent 和验证器时限保持不变。
+
+已有的有界分段下载器会校验每个范围及整个 wheel 的摘要。文件锁保护多个
+题目 sidecar 之间的缓存发布。模型运行前应注册传输配置及脚本，执行仅依赖
+预检，并保留原始题目镜像、脚本、软件包版本、来源以及每次 agent / 验证器时限。
+
+使用 `--audit-log /cache/run-events.jsonl`，可在 sidecar 退出后保留当前发布
+元数据及已校验的缓存命中事件。追加日志使用跨进程锁，并记录来源容器实例。
 
 ### Pi agent baseline
 
@@ -115,6 +150,43 @@ Docker 空间受限时，可以通过 `batch_images` 计划按批恢复已注册
 首份 [Pi + DeepSeek Flash dev34 报告](reports/zh-CN/pi-deepseek-flash-dev34-20261024.md)
 保留了全部 34 次尝试、进程托管修正、两次不评分的旧超时、公开参考材料接触和
 不完整用量统计，不宣称完整且无答案接触的 34 题通过率。
+
+### DeepSeek Harness baseline
+
+`harbor_adapter:DeepSeekHarnessAgent` 使用上游 Python SDK 的 `sdk-minimal`
+配置运行，这是 DeepSeek Harness 的 `BENCHMARK.md` 推荐的基准配置。
+在 agent kwargs 中注册 `distribution_path`、`distribution_sha256` 和可选的
+`reasoning_effort`（默认为 `high`）。分发目录包含离线 `wheels/` 目录，内有
+SDK、原生运行时以及所有 Python 依赖；另有 `distribution.json`，记录
+`version`、`source_commit`、`source_archive_sha256`、`sdk_wheel` 和
+`runtime_wheel`。摘要覆盖每个文件及其权限；标准流程会保存快照并重新校验。
+
+按照选定上游检出的 Python 贡献者文档构建运行时和 SDK。任务安装使用
+Python 3.13 和冻结的 wheel 集合。仅安装检查会初始化真实 SDK 配置和模型，
+但不发送任务提示，并执行已有的验证器依赖预检。模型执行需要
+`DEEPSEEK_API_KEY`，使用官方 Messages 端点。每道题都使用全新的 Harness
+目录与会话，保留上游提示词、工具、上下文压缩、重试及生成默认值。原生日志
+保存在 `agent/dsh/`，SDK 事件、完成状态和诊断信息保存在旁边。
+
+配置必须设置 `verifier.kwargs.require_agent_quiescence=true`。
+共享的 Linux 进程监督器在验证前确认 agent 进程树已被取消。SDK 返回非
+`completed` 的结束原因时记为执行错误。报告的 token 包含原生助手消息和
+压缩请求用量；缺失记录和中断运行仍标记为部分统计，费用保持未知。
+此 baseline 不强制套用 Pi 的生成设置或 Nano 的轮数和工作时间预算。
+
+首份[官方 Harness dev34 报告](reports/zh-CN/deepseek-harness-dev34-20261030.md)
+在 Pi 已使用的 34 道题上记录了 22 道通过、六道计分失败、六道因错误不计分。
+固定版本的上游运行时在正常关闭 SDK 时会停止托管的后台服务，包括探针中
+通过 `nohup` 启动的服务。这会影响服务题：KV 和 PyPI 在 agent 自测成功后，
+官方检查仍然失败。报告保留这些失败，并记录了
+[无密钥生命周期探针](scripts/probe_deepseek_lifecycle.py)。这些结果衡量的是
+注册的 SDK 配置。
+
+另行授权的[六题补测](reports/zh-CN/deepseek-harness-dev6-supplement-20261101.md)
+使用经过审核的依赖预检和经过校验的原始 PyPI wheel 下载通道，重跑未计分题目：
+四题通过、两题失败，无剩余未计分项。原始结果保持不变。将原始 28 次有效尝试
+与这六次新尝试结合，得到 26 题通过、八题失败的混合覆盖；这种根据原始结果
+选取的补测不构成独立基准。
 
 ### 缓存原始任务镜像
 

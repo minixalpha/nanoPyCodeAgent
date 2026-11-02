@@ -1,0 +1,2054 @@
+{
+  "schema_version": 1,
+  "experiment": "deepseek-harness-dev6-supplement-20261101-v2",
+  "audited_at": "2026-11-01T16:57:53.619037+00:00",
+  "frozen_at": "2026-11-01T16:56:07.773103+00:00",
+  "freeze_manifest": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/outputs-freeze.json",
+  "freeze_sha256": "ee6a3c6a4f57b6da2ffcc04e81e54e888949285054aff8e7a218ce0f330671f3",
+  "registration": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment-v2.json",
+  "registration_sha256": "69eb8272f3fcd125e062387f7f725c80f12b56b8a622d6a616d23f8e0e174a93",
+  "scope": "Outcome-selected supplemental development experiment explicitly requested after auditing the original run. Do not replace original rewards or claim an independent clean benchmark. No prior outputs, solutions, official assertions or diagnostics are passed to the model. Inspect only operational metadata until all supplemental outputs are frozen. The other 55 tasks remain unopened.",
+  "model_policy": {
+    "model": "deepseek/deepseek-flash",
+    "provider": "deepseek-official",
+    "api": "anthropic-messages",
+    "base_url": "https://api.deepseek.com/anthropic",
+    "reasoning_effort": "high",
+    "profile": "sdk-minimal",
+    "temperature": "unset",
+    "sdk_max_tokens": "unset",
+    "upstream_default_max_tokens": 256000,
+    "alias": "Official guide checked 2026-11-01 maps the mutable deepseek-flash alias to DeepSeek-V4.1-Flash-1017."
+  },
+  "budget_policy": "Original task-native timeouts/resources; 1800-second setup. Upstream sdk-minimal prompts, tools, compaction, retries, and generation defaults. No injected turn limit, internal time budget, or finalization reminders. Pi used OpenAI-compatible transport with 384000-token model metadata; this is not a matched-generation-budget causal harness comparison.",
+  "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+  "sources": {
+    "adapter": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+    "upstream": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+    "upstream_origin": "https://github.com/deepseek-ai/deepseek-harness.git",
+    "upstream_version": "0.2.2-alpha.2",
+    "source_archive_sha256": "0a851c705c243519cc573d077d8cf23295591498825d82b795b43b37255d43e4",
+    "runtime_sha256": "28e1eaeac3c594d2ce74c67c4f1e179c58ccf3d4dbb8c0faa719bec5745805f2",
+    "profile": "sdk-minimal",
+    "transport": "dc32b26194a06e7b070c5e8876d26ea0fcf3a7d3"
+  },
+  "original_experiment": {
+    "path": "benchmarks/harbor/results/deepseek-harness-dev34-20261030.json",
+    "sha256": "e94ca1e201d032617e9d4649f2cbfbb60127c1257e7a0f3b2696fea808288396",
+    "unchanged_summary": {
+      "registered_jobs": 34,
+      "model_executions": 32,
+      "passed": 22,
+      "failed": 6,
+      "unscored": 6,
+      "analytical_classifications": {
+        "failed": 6,
+        "passed": 22,
+        "unscored_verifier_error": 3,
+        "unscored_setup_error": 2,
+        "unscored_execution_error": 1
+      },
+      "native_rewards": {
+        "one": 22,
+        "zero": 10,
+        "null": 2
+      },
+      "standard_summary_statuses": {
+        "execution_error": 4,
+        "scored": 28,
+        "setup_failed": 2
+      },
+      "agent_timeouts": 3,
+      "whole_trial_retries": 0,
+      "extra_verifier_attempts": 3,
+      "service_lifecycle_caveat_failures": 2,
+      "accepted_official_cases": {
+        "total": 118,
+        "passed": 107,
+        "failed": 11,
+        "errors": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0
+      },
+      "unscored_query_official_cases": {
+        "passed": 2,
+        "failed": 4
+      }
+    },
+    "policy": "Preserve original results. These six fresh attempts were separately authorized after the original audit; do not overwrite or choose a better score."
+  },
+  "summary": {
+    "registered_jobs": 6,
+    "model_executions": 6,
+    "passed": 4,
+    "failed": 2,
+    "unscored": 0,
+    "analytical_classifications": {
+      "passed": 4,
+      "failed": 2
+    },
+    "native_rewards": {
+      "one": 4,
+      "zero": 2,
+      "null": 0
+    },
+    "standard_summary_statuses": {
+      "scored": 6
+    },
+    "agent_timeouts": 0,
+    "whole_trial_retries": 0,
+    "extra_verifier_attempts": 0,
+    "accepted_official_cases": {
+      "passed": 34,
+      "failed": 3,
+      "errors": 0,
+      "skipped": 0,
+      "xfailed": 0,
+      "xpassed": 0,
+      "total": 37
+    }
+  },
+  "accounting_policy": "Native rewards, exceptions and standard summaries are unchanged. Confirmed timeout outputs with completed official tests remain scoreable; setup failures, terminal provider transport failure and verifier dependency failures remain analytically null. Service-lifecycle failures are retained as failures of this measured SDK configuration. This is not a complete 34-task pass rate or a causal agent-quality comparison.",
+  "mixed_coverage": {
+    "original_accepted_attempts": 28,
+    "new_attempts": 6,
+    "passed": 26,
+    "failed": 8,
+    "unscored": 0,
+    "policy": "Descriptive coverage using the 28 original accepted attempts plus exactly the six authorized new attempts. Outcome-selected mixed-date sample, not an independent benchmark or best-of-two score."
+  },
+  "historical_comparison": {
+    "baseline": {
+      "path": "benchmarks/harbor/results/pi-deepseek-flash-dev34-20261024.json",
+      "sha256": "b85d3bf2b0ea9661940f0e6b08e3bea71b2c41ae34da5c89f9ecd5197c6c8ff5"
+    },
+    "supplement_common_accepted_tasks": 6,
+    "supplement_deepseek_passes": 4,
+    "supplement_pi_passes_on_common": 4,
+    "mixed_common_accepted_tasks": 32,
+    "mixed_deepseek_passes_on_common": 25,
+    "mixed_pi_passes_on_common": 26,
+    "mixed_gained_passes": [
+      "terminal-bench/dna-assembly",
+      "terminal-bench/query-optimize"
+    ],
+    "mixed_lost_passes": [
+      "terminal-bench/kv-store-grpc",
+      "terminal-bench/pypi-server",
+      "terminal-bench/torch-pipeline-parallelism"
+    ],
+    "caveats": "The KV/PyPI losses have the confirmed SDK service-lifecycle caveat. The pipeline loss compares against a Pi pass exposed to public reference tests/solution. WAL passes here but was unscored in Pi and is not a paired gain; Pi sampler/WAL have invalid/unverified legacy boundaries. Different dates, mutable alias, Messages versus OpenAI-compatible endpoints, 256000 versus 384000 output ceilings, new dependency preparation/cache, and outcome selection prevent causal harness attribution."
+  },
+  "usage": {
+    "n_input_tokens_known": 1298682,
+    "n_cache_tokens_known": 1242112,
+    "n_output_tokens_known": 79429,
+    "input_includes_cache": true,
+    "cost_usd": null,
+    "usage_is_partial": false,
+    "partial_usage_tasks": [],
+    "policy": "Known SDK usage subtotals only. Interrupted requests and failed native retries can lack usage. Cache tokens are already included in input; do not add them again. No provider billing or price-derived cost is asserted."
+  },
+  "timing": {
+    "first_job_started_at": "2026-11-01T15:50:21.232772+00:00",
+    "last_job_finished_at": "2026-11-01T16:55:21.072680+00:00",
+    "queue_wall_seconds": 3899.839908,
+    "summed_agent_seconds": 1744.285722,
+    "interpretation": "Formal queue wall time includes setup, verification and pair barriers, but excludes earlier installation-only checks and transport probes. This supplement had no verifier retries or terminal API failures. Different dates and preparation prevent a controlled latency comparison."
+  },
+  "validation": {
+    "audited_at": "2026-11-01T16:56:03.016491+00:00",
+    "final_plan_validation_passed": true,
+    "source_task_and_configuration_hashes_match": true,
+    "all_six_preflights_before_first_model_job": true,
+    "pair_barriers_passed": true,
+    "registered_jobs_finished": 6,
+    "model_executions": 6,
+    "formal_dependency_profiles_passed": 6,
+    "active_task_containers_after_run": 0,
+    "v2_images_verified": 12,
+    "original_frozen_files_rehashed_unchanged": 2506,
+    "first_job_started_at": "2026-11-01T15:50:21.232772+00:00",
+    "last_job_finished_at": "2026-11-01T16:55:21.072680+00:00",
+    "frozen_files_rehashed": 590,
+    "process_boundaries_confirmed_before_verification": 6,
+    "post_agent_end_events": 0,
+    "events_at_or_after_verifier_start": 0,
+    "final_harbor_tests_passed": 301,
+    "pypi_cache_contracts_passed": 16,
+    "native_uv_0_9_5_transport_smoke_passed": true
+  },
+  "preparation": {
+    "initial": {
+      "schema_version": 1,
+      "audited_at": "2026-11-01T15:26:59.206575+00:00",
+      "original_plan": {
+        "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment.json",
+        "sha256": "cb45a79c8c0b128d6807118a656afc32357de40c250bb6064b9d46798a4232ac"
+      },
+      "summary": {
+        "installation_passed": 3,
+        "installation_failed": 1,
+        "installation_not_started": 2,
+        "model_executions": 0,
+        "official_verifier_executions": 0
+      },
+      "reason": "PyTorch model recovery reached the 1800-second setup limit while downloading original verifier dependencies. After pair 2 completed, stop the controller before pair 3 and register verified PyPI wheel transport. No running trial was interrupted by this boundary stop.",
+      "boundary_stop": {
+        "path": "jobs/dsh-supplement-preflight-boundary-stop.json",
+        "sha256": "1a058982408952541e9a98968d4c7e85f36ba050fe6693b1ef994b08ab3b5800"
+      },
+      "controller_exit_code": 130,
+      "active_task_containers_after_stop": 0,
+      "trials": [
+        {
+          "task": "terminal-bench/multi-source-data-merger",
+          "trial": "multi-source-data-merger__A9ZBWfv",
+          "status": "setup_passed",
+          "exception_type": null,
+          "verifier_profile": {
+            "profile": "multi-source-data-merger-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T14:37:39.038730Z",
+            "finished_at": "2026-11-01T14:39:16.479499Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-01-20261101.json",
+              "sha256": "7907d0ca8916a3f8ac35a763309bf13eef2e06e3a9477f4353d8ef1d2450f79e"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/result.json",
+              "sha256": "c3efdc8bb4fb1048f32aa4c88105b8c1a08262e98c2fbe329d41dd09853ae408"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/agent/bootstrap.json",
+              "sha256": "aa9fa97bcb943c0408ee2557bce7e13bd0f2782ee383b5ff1df2450b2d7b172d"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/pytorch-model-cli",
+          "trial": "pytorch-model-cli__WHD5rDb",
+          "status": "setup_passed",
+          "exception_type": null,
+          "verifier_profile": {
+            "profile": "pytorch-model-cli-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T14:37:39.001514Z",
+            "finished_at": "2026-11-01T14:52:46.672756Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-01-20261101.json",
+              "sha256": "7907d0ca8916a3f8ac35a763309bf13eef2e06e3a9477f4353d8ef1d2450f79e"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/result.json",
+              "sha256": "1061d55f449577a08bfb866a4572bf1cda8efeba9e58e731b5d70a7972df0d22"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/agent/bootstrap.json",
+              "sha256": "a3c0057981c5d3db5eefa64571d2bcc3354657ae9602961506ab91df8197e94a"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "trial": "pytorch-model-recovery__LD8MzLU",
+          "status": "setup_failed",
+          "exception_type": "AgentSetupTimeoutError",
+          "verifier_profile": {
+            "profile": "pytorch-model-recovery-v1",
+            "status": "incomplete"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T14:53:24.216340Z",
+            "finished_at": "2026-11-01T15:23:24.570179Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-02-20261101.json",
+              "sha256": "61fa3336d6839abc032ab09e74b840c8b17301726df6d2955dfef9bb58eccd82"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/result.json",
+              "sha256": "57b535c90e77e1bfb129bdb32e45f29e825132e0dfde847fcab2be97346db9b3"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/agent/bootstrap.json",
+              "sha256": "569634e2774a66f6a021d30250a11667067e2fb7503586e9cffd6f8eadacdb75"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/query-optimize",
+          "trial": "query-optimize__nZVwCmT",
+          "status": "setup_passed",
+          "exception_type": null,
+          "verifier_profile": {
+            "profile": "query-optimize-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T14:53:24.209263Z",
+            "finished_at": "2026-11-01T14:54:26.697416Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-02-20261101.json",
+              "sha256": "61fa3336d6839abc032ab09e74b840c8b17301726df6d2955dfef9bb58eccd82"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/result.json",
+              "sha256": "bcddf59e8ca8e1042bc40c41d2928ef8a7ec7d419cc2fe234f42ae00ba304de2"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/agent/bootstrap.json",
+              "sha256": "1463562f8a5bf45a5156a7d3fb1283b26fac0a33db2574d396c0f3f18b454826"
+            }
+          ]
+        }
+      ]
+    },
+    "final": {
+      "schema_version": 1,
+      "audited_at": "2026-11-01T15:49:52.094028+00:00",
+      "experiment": {
+        "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment-v2.json",
+        "sha256": "69eb8272f3fcd125e062387f7f725c80f12b56b8a622d6a616d23f8e0e174a93"
+      },
+      "adapter_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+      "model_jobs_started": 0,
+      "summary": {
+        "installation_passed": 6,
+        "sdk_initialization_passed": 6,
+        "supervision_probe_passed": 6,
+        "verifier_dependency_profiles_passed": 6,
+        "verifier_dependency_profiles_not_configured": 0,
+        "model_executions": 0
+      },
+      "trials": [
+        {
+          "task": "terminal-bench/multi-source-data-merger",
+          "task_ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+          "job": "dsh-sup6-install-pair-01-cache-20261101",
+          "trial": "multi-source-data-merger__kDiQNmh",
+          "installation": "passed",
+          "sdk_initialization": "passed",
+          "process_supervision_probe": "passed",
+          "verifier_dependency_profile": {
+            "profile": "multi-source-data-merger-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T15:30:37.424635Z",
+            "finished_at": "2026-11-01T15:32:11.448362Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-01-cache-20261101.json",
+              "sha256": "866efbc2def799a1e374e0e47e4b6f596f2b9c7596525b0c53989afab2656fa0"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/manifest.json",
+              "sha256": "a1c0a37704126265f30150d7ab8d049adcbef97964b3ca57cc64c927dec3c50e"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/summary.json",
+              "sha256": "7e60fc4d3c5a8ac06c48f630b8359cce05366334fd479d196c49e518f824ed56"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/result.json",
+              "sha256": "c2457b2afd8de269bfac9c2c67a0c120d1f2604bee58da87f3f01fef3bac4e37"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/agent/bootstrap.json",
+              "sha256": "aa9fa97bcb943c0408ee2557bce7e13bd0f2782ee383b5ff1df2450b2d7b172d"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/pytorch-model-cli",
+          "task_ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+          "job": "dsh-sup6-install-pair-01-cache-20261101",
+          "trial": "pytorch-model-cli__dzNhbDJ",
+          "installation": "passed",
+          "sdk_initialization": "passed",
+          "process_supervision_probe": "passed",
+          "verifier_dependency_profile": {
+            "profile": "pytorch-model-cli-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T15:30:37.388855Z",
+            "finished_at": "2026-11-01T15:34:17.660530Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-01-cache-20261101.json",
+              "sha256": "866efbc2def799a1e374e0e47e4b6f596f2b9c7596525b0c53989afab2656fa0"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/manifest.json",
+              "sha256": "a1c0a37704126265f30150d7ab8d049adcbef97964b3ca57cc64c927dec3c50e"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/summary.json",
+              "sha256": "7e60fc4d3c5a8ac06c48f630b8359cce05366334fd479d196c49e518f824ed56"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/result.json",
+              "sha256": "942b30020eaf1fb96c31f6b9ff272eaf32364f08666f2ff3cb4388e4d089d486"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/agent/bootstrap.json",
+              "sha256": "0d3b19888676a0f8c1bd7b850d8a349a49b07f1cebc2e1780e678948be935a60"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/pytorch-model-recovery",
+          "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+          "job": "dsh-sup6-install-pair-02-cache-20261101",
+          "trial": "pytorch-model-recovery__XnktXzC",
+          "installation": "passed",
+          "sdk_initialization": "passed",
+          "process_supervision_probe": "passed",
+          "verifier_dependency_profile": {
+            "profile": "pytorch-model-recovery-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T15:34:54.988540Z",
+            "finished_at": "2026-11-01T15:38:52.082773Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-02-cache-20261101.json",
+              "sha256": "85ad71a6a8dd6e53fd18764b3eb819e725a00d1fb6f640e130d583aa095a3678"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/manifest.json",
+              "sha256": "bf7a0c43b592960af76176b8715b8440129886b6becc68f51dce7c2dafb06bcf"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/summary.json",
+              "sha256": "40582b6a4c73c6f9ad84f1e454e3072b5818e5b4213e08082f2b88a3b88f0aa1"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/result.json",
+              "sha256": "ef17615f7c6a6c91d075791d90ad56adab7e245eb7bda5ce846bbfbf904f2366"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/agent/bootstrap.json",
+              "sha256": "638922b88c59516844637223aff41c51866cf5e21824c22d7fd7116ebfb1e0fc"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/query-optimize",
+          "task_ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+          "job": "dsh-sup6-install-pair-02-cache-20261101",
+          "trial": "query-optimize__mjkeDjx",
+          "installation": "passed",
+          "sdk_initialization": "passed",
+          "process_supervision_probe": "passed",
+          "verifier_dependency_profile": {
+            "profile": "query-optimize-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T15:34:54.987141Z",
+            "finished_at": "2026-11-01T15:35:49.586138Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-02-cache-20261101.json",
+              "sha256": "85ad71a6a8dd6e53fd18764b3eb819e725a00d1fb6f640e130d583aa095a3678"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/manifest.json",
+              "sha256": "bf7a0c43b592960af76176b8715b8440129886b6becc68f51dce7c2dafb06bcf"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/summary.json",
+              "sha256": "40582b6a4c73c6f9ad84f1e454e3072b5818e5b4213e08082f2b88a3b88f0aa1"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/result.json",
+              "sha256": "f1e90e69169bf7cfee37a68f7915b981e4cff370caa457d9ba9dffaaa431b7cf"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/agent/bootstrap.json",
+              "sha256": "1463562f8a5bf45a5156a7d3fb1283b26fac0a33db2574d396c0f3f18b454826"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/torch-pipeline-parallelism",
+          "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+          "job": "dsh-sup6-install-pair-03-cache-20261101",
+          "trial": "torch-pipeline-parallelism__mXeoYMQ",
+          "installation": "passed",
+          "sdk_initialization": "passed",
+          "process_supervision_probe": "passed",
+          "verifier_dependency_profile": {
+            "profile": "torch-pipeline-parallelism-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T15:39:41.683509Z",
+            "finished_at": "2026-11-01T15:48:44.616122Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-03-cache-20261101.json",
+              "sha256": "2ea8ddedb98188185000466de388c6d4c62c565ebb5a6d457b074ac1adad86b3"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/manifest.json",
+              "sha256": "a79d0cfc3f8c90c299dfdbf2f245115c51924cb56026116b53ccd54bc44abf9d"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/summary.json",
+              "sha256": "6ac52365e43f74afd60a3424faf8d05b7df928abeca72c1559362664ecd8b348"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/result.json",
+              "sha256": "d29a589b7595b286187ff3dea2ec985151dfda8cb19da12fee759f75c59771bf"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/agent/bootstrap.json",
+              "sha256": "a9460a42b2e140bbe0bee9d4a2226d95a34d556d4cdf92a6b310b8b3a72c3bca"
+            }
+          ]
+        },
+        {
+          "task": "terminal-bench/torch-tensor-parallelism",
+          "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+          "job": "dsh-sup6-install-pair-03-cache-20261101",
+          "trial": "torch-tensor-parallelism__6VSbzJS",
+          "installation": "passed",
+          "sdk_initialization": "passed",
+          "process_supervision_probe": "passed",
+          "verifier_dependency_profile": {
+            "profile": "torch-tensor-parallelism-v1",
+            "status": "passed"
+          },
+          "agent_setup": {
+            "started_at": "2026-11-01T15:39:41.684726Z",
+            "finished_at": "2026-11-01T15:48:43.633194Z"
+          },
+          "evidence": [
+            {
+              "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-03-cache-20261101.json",
+              "sha256": "2ea8ddedb98188185000466de388c6d4c62c565ebb5a6d457b074ac1adad86b3"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/manifest.json",
+              "sha256": "a79d0cfc3f8c90c299dfdbf2f245115c51924cb56026116b53ccd54bc44abf9d"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/summary.json",
+              "sha256": "6ac52365e43f74afd60a3424faf8d05b7df928abeca72c1559362664ecd8b348"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/result.json",
+              "sha256": "4862f8fa3a7b1038b169aa97a54f0892917ad45bdb769a3fb25fba62ade08979"
+            },
+            {
+              "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/agent/bootstrap.json",
+              "sha256": "34af5d820280f7c297e211a7e512cc9101f09ab3908a0b7bf5ded9486eb61085"
+            }
+          ]
+        }
+      ]
+    },
+    "launch": {
+      "schema_version": 1,
+      "authorized_launch_registered_at": "2026-11-01T15:49:52.188939+00:00",
+      "repository_ref": "0c587c016fc0757f08b223a1976fae9e800d352b",
+      "adapter_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "transport_ref": "dc32b26194a06e7b070c5e8876d26ea0fcf3a7d3",
+      "authorization": "The maintainer requested rerunning the six unscored tasks on 2026-11-01. Prior explicit confirmation authorizes use of the existing DeepSeek provider credential without publishing it.",
+      "phase": "model",
+      "model_jobs_started_at_registration": 0,
+      "model_runs_authorized": 6,
+      "whole_trial_retries": 0,
+      "preflight": {
+        "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/preflight-evidence.json",
+        "sha256": "e973e6d280171287c8c60b7888834b56259f897aac67e8ffa6c23daad39e3e06"
+      },
+      "plan": {
+        "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment-v2.json",
+        "sha256": "69eb8272f3fcd125e062387f7f725c80f12b56b8a622d6a616d23f8e0e174a93"
+      },
+      "credential_handling": "Read the authorized local DeepSeek provider credential into the child environment only. No key is written to this record.",
+      "output_policy": "Freeze all six outputs before inspecting new model trajectories or hidden assertions."
+    },
+    "transport_amendment": "Use UV_DEFAULT_INDEX=http://127.0.0.1:18744/simple to forward the current original PyPI index, preserving versions, requirements, yanks, hashes and extra-index settings. Serve original wheels only after checking current PyPI release filename/size/SHA256/HTTPS origin and full downloaded bytes. Existing ranged downloader, cross-process file locks, and persistent public provenance log. Set UV_HTTP_TIMEOUT=600 for a cold wheel to finish verification before any body is served. Setup remains 1800 seconds; task-native agent/verifier limits and official scripts are unchanged. Original APT and uv/Python release transports remain identical. No model output or task is replayed automatically.",
+    "transport_probes": {
+      "recorded_at": "2026-11-01T15:28:42.170928+00:00",
+      "range_download": {
+        "filename": "torch-2.7.1-cp313-cp313-manylinux_2_28_x86_64.whl",
+        "path": ".cache/nanopy-harbor/pypi-ranges/blobs/sha256/d632f5417b6980f61404a125b999ca6ebd0b8b4bbdbb5fbbba44374ab619a412",
+        "size": 821033192,
+        "sha256": "d632f5417b6980f61404a125b999ca6ebd0b8b4bbdbb5fbbba44374ab619a412",
+        "elapsed_seconds": 357.6746226220057,
+        "bytes_per_second": 2295475.105226228,
+        "source": "https://pypi.org/pypi/torch/2.7.1/json",
+        "purpose": "Host-side verified transport probe; not injected into the active preflight."
+      },
+      "initial_native_uv_smoke": {
+        "checked_at": "2026-11-01T15:19:10.795930+00:00",
+        "command": [
+          "jobs/uv-0.9.5-probe/uv",
+          "tool",
+          "run",
+          "--python",
+          "/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/bin/python3.13",
+          "--with",
+          "pytest==8.4.1",
+          "--with",
+          "pytest-json-ctrf==0.3.5",
+          "pytest",
+          "--version"
+        ],
+        "uv_version": "0.9.5",
+        "script_sha256": "8369dfbba73fb6410b9dbef79d7ddcd4d1190fef90fbf35d58a91ea41f53fbb1",
+        "exit_code": 0,
+        "stdout": "pytest 8.4.1",
+        "model_calls": 0,
+        "fresh_uv_cache": true,
+        "default_index": "Loopback proxy forwarding current original PyPI metadata and verified wheels."
+      },
+      "final_native_uv_smoke": {
+        "checked_at": "2026-11-01T15:26:24.601919+00:00",
+        "command": [
+          "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/uv-0.9.5-probe/uv",
+          "tool",
+          "run",
+          "--python",
+          "/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/bin/python3.13",
+          "--with",
+          "pytest==8.4.1",
+          "--with",
+          "pytest-json-ctrf==0.3.5",
+          "pytest",
+          "--version"
+        ],
+        "uv_version": "0.9.5",
+        "script_sha256": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+        "probe_sha256": "02d43b929e97cb8a73c32525203cb9fa439294aa3dbfb55e804a41c009483237",
+        "exit_code": 0,
+        "stdout": "pytest 8.4.1",
+        "model_calls": 0,
+        "fresh_uv_cache": true,
+        "audit_log": "jobs/dsh-pypi-uv-smoke-audit-events.jsonl",
+        "audit_log_sha256": "330958a0b95493071fc429c43ed8c4f25a96ff648b88ff4531dc29fd9976b796",
+        "default_index": "Loopback proxy forwarding current original PyPI metadata and verified wheels."
+      },
+      "validation": {
+        "full_harbor_tests_passed": 301,
+        "pypi_cache_tests_passed": 16
+      },
+      "source_ref": "dc32b26194a06e7b070c5e8876d26ea0fcf3a7d3",
+      "source_files_sha256": {
+        "benchmarks/harbor/scripts/pypi_wheel_cache.py": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+        "benchmarks/harbor/scripts/cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c"
+      }
+    }
+  },
+  "wheel_transport_audit": {
+    "path": ".cache/nanopy-harbor/pypi-ranges/audit/dsh-sup6-cache-20261101.jsonl",
+    "sha256": "ef8385be4d1387b72014dca1e89b1281fed347714f9bd3e5f9e050b501e7366a",
+    "events": {
+      "ready": 12,
+      "release_metadata": 675,
+      "wheel": 270
+    },
+    "verified_wheel_responses": 270,
+    "cache_hits": 224,
+    "cold_responses": 46,
+    "unique_verified_artifacts": 53,
+    "every_wheel_has_matching_prior_original_release_metadata": true,
+    "artifacts": [
+      {
+        "project": "pygments",
+        "version": "2.21.0",
+        "filename": "pygments-2.21.0-py3-none-any.whl",
+        "size": 1250147,
+        "sha256": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9",
+        "source_url": "https://files.pythonhosted.org/packages/71/46/17f022dd3e953bf20a04a028a21ec746d942f8d2af30fa0f124fa0e6a684/pygments-2.21.0-py3-none-any.whl"
+      },
+      {
+        "project": "tzdata",
+        "version": "2026.6",
+        "filename": "tzdata-2026.6-py2.py3-none-any.whl",
+        "size": 348210,
+        "sha256": "0a10eec6e13ef16b627fabed9a5f2ba61a62b1c67f327305f4e7e412a70b4aec",
+        "source_url": "https://files.pythonhosted.org/packages/0a/66/9a06c2227fedfd4919f0eaaa8b94377d9730882a7e4f95823c9a331ab5e1/tzdata-2026.6-py2.py3-none-any.whl"
+      },
+      {
+        "project": "pytest",
+        "version": "8.4.1",
+        "filename": "pytest-8.4.1-py3-none-any.whl",
+        "size": 365474,
+        "sha256": "539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7",
+        "source_url": "https://files.pythonhosted.org/packages/29/16/c8a903f4c4dffe7a12843191437d7cd8e32751d5de349d45d3fe69544e87/pytest-8.4.1-py3-none-any.whl"
+      },
+      {
+        "project": "pytz",
+        "version": "2026.6",
+        "filename": "pytz-2026.6-py2.py3-none-any.whl",
+        "size": 506321,
+        "sha256": "7fed3fee8fd6bd4a2b7b75a8d56021d0624127bf69bd5691f115db929ac570b3",
+        "source_url": "https://files.pythonhosted.org/packages/b6/25/564f3fc5b70c1398d706c51f2b1470d0ea0b1b2f96fee67877b6f5bdf3b6/pytz-2026.6-py2.py3-none-any.whl"
+      },
+      {
+        "project": "pytest-json-ctrf",
+        "version": "0.3.5",
+        "filename": "pytest_json_ctrf-0.3.5-py3-none-any.whl",
+        "size": 6837,
+        "sha256": "e82fd1d69be2f92385bc33540063e5ad7b17b36de67764c84f3ceb9815a895e9",
+        "source_url": "https://files.pythonhosted.org/packages/51/a8/d58637d10f70ae14a1ad18cb37f4aa32d5593510213d5f929892cb1c9c6d/pytest_json_ctrf-0.3.5-py3-none-any.whl"
+      },
+      {
+        "project": "pandas",
+        "version": "2.3.3",
+        "filename": "pandas-2.3.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 12306371,
+        "sha256": "318d77e0e42a628c04dc56bcef4b40de67918f7041c2b061af1da41dcff670ac",
+        "source_url": "https://files.pythonhosted.org/packages/15/07/284f757f63f8a8d69ed4472bfd85122bd086e637bf4ed09de572d575a693/pandas-2.3.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "packaging",
+        "version": "26.3",
+        "filename": "packaging-26.3-py3-none-any.whl",
+        "size": 129956,
+        "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+        "source_url": "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl"
+      },
+      {
+        "project": "pluggy",
+        "version": "1.7.0",
+        "filename": "pluggy-1.7.0-py3-none-any.whl",
+        "size": 27082,
+        "sha256": "7dd7b0d8832ba3cb632c306926ded123429211b83641b35dc5c41ad2d34f9bec",
+        "source_url": "https://files.pythonhosted.org/packages/40/9e/2b38731e0fc536806f16490e1a12d7f0dc2a1235aa8cc07bcc75416a7daa/pluggy-1.7.0-py3-none-any.whl"
+      },
+      {
+        "project": "numpy",
+        "version": "2.5.4",
+        "filename": "numpy-2.5.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 16718044,
+        "sha256": "6ffa07666f8da0eef81d149934a626d0d95fbd6838432a33e66245423a9062c0",
+        "source_url": "https://files.pythonhosted.org/packages/da/24/3bd070f3269dc609d8f26b2643f62ef91bb415841c0b294805aaf7fe06da/numpy-2.5.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "iniconfig",
+        "version": "2.3.1",
+        "filename": "iniconfig-2.3.1-py3-none-any.whl",
+        "size": 7552,
+        "sha256": "9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7",
+        "source_url": "https://files.pythonhosted.org/packages/56/43/4ca9e49d27a1fcf6bece6f6aec0ea46bb9112489b93d4b688fb415457bdb/iniconfig-2.3.1-py3-none-any.whl"
+      },
+      {
+        "project": "python-dateutil",
+        "version": "4.0.0",
+        "filename": "python_dateutil-4.0.0-py3-none-any.whl",
+        "size": 92853,
+        "sha256": "a5e246f79eb80475e691bf93862cead98decd8a498cf53ba0516fcdc0f50dc1c",
+        "source_url": "https://files.pythonhosted.org/packages/2f/a9/52b89563d154433d79b51ed1eb4842bf7334cb2696891a7fe135618853d7/python_dateutil-4.0.0-py3-none-any.whl"
+      },
+      {
+        "project": "pyarrow",
+        "version": "22.0.0",
+        "filename": "pyarrow-22.0.0-cp313-cp313-manylinux_2_28_x86_64.whl",
+        "size": 47724601,
+        "sha256": "e0a15757fccb38c410947df156f9749ae4a3c89b2393741a50521f39a8cf202a",
+        "source_url": "https://files.pythonhosted.org/packages/1b/8b/5362443737a5307a7b67c1017c42cd104213189b4970bf607e05faf9c525/pyarrow-22.0.0-cp313-cp313-manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "filelock",
+        "version": "4.2.6",
+        "filename": "filelock-4.2.6-py3-none-any.whl",
+        "size": 164378,
+        "sha256": "fd7d4fca497bf3e3d0945a13261f8e684f2aef12ce7cf76aef26e13bf7388b88",
+        "source_url": "https://files.pythonhosted.org/packages/b7/8d/3f849fcb79359259737bc2d8ddcaee6149ffb773239a260c9ff20179736f/filelock-4.2.6-py3-none-any.whl"
+      },
+      {
+        "project": "setuptools",
+        "version": "84.2.1",
+        "filename": "setuptools-84.2.1-py3-none-any.whl",
+        "size": 876263,
+        "sha256": "ca140b45d5325a9478f880e351484f62fef15f336462e449ca0c03c873d589c2",
+        "source_url": "https://files.pythonhosted.org/packages/ef/55/6dc6d6bb953bdfc52519a0059592c52b6e3b8ad51cf8256dffceb55b0610/setuptools-84.2.1-py3-none-any.whl"
+      },
+      {
+        "project": "markupsafe",
+        "version": "3.0.4",
+        "filename": "markupsafe-3.0.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 23017,
+        "sha256": "434139499bb20b502ed3baa1f169e618f924a97e7a777fea1a49446d80106cf6",
+        "source_url": "https://files.pythonhosted.org/packages/63/e0/cec6865dfe88cb48fedd4b20aed6af5158e41092adcbf3e028bcc6ec2108/markupsafe-3.0.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "opencv-python",
+        "version": "4.11.0.86",
+        "filename": "opencv_python-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "size": 62986597,
+        "sha256": "6b02611523803495003bd87362db3e1d2a0454a6a63025dc6658a9830570aa0d",
+        "source_url": "https://files.pythonhosted.org/packages/2c/8b/90eb44a40476fa0e71e05a0283947cfd74a5d36121a11d926ad6f3193cc4/opencv_python-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+      },
+      {
+        "project": "torch",
+        "version": "2.7.1",
+        "filename": "torch-2.7.1-cp313-cp313-manylinux_2_28_x86_64.whl",
+        "size": 821033192,
+        "sha256": "d632f5417b6980f61404a125b999ca6ebd0b8b4bbdbb5fbbba44374ab619a412",
+        "source_url": "https://files.pythonhosted.org/packages/3a/24/efe2f520d75274fc06b695c616415a1e8a1021d87a13c68ff9dce733d088/torch-2.7.1-cp313-cp313-manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "nvidia-cufft-cu12",
+        "version": "11.3.0.4",
+        "filename": "nvidia_cufft_cu12-11.3.0.4-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 200221632,
+        "sha256": "ccba62eb9cef5559abd5e0d54ceed2d9934030f51163df018532142a8ec533e5",
+        "source_url": "https://files.pythonhosted.org/packages/8f/16/73727675941ab8e6ffd86ca3a4b7b47065edcca7a997920b831f8147c99d/nvidia_cufft_cu12-11.3.0.4-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "nvidia-cudnn-cu12",
+        "version": "9.5.1.17",
+        "filename": "nvidia_cudnn_cu12-9.5.1.17-py3-none-manylinux_2_28_x86_64.whl",
+        "size": 570988386,
+        "sha256": "30ac3869f6db17d170e0e556dd6cc5eee02647abc31ca856634d5a40f82c15b2",
+        "source_url": "https://files.pythonhosted.org/packages/2a/78/4535c9c7f859a64781e43c969a3a7e84c54634e319a996d43ef32ce46f83/nvidia_cudnn_cu12-9.5.1.17-py3-none-manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "nvidia-cublas-cu12",
+        "version": "12.6.4.1",
+        "filename": "nvidia_cublas_cu12-12.6.4.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 393138322,
+        "sha256": "08ed2686e9875d01b58e3cb379c6896df8e76c75e0d4a7f7dace3d7b6d9ef8eb",
+        "source_url": "https://files.pythonhosted.org/packages/af/eb/ff4b8c503fa1f1796679dce648854d58751982426e4e4b37d6fce49d259c/nvidia_cublas_cu12-12.6.4.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "triton",
+        "version": "3.3.1",
+        "filename": "triton-3.3.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 155673035,
+        "sha256": "b89d846b5a4198317fec27a5d3a609ea96b6d557ff44b56c23176546023c4240",
+        "source_url": "https://files.pythonhosted.org/packages/74/1f/dfb531f90a2d367d914adfee771babbd3f1a5b26c3f5fbc458dee21daa78/triton-3.3.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "nvidia-cusparse-cu12",
+        "version": "12.5.4.2",
+        "filename": "nvidia_cusparse_cu12-12.5.4.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 216561367,
+        "sha256": "7556d9eca156e18184b94947ade0fba5bb47d69cec46bf8660fd2c71a4b48b73",
+        "source_url": "https://files.pythonhosted.org/packages/06/1e/b8b7c2f4099a37b96af5c9bb158632ea9e5d9d27d7391d7eb8fc45236674/nvidia_cusparse_cu12-12.5.4.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "nvidia-nccl-cu12",
+        "version": "2.26.2",
+        "filename": "nvidia_nccl_cu12-2.26.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 201319755,
+        "sha256": "694cf3879a206553cc9d7dbda76b13efaf610fdb70a50cba303de1b0d1530ac6",
+        "source_url": "https://files.pythonhosted.org/packages/67/ca/f42388aed0fddd64ade7493dbba36e1f534d4e6fdbdd355c6a90030ae028/nvidia_nccl_cu12-2.26.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "nvidia-nvjitlink-cu12",
+        "version": "12.6.85",
+        "filename": "nvidia_nvjitlink_cu12-12.6.85-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl",
+        "size": 19744971,
+        "sha256": "eedc36df9e88b682efe4309aa16b5b4e78c2407eac59e8c10a6a47535164369a",
+        "source_url": "https://files.pythonhosted.org/packages/9d/d7/c5383e47c7e9bf1c99d5bd2a8c935af2b6d705ad831a7ec5c97db4d82f4f/nvidia_nvjitlink_cu12-12.6.85-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl"
+      },
+      {
+        "project": "nvidia-cuda-cupti-cu12",
+        "version": "12.6.80",
+        "filename": "nvidia_cuda_cupti_cu12-12.6.80-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 8917980,
+        "sha256": "6768bad6cab4f19e8292125e5f1ac8aa7d1718704012a0e3272a6f61c4bce132",
+        "source_url": "https://files.pythonhosted.org/packages/49/60/7b6497946d74bcf1de852a21824d63baad12cd417db4195fc1bfe59db953/nvidia_cuda_cupti_cu12-12.6.80-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "networkx",
+        "version": "3.7",
+        "filename": "networkx-3.7-py3-none-any.whl",
+        "size": 2142205,
+        "sha256": "e3fd2c13a7814cee3746340d8d7f8598a67f16a58bf47fb7f8793fab6efca1b0",
+        "source_url": "https://files.pythonhosted.org/packages/7e/cd/fe58041e9011f307c490e3e17dd48cc516448f7c698a3f2d9d9d65d7e6a8/networkx-3.7-py3-none-any.whl"
+      },
+      {
+        "project": "typing-extensions",
+        "version": "4.16.0",
+        "filename": "typing_extensions-4.16.0-py3-none-any.whl",
+        "size": 45571,
+        "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+        "source_url": "https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl"
+      },
+      {
+        "project": "nvidia-cuda-nvrtc-cu12",
+        "version": "12.6.77",
+        "filename": "nvidia_cuda_nvrtc_cu12-12.6.77-py3-none-manylinux2014_x86_64.whl",
+        "size": 23650380,
+        "sha256": "35b0cc6ee3a9636d5409133e79273ce1f3fd087abb0532d2d2e8fff1fe9efc53",
+        "source_url": "https://files.pythonhosted.org/packages/75/2e/46030320b5a80661e88039f59060d1790298b4718944a65a7f2aeda3d9e9/nvidia_cuda_nvrtc_cu12-12.6.77-py3-none-manylinux2014_x86_64.whl"
+      },
+      {
+        "project": "sympy",
+        "version": "1.14.0",
+        "filename": "sympy-1.14.0-py3-none-any.whl",
+        "size": 6299353,
+        "sha256": "e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5",
+        "source_url": "https://files.pythonhosted.org/packages/a2/09/77d55d46fd61b4a135c444fc97158ef34a095e5681d0a6c10b75bf356191/sympy-1.14.0-py3-none-any.whl"
+      },
+      {
+        "project": "nvidia-curand-cu12",
+        "version": "10.3.7.77",
+        "filename": "nvidia_curand_cu12-10.3.7.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 56279010,
+        "sha256": "a42cd1344297f70b9e39a1e4f467a4e1c10f1da54ff7a85c12197f6c652c8bdf",
+        "source_url": "https://files.pythonhosted.org/packages/73/1b/44a01c4e70933637c93e6e1a8063d1e998b50213a6b65ac5a9169c47e98e/nvidia_curand_cu12-10.3.7.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "fsspec",
+        "version": "2026.9.0",
+        "filename": "fsspec-2026.9.0-py3-none-any.whl",
+        "size": 221738,
+        "sha256": "8dd6e646e99ea382bd85f97a45e6b526a442d79423a7dc673f1e2756d05fcb5f",
+        "source_url": "https://files.pythonhosted.org/packages/6c/c0/a98505f18594f1bce828bb159cec0fcf9860562f1a2c85913409fc8f3d9e/fsspec-2026.9.0-py3-none-any.whl"
+      },
+      {
+        "project": "nvidia-nvtx-cu12",
+        "version": "12.6.77",
+        "filename": "nvidia_nvtx_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 89276,
+        "sha256": "b90bed3df379fa79afbd21be8e04a0314336b8ae16768b58f2d34cb1d04cd7d2",
+        "source_url": "https://files.pythonhosted.org/packages/56/9a/fff8376f8e3d084cd1530e1ef7b879bb7d6d265620c95c1b322725c694f4/nvidia_nvtx_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "nvidia-cusparselt-cu12",
+        "version": "0.6.3",
+        "filename": "nvidia_cusparselt_cu12-0.6.3-py3-none-manylinux2014_x86_64.whl",
+        "size": 156785796,
+        "sha256": "e5c8a26c36445dd2e6812f1177978a24e2d37cacce7e090f297a688d1ec44f46",
+        "source_url": "https://files.pythonhosted.org/packages/3b/9a/72ef35b399b0e183bc2e8f6f558036922d453c4d8237dab26c666a04244b/nvidia_cusparselt_cu12-0.6.3-py3-none-manylinux2014_x86_64.whl"
+      },
+      {
+        "project": "mpmath",
+        "version": "1.3.0",
+        "filename": "mpmath-1.3.0-py3-none-any.whl",
+        "size": 536198,
+        "sha256": "a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c",
+        "source_url": "https://files.pythonhosted.org/packages/43/e3/7d92a15f894aa0c9c4b49b8ee9ac9850d6e63b03c9c32c0367a13ae62209/mpmath-1.3.0-py3-none-any.whl"
+      },
+      {
+        "project": "nvidia-cufile-cu12",
+        "version": "1.11.1.6",
+        "filename": "nvidia_cufile_cu12-1.11.1.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 1142103,
+        "sha256": "cc23469d1c7e52ce6c1d55253273d32c565dd22068647f3aa59b3c6b005bf159",
+        "source_url": "https://files.pythonhosted.org/packages/b2/66/cc9876340ac68ae71b15c743ddb13f8b30d5244af344ec8322b449e35426/nvidia_cufile_cu12-1.11.1.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "jinja2",
+        "version": "3.1.6",
+        "filename": "jinja2-3.1.6-py3-none-any.whl",
+        "size": 134899,
+        "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67",
+        "source_url": "https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl"
+      },
+      {
+        "project": "nvidia-cusolver-cu12",
+        "version": "11.7.1.2",
+        "filename": "nvidia_cusolver_cu12-11.7.1.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 158229790,
+        "sha256": "e9e49843a7707e42022babb9bcfa33c29857a93b88020c4e4434656a655b698c",
+        "source_url": "https://files.pythonhosted.org/packages/f0/6e/c2cf12c9ff8b872e92b4a5740701e51ff17689c4d726fca91875b07f655d/nvidia_cusolver_cu12-11.7.1.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "nvidia-cuda-runtime-cu12",
+        "version": "12.6.77",
+        "filename": "nvidia_cuda_runtime_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 897690,
+        "sha256": "ba3b56a4f896141e25e19ab287cd71e52a6a0f4b29d0d31609f60e3b4d5219b7",
+        "source_url": "https://files.pythonhosted.org/packages/e1/23/e717c5ac26d26cf39a27fbc076240fad2e3b817e5889d671b67f4f9f49c5/nvidia_cuda_runtime_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "idna",
+        "version": "3.20",
+        "filename": "idna-3.20-py3-none-any.whl",
+        "size": 69583,
+        "sha256": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c",
+        "source_url": "https://files.pythonhosted.org/packages/58/a2/bb081bab032533a855d44de1d56f8e8426114ff1ba5d1f07a438a0a654f8/idna-3.20-py3-none-any.whl"
+      },
+      {
+        "project": "transformers",
+        "version": "4.55.0",
+        "filename": "transformers-4.55.0-py3-none-any.whl",
+        "size": 11267905,
+        "sha256": "29d9b8800e32a4a831bb16efb5f762f6a9742fef9fce5d693ed018d19b106490",
+        "source_url": "https://files.pythonhosted.org/packages/1c/93/bcb22fb52ed65084c0199270832aa4cdd4b41296d896f3e7ade188bccb68/transformers-4.55.0-py3-none-any.whl"
+      },
+      {
+        "project": "safetensors",
+        "version": "0.8.0",
+        "filename": "safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "size": 516040,
+        "sha256": "fd6f3f93c9a0a7cc2788ee63fb763353d4bd2e89b0751bc78fcf7dda00bea774",
+        "source_url": "https://files.pythonhosted.org/packages/28/50/f203ff3a3ddfe19308efc83c5a3a29ed02bf786732ec35e68bf9162f3365/safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+      },
+      {
+        "project": "requests",
+        "version": "2.34.2",
+        "filename": "requests-2.34.2-py3-none-any.whl",
+        "size": 73075,
+        "sha256": "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0",
+        "source_url": "https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl"
+      },
+      {
+        "project": "certifi",
+        "version": "2026.10.23",
+        "filename": "certifi-2026.10.23-py3-none-any.whl",
+        "size": 135082,
+        "sha256": "e9b54de76e530bb6cf0ccd036787103acb58fd42ba930ea8bf948ddbaa2f61d1",
+        "source_url": "https://files.pythonhosted.org/packages/32/d1/a3652fe2c19134d0d15922177821d863cbd7e842d53a21bbe7e8e3a1b5ac/certifi-2026.10.23-py3-none-any.whl"
+      },
+      {
+        "project": "hf-xet",
+        "version": "1.8.0",
+        "filename": "hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+        "size": 4292483,
+        "sha256": "29dab7c904cd1914a0439c6e1306c12c7497c8bd32290fbe563ebf51ca4b6d6d",
+        "source_url": "https://files.pythonhosted.org/packages/f8/1e/1e8ecc05ef034e9a95c18ed32d2ec07905a7cd2ca611a9d88e25ee1f4850/hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+      },
+      {
+        "project": "huggingface-hub",
+        "version": "0.36.2",
+        "filename": "huggingface_hub-0.36.2-py3-none-any.whl",
+        "size": 566395,
+        "sha256": "48f0c8eac16145dfce371e9d2d7772854a4f591bcb56c9cf548accf531d54270",
+        "source_url": "https://files.pythonhosted.org/packages/a8/af/48ac8483240de756d2438c380746e7130d1c6f75802ef22f3c6d49982787/huggingface_hub-0.36.2-py3-none-any.whl"
+      },
+      {
+        "project": "tokenizers",
+        "version": "0.21.4",
+        "filename": "tokenizers-0.21.4-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "size": 3115426,
+        "sha256": "51b7eabb104f46c1c50b486520555715457ae833d5aee9ff6ae853d1130506ff",
+        "source_url": "https://files.pythonhosted.org/packages/f2/90/273b6c7ec78af547694eddeea9e05de771278bd20476525ab930cecaf7d8/tokenizers-0.21.4-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+      },
+      {
+        "project": "tqdm",
+        "version": "4.70.1",
+        "filename": "tqdm-4.70.1-py3-none-any.whl",
+        "size": 80199,
+        "sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+        "source_url": "https://files.pythonhosted.org/packages/a7/03/921a3d3c75785aca9ebfbfcabfbc3a1be12e2ab5265deb026d55a5a3f83e/tqdm-4.70.1-py3-none-any.whl"
+      },
+      {
+        "project": "pyyaml",
+        "version": "6.0.3",
+        "filename": "pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 801626,
+        "sha256": "0f29edc409a6392443abf94b9cf89ce99889a1dd5376d94316ae5145dfedd5d6",
+        "source_url": "https://files.pythonhosted.org/packages/74/27/e5b8f34d02d9995b80abcef563ea1f8b56d20134d8f4e5e81733b1feceb2/pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "charset-normalizer",
+        "version": "3.5.2",
+        "filename": "charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 254660,
+        "sha256": "7218e8f32b0956cfcd048fd42d9d5779809745ca1d86113ca56f66e7ae1549c4",
+        "source_url": "https://files.pythonhosted.org/packages/4b/85/41d27f234b82e47c167a5f6c0f62501dc0c640585ff4aba79e08a390336a/charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "regex",
+        "version": "2026.9.29",
+        "filename": "regex-2026.9.29-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 807902,
+        "sha256": "d49c18f1ea294cf4adde2e5ac256e98c82ea9d708462ce4bf799dffa7cfe8a2c",
+        "source_url": "https://files.pythonhosted.org/packages/9a/8e/c1ed81f55f992f6aa0b699a592a50c1ce9e6d44ff1aee2c14c0537dcef9c/regex-2026.9.29-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "urllib3",
+        "version": "2.8.0",
+        "filename": "urllib3-2.8.0-py3-none-any.whl",
+        "size": 135717,
+        "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+        "source_url": "https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl"
+      },
+      {
+        "project": "triton",
+        "version": "3.3.0",
+        "filename": "triton-3.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+        "size": 156516468,
+        "sha256": "47bc87ad66fa4ef17968299acacecaab71ce40a238890acc6ad197c3abe2b8f1",
+        "source_url": "https://files.pythonhosted.org/packages/7d/74/4bf2702b65e93accaa20397b74da46fb7a0356452c1bb94dbabaf0582930/triton-3.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl"
+      },
+      {
+        "project": "torch",
+        "version": "2.7.0",
+        "filename": "torch-2.7.0-cp313-cp313-manylinux_2_28_x86_64.whl",
+        "size": 865046389,
+        "sha256": "9b52347118116cf3dff2ab5a3c3dd97c719eb924ac658ca2a7335652076df708",
+        "source_url": "https://files.pythonhosted.org/packages/4b/27/285a8cf12bd7cd71f9f211a968516b07dcffed3ef0be585c6e823675ab91/torch-2.7.0-cp313-cp313-manylinux_2_28_x86_64.whl"
+      }
+    ],
+    "scope": "The optional default-PyPI sidecars across the six final preflights and six formal jobs. Original extra indexes and source distributions bypass this wheel cache. Recorded failures, if any, remain in the event counts."
+  },
+  "exposure_audit": {
+    "method": "After freezing outputs, targeted scan of all recorded tool-call arguments for benchmark repositories, hidden paths, environment access, and explicit URLs, with paired candidate outputs reviewed. This is not an exhaustive proof of absence of exposure or exfiltration.",
+    "tool_calls_scanned": 98,
+    "candidates_reviewed": 3,
+    "external_benchmark_material_observed": false,
+    "candidates": [
+      {
+        "task": "terminal-bench/pytorch-model-cli",
+        "call_id": "call_00_tU9eFlBzWHEuPz74xIFQ0867",
+        "review": "Downloaded the public MNIST dataset for task self-testing, not Terminal-Bench reference tests or a solution."
+      },
+      {
+        "task": "terminal-bench/pytorch-model-cli",
+        "call_id": "call_00_1C7DXlnVOpxyCvqVFgNI9177",
+        "review": "Downloaded the public MNIST dataset for task self-testing, not Terminal-Bench reference tests or a solution."
+      },
+      {
+        "task": "terminal-bench/torch-pipeline-parallelism",
+        "call_id": "call_00_azBMWCwtE55WZURQIVO71536",
+        "review": "General root/Python/environment inspection. No hidden-test/reference marker in the paired output; authorized provider credential absent in exact scan of all frozen files."
+      }
+    ],
+    "candidate_record": {
+      "path": "jobs/dsh-supplement-exposure-candidates.json",
+      "sha256": "4379aa5edd80aee1a403c52524aca0e49724c7d37372e3b3937d41fddf45609b"
+    },
+    "credential_scan": {
+      "audited_at": "2026-11-01T16:56:09.912130+00:00",
+      "method": "Exact byte matching of the previously authorized provider credential; value never printed or persisted by this audit.",
+      "frozen_files_scanned": 590,
+      "matching_files": [],
+      "matching_file_count": 0
+    }
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "task_ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "job_name": "dsh-sup6-multi-source-data-merger-cache-20261101",
+      "trial": "multi-source-data-merger__hV2zT6o",
+      "arm": "deepseek",
+      "source_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "native_root": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o",
+      "record": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-multi-source-data-merger-cache-20261101.json",
+      "native_reward": 1.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 1.0
+      },
+      "analytical_classification": "passed",
+      "analytical_score": 1.0,
+      "boundary_status": "confirmed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "sdk_finish_reason": "completed",
+      "pytest": {
+        "passed": 3,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0
+      },
+      "ctrf_summary": {
+        "tests": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793548442.0703769,
+        "stop": 1793548443.1704707
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 43.93666313999711
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-01T15:50:24.907479Z",
+          "finished_at": "2026-11-01T15:50:27.202661Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-01T15:50:27.202702Z",
+          "finished_at": "2026-11-01T15:52:49.399944Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-01T15:52:49.400104Z",
+          "finished_at": "2026-11-01T15:53:18.976790Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-01T15:53:19.203288Z",
+          "finished_at": "2026-11-01T15:54:03.373879Z"
+        }
+      },
+      "agent_seconds": 29.576686,
+      "usage": {
+        "n_input_tokens": 7504,
+        "n_output_tokens": 3107,
+        "n_cache_tokens": 6400,
+        "cost_usd": null,
+        "raw_deepseek_metadata": {
+          "profile": "sdk-minimal",
+          "source_commit": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+          "usage_records": 3,
+          "missing_usage_records": 0,
+          "malformed_event_records": 0,
+          "usage_is_partial": false,
+          "cost_is_unknown": true
+        }
+      },
+      "operational_metadata": {
+        "event_types": {
+          "agent/inbox/spliced": 2,
+          "turn/start": 1,
+          "step/start": 3,
+          "system/message": 1,
+          "user/message": 2,
+          "request/header": 1,
+          "request/context": 1,
+          "session/title": 1,
+          "session-log-deepseek/delivery-accepted": 3,
+          "assistant/message": 3,
+          "tool/call": 2,
+          "tool/result": 2,
+          "step/end": 3,
+          "turn/end": 1
+        },
+        "event_count": 26,
+        "tool_calls": 2,
+        "events_after_agent_end": 0,
+        "events_at_or_after_verifier_start": 0
+      },
+      "exposure_candidates": [],
+      "historical_pi": {
+        "native_reward": 1.0,
+        "analytical_score": 1.0,
+        "classification": "passed",
+        "reference_exposure": false,
+        "agent_seconds": 34.336406
+      },
+      "evidence_sha256": {
+        "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-multi-source-data-merger-cache-20261101.json": "19beb040db143599f69d5bec8e7d8603d904967a39dfd61af052a774ca3b82e1",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/result.json": "7964222816878953a237651d62e8035a0031f3d82e720fb8bd95e8bf0e266808",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/manifest.json": "45923d5f9fcb2414b4403b8176faaf171ea48aa38df654a35585db9d1987636b",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/config.json": "57d3f28a413f43f035a1308429d63405d5108808633e3aa0aa3411532e98e968",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh-events.jsonl": "560ffcbee9aa1d0d4a79d995bb14c03b86ec3c053c01ab5dff68bd460bb8f372",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/test-stdout.txt": "afd6eb483b54b284bd88c964f1cc2a21639044f192cd314df11374ea011a24a7",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/retry-summary.json": "227986f8e26eeea0b1299ea126ca86aab0d0d7e9757aaa4b1ac76c6092bb1c20"
+      },
+      "original_attempt": {
+        "job_name": "dsh-dev34-multi-source-data-merger-20261030",
+        "trial": "multi-source-data-merger__4guMJdj",
+        "native_reward": 0.0,
+        "native_exception_type": null,
+        "analytical_classification": "unscored_verifier_error",
+        "analytical_score": null,
+        "diagnosis": "Official verifier failed downloading/extracting pyarrow==22.0.0 with UV_HTTP_TIMEOUT=30 before pytest began. Native reward zero retained; analytical score null."
+      },
+      "diagnosis": "Completed normally; all three official output-file, merged-value, and conflict-report checks passed.",
+      "audit_flags": {
+        "service_lifecycle_caveat": false,
+        "external_benchmark_material_observed": false,
+        "provider_key_exact_match_in_frozen_files": false,
+        "public_task_dataset_download": false,
+        "environment_inspection": false
+      },
+      "formal_dependency_profile": {
+        "profile": "multi-source-data-merger-v1",
+        "status": "passed"
+      }
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "task_ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "job_name": "dsh-sup6-pytorch-model-cli-cache-20261101",
+      "trial": "pytorch-model-cli__vEstNM5",
+      "arm": "deepseek",
+      "source_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "native_root": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5",
+      "record": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-cli-cache-20261101.json",
+      "native_reward": 0.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 0.0
+      },
+      "analytical_classification": "failed",
+      "analytical_score": 0.0,
+      "boundary_status": "confirmed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "sdk_finish_reason": "completed",
+      "pytest": {
+        "passed": 5,
+        "failed": 1,
+        "errors": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0
+      },
+      "ctrf_summary": {
+        "tests": 6,
+        "passed": 5,
+        "failed": 1,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793550588.6888318,
+        "stop": 1793550622.5733538
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 78.03403291099676
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-01T15:50:24.167677Z",
+          "finished_at": "2026-11-01T15:50:26.455779Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-01T15:50:26.455840Z",
+          "finished_at": "2026-11-01T16:18:36.809693Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-01T16:18:36.809805Z",
+          "finished_at": "2026-11-01T16:29:05.209666Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-01T16:29:05.458518Z",
+          "finished_at": "2026-11-01T16:30:23.648649Z"
+        }
+      },
+      "agent_seconds": 628.399861,
+      "usage": {
+        "n_input_tokens": 463542,
+        "n_output_tokens": 18192,
+        "n_cache_tokens": 448000,
+        "cost_usd": null,
+        "raw_deepseek_metadata": {
+          "profile": "sdk-minimal",
+          "source_commit": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+          "usage_records": 34,
+          "missing_usage_records": 0,
+          "malformed_event_records": 0,
+          "usage_is_partial": false,
+          "cost_is_unknown": true
+        }
+      },
+      "operational_metadata": {
+        "event_types": {
+          "agent/inbox/spliced": 2,
+          "turn/start": 1,
+          "step/start": 34,
+          "system/message": 1,
+          "user/message": 2,
+          "request/header": 1,
+          "request/context": 1,
+          "session/title": 1,
+          "session-log-deepseek/delivery-accepted": 34,
+          "assistant/message": 34,
+          "tool/call": 33,
+          "tool/result": 33,
+          "step/end": 34,
+          "turn/end": 1
+        },
+        "event_count": 212,
+        "tool_calls": 33,
+        "events_after_agent_end": 0,
+        "events_at_or_after_verifier_start": 0
+      },
+      "exposure_candidates": [],
+      "historical_pi": {
+        "native_reward": 0.0,
+        "analytical_score": 0.0,
+        "classification": "failed",
+        "reference_exposure": false,
+        "agent_seconds": 660.719365
+      },
+      "evidence_sha256": {
+        "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-cli-cache-20261101.json": "60351fe47c843efb3c964a39b2c46e1fe247ef0feaa47f98a7a17c1b1d38d354",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/result.json": "52fb13759ec498d5fa96250033110210e7efcb9295d30475e6b37236059f996c",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/manifest.json": "45923d5f9fcb2414b4403b8176faaf171ea48aa38df654a35585db9d1987636b",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/config.json": "f8f2742c2ddab10e6d9ca235789ce2eb951428e14f44c1b44d722af3745da6a5",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh-events.jsonl": "3f97af2928fc3eb8bb6cc8a053134dd123134d2ff7bc431b6fbdaa1582420f76",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/test-stdout.txt": "1776965440cf6137f1918f1aa073281347d52da046e477ced39824d828970356",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/retry-summary.json": "0a51e3b4774c831a3230ee69cbe7232f3300f7fd5c7794dc8e955a92ff0a9834"
+      },
+      "original_attempt": {
+        "job_name": "dsh-dev34-pytorch-model-cli-20261030",
+        "trial": "pytorch-model-cli__z4gK8xd",
+        "native_reward": null,
+        "native_exception_type": "NetworkConnectionError",
+        "analytical_classification": "unscored_setup_error",
+        "analytical_score": null,
+        "diagnosis": "Original uv 0.9.11 installer fetch failed before model execution: curl exit 35, SSL_ERROR_SYSCALL connecting to releases.astral.sh:443. Native NetworkConnectionError retained."
+      },
+      "diagnosis": "Completed normally. Five official checks passed; test_cli_tool_output failed because 14 of 50 tested MNIST predictions differed from the fixed expected values (image 0: 7, expected 2). Artifacts and executable checks passed. This is a scored assertion failure, not a dependency or verifier error.",
+      "audit_flags": {
+        "service_lifecycle_caveat": false,
+        "external_benchmark_material_observed": false,
+        "provider_key_exact_match_in_frozen_files": false,
+        "public_task_dataset_download": true,
+        "environment_inspection": false
+      },
+      "formal_dependency_profile": {
+        "profile": "pytorch-model-cli-v1",
+        "status": "passed"
+      }
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "job_name": "dsh-sup6-pytorch-model-recovery-cache-20261101",
+      "trial": "pytorch-model-recovery__bFj4ZnZ",
+      "arm": "deepseek",
+      "source_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "native_root": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ",
+      "record": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-recovery-cache-20261101.json",
+      "native_reward": 1.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 1.0
+      },
+      "analytical_classification": "passed",
+      "analytical_score": 1.0,
+      "boundary_status": "confirmed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "sdk_finish_reason": "completed",
+      "pytest": {
+        "passed": 5,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0
+      },
+      "ctrf_summary": {
+        "tests": 5,
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793550930.5976655,
+        "stop": 1793550935.3707228
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 61.99433842399594
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-01T16:30:58.603526Z",
+          "finished_at": "2026-11-01T16:31:00.997028Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-01T16:31:00.997066Z",
+          "finished_at": "2026-11-01T16:32:43.532192Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-01T16:32:43.532313Z",
+          "finished_at": "2026-11-01T16:34:33.611745Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-01T16:34:33.870507Z",
+          "finished_at": "2026-11-01T16:35:36.116697Z"
+        }
+      },
+      "agent_seconds": 110.079432,
+      "usage": {
+        "n_input_tokens": 218370,
+        "n_output_tokens": 10975,
+        "n_cache_tokens": 203520,
+        "cost_usd": null,
+        "raw_deepseek_metadata": {
+          "profile": "sdk-minimal",
+          "source_commit": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+          "usage_records": 14,
+          "missing_usage_records": 0,
+          "malformed_event_records": 0,
+          "usage_is_partial": false,
+          "cost_is_unknown": true
+        }
+      },
+      "operational_metadata": {
+        "event_types": {
+          "agent/inbox/spliced": 2,
+          "turn/start": 1,
+          "step/start": 14,
+          "system/message": 1,
+          "user/message": 2,
+          "request/header": 1,
+          "request/context": 1,
+          "session/title": 1,
+          "session-log-deepseek/delivery-accepted": 14,
+          "assistant/message": 14,
+          "tool/call": 13,
+          "tool/result": 13,
+          "step/end": 14,
+          "turn/end": 1
+        },
+        "event_count": 92,
+        "tool_calls": 13,
+        "events_after_agent_end": 0,
+        "events_at_or_after_verifier_start": 0
+      },
+      "exposure_candidates": [],
+      "historical_pi": {
+        "native_reward": 1.0,
+        "analytical_score": 1.0,
+        "classification": "passed",
+        "reference_exposure": false,
+        "agent_seconds": 178.33929
+      },
+      "evidence_sha256": {
+        "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-recovery-cache-20261101.json": "be0a7e21e0388145ea0d1dc8efcb9f44a30c91c4f98f5f6edee80893626afbc1",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/result.json": "1bd308679ac767e99b6814dfdc510d99ff51a9797a156ee8989bd8e94210075b",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/manifest.json": "4a239d7d2c769565b765d534fae50638d3bc49476237c72b4b6aa2ccbdacf20d",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/config.json": "8cb93987ef5ecafed86ccf244582bf64dc7f8c62f121b0007482c7aeababd8f0",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh-events.jsonl": "4db152a851b1538a1c1dc0dd28d6a89bce1131fad36cac4aa555b7f297d549b3",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/test-stdout.txt": "36929bebecc3c4ea17c0557f1a45ad5353768b62312508f366c1097fb91cd0d1",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/retry-summary.json": "5f1d52539b277524eaaa8ed6879ef319d00882f26f696a1fc8a86f23bfa1811e"
+      },
+      "original_attempt": {
+        "job_name": "dsh-dev34-pytorch-model-recovery-20261030",
+        "trial": "pytorch-model-recovery__VjqabNQ",
+        "native_reward": null,
+        "native_exception_type": "AgentSetupTimeoutError",
+        "analytical_classification": "unscored_setup_error",
+        "analytical_score": null,
+        "diagnosis": "The formal job exceeded the 1800-second setup limit during verifier_dependencies. SDK initialization and supervision probe passed, but the registered dependency profile did not finish. No model execution occurred. The earlier installation-only profile check had passed; native AgentSetupTimeoutError retained."
+      },
+      "diagnosis": "Completed normally; all five official checks passed, including unchanged weights, loading/state-dict equality, and model loss.",
+      "audit_flags": {
+        "service_lifecycle_caveat": false,
+        "external_benchmark_material_observed": false,
+        "provider_key_exact_match_in_frozen_files": false,
+        "public_task_dataset_download": false,
+        "environment_inspection": false
+      },
+      "formal_dependency_profile": {
+        "profile": "pytorch-model-recovery-v1",
+        "status": "passed"
+      }
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "task_ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "job_name": "dsh-sup6-query-optimize-cache-20261101",
+      "trial": "query-optimize__AEYyxag",
+      "arm": "deepseek",
+      "source_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "native_root": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag",
+      "record": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-query-optimize-cache-20261101.json",
+      "native_reward": 1.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 1.0
+      },
+      "analytical_classification": "passed",
+      "analytical_score": 1.0,
+      "boundary_status": "confirmed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "sdk_finish_reason": "completed",
+      "pytest": {
+        "passed": 6,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0
+      },
+      "ctrf_summary": {
+        "tests": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793551007.5242171,
+        "stop": 1793551142.013912
+      },
+      "verifier_attempts": {
+        "timeout_sec": 1800.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 159.69752336999954
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-01T16:30:58.609668Z",
+          "finished_at": "2026-11-01T16:31:00.993740Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-01T16:31:00.993782Z",
+          "finished_at": "2026-11-01T16:31:50.962480Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-01T16:31:50.962661Z",
+          "finished_at": "2026-11-01T16:36:21.466005Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-01T16:36:21.700631Z",
+          "finished_at": "2026-11-01T16:39:02.082440Z"
+        }
+      },
+      "agent_seconds": 270.503344,
+      "usage": {
+        "n_input_tokens": 137364,
+        "n_output_tokens": 11405,
+        "n_cache_tokens": 130048,
+        "cost_usd": null,
+        "raw_deepseek_metadata": {
+          "profile": "sdk-minimal",
+          "source_commit": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+          "usage_records": 17,
+          "missing_usage_records": 0,
+          "malformed_event_records": 0,
+          "usage_is_partial": false,
+          "cost_is_unknown": true
+        }
+      },
+      "operational_metadata": {
+        "event_types": {
+          "agent/inbox/spliced": 2,
+          "turn/start": 1,
+          "step/start": 17,
+          "system/message": 1,
+          "user/message": 2,
+          "request/header": 1,
+          "request/context": 1,
+          "session/title": 1,
+          "session-log-deepseek/delivery-accepted": 17,
+          "assistant/message": 17,
+          "tool/call": 16,
+          "tool/result": 16,
+          "step/end": 17,
+          "turn/end": 1
+        },
+        "event_count": 110,
+        "tool_calls": 16,
+        "events_after_agent_end": 0,
+        "events_at_or_after_verifier_start": 0
+      },
+      "exposure_candidates": [],
+      "historical_pi": {
+        "native_reward": 0.0,
+        "analytical_score": 0.0,
+        "classification": "failed",
+        "reference_exposure": false,
+        "agent_seconds": 317.974853
+      },
+      "evidence_sha256": {
+        "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-query-optimize-cache-20261101.json": "fb1e727669d4c01a13753ae5122f3c8b1d433c221b32e0c317bb31d1e7fac9fa",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/result.json": "2a08fce9a87f184742e280a3004e3e7966296f5933ac72eabf2ec19764dc428b",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/manifest.json": "970c1ccb0b7c324cee5eae9052eac48e3f15196465d48d61e947046cb2f6c2fd",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/config.json": "dc9b57cc66a6b6139452383e8ed9fb740875394ae14f20cbd5cc2dc8fabeebc7",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh-events.jsonl": "5d116300a3fde02997933ca5c7c771956a34ad4dad749f0c4b5919009e3caddb",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/test-stdout.txt": "5fdf69526b3cc8e8050cfe985df4b074b2ad9d569c5436eb4d3ddd3d2af9e572",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/retry-summary.json": "af00a7df4a76ece44d098028d1574868609704b24020c7a5f20670f4c8f9f953"
+      },
+      "original_attempt": {
+        "job_name": "dsh-dev34-query-optimize-20261030",
+        "trial": "query-optimize__E5dWNng",
+        "native_reward": 0.0,
+        "native_exception_type": "NonZeroAgentExitCodeError",
+        "analytical_classification": "unscored_execution_error",
+        "analytical_score": null,
+        "diagnosis": "SDK terminated with finish_reason=error and a TRANSPORT error after six attempts of one provider request (five native request retries). Native NonZeroAgentExitCodeError retained. Official tests still ran (2 passed, 4 failed, missing SQL output), but the API-interrupted attempt is analytically unscored. No whole-trial retry."
+      },
+      "diagnosis": "Completed normally; all six official SQL correctness, database-preservation, runtime, output-equivalence, single-query, and size checks passed. The prior terminal API error did not recur.",
+      "audit_flags": {
+        "service_lifecycle_caveat": false,
+        "external_benchmark_material_observed": false,
+        "provider_key_exact_match_in_frozen_files": false,
+        "public_task_dataset_download": false,
+        "environment_inspection": false
+      },
+      "formal_dependency_profile": {
+        "profile": "query-optimize-v1",
+        "status": "passed"
+      }
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "job_name": "dsh-sup6-torch-pipeline-parallelism-cache-20261101",
+      "trial": "torch-pipeline-parallelism__XRHZ5dL",
+      "arm": "deepseek",
+      "source_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "native_root": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL",
+      "record": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-pipeline-parallelism-cache-20261101.json",
+      "native_reward": 0.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 0.0
+      },
+      "analytical_classification": "failed",
+      "analytical_score": 0.0,
+      "boundary_status": "confirmed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "sdk_finish_reason": "completed",
+      "pytest": {
+        "passed": 2,
+        "failed": 2,
+        "errors": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0
+      },
+      "ctrf_summary": {
+        "tests": 3,
+        "passed": 2,
+        "failed": 1,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793552000.539176,
+        "stop": 1793552094.8557832
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 148.00501881899982
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-01T16:39:39.443791Z",
+          "finished_at": "2026-11-01T16:39:41.797007Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-01T16:39:41.797068Z",
+          "finished_at": "2026-11-01T16:41:55.045762Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-01T16:41:55.045883Z",
+          "finished_at": "2026-11-01T16:52:27.402287Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-01T16:52:27.635102Z",
+          "finished_at": "2026-11-01T16:54:55.881962Z"
+        }
+      },
+      "agent_seconds": 632.356404,
+      "usage": {
+        "n_input_tokens": 444138,
+        "n_output_tokens": 25905,
+        "n_cache_tokens": 429056,
+        "cost_usd": null,
+        "raw_deepseek_metadata": {
+          "profile": "sdk-minimal",
+          "source_commit": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+          "usage_records": 31,
+          "missing_usage_records": 0,
+          "malformed_event_records": 0,
+          "usage_is_partial": false,
+          "cost_is_unknown": true
+        }
+      },
+      "operational_metadata": {
+        "event_types": {
+          "agent/inbox/spliced": 2,
+          "turn/start": 1,
+          "step/start": 31,
+          "system/message": 1,
+          "user/message": 2,
+          "request/header": 1,
+          "request/context": 1,
+          "session/title": 1,
+          "session-log-deepseek/delivery-accepted": 31,
+          "assistant/message": 31,
+          "tool/call": 30,
+          "tool/result": 30,
+          "step/end": 31,
+          "turn/end": 1
+        },
+        "event_count": 194,
+        "tool_calls": 30,
+        "events_after_agent_end": 0,
+        "events_at_or_after_verifier_start": 0
+      },
+      "exposure_candidates": [
+        "call_00_azBMWCwtE55WZURQIVO71536"
+      ],
+      "historical_pi": {
+        "native_reward": 1.0,
+        "analytical_score": 1.0,
+        "classification": "passed",
+        "reference_exposure": true,
+        "agent_seconds": 562.196283
+      },
+      "evidence_sha256": {
+        "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-pipeline-parallelism-cache-20261101.json": "e2ff45301e23a775b6e044d69be6c4e62c3f9304769381512d5fce3b80ff9cce",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/result.json": "7cb7906719d93c44ea780360553ecbf746b9d997a2f3c611b5c36f9d98c91f32",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/manifest.json": "986021e2750ffa1f29629d8ef3188b555535460ab5ea7769af0e6d7bb6bf0a69",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/config.json": "2e47fe00a10c5ceeb0ab4d649e17751289dd24ed4654f4f212a1874a5fdde23d",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh-events.jsonl": "388f8201b50db765149e4e93ec88cbc2e7814665e6c920a93c95df71b18b3fc6",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/test-stdout.txt": "69cb6842eab805f1b2699abb5f51242c4a4fdc207b216668926abb7974645d04",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/retry-summary.json": "7443ea5e207b41cbcf0d965fe4ce34cba1e1aff258986ccd71d6e333754953fc"
+      },
+      "original_attempt": {
+        "job_name": "dsh-dev34-torch-pipeline-parallelism-20261030",
+        "trial": "torch-pipeline-parallelism__zTzvuKq",
+        "native_reward": 0.0,
+        "native_exception_type": "AgentTimeoutError",
+        "analytical_classification": "unscored_verifier_error",
+        "analytical_score": null,
+        "diagnosis": "Native 900-second agent timeout was confirmed with 8 stopped processes. Official verifier then failed downloading nvidia-cusolver-cu12==11.7.1.2 required by torch==2.7.0, before pytest began. Dependency error makes the raw zero analytically null; native timeout retained."
+      },
+      "diagnosis": "Completed normally. Existence and no-hooks checks passed; both world-size cases failed backward-value comparisons at microbatch 0. World size 1: rank 0 lm_head.bwd max difference 0.04166729375720024. World size 2: rank 0 model.layers.1.bwd max difference 0.01778167486190796. The worker exceptions carry these official assertions, not verifier infrastructure errors.",
+      "audit_flags": {
+        "service_lifecycle_caveat": false,
+        "external_benchmark_material_observed": false,
+        "provider_key_exact_match_in_frozen_files": false,
+        "public_task_dataset_download": false,
+        "environment_inspection": true
+      },
+      "formal_dependency_profile": {
+        "profile": "torch-pipeline-parallelism-v1",
+        "status": "passed"
+      }
+    },
+    {
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "job_name": "dsh-sup6-torch-tensor-parallelism-cache-20261101",
+      "trial": "torch-tensor-parallelism__kxNkcYR",
+      "arm": "deepseek",
+      "source_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+      "native_root": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR",
+      "record": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-tensor-parallelism-cache-20261101.json",
+      "native_reward": 1.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 1.0
+      },
+      "analytical_classification": "passed",
+      "analytical_score": 1.0,
+      "boundary_status": "confirmed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "sdk_finish_reason": "completed",
+      "pytest": {
+        "passed": 13,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0
+      },
+      "ctrf_summary": {
+        "tests": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793551442.7061565,
+        "stop": 1793551479.0017586
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 108.27482998300547
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-01T16:39:39.419370Z",
+          "finished_at": "2026-11-01T16:39:41.760490Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-01T16:39:41.760533Z",
+          "finished_at": "2026-11-01T16:41:37.410735Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-01T16:41:37.410887Z",
+          "finished_at": "2026-11-01T16:42:50.780882Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-01T16:42:51.025511Z",
+          "finished_at": "2026-11-01T16:44:39.533328Z"
+        }
+      },
+      "agent_seconds": 73.369995,
+      "usage": {
+        "n_input_tokens": 27764,
+        "n_output_tokens": 9845,
+        "n_cache_tokens": 25088,
+        "cost_usd": null,
+        "raw_deepseek_metadata": {
+          "profile": "sdk-minimal",
+          "source_commit": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+          "usage_records": 5,
+          "missing_usage_records": 0,
+          "malformed_event_records": 0,
+          "usage_is_partial": false,
+          "cost_is_unknown": true
+        }
+      },
+      "operational_metadata": {
+        "event_types": {
+          "agent/inbox/spliced": 2,
+          "turn/start": 1,
+          "step/start": 5,
+          "system/message": 1,
+          "user/message": 2,
+          "request/header": 1,
+          "request/context": 1,
+          "session/title": 1,
+          "session-log-deepseek/delivery-accepted": 5,
+          "assistant/message": 5,
+          "tool/call": 4,
+          "tool/result": 4,
+          "step/end": 5,
+          "turn/end": 1
+        },
+        "event_count": 38,
+        "tool_calls": 4,
+        "events_after_agent_end": 0,
+        "events_at_or_after_verifier_start": 0
+      },
+      "exposure_candidates": [],
+      "historical_pi": {
+        "native_reward": 1.0,
+        "analytical_score": 1.0,
+        "classification": "passed",
+        "reference_exposure": false,
+        "agent_seconds": 90.783629
+      },
+      "evidence_sha256": {
+        "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-tensor-parallelism-cache-20261101.json": "8f0d3027d7c1be04eb4453025fa7638dc25f8be7d16f8db8bc55573868673333",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/result.json": "c4b2c2af77c402de31017564e29740814d413752b6d306253fa90a29b6bc5360",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/manifest.json": "a0a307644bff0bc52ff2e0aa10d2f2cbc20ed9932cf5ec610d1a1992ec34b35a",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/config.json": "419a58bbc8b1b219ebebf279ee1d5fc0f253880d89c3ec6d45f2cdbf5ce71b91",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh-events.jsonl": "d1f6f569271f12e30e9133598d27d0586229879675c85aba01ce729f87c9bfa8",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/test-stdout.txt": "92f8c999585b93e3575786304e330d327b043e24eec9b2080df45617ea782b88",
+        "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/retry-summary.json": "2d71d0cb1ba3c6a823496a68f073fc3b0806c73b323867d1e059d2c2c7b615e3"
+      },
+      "original_attempt": {
+        "job_name": "dsh-dev34-torch-tensor-parallelism-20261030",
+        "trial": "torch-tensor-parallelism__ZVRUdrm",
+        "native_reward": 0.0,
+        "native_exception_type": null,
+        "analytical_classification": "unscored_verifier_error",
+        "analytical_score": null,
+        "diagnosis": "First verifier attempt hit the native 900-second timeout. The second attempt failed downloading torch==2.7.0 with UV_HTTP_TIMEOUT=30 before pytest began. Raw zero retained; analytical score null."
+      },
+      "diagnosis": "Completed normally; all 13 official interface and parameterized column/row-parallel linear checks passed.",
+      "audit_flags": {
+        "service_lifecycle_caveat": false,
+        "external_benchmark_material_observed": false,
+        "provider_key_exact_match_in_frozen_files": false,
+        "public_task_dataset_download": false,
+        "environment_inspection": false
+      },
+      "formal_dependency_profile": {
+        "profile": "torch-tensor-parallelism-v1",
+        "status": "passed"
+      }
+    }
+  ]
+}

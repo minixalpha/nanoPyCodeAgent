@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-11-01T15:49:52.094028+00:00",
+  "experiment": {
+    "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment-v2.json",
+    "sha256": "69eb8272f3fcd125e062387f7f725c80f12b56b8a622d6a616d23f8e0e174a93"
+  },
+  "adapter_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+  "distribution_sha256": "d8f6157c880dfa5ae65b6c176dd86b1e32f5f31709f8f29fa7170db45d2fb9d6",
+  "model_jobs_started": 0,
+  "summary": {
+    "installation_passed": 6,
+    "sdk_initialization_passed": 6,
+    "supervision_probe_passed": 6,
+    "verifier_dependency_profiles_passed": 6,
+    "verifier_dependency_profiles_not_configured": 0,
+    "model_executions": 0
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/multi-source-data-merger",
+      "task_ref": "sha256:70367c38732e1beda7b229968a48d60242277c2fa4db91339c3f064c4c230d49",
+      "job": "dsh-sup6-install-pair-01-cache-20261101",
+      "trial": "multi-source-data-merger__kDiQNmh",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "multi-source-data-merger-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T15:30:37.424635Z",
+        "finished_at": "2026-11-01T15:32:11.448362Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-01-cache-20261101.json",
+          "sha256": "866efbc2def799a1e374e0e47e4b6f596f2b9c7596525b0c53989afab2656fa0"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/manifest.json",
+          "sha256": "a1c0a37704126265f30150d7ab8d049adcbef97964b3ca57cc64c927dec3c50e"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/summary.json",
+          "sha256": "7e60fc4d3c5a8ac06c48f630b8359cce05366334fd479d196c49e518f824ed56"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/result.json",
+          "sha256": "c2457b2afd8de269bfac9c2c67a0c120d1f2604bee58da87f3f01fef3bac4e37"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/agent/bootstrap.json",
+          "sha256": "aa9fa97bcb943c0408ee2557bce7e13bd0f2782ee383b5ff1df2450b2d7b172d"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-cli",
+      "task_ref": "sha256:6f11544dcc81a380dc4611902961f5520259c462d9fceb413419d66ab9a96c79",
+      "job": "dsh-sup6-install-pair-01-cache-20261101",
+      "trial": "pytorch-model-cli__dzNhbDJ",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "pytorch-model-cli-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T15:30:37.388855Z",
+        "finished_at": "2026-11-01T15:34:17.660530Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-01-cache-20261101.json",
+          "sha256": "866efbc2def799a1e374e0e47e4b6f596f2b9c7596525b0c53989afab2656fa0"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/manifest.json",
+          "sha256": "a1c0a37704126265f30150d7ab8d049adcbef97964b3ca57cc64c927dec3c50e"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/summary.json",
+          "sha256": "7e60fc4d3c5a8ac06c48f630b8359cce05366334fd479d196c49e518f824ed56"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/result.json",
+          "sha256": "942b30020eaf1fb96c31f6b9ff272eaf32364f08666f2ff3cb4388e4d089d486"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/agent/bootstrap.json",
+          "sha256": "0d3b19888676a0f8c1bd7b850d8a349a49b07f1cebc2e1780e678948be935a60"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/pytorch-model-recovery",
+      "task_ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "job": "dsh-sup6-install-pair-02-cache-20261101",
+      "trial": "pytorch-model-recovery__XnktXzC",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "pytorch-model-recovery-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T15:34:54.988540Z",
+        "finished_at": "2026-11-01T15:38:52.082773Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-02-cache-20261101.json",
+          "sha256": "85ad71a6a8dd6e53fd18764b3eb819e725a00d1fb6f640e130d583aa095a3678"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/manifest.json",
+          "sha256": "bf7a0c43b592960af76176b8715b8440129886b6becc68f51dce7c2dafb06bcf"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/summary.json",
+          "sha256": "40582b6a4c73c6f9ad84f1e454e3072b5818e5b4213e08082f2b88a3b88f0aa1"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/result.json",
+          "sha256": "ef17615f7c6a6c91d075791d90ad56adab7e245eb7bda5ce846bbfbf904f2366"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/agent/bootstrap.json",
+          "sha256": "638922b88c59516844637223aff41c51866cf5e21824c22d7fd7116ebfb1e0fc"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/query-optimize",
+      "task_ref": "sha256:169496ea6843cb403b0860132675baf7aa0df0ac8b86221068e27d86395260f4",
+      "job": "dsh-sup6-install-pair-02-cache-20261101",
+      "trial": "query-optimize__mjkeDjx",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "query-optimize-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T15:34:54.987141Z",
+        "finished_at": "2026-11-01T15:35:49.586138Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-02-cache-20261101.json",
+          "sha256": "85ad71a6a8dd6e53fd18764b3eb819e725a00d1fb6f640e130d583aa095a3678"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/manifest.json",
+          "sha256": "bf7a0c43b592960af76176b8715b8440129886b6becc68f51dce7c2dafb06bcf"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/summary.json",
+          "sha256": "40582b6a4c73c6f9ad84f1e454e3072b5818e5b4213e08082f2b88a3b88f0aa1"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/result.json",
+          "sha256": "f1e90e69169bf7cfee37a68f7915b981e4cff370caa457d9ba9dffaaa431b7cf"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/agent/bootstrap.json",
+          "sha256": "1463562f8a5bf45a5156a7d3fb1283b26fac0a33db2574d396c0f3f18b454826"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "job": "dsh-sup6-install-pair-03-cache-20261101",
+      "trial": "torch-pipeline-parallelism__mXeoYMQ",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "torch-pipeline-parallelism-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T15:39:41.683509Z",
+        "finished_at": "2026-11-01T15:48:44.616122Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-03-cache-20261101.json",
+          "sha256": "2ea8ddedb98188185000466de388c6d4c62c565ebb5a6d457b074ac1adad86b3"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/manifest.json",
+          "sha256": "a79d0cfc3f8c90c299dfdbf2f245115c51924cb56026116b53ccd54bc44abf9d"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/summary.json",
+          "sha256": "6ac52365e43f74afd60a3424faf8d05b7df928abeca72c1559362664ecd8b348"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/result.json",
+          "sha256": "d29a589b7595b286187ff3dea2ec985151dfda8cb19da12fee759f75c59771bf"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/agent/bootstrap.json",
+          "sha256": "a9460a42b2e140bbe0bee9d4a2226d95a34d556d4cdf92a6b310b8b3a72c3bca"
+        }
+      ]
+    },
+    {
+      "task": "terminal-bench/torch-tensor-parallelism",
+      "task_ref": "sha256:f32ce74a5aeb6638480247ab799fe46127bbee631acdd0921b0f394ec49b3684",
+      "job": "dsh-sup6-install-pair-03-cache-20261101",
+      "trial": "torch-tensor-parallelism__6VSbzJS",
+      "installation": "passed",
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "verifier_dependency_profile": {
+        "profile": "torch-tensor-parallelism-v1",
+        "status": "passed"
+      },
+      "agent_setup": {
+        "started_at": "2026-11-01T15:39:41.684726Z",
+        "finished_at": "2026-11-01T15:48:43.633194Z"
+      },
+      "evidence": [
+        {
+          "path": "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-03-cache-20261101.json",
+          "sha256": "2ea8ddedb98188185000466de388c6d4c62c565ebb5a6d457b074ac1adad86b3"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/manifest.json",
+          "sha256": "a79d0cfc3f8c90c299dfdbf2f245115c51924cb56026116b53ccd54bc44abf9d"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/summary.json",
+          "sha256": "6ac52365e43f74afd60a3424faf8d05b7df928abeca72c1559362664ecd8b348"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/result.json",
+          "sha256": "4862f8fa3a7b1038b169aa97a54f0892917ad45bdb769a3fb25fba62ade08979"
+        },
+        {
+          "path": "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/agent/bootstrap.json",
+          "sha256": "34af5d820280f7c297e211a7e512cc9101f09ab3908a0b7bf5ded9486eb61085"
+        }
+      ]
+    }
+  ]
+}

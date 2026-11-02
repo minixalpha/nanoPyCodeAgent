@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "authorized_launch_registered_at": "2026-11-01T15:49:52.188939+00:00",
+  "repository_ref": "0c587c016fc0757f08b223a1976fae9e800d352b",
+  "adapter_ref": "eff073b1601435305155cad92b6ee9e2250fbbdc",
+  "transport_ref": "dc32b26194a06e7b070c5e8876d26ea0fcf3a7d3",
+  "authorization": "The maintainer requested rerunning the six unscored tasks on 2026-11-01. Prior explicit confirmation authorizes use of the existing DeepSeek provider credential without publishing it.",
+  "phase": "model",
+  "model_jobs_started_at_registration": 0,
+  "model_runs_authorized": 6,
+  "whole_trial_retries": 0,
+  "preflight": {
+    "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/preflight-evidence.json",
+    "sha256": "e973e6d280171287c8c60b7888834b56259f897aac67e8ffa6c23daad39e3e06"
+  },
+  "plan": {
+    "path": "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment-v2.json",
+    "sha256": "69eb8272f3fcd125e062387f7f725c80f12b56b8a622d6a616d23f8e0e174a93"
+  },
+  "credential_handling": "Read the authorized local DeepSeek provider credential into the child environment only. No key is written to this record.",
+  "output_policy": "Freeze all six outputs before inspecting new model trajectories or hidden assertions."
+}

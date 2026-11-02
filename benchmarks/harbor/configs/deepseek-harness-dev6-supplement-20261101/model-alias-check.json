@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-11-01T14:36:34.471637+00:00",
+  "source": "https://api-docs.deepseek.com/quick_start/agent_integrations/",
+  "alias": "deepseek-flash",
+  "documented_serving_model": "DeepSeek-V4.1-Flash-1017",
+  "local_response": "jobs/deepseek-alias-docs-20261101.html",
+  "local_response_sha256": "723bbdcf0b8fd45ae629b0c9fa3939bbfa2af368c69c2ce37ff532049ddde9e3",
+  "limitation": "Mutable alias; documentation does not establish an immutable serving checkpoint across dates."
+}

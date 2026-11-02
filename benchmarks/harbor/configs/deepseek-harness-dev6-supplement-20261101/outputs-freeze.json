@@ -1,0 +1,2372 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-11-01T16:56:07.773103+00:00",
+  "registered_model_jobs": 6,
+  "installation_trials": 10,
+  "initial_preflight_trials": 4,
+  "final_preflight_trials": 6,
+  "policy": "All registered jobs finished before this freeze. No new solution trajectories or hidden test contents were reviewed before the freeze. Raw logs remain local; this manifest publishes paths, sizes, and hashes only.",
+  "file_count": 590,
+  "files": {
+    ".cache/nanopy-harbor/pypi-ranges/audit/dsh-sup6-cache-20261101.jsonl": {
+      "sha256": "ef8385be4d1387b72014dca1e89b1281fed347714f9bd3e5f9e050b501e7366a",
+      "size": 405336
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/apt-cache.conf": {
+      "sha256": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+      "size": 549
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/deepseek-distribution.json": {
+      "sha256": "34410bdce15ec3b417105eb7f9f6e01a14c47f1bfd0ffe16d76338e7efa51dd2",
+      "size": 2742
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/dependency-cache.compose.json": {
+      "sha256": "560bc83f2a88bb907662db1b60ab15f49443a1572822fa633440f3cc76510557",
+      "size": 3317
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/dependency-release-manifest.json": {
+      "sha256": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+      "size": 3250
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment-v2.json": {
+      "sha256": "69eb8272f3fcd125e062387f7f725c80f12b56b8a622d6a616d23f8e0e174a93",
+      "size": 24581
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/experiment.json": {
+      "sha256": "cb45a79c8c0b128d6807118a656afc32357de40c250bb6064b9d46798a4232ac",
+      "size": 20403
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/image-digests.json": {
+      "sha256": "c2405e16c2aaf2d837b6f6594875e197fd13eb94ed094253e4513c315783d030",
+      "size": 2488
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-01.json": {
+      "sha256": "cc4f07cff8a7ec9ffe4de4bdb69322b0ec89b62c72072020d1f9b1f7f0e20e26",
+      "size": 1268
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-02.json": {
+      "sha256": "8c918a0998feb41ac3a974228d1bc3b4ba220fb5d76283c77590755738c1d149",
+      "size": 1263
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/install-pair-03.json": {
+      "sha256": "b04b132fa453bec7c4f888e6e52dab533b8870dc1c0ea21881fb887c84ac00ba",
+      "size": 1277
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/launch-evidence.json": {
+      "sha256": "efdf89be02eda588ef14952ae1aa9844c483f1060136ea5b05bb9b8f5833c943",
+      "size": 1282
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/model-alias-check.json": {
+      "sha256": "452c5114c9ac5fc82634ce25ce8a2ee0a8f4e3ee15724f5324bdb1befcf865c3",
+      "size": 489
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/multi-source-data-merger.json": {
+      "sha256": "4e25ecef8ce9beb5a0adfb9977242fe32a9a5559b8f691fa686971d4a6d4e4e1",
+      "size": 1118
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/preflight-evidence.json": {
+      "sha256": "e973e6d280171287c8c60b7888834b56259f897aac67e8ffa6c23daad39e3e06",
+      "size": 12105
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/preflight-v1-evidence.json": {
+      "sha256": "ead4b47154c9507326f6f03eeada33a2eb486ab027317fc3b8d655df7bd4a7c9",
+      "size": 5773
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/pytorch-model-cli.json": {
+      "sha256": "a0805861bc826d29e2bc9205c2c720f725f52a549d970c61b407f786dd73df49",
+      "size": 1111
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/pytorch-model-recovery.json": {
+      "sha256": "fddffa4e9c5bac957f87460cdd04276f964fb4c2aa1bcd98124387d95f140c99",
+      "size": 1116
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/query-optimize.json": {
+      "sha256": "2320f05a860f4c91d1fd1a200740cda5ac8fa67ea65dfab3dc3a5b0ef745b6e0",
+      "size": 1108
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/selection.json": {
+      "sha256": "5047e6d007ed45ee6887bcf09cceb3475b7075e56551a43143c38b8e00991284",
+      "size": 695
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/source-comparison.json": {
+      "sha256": "2a9136e82334bea1c4d7a1097537d36227d3e63836a4fc9983709d288e4f749c",
+      "size": 1188
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/torch-pipeline-parallelism.json": {
+      "sha256": "bfa979780e67235b1f5472d025ca7b8cb2ea2b4ef2c7f1fab29d5b4fabee8d5c",
+      "size": 1120
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/torch-tensor-parallelism.json": {
+      "sha256": "11b91bacfe4d1b2fdcf57a23376ae61b16df9c69802bd5465557db95b95976d8",
+      "size": 1118
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/dependency-cache.compose.json": {
+      "sha256": "b057be706c6139af66a7a460e8853ba83138986a2424b957753dc832e2f265a8",
+      "size": 4781
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/install-pair-01.json": {
+      "sha256": "a2cdbfd25baa068e6f904fc6843a4657991d5a6c8fb8a7b16ee18ffeba58e9dd",
+      "size": 1281
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/install-pair-02.json": {
+      "sha256": "8260804d67294d30901161efed81d18d6263ab5669e124ae3ea495efd05dbee0",
+      "size": 1276
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/install-pair-03.json": {
+      "sha256": "a2c56775c102aa0acce248d3ca5bf65c70e2c94b3b2805fe738b37e3c461d798",
+      "size": 1290
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/multi-source-data-merger.json": {
+      "sha256": "fb57f5183e4f4922815881ba050583175238cc14cf5eb766e7ade1e53f1aaf24",
+      "size": 1131
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/pytorch-model-cli.json": {
+      "sha256": "ab45588a2c978419e38ebd5aec8cd2b80a8946393e2931930a145554c743b226",
+      "size": 1124
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/pytorch-model-recovery.json": {
+      "sha256": "efb3470630dd176e013bdf739354e23fb640bdd086b9ce17e67d79d8fa71efa5",
+      "size": 1129
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/query-optimize.json": {
+      "sha256": "253c2b9bd43cdc526cddb1116f4d3a2b27bcd277c73ad0a794fe744120fd841b",
+      "size": 1121
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/torch-pipeline-parallelism.json": {
+      "sha256": "d1228591c9e282dbf36effdb3589efed0ea711007be9d7a09d35025a35f54131",
+      "size": 1133
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/torch-tensor-parallelism.json": {
+      "sha256": "df3772684d82ca3a55a682f855f28679b8f4d12d46e182bdfdb0e2cb50f66a61",
+      "size": 1131
+    },
+    "benchmarks/harbor/configs/deepseek-harness-dev6-supplement-20261101/transport-v2/transport-probes.json": {
+      "sha256": "d734625b2ba1e5624a31ab5164c3bbe8c1b78c60377a366ebe4a9cf4f239569f",
+      "size": 2769
+    },
+    "benchmarks/harbor/results/deepseek-harness-dev34-20261030.json": {
+      "sha256": "e94ca1e201d032617e9d4649f2cbfbb60127c1257e7a0f3b2696fea808288396",
+      "size": 263402
+    },
+    "benchmarks/harbor/scripts/apt_index_proxy.py": {
+      "sha256": "bc15f7adf1d7968d627ceca4683ab86742a7188a1b1955ba1fef37ba48e8a936",
+      "size": 10327
+    },
+    "benchmarks/harbor/scripts/cache_image.py": {
+      "sha256": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+      "size": 17103
+    },
+    "benchmarks/harbor/scripts/pypi_wheel_cache.py": {
+      "sha256": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+      "size": 10623
+    },
+    "benchmarks/harbor/scripts/run_comparison.py": {
+      "sha256": "228dbff33c0ec8a2359e612da632ef543dcac4273db2f9a7d0573a24e856fbae",
+      "size": 18201
+    },
+    "benchmarks/harbor/scripts/uv_release_cache.py": {
+      "sha256": "993cc35b1f3a9e8e171b662ab6d4524c5fe059f0d1f0e275a5bb1930111e0ff5",
+      "size": 10774
+    },
+    "jobs/deepseek-alias-docs-20261101.html": {
+      "sha256": "723bbdcf0b8fd45ae629b0c9fa3939bbfa2af368c69c2ce37ff532049ddde9e3",
+      "size": 51222
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-01-20261101.json": {
+      "sha256": "7907d0ca8916a3f8ac35a763309bf13eef2e06e3a9477f4353d8ef1d2450f79e",
+      "size": 135197
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-01-20261101.log": {
+      "sha256": "962506f1763db5c0dabcf13b4170595ac7dacf3613e52bb9f7060f25fe35cee8",
+      "size": 915
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-02-20261101.json": {
+      "sha256": "61fa3336d6839abc032ab09e74b840c8b17301726df6d2955dfef9bb58eccd82",
+      "size": 45082
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/dsh-sup6-install-pair-02-20261101.log": {
+      "sha256": "5f9e63160b50a1acfea2c177f99aa1f5c7802548f2d52eccf0895b0e05687a41",
+      "size": 293
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/image-cache.jsonl": {
+      "sha256": "00aca15594721e0a548727b164a89affb9166735a12e8cc5fc96a3001db7a2b0",
+      "size": 1011
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/image-downloads.log": {
+      "sha256": "ce40e3210825e83307678ede1413f290fd1c11f87d8fe9d5dd60ed0df17dfdbe",
+      "size": 1665
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/initial-docker-images.json": {
+      "sha256": "449d13f34e0b28d37629f60676696304188487bd8f7361f38ffae2ebbe0b4f60",
+      "size": 465
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-orchestration/registration.json": {
+      "sha256": "306e0511feffaa093584ed765cfcf90c779b35f6a3c4c7eb684070e33f2d7079",
+      "size": 21140
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-01-cache-20261101.json": {
+      "sha256": "866efbc2def799a1e374e0e47e4b6f596f2b9c7596525b0c53989afab2656fa0",
+      "size": 135241
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-01-cache-20261101.log": {
+      "sha256": "22703e1016c018d6c9f3c39d944c94a915569bced2d50e59490571035b1cc281",
+      "size": 366
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-02-cache-20261101.json": {
+      "sha256": "85ad71a6a8dd6e53fd18764b3eb819e725a00d1fb6f640e130d583aa095a3678",
+      "size": 45046
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-02-cache-20261101.log": {
+      "sha256": "94e999a78facb25a79ff16c1794fa735fc610e6c33de46151de3fdd460eb3c2c",
+      "size": 305
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-03-cache-20261101.json": {
+      "sha256": "2ea8ddedb98188185000466de388c6d4c62c565ebb5a6d457b074ac1adad86b3",
+      "size": 56211
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-install-pair-03-cache-20261101.log": {
+      "sha256": "be2dd6ca243317fdb656dea5a9f08191fd689912f5fcd1ef465d229cd7420c69",
+      "size": 305
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-multi-source-data-merger-cache-20261101.json": {
+      "sha256": "19beb040db143599f69d5bec8e7d8603d904967a39dfd61af052a774ca3b82e1",
+      "size": 25153
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-multi-source-data-merger-cache-20261101.log": {
+      "sha256": "b88e146eb020d7a830d39ae25dc0e4aeff177788316e083deba8842785cf6b0a",
+      "size": 384
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-cli-cache-20261101.json": {
+      "sha256": "60351fe47c843efb3c964a39b2c46e1fe247ef0feaa47f98a7a17c1b1d38d354",
+      "size": 112275
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-cli-cache-20261101.log": {
+      "sha256": "921baf4f1871e9c1ad13a313f17e293752904499cf99af883277be692dd63e88",
+      "size": 309
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-recovery-cache-20261101.json": {
+      "sha256": "be0a7e21e0388145ea0d1dc8efcb9f44a30c91c4f98f5f6edee80893626afbc1",
+      "size": 27480
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-pytorch-model-recovery-cache-20261101.log": {
+      "sha256": "e6fcc64fee3ec472a9b1e1454c678742600da1daac2ca65901c0c2a1fde77085",
+      "size": 319
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-query-optimize-cache-20261101.json": {
+      "sha256": "fb1e727669d4c01a13753ae5122f3c8b1d433c221b32e0c317bb31d1e7fac9fa",
+      "size": 19725
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-query-optimize-cache-20261101.log": {
+      "sha256": "3b37095f25d27b2f5f30e631c5b70cb10671ac4dfb012e6c8cf6d38d0600de60",
+      "size": 303
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-pipeline-parallelism-cache-20261101.json": {
+      "sha256": "e2ff45301e23a775b6e044d69be6c4e62c3f9304769381512d5fce3b80ff9cce",
+      "size": 29236
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-pipeline-parallelism-cache-20261101.log": {
+      "sha256": "4d7a8da6dadeeb419eddafc02dec2992906b5e1066d292420f955afa7f86dd4b",
+      "size": 327
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-tensor-parallelism-cache-20261101.json": {
+      "sha256": "8f0d3027d7c1be04eb4453025fa7638dc25f8be7d16f8db8bc55573868673333",
+      "size": 29218
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/dsh-sup6-torch-tensor-parallelism-cache-20261101.log": {
+      "sha256": "02a3580bbb8f107bef679b2c783eddf0d377b88002a8fd782e566c4fd2783933",
+      "size": 323
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/image-cache.jsonl": {
+      "sha256": "36a76b09df6b05e5a680bd661c2cf8dd63ff4d90c227c28b0d9d29cc5b6351fc",
+      "size": 4920
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/image-downloads.log": {
+      "sha256": "7082c78fb993bbab40126f3800cb1daa3ee2c07e2bc87622cf818f3e6b1bf507",
+      "size": 7994
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/initial-docker-images.json": {
+      "sha256": "449d13f34e0b28d37629f60676696304188487bd8f7361f38ffae2ebbe0b4f60",
+      "size": 465
+    },
+    "jobs/deepseek-harness-dev6-supplement-20261101-v2-orchestration/registration.json": {
+      "sha256": "03c10086892bbf06ed29011b8913dd30db7d4e87bb8131d61205b7f205ac59ae",
+      "size": 25368
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/config.json": {
+      "sha256": "b6060aba851f1c9ceb552f3dbe8af5eebcb2b41459271139e6cba12fb64a815a",
+      "size": 1792
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/job.log": {
+      "sha256": "72dbf76a42bac5c698689488a13aaa84a5443a9e95e0c0534c940e4b899a5397",
+      "size": 15166
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/lock.json": {
+      "sha256": "bf15c7ba6b68cae7db961380e8443a2eb62bcad83173adb4a463d090cb0fd79c",
+      "size": 5827
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/agent/bootstrap.json": {
+      "sha256": "aa9fa97bcb943c0408ee2557bce7e13bd0f2782ee383b5ff1df2450b2d7b172d",
+      "size": 19796
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/config.json": {
+      "sha256": "b1a77f7bfa50450bf69e99e4595bb54c986838a142ea3d4653dd1d33f3c2312c",
+      "size": 1598
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/lock.json": {
+      "sha256": "8b43a31c3f78e57457f848e653535c4161e11346bab5a7baedb919ee3b518e67",
+      "size": 2123
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/result.json": {
+      "sha256": "c3efdc8bb4fb1048f32aa4c88105b8c1a08262e98c2fbe329d41dd09853ae408",
+      "size": 4550
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/multi-source-data-merger__A9ZBWfv/trial.log": {
+      "sha256": "c6f98f96c1eee7a4d8b3cfd2fda3a6603ead45c7c395196e8fa46d6fe1fa49f2",
+      "size": 7485
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/agent/bootstrap.json": {
+      "sha256": "a3c0057981c5d3db5eefa64571d2bcc3354657ae9602961506ab91df8197e94a",
+      "size": 94894
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/config.json": {
+      "sha256": "7c831d2d8998893cd68c2148b40b2cec6161d7a6bd3ac968ef4875c3e64a38c0",
+      "size": 1584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/lock.json": {
+      "sha256": "991a74f26a98961e10a1138c2b0a025d3dd8d8d9d61759b24182819766f71fda",
+      "size": 2116
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/result.json": {
+      "sha256": "1061d55f449577a08bfb866a4572bf1cda8efeba9e58e731b5d70a7972df0d22",
+      "size": 4508
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/pytorch-model-cli__WHD5rDb/trial.log": {
+      "sha256": "9e913a835b050cef2f099c026b81413b2f3b43243451a1b65f82fa5423e08caa",
+      "size": 7681
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101/result.json": {
+      "sha256": "3741e74fa1ad5b99f0116f99d16fffe6c26762eee90ee1cbf5a9bbe25fd12f0c",
+      "size": 947
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/config.json": {
+      "sha256": "b17c74c68cfcab6fd9daea53b58e12192f8fd21de23051cc452c768043ac16f0",
+      "size": 3412
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/harbor.log": {
+      "sha256": "7cd9472480fab862e6f74b9b1b538ef206758b6477faf2266a07274d2d8f6cd2",
+      "size": 1057
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/manifest.json": {
+      "sha256": "0b6cdd290c51ed96c80243bf399bcaf1bc1698c17aa841b89fb94b6ee53d91a1",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "27bde1991d92f6becd6cb327eff9380e65ca4c4b771548f758c37b308223f052",
+      "size": 586
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "1590c3f38a3b2d17e64b8126a42b70b1cd381038e9a9c7b080c9d7bba9ea3d5e",
+      "size": 18705
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "dc582035cbe700e9081d98704c7b830f6d3b9b3065cf597b20e0111321fd4a67",
+      "size": 14993
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "4d051ee7f175e81f8a00096b1de47a01f1e75b1e4470bc3fe187e60f1b3e4e38",
+      "size": 15047
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "10d8856dad7b6c0e841f3e77be032eaf3e78a87d67e221b1386533cd989c451b",
+      "size": 18396
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "8b6421768909bd015a4cf2653969c7d70b3d190dcca2fdddb930efc067015eab",
+      "size": 14695
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/summary.json": {
+      "sha256": "57deb077e1d7b15b87d5cf898a1337e472ab3e87f8a796f230648e2467d692ac",
+      "size": 129304
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/config.json": {
+      "sha256": "c5a99fc325769009292fbc1c6a1ab0477c02b48425d773379579f5cb013e47a9",
+      "size": 1811
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/job.log": {
+      "sha256": "0fd993db1a1e6625d00f7ee85c329f345061a10319601aa52faa8fb635d3d9ac",
+      "size": 15166
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/lock.json": {
+      "sha256": "ba568cb0cbbfb3da596c31e95acd87f6ce58e22baf722bbc7f1e6faf52c7d192",
+      "size": 5879
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/agent/bootstrap.json": {
+      "sha256": "aa9fa97bcb943c0408ee2557bce7e13bd0f2782ee383b5ff1df2450b2d7b172d",
+      "size": 19796
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/config.json": {
+      "sha256": "1142928916e2a4553bf62f9842b23f3e316575f0c3805e8bc23ba0132333c80c",
+      "size": 1617
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/lock.json": {
+      "sha256": "c0f141c83433212847855e1e866909a329ad71aa033b126b951e3677f4046d6a",
+      "size": 2149
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/result.json": {
+      "sha256": "c2457b2afd8de269bfac9c2c67a0c120d1f2604bee58da87f3f01fef3bac4e37",
+      "size": 4575
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/multi-source-data-merger__kDiQNmh/trial.log": {
+      "sha256": "7cf8b72c79deabec9dc23ea8416f653592b928e266fdaaef81689df16ebdf9f6",
+      "size": 7485
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/agent/bootstrap.json": {
+      "sha256": "0d3b19888676a0f8c1bd7b850d8a349a49b07f1cebc2e1780e678948be935a60",
+      "size": 94894
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/config.json": {
+      "sha256": "09698f5d0538d5ee64726efe664ff2e00af4a7378c6461d61a56ac80bcda0a78",
+      "size": 1603
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/lock.json": {
+      "sha256": "06fbad5a6a4fedc1a506f673ecf32b8343cc19c7468c688cbc0569a3c3238b2f",
+      "size": 2142
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/result.json": {
+      "sha256": "942b30020eaf1fb96c31f6b9ff272eaf32364f08666f2ff3cb4388e4d089d486",
+      "size": 4533
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/pytorch-model-cli__dzNhbDJ/trial.log": {
+      "sha256": "19cd5ac2957ba2e8653cb2f7246fda609a99c7e4cbb097018c1960bb1ba5d149",
+      "size": 7681
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101/result.json": {
+      "sha256": "0c6f49e48dc0779321394b6ef60fe6ce0f1fbfc54bb856e12947106aedd34404",
+      "size": 947
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/config.json": {
+      "sha256": "380a9c937118753b46f82a603b853cb1dc7535bd87868aa57bc7199f0e7575a9",
+      "size": 3431
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/harbor.log": {
+      "sha256": "82d3adcae4de3db5017bae07df00040e02ca34bff92c0cd88b6c42cbc442052b",
+      "size": 1067
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/manifest.json": {
+      "sha256": "a1c0a37704126265f30150d7ab8d049adcbef97964b3ca57cc64c927dec3c50e",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "c612abd222e90c927f2c8ba2f933b5bbd8ab78d8e2e9b769d1f5975f1c890839",
+      "size": 592
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "623d6fa28119a45230454a693a1820e57ae0fb357758f3f8ea3d4d00a52af667",
+      "size": 18711
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "d2b29430a31f2bcbed44ec3b86815a890ba175f63ffcc061862ab25073996666",
+      "size": 14999
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "21d1dff276d39cfd86ff803e50dfb7e8d613c83d3c25f8cc948f868fa577a5cb",
+      "size": 15053
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "e1b494f9db2180b0dd9b02ad622da5459d6d10378923508158f626d53d53699a",
+      "size": 18402
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "6b62f2132ba2904920cd61f431f00dd16db424bbd1ba98bcf4a22e03013f7787",
+      "size": 14701
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/summary.json": {
+      "sha256": "7e60fc4d3c5a8ac06c48f630b8359cce05366334fd479d196c49e518f824ed56",
+      "size": 129304
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-01-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/config.json": {
+      "sha256": "2132e259cf77dd58e671031a3b89cf6cd912a3669d619c3af93cd77316e9f592",
+      "size": 1787
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/job.log": {
+      "sha256": "439563f59b244afebafb33c4a9fc129ad14ba90d056cfa20cfe14bcf1bb8b176",
+      "size": 15086
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/lock.json": {
+      "sha256": "d56d078e9755eda3e3da2224e0f6b3cd5f510914fa1d6341215c90284ac4a6f8",
+      "size": 5822
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/agent/bootstrap.json": {
+      "sha256": "569634e2774a66f6a021d30250a11667067e2fb7503586e9cffd6f8eadacdb75",
+      "size": 21911
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/config.json": {
+      "sha256": "2db85a02bc547eb41d58568cfc2d34ea41529585f0546eca2a03b43df74c0b70",
+      "size": 1594
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/exception.txt": {
+      "sha256": "a9418a49568b7803d4957ada7280037b57187c793a9cbed2016dd3d217b6afca",
+      "size": 5136
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/lock.json": {
+      "sha256": "0828a3fd0fde038023084f1081286134be902ed97903c7eba573d1604d4f6a2e",
+      "size": 2121
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/result.json": {
+      "sha256": "57b535c90e77e1bfb129bdb32e45f29e825132e0dfde847fcab2be97346db9b3",
+      "size": 10017
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/pytorch-model-recovery__LD8MzLU/trial.log": {
+      "sha256": "6489443af7cd8e835f654b193dd6c780e8fb7f819db8aa7a3ed24bed8f68cb1b",
+      "size": 7563
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/agent/bootstrap.json": {
+      "sha256": "1463562f8a5bf45a5156a7d3fb1283b26fac0a33db2574d396c0f3f18b454826",
+      "size": 15230
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/config.json": {
+      "sha256": "2973f86c335ce2c79cebb9105d8c5736752aceb0a48bf886997d65bd7790cb44",
+      "size": 1578
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/lock.json": {
+      "sha256": "d64c3de3ad5d52896304f7f6d1fdd8f861ad029c8571e64e19ecaccf3efcd81f",
+      "size": 2113
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/result.json": {
+      "sha256": "bcddf59e8ca8e1042bc40c41d2928ef8a7ec7d419cc2fe234f42ae00ba304de2",
+      "size": 4490
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/query-optimize__nZVwCmT/trial.log": {
+      "sha256": "b2dca9a94a405af2eb206d9762d809739e383c2395b07cea68cccf9f6a5dc1b4",
+      "size": 7449
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101/result.json": {
+      "sha256": "a87f912301b92fed28734e699ed5b7cbcfcfb38883fc9dca724246b8f7eb1948",
+      "size": 1092
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/config.json": {
+      "sha256": "927cf6c3cf9b6c1b7b770fd85c9238e700e476e5f9c2e9b80a093554213eacdd",
+      "size": 3407
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/harbor.log": {
+      "sha256": "2e13a641ebaef616252fce2d842da4974b9519913ea059773025139487971266",
+      "size": 1449
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/manifest.json": {
+      "sha256": "4edf18f054f462ca099b3c68eec1cdae8a9d6eeddb1ca486f3adb61c4d20275c",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "0aa0e443a1a8eb75ad6e5490c9729fcbfccdd594028796966cff3a07d25bf467",
+      "size": 586
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "5ea2f825cdce6b45397d71a75cb059b126600cc10aab18c9c8ec352e25a2d938",
+      "size": 18705
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "b49807a7592701fdec9c956f83403b200ae6b9f3a282dbfb70a1924d52d473b0",
+      "size": 14993
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "931dfcb17f33a8ae7f3361199fac1221083cc3c5f5aa4957bfcca5cc5c8f5db2",
+      "size": 15047
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "929b79aeac4bc486a71093da50983d18d0c5e768df5ea061559a144494409b08",
+      "size": 18396
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "f6fe9f941c0221f6c1f7c72b60294ab03372b09ab7083fdf7ce0a1fde52b839e",
+      "size": 14695
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/summary.json": {
+      "sha256": "087a66a22204170c7ac6d63ec1f52a59a8088f81c86bbf1e99d69f9f0201b4a4",
+      "size": 42333
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/config.json": {
+      "sha256": "86f5fdd95df5153cc97eb7d9d29583e29419191af55d8712beb4ade352da59e6",
+      "size": 1806
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/job.log": {
+      "sha256": "32ec9f9ef53e46e699dc05a8d920377bc2e816ab76fd88082857c046bbb1acf0",
+      "size": 14914
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/lock.json": {
+      "sha256": "ac0949e62ce9b8ee730cfdb09d32e1fd76692f9d8bd722fb6942580d5b78935a",
+      "size": 5874
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/agent/bootstrap.json": {
+      "sha256": "638922b88c59516844637223aff41c51866cf5e21824c22d7fd7116ebfb1e0fc",
+      "size": 21859
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/config.json": {
+      "sha256": "0b43d9685c51159f38c85a2539674c33fe03628adaef5fc23cb400c3f68366c2",
+      "size": 1613
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/lock.json": {
+      "sha256": "e1c137200ade8addc3425bb15921c07f28cad88dae614f0c4ffc3c95ed33dabe",
+      "size": 2147
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/result.json": {
+      "sha256": "ef17615f7c6a6c91d075791d90ad56adab7e245eb7bda5ce846bbfbf904f2366",
+      "size": 4563
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/pytorch-model-recovery__XnktXzC/trial.log": {
+      "sha256": "ffbf4c1e52a7b9f8b4deeb7810817f6c6e8fd66dfee71b7d616026ebe923933d",
+      "size": 7465
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/agent/bootstrap.json": {
+      "sha256": "1463562f8a5bf45a5156a7d3fb1283b26fac0a33db2574d396c0f3f18b454826",
+      "size": 15230
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/config.json": {
+      "sha256": "04574ff230cc8442fcd4bdead9a7d5f2c2d2f916555f61c3a84827ddef783be4",
+      "size": 1597
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/lock.json": {
+      "sha256": "8bff549930dd4d008f9e1dc07f9f46a6d79979df6be162e41c2aa3fe3b52aac5",
+      "size": 2139
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/result.json": {
+      "sha256": "f1e90e69169bf7cfee37a68f7915b981e4cff370caa457d9ba9dffaaa431b7cf",
+      "size": 4515
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/query-optimize__mjkeDjx/trial.log": {
+      "sha256": "bd3af473249fe27b80ea071c5062b212faf4c491e6c231d0763ae0d6753155ca",
+      "size": 7449
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101/result.json": {
+      "sha256": "0329b3aff91d4535bb3b6b41ec69dca209140c6df67ddf5a31974e9a9322c849",
+      "size": 947
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/config.json": {
+      "sha256": "e83879378bc3dde4f386985bb0718ce54afa3bb8b2da3d33062f2f01110f6caa",
+      "size": 3426
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/harbor.log": {
+      "sha256": "404f2dd487d0d163a3cb7854c35743a51539a68f5cb687e7cbfbe0ccfba3a96a",
+      "size": 1068
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/manifest.json": {
+      "sha256": "bf7a0c43b592960af76176b8715b8440129886b6becc68f51dce7c2dafb06bcf",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "d3264411f2a8587d0f4ca96d9e63b2db363450dcd09bf9f14f8c3fcfd68d8b57",
+      "size": 592
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "9660c0bcff554a4b5962546562c7604fceeed961e1380adbd4de45be46f9c0ec",
+      "size": 18711
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "73304b7459ca56a62770223f9368732cce9aa96fe2e11a27f44bf347d12af88b",
+      "size": 14999
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "a9e107e0442fff3d3385662230d294ecb66232628002e83cdf4ce800c96c081e",
+      "size": 15053
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "3347796de01564e4c498a1f942655e531b2d2b764297ab97c931b4640f738b6d",
+      "size": 18402
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "628fa8cf06a8504bf9beaa39cdfa79043c9e9a67046716ef38ddc50b3d29fb19",
+      "size": 14701
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/summary.json": {
+      "sha256": "40582b6a4c73c6f9ad84f1e454e3072b5818e5b4213e08082f2b88a3b88f0aa1",
+      "size": 42255
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-02-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/config.json": {
+      "sha256": "f831ecad59eb127789fed1b1e74f251302123c556e887f13345efd90e1395bf4",
+      "size": 1820
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/job.log": {
+      "sha256": "740ed51ace3638207c365b5c387ca3373188eb7f8258961ee94153812d91b8af",
+      "size": 14954
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/lock.json": {
+      "sha256": "7537a6b89da461c16afa91bf74e9f458e743a17765d52be9afc0aa2730e46306",
+      "size": 5888
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/result.json": {
+      "sha256": "c7a91d2a57153465511c760ed27d7dc64a60c797eaaaedb7a8e7c82a000d37e7",
+      "size": 947
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/agent/bootstrap.json": {
+      "sha256": "a9460a42b2e140bbe0bee9d4a2226d95a34d556d4cdf92a6b310b8b3a72c3bca",
+      "size": 23414
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/config.json": {
+      "sha256": "b7cc691f9af2d590c3e149e509c578815474f2061207bc5f8d2a8433c8449e98",
+      "size": 1621
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/lock.json": {
+      "sha256": "b58959a6ca51865bfcd6fdd5efa23bfeb1e5166380f8166bce3347a88cc869fb",
+      "size": 2151
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/result.json": {
+      "sha256": "d29a589b7595b286187ff3dea2ec985151dfda8cb19da12fee759f75c59771bf",
+      "size": 4587
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-pipeline-parallelism__mXeoYMQ/trial.log": {
+      "sha256": "cfd576cff8c053f2e9b1a26b35319e301d769fcdcd00d7ee37d7ffdeae937732",
+      "size": 7489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/agent/bootstrap.json": {
+      "sha256": "34af5d820280f7c297e211a7e512cc9101f09ab3908a0b7bf5ded9486eb61085",
+      "size": 23412
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/config.json": {
+      "sha256": "23d2ce7a5e40843c49819c29da25cd4c2a33fd0238744db36550922b9d8d9d58",
+      "size": 1617
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/lock.json": {
+      "sha256": "b50e0e078bdeb574d2135951fb3800c83bf99d2dda8f7cf80df3e90ca38c1a53",
+      "size": 2149
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/result.json": {
+      "sha256": "4862f8fa3a7b1038b169aa97a54f0892917ad45bdb769a3fb25fba62ade08979",
+      "size": 4575
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101/torch-tensor-parallelism__6VSbzJS/trial.log": {
+      "sha256": "a25728b343f1989b1000a353b680b5411df575377194aaf0e442e14c28c67192",
+      "size": 7465
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/config.json": {
+      "sha256": "9d23650080334127301348fb0e301666a6c8e1eec7e72f5b5dc25db980ac6593",
+      "size": 3440
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/harbor.log": {
+      "sha256": "12efbc495e6d70f67b1ae4562a2eb13bb886eef64c629b67f1b315187fe4e5ee",
+      "size": 1068
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/manifest.json": {
+      "sha256": "a79d0cfc3f8c90c299dfdbf2f245115c51924cb56026116b53ccd54bc44abf9d",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "6f17f6d9bb1462f0246dfbdeecfe4a601f40ffc8b98493ec1436addcceaf0c3f",
+      "size": 592
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "b8b8a411958d0b502707cb70a53c1072bd44b0907846f0d5085be99603464f5f",
+      "size": 18711
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "247959e8cc2eb93f85e3f29c1159746f8f48c4195ec984a484daadb02bbd0e37",
+      "size": 14999
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "fc831988a61758b1f33805f9cf28863e02f314ae40a72e064e9855f7aa0659a4",
+      "size": 15053
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "539e713913e8467ac6ab56728be08d22dd26051ed5f0b7c4c87e5f0c03b09ec1",
+      "size": 18402
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "3a735206e43fb96e5c188fa6d03a4f4e0a9d27228115900786e5dc2b3e845957",
+      "size": 14701
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/summary.json": {
+      "sha256": "6ac52365e43f74afd60a3424faf8d05b7df928abeca72c1559362664ecd8b348",
+      "size": 53070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-install-pair-03-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/config.json": {
+      "sha256": "3bcfedac04b5c4ac5a3e0bb3a98c1a713a2f3772c09c0c15760dd11ace87a0e6",
+      "size": 1599
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/job.log": {
+      "sha256": "35dc322211d97c40a3a8ba87258f8a3719d54dc5477dc19a68658dc91b9b4b31",
+      "size": 13397
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/lock.json": {
+      "sha256": "507e911aab64da458c1f583a0f5e702b865d480b79834ca6b95fe764d7250421",
+      "size": 3305
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/bootstrap.json": {
+      "sha256": "aa9fa97bcb943c0408ee2557bce7e13bd0f2782ee383b5ff1df2450b2d7b172d",
+      "size": 19796
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh/.anonymous-user-id": {
+      "sha256": "2c3772fa069fb782be615b9664d1cad5fb667dc181522c0a898f909014fe6e18",
+      "size": 37
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh/profiles/sdk-minimal/cordis.patch.yml": {
+      "sha256": "ef189a8c27db6d63930aa3046a3040482e952eafcb7487c644d508e8d461f027",
+      "size": 217
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh/profiles/sdk-minimal/cordis.yml": {
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "size": 223
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh/profiles/sdk-minimal/package.json": {
+      "sha256": "73c089627acc47000fd21b1a47445f166241b867cfdd59eb1eb66b269810ed93",
+      "size": 186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh/profiles/sdk-minimal/pnpm-workspace.yaml": {
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "size": 61
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh/sessions/--app--/benchmark/session.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh/sessions/--app--/benchmark/session.v4.jsonl": {
+      "sha256": "9617ac0778ce6d951153e9ea913ac1efd28fb43b14fc96a8fd0539668962ea42",
+      "size": 80650
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh-events.jsonl": {
+      "sha256": "560ffcbee9aa1d0d4a79d995bb14c03b86ec3c053c01ab5dff68bd460bb8f372",
+      "size": 89583
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh-result.json": {
+      "sha256": "6abfba7ae96e460386999b16f464b95dd2afdc5a6af20a183562e29213464a95",
+      "size": 520
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/dsh-stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/config.json": {
+      "sha256": "d4fb29c2314b06c78c0f6e875822444accb7c74c5e47d2b130bd4d35ebd8dbec",
+      "size": 1575
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/lock.json": {
+      "sha256": "fee536be94d5a1647dd1a3216cd26ea2a153344b62a7190b57a0aa1883bb6a17",
+      "size": 2151
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/result.json": {
+      "sha256": "7964222816878953a237651d62e8035a0031f3d82e720fb8bd95e8bf0e266808",
+      "size": 34018
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/trial.log": {
+      "sha256": "35dc322211d97c40a3a8ba87258f8a3719d54dc5477dc19a68658dc91b9b4b31",
+      "size": 13397
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/attempts/1/ctrf.json": {
+      "sha256": "45569dd708aa3a09516a19263f9bff0309fe8187d6c6f8d8c5bd68bc0d54956e",
+      "size": 1462
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/attempts/1/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "afd6eb483b54b284bd88c964f1cc2a21639044f192cd314df11374ea011a24a7",
+      "size": 1249
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/ctrf.json": {
+      "sha256": "45569dd708aa3a09516a19263f9bff0309fe8187d6c6f8d8c5bd68bc0d54956e",
+      "size": 1462
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/retry-summary.json": {
+      "sha256": "227986f8e26eeea0b1299ea126ca86aab0d0d7e9757aaa4b1ac76c6092bb1c20",
+      "size": 269
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/multi-source-data-merger__hV2zT6o/verifier/test-stdout.txt": {
+      "sha256": "afd6eb483b54b284bd88c964f1cc2a21639044f192cd314df11374ea011a24a7",
+      "size": 1249
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101/result.json": {
+      "sha256": "893bebac0b12f33557d0aa93881af36fbbedb37eaca3d5506995f0ee02045f59",
+      "size": 1141
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/config.json": {
+      "sha256": "57d3f28a413f43f035a1308429d63405d5108808633e3aa0aa3411532e98e968",
+      "size": 3143
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/harbor.log": {
+      "sha256": "5870a6f29db039fbeb55f4faba70034df80a88d1d71927fc14a7f02d5fe06c25",
+      "size": 1302
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/manifest.json": {
+      "sha256": "45923d5f9fcb2414b4403b8176faaf171ea48aa38df654a35585db9d1987636b",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "db97d6ee3ae77b905f4e075cbf3fd57ebd554832d4c66f2f902f95c2ab3b64f8",
+      "size": 601
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "a2e97d01239f54f41f056a6d20dc98188bab291cf5be6ec78123f6fc53f1082c",
+      "size": 18720
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "e4b762644060b54011fbfce0b8ea4709f7fe576ed44d59b8d152e83b8e46e813",
+      "size": 15008
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "548f30a528fde968c9be4b0294f607f228bddae28b40dc508a5019b2db5328f2",
+      "size": 15062
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "e936ee8a90bfbdce845630631ea13d6cd78934554e42bc82a850c24f44c3fac5",
+      "size": 18411
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "b76a7cfb9e91507bd366b585faf23f6cbc64a76477aa8afa3a0d45fd4cbc9434",
+      "size": 14710
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/summary.json": {
+      "sha256": "b442d625a6d2bddf0f56e72b4cddc388a7063535139d886939c5c37a2006e753",
+      "size": 22967
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-multi-source-data-merger-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/config.json": {
+      "sha256": "843e5055a85eeebacca9fa2c21e660d22e6e33ac537f0d0518b24407ededc1c6",
+      "size": 1585
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/job.log": {
+      "sha256": "ccee04586e6eacb00d110fb180aa543f8849f6c61c336ffd4088bfbbbbe24dcf",
+      "size": 13593
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/lock.json": {
+      "sha256": "1a442e0987e940aca23a2f1f58290883bc8545f98eb576fc1b5ed7bcc1714bc1",
+      "size": 3298
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/bootstrap.json": {
+      "sha256": "0d3b19888676a0f8c1bd7b850d8a349a49b07f1cebc2e1780e678948be935a60",
+      "size": 94894
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/.anonymous-user-id": {
+      "sha256": "e6bb40b3ebccda5ba9c8a5f05720d61f9fa8d3e32fd8bd9d1c8930ecad0a57d3",
+      "size": 37
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/attachments/v1/objects/ac/acb96080e83322f5be24aa357055f8a178cac79cc82a23bae9d4f6113225ca51": {
+      "sha256": "acb96080e83322f5be24aa357055f8a178cac79cc82a23bae9d4f6113225ca51",
+      "size": 598
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/llm-deepseek/files-v3.json": {
+      "sha256": "81a910a63f4649c149af38289761d9464eab863f99a7779e19660f6a8323f4e4",
+      "size": 483
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/profiles/sdk-minimal/cordis.patch.yml": {
+      "sha256": "ef189a8c27db6d63930aa3046a3040482e952eafcb7487c644d508e8d461f027",
+      "size": 217
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/profiles/sdk-minimal/cordis.yml": {
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "size": 223
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/profiles/sdk-minimal/package.json": {
+      "sha256": "73c089627acc47000fd21b1a47445f166241b867cfdd59eb1eb66b269810ed93",
+      "size": 186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/profiles/sdk-minimal/pnpm-workspace.yaml": {
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "size": 61
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/sessions/--app--/benchmark/session.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh/sessions/--app--/benchmark/session.v4.jsonl": {
+      "sha256": "26c9f5ab32559672ce0acbbed914fde4e53ba478c5dd02d0a2b2663b872f0140",
+      "size": 427954
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh-events.jsonl": {
+      "sha256": "3f97af2928fc3eb8bb6cc8a053134dd123134d2ff7bc431b6fbdaa1582420f76",
+      "size": 488034
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh-result.json": {
+      "sha256": "7c4010a4f0456c1b6a8ee240e93ee2d108340af1e9d2f40866743dbe71ac9f1e",
+      "size": 354
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/dsh-stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/config.json": {
+      "sha256": "cf7ad9124a6b97cd3edfb355ae62b0004792c78598adb69e7ad80e171db59ffb",
+      "size": 1554
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/lock.json": {
+      "sha256": "5fb9a320732aae3fdf9c717ab511dcccbbc41b90a26a7eb5fb6cf579d5e1fc17",
+      "size": 2144
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/result.json": {
+      "sha256": "52fb13759ec498d5fa96250033110210e7efcb9295d30475e6b37236059f996c",
+      "size": 140982
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/trial.log": {
+      "sha256": "ccee04586e6eacb00d110fb180aa543f8849f6c61c336ffd4088bfbbbbe24dcf",
+      "size": 13593
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/attempts/1/ctrf.json": {
+      "sha256": "84f668d0c8d2f53fbe53ac901c0c712e70a0aeed08189f7d6ee6374892007e09",
+      "size": 5268
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/attempts/1/reward.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "1776965440cf6137f1918f1aa073281347d52da046e477ced39824d828970356",
+      "size": 7732
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/ctrf.json": {
+      "sha256": "84f668d0c8d2f53fbe53ac901c0c712e70a0aeed08189f7d6ee6374892007e09",
+      "size": 5268
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/retry-summary.json": {
+      "sha256": "0a51e3b4774c831a3230ee69cbe7232f3300f7fd5c7794dc8e955a92ff0a9834",
+      "size": 269
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/reward.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/pytorch-model-cli__vEstNM5/verifier/test-stdout.txt": {
+      "sha256": "1776965440cf6137f1918f1aa073281347d52da046e477ced39824d828970356",
+      "size": 7732
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101/result.json": {
+      "sha256": "389d66cf51653a39f5ad176422d0551e18c96930ff187813639d76d4a9d404cb",
+      "size": 1139
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/config.json": {
+      "sha256": "f8f2742c2ddab10e6d9ca235789ce2eb951428e14f44c1b44d722af3745da6a5",
+      "size": 3129
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/harbor.log": {
+      "sha256": "ab81954457f29c8e38797b63274602d32b920872bb37a0ee62ad3d6e4d2258f9",
+      "size": 1289
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/manifest.json": {
+      "sha256": "45923d5f9fcb2414b4403b8176faaf171ea48aa38df654a35585db9d1987636b",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "e43cdb58d72f38b8d0c9e07d8011bbb215260c185461d7027234dd8d957ba6e4",
+      "size": 594
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "8af2164960fb928073e8d880207898409f2108294ddba5a93c11ce7c8695a119",
+      "size": 18713
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "82f6bc4914351dcf90ff7b512e2e89e1a62727c470c2a2b29620695804a8ee09",
+      "size": 15001
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "b81ef5afeab875cb55fb9df3b08455bd74f058bc24fe7ab1302b0e5375d7f797",
+      "size": 15055
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "b101adaa535551f20fe56b3e8ca3e28c52e3e4a54576a51803f963ff7eee99ae",
+      "size": 18404
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "ce389e71828aeccc15e3b213c7da12ee0f698d34b24fef9bf14937f723bfec66",
+      "size": 14703
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/summary.json": {
+      "sha256": "c79325ee26f5cf52372922fc1790a49e5078f3eacfc66b015432a7ada428422b",
+      "size": 107111
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-cli-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/config.json": {
+      "sha256": "b5bac91f76be9127e1ddfe57bc29596f85a1028669a9830cdf856e8ffcad3e22",
+      "size": 1595
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/job.log": {
+      "sha256": "8bab31f91eb2fb76a5bf25532af48033c0e11f967145470f4717564c54cf7291",
+      "size": 13377
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/lock.json": {
+      "sha256": "8caf35b6b4a2f839af6bdc81b832e4d75387acd81c15663a43b95802d7ac35d0",
+      "size": 3303
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/bootstrap.json": {
+      "sha256": "638922b88c59516844637223aff41c51866cf5e21824c22d7fd7116ebfb1e0fc",
+      "size": 21859
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh/.anonymous-user-id": {
+      "sha256": "5f3ad2b9665279ce9f4a259b91c733c11eb9ace7c13ff5fcd764dc141eaf2cef",
+      "size": 37
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh/profiles/sdk-minimal/cordis.patch.yml": {
+      "sha256": "ef189a8c27db6d63930aa3046a3040482e952eafcb7487c644d508e8d461f027",
+      "size": 217
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh/profiles/sdk-minimal/cordis.yml": {
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "size": 223
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh/profiles/sdk-minimal/package.json": {
+      "sha256": "73c089627acc47000fd21b1a47445f166241b867cfdd59eb1eb66b269810ed93",
+      "size": 186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh/profiles/sdk-minimal/pnpm-workspace.yaml": {
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "size": 61
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh/sessions/--app--/benchmark/session.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh/sessions/--app--/benchmark/session.v4.jsonl": {
+      "sha256": "d78912b555586297b5821012499be6bc693c85e549d90ff38eb8ddcd9972fccf",
+      "size": 273364
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh-events.jsonl": {
+      "sha256": "4db152a851b1538a1c1dc0dd28d6a89bce1131fad36cac4aa555b7f297d549b3",
+      "size": 305465
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh-result.json": {
+      "sha256": "5d60b1dae24a5f2217078efae2eb42f99fcc51ae4f235dd417c433e1d30e96ac",
+      "size": 676
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/dsh-stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/config.json": {
+      "sha256": "53afdd0fd3a9932593423705418e446a8a4c1244789f842eec9c0ef72befd818",
+      "size": 1569
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/lock.json": {
+      "sha256": "4aff7e6eeaff6d59886ac6b466cee4dc716f0d6d9490bf614186874bf3773d31",
+      "size": 2149
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/result.json": {
+      "sha256": "1bd308679ac767e99b6814dfdc510d99ff51a9797a156ee8989bd8e94210075b",
+      "size": 36811
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/trial.log": {
+      "sha256": "8bab31f91eb2fb76a5bf25532af48033c0e11f967145470f4717564c54cf7291",
+      "size": 13377
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/attempts/1/ctrf.json": {
+      "sha256": "dc814bcfc80bc5a60a894700783f45f68cd77717d1da358b8b4278df129f6d28",
+      "size": 2138
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/attempts/1/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "36929bebecc3c4ea17c0557f1a45ad5353768b62312508f366c1097fb91cd0d1",
+      "size": 2318
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/ctrf.json": {
+      "sha256": "dc814bcfc80bc5a60a894700783f45f68cd77717d1da358b8b4278df129f6d28",
+      "size": 2138
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/retry-summary.json": {
+      "sha256": "5f1d52539b277524eaaa8ed6879ef319d00882f26f696a1fc8a86f23bfa1811e",
+      "size": 269
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/pytorch-model-recovery__bFj4ZnZ/verifier/test-stdout.txt": {
+      "sha256": "36929bebecc3c4ea17c0557f1a45ad5353768b62312508f366c1097fb91cd0d1",
+      "size": 2318
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101/result.json": {
+      "sha256": "fe69f1b76fac910db93c4b56235e9df1c641016033eab292bf65405f20b82c0c",
+      "size": 1144
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/config.json": {
+      "sha256": "8cb93987ef5ecafed86ccf244582bf64dc7f8c62f121b0007482c7aeababd8f0",
+      "size": 3139
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/harbor.log": {
+      "sha256": "73d84f95acab3489dae73d166c1db04ad1a02c92228bc10a23ccd08ccc11aebb",
+      "size": 1298
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/manifest.json": {
+      "sha256": "4a239d7d2c769565b765d534fae50638d3bc49476237c72b4b6aa2ccbdacf20d",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "8519b27f526c3f66fbff55c0f9afcff6e8c53c3700e48c8a8cba6fef1ca86af2",
+      "size": 599
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "f867aaab3d96505f1d094d7ed46569866c81e97c425b77bc2fa2787442849fb0",
+      "size": 18718
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "ad34c7bfc9d242c2be36c2212c3a011c39e586c01d329bc339345cd8213ee14a",
+      "size": 15006
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "f61f2667dbbb16f3a6681bcb19c71a88e90b06f28c558d8cd60978c208becf29",
+      "size": 15060
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "84a4849bd1141190043f6a2b4fe7363292421a53c2d08ee7d9356fbc88be71d0",
+      "size": 18409
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "58b754604baafa3e8cdc526753bb09cab4936ce3ae5e9c069cb34d9987e392c4",
+      "size": 14708
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/summary.json": {
+      "sha256": "db40b4389894cf3ca72cc1751e61561db160d5ee50d2c214e41cdeea6e9f702a",
+      "size": 25236
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-pytorch-model-recovery-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/config.json": {
+      "sha256": "ab9ff2fd05ca1b0c48642fb6f1b9ed5effc77882ab339512df7f0de2e5a99cd9",
+      "size": 1579
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/job.log": {
+      "sha256": "0b25533788e512b5c84baa5cd5e5af1d25817383b2459320c0fc46b947b403ff",
+      "size": 13361
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/lock.json": {
+      "sha256": "329e95e2d9385ab4cd18b8f3dcdf2febc08b5091fbb65e5529af101a163dc8fb",
+      "size": 3295
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/bootstrap.json": {
+      "sha256": "1463562f8a5bf45a5156a7d3fb1283b26fac0a33db2574d396c0f3f18b454826",
+      "size": 15230
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh/.anonymous-user-id": {
+      "sha256": "7fa49c48f7d9d6628c304fff49a4a318047984c2d8be37c56e37f0ccabc095dd",
+      "size": 37
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh/profiles/sdk-minimal/cordis.patch.yml": {
+      "sha256": "ef189a8c27db6d63930aa3046a3040482e952eafcb7487c644d508e8d461f027",
+      "size": 217
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh/profiles/sdk-minimal/cordis.yml": {
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "size": 223
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh/profiles/sdk-minimal/package.json": {
+      "sha256": "73c089627acc47000fd21b1a47445f166241b867cfdd59eb1eb66b269810ed93",
+      "size": 186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh/profiles/sdk-minimal/pnpm-workspace.yaml": {
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "size": 61
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh/sessions/--app--/benchmark/session.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh/sessions/--app--/benchmark/session.v4.jsonl": {
+      "sha256": "0b872374ac399d9a4ea96273882c0887d2e171ee201f08aa60532352cc49d892",
+      "size": 258580
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh-events.jsonl": {
+      "sha256": "5d116300a3fde02997933ca5c7c771956a34ad4dad749f0c4b5919009e3caddb",
+      "size": 293545
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh-result.json": {
+      "sha256": "7c9c256eff053d28ac305c585e384770389f4efe925e3696bceb7a582b17736d",
+      "size": 328
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/dsh-stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/config.json": {
+      "sha256": "84ad50a5197042e38e0e571b0ca41eb41b8af6e7d7f0d2aed53686b0ebb4ac30",
+      "size": 1545
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/lock.json": {
+      "sha256": "f95d2b5f094f5a5d5b590d50b3be2bcbf6ddb16934004f28a1314be113a099f6",
+      "size": 2141
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/result.json": {
+      "sha256": "2a08fce9a87f184742e280a3004e3e7966296f5933ac72eabf2ec19764dc428b",
+      "size": 27306
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/trial.log": {
+      "sha256": "0b25533788e512b5c84baa5cd5e5af1d25817383b2459320c0fc46b947b403ff",
+      "size": 13361
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/attempts/1/ctrf.json": {
+      "sha256": "944d6d34bfe669f287a144833a4fd7d8efedb6cc9831b67dfe827c019b69d518",
+      "size": 2554
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/attempts/1/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "5fdf69526b3cc8e8050cfe985df4b074b2ad9d569c5436eb4d3ddd3d2af9e572",
+      "size": 2238
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/ctrf.json": {
+      "sha256": "944d6d34bfe669f287a144833a4fd7d8efedb6cc9831b67dfe827c019b69d518",
+      "size": 2554
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/retry-summary.json": {
+      "sha256": "af00a7df4a76ece44d098028d1574868609704b24020c7a5f20670f4c8f9f953",
+      "size": 271
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/query-optimize__AEYyxag/verifier/test-stdout.txt": {
+      "sha256": "5fdf69526b3cc8e8050cfe985df4b074b2ad9d569c5436eb4d3ddd3d2af9e572",
+      "size": 2238
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101/result.json": {
+      "sha256": "e94dca53e294b261d2104d87ad01ce8052ab73284be37f59cda7b92dea9f2c15",
+      "size": 1136
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/config.json": {
+      "sha256": "dc9b57cc66a6b6139452383e8ed9fb740875394ae14f20cbd5cc2dc8fabeebc7",
+      "size": 3123
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/harbor.log": {
+      "sha256": "686a0592a5eca06d271a80a15f99c14715d55302743a2ef41af7f1b24eb924cd",
+      "size": 1282
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/manifest.json": {
+      "sha256": "970c1ccb0b7c324cee5eae9052eac48e3f15196465d48d61e947046cb2f6c2fd",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "ee5603c8c07ca8d988d46cd707952064483bacfddfa7911b95c32f35ab1159f9",
+      "size": 591
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "08d113e0db179c7e5296411b544c32517196aa3d161d75432c5c64cbbc3296f9",
+      "size": 18710
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "19e6966356202cd0f263cd83c45e21960960783a56541a140f13bff6c96f5f1c",
+      "size": 14998
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "9fc7728baf63fb9f853891765680ba0135c14f7e8f3cf99cbd4eb45878fc8bd8",
+      "size": 15052
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "a87225b6c19cf1483e99cf6128d5894eeaa97295c13d3f6c36ddf9aa2e34e6e8",
+      "size": 18401
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "457a04d4de7ad426216cc9f9df0a159444180c403212cad10740914bef68d8f8",
+      "size": 14700
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/summary.json": {
+      "sha256": "47cb7588ee4d19beff8f8f5bfb8f5b79dea0f186a36ffe16b6e7b1e22da5c3a4",
+      "size": 17795
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-query-optimize-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/config.json": {
+      "sha256": "ca35a0876af359667d88accfd4fb5b2ed653be708570068cc08fe9f2b1f09f3e",
+      "size": 1603
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/job.log": {
+      "sha256": "e34bb0e6981081cf6ca141cdba21fc4b8c7345e4b036cdd8be3c4036f3841092",
+      "size": 13401
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/lock.json": {
+      "sha256": "465d4eac6e50fed861e47eba488dd1a8e8079905e21165da7ad375fdb67e7087",
+      "size": 3307
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/result.json": {
+      "sha256": "e38b1cc5a6e596db91fbac55db6f3cd1974b02b0ce6abf999f9ddefe59ab492a",
+      "size": 1148
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/bootstrap.json": {
+      "sha256": "a9460a42b2e140bbe0bee9d4a2226d95a34d556d4cdf92a6b310b8b3a72c3bca",
+      "size": 23414
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh/.anonymous-user-id": {
+      "sha256": "c5aa9aed82f7ef66f9898d1829509d3a42d9baec6ef48c27ccc76bc9d0df89e1",
+      "size": 37
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh/profiles/sdk-minimal/cordis.patch.yml": {
+      "sha256": "ef189a8c27db6d63930aa3046a3040482e952eafcb7487c644d508e8d461f027",
+      "size": 217
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh/profiles/sdk-minimal/cordis.yml": {
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "size": 223
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh/profiles/sdk-minimal/package.json": {
+      "sha256": "73c089627acc47000fd21b1a47445f166241b867cfdd59eb1eb66b269810ed93",
+      "size": 186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh/profiles/sdk-minimal/pnpm-workspace.yaml": {
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "size": 61
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh/sessions/--app--/benchmark/session.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh/sessions/--app--/benchmark/session.v4.jsonl": {
+      "sha256": "cc8d36c82043c7304b9ba8533b8f1ed07b54bcdd5563a7c2018e29bb5015de25",
+      "size": 605403
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh-events.jsonl": {
+      "sha256": "388f8201b50db765149e4e93ec88cbc2e7814665e6c920a93c95df71b18b3fc6",
+      "size": 678797
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh-result.json": {
+      "sha256": "b840ab7c9a9b09dbb33d3d5f4b2e95941c8ee5ce287ab397ca4eec908990547f",
+      "size": 637
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/dsh-stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/config.json": {
+      "sha256": "644af5c6a31e3f670c07ac1d0d393dd98adac321bb9ff53588ccfd21fdaa1c8a",
+      "size": 1581
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/lock.json": {
+      "sha256": "8f815de6eeae24e2bcebe43240cb8db615f7afe2d7e05f2402263ab8e9723623",
+      "size": 2153
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/result.json": {
+      "sha256": "7cb7906719d93c44ea780360553ecbf746b9d997a2f3c611b5c36f9d98c91f32",
+      "size": 38842
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/trial.log": {
+      "sha256": "e34bb0e6981081cf6ca141cdba21fc4b8c7345e4b036cdd8be3c4036f3841092",
+      "size": 13401
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/attempts/1/ctrf.json": {
+      "sha256": "7db34a6db947f1b4b8abbc682496408cc027e2ea15fa9c75820701552372d069",
+      "size": 8186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/attempts/1/reward.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "69cb6842eab805f1b2699abb5f51242c4a4fdc207b216668926abb7974645d04",
+      "size": 14491
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/ctrf.json": {
+      "sha256": "7db34a6db947f1b4b8abbc682496408cc027e2ea15fa9c75820701552372d069",
+      "size": 8186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/retry-summary.json": {
+      "sha256": "7443ea5e207b41cbcf0d965fe4ce34cba1e1aff258986ccd71d6e333754953fc",
+      "size": 270
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/reward.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101/torch-pipeline-parallelism__XRHZ5dL/verifier/test-stdout.txt": {
+      "sha256": "69cb6842eab805f1b2699abb5f51242c4a4fdc207b216668926abb7974645d04",
+      "size": 14491
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/config.json": {
+      "sha256": "2e47fe00a10c5ceeb0ab4d649e17751289dd24ed4654f4f212a1874a5fdde23d",
+      "size": 3147
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/harbor.log": {
+      "sha256": "1cbbb8139b524dbe7d58ec0f7847947c2ce7568ab33cfaa8c7aaf81783193a22",
+      "size": 1307
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/manifest.json": {
+      "sha256": "986021e2750ffa1f29629d8ef3188b555535460ab5ea7769af0e6d7bb6bf0a69",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "58a80c9e7218804d4dcdb8467ce9b8da78e0f1b01e0aea2407da801195b517f6",
+      "size": 603
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "daa8b0737d9b003f044c0ca5574da397c097faf5632ec868ce7e49f050a0fe2a",
+      "size": 18722
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "544183222a2119560e1f4a4e5edf84f763732c6b3b0a34b0bf67a0ec2a218e3c",
+      "size": 15010
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "4233c471bd86bb842a91087b68832887bec1ea70ac74c9a20e2668e8084c6783",
+      "size": 15064
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "0880bb9f947f892dbca4bb82a5852af511efc51a2144f2f36e1b475d5b1c3c7b",
+      "size": 18413
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "a792a4063ffb6eb1b9da27c47d97302fde93d6308f1cb88776d09731f37d8d02",
+      "size": 14712
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/summary.json": {
+      "sha256": "497652c2f564b59becf49f9f1533665553850318ba08a7a37026528e51a76c06",
+      "size": 26926
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-pipeline-parallelism-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/config.json": {
+      "sha256": "964f95d7c3503cb623b54e5d670d98b813d46377ef0fbba7d5cc7c23a1c9dac8",
+      "size": 1599
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/job.log": {
+      "sha256": "1f23853f873c0fcf3b8ad51c194c4f451fbcb57281a585138215459b238dfdaf",
+      "size": 13377
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/lock.json": {
+      "sha256": "d2e3c8f43cf14a5ce2aa7abcf392f8b51c780c5e665682920faa320cdf8a4295",
+      "size": 3305
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/result.json": {
+      "sha256": "3bfff2e1ed77c2df1e1745d2604efb6c2c67a5cf16a36e851610ec59a26722ed",
+      "size": 1143
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/bootstrap.json": {
+      "sha256": "34af5d820280f7c297e211a7e512cc9101f09ab3908a0b7bf5ded9486eb61085",
+      "size": 23412
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh/.anonymous-user-id": {
+      "sha256": "e74a76edfb9bdb2b3ecd5d4f3670bdc7ad7d2427e9cb93fca04db379131a3194",
+      "size": 37
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh/profiles/sdk-minimal/cordis.patch.yml": {
+      "sha256": "ef189a8c27db6d63930aa3046a3040482e952eafcb7487c644d508e8d461f027",
+      "size": 217
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh/profiles/sdk-minimal/cordis.yml": {
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "size": 223
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh/profiles/sdk-minimal/package.json": {
+      "sha256": "73c089627acc47000fd21b1a47445f166241b867cfdd59eb1eb66b269810ed93",
+      "size": 186
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh/profiles/sdk-minimal/pnpm-workspace.yaml": {
+      "sha256": "ae7c5b68e2f157528e62885804e69e88583897b775e03c86fcbe52feaf498aba",
+      "size": 61
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh/sessions/--app--/benchmark/session.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh/sessions/--app--/benchmark/session.v4.jsonl": {
+      "sha256": "06e62c092e90cda5d1c0bb1e5acdd683651b68f46d2c07f005799e14d3511d54",
+      "size": 222423
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh-events.jsonl": {
+      "sha256": "d1f6f569271f12e30e9133598d27d0586229879675c85aba01ce729f87c9bfa8",
+      "size": 246189
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh-result.json": {
+      "sha256": "244ad977b56376e5079acdf82ce1403d82c2a7b7a58ef04c9def8537a15f07e3",
+      "size": 678
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/dsh-stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/process-supervision-required": {
+      "sha256": "d70211a2593233914074a8fc68d4a539a3512d072ed544e169c7d734e9bfbc9b",
+      "size": 17
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/config.json": {
+      "sha256": "73e6e8356a969133cb6e6bb6831078bd483ac566438f92e19b464b83b53b5486",
+      "size": 1575
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/lock.json": {
+      "sha256": "602009b5a8adc30407e66d4417004d0ac2ba8dc4b840d35185fd36d0ec5cfe90",
+      "size": 2151
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/result.json": {
+      "sha256": "c4b2c2af77c402de31017564e29740814d413752b6d306253fa90a29b6bc5360",
+      "size": 38820
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/trial.log": {
+      "sha256": "1f23853f873c0fcf3b8ad51c194c4f451fbcb57281a585138215459b238dfdaf",
+      "size": 13377
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/attempts/1/ctrf.json": {
+      "sha256": "17ece9a78ebfb0f09dc4c9be99deb5c46ccb890b24f19d01823c36e22be45713",
+      "size": 1772
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/attempts/1/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "92f8c999585b93e3575786304e330d327b043e24eec9b2080df45617ea782b88",
+      "size": 13635
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/ctrf.json": {
+      "sha256": "17ece9a78ebfb0f09dc4c9be99deb5c46ccb890b24f19d01823c36e22be45713",
+      "size": 1772
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/retry-summary.json": {
+      "sha256": "2d71d0cb1ba3c6a823496a68f073fc3b0806c73b323867d1e059d2c2c7b615e3",
+      "size": 270
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101/torch-tensor-parallelism__kxNkcYR/verifier/test-stdout.txt": {
+      "sha256": "92f8c999585b93e3575786304e330d327b043e24eec9b2080df45617ea782b88",
+      "size": 13635
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/config.json": {
+      "sha256": "419a58bbc8b1b219ebebf279ee1d5fc0f253880d89c3ec6d45f2cdbf5ce71b91",
+      "size": 3143
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/harbor.log": {
+      "sha256": "65f3979eb0440cfe3968b97fbbcd3fc82b5f5c1796996b0317ec3d0e89db71d8",
+      "size": 1302
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/manifest.json": {
+      "sha256": "a0a307644bff0bc52ff2e0aa10d2f2cbc20ed9932cf5ec610d1a1992ec34b35a",
+      "size": 3669
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "6a8dcc44fd2094ed622c48314a9108b24615da540ebfa247c218e615061473c8",
+      "size": 601
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "5a9e017bf4ec0fe85faa9aa02121fd8149c6b66b2e9167adf3f900d9d1ac7651",
+      "size": 18720
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "d65fa6905e38524fb27ecc07e2fe2dac1a08f846a369aa40ab796174366ef30a",
+      "size": 15008
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "9d01eafd2ad29fbc6d31dec5b6c4ef85fb7b9ae4bbb521efd604c366c75acd1a",
+      "size": 15062
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "ba476fcab4ca0700ac5cfa74fd834b9e4198ba08ab4abd44a4c56a60e4d78bb1",
+      "size": 18411
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "bfff4d871b867762deec172e6607b48fec803905abdbb23f0e21257e71ac752c",
+      "size": 14710
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/summary.json": {
+      "sha256": "aa9f8657a890c4e8e6f8ba10efb4a7c5d2b330ef75ec24ac105314743582c4d0",
+      "size": 26920
+    },
+    "jobs/deepseek-harness-supplement-source/jobs/dsh-sup6-torch-tensor-parallelism-cache-20261101-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/dsh-freeze-supplement.py": {
+      "sha256": "f7223219adf31a2fd2eb0f60d7d2e9e35b1c9c6ca1639fbae8881368e2307878",
+      "size": 3513
+    },
+    "jobs/dsh-probe-pypi-transport.py": {
+      "sha256": "02d43b929e97cb8a73c32525203cb9fa439294aa3dbfb55e804a41c009483237",
+      "size": 2294
+    },
+    "jobs/dsh-pypi-range-download-probe.json": {
+      "sha256": "307b62f3b83be939d7e43c47a4bc5bb8cbc2f029a4378a8450041cfa036f8b06",
+      "size": 522
+    },
+    "jobs/dsh-pypi-torch-probe-metadata.json": {
+      "sha256": "5475befa5167bea5dbd6862780d8f769f1276b34e7836136c572ad2a009e6619",
+      "size": 495
+    },
+    "jobs/dsh-pypi-uv-smoke-audit-events.jsonl": {
+      "sha256": "330958a0b95493071fc429c43ed8c4f25a96ff648b88ff4531dc29fd9976b796",
+      "size": 6660
+    },
+    "jobs/dsh-pypi-uv-smoke-audit.json": {
+      "sha256": "19330565cbb59f9905b92df2c897d05ce1dda712ec02e516cf3e12ce3293ca98",
+      "size": 930
+    },
+    "jobs/dsh-pypi-uv-smoke.json": {
+      "sha256": "34c3adb735a8b973caa6d2b068ba618f92cd5888bdda1c8d1c3debea1518bfcb",
+      "size": 648
+    },
+    "jobs/dsh-supplement-final-validation.json": {
+      "sha256": "e76bd2160a51e26c8204eb4a875a227f759d1bfb6437090b5e73e8b0e3738fe3",
+      "size": 579
+    },
+    "jobs/dsh-supplement-model-v2-20261101.log": {
+      "sha256": "7f0dafcd730fa8003e8c78c1f5c92263d2c42dee9b49be38943d8605a27a1e7d",
+      "size": 630
+    },
+    "jobs/dsh-supplement-preflight-20261101.log": {
+      "sha256": "229c3db700d0031d22ca614f0245f3aeeac5a50c4d9224e134e34848ecfea8b0",
+      "size": 1954
+    },
+    "jobs/dsh-supplement-preflight-boundary-stop.json": {
+      "sha256": "1a058982408952541e9a98968d4c7e85f36ba050fe6693b1ef994b08ab3b5800",
+      "size": 424
+    },
+    "jobs/dsh-supplement-preflight-v2-20261101.log": {
+      "sha256": "02d9506ebfef29c4c94261fb6e31ae2259f569ea20d1afb84c161c44fc8feec3",
+      "size": 329
+    },
+    "jobs/dsh-validate-supplement.py": {
+      "sha256": "9e43ec631502d189a42ac7c39fe0d533a0632ec1ebc78ec1844188195ed9d439",
+      "size": 3167
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-10-31T11:23:03.042011+00:00",
+  "source": "https://api-docs.deepseek.com/quick_start/agent_integrations/",
+  "alias": "deepseek-flash",
+  "documented_serving_model": "DeepSeek-V4.1-Flash-1017",
+  "official_openai_base_url": "https://api.deepseek.com",
+  "official_messages_base_url": "https://api.deepseek.com/anthropic",
+  "limitation": "This documents the provider statement at the check date, not an immutable backend checkpoint or proof of identical serving behavior across historical runs."
+}

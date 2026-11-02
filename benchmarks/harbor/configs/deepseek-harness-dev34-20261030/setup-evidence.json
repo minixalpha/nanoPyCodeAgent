@@ -1,0 +1,29 @@
+{
+  "attempts": [
+    {
+      "job_name": "dsh-dev34-smoke-install-20261030",
+      "stage": "agent_install",
+      "status": "setup_failed",
+      "model_called": false,
+      "cause": "The Python runtime dsh command requires an explicit DSH_HOME even for --version.",
+      "correction": "Set DSH_HOME=/tmp/harbor-dsh-version on the version probe. SDK task homes remain independently isolated.",
+      "evidence_sha256": {
+        "jobs/dsh-dev34-smoke-install-20261030/db-wal-recovery__yp998NF/exception.txt": "6b7401ada06fbd91734f7e82267e10c6677ac36ca72095553d86217e5e534934",
+        "jobs/dsh-dev34-smoke-install-20261030/db-wal-recovery__yp998NF/agent/bootstrap.json": "8ba79d5fac285504340a8b6cc35e43353935858a3b52b971935e6eddc6cd41ce",
+        "jobs/dsh-dev34-smoke-install-20261030-input/summary.json": "8a46fef3af0e76b7e236408d99c0a48a7c1d0c6be1b9118a6245803a878ea658"
+      }
+    },
+    {
+      "job_name": "dsh-dev34-smoke-install-v2-20261030",
+      "status": "ready",
+      "model_called": false,
+      "sdk_initialization": "passed",
+      "process_supervision_probe": "passed",
+      "evidence_sha256": {
+        "jobs/dsh-dev34-smoke-install-v2-20261030/db-wal-recovery__NoW52ML/agent/bootstrap.json": "317eb4d1a905a9446f48890f4be51b9acf3c0e230c0770b360285bae70d579b1",
+        "jobs/dsh-dev34-smoke-install-v2-20261030/db-wal-recovery__NoW52ML/result.json": "c8a5d4bdcdfa2496624f04041121fa0ddbc6ea6d1a5a460bf7da387ec0cb5a08",
+        "jobs/dsh-dev34-smoke-install-v2-20261030-input/summary.json": "8b1f7cd1227b87075a7f1a182c3d8d3ba79ed88ccef205d8c84081d2acd36f94"
+      }
+    }
+  ]
+}

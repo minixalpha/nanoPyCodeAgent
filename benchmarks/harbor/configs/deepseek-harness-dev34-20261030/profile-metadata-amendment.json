@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "registered_at": "2026-10-30T16:02:46.103793+00:00",
+  "original_plan": "experiment.json",
+  "original_plan_sha256": "fb59d5618c44e691babb80b2ea8323eb45edf9f45383e61344d747b870bc6d6e",
+  "reason": "The copied historical Pi plan described only the QEMU verifier profile. The frozen current adapter also registers the selected pytorch-model-recovery revision. Both profiles have been automatically enforced by the actual run.",
+  "changes_execution": false,
+  "model_trials_started": 0,
+  "authoritative_profile_metadata": {
+    "terminal-bench/qemu-alpine-ssh": {
+      "ref": "sha256:60b7050b0e0aa51641208cf65766743d340e59575db2c4d2f8628240846c2a28",
+      "profile": "qemu-alpine-ssh-v1"
+    },
+    "terminal-bench/pytorch-model-recovery": {
+      "ref": "sha256:2e628841cff93290919172398e573e794f34c95d9382b7425adde4364022decc",
+      "profile": "pytorch-model-recovery-v1"
+    }
+  },
+  "other_task_count": 32,
+  "other_task_profile_status": "not_configured",
+  "source_ref": "5b503ab6d04af2f6a719ec0dbe5418bfad4bf128",
+  "source_file": "benchmarks/harbor/src/harbor_adapter/bootstrap.py",
+  "source_sha256": "7e79712812e3554a4f3912448c095f5966f59b35f4e5dca285dc186487956a13",
+  "interpretation": "This supersedes only the original plan preflight_policy text and its pytorch-model-recovery verifier_dependency_profile metadata. Task revisions, resources, source, images, model settings, generation policy, configurations, execution order, and retry policy are unchanged. Keep the original registration immutable. Actual success must be established from each native bootstrap record."
+}
