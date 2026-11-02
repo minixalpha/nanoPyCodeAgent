@@ -204,6 +204,23 @@ def test_install_rejects_model_fallback_or_missing_registration(tmp_path, inputs
     assert json.loads((tmp_path / "bootstrap.json").read_text())["status"] == "failed"
 
 
+def test_install_accepts_absent_stderr_from_harbor(tmp_path, inputs):
+    environment = Environment()
+    environment.model_warning = None
+    asyncio.run(adapter(tmp_path, inputs).install(environment))
+    assert json.loads((tmp_path / "bootstrap.json").read_text())["status"] == "ready"
+
+
+@pytest.mark.parametrize("warning", [None, "Error loading models.json"])
+def test_install_rejects_absent_model_listing(tmp_path, inputs, warning):
+    environment = Environment()
+    environment.model_listing = None
+    environment.model_warning = warning
+    with pytest.raises(ValueError, match="Pi model registration failed"):
+        asyncio.run(adapter(tmp_path, inputs).install(environment))
+    assert json.loads((tmp_path / "bootstrap.json").read_text())["status"] == "failed"
+
+
 def test_install_probes_the_requested_model_instead_of_a_fixed_id(tmp_path, inputs):
     models = Path(inputs["model_config_path"])
     models.write_text(models.read_text().replace('deepseek-flash', 'registered-alternate'))
