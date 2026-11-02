@@ -1,0 +1,474 @@
+{
+  "schema_version": 1,
+  "experiment": "pi-deepseek-flash-dev3-rerun-20261102",
+  "audited_at": "2026-11-02T15:10:00.995259+00:00",
+  "registration": "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/experiment-v2.json",
+  "registration_sha256": "4b1a2df292b461e68f25818917a6060f94c9b95f808922356b7fe14d4a512dd3",
+  "frozen_at": "2026-11-02T15:05:23.352293+00:00",
+  "freeze_manifest": "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/outputs-freeze.json",
+  "freeze_sha256": "40e22638769ccafe697ac09ca7707cde94b5181210b0be342c6c82f5bac9bc0d",
+  "distribution_sha256": "60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9",
+  "model_config_sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+  "source_ref": "f3a171fcbc390c6bcb0c941be6b9cdd9dc7c456c",
+  "scope": "Three outcome-selected, separately authorized development reruns. Preserve the original 34 attempts; this supplement is not an independent benchmark and supplies no complete reference-unexposed 34-task pass rate.",
+  "summary": {
+    "model_attempts": 3,
+    "official_passes_with_accepted_boundary": 2,
+    "reference_exposed_official_passes": 2,
+    "passes_without_observed_reference_exposure": 0,
+    "scored_failures": 1,
+    "confirmed_timeout_scored_failures": 1,
+    "unscored_attempts": 0,
+    "native_agent_timeouts": 1,
+    "model_setup_errors": 0,
+    "verifier_errors": 0,
+    "verifier_retries": 0,
+    "whole_trial_retries": 0,
+    "initial_installation_errors": 3,
+    "replacement_installation_checks_passed": 3,
+    "pytest": {
+      "passed": 11,
+      "failed": 9,
+      "errors": 0,
+      "skipped": 0
+    },
+    "credential_exposure_tasks": 1,
+    "credential_exposure_files": 2,
+    "reviewed_tool_calls": 100
+  },
+  "timing": {
+    "queue_started_at": "2026-11-02T14:31:11.398775+00:00",
+    "queue_finished_at": "2026-11-02T15:05:11.078689+00:00",
+    "queue_seconds": 2039.679914,
+    "agent_seconds": 1845.9679290000001
+  },
+  "usage": {
+    "n_input_tokens": 3076743,
+    "n_cache_tokens": 2930560,
+    "n_output_tokens": 58536,
+    "cost_usd": 0.13168146,
+    "usage_is_partial": true,
+    "cost_is_partial": true,
+    "cost_is_estimated": true,
+    "note": "Known subtotals only. Sampler was interrupted; pipeline had one failed assistant stream with missing usage despite a successful native retry. Preserve registered Pi peak-rate estimates; do not treat them as reconciled charges."
+  },
+  "accounting_policy": "Keep native rewards, AgentTimeoutError, and standard execution_error summaries unchanged. Accept the sampler zero only because cancellation was confirmed before all nine official tests ran. Keep both official ones but explicitly mark reference exposure; neither is an independent pass. No rerun or best-of selection after reviewing outcomes.",
+  "preflight_evidence": "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/preflight-evidence.json",
+  "initial_preflight_evidence": "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/preflight-v1-evidence.json",
+  "validation_evidence": "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/validation-evidence.json",
+  "exposure_audit": {
+    "method": "Scanned all 100 tool-start argument records and targeted tool-result records in the frozen native events, then manually reviewed reference-access matches and their surrounding results. Reconstructed downloaded test/solution bytes from complete tool outputs and matched their hashes against the registered task files. Exact credential scan covered all 326 frozen files; only two WAL raw logs matched. This targeted review does not prove the absence of every other exposure or exfiltration route.",
+    "empty_verifier_directory_probes": [
+      "db-wal-recovery",
+      "torch-pipeline-parallelism"
+    ],
+    "credential_values_or_fingerprints_published": false,
+    "raw_artifacts_published": false
+  },
+  "original_outputs": {
+    "manifest": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/outputs-freeze.json",
+    "manifest_sha256": "76b775d898bbb84b21f80eee1061806d7d949465f9eef60dcab6dedeb326734b",
+    "files_verified": 1449,
+    "missing": 0,
+    "changed": 0
+  },
+  "trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "task_ref": "sha256:bcaa2399985cd57666018025846289ab25e193ae0dd8fb7f0ffab2410c24d4de",
+      "job_name": "pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102",
+      "trial": "adaptive-rejection-sampler__egMLPF4",
+      "native_root": "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4",
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102.json",
+      "source_ref": "f3a171fcbc390c6bcb0c941be6b9cdd9dc7c456c",
+      "original_outcome": {
+        "analytical_classification": "unscored_invalid_boundary_and_verifier_error",
+        "analytical_score": null,
+        "external_benchmark_material": false
+      },
+      "native_reward": 0.0,
+      "native_exception_type": "AgentTimeoutError",
+      "standard_summary_status": "execution_error",
+      "standard_summary_rewards": null,
+      "analytical_classification": "confirmed_timeout_scored_failure",
+      "analytical_score": 0.0,
+      "passes_without_observed_reference_exposure": false,
+      "boundary_status": "confirmed_cancelled",
+      "process_supervision": {
+        "status": "cancelled",
+        "processes_stopped": true,
+        "stopped_processes": 11
+      },
+      "pytest": {
+        "passed": 0,
+        "failed": 9,
+        "errors": 0,
+        "skipped": 0
+      },
+      "ctrf_summary": {
+        "tests": 9,
+        "passed": 0,
+        "failed": 9,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793630914.2949007,
+        "stop": 1793630915.0345078
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 93.544050814
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-02T14:31:20.888592Z",
+          "finished_at": "2026-11-02T14:31:23.087712Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-02T14:31:23.087756Z",
+          "finished_at": "2026-11-02T14:32:00.914107Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-02T14:32:00.914312Z",
+          "finished_at": "2026-11-02T14:47:00.336079Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-02T14:47:00.579364Z",
+          "finished_at": "2026-11-02T14:48:35.152725Z"
+        }
+      },
+      "agent_seconds": 899.421767,
+      "usage": {
+        "n_input_tokens": 12060,
+        "n_cache_tokens": 11008,
+        "n_output_tokens": 580,
+        "cost_usd": 0.001077648,
+        "pi_metadata": {
+          "version": "1.4.0",
+          "usage_records": 5,
+          "missing_usage_records": 0,
+          "assistant_errors": [],
+          "cost_is_estimated": true,
+          "usage_is_partial": true,
+          "cost_is_partial": true
+        }
+      },
+      "operational_metadata": {
+        "event_count": 57,
+        "tool_calls": 6,
+        "malformed_event_lines": 0,
+        "post_agent_end_messages": 0,
+        "messages_after_verifier_start": 0
+      },
+      "reference_exposure": null,
+      "credential_files": [],
+      "diagnosis": "The agent spent its attempt trying to install R. Its first APT tool call timed out after 600 seconds; a later installation was cancelled at the native agent limit. Official pytest ran all nine tests, failing on absent ars.R, missing Rscript, missing test function, and missing sample outputs. This is an accepted official zero after confirmed cancellation, not an unscored verifier dependency setup error. It does not isolate algorithm quality.",
+      "evidence_sha256": {
+        "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/result.json": "8309f93d11809990a15105b480c2b55e267e21f00173c5ec290b619d22eeb2d7",
+        "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/manifest.json": "dafde8a1ec3eb104265f64f39f201ab24f956c25abcada8ba516cd2e33dc3472",
+        "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/pi.txt": "7aed534f73f9313b3352a9e8e9db1c5e4d550824d7ba29c2ad25bdd225c3f769",
+        "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/process-supervision.json": "da8bb50683fe264d8f3f45d20e9b46e60348c9a3e8fbb946381866e4a4b5aad0",
+        "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/test-stdout.txt": "9bfdf17f21c887bc39661be3d0f0490154aa3e15982054b4c5e29a70e04fda82",
+        "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/retry-summary.json": "8cb3d145bb09c9d920a320d2460b0d9b2811d92aaefb5589477853b1f1897ed1",
+        "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102.json": "d99a59461fb935f2dd70bb362f6f3fb8ed772ebb7044a01c676b016b9c417391"
+      }
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "task_ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "job_name": "pi-dev3-rerun-db-wal-recovery-v2-20261102",
+      "trial": "db-wal-recovery__ERAbXW8",
+      "native_root": "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8",
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-db-wal-recovery-v2-20261102.json",
+      "source_ref": "f3a171fcbc390c6bcb0c941be6b9cdd9dc7c456c",
+      "original_outcome": {
+        "analytical_classification": "unscored_unverified_timeout_boundary",
+        "analytical_score": null,
+        "external_benchmark_material": false
+      },
+      "native_reward": 1.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 1.0
+      },
+      "analytical_classification": "reference_exposed_official_pass",
+      "analytical_score": 1.0,
+      "passes_without_observed_reference_exposure": false,
+      "boundary_status": "completed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "pytest": {
+        "passed": 7,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "ctrf_summary": {
+        "tests": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793630333.6283495,
+        "stop": 1793630333.676173
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 63.09575602900031
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-02T14:31:17.077409Z",
+          "finished_at": "2026-11-02T14:31:20.425762Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-02T14:31:20.425824Z",
+          "finished_at": "2026-11-02T14:31:38.352303Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-02T14:31:38.352437Z",
+          "finished_at": "2026-11-02T14:37:50.197825Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-02T14:37:50.451064Z",
+          "finished_at": "2026-11-02T14:38:53.775128Z"
+        }
+      },
+      "agent_seconds": 371.845388,
+      "usage": {
+        "n_input_tokens": 1486503,
+        "n_cache_tokens": 1397248,
+        "n_output_tokens": 22038,
+        "cost_usd": 0.061605587999999996,
+        "pi_metadata": {
+          "version": "1.4.0",
+          "usage_records": 28,
+          "missing_usage_records": 0,
+          "assistant_errors": [],
+          "cost_is_estimated": true,
+          "usage_is_partial": false,
+          "cost_is_partial": false
+        }
+      },
+      "operational_metadata": {
+        "event_count": 447,
+        "tool_calls": 42,
+        "malformed_event_lines": 0,
+        "post_agent_end_messages": 0,
+        "messages_after_verifier_start": 0
+      },
+      "reference_exposure": {
+        "retrieval_tool_ids": [
+          "call_00_9Q7Xnle2bihTwhpNK4oR6311"
+        ],
+        "use_tool_ids": [
+          "call_00_OGtcueFRqUeCJ2LfCm4h4955"
+        ],
+        "sources": [
+          "https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/main/db-wal-recovery/"
+        ],
+        "description": "Downloaded and read official tests and the reference solution, downloaded pristine database/WAL inputs, then reconstructed the submitted output from those downloaded inputs. The remote main branch was not revision-pinned.",
+        "credential_tool_ids": [
+          "call_00_Qf8Dvmzoyjpo3B5FqM636065"
+        ],
+        "verifier_probe_tool_ids": [
+          "call_01_hcrZpMyZyn0ix4W6cL9p7262"
+        ],
+        "retrieved_file_evidence": {
+          "tests/test_outputs.py": {
+            "sha256": "88dc5c2a3abba75bca0e0f9136223ae5bb585d5984b8d9eba51a7829c1d2ba49",
+            "size": 4263,
+            "matches_registered_task": true
+          },
+          "solution/solve.sh": {
+            "sha256": "ed8530c94103bf19783a1d41bc63fe4db478cdd9629f22fee25c45a45699f5e8",
+            "size": 3080,
+            "matches_registered_task": true
+          }
+        }
+      },
+      "credential_files": [
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/pi/sessions/2026-11-02T14-31-38-781Z_01a19cac-481d-7552-83b4-4dcfe1ccce9d.jsonl",
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/pi.txt"
+      ],
+      "diagnosis": "Downloaded and read official tests and the reference solution, downloaded pristine database/WAL inputs, then reconstructed the submitted output from those downloaded inputs. The remote main branch was not revision-pinned.",
+      "evidence_sha256": {
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/result.json": "5f964859806db7d27e7452613245844c3f29d98179f13414f8a2c398322d8a98",
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/manifest.json": "2a68f7a0b4d824dd997238b61538d6fe105b73d962a4542f98e575a29ac0e816",
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/pi.txt": "91e7912cc49f447753487185b4888bb117a81cf64805f045de45a61bd90b98d0",
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/test-stdout.txt": "2782d10936127751b643e612a69c6d8a4db4d1cb803f88fada8faf4e638e7ae6",
+        "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/retry-summary.json": "ee2517d612b17d7c63bd35417867402f39b2e0764f5a63f476ce496a1ed0ad8c",
+        "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-db-wal-recovery-v2-20261102.json": "6b28e26b732acc3d357124e9fed3087b12acdd7e35ed50b0b4091d8d20c6931e"
+      }
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "job_name": "pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102",
+      "trial": "torch-pipeline-parallelism__fsj6t6S",
+      "native_root": "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S",
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102.json",
+      "source_ref": "f3a171fcbc390c6bcb0c941be6b9cdd9dc7c456c",
+      "original_outcome": {
+        "analytical_classification": "passed",
+        "analytical_score": 1.0,
+        "external_benchmark_material": true
+      },
+      "native_reward": 1.0,
+      "native_exception_type": null,
+      "standard_summary_status": "scored",
+      "standard_summary_rewards": {
+        "reward": 1.0
+      },
+      "analytical_classification": "reference_exposed_official_pass",
+      "analytical_score": 1.0,
+      "passes_without_observed_reference_exposure": false,
+      "boundary_status": "completed",
+      "process_supervision": {
+        "status": "completed",
+        "return_code": 0
+      },
+      "pytest": {
+        "passed": 4,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "ctrf_summary": {
+        "tests": 3,
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0,
+        "start": 1793631777.3940585,
+        "stop": 1793631884.5038652
+      },
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 183.2791553040006
+          }
+        ]
+      },
+      "timing": {
+        "environment_setup": {
+          "started_at": "2026-11-02T14:49:10.621305Z",
+          "finished_at": "2026-11-02T14:49:12.903407Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-02T14:49:12.903472Z",
+          "finished_at": "2026-11-02T14:52:07.681828Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-02T14:52:07.681965Z",
+          "finished_at": "2026-11-02T15:01:42.382739Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-02T15:01:42.631691Z",
+          "finished_at": "2026-11-02T15:04:45.635858Z"
+        }
+      },
+      "agent_seconds": 574.700774,
+      "usage": {
+        "n_input_tokens": 1578180,
+        "n_cache_tokens": 1522304,
+        "n_output_tokens": 35918,
+        "cost_usd": 0.068998224,
+        "pi_metadata": {
+          "version": "1.4.0",
+          "usage_records": 34,
+          "missing_usage_records": 1,
+          "assistant_errors": [
+            "error"
+          ],
+          "cost_is_estimated": true,
+          "usage_is_partial": true,
+          "cost_is_partial": true
+        }
+      },
+      "operational_metadata": {
+        "event_count": 511,
+        "tool_calls": 52,
+        "malformed_event_lines": 0,
+        "post_agent_end_messages": 0,
+        "messages_after_verifier_start": 0
+      },
+      "reference_exposure": {
+        "retrieval_tool_ids": [
+          "call_00_TxnCAiv8NWaprmymZHMu0466",
+          "call_01_BpZq8uCPQVNhoYzX5AWW7419",
+          "call_00_JhmnVfhx8iI1wolA4TAI0191"
+        ],
+        "use_tool_ids": [
+          "call_00_G29Yx18i7kItmcP2UMTK3606",
+          "call_00_VXpOz8sIGdqiatGitAdp4246"
+        ],
+        "sources": [
+          "https://raw.githubusercontent.com/harbor-framework/terminal-bench-1/d28711d0da2675d0bb1d56de45ae5df6082438a3/original-tasks/torch-pipeline-parallelism/",
+          "https://raw.githubusercontent.com/evolvent-ai/RSIBench-Data/4c807610243e7b481d382c5ed360c71c79a22f61/benchmarks/terminal_bench_2/datasets/full_89/torch-pipeline-parallelism/tests/test_outputs.py"
+        ],
+        "description": "Downloaded and read 178-line tests and a 112-line reference solution, ran the downloaded tests (two passed and two failed), then changed the backward schedule before the final official pass. A second downloaded test copy produced no diff.",
+        "credential_tool_ids": [],
+        "verifier_probe_tool_ids": [
+          "call_00_yPW0FlSbEARhXASm3gBf9633"
+        ],
+        "retrieved_file_evidence": {
+          "tests/test_outputs.py": {
+            "sha256": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f",
+            "size": 6065,
+            "matches_registered_task": true
+          },
+          "solution/solve.sh": {
+            "sha256": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+            "size": 3681,
+            "matches_registered_task": true
+          }
+        }
+      },
+      "credential_files": [],
+      "diagnosis": "Downloaded and read 178-line tests and a 112-line reference solution, ran the downloaded tests (two passed and two failed), then changed the backward schedule before the final official pass. A second downloaded test copy produced no diff.",
+      "evidence_sha256": {
+        "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/result.json": "97870897ea64b90ae7839eec9f63f8dd8e2b52be61ecae09fbf1c9d5f4fd3fe4",
+        "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/manifest.json": "a21646caf7fac999f1f230fd26f519de1cde8cd0113193813ed03acfe04301e0",
+        "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/pi.txt": "0b2f7053831bd965f36c813d1c8acaeb19e01df10f5b07fc839b6c9e0ba09e80",
+        "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+        "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/test-stdout.txt": "e1d21c0e930fccc821c5ab29f4ef4ed58c64a6c92236977c8832870c6fac25f6",
+        "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/retry-summary.json": "0e209faeb095380dededf11d004c7636b941d524cdee0dc937f248e80a25a36c",
+        "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102.json": "9f605bca2f01b4e7773be1f5b16cb45b026cdb11de6f657f29854e2300449b5e"
+      }
+    }
+  ]
+}

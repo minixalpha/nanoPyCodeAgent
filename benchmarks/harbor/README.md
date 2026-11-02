@@ -192,6 +192,12 @@ preserves all 34 attempts, the supervision amendment, two unscored legacy
 timeouts, public-reference exposure, and partial accounting. It does not claim
 a complete, uncontaminated 34-task pass rate.
 
+The authorized [three-task Pi rerun](reports/en/pi-deepseek-flash-dev3-rerun-20261102.md)
+recorded two official passes and one scored failure after confirmed timeout
+cancellation. Both new passes accessed public reference solutions and tests;
+neither is an independent solution. Original outcomes remain unchanged. The
+rerun also fixed Pi installation checks when Harbor returns absent output streams.
+
 ### DeepSeek Harness baselines
 
 `harbor_adapter:DeepSeekHarnessAgent` runs the upstream Python SDK's

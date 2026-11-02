@@ -151,6 +151,11 @@ Docker 空间受限时，可以通过 `batch_images` 计划按批恢复已注册
 保留了全部 34 次尝试、进程托管修正、两次不评分的旧超时、公开参考材料接触和
 不完整用量统计，不宣称完整且无答案接触的 34 题通过率。
 
+经授权的[三题 Pi 重跑](reports/zh-CN/pi-deepseek-flash-dev3-rerun-20261102.md)
+记录了两次官方通过，以及一次超时后确认停止的计分失败。两次新的通过都访问了
+公开参考解法和测试，均不属于独立解题。原始结果保持不变。本次重跑还修复了
+Harbor 返回缺失输出流时 Pi 安装检查失败的问题。
+
 ### DeepSeek Harness baseline
 
 `harbor_adapter:DeepSeekHarnessAgent` 使用上游 Python SDK 的 `sdk-minimal`

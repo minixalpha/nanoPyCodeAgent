@@ -1,0 +1,52 @@
+{
+  "recorded_at": "2026-11-02T14:25:50.067473+00:00",
+  "registration_sha256": "1e95f2ed1c8638f06c87f8f92ec87215074c830e3b6a95d54c7289082ec350aa",
+  "outcome": "All three installation checks failed before model calls because Harbor returned absent stderr and the Pi model-listing validator called strip() on None. Preserve these setup failures; supersede the unexecuted model queue after a tested adapter fix.",
+  "trials": [
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__stcSVVn",
+      "result_path": "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/result.json",
+      "result_sha256": "e22663dcc70df4d73a1d2035729f3df0af50d019fc865d73d010b5e813b83efe",
+      "bootstrap_path": "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/agent/bootstrap.json",
+      "bootstrap_sha256": "c38914403bd502084e8d106a6eaa84d9a413cd8000b01c99bb62f8f376bfec1c",
+      "stage": "agent_install",
+      "status": "failed",
+      "error_type": "AttributeError",
+      "model_execution": false,
+      "verifier_execution": false
+    },
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__5wSAPDN",
+      "result_path": "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/result.json",
+      "result_sha256": "e2afb6f64ec65d703bb73e2d297cfefa68eaec85f19bc4464572ce11b6b68354",
+      "bootstrap_path": "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/agent/bootstrap.json",
+      "bootstrap_sha256": "2b6fc50d240d22bb62b95caafd54ffe8b42f91dc00d400ed3ff968df1133078a",
+      "stage": "agent_install",
+      "status": "failed",
+      "error_type": "AttributeError",
+      "model_execution": false,
+      "verifier_execution": false
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "trial": "torch-pipeline-parallelism__hNdqw2j",
+      "result_path": "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/result.json",
+      "result_sha256": "d1b9a45e50862d4ea1760e93a7fa86abaacbb1f78bb0f179acc1698db32d92db",
+      "bootstrap_path": "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/agent/bootstrap.json",
+      "bootstrap_sha256": "1d6ad688edd691d586897ee2bab87fdb64e419aea117dfcf89212e5289bdb705",
+      "stage": "agent_install",
+      "status": "failed",
+      "error_type": "AttributeError",
+      "model_execution": false,
+      "verifier_execution": false
+    }
+  ],
+  "original_outputs_checked": {
+    "manifest": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/outputs-freeze.json",
+    "files": 1449,
+    "missing": 0,
+    "changed": 0
+  }
+}

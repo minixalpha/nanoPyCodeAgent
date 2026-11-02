@@ -1,0 +1,1359 @@
+{
+  "schema_version": 1,
+  "experiment": "pi-deepseek-flash-dev3-rerun-20261102",
+  "frozen_at": "2026-11-02T15:05:23.352293+00:00",
+  "policy": "All three new model attempts and both generations of installation checks ended. Hashes were frozen before reviewing new model trajectories, official test outputs, or hidden assertions. Original outputs remain unchanged. Raw logs stay private.",
+  "model_attempts": 3,
+  "installation_attempts": 6,
+  "jobs": [
+    {
+      "job_name": "pi-dev3-rerun-install-pair-01-20261102",
+      "installation_only": true,
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/pi-dev3-rerun-install-pair-01-20261102.json"
+    },
+    {
+      "job_name": "pi-dev3-rerun-install-pair-02-20261102",
+      "installation_only": true,
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/pi-dev3-rerun-install-pair-02-20261102.json"
+    },
+    {
+      "job_name": "pi-dev3-rerun-install-pair-01-v2-20261102",
+      "installation_only": true,
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-install-pair-01-v2-20261102.json"
+    },
+    {
+      "job_name": "pi-dev3-rerun-install-pair-02-v2-20261102",
+      "installation_only": true,
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-install-pair-02-v2-20261102.json"
+    },
+    {
+      "job_name": "pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102",
+      "installation_only": false,
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102.json"
+    },
+    {
+      "job_name": "pi-dev3-rerun-db-wal-recovery-v2-20261102",
+      "installation_only": false,
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-db-wal-recovery-v2-20261102.json"
+    },
+    {
+      "job_name": "pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102",
+      "installation_only": false,
+      "record": "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102.json"
+    }
+  ],
+  "file_count": 326,
+  "files": {
+    ".cache/nanopy-harbor/pypi-ranges/audit/pi-dev3-rerun-20261102.jsonl": {
+      "sha256": "1b7bd58e6da2936403534c256731bf2192400c20a169c8aa9563c5486f3ba443",
+      "size": 154111
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/adaptive-rejection-sampler.json": {
+      "sha256": "31b593777e86bf20c52cd1d6f388a32dc76a20027912a11ddf621b13a8c15d7f",
+      "size": 1212
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/apt-cache.conf": {
+      "sha256": "d0e1ffb6dbd02c54978ba2df386326311a59f6d3774990180f22bcc6adfaedbc",
+      "size": 549
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/db-wal-recovery.json": {
+      "sha256": "85316e8eb8a2cb3a17a00e78ebf6292ed32ade9af37120e828c79822afd567c9",
+      "size": 1201
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/dependency-cache.compose.json": {
+      "sha256": "e441052e83ec359a19833df8196f4a09fee1dd327dd1a54658fc177e2ad3e960",
+      "size": 4772
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/dependency-release-manifest.json": {
+      "sha256": "77dfda40e45b870a8ce7f07a1e058d416d94a04ab3d27c2f21bc370f22151394",
+      "size": 3250
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/experiment-v2.json": {
+      "sha256": "4b1a2df292b461e68f25818917a6060f94c9b95f808922356b7fe14d4a512dd3",
+      "size": 13096
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/experiment.json": {
+      "sha256": "1e95f2ed1c8638f06c87f8f92ec87215074c830e3b6a95d54c7289082ec350aa",
+      "size": 12502
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/image-digests.json": {
+      "sha256": "b1e49942dc18ba55501092bfc9d63a5a5084d6032610e2ff9e659d5ec4d4070d",
+      "size": 1310
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/install-pair-01.json": {
+      "sha256": "ddea6527865a08d9b843bf536ed253604f090f883840c270f72491709389fc7e",
+      "size": 1360
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/install-pair-02.json": {
+      "sha256": "b4aa98d085e1ca45bb51ac1cb8126c7b2b2e8aa40ed451164ba6748caf0324c1",
+      "size": 1212
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/launch-evidence.json": {
+      "sha256": "ec58e347d0744457699819c6fe15c17364e41248182e93fc8a31420b3451b238",
+      "size": 586
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/pi-distribution.json": {
+      "sha256": "0e1e2cdbef4ede58b2beed0f4c3655099fb2d6f7e3f6d2ca369879fa24546eb1",
+      "size": 32391
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/preflight-evidence.json": {
+      "sha256": "3cbc66bea671662be2cb4dff7dc9d5dfb325a03592e94254ebc0d8b5da09852d",
+      "size": 2291
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/preflight-v1-evidence.json": {
+      "sha256": "8921379e1e5a2e98eed75cbd73ae1f4763aa7d65fe463a12e325be80cd3d432a",
+      "size": 2728
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/selection.json": {
+      "sha256": "16e57fe4f15f8b6ab86603b09b8f0345002962bd2a0227c81069e1d6d847c9ca",
+      "size": 4116
+    },
+    "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/torch-pipeline-parallelism.json": {
+      "sha256": "f97e5181e4e09412358fd0f069a8983a5307a7d6acf82e58549c12437ef0ec0d",
+      "size": 1212
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/image-cache.jsonl": {
+      "sha256": "3631be9771ac65f006f3165771b2a2a0355888ae20f42a7949354070235525f6",
+      "size": 1457
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/image-downloads.log": {
+      "sha256": "411b54818c6270b3493dba3e3fd43ba3cd0b3374852df3b5e071d558456d209e",
+      "size": 2450
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/initial-docker-images.json": {
+      "sha256": "449d13f34e0b28d37629f60676696304188487bd8f7361f38ffae2ebbe0b4f60",
+      "size": 465
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/pi-dev3-rerun-install-pair-01-20261102.json": {
+      "sha256": "a025b4f175c6a151a27ea1ee0c427a29349fe94622beca859effb397354fa3a9",
+      "size": 42485
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/pi-dev3-rerun-install-pair-01-20261102.log": {
+      "sha256": "23dcab30b6328cf6c76423ff65aab8aa45e32b44864054ddfed59837aaed8dd8",
+      "size": 223
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/pi-dev3-rerun-install-pair-02-20261102.json": {
+      "sha256": "f373173384e3d691b741b7c6e9f57f027027f558aebba3d8c9ec0a7167a979a2",
+      "size": 28330
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/pi-dev3-rerun-install-pair-02-20261102.log": {
+      "sha256": "951d523cc1de7bac889fa0ad27c85582ef312d8d94c06b2ee24396310c7b5b9e",
+      "size": 223
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-orchestration/registration.json": {
+      "sha256": "fda8fe30ab4ae4e06fb0547409fa4c74a4d00bfdb8efe2a12c09a3490c0d91f6",
+      "size": 12985
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/image-cache.jsonl": {
+      "sha256": "046a3fd60f4fa52a8aa31df911ea1df830c1b3f7cbf3905b66946cb502a79fe8",
+      "size": 2914
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/image-downloads.log": {
+      "sha256": "cbb5d57cc14e6845b57d5acecdbf7dd8345697be425e360f1072caa7fbfece31",
+      "size": 4900
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/initial-docker-images.json": {
+      "sha256": "449d13f34e0b28d37629f60676696304188487bd8f7361f38ffae2ebbe0b4f60",
+      "size": 465
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102.json": {
+      "sha256": "d99a59461fb935f2dd70bb362f6f3fb8ed772ebb7044a01c676b016b9c417391",
+      "size": 28743
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102.log": {
+      "sha256": "2161dbf9fd5f90c22bf118b952fbd25636faace54a4ecc36988aaa46a3281f5d",
+      "size": 251
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-db-wal-recovery-v2-20261102.json": {
+      "sha256": "6b28e26b732acc3d357124e9fed3087b12acdd7e35ed50b0b4091d8d20c6931e",
+      "size": 15696
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-db-wal-recovery-v2-20261102.log": {
+      "sha256": "77a318e5a130e816099dbfdfca495c69c0d654d058fed39cfe76292a109a963b",
+      "size": 229
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-install-pair-01-v2-20261102.json": {
+      "sha256": "3692e45808c80ab83221529e37ea2d361bf6d1dfcd6da47949cc5851dfea5e76",
+      "size": 42378
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-install-pair-01-v2-20261102.log": {
+      "sha256": "ca435233f122df611bf81322288f2c33eb5f3ba4b928c58f33a8e18f264a9826",
+      "size": 229
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-install-pair-02-v2-20261102.json": {
+      "sha256": "c4998527bb719726993fe69d18ffe75cabb57c40449b6e84553a018cf369ead9",
+      "size": 28461
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-install-pair-02-v2-20261102.log": {
+      "sha256": "65bfed30f49d11845031e487590cc5477f952bbb7e3cd3bb3501987f921128ac",
+      "size": 229
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102.json": {
+      "sha256": "9f605bca2f01b4e7773be1f5b16cb45b026cdb11de6f657f29854e2300449b5e",
+      "size": 28958
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102.log": {
+      "sha256": "e66f65ce6552b86c3b9920dcad87cdeb626e60969cb0a7169dc55d4297f0d34f",
+      "size": 251
+    },
+    "jobs/pi-deepseek-flash-dev3-rerun-20261102-v2-orchestration/registration.json": {
+      "sha256": "28b44ce2d8578a90bcecbdc501630dff4751fcf0becd8b908810bfff6b1f193d",
+      "size": 13585
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/bootstrap.json": {
+      "sha256": "de6386848a0641d6b1d2e621e79f123858769d9d0245868f7adc8fb20198840b",
+      "size": 23136
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/pi/sessions/2026-11-02T14-32-01-333Z_01a19cac-a035-7739-b265-0ad05941e900.jsonl": {
+      "sha256": "fbe68f870e06fef709f7cc3299fa5360e9bb50fcc92c3a94789ddb610aa94960",
+      "size": 16200
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/pi-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/pi.txt": {
+      "sha256": "7aed534f73f9313b3352a9e8e9db1c5e4d550824d7ba29c2ad25bdd225c3f769",
+      "size": 39284
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/agent/process-supervision.json": {
+      "sha256": "da8bb50683fe264d8f3f45d20e9b46e60348c9a3e8fbb946381866e4a4b5aad0",
+      "size": 76
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/config.json": {
+      "sha256": "4b63f1a4c5349fd341ba48bcc2bc9e4ad6a0cc60183d7920f86b4e7cc57aeb75",
+      "size": 1664
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/exception.txt": {
+      "sha256": "61e9ffcda5c7a2f65b9c347f6226116a2d1e7998b16f586559206a49c7e85c93",
+      "size": 5023
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/lock.json": {
+      "sha256": "39c6807e04902306997d355cb538d362f6a4877b9669ff86d5f2d3b85b255723",
+      "size": 2257
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/result.json": {
+      "sha256": "8309f93d11809990a15105b480c2b55e267e21f00173c5ec290b619d22eeb2d7",
+      "size": 43763
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/trial.log": {
+      "sha256": "cff6c8d2aa8d9362c8c083afdf591586a06d4a572facf4c27e7535b892541753",
+      "size": 15388
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/attempts/1/ctrf.json": {
+      "sha256": "2e89dd4e8c70e104e868e33bb4d9c2984e2f8d3b567eb3e8385a1d322c03025c",
+      "size": 49689
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/attempts/1/reward.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "9bfdf17f21c887bc39661be3d0f0490154aa3e15982054b4c5e29a70e04fda82",
+      "size": 46552
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/ctrf.json": {
+      "sha256": "2e89dd4e8c70e104e868e33bb4d9c2984e2f8d3b567eb3e8385a1d322c03025c",
+      "size": 49689
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/retry-summary.json": {
+      "sha256": "8cb3d145bb09c9d920a320d2460b0d9b2811d92aaefb5589477853b1f1897ed1",
+      "size": 264
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/reward.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size": 2
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/adaptive-rejection-sampler__egMLPF4/verifier/test-stdout.txt": {
+      "sha256": "9bfdf17f21c887bc39661be3d0f0490154aa3e15982054b4c5e29a70e04fda82",
+      "size": 46552
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/config.json": {
+      "sha256": "a9173ad80350b7c223c8cfdac7679e23bba318c7ff27d60692ff259419eff068",
+      "size": 1690
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/job.log": {
+      "sha256": "ae2dee8814200c45f7a3ca07b20f8831df8c62f631bd0c4c42dfdb4a323e93f4",
+      "size": 15575
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/lock.json": {
+      "sha256": "a8adf6a911a772e6494e588e7c277c5e51f19a5b551a786c9cf4bf80936bfb0f",
+      "size": 3419
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102/result.json": {
+      "sha256": "c687590d2c909c731be402f7f563c5547480987e4baf2e6851ed49acb46420bc",
+      "size": 1281
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/config.json": {
+      "sha256": "20177324e41ca3e1055acf370dd4bb2fc218c45d6c039924a1c5b094a38cc52c",
+      "size": 3226
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/harbor.log": {
+      "sha256": "638b80616b5f13c00db717b3f6ab2c6885846459dacf2c3e9308f4d1cf91f469",
+      "size": 1513
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/manifest.json": {
+      "sha256": "dafde8a1ec3eb104265f64f39f201ab24f956c25abcada8ba516cd2e33dc3472",
+      "size": 37129
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "2f07ed0b838d11e286a548c5671c7793c396de3422defe6aa8ef1689e2cb25ce",
+      "size": 565
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "180df30883fe10f3e640124bd55262370ce17018a74bfb9f65fece2df7b5f813",
+      "size": 18684
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "c28ef1415f64fca1bf621a154a1a000f090b6ce4ea47232a9610b45f203475a6",
+      "size": 14972
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "c59e2061245dda3010dcffc765a05a336494b32b3aca3c396ca9b2cb4c19719a",
+      "size": 15026
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "81641e8cebf1296e420f75c8ba2b55e01eeffd342fbeea6768860b7ca02658bc",
+      "size": 18439
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "cf4fd8d8ffd1b7fd34c57f9d1fb0c312b3e0f893dd94cd756b60b7848565c3c9",
+      "size": 14674
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/pi.py": {
+      "sha256": "1c6005b6b5c4a14c8032a5bfc8541c96a4a4ca5bed524fde86bf517d34e50e69",
+      "size": 12416
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/summary.json": {
+      "sha256": "0d3e12e1510b5fd8c7179b0ece436b0f3aa9ff2cc8dd754fe6a6699e3780e57e",
+      "size": 26573
+    },
+    "jobs/pi-dev3-rerun-adaptive-rejection-sampler-v2-20261102-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/config.json": {
+      "sha256": "f4e46f11028f41c331e4ff609ccb86ebef171c28c78eea906fcd825dfdf6e202",
+      "size": 1657
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/bootstrap.json": {
+      "sha256": "5815e57bc6e873824175e0ed3918b4a1c95bb61e53f83dc400ef4ab5adcb3fe0",
+      "size": 11901
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/pi/sessions/2026-11-02T14-31-38-781Z_01a19cac-481d-7552-83b4-4dcfe1ccce9d.jsonl": {
+      "sha256": "5058bc633f0b7125a511778504a0ff6946ae0f4d10214557f695a147326fecf2",
+      "size": 462710
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/pi-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/pi.txt": {
+      "sha256": "91e7912cc49f447753487185b4888bb117a81cf64805f045de45a61bd90b98d0",
+      "size": 3203983
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/config.json": {
+      "sha256": "0869ef045e37b61c7792614cad468da63fc9f90c3805e2224205c1149f4bf813",
+      "size": 1620
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/lock.json": {
+      "sha256": "227e0700ac90906b25192285832237f889d96be2b341f9cb425fe1b038c10df3",
+      "size": 2235
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/result.json": {
+      "sha256": "5f964859806db7d27e7452613245844c3f29d98179f13414f8a2c398322d8a98",
+      "size": 22444
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/trial.log": {
+      "sha256": "df336008a45d9d433c2766d24ff759e6752197d8b0de732e403212a809361c12",
+      "size": 13919
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/attempts/1/ctrf.json": {
+      "sha256": "16828666e70c6d13ee3200f110471c023cffa287865148fb989bac2a129c0d46",
+      "size": 2877
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/attempts/1/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "2782d10936127751b643e612a69c6d8a4db4d1cb803f88fada8faf4e638e7ae6",
+      "size": 1927
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/ctrf.json": {
+      "sha256": "16828666e70c6d13ee3200f110471c023cffa287865148fb989bac2a129c0d46",
+      "size": 2877
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/retry-summary.json": {
+      "sha256": "ee2517d612b17d7c63bd35417867402f39b2e0764f5a63f476ce496a1ed0ad8c",
+      "size": 269
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/db-wal-recovery__ERAbXW8/verifier/test-stdout.txt": {
+      "sha256": "2782d10936127751b643e612a69c6d8a4db4d1cb803f88fada8faf4e638e7ae6",
+      "size": 1927
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/job.log": {
+      "sha256": "df336008a45d9d433c2766d24ff759e6752197d8b0de732e403212a809361c12",
+      "size": 13919
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/lock.json": {
+      "sha256": "9f19b8a9264a141672d792ac6cab06ea14b183a568e468e598ff29e60eb89cfb",
+      "size": 3397
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102/result.json": {
+      "sha256": "0e470b878dd5ccb7ca27165d916a79740e66a09606c18d385d64b18a59204e75",
+      "size": 1141
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/config.json": {
+      "sha256": "33e0e6860ff86ab386dc1dac87b9e6896fc5effd257e13792910d76a9ee8c83b",
+      "size": 3193
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/harbor.log": {
+      "sha256": "4e4f682262fd9c3af28dd9f5c312b31c38b7d0246ca07c22988ca454d097c23d",
+      "size": 1153
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/manifest.json": {
+      "sha256": "2a68f7a0b4d824dd997238b61538d6fe105b73d962a4542f98e575a29ac0e816",
+      "size": 37129
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "7d145d8a9a5a2e8f1a792abdc29b984459d6d3377b07c083495d29a6aff8278b",
+      "size": 554
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "8edec09c44a50508d567625146d0b27ad603a8f4251eb32d613a645b27e73ea2",
+      "size": 18673
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "662150bc1d0f6bc4559e773c560e97ec12b17b320b1fc7f3783c39666b88986b",
+      "size": 14961
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "e086c6ccac32bd82f6ef61b7290fbbb4e48a2c4814c9fbb27ec1a23a40b8bb35",
+      "size": 15015
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "a6028874cbd11666d144a0b631baff5325e592e8369d0efc24ce04334301c0b6",
+      "size": 18428
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "b9309740a2e7ff2f1c5f0369f13cf6586047734f04e2b7b59f125914a6c84a00",
+      "size": 14663
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/pi.py": {
+      "sha256": "1c6005b6b5c4a14c8032a5bfc8541c96a4a4ca5bed524fde86bf517d34e50e69",
+      "size": 12416
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/summary.json": {
+      "sha256": "d8535afe40590a33fd4338465d194c6021e2521efa3953ef95e8458c9ca3c0e3",
+      "size": 14022
+    },
+    "jobs/pi-dev3-rerun-db-wal-recovery-v2-20261102-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/agent/bootstrap.json": {
+      "sha256": "c38914403bd502084e8d106a6eaa84d9a413cd8000b01c99bb62f8f376bfec1c",
+      "size": 23176
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/config.json": {
+      "sha256": "505f35662f19e244a1bb0b688a7cae9e604d7883e17bfc41936ad7cd9e97af3a",
+      "size": 1687
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/exception.txt": {
+      "sha256": "77c4ea58bf0b59c011a3f97936de754f09deebac2c65c6b0629eda5a6595982c",
+      "size": 2196
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/lock.json": {
+      "sha256": "939602966342abf4448e115ad182a11245b01a4a708a2e1605526e3f66c8e9aa",
+      "size": 2241
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/result.json": {
+      "sha256": "e22663dcc70df4d73a1d2035729f3df0af50d019fc865d73d010b5e813b83efe",
+      "size": 7070
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/adaptive-rejection-sampler__stcSVVn/trial.log": {
+      "sha256": "1eab56e636f7ba4fdcc6352cbe08745fa9975e85b0d29ece1b446ba44e921c34",
+      "size": 6594
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/config.json": {
+      "sha256": "ec3ca582b2708a49a703536fed9aff5cd994dc3f956d64fde05210ea252c1e40",
+      "size": 1881
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/agent/bootstrap.json": {
+      "sha256": "2b6fc50d240d22bb62b95caafd54ffe8b42f91dc00d400ed3ff968df1133078a",
+      "size": 11941
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/config.json": {
+      "sha256": "ec19b8407d60a4c07d73fd2eb296579543773495dc42a8ae1e9540feebfc7a8d",
+      "size": 1665
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/exception.txt": {
+      "sha256": "77c4ea58bf0b59c011a3f97936de754f09deebac2c65c6b0629eda5a6595982c",
+      "size": 2196
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/lock.json": {
+      "sha256": "46bd7dcf08d4a091169cae34a36dd30ab7539e900d563781214950d32c57020f",
+      "size": 2230
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/result.json": {
+      "sha256": "e2afb6f64ec65d703bb73e2d297cfefa68eaec85f19bc4464572ce11b6b68354",
+      "size": 7004
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/db-wal-recovery__5wSAPDN/trial.log": {
+      "sha256": "c0cac108751e08d6ac856b1ea11b39d1ec1f8e1f3d8fafe005470fc7902bd12d",
+      "size": 6583
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/job.log": {
+      "sha256": "dd7a1facda07002783b6bfe2c0dbb6af78eaefe23f7c8d45d8cdbbbfb163771c",
+      "size": 13325
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/lock.json": {
+      "sha256": "0c701e562f9eb4f9dd93dc9201716c92f26a23aa267595c65695ffc4bfef6739",
+      "size": 6075
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102/result.json": {
+      "sha256": "b194f03872f9b5e6d02047e179595c542a6f9642360a0331c90c62e7c9cb440e",
+      "size": 1124
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/config.json": {
+      "sha256": "a775ccdce803832ba1d84c460e0d15c015d6566e1e43a6189f030a1d35d0d217",
+      "size": 3493
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/harbor.log": {
+      "sha256": "a01edffb3a8ba8c2e992bbb8e212f23a98b571b4d2e77358a99ff9d4aa85cd14",
+      "size": 1213
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/manifest.json": {
+      "sha256": "84239a2ec90c6b7e87ab91a17229e54cdbee4fa7c696715ee449474962f4acac",
+      "size": 37129
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "be588e7f6f7a5e9a5add1303036325b3261fbf0030ea8cb4c131165f649fdd98",
+      "size": 551
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "cbfae3319c3457e230aab7811e8adab7511ed71be445d034787dfbe450e45328",
+      "size": 18670
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "1ca8f1b8d0362f912812d74682955410299cf8c913c4a0cb42e876db803deb89",
+      "size": 14958
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "9941ecaf4f362a748f707d770c376557d49335bc2e5223854653873ae0fb1007",
+      "size": 15012
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "8be7c32a21ba9940e16c74bc6bb1f34d17cbeeb47724433cfd41eb44a4ec2a44",
+      "size": 18361
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "483bd93e230d059e785035a2d476048e8c7c31c9b0918b958747e3a87ad2241f",
+      "size": 14660
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/summary.json": {
+      "sha256": "c6ab1e9458859b70f763348f0305c05b980a7133765f567b719ef8d2fafeb778",
+      "size": 39941
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-20261102-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/adaptive-rejection-sampler__E9uvv9V/agent/bootstrap.json": {
+      "sha256": "de6386848a0641d6b1d2e621e79f123858769d9d0245868f7adc8fb20198840b",
+      "size": 23136
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/adaptive-rejection-sampler__E9uvv9V/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/adaptive-rejection-sampler__E9uvv9V/config.json": {
+      "sha256": "08a340bad2550bbd6d4dec4fa9733a69222a59c4a0fc0081ecf72f205deb1640",
+      "size": 1693
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/adaptive-rejection-sampler__E9uvv9V/lock.json": {
+      "sha256": "c13a14858d7c269fb86e19021cd0ee33d6c26ce12acb90e5989bf6ebded50d16",
+      "size": 2244
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/adaptive-rejection-sampler__E9uvv9V/result.json": {
+      "sha256": "5fa9b42c08b9862af1940b29749e58e647a3cd6de563622e9c884462dbed7d91",
+      "size": 4603
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/adaptive-rejection-sampler__E9uvv9V/trial.log": {
+      "sha256": "da201beecba9d03d75c4ef4ade14675b5cf5b2764a62eea7938a18509f781f9a",
+      "size": 6445
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/config.json": {
+      "sha256": "da3463763c211f25f1561ca699e62945cf1a3168679a117b5c8e06b010c3d259",
+      "size": 1887
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/db-wal-recovery__Lao7WXJ/agent/bootstrap.json": {
+      "sha256": "5815e57bc6e873824175e0ed3918b4a1c95bb61e53f83dc400ef4ab5adcb3fe0",
+      "size": 11901
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/db-wal-recovery__Lao7WXJ/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/db-wal-recovery__Lao7WXJ/config.json": {
+      "sha256": "a5e0aa9e72769d4646338b7e27282cac6767afed0218da886e238a0e41901a7d",
+      "size": 1671
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/db-wal-recovery__Lao7WXJ/lock.json": {
+      "sha256": "5922480435a2d99a41e22ea57233c8c855f869d45dfee061b85627922017f087",
+      "size": 2233
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/db-wal-recovery__Lao7WXJ/result.json": {
+      "sha256": "9f7386437030ec248d95431cdbf4a02fabe9b67733383e2e6bceac1df8c30372",
+      "size": 4537
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/db-wal-recovery__Lao7WXJ/trial.log": {
+      "sha256": "e6e1a38ee126fff4a19a9486379c33715180578b5e0584891715d88f35e2cb82",
+      "size": 6445
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/job.log": {
+      "sha256": "77757654f7785d4e74b3287754f79777c73e771f54d2c6f6e7d6f9b316aebfb4",
+      "size": 12890
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/lock.json": {
+      "sha256": "80c27e32690a5cac6b29c397b965cbb6dcafbe9d4fdf54c1133bf1b4f1b6cd6c",
+      "size": 6081
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/result.json": {
+      "sha256": "540fd4aaf79d1f892dd9cc810cce5491288670e3af72841fe53ac6ac7d67f667",
+      "size": 933
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/config.json": {
+      "sha256": "0db9a3573e8182c2666f2724fff313fa772bfd66ae894abb422ebbb9521f1efa",
+      "size": 3499
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/harbor.log": {
+      "sha256": "2bd3115c3018ab21152f32e3a577ff151d254bf1e89711144c7e669dd835e9ef",
+      "size": 934
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/manifest.json": {
+      "sha256": "14b9d578128cc52197442c7839ba1208389d4c09489e0bc6ab3163b7cb8596c4",
+      "size": 37129
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "5e18e7a98fbf39208502d2a854411fac12158586a4ebc7495dfdabb3bdc6d9cc",
+      "size": 554
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "aa5ebd8c68d2425e7fa93de85d42d9715b37ec3e861c262e52f168e736275e10",
+      "size": 18673
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "2a2ee7b668f35d2e1c8a5bd557af6f39c8fc13e5b3700ea388e36a5636884159",
+      "size": 14961
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "77490aec61791f7baa9ca55cf8fea487ccf2aa1abd781399ccc1f5e17ae48c1c",
+      "size": 15015
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "ba84e380312c191c53c6016df505c418c9aee7058656aee7556e71dd37b0f9b4",
+      "size": 18428
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "6e79cc6f9a04f09ba6e65623be56ad4d10af6bb0edb5a0218355eea8d101ab1e",
+      "size": 14663
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/pi.py": {
+      "sha256": "1c6005b6b5c4a14c8032a5bfc8541c96a4a4ca5bed524fde86bf517d34e50e69",
+      "size": 12416
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/summary.json": {
+      "sha256": "c9aae9d7b7464b3b9f03f8c592141a95a9285bd606b56cbb88613629c25d5b6b",
+      "size": 39829
+    },
+    "jobs/pi-dev3-rerun-install-pair-01-v2-20261102-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/config.json": {
+      "sha256": "a308f0e2240c0665d24a05a687ed8671fdafc512bc5ee74d48fde558fcc18020",
+      "size": 1713
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/job.log": {
+      "sha256": "0d682dbebbc0d9decf291a6d1c8f9c46a65b0a87447e8114d224356c79dd913d",
+      "size": 6668
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/lock.json": {
+      "sha256": "3d6250369ca1306ff8bad394cc1873cbecbaf8fa9f7e69f0da6f9051f464f56f",
+      "size": 3403
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/result.json": {
+      "sha256": "be631f7cf46b12b82f155790236b84dbd866b262c5b69bc5f1cf9ee3bb3f1f0c",
+      "size": 1072
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/agent/bootstrap.json": {
+      "sha256": "1d6ad688edd691d586897ee2bab87fdb64e419aea117dfcf89212e5289bdb705",
+      "size": 23199
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/config.json": {
+      "sha256": "c68b45a68e7c4457253b26899a13f969429ad9e8a968d548a4e262500b984821",
+      "size": 1687
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/exception.txt": {
+      "sha256": "125c7f707d8a78ee446c8d1e13d003e09fa23134dc212361219ce5b97c03bb8f",
+      "size": 2196
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/lock.json": {
+      "sha256": "e242875d220beb14c3f8201666ddd1b3c87cccc46e1cbffe7ef24eb9c019e79a",
+      "size": 2241
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/result.json": {
+      "sha256": "d1b9a45e50862d4ea1760e93a7fa86abaacbb1f78bb0f179acc1698db32d92db",
+      "size": 7070
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102/torch-pipeline-parallelism__hNdqw2j/trial.log": {
+      "sha256": "6a4da3aecbe031b2b25102b3b9b992d1e4bb16b8ac0a1a49efd2405ca8dca22c",
+      "size": 6594
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/config.json": {
+      "sha256": "4edfe199184db4d07ed0cce116d544bf95004d90ba8b614fe49837e389c4122b",
+      "size": 3197
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/harbor.log": {
+      "sha256": "a265486c244af9eec0152bba1eeec3b1aa23f32fc160c162e2a594ac4009e4f4",
+      "size": 1210
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/manifest.json": {
+      "sha256": "bc035c72d250d58dd617c4d64bee34dedddad2f90b3ea2849c760f756e7cb50a",
+      "size": 37129
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "ebae1cd4360bd7cd22e83c13c9a108580e2b0d304043f0f8d882a6c253c4b48c",
+      "size": 551
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "3550fadcc7c8ffddbcd07b0660fc473fcbfcaef3edb3356fb25eb0e59042cd82",
+      "size": 18670
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "3c450752b0b92c8b3ef7ad7f5929d293375e753a979497ea5fd4c733ea464318",
+      "size": 14958
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "9e89bb7d349b7def169401d900e453abade0db4fc97a4e6c10dc218583a07494",
+      "size": 15012
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "71ebe5d12eed2104ffd8b40434dd40bc012ab316772d601a8ccdda3b9f9a764c",
+      "size": 18361
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "ac077e401b6778859800f4b12ed000d6de676e24a44d875cb188de2bd3838d4b",
+      "size": 14660
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/pi.py": {
+      "sha256": "e703174d76a1b670466ba06904db6b08a26769d42ac974274f61423ff0778fd6",
+      "size": 12355
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/summary.json": {
+      "sha256": "25b562f30fb0233852a0a6c47a7ed62dfd9c9c810b53294fdf8ef4ea0780d5f8",
+      "size": 26296
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-20261102-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/config.json": {
+      "sha256": "500de12acdb8d51dea706c01bd4acbfa93e4c3135fbfc3a1fc84a78083b996cb",
+      "size": 1719
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/job.log": {
+      "sha256": "7a2b3924a7637694d44c633645437966ad3d5fa9222ce22f69fb92f06ae88856",
+      "size": 7111
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/lock.json": {
+      "sha256": "27c6178952a18a7f74516ab2e712fe8502cbeeeab3d4b7915df82693e7791170",
+      "size": 3406
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/result.json": {
+      "sha256": "c6d1d687fb175021b93737daca27bc993f7fd8372886fc93b197ef3f78edcb4a",
+      "size": 933
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/torch-pipeline-parallelism__mCgsZWg/agent/bootstrap.json": {
+      "sha256": "4b425000886e200a143eb692d2f097823af70a182b1a0f37777793c25db5f929",
+      "size": 23275
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/torch-pipeline-parallelism__mCgsZWg/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/torch-pipeline-parallelism__mCgsZWg/config.json": {
+      "sha256": "f5330f3a32761cd0db2c71d7f48ed22b7ebeb6e6def4d7cfabbdda3c162083d8",
+      "size": 1693
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/torch-pipeline-parallelism__mCgsZWg/lock.json": {
+      "sha256": "c44510b853c71780b171ed7a0cc47eddd3a092907839ffa5f052ee25947d4055",
+      "size": 2244
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/torch-pipeline-parallelism__mCgsZWg/result.json": {
+      "sha256": "504353590714162f38255370a9c8a47a20d8c713d8ffc53874b95dd795e9a259",
+      "size": 4603
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/torch-pipeline-parallelism__mCgsZWg/trial.log": {
+      "sha256": "7a2b3924a7637694d44c633645437966ad3d5fa9222ce22f69fb92f06ae88856",
+      "size": 7111
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/config.json": {
+      "sha256": "84d682ec4efc8182f887a80d3e7d77603205b6a0d4f3b406e815dd32c22e11ef",
+      "size": 3203
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/harbor.log": {
+      "sha256": "e35004b65a70433e1c09210c516fd706f9490c4c86cebd1b59ef60b460121695",
+      "size": 936
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/manifest.json": {
+      "sha256": "cec502cce51d7378042e4f4efecaf20989211fbadf2d6b44781ba2d0bb585477",
+      "size": 37129
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "c3778a241a311f815bb89179a12067a8d6939696f8a4acc1c5d6038f58c60f99",
+      "size": 554
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "f6ae363159746b5c87af893f00db36426506dd66e20947aa4eb4adf043734c46",
+      "size": 18673
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "632ae6bc91ecfd810b6d9f043cbd554cd283a50f04db317a36a0b3503b63628d",
+      "size": 14961
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "b2d26af4e9e859f2ddd4ba8193a75389df782fb8200663e2e8e7f1902b5510f7",
+      "size": 15015
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "c63c9677c02418bbf99db2730c923756ca47433dd42e45c180faf18aaf466d4e",
+      "size": 18428
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "81828bedc47bb85886fb56bc2ab802c257be95539dd6c5a3cb422cf0301ce9d6",
+      "size": 14663
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/pi.py": {
+      "sha256": "1c6005b6b5c4a14c8032a5bfc8541c96a4a4ca5bed524fde86bf517d34e50e69",
+      "size": 12416
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/summary.json": {
+      "sha256": "fb6fc1b26c6f9f1d4abc17f2893ed18083a9e339d1d85d6ddcc9a295fc3ed0bc",
+      "size": 26404
+    },
+    "jobs/pi-dev3-rerun-install-pair-02-v2-20261102-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/config.json": {
+      "sha256": "8d31e1a4c6d6b48adcaafe59fe4a47f6e7cbbcb978efc721c50af2e0b4fcd37a",
+      "size": 1690
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/job.log": {
+      "sha256": "ab09d9b1327a1c6e5cbc072e79566cc39e4810849fb1d7e01f471b1d883184ef",
+      "size": 15796
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/lock.json": {
+      "sha256": "dc061a3b9f4702ff111fa812e3e2041bfb01f494bfc2754bd32c7c7df88e4584",
+      "size": 3419
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/result.json": {
+      "sha256": "b1694b6971bd2206bda1fab38496d6cdb0c03f4d20d734b1708b49c14d34309f",
+      "size": 1143
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/bootstrap.json": {
+      "sha256": "4b425000886e200a143eb692d2f097823af70a182b1a0f37777793c25db5f929",
+      "size": 23275
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/pi/sessions/2026-11-02T14-52-08-081Z_01a19cbf-0a11-7754-a16f-cdffd52c16fc.jsonl": {
+      "sha256": "d61b0bc6ee7c03cde25b3b9978bf6ee543c6a71e283441308b59fa8e0116aac9",
+      "size": 391769
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/pi-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/pi.txt": {
+      "sha256": "0b2f7053831bd965f36c813d1c8acaeb19e01df10f5b07fc839b6c9e0ba09e80",
+      "size": 2844992
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/process-supervision-required": {
+      "sha256": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+      "size": 3
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/agent/process-supervision.json": {
+      "sha256": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+      "size": 42
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/artifacts/manifest.json": {
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d",
+      "size": 159
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/config.json": {
+      "sha256": "c4f77f3c737e440264c5cf5b018c3235440a878636306d51d950549e2e3fe2cc",
+      "size": 1664
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/lock.json": {
+      "sha256": "ddabac11af822e9b729539d9d65ae1c29b7288096080a791cfb80c0a13f923f6",
+      "size": 2257
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/result.json": {
+      "sha256": "97870897ea64b90ae7839eec9f63f8dd8e2b52be61ecae09fbf1c9d5f4fd3fe4",
+      "size": 38681
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/trial.log": {
+      "sha256": "ab09d9b1327a1c6e5cbc072e79566cc39e4810849fb1d7e01f471b1d883184ef",
+      "size": 15796
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/attempts/1/ctrf.json": {
+      "sha256": "08934078df58a3fea7c1ade8e0cf1f746bbd5266409974d11573a746dd2f946b",
+      "size": 1536
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/attempts/1/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/attempts/1/test-stdout.txt": {
+      "sha256": "e1d21c0e930fccc821c5ab29f4ef4ed58c64a6c92236977c8832870c6fac25f6",
+      "size": 1385
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/ctrf.json": {
+      "sha256": "08934078df58a3fea7c1ade8e0cf1f746bbd5266409974d11573a746dd2f946b",
+      "size": 1536
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/retry-summary.json": {
+      "sha256": "0e209faeb095380dededf11d004c7636b941d524cdee0dc937f248e80a25a36c",
+      "size": 269
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/reward.txt": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "size": 2
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102/torch-pipeline-parallelism__fsj6t6S/verifier/test-stdout.txt": {
+      "sha256": "e1d21c0e930fccc821c5ab29f4ef4ed58c64a6c92236977c8832870c6fac25f6",
+      "size": 1385
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/config.json": {
+      "sha256": "37134a513a5412aab8cac41fb0865ae1421dd8e2f3b483c4eb0942a6d52d78a9",
+      "size": 3226
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/harbor.log": {
+      "sha256": "b283bca2216170f0b087910dc51e86db6297f24ad122d65bf0a9463156b0fb19",
+      "size": 1176
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/manifest.json": {
+      "sha256": "a21646caf7fac999f1f230fd26f519de1cde8cd0113193813ed03acfe04301e0",
+      "size": 37129
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/pi-models.json": {
+      "sha256": "8751fac554abb9f363b188c102045f38e36693d52956f984e0e427b31998b299",
+      "size": 1050
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__init__.py": {
+      "sha256": "d25ed286e8a9f9f78ca9980ef041e12b4a12d0a274ab60984c633fd7e2e5ef1a",
+      "size": 315
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__main__.py": {
+      "sha256": "e322e82a6b7ac37a9dc3429c2752ad4d212a82acefa4f2bc0072b2c87e82afa4",
+      "size": 15679
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__pycache__/__init__.cpython-313.pyc": {
+      "sha256": "986eaceb1dd56fdbba59b2a66712923261bb7fe2b3a3b3127a3c83627cc58597",
+      "size": 565
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__pycache__/adapter.cpython-313.pyc": {
+      "sha256": "4ba181168f32ac68b5a25f3b389d1a620c9448b1c971c98b565521eccbd404fa",
+      "size": 18684
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__pycache__/bootstrap.cpython-313.pyc": {
+      "sha256": "118237afdcfbf5dd587f4773021a9a7347624cf56eb88747f975075632558a66",
+      "size": 14972
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__pycache__/deepseek.cpython-313.pyc": {
+      "sha256": "cf31cdf736f4144a096280d8af72f9f19fde8beffa45decaf40b6494b3c59b65",
+      "size": 15026
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__pycache__/pi.cpython-313.pyc": {
+      "sha256": "0894fad8553368ade79ced48e040dec17ca0f8367de026a030aa410a3240371b",
+      "size": 18439
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/__pycache__/verifier.cpython-313.pyc": {
+      "sha256": "b1ac8747d0238cd79ee9b285cf3d9b347b935290c952a09ce9c70ec15f5afe9e",
+      "size": 14674
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/_agent_runner.py": {
+      "sha256": "171c880501bdfc7ea4e85157daa6f8d3b48b54d66e10a7e97f292b6bc2e34cd4",
+      "size": 5489
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/_dsh_client.py": {
+      "sha256": "4c49c2bc682993044117ac36be0b17164c6f1122e4598f4245c21afc061d6780",
+      "size": 2140
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/_verifier_runner.py": {
+      "sha256": "1733a2681bd9d13a30fcc1ab5317df1025d28d2d082b8cc9de85c0d9d95e723c",
+      "size": 11487
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/adapter.py": {
+      "sha256": "d1aa154ec6972d706f0725cfa69c56635506d4499dff2a129e2c957ea7034c02",
+      "size": 13070
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/bootstrap.py": {
+      "sha256": "5d7f086e5eb92301e4e43f5473b8f4bcdc012f6950bc65574ee3ff07d66ef7b8",
+      "size": 11246
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/deepseek.py": {
+      "sha256": "e76e130701744a02f26ccdc3da5b41ac98c491044025bd506b5fd52901b55b86",
+      "size": 9697
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/pi.py": {
+      "sha256": "1c6005b6b5c4a14c8032a5bfc8541c96a4a4ca5bed524fde86bf517d34e50e69",
+      "size": 12416
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/retained.py": {
+      "sha256": "2f1bc92128ade805e9fa6cbf02bb8aae3da60486423785f422152f837b57e36d",
+      "size": 10584
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/source/harbor_adapter/verifier.py": {
+      "sha256": "772c036a60002ee140ce37a87f7a859923ee307d9ad229f4349e2d44be127767",
+      "size": 10016
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/summary.json": {
+      "sha256": "e7c61176a3e1d4c72d3bdff356e8d2df3e2f6ea41eabebbec47154384e6ee1a8",
+      "size": 26768
+    },
+    "jobs/pi-dev3-rerun-torch-pipeline-parallelism-v2-20261102-input/working-tree.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    }
+  },
+  "original_freeze_verification": {
+    "manifest": "benchmarks/harbor/configs/pi-deepseek-flash-dev34-20261024/outputs-freeze.json",
+    "manifest_sha256": "76b775d898bbb84b21f80eee1061806d7d949465f9eef60dcab6dedeb326734b",
+    "files_verified": 1449,
+    "missing": 0,
+    "changed": 0
+  }
+}

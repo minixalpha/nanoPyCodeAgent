@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-11-02T15:08:38.069177+00:00",
+  "active_containers": [],
+  "protected_initial_images": 6,
+  "protected_images_preserved": true,
+  "new_job_directory_mode": "0700",
+  "harbor_tests": {
+    "passed": 304,
+    "failed": 0,
+    "command": "uv run --frozen --project benchmarks/harbor pytest benchmarks/harbor/tests -q --tb=short"
+  },
+  "notes": "The three regression cases failed before the nullable-output fix. All 304 tests passed with loopback sockets permitted. No model calls were used for these tests."
+}
