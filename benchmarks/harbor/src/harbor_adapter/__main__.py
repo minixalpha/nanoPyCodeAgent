@@ -18,6 +18,7 @@ from harbor.models.job.config import JobConfig
 from .bootstrap import AptCache, default_cache_dir
 from .deepseek import distribution_files as deepseek_distribution_files
 from .pi import distribution_digest, distribution_files, read_model_config
+from .integrity import IntegrityPolicy, RULES, RULES_SHA256
 
 _NANO = "harbor_adapter:NanoPyCodeAgent"
 _PI = "harbor_adapter:PiCodeAgent"
@@ -27,6 +28,7 @@ _DEEPSEEK = "harbor_adapter:DeepSeekHarnessAgent"
 def standard_config(raw: dict) -> JobConfig:
     """Validate policy before building or creating a benchmark environment."""
     raw = json.loads(json.dumps(raw))
+    integrity = IntegrityPolicy.model_validate(raw.pop("integrity")) if "integrity" in raw else None
     raw.setdefault("retry", {"max_retries": 0})
     raw.setdefault("n_concurrent_trials", 1)
     raw.setdefault("verifier", {
@@ -79,12 +81,37 @@ def standard_config(raw: dict) -> JobConfig:
         if identifiers[0] == _DEEPSEEK:
             if not {"distribution_path", "distribution_sha256"} <= agent.kwargs.keys():
                 raise ValueError("DeepSeek requires a hash-pinned distribution")
-            if config.verifier.kwargs.get("require_agent_quiescence") is not True:
+            if integrity is None and config.verifier.kwargs.get("require_agent_quiescence") is not True:
                 raise ValueError("DeepSeek requires confirmed agent quiescence before grading")
             if agent.kwargs.get("reasoning_effort", "high") not in {"off", "low", "high", "max"}:
                 raise ValueError("Unsupported DeepSeek reasoning effort")
         if not agent.model_name:
             raise ValueError("Each agent requires an explicit model_name")
+    if integrity is not None:
+        integrity.network()
+        if config.artifacts or config.extra_instruction_paths or config.timeout_multiplier != 1 or config.agent_timeout_multiplier not in (None, 1):
+            raise ValueError("restricted-v1 preserves task artifacts and native timeouts")
+        if config.environment.import_path or config.environment.type not in (None, "docker"):
+            raise ValueError("restricted-v1 requires the Docker environment")
+        if (config.environment.mounts or config.environment.extra_docker_compose
+                or config.environment.kwargs or config.environment.extra_allowed_hosts
+                or config.environment.env):
+            raise ValueError("restricted-v1 rejects extra mounts, Compose services, environment overrides, and network overrides")
+        for agent in config.agents:
+            if (agent.skills or agent.mcp_servers or agent.extra_allowed_hosts
+                    or agent.load_trajectory or agent.resume_trajectory
+                    or agent.include_logs or agent.exclude_logs
+                    or agent.override_timeout_sec is not None or agent.max_timeout_sec is not None):
+                raise ValueError("restricted-v1 requires fresh agents, complete logs, and no external tools or network overrides")
+            agent.kwargs["integrity_policy"] = integrity.model_dump()
+        if config.verifier.include_logs or config.verifier.exclude_logs or config.verifier.env:
+            raise ValueError("restricted-v1 requires complete verifier logs")
+        if any(config.verifier.kwargs.get(key) for key in ("retry_dependency_errors", "retry_collection_errors")):
+            raise ValueError("Only verifier timeouts may retry")
+        config.environment.type = None
+        config.environment.import_path = "harbor_adapter:IntegrityDockerEnvironment"
+        config.environment.kwargs["integrity_policy"] = integrity.model_dump()
+        config.verifier.kwargs["require_agent_quiescence"] = True
     return config
 
 
@@ -187,7 +214,12 @@ def run(args) -> int:
     root = Path.cwd()
     if not (root / "src/nanopycodeagent").is_dir():
         raise ValueError("Run from the nanoPyCodeAgent repository root")
-    config = standard_config(json.loads(args.config.read_text()))
+    raw = json.loads(args.config.read_text())
+    if "integrity" not in raw and not getattr(args, "legacy_open_network", False):
+        raise ValueError("New runs require an integrity policy; use --legacy-open-network only for explicitly registered historical-protocol runs")
+    if "integrity" in raw and getattr(args, "legacy_open_network", False):
+        raise ValueError("Cannot combine integrity with --legacy-open-network")
+    config = standard_config(raw)
     if args.job_name:
         config.job_name = args.job_name
     if Path(config.job_name).name != config.job_name or config.job_name in {".", ".."}:
@@ -231,7 +263,11 @@ def run(args) -> int:
         "source_sha256": {str(p.relative_to(source)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(source.rglob("*.py"))},
         "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest() if wheel else None,
         "cache_dir": str(cache),
+        "evaluation_protocol": raw.get("integrity", {"protocol": "legacy-open-network"}),
+        "integrity_rules_sha256": RULES_SHA256 if "integrity" in raw else None,
     }
+    if "integrity" in raw:
+        (record / "integrity-rules.txt").write_text(RULES)
     if pi_inputs:
         manifest["pi_inputs"] = pi_inputs
     if deepseek_inputs:
@@ -256,6 +292,12 @@ def run(args) -> int:
         summary["harbor_exit_code"] = code
         (record / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(f"Results: {record / 'summary.json'}", flush=True)
+    if "integrity" in raw and not config.install_only and (job_dir / "result.json").exists():
+        from .audit import audit_job
+        audit = audit_job(job_dir, record / "audit")
+        summary["integrity_audit"] = {"path": str(record / "audit" / "audit.json"), **audit["summary"]}
+        (record / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+        print(f"Integrity review: {record / 'audit' / 'audit.json'}", flush=True)
     incomplete = not summary["trials"] or any(
         row["status"] not in {"scored", "setup_passed"} for row in summary["trials"]
     )
@@ -271,6 +313,11 @@ def main() -> int:
     benchmark.add_argument("--cache-dir", type=Path, default=default_cache_dir())
     benchmark.add_argument("--prepare-only", action="store_true", help="Build and record inputs without starting containers or calling the model")
     benchmark.add_argument("--install-only", action="store_true", help="Run setup and dependency preflight without calling the model or verifier")
+    benchmark.add_argument("--legacy-open-network", action="store_true", help="Explicitly reproduce an earlier protocol without integrity enforcement")
+    audit = commands.add_parser("audit", help="Freeze completed outputs and produce evidence-bound integrity accounting")
+    audit.add_argument("--job-dir", type=Path, required=True)
+    audit.add_argument("--output-dir", type=Path, required=True)
+    audit.add_argument("--review", type=Path, help="Reviewed verdicts bound to this output freeze")
     cache = commands.add_parser("import-apt", help="Import a manifest and its sibling packages/ directory")
     cache.add_argument("manifest", type=Path)
     cache.add_argument("--cache-dir", type=Path, default=default_cache_dir())
@@ -284,6 +331,10 @@ def main() -> int:
     retained.add_argument("--retry-dependency-errors", action="store_true")
     retained.add_argument("--retry-collection-errors", action="store_true")
     args = parser.parse_args()
+    if args.command == "audit":
+        from .audit import audit_job
+        audit_job(args.job_dir, args.output_dir, args.review)
+        return 0
     if args.command == "verify-retained":
         from .retained import verify_retained
         return verify_retained(args)

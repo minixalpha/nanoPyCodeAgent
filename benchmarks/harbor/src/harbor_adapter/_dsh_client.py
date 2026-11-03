@@ -15,6 +15,7 @@ def main():
     parser.add_argument("--reasoning-effort", default="high")
     parser.add_argument("--preflight", action="store_true")
     parser.add_argument("--instruction")
+    parser.add_argument("--stream-events", action="store_true")
     args = parser.parse_args()
     home = Path(args.home)
     home.mkdir(parents=True, exist_ok=True)
@@ -36,6 +37,8 @@ def main():
                 if event.method == "session.event":
                     events.write(json.dumps(asdict(event)) + "\n")
                     events.flush()
+                    if args.stream_events:
+                        print(json.dumps(asdict(event)), flush=True)
 
             result = harness.run(
                 Path(args.instruction).read_text(), session_id="benchmark",

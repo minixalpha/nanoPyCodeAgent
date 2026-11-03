@@ -138,6 +138,9 @@ class RetryingVerifier(Verifier):
     async def verify(self):
         check_agent_quiescence(self.trial_paths.agent_dir,
                                required=getattr(self, "_require_agent_quiescence", False))
+        from .integrity_environment import IntegrityDockerEnvironment
+        if isinstance(self.environment, IntegrityDockerEnvironment):
+            await self.environment.prepare_verification()
         # Harbor's outer watchdog covers the entire custom verifier. Reject an
         # insufficient budget instead of silently losing the promised retries.
         config = TrialConfig.model_validate_json(self.trial_paths.config_path.read_text())

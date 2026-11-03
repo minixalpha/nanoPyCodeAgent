@@ -15,21 +15,21 @@ endpoint, configure the API key and base URL; select the model with Harbor's
 
 ```bash
 export ANTHROPIC_API_KEY="..."
-export ANTHROPIC_BASE_URL="https://gateway.example"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
 ```
 
 Run new benchmarks through the standard entry point, from the repository root:
 
 ```bash
 uv run --project benchmarks/harbor python -m harbor_adapter run \
-  --config benchmarks/harbor/configs/qemu-alpine-ssh.json
+  --config benchmarks/harbor/configs/restricted-wal.json
 ```
 
-This example pins the QEMU task revision and uses `deepseek/deepseek-flash`.
+This example pins the WAL task revision and uses `deepseek/deepseek-flash`.
 Set the endpoint and credentials for that model, or copy the configuration and
 change `agents[].model_name`, task selection, and budgets for another run. These
-are ordinary Harbor JSON configurations; the entry point supplies the standard
-verifier and cache policy. It accepts the repository's `NanoPyCodeAgent` adapter
+are Harbor JSON configurations with an additional `integrity` section; the entry
+point supplies the standard verifier, integrity, and cache policies. It accepts the repository's `NanoPyCodeAgent` adapter
 with budget kwargs; credentials belong in the environment.
 
 The entry point builds the current working tree, including uncommitted changes,
@@ -47,6 +47,136 @@ build and record inputs without starting containers. Add `--install-only` to
 exercise dependency installation and preflight without calling the model or
 executing the official tests. A full run still performs setup and preflight in
 its own fresh container; an install-only check does not resume into model work.
+
+### Evaluation integrity protocol
+
+New standard runs require an explicit `integrity` section:
+
+```json
+{
+  "integrity": {
+    "protocol": "restricted-v1",
+    "allowed_hosts": ["api.deepseek.com"],
+    "probe_url": "https://example.com/"
+  }
+}
+```
+
+The same policy and English integrity instructions apply to Nano, Pi, and the
+DeepSeek Harness adapter. Their native tools and model settings are preserved.
+The actual inference host must be listed explicitly; provider endpoints are not
+silently added. Exact DNS hosts are accepted; wildcards, IP literals, CIDRs,
+extra agent network exceptions, injected skills, resumed sessions, external
+tools, and filtered logs are rejected. Do not allowlist general code hosting or
+search sites: that would reopen access to reference answers. Task-required data
+or reviewed dependency/documentation services need explicit, preregistered hosts.
+An allowed service can itself expose reference material; an allowlist is not a
+content classifier.
+
+Installation and registered dependency preflight use the task's original public
+network. Before model work, a public HTTPS probe must succeed, the same probe
+must fail under the allowlist, and allowed hosts must remain reachable. Redirects
+are not followed by probes. A failed positive control is an infrastructure
+failure, never proof of blocking. `--install-only` exercises these checks too.
+The run boundary rechecks enforcement within the native agent time limit.
+Harbor's external egress sidecar enforces the restriction; shell proxy variables
+are not the security boundary. The task container loses `NET_RAW`, `NET_ADMIN`,
+`SYS_ADMIN`, and `SYS_PTRACE`, and cannot gain privileges through setuid binaries.
+Host directories, including verifier logs, are not mounted into the container.
+UDP DNS forwarding is permitted only to the exact upstream resolver addresses
+reported by Docker's trusted sidecar; those addresses are recorded. DNS failure
+does not count as a successful HTTPS blocking probe.
+
+Version one supports single-step Linux Dockerfile/prebuilt-image tasks with
+public native network policies. Custom Compose services, extra mounts,
+environment overrides, and task MCP servers are unsupported and fail closed.
+These limits deliberately exclude the historical dependency-cache Compose
+overlays until they have a reviewed isolation design. The protocol preserves
+task images, package sources, official tests, resources, and native deadlines.
+Missing task dependencies remain setup or task failures according to the
+original verifier; network restrictions do not authorize changing the task.
+
+All three agents use process supervision under this protocol. Network access
+stays restricted through cancellation cleanup. Controller-collected output,
+network-rule snapshots, preflight outcomes, and sidecar diagnostic logs are saved
+under the job's host-only `.integrity/<trial-id>/` directory, outside Harbor's
+native trial-log rewriting. These records are private
+because output can contain credentials. They preserve collected bytes, but do
+not prove complete observation of every tool action or network request.
+
+Existing shared verifiers remain shared: after quiescence checks and evidence
+collection, their native network is restored for official verification. They
+remain vulnerable to malicious submitted code and retained services influencing
+grading. Tasks already configured with separate verifiers retain that boundary;
+the adapter records the mode without rewriting tasks. Migrating existing tasks,
+isolating submitted code inside the grader, private held-out tasks, and DNS/covert
+channel defenses are separate work. `restricted-v1` blocks the observed direct
+web answer retrieval; it is not a proof against every adversarial strategy or
+training-data contamination.
+
+For an explicitly registered historical-protocol reproduction, pass
+`--legacy-open-network` with the original configuration. This opt-out is recorded
+as `legacy-open-network`, cannot be combined with `integrity`, and supplies no
+integrity enforcement. Historical configurations and reports are unchanged.
+Do not combine restricted and historical results into one comparable baseline.
+
+### Freeze, review, and integrity-adjusted scores
+
+Completed restricted runs automatically freeze output hashes and write candidate
+flags to `jobs/<job-name>-input/audit/audit.json`. They do not automatically earn
+an integrity-cleared score. The same audit can be invoked explicitly:
+
+```bash
+uv run --project benchmarks/harbor python -m harbor_adapter audit \
+  --job-dir jobs/<job-name> --output-dir jobs/<job-name>-input/audit
+```
+
+The output directory must be outside the job. Auditing refuses unfinished jobs,
+symbolic links, special files, and changes to an existing freeze. Scanning covers
+native text/JSON logs across adapters plus collected output and egress evidence;
+findings contain file/line locations, not raw credential-bearing excerpts.
+Patterns are triage hints: inspect surrounding calls and results, including
+blocked versus successful retrieval, before deciding. No matches do not prove a
+clean attempt. `clear` means no violation observed in the reviewed evidence.
+
+Create a review bound to the exact `freeze.json` SHA256, using actual trial IDs
+and evidence paths from that manifest:
+
+```json
+{
+  "freeze_sha256": "<SHA256 of freeze.json>",
+  "trials": {
+    "<trial-id>": {
+      "verdict": "violation",
+      "reviewer": "<reviewer identifier>",
+      "reason": "Downloaded and used the task's reference solution.",
+      "evidence": ["<trial-id>/agent/pi.txt"]
+    }
+  }
+}
+```
+
+Pass `--review /path/to/review.json` to the audit command. Verdicts are `clear`
+or `violation`; every verdict requires a reviewer, reason, and frozen evidence.
+Each review and resulting audit is saved under its hash, preserving previous
+decisions. Raw Harbor rewards and exceptions are never overwritten. Confirmed
+violations receive an effective zero and stay in the denominator. Pending
+reviews have no effective score, and no adjusted pass rate is published until
+all eligible trials are reviewed. Setup/verifier errors remain unscored. A native
+agent timeout is eligible only when cancellation was confirmed and an official
+binary reward exists. Missing required enforcement is an integrity error.
+
+Run the optional model-free Docker probe with an existing image containing
+Python 3 and CA certificates:
+
+```bash
+NANOPY_INTEGRITY_TEST_IMAGE=<image> uv run --project benchmarks/harbor pytest \
+  -c benchmarks/harbor/pyproject.toml benchmarks/harbor/tests/test_integrity_docker.py
+```
+
+The probe builds Harbor's pinned egress sidecar, tests allowed and denied HTTPS,
+checks that packet marks cannot bypass filtering, and removes only its own
+containers. It does not call a model or run benchmark solutions/tests.
 
 ### Verified dependencies and preflight
 

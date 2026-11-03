@@ -12,6 +12,7 @@ from harbor.agents.installed.base import with_prompt_template
 from harbor.agents.model_connection import ModelConnectionSpec
 
 from .adapter import NanoPyCodeAgent
+from .integrity import integrity_run
 from .pi import distribution_digest
 
 _RUNNER = Path(__file__).with_name("_agent_runner.py").read_text()
@@ -119,6 +120,7 @@ class DeepSeekHarnessAgent(NanoPyCodeAgent):
         self._bootstrap_record["sdk_initialization"] = "passed"
 
     @with_prompt_template
+    @integrity_run
     async def run(self, instruction, environment, context) -> None:
         key = self.model_connection.api_key
         if not key:
@@ -133,6 +135,11 @@ class DeepSeekHarnessAgent(NanoPyCodeAgent):
             "--reasoning-effort", self._reasoning_effort,
             "--instruction", "/tmp/harbor-dsh-instruction.txt",
         ]) + " > /logs/agent/dsh-stdout.txt 2> /logs/agent/dsh-stderr.txt"
+        if self._integrity_policy is not None:
+            command = "set -euo pipefail; " + command.replace(
+                " > /logs/agent/dsh-stdout.txt 2> /logs/agent/dsh-stderr.txt",
+                " --stream-events 2>&1 | tee /logs/agent/dsh-stdout.txt",
+            )
         control = f"/tmp/harbor-dsh-{uuid.uuid4().hex}.json"
         record = "/logs/agent/process-supervision.json"
         try:

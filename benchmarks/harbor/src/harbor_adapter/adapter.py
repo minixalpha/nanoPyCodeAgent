@@ -21,6 +21,7 @@ from harbor.models.agent.context import AgentContext
 from harbor.models.trajectories.trajectory import Trajectory
 
 from .bootstrap import AptCache, default_cache_dir, verifier_profile
+from .integrity import IntegrityPolicy, integrity_run
 
 _DEFAULT_MAX_TURNS = 50
 _SYSTEM_DEPENDENCIES = ("curl", "bash", "git", "python3", "ca_certificates")
@@ -32,6 +33,7 @@ _REPOSITORY_URL = "https://github.com/minixalpha/nanoPyCodeAgent.git"
 _UV_VERSION = "0.9.11"
 _PATH_SETUP = 'export PATH="$HOME/.local/bin:$PATH"; '
 _TRAJECTORY_PATH = "/logs/agent/trajectory.json"
+_RUNNER = Path(__file__).with_name("_agent_runner.py").read_text()
 
 
 class NanoPyCodeAgent(BaseInstalledAgent):
@@ -55,7 +57,7 @@ class NanoPyCodeAgent(BaseInstalledAgent):
 
     def __init__(
         self, *args, git_ref: str | None = None, wheel_path: str | None = None,
-        bootstrap_cache: str | None = None, **kwargs,
+        bootstrap_cache: str | None = None, integrity_policy: dict | None = None, **kwargs,
     ):
         if git_ref is not None:
             if not isinstance(git_ref, str):
@@ -82,6 +84,7 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             if bootstrap_cache else default_cache_dir()
         )
         self._bootstrap_record: dict = {}
+        self._integrity_policy = IntegrityPolicy.model_validate(integrity_policy) if integrity_policy is not None else None
         super().__init__(*args, **kwargs)
         max_tokens = self._resolved_flags.get("max_tokens")
         if max_tokens is not None and max_tokens < 1:
@@ -137,6 +140,24 @@ class NanoPyCodeAgent(BaseInstalledAgent):
                 await self._install_apt(environment, profile.apt_packages)
                 await self.exec_as_agent(environment, command=profile.command)
                 record["verifier_preflight"]["status"] = "passed"
+            if self._integrity_policy is not None:
+                from .integrity_environment import IntegrityDockerEnvironment
+                from urllib.parse import urlsplit
+
+                if not isinstance(environment, IntegrityDockerEnvironment):
+                    raise ValueError("Integrity setup requires IntegrityDockerEnvironment")
+                if environment.integrity_policy != self._integrity_policy:
+                    raise ValueError("Agent and environment integrity policies differ")
+                endpoint = (self._model_config["providers"]["deepseek"]["baseUrl"]
+                            if hasattr(self, "_model_config") else
+                            "https://api.deepseek.com" if self.name() == "deepseek-harness" else
+                            self.model_connection.configured_base_url or "https://api.anthropic.com")
+                if urlsplit(endpoint).hostname not in self._integrity_policy.allowed_hosts:
+                    raise ValueError("The model endpoint must be explicitly included in integrity.allowed_hosts")
+                record["stage"] = "integrity_preflight"
+                (self.logs_dir / "process-supervision-required").write_text("restricted-v1\n")
+                await environment.integrity_preflight()
+                record["integrity_preflight"] = "passed"
             record.update(status="ready", stage="complete")
         except BaseException as exc:
             record.update(status="failed", error_type=type(exc).__name__)
@@ -235,6 +256,7 @@ class NanoPyCodeAgent(BaseInstalledAgent):
 
     @override
     @with_prompt_template
+    @integrity_run
     async def run(
         self,
         instruction: str,
@@ -250,19 +272,32 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             instruction_env_var: instruction,
         }
         cli_flags = self.build_cli_flags()
-        await self.exec_as_agent(
-            environment,
-            command=(
-                f"{_PATH_SETUP}"
+        command = (
+                f"set -euo pipefail; {_PATH_SETUP}"
                 f'{instruction_shell_var}="${instruction_env_var}"; '
                 f"unset {instruction_env_var}; "
                 f'printf "%s" "${instruction_shell_var}" | '
                 f"nanoPyCodeAgent {cli_flags} "
                 f"--trajectory {_TRAJECTORY_PATH} "
                 "2>&1 | tee /logs/agent/nanopycodeagent.txt"
-            ),
-            env=env,
         )
+        if self._integrity_policy is None:
+            await self.exec_as_agent(environment, command=command, env=env)
+        else:
+            control = f"/tmp/nanopy-agent-{uuid.uuid4().hex}.json"
+            record = "/logs/agent/process-supervision.json"
+            try:
+                await self.exec_as_agent(environment, command=shlex.join([
+                    "python3", "-I", "-c", _RUNNER, "run", control, record, command,
+                ]), env=env)
+            except BaseException:
+                cleanup = await asyncio.shield(asyncio.wait_for(environment.exec(
+                    command=shlex.join(["python3", "-I", "-c", _RUNNER, "cancel", control, record]),
+                    user="root",
+                ), timeout=12))
+                if cleanup.return_code != 0:
+                    raise RuntimeError("Nano subprocess cleanup did not confirm cancellation")
+                raise
 
     @override
     def populate_context_post_run(self, context: AgentContext) -> None:
