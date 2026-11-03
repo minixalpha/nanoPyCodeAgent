@@ -52,14 +52,17 @@ def read_model_config(path: Path) -> dict:
     return config
 
 
-def validate_model_registration(stdout: str, stderr: str, model_name: str) -> None:
+def validate_model_registration(
+    stdout: str | None, stderr: str | None, model_name: str,
+) -> None:
     """Pi can exit zero after rejecting models.json and using built-in models."""
     requested = tuple(model_name.split("/", 1))
-    rows = {tuple(line.split()[:2]) for line in stdout.splitlines()}
-    if stderr.strip() or requested not in rows:
+    rows = {tuple(line.split()[:2]) for line in (stdout or "").splitlines()}
+    diagnostic = (stderr or "").strip()
+    if diagnostic or requested not in rows:
         raise ValueError(
             f"Pi model registration failed for {model_name}: "
-            f"{stderr.strip() or 'requested provider/model missing from listing'}"
+            f"{diagnostic or 'requested provider/model missing from listing'}"
         )
 
 

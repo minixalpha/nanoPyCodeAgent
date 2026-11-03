@@ -1,0 +1,50 @@
+{
+  "recorded_at": "2026-11-02T14:31:07.469336+00:00",
+  "registration_sha256": "4b1a2df292b461e68f25818917a6060f94c9b95f808922356b7fe14d4a512dd3",
+  "model_calls": 0,
+  "official_test_executions": 0,
+  "trials": [
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__Lao7WXJ",
+      "result_path": "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/db-wal-recovery__Lao7WXJ/result.json",
+      "result_sha256": "9f7386437030ec248d95431cdbf4a02fabe9b67733383e2e6bceac1df8c30372",
+      "bootstrap_sha256": "5815e57bc6e873824175e0ed3918b4a1c95bb61e53f83dc400ef4ab5adcb3fe0",
+      "status": "ready",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "process_supervision_probe": "passed",
+      "distribution_sha256": "60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9"
+    },
+    {
+      "task": "terminal-bench/adaptive-rejection-sampler",
+      "trial": "adaptive-rejection-sampler__E9uvv9V",
+      "result_path": "jobs/pi-dev3-rerun-install-pair-01-v2-20261102/adaptive-rejection-sampler__E9uvv9V/result.json",
+      "result_sha256": "5fa9b42c08b9862af1940b29749e58e647a3cd6de563622e9c884462dbed7d91",
+      "bootstrap_sha256": "de6386848a0641d6b1d2e621e79f123858769d9d0245868f7adc8fb20198840b",
+      "status": "ready",
+      "verifier_preflight": {
+        "profile": null,
+        "status": "not_configured"
+      },
+      "process_supervision_probe": "passed",
+      "distribution_sha256": "60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9"
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "trial": "torch-pipeline-parallelism__mCgsZWg",
+      "result_path": "jobs/pi-dev3-rerun-install-pair-02-v2-20261102/torch-pipeline-parallelism__mCgsZWg/result.json",
+      "result_sha256": "504353590714162f38255370a9c8a47a20d8c713d8ffc53874b95dd795e9a259",
+      "bootstrap_sha256": "4b425000886e200a143eb692d2f097823af70a182b1a0f37777793c25db5f929",
+      "status": "ready",
+      "verifier_preflight": {
+        "profile": "torch-pipeline-parallelism-v1",
+        "status": "passed"
+      },
+      "process_supervision_probe": "passed",
+      "distribution_sha256": "60a810111c1fd9b34b59a815fb6399c6b861017e1a2278ae881bb2a563177dd9"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "registered_at": "2026-11-02T14:31:07.469972+00:00",
+  "registration_sha256": "4b1a2df292b461e68f25818917a6060f94c9b95f808922356b7fe14d4a512dd3",
+  "preflight_evidence_sha256": "3cbc66bea671662be2cb4dff7dc9d5dfb325a03592e94254ebc0d8b5da09852d",
+  "source_ref": "f3a171fcbc390c6bcb0c941be6b9cdd9dc7c456c",
+  "model_runs_authorized": 3,
+  "credential_source": "Existing repository DeepSeek credential supplied only through the process environment; value and fingerprint omitted.",
+  "same_pi_distribution_and_public_model_config": true,
+  "new_prompt_or_network_restriction": false
+}
