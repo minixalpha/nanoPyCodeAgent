@@ -1,0 +1,20 @@
+{
+  "integrity": {
+    "protocol": "restricted-v1",
+    "allowed_hosts": ["api.deepseek.com"],
+    "probe_url": "https://example.com/"
+  },
+  "agents": [
+    {
+      "name": "harbor_adapter:NanoPyCodeAgent",
+      "model_name": "deepseek/deepseek-flash"
+    }
+  ],
+  "environment": {"type": "docker"},
+  "tasks": [
+    {
+      "name": "terminal-bench/db-wal-recovery",
+      "ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4"
+    }
+  ]
+}

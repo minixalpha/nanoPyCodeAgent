@@ -11,6 +11,7 @@ from harbor.agents.installed.base import CliFlag, with_prompt_template
 from harbor.agents.model_connection import ModelConnectionSpec
 
 from .adapter import NanoPyCodeAgent
+from .integrity import integrity_run
 
 _RUNNER = Path(__file__).with_name("_agent_runner.py").read_text()
 
@@ -133,6 +134,7 @@ class PiCodeAgent(NanoPyCodeAgent):
         validate_model_registration(listing.stdout, listing.stderr, self.model_name)
 
     @with_prompt_template
+    @integrity_run
     async def run(self, instruction, environment, context) -> None:
         key = self.model_connection.api_key
         if not key:

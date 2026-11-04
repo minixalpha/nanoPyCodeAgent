@@ -14,19 +14,19 @@ URL；模型由下方 Harbor 命令中的 `--model` 选择：
 
 ```bash
 export ANTHROPIC_API_KEY="..."
-export ANTHROPIC_BASE_URL="https://gateway.example"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
 ```
 
 新的 benchmark 统一从仓库根目录通过标准入口运行：
 
 ```bash
 uv run --project benchmarks/harbor python -m harbor_adapter run \
-  --config benchmarks/harbor/configs/qemu-alpine-ssh.json
+  --config benchmarks/harbor/configs/restricted-wal.json
 ```
 
-此示例固定了 QEMU 题目版本，模型为 `deepseek/deepseek-flash`。请配置对应的
+此示例固定了 WAL 题目版本，模型为 `deepseek/deepseek-flash`。请配置对应的
 endpoint 和凭证；测试其他模型或题目时，复制配置并修改 `agents[].model_name`、
-题目选择及预算。这是普通的 Harbor JSON 配置，入口会补齐标准验证器和缓存策略。
+题目选择及预算。这是增加了 `integrity` 段的 Harbor JSON 配置，入口会补齐标准验证器、完整性和缓存策略。
 入口接受本仓库的 `NanoPyCodeAgent` adapter 和预算参数，凭证通过环境变量传入。
 
 入口会将当前工作区（包括未提交修改）构建为 wheel，并核对其 Python 源码与保存的
@@ -39,6 +39,114 @@ endpoint 和凭证；测试其他模型或题目时，复制配置并修改 `age
 可用 `--job-name <unique-name>` 命名运行。`--prepare-only` 只构建并保存输入，
 不启动容器；`--install-only` 只执行依赖安装和预检，不调用模型、不运行官方测试。
 完整运行仍会在自己的新容器里执行安装和预检，不能把 install-only 容器续跑为解题。
+
+### 评测完整性协议
+
+新的标准运行必须显式配置 `integrity`：
+
+```json
+{
+  "integrity": {
+    "protocol": "restricted-v1",
+    "allowed_hosts": ["api.deepseek.com"],
+    "probe_url": "https://example.com/"
+  }
+}
+```
+
+Nano、Pi 和 DeepSeek Harness adapter 使用相同策略与英文完整性规则，保留各自
+原生工具和模型设置。实际推理服务域名必须显式列入，入口不会静默增加 provider
+端点。只接受精确 DNS 主机名；拒绝通配符、IP、CIDR、额外 agent 网络例外、
+注入的 skills、恢复会话、外部工具和日志过滤。不要允许通用代码托管或搜索站点，
+否则会重新开放参考答案访问。题目明确需要的数据、经过审阅的依赖或文档服务必须
+事先登记具体域名。允许的服务本身仍可能暴露参考材料；白名单并不是内容分类器。
+
+安装与已登记的依赖预检使用题目原有的公开网络。模型开始工作前，公开 HTTPS
+探针必须成功；应用白名单后同一探针必须失败，同时允许的主机仍须可达。探针不
+跟随重定向。正向探针失败属于基础设施错误，不能当作阻断成功。
+`--install-only` 也会执行这些检查。运行边界会在原生 agent 时限内再次检查限制。
+网络限制由 Harbor 的外部 egress sidecar 执行，shell 代理环境变量不是安全边界。
+题目容器移除 `NET_RAW`、`NET_ADMIN`、`SYS_ADMIN`、`SYS_PTRACE` 权限，禁止
+通过 setuid 程序提升权限。包括 verifier 日志在内的宿主目录不会挂载进容器。
+UDP DNS 转发仅允许到 Docker 可信 sidecar 报告的精确上游解析器地址，并记录
+这些地址。DNS 解析失败不会被当作 HTTPS 阻断探针成功。
+
+第一版支持原生网络策略为公开网络的单步 Linux Dockerfile/预构建镜像任务。
+自定义 Compose 服务、额外挂载、环境覆盖和题目 MCP 服务暂不支持，遇到时直接
+拒绝运行。因此，历史依赖缓存 Compose 覆盖配置需要经过隔离设计审阅后才能接入。
+协议保留题目镜像、软件源、官方测试、资源和原生时限。CPU、内存、存储、GPU
+和 TPU 的资源覆盖配置会被拒绝；CPU 和内存的执行策略必须为 `auto`（Docker
+原生限制）或 `limit`。题目缺失依赖仍按原验证器
+表现分类为安装错误或任务失败；网络限制不授权修改题目。
+
+该协议下三个 agent 都使用进程托管，取消及清理期间网络仍受限。控制器采集的
+输出、网络规则快照、预检结果和 sidecar 诊断日志保存到 job 的宿主专属
+`.integrity/<trial-id>/` 目录，避开 Harbor 对原生 trial 日志的改写。
+输出可能含凭据，因此这些记录保持私有。它们保全已采集的
+字节，但不能证明完整观察了每次工具调用或网络请求。
+
+现有共享验证器仍是共享模式：检查进程结束边界并收集证据后，恢复其原生网络以
+执行官方验证。恶意提交代码及保留的服务仍可能干预评分。已经配置独立验证器的
+题目保留原有边界，adapter 记录其模式，不改写题目。现有题目的迁移、评分器内部
+对提交代码的隔离、私有保留集，以及 DNS/隐蔽通道防护属于后续工作。
+`restricted-v1` 阻断本次观察到的直接网络答案下载途径，并不证明能抵抗所有
+对抗策略或排除训练数据污染。
+
+对于明确登记的历史协议复现，可用原配置加 `--legacy-open-network`。这一退出
+选项会记录为 `legacy-open-network`，不能与 `integrity` 合用，也不提供完整性
+防护。历史配置和报告保持原样。受限协议与历史结果不应合并成可直接比较的基线。
+
+### 冻结、复核和完整性修正成绩
+
+完成的受限运行会自动冻结输出哈希，并将候选线索写入
+`jobs/<job-name>-input/audit/audit.json`，不会自动获得完整性复核通过的成绩。
+也可以显式执行相同审计：
+
+```bash
+uv run --project benchmarks/harbor python -m harbor_adapter audit \
+  --job-dir jobs/<job-name> --output-dir jobs/<job-name>-input/audit
+```
+
+输出目录必须位于 job 之外。未结束的 job、符号链接、特殊文件，以及冻结后发生
+变化的证据都会被拒绝。扫描覆盖各 adapter 原生文本/JSON 日志、采集输出与网络
+证据；线索只记录文件及行号，不摘录可能含凭据的原文。模式匹配仅用于初筛：
+需要查看相关调用与结果，区分请求被阻断和实际获取成功，再作判断。未匹配到内容
+不证明尝试干净；`clear` 表示在复核证据中未观察到违规。
+
+复核文件须绑定 `freeze.json` 的精确 SHA256，并使用清单中的实际 trial ID 和
+证据路径：
+
+```json
+{
+  "freeze_sha256": "<SHA256 of freeze.json>",
+  "trials": {
+    "<trial-id>": {
+      "verdict": "violation",
+      "reviewer": "<reviewer identifier>",
+      "reason": "Downloaded and used the task's reference solution.",
+      "evidence": ["<trial-id>/agent/pi.txt"]
+    }
+  }
+}
+```
+
+向审计命令传入 `--review /path/to/review.json`。结论可为 `clear` 或
+`violation`；每条结论都需要复核者、理由和冻结证据。每份复核及其审计结果按
+哈希另存，保留之前的决定。原始 Harbor reward 和异常不会被覆盖。确认违规的
+尝试有效分数为零，并保留在分母中。待复核尝试没有有效分数；所有可评分尝试
+复核完成前，不发布修正通过率。安装/verifier 错误仍不评分。原生 agent 超时
+只有在取消已确认且存在官方二元 reward 时才可评分。缺失必需防护属于完整性错误。
+
+可用已有、包含 Python 3 和 CA 证书的镜像运行不调用模型的 Docker 探针：
+
+```bash
+NANOPY_INTEGRITY_TEST_IMAGE=<image> uv run --project benchmarks/harbor pytest \
+  -c benchmarks/harbor/pyproject.toml benchmarks/harbor/tests/test_integrity_docker.py
+```
+
+探针构建 Harbor 固定版本的 egress sidecar，检查允许及禁止的 HTTPS、验证无法
+用 packet mark 绕过过滤，并只移除自己创建的容器。它不调用模型，也不运行
+benchmark 参考解法或测试。
 
 ### 依赖缓存与预检
 

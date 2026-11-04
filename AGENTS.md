@@ -35,6 +35,13 @@ cache import, and the `--install-only` dependency preflight option.
 - Keep setup failures and verifier errors separate from scored failures. Only
   verifier timeouts may retry, at most three total attempts using the same agent
   output and the task's original per-attempt time limit.
+- New standard runs require a registered `integrity` policy shared across agent
+  arms. `--legacy-open-network` is only for explicitly registered historical
+  protocol reproductions. Never silently relax a failed isolation preflight.
+- Freeze completed outputs before integrity review. Keep original rewards and
+  errors, record reviewed violations separately, count violations as effective
+  zeroes without removing them from the denominator, and keep unreviewed results
+  pending. Do not mix restricted and historical protocols into one baseline.
 
 
 ## Language
