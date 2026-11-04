@@ -93,6 +93,18 @@ def standard_config(raw: dict) -> JobConfig:
             raise ValueError("restricted-v1 preserves task artifacts and native timeouts")
         if config.environment.import_path or config.environment.type not in (None, "docker"):
             raise ValueError("restricted-v1 requires the Docker environment")
+        if (
+            any(getattr(config.environment, field) is not None for field in (
+                "override_cpus", "override_memory_mb", "override_storage_mb",
+                "override_gpus", "override_tpu",
+            ))
+            or config.environment.cpu_enforcement_policy not in {"auto", "limit"}
+            or config.environment.memory_enforcement_policy not in {"auto", "limit"}
+        ):
+            raise ValueError(
+                "restricted-v1 preserves native resource budgets: resource overrides "
+                "are forbidden and CPU/memory enforcement must be auto or limit"
+            )
         if (config.environment.mounts or config.environment.extra_docker_compose
                 or config.environment.kwargs or config.environment.extra_allowed_hosts
                 or config.environment.env):

@@ -60,6 +60,28 @@ else:
                 assert result.return_code == 0
             assert (environment.evidence_dir / "egress-log.json").exists()
             assert json.loads((environment.evidence_dir / "enforcement.json").read_text())["preflight"] == "passed"
+            result = await environment.exec(
+                command="mkdir -m 755 /logs/verifier && printf stale > /logs/verifier/reward.txt && printf stale > /logs/verifier/reward.json",
+                user="root",
+            )
+            assert result.return_code == 0
+            with environment.with_default_user("65534:65534"):
+                await environment.prepare_verification()
+                code = '''import os
+from pathlib import Path
+assert os.geteuid() == 65534
+logs = Path('/logs/verifier')
+assert not (logs / 'reward.txt').exists()
+assert not (logs / 'reward.json').exists()
+(logs / 'test-stdout.txt').write_text('verifier output')
+(logs / 'reward.txt').write_text('1')
+(logs / 'reward.json').write_text('{"reward": 1}')
+archive = logs / 'attempts' / '1'
+archive.mkdir(parents=True)
+(archive / 'test-stdout.txt').write_text('archived output')
+'''
+                result = await environment.exec(command=shlex.join(["python3", "-I", "-c", code]))
+                assert result.return_code == 0, result.stdout or result.stderr
         finally:
             # Do not remove any pre-existing image, including benchmark images.
             await environment.stop(delete=False)

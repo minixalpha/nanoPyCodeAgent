@@ -261,7 +261,8 @@ class IntegrityDockerEnvironment(DockerEnvironment):
         self._integrity_state["verifier_isolation"] = "shared"
         self._integrity_state["verification_started_at"] = datetime.now(timezone.utc).isoformat()
         self._save()
-        await self.exec(command="mkdir -p /logs/verifier; rm -f /logs/verifier/reward.txt /logs/verifier/reward.json", user="root")
+        await self.ensure_dirs(["/logs/verifier"])
+        await self.exec(command="rm -f /logs/verifier/reward.txt /logs/verifier/reward.json", user="root")
         # Official shared verifiers may install dependencies. This transition
         # is explicitly recorded and does not claim independent verification.
         await self.set_network_policy(self._integrity_baseline)

@@ -93,6 +93,8 @@ environment overrides, and task MCP servers are unsupported and fail closed.
 These limits deliberately exclude the historical dependency-cache Compose
 overlays until they have a reviewed isolation design. The protocol preserves
 task images, package sources, official tests, resources, and native deadlines.
+CPU, memory, storage, GPU, and TPU overrides are rejected; CPU and memory
+enforcement must be `auto` (Docker's native limits) or `limit`.
 Missing task dependencies remain setup or task failures according to the
 original verifier; network restrictions do not authorize changing the task.
 

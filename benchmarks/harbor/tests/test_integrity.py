@@ -3,12 +3,16 @@
 import asyncio
 import json
 import shlex
+import stat
+import subprocess
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
 from harbor.environments.base import ExecResult
+from harbor.environments.factory import EnvironmentFactory
 from harbor.models.task.config import EnvironmentConfig, NetworkPolicy
+from harbor.models.trial.config import ResourceMode
 from harbor.models.trial.paths import TrialPaths
 
 from harbor_adapter import NanoPyCodeAgent, PiCodeAgent, DeepSeekHarnessAgent
@@ -74,6 +78,45 @@ def test_ambiguous_or_ineffective_policies_are_rejected(policy):
 def test_unreviewed_network_and_environment_escape_routes_are_rejected(overrides):
     with pytest.raises(ValueError):
         standard_config(raw_config() | overrides)
+
+
+@pytest.mark.parametrize("overrides", [
+    {"override_cpus": 64},
+    {"override_memory_mb": 65536},
+    {"override_storage_mb": 1048576},
+    {"override_gpus": 8},
+    {"override_gpus": 0},
+    {"override_tpu": {"type": "v6e", "topology": "2x4"}},
+    *[{field: mode} for field in ("cpu_enforcement_policy", "memory_enforcement_policy")
+      for mode in ("ignore", "request", "guarantee")],
+    {"override_cpus": 64, "memory_enforcement_policy": "ignore"},
+])
+def test_restricted_workflow_rejects_changed_resource_budgets(overrides):
+    with pytest.raises(ValueError, match="native resource"):
+        standard_config(raw_config() | {"environment": overrides})
+
+
+@pytest.mark.parametrize("cpu_mode", ["auto", "limit"])
+@pytest.mark.parametrize("memory_mode", ["auto", "limit"])
+def test_accepted_resource_policies_preserve_task_values_and_docker_limits(tmp_path, cpu_mode, memory_mode):
+    config = standard_config(raw_config() | {"environment": {
+        "cpu_enforcement_policy": cpu_mode, "memory_enforcement_policy": memory_mode,
+        "override_cpus": None, "override_memory_mb": None,
+        "override_storage_mb": None, "override_gpus": None, "override_tpu": None,
+    }})
+    directory = tmp_path / "environment"
+    directory.mkdir()
+    (directory / "Dockerfile").write_text("FROM scratch\n")
+    native = EnvironmentConfig(cpus=1, memory_mb=1024, storage_mb=2048, gpus=0)
+    original = native.model_dump()
+    environment = EnvironmentFactory.create_environment_from_config(
+        config.environment, environment_dir=directory, environment_name="resources",
+        session_id="resources__env", trial_paths=TrialPaths(trial_dir=tmp_path / "trial"),
+        task_env_config=native,
+    )
+    assert environment.task_env_config.model_dump() == original
+    assert environment._resource_limit_value("cpu", auto_mode=ResourceMode.LIMIT) == 1
+    assert environment._resource_limit_value("memory", auto_mode=ResourceMode.LIMIT) == 1024
 
 
 @pytest.mark.parametrize("overrides", [
@@ -173,6 +216,37 @@ def test_run_captures_host_evidence_and_does_not_reopen_network_on_error(environ
         await environment.prepare_verification()
         assert environment.network_policy == NetworkPolicy()
     asyncio.run(run())
+
+
+@pytest.mark.parametrize("existing", [False, True])
+def test_shared_verifier_directory_supports_a_different_user(environment, monkeypatch, tmp_path, existing):
+    logs = tmp_path / "verifier logs"
+    if existing:
+        logs.mkdir(mode=0o755)
+        (logs / "reward.txt").write_text("stale reward")
+        (logs / "reward.json").write_text('{"reward": 1}')
+        (logs / "previous-output.txt").write_text("retain this evidence")
+    environment._integrity_state["agent_phase"] = "completed"
+    monkeypatch.setattr(environment, "_network_snapshot", AsyncMock())
+    monkeypatch.setattr(environment, "set_network_policy", AsyncMock())
+
+    async def execute(command, *, user=None, **kwargs):
+        assert user == "root"
+        result = subprocess.run(
+            ["sh", "-c", "umask 022; " + command.replace("/logs/verifier", shlex.quote(str(logs)))],
+            capture_output=True, text=True, check=True,
+        )
+        return ExecResult(return_code=result.returncode, stdout=result.stdout, stderr=result.stderr)
+
+    monkeypatch.setattr(environment, "exec", execute)
+    asyncio.run(environment.prepare_verification())
+    # The verifier must be able to traverse and write the directory without
+    # owning it or belonging to its creator's group.
+    assert stat.S_IMODE(logs.stat().st_mode) & 0o007 == 0o007
+    assert not (logs / "reward.txt").exists()
+    assert not (logs / "reward.json").exists()
+    if existing:
+        assert (logs / "previous-output.txt").read_text() == "retain this evidence"
 
 
 def test_no_model_work_before_preflight(environment):
