@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "job_dir": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-dev2-install-pair-01-20261104",
+  "frozen_at": "2026-11-04T15:24:54.776778+00:00",
+  "files": {
+    ".integrity/db-wal-recovery__WL28NdB/enforcement.json": "8934282e6747862faf1f89f18836a1f80806feee56e8305cdbfae3b0cbe1cad5",
+    ".integrity/db-wal-recovery__WL28NdB/network-preflight.json": "6cdb1220eec019f01d9e3f1b8854a6a14c6c48e054739f1140dcf0a293a0aaa0",
+    ".integrity/torch-pipeline-parallelism__aykTgx7/enforcement.json": "f217d8d9a4e2d95fbcd8c2aeead41ae329d528d7a07eecd8785218b6683ed642",
+    "config.json": "cfc36df8a56a15316db9be5c22ab15df0f94a1dc2a697d03f906e073e6300f91",
+    "db-wal-recovery__WL28NdB/agent/bootstrap.json": "deb2178e8d6b34ffdb8400a01284bc147791c036ab0ae2bcf8ece2c9a4643a01",
+    "db-wal-recovery__WL28NdB/agent/process-supervision-required": "9e67a1538c0f96556945933b784624bed4b3f7d177108e2ee1af88d6ea1314c8",
+    "db-wal-recovery__WL28NdB/config.json": "5ccc3b3cbd6332914be81db081b59c4a3c2d9ff11885e420a258a5433439d47d",
+    "db-wal-recovery__WL28NdB/lock.json": "b9567695f76f6778258c354c79b5b135b8ae8483e2743a88beb7bf707503ae4e",
+    "db-wal-recovery__WL28NdB/result.json": "41c80e23cb591099135e89e91777b7f0a6f1dd7f9f9380aada37eb526645ea23",
+    "db-wal-recovery__WL28NdB/trial.log": "8286817021a35d7d81071bb40c8ced838b47bcf90f5895aafa0a02647a841694",
+    "job.log": "ec59d282be0a7ba8affce229bcdd18ff3fdbde321cf50c9b375302403ea97348",
+    "lock.json": "f87b6f67f499e432a339cde0f516fcec92cea8aa3b085c7f06a23f6394141ee4",
+    "result.json": "6cbfabc42faae99bcb3eb2cee523e5dc39fccc719bc4bec46bea243f03e57c5e",
+    "torch-pipeline-parallelism__aykTgx7/agent/bootstrap.json": "4374d004f1b66765deb873f3edd4670009a29408f1a4b10aad5d44ec790875da",
+    "torch-pipeline-parallelism__aykTgx7/agent/process-supervision-required": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+    "torch-pipeline-parallelism__aykTgx7/artifacts/manifest.json": "8d0a02e9c17d62af6176024f463c041ed30ff29d3a7b66dadbeab1d762b0cbd9",
+    "torch-pipeline-parallelism__aykTgx7/config.json": "551d812357bfab62ba3f28d0927289bab7187ec497cca10df3557788b5cca656",
+    "torch-pipeline-parallelism__aykTgx7/exception.txt": "b742e3cbc424d9cd7267723f2088d6f368527d3ab4b5a480795152979c386a77",
+    "torch-pipeline-parallelism__aykTgx7/lock.json": "bbb54c0511e72e53316c74ae4c9a404d5d41ed2390fff713fb55d735ac24f349",
+    "torch-pipeline-parallelism__aykTgx7/result.json": "2ba5ed6dcd622b2af2fcacfa4af1c22e9d13ab44b7824defa301333f54c66598",
+    "torch-pipeline-parallelism__aykTgx7/trial.log": "38cdabaa625cde47ea52360a626125fb36e0e4772fe24d4fb6a005dd83ec6260"
+  }
+}

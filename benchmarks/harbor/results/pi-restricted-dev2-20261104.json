@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "experiment": "pi-restricted-dev2-20261104",
+  "recorded_at": "2026-11-04T15:27:25.498616+00:00",
+  "status": "completed_with_pipeline_setup_failure",
+  "source_ref": "924d0ee5f966285b2f606fbb688f90e6a6e07fd5",
+  "integrity": {
+    "protocol": "restricted-v1",
+    "allowed_hosts": [
+      "api.deepseek.com"
+    ],
+    "probe_url": "https://example.com/"
+  },
+  "selection": "Two tasks with confirmed reference exposure in the November 2 Pi rerun; outcome-selected development check, separate from historical open-network results.",
+  "original_results": "benchmarks/harbor/results/pi-deepseek-flash-dev3-rerun-20261102.json",
+  "planned_tasks": 2,
+  "model_attempts_executed": 1,
+  "official_passes": 1,
+  "official_failures": 0,
+  "setup_blocked_tasks": 1,
+  "reviewed_model_attempts": 1,
+  "observed_integrity_violations": 0,
+  "overall_two_task_pass_rate": null,
+  "overall_two_task_pass_rate_reason": "Pipeline never reached model work or official verification; do not claim a complete two-task or historical-baseline pass rate.",
+  "whole_trial_retries": 0,
+  "setup_retries": 0,
+  "verifier_retries": 0,
+  "trials": [
+    {
+      "task": "terminal-bench/db-wal-recovery",
+      "trial": "db-wal-recovery__uagkCMG",
+      "task_ref": "sha256:07e9193513bfce038b9f9d84962ecc85683eee0a642d14ee6fb7104b086ddab4",
+      "model_attempts": 1,
+      "previous_outcome": "Official pass with downloaded reference tests and solution; not independent.",
+      "native_rewards": {
+        "reward": 1.0
+      },
+      "native_exception": null,
+      "classification": "no_observed_violation",
+      "effective_score": 1.0,
+      "official_tests": {
+        "tests": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0,
+        "pending": 0,
+        "other": 0
+      },
+      "timestamps": {
+        "started_at": "2026-11-04T15:15:13.462716Z",
+        "finished_at": "2026-11-04T15:23:43.355421Z",
+        "environment_setup": {
+          "started_at": "2026-11-04T15:15:13.489352Z",
+          "finished_at": "2026-11-04T15:15:16.183999Z"
+        },
+        "agent_setup": {
+          "started_at": "2026-11-04T15:15:16.184047Z",
+          "finished_at": "2026-11-04T15:22:15.253694Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-11-04T15:22:15.253887Z",
+          "finished_at": "2026-11-04T15:22:52.354444Z"
+        },
+        "verifier": {
+          "started_at": "2026-11-04T15:22:52.534308Z",
+          "finished_at": "2026-11-04T15:23:32.787989Z"
+        }
+      },
+      "agent_seconds": 37.100557,
+      "setup_seconds": 419.069647,
+      "verifier_seconds": 40.253681,
+      "verifier_attempts": {
+        "timeout_sec": 900.0,
+        "max_attempts": 3,
+        "retry_dependency_errors": false,
+        "retry_collection_errors": false,
+        "attempts": [
+          {
+            "attempt": 1,
+            "status": "completed",
+            "return_code": 0,
+            "duration_seconds": 39.54424646500047
+          }
+        ]
+      },
+      "enforcement": {
+        "protocol": "restricted-v1",
+        "policy": {
+          "protocol": "restricted-v1",
+          "allowed_hosts": [
+            "api.deepseek.com"
+          ],
+          "probe_url": "https://example.com/"
+        },
+        "rules_sha256": "89db5b77afe8608c1d10884151a3730d5878929ecc3a0ac53b0ed164bb7fbf47",
+        "preflight": "passed",
+        "agent_phase": "completed",
+        "host_mounts": false,
+        "verifier_isolation": "shared",
+        "dns_upstreams": [
+          "172.17.0.1"
+        ],
+        "positive_control": {
+          "reachable": true
+        },
+        "negative_control": {
+          "reachable": false,
+          "error_type": "URLError",
+          "reason_type": "SSLEOFError"
+        },
+        "allowed_controls": {
+          "api.deepseek.com": {
+            "reachable": true
+          }
+        },
+        "started_at": "2026-11-04T15:22:15.514126+00:00",
+        "finished_at": "2026-11-04T15:22:52.157432+00:00",
+        "live_output_sha256": "2951b9af899febc81715a02c751c3e736e2ea7d1be00a2b9a7b2db0508f76b45",
+        "verification_started_at": "2026-11-04T15:22:52.680581+00:00"
+      },
+      "review": {
+        "verdict": "clear",
+        "reviewer": "Codex manual evidence review",
+        "reason": "Reviewed all eight tool calls and their results, matched native session and controller-collected tool calls, inspected pre/post network rules, enforcement, egress diagnostics, supervision, and official verifier output. Actions inspect and repair only supplied local database/WAL inputs and write recovered.json. No observed reference retrieval, attempted prohibited web access, hidden-test access, verifier interference, or retained watcher. The two sidecar bypass diagnostics correspond to controller negative-control probes before model work, not agent bypasses. Only api.deepseek.com is allowlisted. No observed violation is not proof of complete observation or absence of training contamination.",
+        "evidence": [
+          "db-wal-recovery__uagkCMG/agent/pi.txt",
+          "db-wal-recovery__uagkCMG/agent/pi/sessions/2026-11-04T15-22-15-880Z_01a1a727-57c8-7109-9b30-3424a8875e32.jsonl",
+          ".integrity/db-wal-recovery__uagkCMG/live-output.jsonl",
+          ".integrity/db-wal-recovery__uagkCMG/enforcement.json",
+          ".integrity/db-wal-recovery__uagkCMG/network-before-agent.json",
+          ".integrity/db-wal-recovery__uagkCMG/network-after-agent.json",
+          ".integrity/db-wal-recovery__uagkCMG/egress-log.json",
+          "db-wal-recovery__uagkCMG/agent/process-supervision.json",
+          "db-wal-recovery__uagkCMG/verifier/test-stdout.txt"
+        ]
+      },
+      "review_coverage": {
+        "tool_starts": 8,
+        "tool_ends": 8,
+        "native_session_tool_calls": 8,
+        "controller_collected_tool_calls": 8,
+        "tool_arguments_match_across_three_records": true,
+        "native_message_records": 17,
+        "messages_after_agent_end_or_at_verifier_start": 0,
+        "observed_prohibited_retrieval_attempts": 0,
+        "observed_successful_reference_retrievals": 0,
+        "observed_verifier_interference": 0,
+        "candidate_scan_findings": 0,
+        "tool_call_ids": [
+          "call_00_ET_FgSrm6ZVhvgFxKoDiUGT1316",
+          "call_01_ET_HRo5xiEtsQEeAshLMqSI0751",
+          "call_00_ET_MLZk7bu0RKMfD9zmzdWF0974",
+          "call_01_ET_wRCY0ozJkp4bzDx92qsQ9904",
+          "call_00_eVoKgCtiCUHqqbN0q83c3178",
+          "call_00_3vL6Yr3U0eFqTlLv26jP8557",
+          "call_00_VvKO19I4YoRFpJPf9uMr1020",
+          "call_00_Mu2D4gzCQPJDojGYqvMi8549"
+        ],
+        "coverage_is_exhaustive": false
+      },
+      "usage": {
+        "n_input_tokens": 51903,
+        "n_cache_tokens": 45696,
+        "n_output_tokens": 4794,
+        "cost_usd": 0.007889076
+      },
+      "usage_metadata": {
+        "version": "1.4.0",
+        "usage_records": 7,
+        "missing_usage_records": 0,
+        "assistant_errors": [],
+        "cost_is_estimated": true,
+        "usage_is_partial": false,
+        "cost_is_partial": false
+      },
+      "evidence": {
+        "result_path": "jobs/pi-restricted-dev2-db-wal-recovery-20261104/db-wal-recovery__uagkCMG/result.json",
+        "result_sha256": "ea962fa5683951d2537d7bcb96b3af3b26e779afad30c9b8e07c72d4a9a7cf2a",
+        "freeze": "../configs/pi-restricted-dev2-20261104/wal-freeze.json",
+        "freeze_sha256": "f3558c60b13586c117534c8e753d1ebd5f7ee29aaf6b295b6520b0a81855ea5b",
+        "review_sha256": "52f2b316f308941e173684ac3171f5a22383b5caa1b66021665cd2d11f38aff8"
+      }
+    },
+    {
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "trial": "torch-pipeline-parallelism__aykTgx7",
+      "task_ref": "sha256:db605337c749a872cea7b5b413429b3915bb4c3efe0f7875f0c46ce81bd8c4fb",
+      "model_attempts": 0,
+      "previous_outcome": "Official pass with downloaded reference tests and solution; not independent.",
+      "native_rewards": null,
+      "native_exception": {
+        "exception_type": "AgentSetupTimeoutError",
+        "exception_message": "Agent setup timed out after 1800.0 seconds",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 939, in setup\n    await self.install(environment)\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-dev2-install-pair-01-20261104-input/source/harbor_adapter/adapter.py\", line 141, in install\n    await self.exec_as_agent(environment, command=profile.command)\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 884, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 835, in _exec\n    result = await environment.exec(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 1096, in exec\n    return await self._compose_exec(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 1173, in _compose_exec\n    return await self._run_docker_compose_command(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 649, in _run_docker_compose_command\n    result = await self._collect_buffered_output(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<3 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 679, in _collect_buffered_output\n    stdout_bytes, stderr_bytes = await process.communicate(input=stdin_data)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/subprocess.py\", line 201, in communicate\n    stdin, stdout, stderr = await tasks.gather(stdin, stdout, stderr)\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/subprocess.py\", line 181, in _read_stream\n    output = await stream.read()\n             ^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 723, in read\n    block = await self.read(self._limit)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 730, in read\n    await self._wait_for_data('read')\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 539, in _wait_for_data\n    await self._waiter\nasyncio.exceptions.CancelledError\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 1242, in _setup_agent\n    await asyncio.wait_for(\n    ...<2 lines>...\n    )\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\", line 506, in wait_for\n    async with timeouts.timeout(timeout):\n               ~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/timeouts.py\", line 117, in __aexit__\n    raise TimeoutError from exc_val\nTimeoutError\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 375, in run\n    await self._prepare()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 413, in _prepare\n    await self._setup_agent()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 1247, in _setup_agent\n    raise AgentSetupTimeoutError(\n        f\"Agent setup timed out after {self._agent_setup_timeout_sec} seconds\"\n    ) from exc\nharbor.trial.errors.AgentSetupTimeoutError: Agent setup timed out after 1800.0 seconds\n",
+        "occurred_at": "2026-11-04T15:23:54.614773Z"
+      },
+      "classification": "setup_error",
+      "effective_score": null,
+      "official_tests": null,
+      "integrity_verdict": "not_evaluated",
+      "reason": "The original reviewed dependency command did not complete within the registered 1800-second setup deadline. Integrity network checks, model work, and the official verifier never started. No network relaxation or setup retry.",
+      "preflight_evidence": "../configs/pi-restricted-dev2-20261104/preflight-evidence.json"
+    }
+  ],
+  "limitations": [
+    "No observed violation is a bounded evidence review, not proof of absence of hidden strategies or training contamination.",
+    "The intervention combines shared integrity instructions and network enforcement, so behavior cannot be attributed to network blocking alone.",
+    "Shared official verifier remains shared.",
+    "Sidecar diagnostics are not a complete network request trace; two bypass diagnostics were controller probes before model work.",
+    "The mutable deepseek-flash alias does not establish identical backend weights across dates."
+  ]
+}

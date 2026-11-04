@@ -1,0 +1,63 @@
+{
+  "validated_at": "2026-11-04T15:30:57.572485+00:00",
+  "registered_plans_validated": [
+    "experiment.json",
+    "experiment-wal.json"
+  ],
+  "accepted_wal_preflight_validated": true,
+  "registered_task_hashes_unchanged": true,
+  "source_code_unchanged": true,
+  "frozen_outputs": [
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-dev2-20261104/preflight-freeze.json",
+      "sha256": "0e55b2b9144a8348dbc4ba502ee8f14b6fe91bf5d77430b9747cbf514bafa72b",
+      "files": 21,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-dev2-20261104/wal-freeze.json",
+      "sha256": "f3558c60b13586c117534c8e753d1ebd5f7ee29aaf6b295b6520b0a81855ea5b",
+      "files": 28,
+      "unchanged": true
+    }
+  ],
+  "historical_files_checked": 326,
+  "historical_files_unchanged": true,
+  "targeted_adapter_tests": {
+    "passed": 94,
+    "failed": 0
+  },
+  "bilingual_reports": {
+    "present": true,
+    "full_translation_reviewed": true,
+    "inline_identifiers_match": true,
+    "evidence_links_match": true,
+    "hashes_match": true,
+    "numeric_results_and_timestamps_match": true,
+    "files": {
+      "benchmarks/harbor/reports/en/pi-restricted-dev2-20261104.md": "86a80374b014d00c01706742ea0cfaed68f4d122928c647a64797115ff928e6b",
+      "benchmarks/harbor/reports/zh-CN/pi-restricted-dev2-20261104.md": "5d51527c5f476e70fd7a5d92295472af5569df8605108e238c6a86c45026b965"
+    }
+  },
+  "credential_scan": {
+    "exact_key_matches_in_49_frozen_files": 0,
+    "exact_key_matches_in_public_artifacts": 0,
+    "key_or_fingerprint_published": false
+  },
+  "results_sha256": "a58c7aa739f8d576e5f6e69b75c68a46f17daca28889ae001427a362442a5046",
+  "docker": {
+    "validated_at": "2026-11-04T15:31:37.359716+00:00",
+    "initial_image_count": 7,
+    "initial_image_ids": [
+      "sha256:0e33ea5ec823975d1bd6c3778395c9f94251dd88f571146057bff6adb7e4594e",
+      "sha256:29783439f529eaed2145592f15af7a2281161528860392a382c825489030ae3a",
+      "sha256:6c53d2f716338192a2020d6f45895089e4a86b532bb6c13502045192aae1e231",
+      "sha256:7c2bb52851cef25bdc3939e473496d25fbf11fd0cb7ab58bcf3cefcb751cdc0e",
+      "sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e",
+      "sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0"
+    ],
+    "all_initial_images_preserved": true,
+    "running_containers": []
+  }
+}

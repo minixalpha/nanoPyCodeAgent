@@ -1,0 +1,13 @@
+{
+  "observed_at": "2026-11-04T14:55:23.297167+00:00",
+  "historical_freeze": "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/outputs-freeze.json",
+  "historical_freeze_sha256": "40e22638769ccafe697ac09ca7707cde94b5181210b0be342c6c82f5bac9bc0d",
+  "historical_frozen_files_checked": 326,
+  "historical_file_mismatches": [],
+  "targeted_tests": {
+    "command": "uv run --frozen --project benchmarks/harbor pytest -q -c benchmarks/harbor/pyproject.toml benchmarks/harbor/tests/test_integrity.py benchmarks/harbor/tests/test_integrity_audit.py benchmarks/harbor/tests/test_pi.py",
+    "passed": 94,
+    "failed": 0
+  },
+  "source_modifications": false
+}

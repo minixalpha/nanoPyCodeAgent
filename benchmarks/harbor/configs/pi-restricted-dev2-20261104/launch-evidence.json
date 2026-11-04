@@ -1,0 +1,67 @@
+{
+  "jobs": [
+    {
+      "arm": "pi",
+      "config": "benchmarks/harbor/configs/pi-restricted-dev2-20261104/install-pair-01.json",
+      "config_sha256": "afc8510e10dad428308639097ec2112c01c48fa5fc48762f6e370e42e72f87db",
+      "job_name": "pi-restricted-dev2-install-pair-01-20261104",
+      "status": "finished",
+      "started_at": "2026-11-04T14:53:44.360627+00:00",
+      "command": [
+        "uv",
+        "run",
+        "--project",
+        "benchmarks/harbor",
+        "python",
+        "-m",
+        "harbor_adapter",
+        "run",
+        "--config",
+        "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/benchmarks/harbor/configs/pi-restricted-dev2-20261104/install-pair-01.json",
+        "--job-name",
+        "pi-restricted-dev2-install-pair-01-20261104",
+        "--cache-dir",
+        "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/.cache/nanopy-harbor",
+        "--install-only"
+      ],
+      "cwd": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent",
+      "summary_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-dev2-install-pair-01-20261104-input/summary.json",
+      "exit_code": 1,
+      "finished_at": "2026-11-04T15:24:08.976031+00:00"
+    },
+    {
+      "arm": "pi",
+      "config": "benchmarks/harbor/configs/pi-restricted-dev2-20261104/db-wal-recovery.json",
+      "config_sha256": "53f27736d0512eb8d21655696f81fbcef00c960ddf40191a94d3039b6cc72b6e",
+      "task": "terminal-bench/db-wal-recovery",
+      "repeat": 1,
+      "job_name": "pi-restricted-dev2-db-wal-recovery-20261104",
+      "status": "finished",
+      "started_at": "2026-11-04T15:15:10.117249+00:00",
+      "command": [
+        "uv",
+        "run",
+        "--project",
+        "benchmarks/harbor",
+        "python",
+        "-m",
+        "harbor_adapter",
+        "run",
+        "--config",
+        "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/benchmarks/harbor/configs/pi-restricted-dev2-20261104/db-wal-recovery.json",
+        "--job-name",
+        "pi-restricted-dev2-db-wal-recovery-20261104",
+        "--cache-dir",
+        "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/.cache/nanopy-harbor"
+      ],
+      "cwd": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent",
+      "summary_path": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-dev2-db-wal-recovery-20261104-input/summary.json",
+      "exit_code": 0,
+      "finished_at": "2026-11-04T15:23:47.452237+00:00"
+    }
+  ],
+  "original_combined_model_queue_executed": false,
+  "pipeline_model_job_created": false,
+  "amendment": "scheduling-amendment.json",
+  "wal_plan": "experiment-wal.json"
+}

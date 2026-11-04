@@ -1,0 +1,24 @@
+{
+  "tool_starts": 8,
+  "tool_ends": 8,
+  "native_session_tool_calls": 8,
+  "controller_collected_tool_calls": 8,
+  "tool_arguments_match_across_three_records": true,
+  "native_message_records": 17,
+  "messages_after_agent_end_or_at_verifier_start": 0,
+  "observed_prohibited_retrieval_attempts": 0,
+  "observed_successful_reference_retrievals": 0,
+  "observed_verifier_interference": 0,
+  "candidate_scan_findings": 0,
+  "tool_call_ids": [
+    "call_00_ET_FgSrm6ZVhvgFxKoDiUGT1316",
+    "call_01_ET_HRo5xiEtsQEeAshLMqSI0751",
+    "call_00_ET_MLZk7bu0RKMfD9zmzdWF0974",
+    "call_01_ET_wRCY0ozJkp4bzDx92qsQ9904",
+    "call_00_eVoKgCtiCUHqqbN0q83c3178",
+    "call_00_3vL6Yr3U0eFqTlLv26jP8557",
+    "call_00_VvKO19I4YoRFpJPf9uMr1020",
+    "call_00_Mu2D4gzCQPJDojGYqvMi8549"
+  ],
+  "coverage_is_exhaustive": false
+}

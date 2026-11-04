@@ -264,6 +264,11 @@ Docker 空间受限时，可以通过 `batch_images` 计划按批恢复已注册
 公开参考解法和测试，均不属于独立解题。原始结果保持不变。本次重跑还修复了
 Harbor 返回缺失输出流时 Pi 安装检查失败的问题。
 
+[受限网络下的两题后续检查](reports/zh-CN/pi-restricted-dev2-20261104.md)
+在模型工作期间仅将 DeepSeek API 主机加入白名单。WAL 通过全部七项官方测试，
+在已审查证据中未观察到完整性违规。Pipeline 在任何模型调用之前的依赖准备阶段超时，
+因此尚未测试其在受限网络下的行为。历史结果仍单独保留。
+
 ### DeepSeek Harness baseline
 
 `harbor_adapter:DeepSeekHarnessAgent` 使用上游 Python SDK 的 `sdk-minimal`

@@ -330,6 +330,12 @@ cancellation. Both new passes accessed public reference solutions and tests;
 neither is an independent solution. Original outcomes remain unchanged. The
 rerun also fixed Pi installation checks when Harbor returns absent output streams.
 
+The [restricted two-task follow-up](reports/en/pi-restricted-dev2-20261104.md)
+allowed only the DeepSeek API host during model work. WAL passed all seven
+official tests with no integrity violation observed in the reviewed evidence.
+Pipeline timed out during dependency preparation before any model call, so its
+behavior under restriction remains untested. Historical results remain separate.
+
 ### DeepSeek Harness baselines
 
 `harbor_adapter:DeepSeekHarnessAgent` runs the upstream Python SDK's
