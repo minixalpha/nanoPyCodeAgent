@@ -6,6 +6,8 @@ explicitly recorded; this is not a replacement for separate verifier tasks.
 """
 
 from contextlib import asynccontextmanager
+import asyncio
+import codecs
 from datetime import datetime, timezone
 import hashlib
 from ipaddress import ip_address
@@ -16,6 +18,7 @@ import tempfile
 import tomllib
 
 from harbor.environments.docker.docker import DockerEnvironment
+from harbor.environments.base import ExecResult
 from harbor.models.task.config import NetworkMode, NetworkPolicy, TaskOS
 
 from .integrity import IntegrityPolicy, RULES_SHA256, write_record
@@ -135,6 +138,56 @@ class IntegrityDockerEnvironment(DockerEnvironment):
 
     def _save(self):
         write_record(self.evidence_dir / "enforcement.json", self._integrity_state)
+
+    @staticmethod
+    async def _collect_streamed_output(process, *, timeout_sec, stdin_data=None, on_output):
+        """Preserve arbitrarily long JSON events without StreamReader line limits."""
+        if process.stdout is None:
+            raise RuntimeError("Streaming requires a captured stdout pipe")
+        chunks = []
+        decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
+
+        async def emit(text):
+            if text:
+                chunks.append(text)
+                await on_output(text, "stdout")
+
+        async def read():
+            while data := await process.stdout.read(64 * 1024):
+                await emit(decoder.decode(data))
+            await emit(decoder.decode(b"", final=True))
+            # Keep process exit inside the deadline even after stdout closes.
+            await process.wait()
+
+        async def write():
+            if process.stdin is None:
+                raise RuntimeError("stdin_data requires a stdin pipe")
+            process.stdin.write(stdin_data)
+            await process.stdin.drain()
+            process.stdin.close()
+            await process.stdin.wait_closed()
+
+        async def collect():
+            if stdin_data is None:
+                await read()
+            else:
+                async with asyncio.TaskGroup() as group:
+                    group.create_task(write())
+                    group.create_task(read())
+
+        try:
+            if timeout_sec:
+                await asyncio.wait_for(collect(), timeout=timeout_sec)
+            else:
+                await collect()
+        except asyncio.TimeoutError:
+            await DockerEnvironment._terminate_process(process)
+            raise RuntimeError(f"Command timed out after {timeout_sec} seconds")
+        except BaseException:
+            if process.returncode is None:
+                await DockerEnvironment._terminate_process(process)
+            raise
+        return ExecResult(stdout="".join(chunks) or None, stderr=None, return_code=process.returncode or 0)
 
     async def start(self, force_build):
         await super().start(force_build)

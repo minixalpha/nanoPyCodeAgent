@@ -108,6 +108,10 @@ uv run --project benchmarks/harbor python -m harbor_adapter audit \
   --job-dir jobs/<job-name> --output-dir jobs/<job-name>-input/audit
 ```
 
+控制器采集的 `live-output.jsonl` 记录包含 UTF-8 文本块。解析原生 JSON 事件前，
+应按各输出流的顺序拼接其 `text` 字段。分块采集可以完整保留很长的单行事件，
+包括 Pi 最后的会话汇总，同时保持命令时限与取消机制不变。
+
 输出目录必须位于 job 之外。未结束的 job、符号链接、特殊文件，以及冻结后发生
 变化的证据都会被拒绝。扫描覆盖各 adapter 原生文本/JSON 日志、采集输出与网络
 证据；线索只记录文件及行号，不摘录可能含凭据的原文。模式匹配仅用于初筛：

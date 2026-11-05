@@ -133,6 +133,11 @@ uv run --project benchmarks/harbor python -m harbor_adapter audit \
   --job-dir jobs/<job-name> --output-dir jobs/<job-name>-input/audit
 ```
 
+Controller-collected `live-output.jsonl` records contain UTF-8 text chunks.
+Concatenate their `text` fields in order per stream before parsing native JSON
+events. Chunked collection preserves long single-line events, including Pi's
+final session summary, without changing command deadlines or cancellation.
+
 The output directory must be outside the job. Auditing refuses unfinished jobs,
 symbolic links, special files, and changes to an existing freeze. Scanning covers
 native text/JSON logs across adapters plus collected output and egress evidence;

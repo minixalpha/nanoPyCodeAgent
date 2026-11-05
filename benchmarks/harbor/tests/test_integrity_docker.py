@@ -137,6 +137,8 @@ print('original wheel verified')
             async with environment.agent_phase():
                 await environment.dependency_cache.assert_stopped()
                 assert not (await environment._probe("https://raw.githubusercontent.com/"))["reachable"]
+                result = await environment.exec(command=shlex.join(["python3", "-c", "print('€' * 100000)"]))
+                assert result.stdout == "€" * 100000 + "\n"
                 with pytest.raises(RuntimeError, match="model work"):
                     async with environment.dependency_cache.phase("verifier"):
                         pytest.fail("Cache reopened during model work")
