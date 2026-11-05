@@ -32,7 +32,14 @@ def standard_config(raw: dict) -> JobConfig:
     integrity = IntegrityPolicy.model_validate(raw.pop("integrity")) if "integrity" in raw else None
     if dependency_cache is not None:
         from .dependency_cache import PROTOCOL
-        if dependency_cache != PROTOCOL or integrity is None:
+        release_cache = (
+            isinstance(dependency_cache, dict)
+            and set(dependency_cache) == {"protocol", "release_manifest"}
+            and dependency_cache["protocol"] == PROTOCOL
+            and isinstance(dependency_cache["release_manifest"], str)
+            and bool(dependency_cache["release_manifest"])
+        )
+        if (dependency_cache != PROTOCOL and not release_cache) or integrity is None:
             raise ValueError("dependency_cache requires pypi-verified-v1 and an integrity policy")
     raw.setdefault("retry", {"max_retries": 0})
     raw.setdefault("n_concurrent_trials", 1)
@@ -257,7 +264,9 @@ def run(args) -> int:
     dependency_cache_input = None
     if config.environment.kwargs.get("dependency_cache"):
         from .dependency_cache import snapshot_scripts
-        dependency_cache_input = snapshot_scripts(root, record / "dependency-cache", cache)
+        option = config.environment.kwargs["dependency_cache"]
+        release_manifest = Path(option["release_manifest"]).expanduser().resolve() if isinstance(option, dict) else None
+        dependency_cache_input = snapshot_scripts(root, record / "dependency-cache", cache, release_manifest)
         config.environment.kwargs["dependency_cache"] = dependency_cache_input
     wheel = None
     if any((agent.import_path or agent.name) == _NANO for agent in config.agents):

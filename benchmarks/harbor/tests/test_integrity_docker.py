@@ -90,14 +90,21 @@ archive.mkdir(parents=True)
 
 
 @pytest.mark.skipif(not os.environ.get("NANOPY_INTEGRITY_TEST_IMAGE"), reason="Explicit Docker probe image required")
-def test_verified_cache_exists_only_before_and_after_model_phase(tmp_path):
+@pytest.mark.parametrize("release_cache", [False, True])
+def test_verified_cache_exists_only_before_and_after_model_phase(tmp_path, release_cache):
     from pathlib import Path
     from harbor_adapter.dependency_cache import snapshot_scripts
     directory = tmp_path / "environment"
     directory.mkdir()
     paths = TrialPaths(trial_dir=tmp_path / "trial")
     paths.mkdir()
-    settings = snapshot_scripts(Path(__file__).resolve().parents[3], tmp_path / "scripts", tmp_path / "cache")
+    manifest = None
+    if release_cache:
+        from test_uv_release_cache import make_cache
+        releases = tmp_path / "cache/uv-releases"
+        releases.mkdir(parents=True)
+        manifest, _ = make_cache(releases)
+    settings = snapshot_scripts(Path(__file__).resolve().parents[3], tmp_path / "scripts", tmp_path / "cache", manifest)
     environment = IntegrityDockerEnvironment(
         environment_dir=directory, environment_name="cache-probe",
         session_id="cache-probe-" + uuid.uuid4().hex, trial_paths=paths,
@@ -114,6 +121,10 @@ with urllib.request.urlopen(base + file['url'], timeout=60) as response:
 assert hashlib.sha256(data).hexdigest() == file['hashes']['sha256']
 assert len(data) == file['size']
 print('original wheel verified')
+'''
+    if release_cache:
+        fetch += '''with urllib.request.urlopen(base + '/astral-sh/uv/releases/download/0.9.11/uv-x86_64-unknown-linux-gnu.tar.gz') as response:
+    assert response.read() == b'original uv archive'
 '''
 
     async def exercise():
@@ -138,6 +149,8 @@ print('original wheel verified')
             assert proof["dependency_cache"]["absent_before_agent"] is True
             log = json.loads((environment.evidence_dir / "dependency-cache-verifier-log.json").read_text())["log"]
             assert '"cache_hit": true' in log
+            if release_cache:
+                assert '"kind": "release_asset"' in log
         finally:
             await environment.stop(delete=False)
 

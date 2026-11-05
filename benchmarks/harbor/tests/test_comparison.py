@@ -201,6 +201,44 @@ def test_accept_native_success_even_when_a_sibling_failed(tmp_path, accepted_ins
     assert (sibling / "result.json").exists()
 
 
+@pytest.mark.parametrize("change", [None, "script", "snapshot", "manifest", "disabled"])
+def test_accepted_dependency_cache_binds_scripts_and_queued_release_manifest(tmp_path, accepted_installation, change):
+    plan, files, evidence, _, _ = accepted_installation
+    inputs = files["manifest"][0].parent
+    snapshot = inputs / "dependency-cache"
+    snapshot.mkdir()
+    script = tmp_path / "source/benchmarks/harbor/scripts/cache.py"
+    script.parent.mkdir(parents=True)
+    script.write_text("reviewed cache source")
+    manifest = tmp_path / "release-manifest.json"
+    manifest.write_text('{"assets": []}')
+    for path in (script, manifest):
+        (snapshot / path.name).write_bytes(path.read_bytes())
+    cache = {"scripts_sha256": {path.name: comparison.digest(path) for path in (script, manifest)}}
+    files["manifest"][1]["dependency_cache_input"] = cache
+    files["input_config"][1]["environment"] = {"kwargs": {"dependency_cache": cache}}
+    for name in ("manifest", "input_config"):
+        path, value = files[name]
+        path.write_text(json.dumps(value))
+        evidence[name + "_sha256"] = comparison.digest(path)
+    queued = tmp_path / "queued.json"
+    queued.write_text(json.dumps({"dependency_cache": {"release_manifest": "release-manifest.json"}}))
+    plan["queue"][0]["config"] = "queued.json"
+    if change == "script":
+        script.write_text("changed source")
+    elif change == "snapshot":
+        (snapshot / script.name).write_text("changed snapshot")
+    elif change == "manifest":
+        manifest.write_text("changed release")
+    elif change == "disabled":
+        queued.write_text("{}")
+    if change is None:
+        assert comparison.accepted_preflights_passed(tmp_path, plan)
+    else:
+        with pytest.raises(ValueError, match="dependency transport|release cache"):
+            comparison.accepted_preflights_passed(tmp_path, plan)
+
+
 @pytest.mark.parametrize("change", ["missing", "duplicate", "mixed"])
 def test_every_pair_needs_exactly_one_success(tmp_path, accepted_installation, change):
     plan, _, evidence, _, _ = accepted_installation

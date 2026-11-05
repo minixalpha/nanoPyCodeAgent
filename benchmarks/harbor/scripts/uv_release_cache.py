@@ -166,6 +166,8 @@ class Handler(BaseHTTPRequestHandler):
         path = quote(path, safe="/-._~")
         cached = self.server.assets.get(path)
         if cached is None:
+            if hasattr(self.server, "release_event"):
+                self.server.release_event(kind="release_redirect", url="https://github.com" + path)
             self.send_response(302)
             self.send_header("Location", "https://github.com" + path)
             self.send_header("Content-Length", "0")
@@ -178,6 +180,10 @@ class Handler(BaseHTTPRequestHandler):
         except (OSError, ValueError):
             self.send_error(502, "Registered uv archive failed integrity validation")
             return
+        if hasattr(self.server, "release_event"):
+            self.server.release_event(kind="release_asset", filename=entry["filename"],
+                                      size=entry["size"], sha256=entry["digest"].split(":")[1],
+                                      source_url=entry["url"], cache_hit=True)
         start, end = 0, entry["size"] - 1
         requested = self.headers.get("Range")
         if requested:

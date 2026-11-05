@@ -175,6 +175,59 @@ def test_snapshot_pins_original_cache_scripts(tmp_path):
     assert settings["scripts_sha256"] == {name: hashlib.sha256(name.encode()).hexdigest() for name in SCRIPTS}
 
 
+def test_release_cache_is_read_only_and_variables_are_phase_scoped(cache):
+    instance, env, state = cache
+    manifest = Path(instance.settings["scripts_dir"]) / "release-manifest.json"
+    manifest.write_text('{"assets": []}')
+    instance.settings["scripts_sha256"][manifest.name] = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    instance.settings["release_cache_dir"] = "/reviewed/releases"
+    instance = DependencyCache(env, instance.settings)
+
+    async def run():
+        original = cache[0]
+        instance._docker = original._docker
+        async with instance.phase("setup") as variables:
+            assert variables["UV_INSTALLER_GITHUB_BASE_URL"] == "http://127.0.0.1:18744"
+            assert variables["UV_PYTHON_INSTALL_MIRROR"].endswith("/astral-sh/python-build-standalone/releases/download")
+        await instance.assert_stopped()
+
+    asyncio.run(run())
+    command = next(args for args in state["commands"] if args[0] == "run")
+    assert "type=bind,source=/reviewed/releases,target=/releases,readonly" in command
+    assert "--release-manifest" in command
+    assert "UV_INSTALLER_GITHUB_BASE_URL" not in ENV
+
+
+def test_release_manifest_is_snapshotted_and_changes_block_helper(tmp_path):
+    source = tmp_path / "repo/benchmarks/harbor/scripts"
+    source.mkdir(parents=True)
+    for name in SCRIPTS:
+        (source / name).write_text(name)
+    manifest = tmp_path / "original.json"
+    manifest.write_text('{"assets": []}')
+    settings = snapshot_scripts(tmp_path / "repo", tmp_path / "snapshot", tmp_path / "cache", manifest)
+    manifest.write_text("changed original")
+    instance = DependencyCache(SimpleNamespace(), settings)
+    instance._validate_scripts()
+    assert settings["release_cache_dir"] == str(tmp_path / "cache/uv-releases")
+    (tmp_path / "snapshot/release-manifest.json").write_text("changed snapshot")
+    with pytest.raises(ValueError, match="snapshot"):
+        instance._validate_scripts()
+
+
+@pytest.mark.parametrize("manifest", ["/reviewed/manifest.json", "", None, {"path": "custom"}])
+def test_release_manifest_configuration_requires_an_explicit_path(manifest):
+    raw = {"tasks": [{"name": "org/task", "ref": "sha256:abc"}],
+           "agents": [{"name": "harbor_adapter:NanoPyCodeAgent", "model_name": "deepseek/test"}],
+           "integrity": {"allowed_hosts": ["api.deepseek.com"]},
+           "dependency_cache": {"protocol": PROTOCOL, "release_manifest": manifest}}
+    if manifest == "/reviewed/manifest.json":
+        assert standard_config(raw).environment.kwargs["dependency_cache"] == raw["dependency_cache"]
+    else:
+        with pytest.raises(ValueError, match="dependency_cache"):
+            standard_config(raw)
+
+
 @pytest.mark.parametrize("policy", [None, "unreviewed", {"image": "custom"}])
 def test_unregistered_cache_settings_are_rejected(policy):
     raw = {"tasks": [{"name": "org/task", "ref": "sha256:abc"}],

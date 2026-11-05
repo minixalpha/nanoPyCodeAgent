@@ -1,4 +1,4 @@
-"""Controller-owned PyPI transport, absent throughout the evaluated agent phase."""
+"""Controller-owned dependency transport, absent throughout the agent phase."""
 
 import asyncio
 from contextlib import asynccontextmanager
@@ -17,7 +17,7 @@ from .integrity import write_record
 PROTOCOL = "pypi-verified-v1"
 # This previously reviewed cache-helper image supplies Python, not task inputs.
 HELPER_IMAGE = "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67"
-SCRIPTS = ("pypi_wheel_cache.py", "cache_image.py")
+SCRIPTS = ("pypi_wheel_cache.py", "cache_image.py", "uv_release_cache.py")
 PORT = 18744
 ENV = {"UV_DEFAULT_INDEX": f"http://127.0.0.1:{PORT}/simple", "UV_HTTP_TIMEOUT": "600"}
 
@@ -27,7 +27,7 @@ def digest(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def snapshot_scripts(root, destination, cache):
+def snapshot_scripts(root, destination, cache, release_manifest=None):
     """Snapshot the repository's reviewed transport along with every job."""
     destination.mkdir()
     hashes = {}
@@ -37,18 +37,31 @@ def snapshot_scripts(root, destination, cache):
         shutil.copyfile(source, destination / name)
         if digest(destination / name) != hashes[name]:
             raise ValueError("Dependency transport changed while snapshotting")
-    return {"protocol": PROTOCOL, "image": HELPER_IMAGE,
-            "scripts_dir": str(destination.resolve()), "scripts_sha256": hashes,
-            "cache_dir": str((cache / "pypi-ranges").resolve())}
+    settings = {"protocol": PROTOCOL, "image": HELPER_IMAGE,
+                "scripts_dir": str(destination.resolve()), "scripts_sha256": hashes,
+                "cache_dir": str((cache / "pypi-ranges").resolve())}
+    if release_manifest is not None:
+        name = "release-manifest.json"
+        hashes[name] = digest(release_manifest)
+        shutil.copyfile(release_manifest, destination / name)
+        if digest(destination / name) != hashes[name]:
+            raise ValueError("Release manifest changed while snapshotting")
+        settings["release_cache_dir"] = str((cache / "uv-releases").resolve())
+    return settings
 
 
 class DependencyCache:
     """One temporary helper per phase; no host mounts enter the task container."""
 
     def __init__(self, environment, settings):
-        if (set(settings) != {"protocol", "image", "scripts_dir", "scripts_sha256", "cache_dir"}
+        keys = {"protocol", "image", "scripts_dir", "scripts_sha256", "cache_dir"}
+        scripts = set(SCRIPTS)
+        if "release_cache_dir" in settings:
+            keys.add("release_cache_dir")
+            scripts.add("release-manifest.json")
+        if (set(settings) != keys
                 or settings["protocol"] != PROTOCOL or settings["image"] != HELPER_IMAGE
-                or set(settings["scripts_sha256"]) != set(SCRIPTS)):
+                or set(settings["scripts_sha256"]) != scripts):
             raise ValueError("Unsupported dependency cache snapshot")
         self.environment, self.settings = environment, settings
         self.active_name = None
@@ -98,7 +111,7 @@ class DependencyCache:
             if path.is_symlink() or digest(path) != expected:
                 raise ValueError("Dependency cache script differs from its snapshot")
         # Docker --mount uses commas as separators even when argv is quoted.
-        if any("," in self.settings[key] for key in ("scripts_dir", "cache_dir")):
+        if any("," in self.settings[key] for key in ("scripts_dir", "cache_dir", "release_cache_dir") if key in self.settings):
             raise ValueError("Dependency cache mount paths cannot contain commas")
 
     async def _start(self, name):
@@ -109,6 +122,10 @@ class DependencyCache:
         container = (result.stdout or "").strip()
         if not re.fullmatch(r"[a-f0-9]{64}", container):
             raise RuntimeError("Cannot identify the task container for dependency preparation")
+        mounts, options = [], []
+        if "release_cache_dir" in self.settings:
+            mounts = ["--mount", f"type=bind,source={self.settings['release_cache_dir']},target=/releases,readonly"]
+            options = ["--release-cache", "/releases", "--release-manifest", "/proxy/release-manifest.json"]
         await self._docker(
             "run", "--detach", "--pull=never", "--name", name,
             "--network", f"container:{container}", "--user", f"{os.getuid()}:{os.getgid()}",
@@ -116,9 +133,10 @@ class DependencyCache:
             "--cpus=1", "--memory=512m", "--pids-limit=128",
             "--mount", f"type=bind,source={self.settings['scripts_dir']},target=/proxy,readonly",
             "--mount", f"type=bind,source={cache},target=/cache",
+            *mounts,
             "--entrypoint", "python3", HELPER_IMAGE,
             "/proxy/pypi_wheel_cache.py", "--cache", "/cache", "--bind", "127.0.0.1",
-            "--port", str(PORT), "--workers", "16", "--downloads", "2",
+            "--port", str(PORT), "--workers", "16", "--downloads", "2", *options,
         )
         for _ in range(50):
             if '"kind": "ready"' in await self._docker("logs", name):
@@ -160,7 +178,13 @@ class DependencyCache:
         try:
             await self._start(name)
             write_record(self.environment.evidence_dir / f"dependency-cache-{phase}.json", record)
-            yield dict(ENV)
+            variables = dict(ENV)
+            if "release_cache_dir" in self.settings:
+                variables.update(
+                    UV_INSTALLER_GITHUB_BASE_URL=f"http://127.0.0.1:{PORT}",
+                    UV_PYTHON_INSTALL_MIRROR=f"http://127.0.0.1:{PORT}/astral-sh/python-build-standalone/releases/download",
+                )
+            yield variables
             self.completed_phases.add(phase)
         finally:
             # Cancellation of setup must not leave a network helper for the agent.

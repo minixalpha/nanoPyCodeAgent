@@ -271,6 +271,27 @@ the cache-absence check at the model boundary. The official verifier remains
 shared; this cache does not create an independent grading boundary. Unknown
 dependency profiles and separate verifiers currently reject this option.
 
+To reuse verified original uv and managed-Python archives too, prepare a new
+manifest using `uv_release_cache.py prepare` as described below, then use:
+
+```json
+{
+  "dependency_cache": {
+    "protocol": "pypi-verified-v1",
+    "release_manifest": "/path/to/registered/dependency-release-manifest.json"
+  }
+}
+```
+
+The manifest is copied and hashed with the scripts. The same helper receives
+the `uv-releases` cache read-only and serves registered archives on its existing
+loopback port. It verifies each archive against the original GitHub release
+metadata's filename, size, and SHA256; unknown releases retain their original
+GitHub URLs. Only setup and official verification receive
+`UV_INSTALLER_GITHUB_BASE_URL` and `UV_PYTHON_INSTALL_MIRROR`. The original
+installer scripts, uv's Python version selection, and model network policy
+remain unchanged. Release cache requests are recorded in the phase logs.
+
 The original standalone service remains available for explicitly registered
 historical protocols; do not attach it to restricted model execution:
 

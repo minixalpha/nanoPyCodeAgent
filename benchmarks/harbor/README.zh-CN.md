@@ -220,6 +220,25 @@ CPU 索引和 `unsafe-best-match` 策略；其他 PyTorch 配置保留原始默�
 并具有模型边界处缓存不存在的检查记录。官方 verifier 仍是共享环境；该缓存
 不会建立独立评分边界。目前未知依赖 profile 和独立 verifier 均拒绝此选项。
 
+如需同时复用经校验的原始 uv 和托管 Python 发行包，先按照下文说明使用
+`uv_release_cache.py prepare` 准备新清单，再采用以下配置：
+
+```json
+{
+  "dependency_cache": {
+    "protocol": "pypi-verified-v1",
+    "release_manifest": "/path/to/registered/dependency-release-manifest.json"
+  }
+}
+```
+
+清单与脚本一起复制并记录哈希。同一个辅助容器以只读方式挂载 `uv-releases`
+缓存，在原有回环端口提供已登记的发行包。每个归档均按原始 GitHub 发布元数据
+中的文件名、大小和 SHA256 校验；未登记的版本仍使用原始 GitHub URL。
+仅安装和官方验证阶段会收到 `UV_INSTALLER_GITHUB_BASE_URL` 与
+`UV_PYTHON_INSTALL_MIRROR`。原始安装脚本、uv 的 Python 版本选择和模型网络
+策略均保持不变。发行包缓存请求记录在对应阶段日志中。
+
 原有独立服务仍可用于明确登记的历史协议；不得将其接入受限模型执行阶段：
 
 ```bash
