@@ -270,6 +270,16 @@ def accepted_preflights_passed(root, plan):
         config = checked(inputs / "config.json", item["input_config_sha256"])
         if config.get("install_only") is not True or manifest["commit"] != arm["source_ref"]:
             raise ValueError("Accepted installation used a different mode or source revision")
+        cache = manifest.get("dependency_cache_input")
+        if cache:
+            if config["environment"]["kwargs"].get("dependency_cache") != cache:
+                raise ValueError("Accepted dependency transport differs from its snapshot")
+            for name, expected_hash in cache["scripts_sha256"].items():
+                path = inputs / "dependency-cache" / name
+                if (path.parent != inputs / "dependency-cache"
+                        or digest(path) != expected_hash
+                        or digest(source / "benchmarks/harbor/scripts" / name) != expected_hash):
+                    raise ValueError("Accepted dependency transport source changed")
         expected_sources = {}
         packages = [("benchmarks/harbor/src", "harbor_adapter")]
         if arm.get("agent") != "pi":

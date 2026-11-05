@@ -60,7 +60,7 @@ def dns_upstreams(resolv_conf):
 class IntegrityDockerEnvironment(DockerEnvironment):
     """Enable Harbor's external egress sidecar before any container starts."""
 
-    def __init__(self, *, integrity_policy, mounts=None, **kwargs):
+    def __init__(self, *, integrity_policy, dependency_cache=None, mounts=None, **kwargs):
         self.integrity_policy = IntegrityPolicy.model_validate(integrity_policy)
         policy = self.integrity_policy.network()
         self._separate_verifier = "__verifier__" in kwargs["session_id"]
@@ -68,8 +68,15 @@ class IntegrityDockerEnvironment(DockerEnvironment):
             raise ValueError("restricted-v1 supports Linux Docker environments only")
         directory = Path(kwargs["environment_dir"])
         task_config = directory.parent / "task.toml"
-        if task_config.exists() and tomllib.loads(task_config.read_text()).get("steps"):
+        task_data = tomllib.loads(task_config.read_text()) if task_config.exists() else {}
+        if task_data.get("steps"):
             raise ValueError("restricted-v1 supports single-step tasks only")
+        verifier = task_data.get("verifier", {})
+        if dependency_cache is not None and (
+            self._separate_verifier or verifier.get("environment_mode") == "separate"
+            or verifier.get("environment") is not None
+        ):
+            raise ValueError("Dependency cache currently requires a shared verifier")
         if (directory / "docker-compose.yaml").exists() or kwargs.get("extra_docker_compose"):
             raise ValueError("restricted-v1 does not support unreviewed Docker Compose services")
         if kwargs["task_env_config"].mcp_servers:
@@ -105,6 +112,13 @@ class IntegrityDockerEnvironment(DockerEnvironment):
         }
         self._in_agent_phase = False
         self._dns_upstreams = []
+        self.dependency_cache = None
+        if dependency_cache is not None:
+            from .dependency_cache import DependencyCache
+            self.dependency_cache = DependencyCache(self, dependency_cache)
+            self._integrity_state["dependency_cache"] = {
+                "protocol": dependency_cache["protocol"], "absent_before_agent": False,
+            }
         if not self._separate_verifier:
             self._save()
 
@@ -174,6 +188,10 @@ class IntegrityDockerEnvironment(DockerEnvironment):
         self._integrity_state["preflight"] = "running"
         self._save()
         try:
+            if self.dependency_cache is not None:
+                await self.dependency_cache.assert_stopped()
+                if "setup" not in self.dependency_cache.completed_phases:
+                    raise RuntimeError("Dependency cache setup did not complete")
             before = await self._probe(self.integrity_policy.probe_url)
             self._integrity_state["positive_control"] = before
             if not before["reachable"]:
@@ -210,6 +228,9 @@ class IntegrityDockerEnvironment(DockerEnvironment):
     async def agent_phase(self):
         if self._integrity_state["preflight"] != "passed":
             raise RuntimeError("Integrity preflight must pass before model work")
+        if self.dependency_cache is not None:
+            await self.dependency_cache.assert_stopped()
+            self._integrity_state["dependency_cache"]["absent_before_agent"] = True
         await self.set_network_policy(self.integrity_policy.network())
         await self._network_snapshot("network-before-agent")
         if (await self._probe(self.integrity_policy.probe_url))["reachable"]:

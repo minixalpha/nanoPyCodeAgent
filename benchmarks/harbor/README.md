@@ -90,8 +90,8 @@ does not count as a successful HTTPS blocking probe.
 Version one supports single-step Linux Dockerfile/prebuilt-image tasks with
 public native network policies. Custom Compose services, extra mounts,
 environment overrides, and task MCP servers are unsupported and fail closed.
-These limits deliberately exclude the historical dependency-cache Compose
-overlays until they have a reviewed isolation design. The protocol preserves
+These limits exclude the historical dependency-cache Compose overlays. The
+optional managed PyPI cache below has a separate, enforced lifecycle. The protocol preserves
 task images, package sources, official tests, resources, and native deadlines.
 CPU, memory, storage, GPU, and TPU overrides are rejected; CPU and memory
 enforcement must be `auto` (Docker's native limits) or `limit`.
@@ -238,7 +238,41 @@ whole-trial retries. CI checks these contracts without model calls or Docker.
 
 ### Verified PyPI wheel transport
 
-Large original PyPI wheels can use the optional loopback cache:
+Restricted runs with a reviewed verifier dependency profile and a shared
+verifier can opt into the managed cache by adding this top-level setting:
+
+```json
+{"dependency_cache": "pypi-verified-v1"}
+```
+
+The standard entry point snapshots and hashes the existing cache scripts. The
+controller starts a temporary helper for dependency preflight, removes it before
+network preflight, and rechecks that both the helper and its loopback listener
+are absent at the model boundary. Only the unchanged official verifier command
+can reopen the cache after process quiescence. Cancellation also removes the
+helper; unconfirmed cleanup stops the run. No cache service exists during model
+work, and the host allowlist is unchanged. No host directory is mounted into the
+task container.
+
+The helper uses the previously reviewed, digest-pinned
+`alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67`
+image, which must already be present in Docker. It receives only the read-only
+script snapshot and shared wheel cache, runs without capabilities or privilege
+escalation, and has limits of one CPU and 512 MiB. The task's own image and
+resources are unchanged. Its PyPI transport variables apply only to dependency
+preflight and official verification; `UV_HTTP_TIMEOUT=600` remains inside the
+registered phase deadlines. Package selection still uses current original PyPI
+metadata. All supported agents use the same preparation path.
+
+Partial setup output, cache metadata/hit logs, helper identities, script hashes,
+and cleanup records remain under the host-only `.integrity/<trial-id>/`
+directory. Integrity accounting requires cleanup evidence for both phases and
+the cache-absence check at the model boundary. The official verifier remains
+shared; this cache does not create an independent grading boundary. Unknown
+dependency profiles and separate verifiers currently reject this option.
+
+The original standalone service remains available for explicitly registered
+historical protocols; do not attach it to restricted model execution:
 
 ```bash
 python benchmarks/harbor/scripts/pypi_wheel_cache.py \

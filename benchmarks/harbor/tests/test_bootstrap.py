@@ -281,3 +281,51 @@ def test_local_wheel_is_uploaded_and_logged(tmp_path, monkeypatch):
     assert adapter._bootstrap_record["wheel_sha256"] == hashlib.sha256(wheel.read_bytes()).hexdigest()
     with pytest.raises(ValueError, match="mutually exclusive"):
         NanoPyCodeAgent(logs_dir=tmp_path, wheel_path=str(wheel), git_ref="main")
+
+
+def test_cached_preflight_keeps_partial_output_when_installation_fails(tmp_path, monkeypatch):
+    from contextlib import asynccontextmanager, contextmanager
+    from unittest.mock import AsyncMock
+    logs = tmp_path / "agent"
+    write_task(logs)
+    adapter = NanoPyCodeAgent(logs_dir=logs)
+    events = []
+    callback = None
+
+    @asynccontextmanager
+    async def phase(name):
+        events.append((name, "start"))
+        try:
+            yield {"UV_DEFAULT_INDEX": "http://127.0.0.1:18744/simple"}
+        finally:
+            events.append((name, "stop"))
+
+    @contextmanager
+    def collect_output(value):
+        nonlocal callback
+        callback = value
+        yield
+
+    environment = SimpleNamespace(
+        environment_name="qemu-alpine-ssh", evidence_dir=tmp_path / "evidence",
+        dependency_cache=SimpleNamespace(phase=phase), scoped_output_callback=collect_output,
+    )
+    for name in ("_ensure_system_dependencies", "_install_agent", "_install_apt"):
+        monkeypatch.setattr(adapter, name, AsyncMock())
+
+    async def execute(*args, command, env):
+        assert "pytest --version" in command
+        assert env["UV_DEFAULT_INDEX"] == "http://127.0.0.1:18744/simple"
+        await callback("Downloading original dependency\n", "stderr")
+        raise TimeoutError("setup deadline")
+
+    monkeypatch.setattr(adapter, "exec_as_agent", execute)
+    with pytest.raises(TimeoutError):
+        asyncio.run(adapter.install(environment))
+    assert events == [("setup", "start"), ("setup", "stop")]
+    output = environment.evidence_dir / "dependency-setup-output.jsonl"
+    assert json.loads(output.read_text()) == {"stream": "stderr", "text": "Downloading original dependency\n"}
+    assert output.stat().st_mode & 0o777 == 0o600
+    record = json.loads((logs / "bootstrap.json").read_text())
+    assert record["stage"] == "verifier_dependencies"
+    assert record["verifier_preflight"]["status"] == "incomplete"

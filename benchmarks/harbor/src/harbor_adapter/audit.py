@@ -129,6 +129,27 @@ def trial_accounting(job_dir, path, review):
             ))
             and (not expected_policy or proof.get("policy") == expected_policy)
         )
+        cache = config.get("environment", {}).get("kwargs", {}).get("dependency_cache")
+        if cache:
+            boundary = proof.get("dependency_cache", {})
+            enforcement_ok = enforcement_ok and boundary.get("absent_before_agent") is True
+            for phase in ("setup", "verifier"):
+                record_path = evidence_dir / f"dependency-cache-{phase}.json"
+                record = json.loads(record_path.read_text()) if record_path.exists() else {}
+                try:
+                    start = datetime.fromisoformat(record["started_at"])
+                    finish = datetime.fromisoformat(record["finished_at"])
+                    boundary_time = datetime.fromisoformat(proof["started_at" if phase == "setup" else "finished_at"])
+                    ordered = start <= finish <= boundary_time if phase == "setup" else boundary_time <= start <= finish
+                except (KeyError, TypeError, ValueError):
+                    ordered = False
+                enforcement_ok = bool(enforcement_ok
+                    and record.get("removed") is True
+                    and record.get("phase") == phase and ordered
+                    and record.get("protocol") == cache.get("protocol")
+                    and record.get("image") == cache.get("image")
+                    and record.get("scripts_sha256") == cache.get("scripts_sha256")
+                    and (evidence_dir / f"dependency-cache-{phase}-log.json").is_file())
     if required and not enforcement_ok:
         eligible = False
         classification = "integrity_error"

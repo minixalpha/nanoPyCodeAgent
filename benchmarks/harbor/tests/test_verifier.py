@@ -466,3 +466,27 @@ def test_outer_timeout_cap_is_applied_before_multiplier(tmp_path):
     config.verifier.max_timeout_sec = 0.3
     verifier.trial_paths.config_path.write_text(config.model_dump_json())
     assert asyncio.run(verifier.verify()).rewards == {"reward": 1}
+
+
+def test_dependency_transport_is_scoped_to_official_execution(tmp_path):
+    from contextlib import asynccontextmanager
+    from harbor_adapter.dependency_cache import ENV
+    verifier, environment, _ = make_verifier(
+        tmp_path,
+        'test "$UV_DEFAULT_INDEX" = "http://127.0.0.1:18744/simple"\n'
+        'echo 1 > "$LOGS/reward.txt"\n',
+    )
+    phases = []
+
+    @asynccontextmanager
+    async def phase(name):
+        phases.append((name, "start"))
+        try:
+            yield ENV
+        finally:
+            phases.append((name, "stop"))
+
+    environment.dependency_cache = SimpleNamespace(phase=phase)
+    result = asyncio.run(verifier.verify())
+    assert result.rewards == {"reward": 1}
+    assert phases == [("verifier", "start"), ("verifier", "stop")]

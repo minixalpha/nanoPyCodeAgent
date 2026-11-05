@@ -87,3 +87,58 @@ archive.mkdir(parents=True)
             await environment.stop(delete=False)
 
     asyncio.run(exercise())
+
+
+@pytest.mark.skipif(not os.environ.get("NANOPY_INTEGRITY_TEST_IMAGE"), reason="Explicit Docker probe image required")
+def test_verified_cache_exists_only_before_and_after_model_phase(tmp_path):
+    from pathlib import Path
+    from harbor_adapter.dependency_cache import snapshot_scripts
+    directory = tmp_path / "environment"
+    directory.mkdir()
+    paths = TrialPaths(trial_dir=tmp_path / "trial")
+    paths.mkdir()
+    settings = snapshot_scripts(Path(__file__).resolve().parents[3], tmp_path / "scripts", tmp_path / "cache")
+    environment = IntegrityDockerEnvironment(
+        environment_dir=directory, environment_name="cache-probe",
+        session_id="cache-probe-" + uuid.uuid4().hex, trial_paths=paths,
+        task_env_config=EnvironmentConfig(docker_image=os.environ["NANOPY_INTEGRITY_TEST_IMAGE"]),
+        integrity_policy={"allowed_hosts": ["api.deepseek.com"]}, dependency_cache=settings,
+    )
+    fetch = '''import hashlib, json, urllib.request
+base = 'http://127.0.0.1:18744'
+with urllib.request.urlopen(base + '/simple/pytest/', timeout=30) as response:
+    index = json.load(response)
+file = next(f for f in index['files'] if f['filename'] == 'pytest-8.4.1-py3-none-any.whl')
+with urllib.request.urlopen(base + file['url'], timeout=60) as response:
+    data = response.read()
+assert hashlib.sha256(data).hexdigest() == file['hashes']['sha256']
+assert len(data) == file['size']
+print('original wheel verified')
+'''
+
+    async def exercise():
+        try:
+            await environment.start(force_build=False)
+            async with environment.dependency_cache.phase("setup"):
+                result = await environment.exec(command=shlex.join(["python3", "-I", "-c", fetch]))
+                assert result.return_code == 0, result.stdout or result.stderr
+            await environment.integrity_preflight()
+            async with environment.agent_phase():
+                await environment.dependency_cache.assert_stopped()
+                assert not (await environment._probe("https://raw.githubusercontent.com/"))["reachable"]
+                with pytest.raises(RuntimeError, match="model work"):
+                    async with environment.dependency_cache.phase("verifier"):
+                        pytest.fail("Cache reopened during model work")
+            await environment.prepare_verification()
+            async with environment.dependency_cache.phase("verifier"):
+                result = await environment.exec(command=shlex.join(["python3", "-I", "-c", fetch]))
+                assert result.return_code == 0, result.stdout or result.stderr
+            await environment.dependency_cache.assert_stopped()
+            proof = json.loads((environment.evidence_dir / "enforcement.json").read_text())
+            assert proof["dependency_cache"]["absent_before_agent"] is True
+            log = json.loads((environment.evidence_dir / "dependency-cache-verifier-log.json").read_text())["log"]
+            assert '"cache_hit": true' in log
+        finally:
+            await environment.stop(delete=False)
+
+    asyncio.run(exercise())
