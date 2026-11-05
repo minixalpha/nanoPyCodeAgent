@@ -1,0 +1,31 @@
+{
+  "frozen_before_model_trajectory_review": true,
+  "jobs": [
+    {
+      "job": "jobs/pi-restricted-pipeline-install-20261105",
+      "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-20261105/preflight-freeze.json",
+      "freeze_sha256": "14825f8acba7ebbaad45863b7c746879cff70a931b870115d6f7d672ea813aa9",
+      "files": 15
+    },
+    {
+      "job": "jobs/pi-restricted-pipeline-model-20261105",
+      "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-20261105/failed-model-setup-freeze.json",
+      "freeze_sha256": "ee739889bfee647d5cb702201c67ec72653d2cf184938385a4084f0fce0b2774",
+      "files": 16
+    },
+    {
+      "job": "jobs/pi-restricted-pipeline-v2-install-20261105",
+      "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-v2-20261105/preflight-freeze.json",
+      "freeze_sha256": "2146cb3a72bae10d213efd701fdd916c764c800da478772a0c88b64661d5c473",
+      "files": 15
+    },
+    {
+      "job": "jobs/pi-restricted-pipeline-v2-model-20261105",
+      "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-v2-20261105/model-freeze.json",
+      "freeze_sha256": "7597e12251e688623cd7de611404650cc5dba063b5f4eccba6c2117ea640d24d",
+      "files": 25
+    }
+  ],
+  "file_count": 71,
+  "policy": "All four completed jobs are immutable. Raw model logs remain private because an environment dump contains the provider credential. No scored result is manufactured from an incomplete official-verifier lifecycle."
+}

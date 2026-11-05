@@ -394,7 +394,14 @@ The [restricted two-task follow-up](reports/en/pi-restricted-dev2-20261104.md)
 allowed only the DeepSeek API host during model work. WAL passed all seven
 official tests with no integrity violation observed in the reviewed evidence.
 Pipeline timed out during dependency preparation before any model call, so its
-behavior under restriction remains untested. Historical results remain separate.
+behavior under restriction was untested in that run. Historical results remain separate.
+
+The [Pipeline dependency recovery](reports/en/pi-restricted-pipeline-recovery-20261105.md)
+completed fresh setup in 142.791023 seconds using verified wheel and original
+uv/Python caches that are absent during model work. Pi made no observed external
+answer retrieval, but a long final JSON event broke Harbor's output collector
+before official verification. The collector is now fixed and tested; Pipeline
+remains unscored, with local-search caveats and all failed attempts preserved.
 
 ### DeepSeek Harness baselines
 

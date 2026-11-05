@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "job_dir": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-model-20261105",
+  "frozen_at": "2026-11-05T15:18:25.491202+00:00",
+  "files": {
+    ".integrity/torch-pipeline-parallelism__3gci4oE/dependency-cache-setup-log.json": "44f44b217449eeabeec0d9fda1147d724209cdd05c2ea5ec41979b34bb759d5e",
+    ".integrity/torch-pipeline-parallelism__3gci4oE/dependency-cache-setup.json": "513edebba712b3cfa3227e299845e283d1220d42f298f582ebc81a6779a104f4",
+    ".integrity/torch-pipeline-parallelism__3gci4oE/dependency-setup-output.jsonl": "fac852b7c6350ec9d1a0aa456ce44270347c8149a896a064744b4298ceed97ac",
+    ".integrity/torch-pipeline-parallelism__3gci4oE/enforcement.json": "cae2ce2a199e08f41bf27f53e3cd6bf3fc3ba6d758ed0e662daeac4af49084f9",
+    "config.json": "ff8e7a9b469535327d927b409fad684fe7c82f10e29d706aeb828de1a1b3ae9a",
+    "job.log": "6cfca32d5083de8c61ee0a326b21599f01b70cce2eaeec633ebee1b9f9f496d2",
+    "lock.json": "a63ea52709436280c906ee7eff096dc6337fb6032fe6c16f2557160800bebc4d",
+    "result.json": "52712032d7da920c2c24d02e269738a1baa4893cb5ee0afd19de8b21f1cb9a32",
+    "torch-pipeline-parallelism__3gci4oE/agent/bootstrap.json": "2404c0ab93860318b7b5c4533f203915de6b0e1f2fef097f5909d3e6f86d61eb",
+    "torch-pipeline-parallelism__3gci4oE/agent/process-supervision-required": "94e95f0bb38f8e0fb52a6dab21f7708dde104b7edeb2eb5ce6b7e68f1328c295",
+    "torch-pipeline-parallelism__3gci4oE/artifacts/manifest.json": "8d0a02e9c17d62af6176024f463c041ed30ff29d3a7b66dadbeab1d762b0cbd9",
+    "torch-pipeline-parallelism__3gci4oE/config.json": "7b18a96829c8e9c1e7ef925fbd3ae706d6a8a5142e3d172bdfc6aa6fef37d633",
+    "torch-pipeline-parallelism__3gci4oE/exception.txt": "18a58679ebf7942110c9961b449a089334cf73168fa21f0b3ec45cd7a0f26470",
+    "torch-pipeline-parallelism__3gci4oE/lock.json": "27e3e71aba71c529cce6d55388ebc850eace41b91b475d8b8831fc65d9acdac2",
+    "torch-pipeline-parallelism__3gci4oE/result.json": "b334788807367ac50672bbbad8f56ac441c7d89ffe8ab01c380f034c0fa127ba",
+    "torch-pipeline-parallelism__3gci4oE/trial.log": "8a9fb30ea2ebfb394b0516db25085d4c133608715a62ff41134b73b4a38785bf"
+  }
+}

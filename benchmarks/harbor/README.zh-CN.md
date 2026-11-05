@@ -317,7 +317,13 @@ Harbor 返回缺失输出流时 Pi 安装检查失败的问题。
 [受限网络下的两题后续检查](reports/zh-CN/pi-restricted-dev2-20261104.md)
 在模型工作期间仅将 DeepSeek API 主机加入白名单。WAL 通过全部七项官方测试，
 在已审查证据中未观察到完整性违规。Pipeline 在任何模型调用之前的依赖准备阶段超时，
-因此尚未测试其在受限网络下的行为。历史结果仍单独保留。
+因此该轮未能测试其在受限网络下的行为。历史结果仍单独保留。
+
+[Pipeline 依赖恢复](reports/zh-CN/pi-restricted-pipeline-recovery-20261105.md)
+使用经校验的 wheel 和原始 uv/Python 缓存，将全新容器安装缩短到 142.791023 秒；
+模型阶段缓存服务不存在。未观察到 Pi 获取外部答案，但很长的最终 JSON 事件使
+Harbor 输出采集器在官方验证之前出错。采集器现已修复并通过测试；Pipeline
+仍未评分，报告保留本地搜索行为的限定说明和所有失败尝试。
 
 ### DeepSeek Harness baseline
 

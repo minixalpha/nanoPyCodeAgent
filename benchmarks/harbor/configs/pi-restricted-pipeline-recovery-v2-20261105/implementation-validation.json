@@ -1,0 +1,22 @@
+{
+  "source_ref": "1b6e3dcf4d143a21a3411263aa49fb986b811736",
+  "harbor_tests": {
+    "command": "UV_PROJECT_ENVIRONMENT=\"$PWD/jobs/dsh-harbor-venv\" UV_CACHE_DIR=\"$PWD/.cache/uv\" uv run --frozen --project benchmarks/harbor pytest -q -c benchmarks/harbor/pyproject.toml benchmarks/harbor/tests",
+    "passed": 410,
+    "skipped": 3,
+    "seconds": 19.89,
+    "skipped_reason": "Docker probes require an explicitly provided image; all three were run separately."
+  },
+  "docker_tests": {
+    "command": "UV_PROJECT_ENVIRONMENT=\"$PWD/jobs/dsh-harbor-venv\" UV_CACHE_DIR=\"$PWD/.cache/uv\" NANOPY_INTEGRITY_TEST_IMAGE=alexgshaw/pytorch-model-cli:20251031 uv run --frozen --project benchmarks/harbor pytest -q -c benchmarks/harbor/pyproject.toml benchmarks/harbor/tests/test_integrity_docker.py",
+    "passed": 3,
+    "seconds": 97.82,
+    "coverage": [
+      "External allowlist and direct-routing restrictions",
+      "Wheel cache phase lifecycle, verified delivery and repeat hit",
+      "Combined wheel/release listener with fixture archive, read-only release mount and phase removal",
+      "Blocked GitHub access and rejected verifier-cache activation during model work",
+      "A 300000-byte UTF-8 line survives real Docker callback collection during restricted model work"
+    ]
+  }
+}

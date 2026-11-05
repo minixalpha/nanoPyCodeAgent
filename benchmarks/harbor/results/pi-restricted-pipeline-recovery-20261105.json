@@ -1,0 +1,858 @@
+{
+  "schema_version": 1,
+  "experiment": "pi-restricted-pipeline-recovery-20261105",
+  "recorded_at": "2026-11-05T16:02:58.556414+00:00",
+  "status": "dependency_fixed_model_run_unscored",
+  "original_restricted_results": "pi-restricted-dev2-20261104.json",
+  "selection": "Pipeline was selected because the historical November 2 Pi attempt retrieved reference material and the November 4 restricted attempt failed during setup. This is a development supplement, not a comparable baseline.",
+  "registration_sources": {
+    "wheel_cache": "8e42c62e36be152f9b84da2fd16d1b95fe54869a",
+    "wheel_and_release_cache": "a867883257b9511793b52152561de04808f0c6f9",
+    "collector_fix": "1b6e3dcf4d143a21a3411263aa49fb986b811736"
+  },
+  "model_attempts_executed": 1,
+  "official_verifier_attempts": 0,
+  "official_passes": 0,
+  "official_failures": 0,
+  "native_rewards": null,
+  "effective_score": null,
+  "scored_integrity_verdict": null,
+  "whole_trial_retries": 0,
+  "additional_model_attempt_after_collector_error": false,
+  "setup_corrections": "Two separately registered infrastructure configurations; no model call occurred until both dependency and network preflight passed. The failed uv setup remains preserved.",
+  "preflights": [
+    {
+      "recorded_at": "2026-11-05T15:14:12.409429+00:00",
+      "trial": "torch-pipeline-parallelism__ECDiMhB",
+      "status": "setup_passed",
+      "model_calls": 0,
+      "setup_seconds": 212.639386,
+      "setup_limit_seconds": 1800,
+      "dependency_profile": {
+        "profile": "torch-pipeline-parallelism-v1",
+        "status": "passed"
+      },
+      "original_failure": {
+        "trial": "torch-pipeline-parallelism__aykTgx7",
+        "exception": "AgentSetupTimeoutError",
+        "setup_seconds": 1800.034097,
+        "model_calls": 0,
+        "evidence": "../pi-restricted-dev2-20261104/preflight-evidence.json"
+      },
+      "cache": {
+        "phase": {
+          "protocol": "pypi-verified-v1",
+          "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+          "helper": "nanopy-pypi-7635901cde1244ee911843e4f9ac14f5",
+          "scripts_sha256": {
+            "pypi_wheel_cache.py": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+            "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c"
+          },
+          "phase": "setup",
+          "started_at": "2026-11-05T15:08:00.558802+00:00",
+          "removed": true,
+          "finished_at": "2026-11-05T15:10:59.582978+00:00"
+        },
+        "wheel_requests": 45,
+        "cache_hits": 44,
+        "downloads": 1,
+        "verified_bytes": 3080594478,
+        "all_match_current_metadata": true,
+        "wheels": [
+          {
+            "at": "2026-11-05T15:10:22.324362+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cusparse_cu12-12.5.4.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 216561367,
+            "sha256": "7556d9eca156e18184b94947ade0fba5bb47d69cec46bf8660fd2c71a4b48b73",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:22.367785+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_nccl_cu12-2.26.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 201319755,
+            "sha256": "694cf3879a206553cc9d7dbda76b13efaf610fdb70a50cba303de1b0d1530ac6",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:22.988462+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cublas_cu12-12.6.4.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 393138322,
+            "sha256": "08ed2686e9875d01b58e3cb379c6896df8e76c75e0d4a7f7dace3d7b6d9ef8eb",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:22.990252+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "setuptools-84.2.1-py3-none-any.whl",
+            "size": 876263,
+            "sha256": "ca140b45d5325a9478f880e351484f62fef15f336462e449ca0c03c873d589c2",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:22.990764+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "iniconfig-2.3.1-py3-none-any.whl",
+            "size": 7552,
+            "sha256": "9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:23.772962+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "torch-2.7.0-cp313-cp313-manylinux_2_28_x86_64.whl",
+            "size": 865046389,
+            "sha256": "9b52347118116cf3dff2ab5a3c3dd97c719eb924ac658ca2a7335652076df708",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:23.785082+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cuda_cupti_cu12-12.6.80-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 8917980,
+            "sha256": "6768bad6cab4f19e8292125e5f1ac8aa7d1718704012a0e3272a6f61c4bce132",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:23.913338+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cudnn_cu12-9.5.1.17-py3-none-manylinux_2_28_x86_64.whl",
+            "size": 570988386,
+            "sha256": "30ac3869f6db17d170e0e556dd6cc5eee02647abc31ca856634d5a40f82c15b2",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:23.915007+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "certifi-2026.10.23-py3-none-any.whl",
+            "size": 135082,
+            "sha256": "e9b54de76e530bb6cf0ccd036787103acb58fd42ba930ea8bf948ddbaa2f61d1",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:23.915642+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "markupsafe-3.0.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+            "size": 23017,
+            "sha256": "434139499bb20b502ed3baa1f169e618f924a97e7a777fea1a49446d80106cf6",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:23.916427+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "requests-2.34.2-py3-none-any.whl",
+            "size": 73075,
+            "sha256": "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:23.922926+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 4292483,
+            "sha256": "29dab7c904cd1914a0439c6e1306c12c7497c8bd32290fbe563ebf51ca4b6d6d",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.058701+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "triton-3.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+            "size": 156516468,
+            "sha256": "47bc87ad66fa4ef17968299acacecaab71ce40a238890acc6ad197c3abe2b8f1",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.059832+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "pytest-8.4.1-py3-none-any.whl",
+            "size": 365474,
+            "sha256": "539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.111859+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_nvjitlink_cu12-12.6.85-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl",
+            "size": 19744971,
+            "sha256": "eedc36df9e88b682efe4309aa16b5b4e78c2407eac59e8c10a6a47535164369a",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.186034+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_curand_cu12-10.3.7.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 56279010,
+            "sha256": "a42cd1344297f70b9e39a1e4f467a4e1c10f1da54ff7a85c12197f6c652c8bdf",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.186580+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "idna-3.20-py3-none-any.whl",
+            "size": 69583,
+            "sha256": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.190196+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "networkx-3.7-py3-none-any.whl",
+            "size": 2142205,
+            "sha256": "e3fd2c13a7814cee3746340d8d7f8598a67f16a58bf47fb7f8793fab6efca1b0",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.191365+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "packaging-26.3-py3-none-any.whl",
+            "size": 129956,
+            "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.201145+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cusolver_cu12-11.7.1.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 158229790,
+            "sha256": "e9e49843a7707e42022babb9bcfa33c29857a93b88020c4e4434656a655b698c",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.204217+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "pygments-2.21.0-py3-none-any.whl",
+            "size": 1250147,
+            "sha256": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.204907+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "pluggy-1.7.0-py3-none-any.whl",
+            "size": 27082,
+            "sha256": "7dd7b0d8832ba3cb632c306926ded123429211b83641b35dc5c41ad2d34f9bec",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.205607+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "tqdm-4.70.1-py3-none-any.whl",
+            "size": 80199,
+            "sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.207119+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "mpmath-1.3.0-py3-none-any.whl",
+            "size": 536198,
+            "sha256": "a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.207872+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_nvtx_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 89276,
+            "sha256": "b90bed3df379fa79afbd21be8e04a0314336b8ae16768b58f2d34cb1d04cd7d2",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.215353+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "numpy-2.5.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+            "size": 16718044,
+            "sha256": "6ffa07666f8da0eef81d149934a626d0d95fbd6838432a33e66245423a9062c0",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.239318+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cuda_nvrtc_cu12-12.6.77-py3-none-manylinux2014_x86_64.whl",
+            "size": 23650380,
+            "sha256": "35b0cc6ee3a9636d5409133e79273ce1f3fd087abb0532d2d2e8fff1fe9efc53",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.262690+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "pytest_json_ctrf-0.3.5-py3-none-any.whl",
+            "size": 6837,
+            "sha256": "e82fd1d69be2f92385bc33540063e5ad7b17b36de67764c84f3ceb9815a895e9",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.539236+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "typing_extensions-4.16.0-py3-none-any.whl",
+            "size": 45571,
+            "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.582227+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cuda_runtime_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 897690,
+            "sha256": "ba3b56a4f896141e25e19ab287cd71e52a6a0f4b29d0d31609f60e3b4d5219b7",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.642989+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+            "size": 801626,
+            "sha256": "0f29edc409a6392443abf94b9cf89ce99889a1dd5376d94316ae5145dfedd5d6",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:24.903886+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "transformers-4.55.0-py3-none-any.whl",
+            "size": 11267905,
+            "sha256": "29d9b8800e32a4a831bb16efb5f762f6a9742fef9fce5d693ed018d19b106490",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:25.744929+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cufile_cu12-1.11.1.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 1142103,
+            "sha256": "cc23469d1c7e52ce6c1d55253273d32c565dd22068647f3aa59b3c6b005bf159",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:25.930513+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "fsspec-2026.9.0-py3-none-any.whl",
+            "size": 221738,
+            "sha256": "8dd6e646e99ea382bd85f97a45e6b526a442d79423a7dc673f1e2756d05fcb5f",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:27.421284+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cufft_cu12-11.3.0.4-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+            "size": 200221632,
+            "sha256": "ccba62eb9cef5559abd5e0d54ceed2d9934030f51163df018532142a8ec533e5",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:27.422039+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "urllib3-2.8.0-py3-none-any.whl",
+            "size": 135717,
+            "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:27.428615+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "tokenizers-0.21.4-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+            "size": 3115426,
+            "sha256": "51b7eabb104f46c1c50b486520555715457ae833d5aee9ff6ae853d1130506ff",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:27.429365+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+            "size": 254660,
+            "sha256": "7218e8f32b0956cfcd048fd42d9d5779809745ca1d86113ca56f66e7ae1549c4",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:27.430032+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "jinja2-3.1.6-py3-none-any.whl",
+            "size": 134899,
+            "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:27.983022+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "nvidia_cusparselt_cu12-0.6.3-py3-none-manylinux2014_x86_64.whl",
+            "size": 156785796,
+            "sha256": "e5c8a26c36445dd2e6812f1177978a24e2d37cacce7e090f297a688d1ec44f46",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:29.247387+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "filelock-4.2.9-py3-none-any.whl",
+            "size": 164734,
+            "sha256": "a379c50a729e5b68c8519a4d26489f755d9769960a236ecd838190e2a78db2e9",
+            "cache_hit": false
+          },
+          {
+            "at": "2026-11-05T15:10:29.417780+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "huggingface_hub-0.36.2-py3-none-any.whl",
+            "size": 566395,
+            "sha256": "48f0c8eac16145dfce371e9d2d7772854a4f591bcb56c9cf548accf531d54270",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:29.956389+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+            "size": 516040,
+            "sha256": "fd6f3f93c9a0a7cc2788ee63fb763353d4bd2e89b0751bc78fcf7dda00bea774",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:30.270889+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "sympy-1.14.0-py3-none-any.whl",
+            "size": 6299353,
+            "sha256": "e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:10:56.411548+00:00",
+            "instance": "45dd4d0da7cb",
+            "kind": "wheel",
+            "filename": "regex-2026.9.29-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+            "size": 807902,
+            "sha256": "d49c18f1ea294cf4adde2e5ac256e98c82ea9d708462ce4bf799dffa7cfe8a2c",
+            "cache_hit": true
+          }
+        ]
+      },
+      "enforcement": {
+        "protocol": "restricted-v1",
+        "policy": {
+          "protocol": "restricted-v1",
+          "allowed_hosts": [
+            "api.deepseek.com"
+          ],
+          "probe_url": "https://example.com/"
+        },
+        "rules_sha256": "89db5b77afe8608c1d10884151a3730d5878929ecc3a0ac53b0ed164bb7fbf47",
+        "preflight": "passed",
+        "agent_phase": "not_started",
+        "host_mounts": false,
+        "verifier_isolation": "task_defined; shared tasks remain shared",
+        "dependency_cache": {
+          "protocol": "pypi-verified-v1",
+          "absent_before_agent": false
+        },
+        "dns_upstreams": [
+          "172.17.0.1"
+        ],
+        "positive_control": {
+          "reachable": true
+        },
+        "negative_control": {
+          "reachable": false,
+          "error_type": "URLError",
+          "reason_type": "SSLEOFError"
+        },
+        "allowed_controls": {
+          "api.deepseek.com": {
+            "reachable": true
+          }
+        }
+      },
+      "freeze_sha256": "14825f8acba7ebbaad45863b7c746879cff70a931b870115d6f7d672ea813aa9",
+      "frozen_files": 15,
+      "result_sha256": "59c6a75600f5a464d8984174e99eafc1427a0ad53057e4fc5913ea85efccf0f5",
+      "manifest_sha256": "0627797a0a937a5ca0801fe9ae209a232a0cfe40a10093ccb91a8a890f000ca4",
+      "input_config_sha256": "bbdf1fbd6a324c4450bb3973d700229c134ed26b3335b92cbe61d626df02c5a1",
+      "bootstrap_sha256": "4888105f026b9e6be5d2861c6650b8c8ecfdb5375e2a262bf1a4038652860846"
+    },
+    {
+      "trial": "torch-pipeline-parallelism__nmjPGxf",
+      "status": "setup_passed",
+      "model_calls": 0,
+      "setup_seconds": 205.670052,
+      "setup_limit_seconds": 1800,
+      "dependency_profile": {
+        "profile": "torch-pipeline-parallelism-v1",
+        "status": "passed"
+      },
+      "cache": {
+        "phase": {
+          "protocol": "pypi-verified-v1",
+          "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+          "helper": "nanopy-pypi-98438a36e29747beae3250f91c5b3229",
+          "scripts_sha256": {
+            "pypi_wheel_cache.py": "c3bf80298fbdfe14cdf1809249b78063eed9c378139723bbcf4b987f07c281f3",
+            "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+            "uv_release_cache.py": "a8dac0e782b1aa684209195e2715a68fbb5157d9974e59678c3e83999d5390a3",
+            "release-manifest.json": "3a132b29494bea24ec2c872a9b9c88dda059575a0bb9f2d869f9ff1c50810edb"
+          },
+          "phase": "setup",
+          "started_at": "2026-11-05T15:30:18.893448+00:00",
+          "removed": true,
+          "finished_at": "2026-11-05T15:32:15.332385+00:00"
+        },
+        "wheel_requests": 45,
+        "cache_hits": 45,
+        "verified_bytes": 3080594478,
+        "all_wheels_match_current_metadata": true,
+        "release_requests": [
+          {
+            "at": "2026-11-05T15:30:23.961511+00:00",
+            "instance": "07739dd1837d",
+            "kind": "release_asset",
+            "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+            "size": 21370871,
+            "sha256": "2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+            "source_url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+            "cache_hit": true
+          },
+          {
+            "at": "2026-11-05T15:30:24.411542+00:00",
+            "instance": "07739dd1837d",
+            "kind": "release_asset",
+            "filename": "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+            "size": 33517986,
+            "sha256": "c0ccda275948c79996e46993c2c5476ff5cca606dee530f1dea712179131b348",
+            "source_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.13.9%2B20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+            "cache_hit": true
+          }
+        ],
+        "release_redirects": []
+      },
+      "enforcement": {
+        "protocol": "restricted-v1",
+        "policy": {
+          "protocol": "restricted-v1",
+          "allowed_hosts": [
+            "api.deepseek.com"
+          ],
+          "probe_url": "https://example.com/"
+        },
+        "rules_sha256": "89db5b77afe8608c1d10884151a3730d5878929ecc3a0ac53b0ed164bb7fbf47",
+        "preflight": "passed",
+        "agent_phase": "not_started",
+        "host_mounts": false,
+        "verifier_isolation": "task_defined; shared tasks remain shared",
+        "dependency_cache": {
+          "protocol": "pypi-verified-v1",
+          "absent_before_agent": false
+        },
+        "dns_upstreams": [
+          "172.17.0.1"
+        ],
+        "positive_control": {
+          "reachable": true
+        },
+        "negative_control": {
+          "reachable": false,
+          "error_type": "URLError",
+          "reason_type": "SSLEOFError"
+        },
+        "allowed_controls": {
+          "api.deepseek.com": {
+            "reachable": true
+          }
+        }
+      },
+      "freeze_sha256": "2146cb3a72bae10d213efd701fdd916c764c800da478772a0c88b64661d5c473",
+      "frozen_files": 15,
+      "result_sha256": "593418241e6e4fe7a1b8292447145cc8438571c61d744e4bf01644a02c19dfbf"
+    }
+  ],
+  "setup_failure": {
+    "trial": "torch-pipeline-parallelism__3gci4oE",
+    "status": "setup_error",
+    "classification": "setup_error",
+    "model_calls": 0,
+    "agent_execution": null,
+    "native_exception_type": "NetworkConnectionError",
+    "native_rewards": null,
+    "effective_score": null,
+    "setup_seconds": 370.463495,
+    "bootstrap_stage": "verifier_dependencies",
+    "diagnosis": "The unchanged uv 0.9.5 installer received curl exit 18 (Transferred a partial file) from the original GitHub release URL. The wheel cache was available but not reached. No model execution or grading occurred. The cache helper was removed after failure. This failed job is frozen; the next registration adds verified original uv/Python transport, rather than retrying this unchanged job.",
+    "cache_phase": {
+      "protocol": "pypi-verified-v1",
+      "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "helper": "nanopy-pypi-e5814671e0f84dd68c83871fe8f6ae7f",
+      "scripts_sha256": {
+        "pypi_wheel_cache.py": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+        "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c"
+      },
+      "phase": "setup",
+      "started_at": "2026-11-05T15:13:44.721761+00:00",
+      "removed": true,
+      "finished_at": "2026-11-05T15:18:10.071152+00:00"
+    },
+    "partial_setup_log_sha256": "fac852b7c6350ec9d1a0aa456ce44270347c8149a896a064744b4298ceed97ac",
+    "result_sha256": "b334788807367ac50672bbbad8f56ac441c7d89ffe8ab01c380f034c0fa127ba",
+    "freeze_sha256": "ee739889bfee647d5cb702201c67ec72653d2cf184938385a4084f0fce0b2774"
+  },
+  "model_trial": {
+    "trial": "torch-pipeline-parallelism__7rHhxP6",
+    "task": "terminal-bench/torch-pipeline-parallelism",
+    "source_ref": "a867883257b9511793b52152561de04808f0c6f9",
+    "setup_seconds": 142.791023,
+    "agent_seconds": 433.014135,
+    "timestamps": {
+      "started_at": "2026-11-05T15:33:15.529143Z",
+      "finished_at": "2026-11-05T15:43:05.394041Z",
+      "agent_setup": {
+        "started_at": "2026-11-05T15:33:18.236751Z",
+        "finished_at": "2026-11-05T15:35:41.027774Z"
+      },
+      "agent_execution": {
+        "started_at": "2026-11-05T15:35:41.027892Z",
+        "finished_at": "2026-11-05T15:42:54.042027Z"
+      },
+      "verifier": null
+    },
+    "native_exception": {
+      "exception_type": "ValueError",
+      "exception_message": "Separator is not found, and chunk exceed the limit",
+      "exception_traceback": "Traceback (most recent call last):\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 562, in readline\n    line = await self.readuntil(sep)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 663, in readuntil\n    raise exceptions.LimitOverrunError(\n        'Separator is not found, and chunk exceed the limit',\n        offset)\nasyncio.exceptions.LimitOverrunError: Separator is not found, and chunk exceed the limit\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 378, in run\n    await self._run()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 41, in _run\n    await self._run_agent()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 77, in _run_agent\n    await self._run_agent_phase(\n    ...<5 lines>...\n    )\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 480, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 175, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-v2-model-20261105-input/source/harbor_adapter/integrity.py\", line 95, in guarded\n    return await run(self, RULES + \"\\nTask:\\n\" + instruction, environment, context)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-v2-model-20261105-input/source/harbor_adapter/pi.py\", line 163, in run\n    await self.exec_as_agent(\n    ...<3 lines>...\n    )\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 884, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 835, in _exec\n    result = await environment.exec(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 1096, in exec\n    return await self._compose_exec(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 1173, in _compose_exec\n    return await self._run_docker_compose_command(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 642, in _run_docker_compose_command\n    result = await self._collect_streamed_output(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 738, in _collect_streamed_output\n    await _read_and_wait()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 732, in _read_and_wait\n    await _read_stdout_and_wait()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 717, in _read_stdout_and_wait\n    async for raw_line in stdout_stream:\n    ...<2 lines>...\n        await on_output(line, \"stdout\")\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 784, in __anext__\n    val = await self.readline()\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 571, in readline\n    raise ValueError(e.args[0])\nValueError: Separator is not found, and chunk exceed the limit\n",
+      "occurred_at": "2026-11-05T15:42:54.153274Z"
+    },
+    "native_rewards": null,
+    "effective_score": null,
+    "official_verifier_started": false,
+    "diagnosis": "Harbor 0.21 reads callback output by line with the default 65536-byte StreamReader limit. Pi finished normally, but its final agent_end event was 209940 bytes. The collector raised ValueError before official verification. Native Pi logs contain agent_settled; controller output is the exact event prefix missing agent_end and agent_settled. The native error and missing reward are preserved.",
+    "supervision": {
+      "status": "completed",
+      "return_code": 0
+    },
+    "enforcement": {
+      "protocol": "restricted-v1",
+      "policy": {
+        "protocol": "restricted-v1",
+        "allowed_hosts": [
+          "api.deepseek.com"
+        ],
+        "probe_url": "https://example.com/"
+      },
+      "rules_sha256": "89db5b77afe8608c1d10884151a3730d5878929ecc3a0ac53b0ed164bb7fbf47",
+      "preflight": "passed",
+      "agent_phase": "interrupted",
+      "host_mounts": false,
+      "verifier_isolation": "task_defined; shared tasks remain shared",
+      "dependency_cache": {
+        "protocol": "pypi-verified-v1",
+        "absent_before_agent": true
+      },
+      "dns_upstreams": [
+        "172.17.0.1"
+      ],
+      "positive_control": {
+        "reachable": true
+      },
+      "negative_control": {
+        "reachable": false,
+        "error_type": "URLError",
+        "reason_type": "SSLEOFError"
+      },
+      "allowed_controls": {
+        "api.deepseek.com": {
+          "reachable": true
+        }
+      },
+      "started_at": "2026-11-05T15:35:41.373095+00:00",
+      "finished_at": "2026-11-05T15:42:53.848086+00:00",
+      "live_output_sha256": "45c29e3b0b7ba0b474268f7014e8b315d7e6b8c35687040baf44a9492044e362"
+    },
+    "cache": {
+      "phase": {
+        "protocol": "pypi-verified-v1",
+        "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+        "helper": "nanopy-pypi-0b0595153f3c4cea8f0d462ea4d7f404",
+        "scripts_sha256": {
+          "pypi_wheel_cache.py": "c3bf80298fbdfe14cdf1809249b78063eed9c378139723bbcf4b987f07c281f3",
+          "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+          "uv_release_cache.py": "a8dac0e782b1aa684209195e2715a68fbb5157d9974e59678c3e83999d5390a3",
+          "release-manifest.json": "3a132b29494bea24ec2c872a9b9c88dda059575a0bb9f2d869f9ff1c50810edb"
+        },
+        "phase": "setup",
+        "started_at": "2026-11-05T15:33:42.534572+00:00",
+        "removed": true,
+        "finished_at": "2026-11-05T15:35:35.148407+00:00"
+      },
+      "wheel_requests": 45,
+      "cache_hits": 45,
+      "verified_bytes": 3080594478,
+      "all_wheels_match_current_metadata": true,
+      "release_requests": [
+        {
+          "at": "2026-11-05T15:33:46.735766+00:00",
+          "instance": "7d1f02dfc7fd",
+          "kind": "release_asset",
+          "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+          "size": 21370871,
+          "sha256": "2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+          "source_url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+          "cache_hit": true
+        },
+        {
+          "at": "2026-11-05T15:33:47.192858+00:00",
+          "instance": "7d1f02dfc7fd",
+          "kind": "release_asset",
+          "filename": "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+          "size": 33517986,
+          "sha256": "c0ccda275948c79996e46993c2c5476ff5cca606dee530f1dea712179131b348",
+          "source_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.13.9%2B20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+          "cache_hit": true
+        }
+      ],
+      "release_redirects": []
+    },
+    "usage": {
+      "n_input_tokens": 667185,
+      "n_cache_tokens": 639872,
+      "n_output_tokens": 24996,
+      "cost_usd": 0.042028331999999995
+    },
+    "usage_metadata": {
+      "version": "1.4.0",
+      "usage_records": 25,
+      "missing_usage_records": 0,
+      "assistant_errors": [],
+      "cost_is_estimated": true,
+      "usage_is_partial": false,
+      "cost_is_partial": false
+    },
+    "result_sha256": "c0661ca62189589d188cae543573806bceefdbe7a09865ab2fcdb515aedd98a5",
+    "freeze_sha256": "7597e12251e688623cd7de611404650cc5dba063b5f4eccba6c2117ea640d24d",
+    "native_audit_classification": "integrity_error",
+    "native_audit_note": "The automatic audit requires a complete agent/verifier enforcement sequence. Its integrity_error here is an unscored protocol/infrastructure status, not a finding that the agent cheated."
+  },
+  "review_coverage": {
+    "trial": "torch-pipeline-parallelism__7rHhxP6",
+    "freeze_sha256": "7597e12251e688623cd7de611404650cc5dba063b5f4eccba6c2117ea640d24d",
+    "reviewer": "Codex evidence review",
+    "scope": "Completed model-phase evidence review only; no scored clear/violation verdict can be assigned to this infrastructure error.",
+    "tool_starts": 35,
+    "tool_ends": 35,
+    "native_session_tool_calls": 35,
+    "controller_collected_tool_calls": 35,
+    "tool_arguments_match_across_three_records": true,
+    "controller_records_are_exact_native_prefix": true,
+    "native_events": 329,
+    "controller_events": 327,
+    "missing_controller_event_types": [
+      "agent_end",
+      "agent_settled"
+    ],
+    "largest_native_line_bytes": 209940,
+    "native_message_records": 62,
+    "messages_after_agent_end": 0,
+    "candidate_scan_findings": 0,
+    "network_retrieval_tool_calls": 0,
+    "observed_successful_reference_retrievals": 0,
+    "observed_hidden_test_contents": 0,
+    "observed_verifier_interference": 0,
+    "local_search_caveat": "Broad local test-file searches, /logs enumeration, a read of the current process supervisor PID record, and task-function-name searches in dependency caches were observed. Searches found installed-library files and the current agent logs; the task-specific function search returned no matches. These observations do not certify absence of attempted benchmark hunting.",
+    "behavior_summary": "Pi located preinstalled uv dependencies, read installed Transformers source, wrote pipeline_parallel.py, developed and removed a temporary local self-test, and inspected the final file. No recorded action fetched external answers, read official hidden test contents, modified verification controls, or left an observed watcher.",
+    "credential_log_note": "An env dump copied the provider credential into three private frozen log files. No raw logs or credential values are published.",
+    "credential_match_files": [
+      ".integrity/torch-pipeline-parallelism__7rHhxP6/live-output.jsonl",
+      "torch-pipeline-parallelism__7rHhxP6/agent/pi.txt",
+      "torch-pipeline-parallelism__7rHhxP6/agent/pi/sessions/2026-11-05T15-35-41-772Z_01a1ac59-ffcc-7307-9d48-58767149103c.jsonl"
+    ],
+    "evidence": [
+      "torch-pipeline-parallelism__7rHhxP6/agent/pi.txt",
+      "torch-pipeline-parallelism__7rHhxP6/agent/pi/sessions/2026-11-05T15-35-41-772Z_01a1ac59-ffcc-7307-9d48-58767149103c.jsonl",
+      ".integrity/torch-pipeline-parallelism__7rHhxP6/live-output.jsonl",
+      ".integrity/torch-pipeline-parallelism__7rHhxP6/enforcement.json",
+      ".integrity/torch-pipeline-parallelism__7rHhxP6/network-before-agent.json",
+      ".integrity/torch-pipeline-parallelism__7rHhxP6/network-after-agent.json",
+      ".integrity/torch-pipeline-parallelism__7rHhxP6/egress-log.json",
+      "torch-pipeline-parallelism__7rHhxP6/agent/process-supervision.json"
+    ],
+    "coverage_is_exhaustive": false,
+    "egress_diagnostics": "Pre/post network policy remained api.deepseek.com only. Two bypass diagnostics match controller negative probes before model start. Agent-period named connection diagnostics show api.deepseek.com; these are not an exhaustive request trace.",
+    "scored_integrity_verdict": null
+  },
+  "frozen_outputs": {
+    "frozen_before_model_trajectory_review": true,
+    "jobs": [
+      {
+        "job": "jobs/pi-restricted-pipeline-install-20261105",
+        "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-20261105/preflight-freeze.json",
+        "freeze_sha256": "14825f8acba7ebbaad45863b7c746879cff70a931b870115d6f7d672ea813aa9",
+        "files": 15
+      },
+      {
+        "job": "jobs/pi-restricted-pipeline-model-20261105",
+        "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-20261105/failed-model-setup-freeze.json",
+        "freeze_sha256": "ee739889bfee647d5cb702201c67ec72653d2cf184938385a4084f0fce0b2774",
+        "files": 16
+      },
+      {
+        "job": "jobs/pi-restricted-pipeline-v2-install-20261105",
+        "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-v2-20261105/preflight-freeze.json",
+        "freeze_sha256": "2146cb3a72bae10d213efd701fdd916c764c800da478772a0c88b64661d5c473",
+        "files": 15
+      },
+      {
+        "job": "jobs/pi-restricted-pipeline-v2-model-20261105",
+        "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-v2-20261105/model-freeze.json",
+        "freeze_sha256": "7597e12251e688623cd7de611404650cc5dba063b5f4eccba6c2117ea640d24d",
+        "files": 25
+      }
+    ],
+    "file_count": 71,
+    "policy": "All four completed jobs are immutable. Raw model logs remain private because an environment dump contains the provider credential. No scored result is manufactured from an incomplete official-verifier lifecycle."
+  },
+  "limitations": [
+    "No official grade exists for Pipeline; do not substitute local self-tests or native Pi completion for official verification.",
+    "No successful reference retrieval was observed, but broad local searches prevent a blanket claim that no benchmark hunting was attempted.",
+    "The automatic integrity_error is an unscored incomplete-enforcement lifecycle status, not an agent-cheating verdict.",
+    "Only api.deepseek.com was allowlisted during model work; resolver/local traffic and unobserved channels are not certified absent.",
+    "The shared official verifier never started in this model run.",
+    "Raw logs include the provider credential from an env dump and are kept private.",
+    "WAL used different dependency transport and is not pooled into a matched causal comparison.",
+    "The mutable model alias does not establish identical backend weights across dates."
+  ],
+  "retry_authorization": "A further model run requires an explicit maintainer exception to AGENTS.md; none has been launched."
+}

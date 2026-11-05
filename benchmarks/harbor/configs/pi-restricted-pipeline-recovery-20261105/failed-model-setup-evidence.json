@@ -1,0 +1,29 @@
+{
+  "trial": "torch-pipeline-parallelism__3gci4oE",
+  "status": "setup_error",
+  "classification": "setup_error",
+  "model_calls": 0,
+  "agent_execution": null,
+  "native_exception_type": "NetworkConnectionError",
+  "native_rewards": null,
+  "effective_score": null,
+  "setup_seconds": 370.463495,
+  "bootstrap_stage": "verifier_dependencies",
+  "diagnosis": "The unchanged uv 0.9.5 installer received curl exit 18 (Transferred a partial file) from the original GitHub release URL. The wheel cache was available but not reached. No model execution or grading occurred. The cache helper was removed after failure. This failed job is frozen; the next registration adds verified original uv/Python transport, rather than retrying this unchanged job.",
+  "cache_phase": {
+    "protocol": "pypi-verified-v1",
+    "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+    "helper": "nanopy-pypi-e5814671e0f84dd68c83871fe8f6ae7f",
+    "scripts_sha256": {
+      "pypi_wheel_cache.py": "ced6bd7c1bf2b6ac1964c39d057708ba0e52c37c61a609651c49105ea145ea74",
+      "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c"
+    },
+    "phase": "setup",
+    "started_at": "2026-11-05T15:13:44.721761+00:00",
+    "removed": true,
+    "finished_at": "2026-11-05T15:18:10.071152+00:00"
+  },
+  "partial_setup_log_sha256": "fac852b7c6350ec9d1a0aa456ce44270347c8149a896a064744b4298ceed97ac",
+  "result_sha256": "b334788807367ac50672bbbad8f56ac441c7d89ffe8ab01c380f034c0fa127ba",
+  "freeze_sha256": "ee739889bfee647d5cb702201c67ec72653d2cf184938385a4084f0fce0b2774"
+}
