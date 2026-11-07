@@ -1,0 +1,190 @@
+{
+  "trial": "torch-pipeline-parallelism__HRsnb3D",
+  "status": "official_pass_reviewed",
+  "setup_seconds": 450.814699,
+  "agent_seconds": 454.165559,
+  "verifier_seconds": 312.179408,
+  "limits_seconds": {
+    "setup": 1800,
+    "agent": 900,
+    "verifier_per_attempt": 900
+  },
+  "exception_info": null,
+  "native_rewards": {
+    "reward": 1.0
+  },
+  "official_verifier": {
+    "retry_summary": {
+      "timeout_sec": 900.0,
+      "max_attempts": 3,
+      "retry_dependency_errors": false,
+      "retry_collection_errors": false,
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "completed",
+          "return_code": 0,
+          "duration_seconds": 309.39206128000023
+        }
+      ]
+    },
+    "pytest_collected": 4,
+    "pytest_passed": 4,
+    "pytest_seconds": 96.73,
+    "ctrf_summary": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "pending": 0,
+      "other": 0,
+      "start": 1794058478.9788337,
+      "stop": 1794058575.712475
+    },
+    "ctrf_note": "The unchanged CTRF artifact contains three test-name entries, merging the two parameterized pipeline cases under one name. Native pytest stdout separately reports four collected and passed cases; both artifacts remain untouched."
+  },
+  "enforcement": {
+    "protocol": "restricted-v1",
+    "policy": {
+      "protocol": "restricted-v1",
+      "allowed_hosts": [
+        "api.deepseek.com"
+      ],
+      "probe_url": "https://example.com/"
+    },
+    "rules_sha256": "89db5b77afe8608c1d10884151a3730d5878929ecc3a0ac53b0ed164bb7fbf47",
+    "preflight": "passed",
+    "agent_phase": "completed",
+    "host_mounts": false,
+    "verifier_isolation": "shared",
+    "dependency_cache": {
+      "protocol": "pypi-verified-v1",
+      "absent_before_agent": true
+    },
+    "dns_upstreams": [
+      "172.17.0.1"
+    ],
+    "positive_control": {
+      "reachable": true
+    },
+    "negative_control": {
+      "reachable": false,
+      "error_type": "URLError",
+      "reason_type": "SSLEOFError"
+    },
+    "allowed_controls": {
+      "api.deepseek.com": {
+        "reachable": true
+      }
+    },
+    "started_at": "2026-11-07T13:23:33.130984+00:00",
+    "finished_at": "2026-11-07T13:31:06.738556+00:00",
+    "live_output_sha256": "735dc6e663787f13076273d48b330b2bf686eb4ccd3b75777e996e891268b603",
+    "verification_started_at": "2026-11-07T13:31:07.261169+00:00"
+  },
+  "cache": {
+    "setup": {
+      "phase": {
+        "protocol": "pypi-verified-v1",
+        "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+        "helper": "nanopy-pypi-68e2a7cd87474fb383a126c60547d18e",
+        "scripts_sha256": {
+          "pypi_wheel_cache.py": "c3bf80298fbdfe14cdf1809249b78063eed9c378139723bbcf4b987f07c281f3",
+          "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+          "uv_release_cache.py": "a8dac0e782b1aa684209195e2715a68fbb5157d9974e59678c3e83999d5390a3",
+          "release-manifest.json": "efbb39f8dd4cadeb3e74a304220a8385f316f0340293d258052767bdf8049020"
+        },
+        "phase": "setup",
+        "started_at": "2026-11-07T13:21:44.617453+00:00",
+        "removed": true,
+        "finished_at": "2026-11-07T13:23:27.492850+00:00"
+      },
+      "wheel_requests": 45,
+      "cache_hits": 45,
+      "verified_bytes": 3080595097,
+      "all_wheels_match_current_metadata": true,
+      "release_requests": [
+        {
+          "at": "2026-11-07T13:21:48.494395+00:00",
+          "instance": "e3ea1e3b8f03",
+          "kind": "release_asset",
+          "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+          "size": 21370871,
+          "sha256": "2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+          "source_url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+          "cache_hit": true
+        },
+        {
+          "at": "2026-11-07T13:21:48.960556+00:00",
+          "instance": "e3ea1e3b8f03",
+          "kind": "release_asset",
+          "filename": "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+          "size": 33517986,
+          "sha256": "c0ccda275948c79996e46993c2c5476ff5cca606dee530f1dea712179131b348",
+          "source_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.13.9%2B20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+          "cache_hit": true
+        }
+      ],
+      "release_redirects": []
+    },
+    "verifier": {
+      "phase": {
+        "protocol": "pypi-verified-v1",
+        "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+        "helper": "nanopy-pypi-a432ff0b414a4556b847adb995b4f3e2",
+        "scripts_sha256": {
+          "pypi_wheel_cache.py": "c3bf80298fbdfe14cdf1809249b78063eed9c378139723bbcf4b987f07c281f3",
+          "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+          "uv_release_cache.py": "a8dac0e782b1aa684209195e2715a68fbb5157d9974e59678c3e83999d5390a3",
+          "release-manifest.json": "efbb39f8dd4cadeb3e74a304220a8385f316f0340293d258052767bdf8049020"
+        },
+        "phase": "verifier",
+        "started_at": "2026-11-07T13:31:07.688562+00:00",
+        "removed": true,
+        "finished_at": "2026-11-07T13:36:19.213170+00:00"
+      },
+      "wheel_requests": 0,
+      "cache_hits": 0,
+      "verified_bytes": 0,
+      "all_wheels_match_current_metadata": true,
+      "release_requests": [
+        {
+          "at": "2026-11-07T13:31:19.343520+00:00",
+          "instance": "e3ea1e3b8f03",
+          "kind": "release_asset",
+          "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+          "size": 21370871,
+          "sha256": "2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+          "source_url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+          "cache_hit": true
+        }
+      ],
+      "release_redirects": []
+    }
+  },
+  "supervision": {
+    "status": "completed",
+    "return_code": 0
+  },
+  "usage": {
+    "n_input_tokens": 1161502,
+    "n_cache_tokens": 1133952,
+    "n_output_tokens": 43244,
+    "cost_usd": 0.066961512
+  },
+  "usage_metadata": {
+    "version": "1.4.0",
+    "usage_records": 36,
+    "missing_usage_records": 0,
+    "assistant_errors": [],
+    "cost_is_estimated": true,
+    "usage_is_partial": false,
+    "cost_is_partial": false
+  },
+  "result_sha256": "75c855ad5c189527af68fe3f6ae5007b8604818be712b562d5054e443913dc79",
+  "freeze_sha256": "46ccc20811d83e910d679e41133d666351d61a4eb8338c1d01702454d08935e6",
+  "frozen_files": 33,
+  "effective_score": 1.0,
+  "scored_integrity_verdict": "clear",
+  "review_sha256": "52b81538cdbcb0b7a6f7760db62fdab93b230e831f4cf39faf6a149e357095ff"
+}

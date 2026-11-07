@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "experiment": "pi-restricted-pipeline-rerun-20261107",
+  "registration": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/experiment.json",
+  "registration_sha256": "8a07723be443c0aea8041cf0a2da4d8eb78c673e618d331b56da63d92d60e56b",
+  "source_ref": "ce8f346cee2fa340b3c1b1521df50bf62029a2a4",
+  "scope": "One explicitly authorized additional Pipeline model attempt after the preserved November 5 collector error; WAL is not rerun. Development follow-up, not a pooled or matched baseline.",
+  "model_attempts_executed": 1,
+  "prior_restricted_pipeline_model_attempts": 1,
+  "cumulative_restricted_pipeline_model_attempts": 2,
+  "prior_unscored_model_attempts": 1,
+  "whole_trial_retries": 0,
+  "official_verifier_attempts": 1,
+  "native_rewards": {
+    "reward": 1.0
+  },
+  "effective_score": 1.0,
+  "scored_integrity_verdict": "clear",
+  "native_exception_info": null,
+  "official_pytest": {
+    "collected": 4,
+    "passed": 4,
+    "failed": 0,
+    "seconds": 96.73
+  },
+  "native_ctrf_summary": {
+    "tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "pending": 0,
+    "other": 0,
+    "start": 1794058478.9788337,
+    "stop": 1794058575.712475
+  },
+  "ctrf_note": "The unchanged CTRF artifact contains three test-name entries, merging the two parameterized pipeline cases under one name. Native pytest stdout separately reports four collected and passed cases; both artifacts remain untouched.",
+  "timing_seconds": {
+    "preflight_setup": 126.769297,
+    "formal_setup": 450.814699,
+    "agent": 454.165559,
+    "verifier": 312.179408
+  },
+  "usage": {
+    "n_input_tokens": 1161502,
+    "n_cache_tokens": 1133952,
+    "n_output_tokens": 43244,
+    "cost_usd": 0.066961512
+  },
+  "usage_metadata": {
+    "version": "1.4.0",
+    "usage_records": 36,
+    "missing_usage_records": 0,
+    "assistant_errors": [],
+    "cost_is_estimated": true,
+    "usage_is_partial": false,
+    "cost_is_partial": false
+  },
+  "integrity_summary": {
+    "eligible_trials": 1,
+    "pending_review": 0,
+    "integrity_violations": 0,
+    "unscored_or_errors": 0,
+    "effective_pass_rate": 1.0
+  },
+  "evidence": {
+    "preflight-evidence": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/preflight-evidence.json",
+    "model-evidence": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/model-evidence.json",
+    "review-coverage": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/review-coverage.json",
+    "integrity-review": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/integrity-review.json",
+    "integrity-audit": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/integrity-audit.json",
+    "outputs-freeze": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/outputs-freeze.json",
+    "dependency-resolution-drift": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/dependency-resolution-drift.json",
+    "validation-evidence": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/validation-evidence.json"
+  },
+  "prior_results": [
+    "pi-restricted-dev2-20261104.json",
+    "pi-restricted-pipeline-recovery-20261105.json"
+  ],
+  "prior_collection_failure": {
+    "result": "jobs/pi-restricted-pipeline-v2-model-20261105/torch-pipeline-parallelism__7rHhxP6/result.json",
+    "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-v2-20261105/model-freeze.json",
+    "freeze_sha256": "7597e12251e688623cd7de611404650cc5dba063b5f4eccba6c2117ea640d24d",
+    "classification": "framework collection error; official verifier never started; unscored",
+    "fix_commit": "1b6e3dc"
+  },
+  "limitations": [
+    "The broad local task-function search timed out without returned matches; no blanket absence-of-benchmark-hunting claim.",
+    "No observed violation is not proof of exhaustive observation or absence of training contamination.",
+    "Only api.deepseek.com was allowlisted for model-phase TCP egress; local, DNS and ICMP exemptions remain.",
+    "The official verifier shares the original task container, after supervised agent completion.",
+    "The mutable model alias and changed unpinned regex dependency preclude an identical-environment or identical-weights causal comparison across dates.",
+    "Three private frozen logs contain the provider credential from the agent environment listing; no raw logs or credential values are published.",
+    "The November 5 completed model attempt remains an unscored framework error; historical open-network violations and WAL are kept separate."
+  ]
+}

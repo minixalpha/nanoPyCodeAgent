@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "job_dir": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-install-20261107",
+  "frozen_at": "2026-11-07T13:15:37.379129+00:00",
+  "files": {
+    ".integrity/torch-pipeline-parallelism__koY9EfQ/dependency-cache-setup-log.json": "9be7b00c731ccab5aff3905620c873cf233f0db8ef510d023b13c19fcd0a85ca",
+    ".integrity/torch-pipeline-parallelism__koY9EfQ/dependency-cache-setup.json": "a75679f6392937267f348533302313b0d685b0a1b792d096e1e1064a5f48b73e",
+    ".integrity/torch-pipeline-parallelism__koY9EfQ/dependency-setup-output.jsonl": "c0f44666d1172a06171dfaf3340af41d19a1d525651cde84660358ff027e9a9d",
+    ".integrity/torch-pipeline-parallelism__koY9EfQ/enforcement.json": "45d06294885a6d64ac8aead6386c78071253a8c9b8871a2122f440fd45e73058",
+    ".integrity/torch-pipeline-parallelism__koY9EfQ/network-preflight.json": "6cdb1220eec019f01d9e3f1b8854a6a14c6c48e054739f1140dcf0a293a0aaa0",
+    "config.json": "9a6a62672b2fa304069901ffcbb45fbd9e280aac977a26a3c5e87de9d9067156",
+    "job.log": "f8290bc98bbc98f00b1e4e91123938a46b37dbf600e7edbb80ac7f86c4502310",
+    "lock.json": "4226dfa87c94731fa55dc71214b1b9569704a21e6ee054f87ec1fffbef584d65",
+    "result.json": "ec866dbd8889cb4e7ec6d9e990317e519cd13b3cb6e18bcee55a51e1d43710d2",
+    "torch-pipeline-parallelism__koY9EfQ/agent/bootstrap.json": "cb8b95424615016e6611b9e1540fb15c08b2d2d87173f4bded1e9070ceb70b4c",
+    "torch-pipeline-parallelism__koY9EfQ/agent/process-supervision-required": "9e67a1538c0f96556945933b784624bed4b3f7d177108e2ee1af88d6ea1314c8",
+    "torch-pipeline-parallelism__koY9EfQ/config.json": "4060eb4f57ee1930c690413917c5273539158a877cbd769bb48e7a15cde1b402",
+    "torch-pipeline-parallelism__koY9EfQ/lock.json": "cce6fe391485f0fe42433f26c1a86f375c5353135c14851d79cd4e7106d1a641",
+    "torch-pipeline-parallelism__koY9EfQ/result.json": "171ad08f24c4b140009bcbb5f118bc42ed69379a0888709f14786f0a3c9aef00",
+    "torch-pipeline-parallelism__koY9EfQ/trial.log": "f8290bc98bbc98f00b1e4e91123938a46b37dbf600e7edbb80ac7f86c4502310"
+  }
+}

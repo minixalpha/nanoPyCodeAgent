@@ -322,8 +322,13 @@ Harbor 返回缺失输出流时 Pi 安装检查失败的问题。
 [Pipeline 依赖恢复](reports/zh-CN/pi-restricted-pipeline-recovery-20261105.md)
 使用经校验的 wheel 和原始 uv/Python 缓存，将全新容器安装缩短到 142.791023 秒；
 模型阶段缓存服务不存在。未观察到 Pi 获取外部答案，但很长的最终 JSON 事件使
-Harbor 输出采集器在官方验证之前出错。采集器现已修复并通过测试；Pipeline
-仍未评分，报告保留本地搜索行为的限定说明和所有失败尝试。
+Harbor 输出采集器在官方验证之前出错。采集器现已修复并通过测试；该次 Pipeline
+尝试仍未评分，报告保留本地搜索行为的限定说明和所有失败尝试。
+
+随后获得授权的 [Pipeline 重跑](reports/zh-CN/pi-restricted-pipeline-rerun-20261107.md)
+通过全部四项官方 pytest 用例，原始奖励和审查后的有效奖励均为 1.0。
+全部 382 个原生事件均被收集，包括一个 296,980 字节的最终事件。
+未观察到完整性违规；报告保留本地函数名搜索超时、依赖变化，以及私密日志含凭据的限定说明。
 
 ### DeepSeek Harness baseline
 

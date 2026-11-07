@@ -1,0 +1,19 @@
+{
+  "frozen_before_model_trajectory_review": true,
+  "jobs": [
+    {
+      "job": "jobs/pi-restricted-pipeline-install-20261107",
+      "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/preflight-freeze.json",
+      "freeze_sha256": "8b2c39461aa146d5ccc2b29e5a01d640a157e1a28507af6fc3837e057572012d",
+      "files": 15
+    },
+    {
+      "job": "jobs/pi-restricted-pipeline-model-20261107",
+      "freeze_manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/model-freeze.json",
+      "freeze_sha256": "46ccc20811d83e910d679e41133d666351d61a4eb8338c1d01702454d08935e6",
+      "files": 33
+    }
+  ],
+  "file_count": 48,
+  "policy": "Both completed jobs remain immutable. All earlier failed and successful attempts remain preserved. Raw credential-bearing model logs are private; only hashes and sanitized evidence are published."
+}

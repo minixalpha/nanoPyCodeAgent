@@ -400,8 +400,14 @@ The [Pipeline dependency recovery](reports/en/pi-restricted-pipeline-recovery-20
 completed fresh setup in 142.791023 seconds using verified wheel and original
 uv/Python caches that are absent during model work. Pi made no observed external
 answer retrieval, but a long final JSON event broke Harbor's output collector
-before official verification. The collector is now fixed and tested; Pipeline
-remains unscored, with local-search caveats and all failed attempts preserved.
+before official verification. The collector is now fixed and tested; that
+attempt remains unscored, with local-search caveats and all failed attempts preserved.
+
+The subsequently authorized [Pipeline rerun](reports/en/pi-restricted-pipeline-rerun-20261107.md)
+passed all four official pytest cases with raw and reviewed effective reward 1.0.
+All 382 native events were captured, including a 296,980-byte final event.
+No integrity violation was observed; the report retains the timed-out local
+function-name search, dependency drift, and private credential-log caveats.
 
 ### DeepSeek Harness baselines
 

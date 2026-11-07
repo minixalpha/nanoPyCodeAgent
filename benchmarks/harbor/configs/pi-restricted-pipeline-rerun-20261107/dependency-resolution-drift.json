@@ -1,0 +1,31 @@
+{
+  "scope": "Comparison of November 5 and November 7 install-only wheel requests; the original upstream dependency commands are unchanged. The transitive regex dependency is not pinned by the original command, so fresh source resolution selected its newer release. This is not a fully identical resolved environment across dates.",
+  "removed": [
+    {
+      "at": "2026-11-05T15:31:56.700736+00:00",
+      "instance": "07739dd1837d",
+      "kind": "wheel",
+      "filename": "regex-2026.9.29-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 807902,
+      "sha256": "d49c18f1ea294cf4adde2e5ac256e98c82ea9d708462ce4bf799dffa7cfe8a2c",
+      "cache_hit": true
+    }
+  ],
+  "added": [
+    {
+      "at": "2026-11-07T13:14:31.227354+00:00",
+      "instance": "5d1fb3ec4c11",
+      "kind": "wheel",
+      "filename": "regex-2026.11.7-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 808521,
+      "sha256": "be6bc581aa4f7e254a10c95940df8a48ab9bc6e503c29343d44a8d7224f4e4c5",
+      "cache_hit": false
+    }
+  ],
+  "same_filename_size_sha256": 44,
+  "apt": {
+    "removed": [],
+    "added": [],
+    "same_filename_size_sha256": 62
+  }
+}
