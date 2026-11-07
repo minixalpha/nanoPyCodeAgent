@@ -1,0 +1,25 @@
+{
+  "registered_at": "2026-11-05T15:24:45.573851+00:00",
+  "metadata_source": "Original public GitHub release API, fetched before this registration",
+  "assets": [
+    {
+      "version": "0.9.5",
+      "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+      "url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+      "digest": "sha256:2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+      "size": 21370871,
+      "asset_id": 306970260,
+      "release_metadata_sha256": "da2f5fa63817079603dfbbe5ba65f21de800dc983931ff7310edede3124f505d"
+    },
+    {
+      "version": "20251014",
+      "filename": "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.13.9%2B20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+      "digest": "sha256:c0ccda275948c79996e46993c2c5476ff5cca606dee530f1dea712179131b348",
+      "size": 33517986,
+      "asset_id": 304305340,
+      "release_metadata_sha256": "1d1d776f53b03890621ffb4455920ffcebb2647cb8ee4f10703f2ce3631d4166",
+      "repository": "astral-sh/python-build-standalone"
+    }
+  ]
+}

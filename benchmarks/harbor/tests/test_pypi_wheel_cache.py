@@ -200,3 +200,38 @@ def test_http_corrupt_cache_never_returns_successful_content(server, origin):
     with pytest.raises(HTTPError) as error:
         urlopen(wheel_url(server, origin))
     assert error.value.code == 502
+
+
+def test_combined_listener_serves_only_verified_release_assets(tmp_path):
+    from test_uv_release_cache import make_cache, request, uv
+    manifest, blob = make_cache(tmp_path)
+    server = ThreadingHTTPServer(("127.0.0.1", 0), proxy.Handler)
+    proxy.configure_releases(server, tmp_path, manifest)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        path = uv.asset_path("0.9.11")
+        assert request(server, path)[2] == blob.read_bytes()
+        assert request(server, path, headers={"Range": "bytes=2-5"})[2] == blob.read_bytes()[2:6]
+        assert request(server, uv.asset_path("0.9.99"))[1]["Location"] == "https://github.com" + uv.asset_path("0.9.99")
+        assert request(server, path + "?secret=ignored")[0] == 400
+        blob.write_bytes(b"x" * blob.stat().st_size)
+        assert request(server, path)[0] == 502
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()
+
+
+def test_combined_listener_rejects_changed_release_manifest(tmp_path):
+    from test_uv_release_cache import make_cache
+    manifest, _ = make_cache(tmp_path)
+    value = json.loads(manifest.read_text())
+    value["assets"][0]["size"] += 1
+    manifest.write_text(json.dumps(value))
+    server = ThreadingHTTPServer(("127.0.0.1", 0), proxy.Handler)
+    try:
+        with pytest.raises(ValueError, match="metadata"):
+            proxy.configure_releases(server, tmp_path, manifest)
+    finally:
+        server.server_close()

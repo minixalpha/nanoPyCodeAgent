@@ -1,0 +1,57 @@
+{
+  "recorded_at": "2026-11-05T16:06:45.480637+00:00",
+  "new_frozen_files": 71,
+  "new_freezes_unchanged": true,
+  "private_credential_match_files": [
+    "jobs/pi-restricted-pipeline-v2-model-20261105/.integrity/torch-pipeline-parallelism__7rHhxP6/live-output.jsonl",
+    "jobs/pi-restricted-pipeline-v2-model-20261105/torch-pipeline-parallelism__7rHhxP6/agent/pi/sessions/2026-11-05T15-35-41-772Z_01a1ac59-ffcc-7307-9d48-58767149103c.jsonl",
+    "jobs/pi-restricted-pipeline-v2-model-20261105/torch-pipeline-parallelism__7rHhxP6/agent/pi.txt"
+  ],
+  "public_artifact_exact_credential_matches": 0,
+  "prior_freezes": [
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-dev2-20261104/preflight-freeze.json",
+      "files": 21,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-dev2-20261104/wal-freeze.json",
+      "files": 28,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-deepseek-flash-dev3-rerun-20261102/outputs-freeze.json",
+      "files": 326,
+      "unchanged": true
+    }
+  ],
+  "task_files_unchanged": {
+    "README.md": "297ddea07c230dfd246a8ab07337dd7abcd8e5e2a2b2e26590cb0a8af779839c",
+    "environment/Dockerfile": "c357ea41e4a4013c5c5980b8fef04af6a5ae250ccc6697cf3bad3127401a931f",
+    "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+    "solution/solve.sh": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+    "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+    "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+    "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+  },
+  "initial_images": 7,
+  "all_initial_images_preserved": true,
+  "new_benchmark_containers_remaining": 0,
+  "preexisting_stopped_containers_preserved": 9,
+  "bilingual_reports": {
+    "present": true,
+    "full_translation_reviewed": true,
+    "inline_identifiers_match": true,
+    "numeric_values_match_after_month_translation": true,
+    "evidence_links_match": true,
+    "relative_links_resolve": true,
+    "files": {
+      "benchmarks/harbor/reports/en/pi-restricted-pipeline-recovery-20261105.md": "383de555c166a6e8594010ad3d735237c311db06d38187190e0ac92f7df94429",
+      "benchmarks/harbor/reports/zh-CN/pi-restricted-pipeline-recovery-20261105.md": "15b2430eaa83aa227cf62e643e9a2f1a797ed180c4c82fe1d2f70e4a775b624b"
+    }
+  },
+  "implementation_validation": "implementation-validation.json",
+  "native_event_replay": "native-event-replay.json",
+  "raw_rewards_and_exceptions_preserved": true,
+  "model_retries_after_collector_error": 0
+}

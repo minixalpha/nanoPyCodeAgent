@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-11-04T15:24:54.778588+00:00",
+  "policy": "All completed installation/model outputs frozen before trajectory review. No Pipeline model job launched because installation timed out.",
+  "jobs": [
+    {
+      "job": "jobs/pi-restricted-dev2-install-pair-01-20261104",
+      "freeze_path": "jobs/pi-restricted-dev2-install-pair-01-20261104-input/audit/freeze.json",
+      "freeze_sha256": "0e55b2b9144a8348dbc4ba502ee8f14b6fe91bf5d77430b9747cbf514bafa72b",
+      "file_count": 21
+    },
+    {
+      "job": "jobs/pi-restricted-dev2-db-wal-recovery-20261104",
+      "freeze_path": "jobs/pi-restricted-dev2-db-wal-recovery-20261104-input/audit/freeze.json",
+      "freeze_sha256": "f3558c60b13586c117534c8e753d1ebd5f7ee29aaf6b295b6520b0a81855ea5b",
+      "file_count": 28
+    }
+  ]
+}

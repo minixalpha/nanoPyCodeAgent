@@ -28,7 +28,19 @@ _DEEPSEEK = "harbor_adapter:DeepSeekHarnessAgent"
 def standard_config(raw: dict) -> JobConfig:
     """Validate policy before building or creating a benchmark environment."""
     raw = json.loads(json.dumps(raw))
+    dependency_cache = raw.pop("dependency_cache", None)
     integrity = IntegrityPolicy.model_validate(raw.pop("integrity")) if "integrity" in raw else None
+    if dependency_cache is not None:
+        from .dependency_cache import PROTOCOL
+        release_cache = (
+            isinstance(dependency_cache, dict)
+            and set(dependency_cache) == {"protocol", "release_manifest"}
+            and dependency_cache["protocol"] == PROTOCOL
+            and isinstance(dependency_cache["release_manifest"], str)
+            and bool(dependency_cache["release_manifest"])
+        )
+        if (dependency_cache != PROTOCOL and not release_cache) or integrity is None:
+            raise ValueError("dependency_cache requires pypi-verified-v1 and an integrity policy")
     raw.setdefault("retry", {"max_retries": 0})
     raw.setdefault("n_concurrent_trials", 1)
     raw.setdefault("verifier", {
@@ -123,6 +135,8 @@ def standard_config(raw: dict) -> JobConfig:
         config.environment.type = None
         config.environment.import_path = "harbor_adapter:IntegrityDockerEnvironment"
         config.environment.kwargs["integrity_policy"] = integrity.model_dump()
+        if dependency_cache is not None:
+            config.environment.kwargs["dependency_cache"] = dependency_cache
         config.verifier.kwargs["require_agent_quiescence"] = True
     return config
 
@@ -247,6 +261,13 @@ def run(args) -> int:
     source = record / "source"
     shutil.copytree(root / "benchmarks/harbor/src/harbor_adapter", source / "harbor_adapter", ignore=shutil.ignore_patterns("__pycache__"))
     cache = args.cache_dir.expanduser().resolve()
+    dependency_cache_input = None
+    if config.environment.kwargs.get("dependency_cache"):
+        from .dependency_cache import snapshot_scripts
+        option = config.environment.kwargs["dependency_cache"]
+        release_manifest = Path(option["release_manifest"]).expanduser().resolve() if isinstance(option, dict) else None
+        dependency_cache_input = snapshot_scripts(root, record / "dependency-cache", cache, release_manifest)
+        config.environment.kwargs["dependency_cache"] = dependency_cache_input
     wheel = None
     if any((agent.import_path or agent.name) == _NANO for agent in config.agents):
         shutil.copytree(root / "src/nanopycodeagent", source / "nanopycodeagent", ignore=shutil.ignore_patterns("__pycache__"))
@@ -282,6 +303,8 @@ def run(args) -> int:
         (record / "integrity-rules.txt").write_text(RULES)
     if pi_inputs:
         manifest["pi_inputs"] = pi_inputs
+    if dependency_cache_input:
+        manifest["dependency_cache_input"] = dependency_cache_input
     if deepseek_inputs:
         manifest["deepseek_inputs"] = deepseek_inputs
     (record / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

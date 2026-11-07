@@ -1,0 +1,93 @@
+{
+  "trial": "torch-pipeline-parallelism__koY9EfQ",
+  "status": "setup_passed",
+  "model_calls": 0,
+  "setup_seconds": 126.769297,
+  "setup_limit_seconds": 1800,
+  "dependency_profile": {
+    "profile": "torch-pipeline-parallelism-v1",
+    "status": "passed"
+  },
+  "cache": {
+    "phase": {
+      "protocol": "pypi-verified-v1",
+      "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "helper": "nanopy-pypi-b76561c2398540cea644c96cb831709c",
+      "scripts_sha256": {
+        "pypi_wheel_cache.py": "c3bf80298fbdfe14cdf1809249b78063eed9c378139723bbcf4b987f07c281f3",
+        "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+        "uv_release_cache.py": "a8dac0e782b1aa684209195e2715a68fbb5157d9974e59678c3e83999d5390a3",
+        "release-manifest.json": "efbb39f8dd4cadeb3e74a304220a8385f316f0340293d258052767bdf8049020"
+      },
+      "phase": "setup",
+      "started_at": "2026-11-07T13:13:12.007758+00:00",
+      "removed": true,
+      "finished_at": "2026-11-07T13:14:45.394312+00:00"
+    },
+    "wheel_requests": 45,
+    "cache_hits": 44,
+    "verified_bytes": 3080595097,
+    "all_wheels_match_current_metadata": true,
+    "release_requests": [
+      {
+        "at": "2026-11-07T13:13:16.777967+00:00",
+        "instance": "5d1fb3ec4c11",
+        "kind": "release_asset",
+        "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+        "size": 21370871,
+        "sha256": "2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+        "source_url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+        "cache_hit": true
+      },
+      {
+        "at": "2026-11-07T13:13:17.220297+00:00",
+        "instance": "5d1fb3ec4c11",
+        "kind": "release_asset",
+        "filename": "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "size": 33517986,
+        "sha256": "c0ccda275948c79996e46993c2c5476ff5cca606dee530f1dea712179131b348",
+        "source_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.13.9%2B20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "cache_hit": true
+      }
+    ],
+    "release_redirects": []
+  },
+  "enforcement": {
+    "protocol": "restricted-v1",
+    "policy": {
+      "protocol": "restricted-v1",
+      "allowed_hosts": [
+        "api.deepseek.com"
+      ],
+      "probe_url": "https://example.com/"
+    },
+    "rules_sha256": "89db5b77afe8608c1d10884151a3730d5878929ecc3a0ac53b0ed164bb7fbf47",
+    "preflight": "passed",
+    "agent_phase": "not_started",
+    "host_mounts": false,
+    "verifier_isolation": "task_defined; shared tasks remain shared",
+    "dependency_cache": {
+      "protocol": "pypi-verified-v1",
+      "absent_before_agent": false
+    },
+    "dns_upstreams": [
+      "172.17.0.1"
+    ],
+    "positive_control": {
+      "reachable": true
+    },
+    "negative_control": {
+      "reachable": false,
+      "error_type": "URLError",
+      "reason_type": "SSLEOFError"
+    },
+    "allowed_controls": {
+      "api.deepseek.com": {
+        "reachable": true
+      }
+    }
+  },
+  "freeze_sha256": "8b2c39461aa146d5ccc2b29e5a01d640a157e1a28507af6fc3837e057572012d",
+  "frozen_files": 15,
+  "result_sha256": "171ad08f24c4b140009bcbb5f118bc42ed69379a0888709f14786f0a3c9aef00"
+}

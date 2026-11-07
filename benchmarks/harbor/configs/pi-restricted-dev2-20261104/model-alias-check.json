@@ -1,0 +1,8 @@
+{
+  "observed_at": "2026-11-04T15:03:13.271595+00:00",
+  "endpoint": "https://api.deepseek.com/models",
+  "requested_model": "deepseek-flash",
+  "listed": true,
+  "model_calls": 0,
+  "credential_recorded": false
+}

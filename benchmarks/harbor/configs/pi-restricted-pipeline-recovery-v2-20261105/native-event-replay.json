@@ -1,0 +1,19 @@
+{
+  "model_calls": 0,
+  "input_path": "jobs/pi-restricted-pipeline-v2-model-20261105/torch-pipeline-parallelism__7rHhxP6/agent/pi.txt",
+  "input_sha256": "15abbe333fbbb9a3e9690f56495e0fa29907f4e806fe2718c94c466170bd3508",
+  "input_bytes": 1051638,
+  "original_harbor_collector": {
+    "status": "failed",
+    "exception_type": "ValueError",
+    "message": "Separator is not found, and chunk exceed the limit",
+    "process_terminated": true
+  },
+  "fixed_collector": {
+    "status": "completed",
+    "return_code": 0,
+    "exact_text_preserved": true,
+    "callback_text_preserved": true,
+    "chunks": 17
+  }
+}

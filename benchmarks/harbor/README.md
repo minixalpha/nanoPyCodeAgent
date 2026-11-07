@@ -90,8 +90,8 @@ does not count as a successful HTTPS blocking probe.
 Version one supports single-step Linux Dockerfile/prebuilt-image tasks with
 public native network policies. Custom Compose services, extra mounts,
 environment overrides, and task MCP servers are unsupported and fail closed.
-These limits deliberately exclude the historical dependency-cache Compose
-overlays until they have a reviewed isolation design. The protocol preserves
+These limits exclude the historical dependency-cache Compose overlays. The
+optional managed PyPI cache below has a separate, enforced lifecycle. The protocol preserves
 task images, package sources, official tests, resources, and native deadlines.
 CPU, memory, storage, GPU, and TPU overrides are rejected; CPU and memory
 enforcement must be `auto` (Docker's native limits) or `limit`.
@@ -132,6 +132,11 @@ an integrity-cleared score. The same audit can be invoked explicitly:
 uv run --project benchmarks/harbor python -m harbor_adapter audit \
   --job-dir jobs/<job-name> --output-dir jobs/<job-name>-input/audit
 ```
+
+Controller-collected `live-output.jsonl` records contain UTF-8 text chunks.
+Concatenate their `text` fields in order per stream before parsing native JSON
+events. Chunked collection preserves long single-line events, including Pi's
+final session summary, without changing command deadlines or cancellation.
 
 The output directory must be outside the job. Auditing refuses unfinished jobs,
 symbolic links, special files, and changes to an existing freeze. Scanning covers
@@ -238,7 +243,62 @@ whole-trial retries. CI checks these contracts without model calls or Docker.
 
 ### Verified PyPI wheel transport
 
-Large original PyPI wheels can use the optional loopback cache:
+Restricted runs with a reviewed verifier dependency profile and a shared
+verifier can opt into the managed cache by adding this top-level setting:
+
+```json
+{"dependency_cache": "pypi-verified-v1"}
+```
+
+The standard entry point snapshots and hashes the existing cache scripts. The
+controller starts a temporary helper for dependency preflight, removes it before
+network preflight, and rechecks that both the helper and its loopback listener
+are absent at the model boundary. Only the unchanged official verifier command
+can reopen the cache after process quiescence. Cancellation also removes the
+helper; unconfirmed cleanup stops the run. No cache service exists during model
+work, and the host allowlist is unchanged. No host directory is mounted into the
+task container.
+
+The helper uses the previously reviewed, digest-pinned
+`alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67`
+image, which must already be present in Docker. It receives only the read-only
+script snapshot and shared wheel cache, runs without capabilities or privilege
+escalation, and has limits of one CPU and 512 MiB. The task's own image and
+resources are unchanged. Its PyPI transport variables apply only to dependency
+preflight and official verification; `UV_HTTP_TIMEOUT=600` remains inside the
+registered phase deadlines. Package selection still uses current original PyPI
+metadata. All supported agents use the same preparation path.
+
+Partial setup output, cache metadata/hit logs, helper identities, script hashes,
+and cleanup records remain under the host-only `.integrity/<trial-id>/`
+directory. Integrity accounting requires cleanup evidence for both phases and
+the cache-absence check at the model boundary. The official verifier remains
+shared; this cache does not create an independent grading boundary. Unknown
+dependency profiles and separate verifiers currently reject this option.
+
+To reuse verified original uv and managed-Python archives too, prepare a new
+manifest using `uv_release_cache.py prepare` as described below, then use:
+
+```json
+{
+  "dependency_cache": {
+    "protocol": "pypi-verified-v1",
+    "release_manifest": "/path/to/registered/dependency-release-manifest.json"
+  }
+}
+```
+
+The manifest is copied and hashed with the scripts. The same helper receives
+the `uv-releases` cache read-only and serves registered archives on its existing
+loopback port. It verifies each archive against the original GitHub release
+metadata's filename, size, and SHA256; unknown releases retain their original
+GitHub URLs. Only setup and official verification receive
+`UV_INSTALLER_GITHUB_BASE_URL` and `UV_PYTHON_INSTALL_MIRROR`. The original
+installer scripts, uv's Python version selection, and model network policy
+remain unchanged. Release cache requests are recorded in the phase logs.
+
+The original standalone service remains available for explicitly registered
+historical protocols; do not attach it to restricted model execution:
 
 ```bash
 python benchmarks/harbor/scripts/pypi_wheel_cache.py \
@@ -329,6 +389,25 @@ recorded two official passes and one scored failure after confirmed timeout
 cancellation. Both new passes accessed public reference solutions and tests;
 neither is an independent solution. Original outcomes remain unchanged. The
 rerun also fixed Pi installation checks when Harbor returns absent output streams.
+
+The [restricted two-task follow-up](reports/en/pi-restricted-dev2-20261104.md)
+allowed only the DeepSeek API host during model work. WAL passed all seven
+official tests with no integrity violation observed in the reviewed evidence.
+Pipeline timed out during dependency preparation before any model call, so its
+behavior under restriction was untested in that run. Historical results remain separate.
+
+The [Pipeline dependency recovery](reports/en/pi-restricted-pipeline-recovery-20261105.md)
+completed fresh setup in 142.791023 seconds using verified wheel and original
+uv/Python caches that are absent during model work. Pi made no observed external
+answer retrieval, but a long final JSON event broke Harbor's output collector
+before official verification. The collector is now fixed and tested; that
+attempt remains unscored, with local-search caveats and all failed attempts preserved.
+
+The subsequently authorized [Pipeline rerun](reports/en/pi-restricted-pipeline-rerun-20261107.md)
+passed all four official pytest cases with raw and reviewed effective reward 1.0.
+All 382 native events were captured, including a 296,980-byte final event.
+No integrity violation was observed; the report retains the timed-out local
+function-name search, dependency drift, and private credential-log caveats.
 
 ### DeepSeek Harness baselines
 

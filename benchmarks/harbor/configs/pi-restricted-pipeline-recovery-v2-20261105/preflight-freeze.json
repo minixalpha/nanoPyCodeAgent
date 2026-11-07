@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "job_dir": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-v2-install-20261105",
+  "frozen_at": "2026-11-05T15:33:03.170985+00:00",
+  "files": {
+    ".integrity/torch-pipeline-parallelism__nmjPGxf/dependency-cache-setup-log.json": "7fa5b0e38cc233abd6d4707bb2c2d9823d0f9423d8a1c2743d37c78adf3af3b6",
+    ".integrity/torch-pipeline-parallelism__nmjPGxf/dependency-cache-setup.json": "7c8980a9a2bc0dfd74fc1369e849468ea9f667e84adc26b0cf123a76ed669f64",
+    ".integrity/torch-pipeline-parallelism__nmjPGxf/dependency-setup-output.jsonl": "da7b28db85042f49a2a274b441e9bd9b4ed68bac6d0748c93232a9fb3c74cdef",
+    ".integrity/torch-pipeline-parallelism__nmjPGxf/enforcement.json": "45d06294885a6d64ac8aead6386c78071253a8c9b8871a2122f440fd45e73058",
+    ".integrity/torch-pipeline-parallelism__nmjPGxf/network-preflight.json": "6cdb1220eec019f01d9e3f1b8854a6a14c6c48e054739f1140dcf0a293a0aaa0",
+    "config.json": "459333404325f51585412afce9c66b2d365d5c03d8c4a312987c8b85d87c7e8a",
+    "job.log": "1aa56875a96cf7a1f1f9dc5998c92db71d7ca69d4c4f76e0580710d7c8f1234d",
+    "lock.json": "2a1c949fa682c561dbf9040ff632e27316f2568b047e2082d8512ce59891f052",
+    "result.json": "b79ea2595322f74b4d0ec40ff6aad9e91cfe55d59625b868f8fbcd0ed30c3833",
+    "torch-pipeline-parallelism__nmjPGxf/agent/bootstrap.json": "e04a2352df91a1e2542a3b59809b130ca8d96c8742a2deba5e49b705ed5e6179",
+    "torch-pipeline-parallelism__nmjPGxf/agent/process-supervision-required": "9e67a1538c0f96556945933b784624bed4b3f7d177108e2ee1af88d6ea1314c8",
+    "torch-pipeline-parallelism__nmjPGxf/config.json": "79c123bf8e92dadd006b05298b97427868079357614bc7a38c2d8a1596d76493",
+    "torch-pipeline-parallelism__nmjPGxf/lock.json": "d4345f5126dfac64b5588fe85591dc0e6849d395e6a9005d28016b1e9b6651af",
+    "torch-pipeline-parallelism__nmjPGxf/result.json": "593418241e6e4fe7a1b8292447145cc8438571c61d744e4bf01644a02c19dfbf",
+    "torch-pipeline-parallelism__nmjPGxf/trial.log": "1aa56875a96cf7a1f1f9dc5998c92db71d7ca69d4c4f76e0580710d7c8f1234d"
+  }
+}

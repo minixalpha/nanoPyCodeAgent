@@ -127,6 +127,9 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             profile = verifier_profile(
                 self.logs_dir, getattr(environment, "environment_name", None),
             )
+            dependency_cache = getattr(environment, "dependency_cache", None)
+            if dependency_cache is not None and profile is None:
+                raise ValueError("Dependency cache requires a reviewed verifier profile")
             record["verifier_preflight"] = {
                 "profile": profile.name if profile else None,
                 "status": "pending" if profile else "not_configured",
@@ -138,7 +141,22 @@ class NanoPyCodeAgent(BaseInstalledAgent):
             if profile:
                 record["stage"] = "verifier_dependencies"
                 await self._install_apt(environment, profile.apt_packages)
-                await self.exec_as_agent(environment, command=profile.command)
+                if dependency_cache is None:
+                    await self.exec_as_agent(environment, command=profile.command)
+                else:
+                    # Collect partial installation output even if setup is cancelled.
+                    output_path = environment.evidence_dir / "dependency-setup-output.jsonl"
+                    output_path.parent.mkdir(parents=True, exist_ok=True)
+                    with output_path.open("x") as output:
+                        output_path.chmod(0o600)
+
+                        async def collect(text, stream):
+                            output.write(json.dumps({"stream": str(stream), "text": text}) + "\n")
+                            output.flush()
+
+                        async with dependency_cache.phase("setup") as cache_env:
+                            with environment.scoped_output_callback(collect):
+                                await self.exec_as_agent(environment, command=profile.command, env=cache_env)
                 record["verifier_preflight"]["status"] = "passed"
             if self._integrity_policy is not None:
                 from .integrity_environment import IntegrityDockerEnvironment

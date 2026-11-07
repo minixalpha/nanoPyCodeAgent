@@ -1,0 +1,106 @@
+{
+  "recorded_at": "2026-11-07T13:44:00.199959+00:00",
+  "registered_source": "ce8f346cee2fa340b3c1b1521df50bf62029a2a4",
+  "registration_unchanged": true,
+  "registered_infrastructure_unchanged": true,
+  "task_files_unchanged": {
+    "README.md": "297ddea07c230dfd246a8ab07337dd7abcd8e5e2a2b2e26590cb0a8af779839c",
+    "environment/Dockerfile": "c357ea41e4a4013c5c5980b8fef04af6a5ae250ccc6697cf3bad3127401a931f",
+    "instruction.md": "989bfcf0c54baf6c8cdc391743dbb2f9e858c5779dd85112536875d4d1b2dcd2",
+    "solution/solve.sh": "787198e4178d88b887697aefdd29819f29435ffdfe356545d92f58a30fb38b70",
+    "task.toml": "8b4f9f525c08afbbc4eca9168e46238a61ccb903486773e9ca4da64bb7ffe857",
+    "tests/test.sh": "cc9fd28b6590993fc37e4a99da771cbf04726c8c62fe308e802612241da69dea",
+    "tests/test_outputs.py": "23574246a407163a8e6581c84287cc2f1eb745efbaad2a317a5a28c39958c64f"
+  },
+  "frozen_groups_verified": {
+    "pi-restricted-dev2-20261104": 49,
+    "pi-restricted-pipeline-recovery-v2-20261105": 71,
+    "pi-restricted-pipeline-rerun-20261107": 48,
+    "pi-deepseek-flash-dev3-rerun-20261102": 326
+  },
+  "new_frozen_files": 48,
+  "historical_frozen_files_verified": 446,
+  "all_frozen_outputs_unchanged": true,
+  "freeze_verifications": [
+    {
+      "manifest": "jobs/pi-restricted-dev2-install-pair-01-20261104-input/audit/freeze.json",
+      "files": 21,
+      "unchanged": true
+    },
+    {
+      "manifest": "jobs/pi-restricted-dev2-db-wal-recovery-20261104-input/audit/freeze.json",
+      "files": 28,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-20261105/preflight-freeze.json",
+      "files": 15,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-20261105/failed-model-setup-freeze.json",
+      "files": 16,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-v2-20261105/preflight-freeze.json",
+      "files": 15,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-recovery-v2-20261105/model-freeze.json",
+      "files": 25,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/preflight-freeze.json",
+      "files": 15,
+      "unchanged": true
+    },
+    {
+      "manifest": "benchmarks/harbor/configs/pi-restricted-pipeline-rerun-20261107/model-freeze.json",
+      "files": 33,
+      "unchanged": true
+    }
+  ],
+  "public_artifact_exact_credential_matches": 0,
+  "private_credential_match_files": [
+    ".integrity/torch-pipeline-parallelism__HRsnb3D/live-output.jsonl",
+    "torch-pipeline-parallelism__HRsnb3D/agent/pi/sessions/2026-11-07T13-23-33-558Z_01a1b62d-be36-77f3-a22a-70c0a9031290.jsonl",
+    "torch-pipeline-parallelism__HRsnb3D/agent/pi.txt"
+  ],
+  "initial_images": 7,
+  "all_initial_images_preserved": true,
+  "new_benchmark_containers_remaining": 0,
+  "preexisting_stopped_containers_preserved": 9,
+  "bilingual_reports": {
+    "present": true,
+    "full_translation_reviewed": true,
+    "inline_identifiers_match": true,
+    "numeric_values_match_after_month_translation": true,
+    "evidence_links_match": true,
+    "relative_links_resolve": true,
+    "files": {
+      "benchmarks/harbor/reports/en/pi-restricted-pipeline-rerun-20261107.md": "a8dffd979c75849c43ae63be2a1ea67d9fe71b6015f776d2756f9b9940d03a0c",
+      "benchmarks/harbor/reports/zh-CN/pi-restricted-pipeline-rerun-20261107.md": "9158ab3c362e78c762092d4719fefaba5bcb713f12029b29a95ced4f43e8b36f"
+    }
+  },
+  "implementation_unchanged_since_previous_validation": true,
+  "previous_implementation_validation": "../pi-restricted-pipeline-recovery-v2-20261105/implementation-validation.json",
+  "registered_source_ci": {
+    "pytest (Python 3.13)": "success",
+    "pytest (Python 3.14)": "success",
+    "Harbor workflow contracts": "success"
+  },
+  "fresh_runtime_validation": {
+    "dependency_preflight": "passed",
+    "network_preflight": "passed",
+    "native_events_exactly_collected": 382,
+    "largest_native_event_bytes": 296980,
+    "official_pytest_passed": 4,
+    "official_verifier_attempts": 1,
+    "integrity_review": "no_observed_violation"
+  },
+  "raw_rewards_and_exceptions_preserved": true,
+  "additional_model_attempts_executed_under_explicit_authorization": 1
+}

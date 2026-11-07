@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "job_dir": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-v2-model-20261105",
+  "frozen_at": "2026-11-05T15:43:10.476317+00:00",
+  "files": {
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/dependency-cache-setup-log.json": "90b7015edc88cbcfcf8d88199ed908383b98a38c3c3e1d77eef99e8e09cdc71a",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/dependency-cache-setup.json": "922eb4199d609adb90b8d2b408fad5702a8f55f413dc5d2d377da979ed0523fa",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/dependency-setup-output.jsonl": "c01df364a4e19e1579e08c25fe1f7a87880ce75405b60e3f3123fe89e0982dbe",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/egress-log.json": "d885a4f8631ae237b61373efc7420e935782dd68cb39b14c4fed830cf0a25291",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/enforcement.json": "f2116ecd46fc1e8e41fd1d8da429b43048b2af8289bec50cc9bdde01a42b3f15",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/live-output.jsonl": "45c29e3b0b7ba0b474268f7014e8b315d7e6b8c35687040baf44a9492044e362",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/network-after-agent.json": "6cdb1220eec019f01d9e3f1b8854a6a14c6c48e054739f1140dcf0a293a0aaa0",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/network-before-agent.json": "6cdb1220eec019f01d9e3f1b8854a6a14c6c48e054739f1140dcf0a293a0aaa0",
+    ".integrity/torch-pipeline-parallelism__7rHhxP6/network-preflight.json": "6cdb1220eec019f01d9e3f1b8854a6a14c6c48e054739f1140dcf0a293a0aaa0",
+    "config.json": "f69f572587b361b2d298d28e1ec2d660558730db8fce9dde4c4a253f97c14c6f",
+    "job.log": "3ab2e5ad3076c7d28e8a22369149ca7b83372a61efa5196a0fd4bcc29998b44d",
+    "lock.json": "f5b25a3c76c37015df42b049275808fa4418f53466fceb2f4a278390caaa65d8",
+    "result.json": "75f5dc6a4c465cbc6702334ccd4d915ccd9c4629e3faa08679de22e469ab3144",
+    "torch-pipeline-parallelism__7rHhxP6/agent/bootstrap.json": "92a8744319b84ea397a1db55fac0fd947c7e3b71988ba7ea0561361f39afc1ca",
+    "torch-pipeline-parallelism__7rHhxP6/agent/pi/sessions/2026-11-05T15-35-41-772Z_01a1ac59-ffcc-7307-9d48-58767149103c.jsonl": "970e3b5846dcbca0e2e5a02a4bb9af61097cbd9f7a941eeab247644a6e9f41ca",
+    "torch-pipeline-parallelism__7rHhxP6/agent/pi-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "torch-pipeline-parallelism__7rHhxP6/agent/pi.txt": "15abbe333fbbb9a3e9690f56495e0fa29907f4e806fe2718c94c466170bd3508",
+    "torch-pipeline-parallelism__7rHhxP6/agent/process-supervision-required": "9e67a1538c0f96556945933b784624bed4b3f7d177108e2ee1af88d6ea1314c8",
+    "torch-pipeline-parallelism__7rHhxP6/agent/process-supervision.json": "c86e08060391f52429e8b442add8a03983fa0caf8f19eb62ad580208cc0bd7af",
+    "torch-pipeline-parallelism__7rHhxP6/artifacts/manifest.json": "8d0a02e9c17d62af6176024f463c041ed30ff29d3a7b66dadbeab1d762b0cbd9",
+    "torch-pipeline-parallelism__7rHhxP6/config.json": "f89221974acec7af974f6ab54379fb72e1a685e2bf411ab7d7ff968308fed397",
+    "torch-pipeline-parallelism__7rHhxP6/exception.txt": "04324fe90de83336cd00549cc8d9996c99a2ee6e31feccac76dd59a2f3c19ce2",
+    "torch-pipeline-parallelism__7rHhxP6/lock.json": "ba5b7cbb6387f18b3ef6ab5aab8b08aaed5917ca54c4f3ff1db4c8c3ef456adf",
+    "torch-pipeline-parallelism__7rHhxP6/result.json": "c0661ca62189589d188cae543573806bceefdbe7a09865ab2fcdb515aedd98a5",
+    "torch-pipeline-parallelism__7rHhxP6/trial.log": "a34e6c85e0dbf9a8789dea60e879d12375ef92f1ebf45fb53bcccba9bfd75a63"
+  }
+}

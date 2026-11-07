@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "job_dir": "/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-install-20261105",
+  "frozen_at": "2026-11-05T15:11:40.782169+00:00",
+  "files": {
+    ".integrity/torch-pipeline-parallelism__ECDiMhB/dependency-cache-setup-log.json": "abe554d7f5d23e8c4680b8b37ef8047b94101681045f640ff8ea869f25638f32",
+    ".integrity/torch-pipeline-parallelism__ECDiMhB/dependency-cache-setup.json": "98c7263417d77582531b230cdafd6161df8cc661208e86fc4fd90af47b568079",
+    ".integrity/torch-pipeline-parallelism__ECDiMhB/dependency-setup-output.jsonl": "aa22ec310e13d98ade51b2b2dad590a4d8938754109449dc7f8b7a47d39ff4e4",
+    ".integrity/torch-pipeline-parallelism__ECDiMhB/enforcement.json": "45d06294885a6d64ac8aead6386c78071253a8c9b8871a2122f440fd45e73058",
+    ".integrity/torch-pipeline-parallelism__ECDiMhB/network-preflight.json": "6cdb1220eec019f01d9e3f1b8854a6a14c6c48e054739f1140dcf0a293a0aaa0",
+    "config.json": "52bf4ddb7d611ac13832ac8faef7b825ef1c1ae42dee44cb5b0bc8837fbd2d75",
+    "job.log": "1ed582a1bc7793ab942eeaa0c8e7642448c4dd9a7f4878caf6c166b6a3b32c3c",
+    "lock.json": "86d41e592174f57f88b95aa4ba31d06714d49520dfc189c362dc4cce46a33a7e",
+    "result.json": "c8bff727a9861ef4d01cf440cd98f70cfdffc1478d9885b920dd519c4681faf6",
+    "torch-pipeline-parallelism__ECDiMhB/agent/bootstrap.json": "4888105f026b9e6be5d2861c6650b8c8ecfdb5375e2a262bf1a4038652860846",
+    "torch-pipeline-parallelism__ECDiMhB/agent/process-supervision-required": "9e67a1538c0f96556945933b784624bed4b3f7d177108e2ee1af88d6ea1314c8",
+    "torch-pipeline-parallelism__ECDiMhB/config.json": "a43ff89859b054f2aa76dd38b64d85f88b2404b448b13965c5d10597f4c17a1b",
+    "torch-pipeline-parallelism__ECDiMhB/lock.json": "12a5f954a79220bf1e1d0d29ded119c52e8b03321dae828aecac53cb0339006f",
+    "torch-pipeline-parallelism__ECDiMhB/result.json": "59c6a75600f5a464d8984174e99eafc1427a0ad53057e4fc5913ea85efccf0f5",
+    "torch-pipeline-parallelism__ECDiMhB/trial.log": "1ed582a1bc7793ab942eeaa0c8e7642448c4dd9a7f4878caf6c166b6a3b32c3c"
+  }
+}

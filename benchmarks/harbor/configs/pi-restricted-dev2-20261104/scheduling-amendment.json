@@ -1,0 +1,14 @@
+{
+  "registered_at": "2026-11-04T15:15:05.043947+00:00",
+  "supersedes_model_queue": "experiment.json",
+  "reason": "Pipeline cold dependency downloads are delaying the already-passed WAL installation. Permit independent task release after its own complete preflight.",
+  "model_calls_before_amendment": 0,
+  "total_authorized_model_attempts": 2,
+  "task_configs_unchanged": true,
+  "integrity_policy_unchanged": true,
+  "deadlines_unchanged": true,
+  "wal_plan": "experiment-wal.json",
+  "wal_plan_sha256": "c6afe37cbe47ec07bcb15bb24b93a76fa848d9632dec4572338e48047507999d",
+  "pipeline_policy": "Only release after a successful pipeline installation and integrity preflight; preserve failed checks and do not widen networking.",
+  "max_concurrent_task_containers": 2
+}

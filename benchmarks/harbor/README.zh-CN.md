@@ -73,7 +73,8 @@ UDP DNS 转发仅允许到 Docker 可信 sidecar 报告的精确上游解析器�
 
 第一版支持原生网络策略为公开网络的单步 Linux Dockerfile/预构建镜像任务。
 自定义 Compose 服务、额外挂载、环境覆盖和题目 MCP 服务暂不支持，遇到时直接
-拒绝运行。因此，历史依赖缓存 Compose 覆盖配置需要经过隔离设计审阅后才能接入。
+拒绝运行。历史依赖缓存 Compose 覆盖配置仍被排除；下文的可选托管 PyPI 缓存
+具有单独强制执行的生命周期。
 协议保留题目镜像、软件源、官方测试、资源和原生时限。CPU、内存、存储、GPU
 和 TPU 的资源覆盖配置会被拒绝；CPU 和内存的执行策略必须为 `auto`（Docker
 原生限制）或 `limit`。题目缺失依赖仍按原验证器
@@ -106,6 +107,10 @@ UDP DNS 转发仅允许到 Docker 可信 sidecar 报告的精确上游解析器�
 uv run --project benchmarks/harbor python -m harbor_adapter audit \
   --job-dir jobs/<job-name> --output-dir jobs/<job-name>-input/audit
 ```
+
+控制器采集的 `live-output.jsonl` 记录包含 UTF-8 文本块。解析原生 JSON 事件前，
+应按各输出流的顺序拼接其 `text` 字段。分块采集可以完整保留很长的单行事件，
+包括 Pi 最后的会话汇总，同时保持命令时限与取消机制不变。
 
 输出目录必须位于 job 之外。未结束的 job、符号链接、特殊文件，以及冻结后发生
 变化的证据都会被拒绝。扫描覆盖各 adapter 原生文本/JSON 日志、采集输出与网络
@@ -193,7 +198,52 @@ CPU 索引和 `unsafe-best-match` 策略；其他 PyTorch 配置保留原始默�
 
 ### 校验后的 PyPI wheel 传输
 
-较大的原始 PyPI wheel 可使用可选的本地回环缓存：
+已有经审查 verifier 依赖 profile、且使用共享 verifier 的受限运行，可以添加
+以下顶层设置来启用托管缓存：
+
+```json
+{"dependency_cache": "pypi-verified-v1"}
+```
+
+标准入口会对现有缓存脚本建立快照并记录哈希。控制器在依赖预检期间启动临时
+辅助容器，在网络预检之前移除它，并在模型边界再次确认辅助容器及其本地回环
+监听端口均不存在。只有未经修改的官方 verifier 命令才能在确认 agent 进程
+停止后重新开启缓存。取消时也会移除辅助容器；无法确认清理成功则终止运行。
+模型工作期间不存在缓存服务，主机白名单保持不变。不会向题目容器挂载宿主目录。
+
+辅助容器使用此前已审查、固定 digest 的
+`alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67`
+镜像，该镜像必须已存在于 Docker 中。它只接收只读脚本快照和共享 wheel 缓存，
+禁用全部 capabilities 和权限提升，并限制为一个 CPU、512 MiB 内存。
+题目自身的镜像与资源保持不变。PyPI 传输环境变量仅用于依赖预检和官方验证；
+`UV_HTTP_TIMEOUT=600` 仍受已登记的各阶段时限约束。软件包选择仍依据原始 PyPI
+当前元数据。所有受支持 agent 共用同一准备流程。
+
+部分安装输出、缓存元数据/命中日志、辅助容器标识、脚本哈希及清理记录均保存在
+宿主专属 `.integrity/<trial-id>/` 目录。完整性计分要求两个阶段都有清理证据，
+并具有模型边界处缓存不存在的检查记录。官方 verifier 仍是共享环境；该缓存
+不会建立独立评分边界。目前未知依赖 profile 和独立 verifier 均拒绝此选项。
+
+如需同时复用经校验的原始 uv 和托管 Python 发行包，先按照下文说明使用
+`uv_release_cache.py prepare` 准备新清单，再采用以下配置：
+
+```json
+{
+  "dependency_cache": {
+    "protocol": "pypi-verified-v1",
+    "release_manifest": "/path/to/registered/dependency-release-manifest.json"
+  }
+}
+```
+
+清单与脚本一起复制并记录哈希。同一个辅助容器以只读方式挂载 `uv-releases`
+缓存，在原有回环端口提供已登记的发行包。每个归档均按原始 GitHub 发布元数据
+中的文件名、大小和 SHA256 校验；未登记的版本仍使用原始 GitHub URL。
+仅安装和官方验证阶段会收到 `UV_INSTALLER_GITHUB_BASE_URL` 与
+`UV_PYTHON_INSTALL_MIRROR`。原始安装脚本、uv 的 Python 版本选择和模型网络
+策略均保持不变。发行包缓存请求记录在对应阶段日志中。
+
+原有独立服务仍可用于明确登记的历史协议；不得将其接入受限模型执行阶段：
 
 ```bash
 python benchmarks/harbor/scripts/pypi_wheel_cache.py \
@@ -263,6 +313,22 @@ Docker 空间受限时，可以通过 `batch_images` 计划按批恢复已注册
 记录了两次官方通过，以及一次超时后确认停止的计分失败。两次新的通过都访问了
 公开参考解法和测试，均不属于独立解题。原始结果保持不变。本次重跑还修复了
 Harbor 返回缺失输出流时 Pi 安装检查失败的问题。
+
+[受限网络下的两题后续检查](reports/zh-CN/pi-restricted-dev2-20261104.md)
+在模型工作期间仅将 DeepSeek API 主机加入白名单。WAL 通过全部七项官方测试，
+在已审查证据中未观察到完整性违规。Pipeline 在任何模型调用之前的依赖准备阶段超时，
+因此该轮未能测试其在受限网络下的行为。历史结果仍单独保留。
+
+[Pipeline 依赖恢复](reports/zh-CN/pi-restricted-pipeline-recovery-20261105.md)
+使用经校验的 wheel 和原始 uv/Python 缓存，将全新容器安装缩短到 142.791023 秒；
+模型阶段缓存服务不存在。未观察到 Pi 获取外部答案，但很长的最终 JSON 事件使
+Harbor 输出采集器在官方验证之前出错。采集器现已修复并通过测试；该次 Pipeline
+尝试仍未评分，报告保留本地搜索行为的限定说明和所有失败尝试。
+
+随后获得授权的 [Pipeline 重跑](reports/zh-CN/pi-restricted-pipeline-rerun-20261107.md)
+通过全部四项官方 pytest 用例，原始奖励和审查后的有效奖励均为 1.0。
+全部 382 个原生事件均被收集，包括一个 296,980 字节的最终事件。
+未观察到完整性违规；报告保留本地函数名搜索超时、依赖变化，以及私密日志含凭据的限定说明。
 
 ### DeepSeek Harness baseline
 

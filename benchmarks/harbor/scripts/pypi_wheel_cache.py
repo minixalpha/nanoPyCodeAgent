@@ -169,6 +169,9 @@ class Handler(BaseHTTPRequestHandler):
             self.send_error(400, "Unexpected query")
             return
         try:
+            if path.path.startswith("/astral-sh/") and hasattr(self.server, "releases"):
+                self.server.releases.Handler.respond(self, head)
+                return
             if path.path == "/health":
                 self.headers_for(200, 0, "text/plain")
                 return
@@ -226,6 +229,18 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_error(502, "Original PyPI metadata or wheel validation failed")
 
 
+def configure_releases(server, cache, manifest):
+    """Use the reviewed original-release handler on the same loopback listener."""
+    spec = importlib.util.spec_from_file_location(
+        "dependency_release_cache", Path(__file__).with_name("uv_release_cache.py"),
+    )
+    releases = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(releases)
+    server.assets = releases.registered_assets(cache, manifest)
+    server.releases = releases
+    server.release_event = event
+
+
 def main():
     global AUDIT_LOG
     parser = argparse.ArgumentParser(description=__doc__)
@@ -234,16 +249,22 @@ def main():
     parser.add_argument("--port", type=int, default=18744)
     parser.add_argument("--workers", type=int, default=16)
     parser.add_argument("--downloads", type=int, default=2)
+    parser.add_argument("--release-cache", type=Path)
+    parser.add_argument("--release-manifest", type=Path)
     parser.add_argument("--audit-log", type=Path,
                         help="Append public metadata and verified cache events for the run")
     args = parser.parse_args()
     if not 1 <= args.workers <= 32 or not 1 <= args.downloads <= 4:
         parser.error("Use 1-32 workers and 1-4 concurrent wheel downloads")
+    if bool(args.release_cache) != bool(args.release_manifest):
+        parser.error("Both release cache and manifest are required")
     AUDIT_LOG = args.audit_log
     if AUDIT_LOG is not None:
         AUDIT_LOG.parent.mkdir(parents=True, exist_ok=True)
     server = ThreadingHTTPServer((args.bind, args.port), Handler)
     server.cache = WheelCache(args.cache, workers=args.workers, downloads=args.downloads)
+    if args.release_cache:
+        configure_releases(server, args.release_cache, args.release_manifest)
     event(kind="ready", bind=args.bind, port=args.port)
     server.serve_forever()
 

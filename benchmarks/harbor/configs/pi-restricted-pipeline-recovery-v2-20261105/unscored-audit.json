@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "freeze_sha256": "7597e12251e688623cd7de611404650cc5dba063b5f4eccba6c2117ea640d24d",
+  "review_sha256": null,
+  "scan_is_exhaustive": false,
+  "note": "Candidate flags require review. No matches do not prove absence of reference exposure, tampering, or training contamination.",
+  "summary": {
+    "eligible_trials": 0,
+    "pending_review": 0,
+    "integrity_violations": 0,
+    "unscored_or_errors": 1,
+    "effective_pass_rate": null
+  },
+  "trials": [
+    {
+      "trial": "torch-pipeline-parallelism__7rHhxP6",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "native_rewards": null,
+      "native_exception_type": "ValueError",
+      "confirmed_timeout": false,
+      "enforcement": "not_established",
+      "verifier_isolation": "task_defined; shared tasks remain shared",
+      "classification": "integrity_error",
+      "eligible": false,
+      "effective_score": null,
+      "review": null
+    }
+  ],
+  "findings": []
+}

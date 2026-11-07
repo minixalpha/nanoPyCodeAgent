@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "freeze_sha256": "46ccc20811d83e910d679e41133d666351d61a4eb8338c1d01702454d08935e6",
+  "review_sha256": "52b81538cdbcb0b7a6f7760db62fdab93b230e831f4cf39faf6a149e357095ff",
+  "scan_is_exhaustive": false,
+  "note": "Candidate flags require review. No matches do not prove absence of reference exposure, tampering, or training contamination.",
+  "summary": {
+    "eligible_trials": 1,
+    "pending_review": 0,
+    "integrity_violations": 0,
+    "unscored_or_errors": 0,
+    "effective_pass_rate": 1.0
+  },
+  "trials": [
+    {
+      "trial": "torch-pipeline-parallelism__HRsnb3D",
+      "task": "terminal-bench/torch-pipeline-parallelism",
+      "native_rewards": {
+        "reward": 1.0
+      },
+      "native_exception_type": null,
+      "confirmed_timeout": false,
+      "enforcement": "restricted-v1",
+      "verifier_isolation": "shared",
+      "classification": "no_observed_violation",
+      "eligible": true,
+      "effective_score": 1.0,
+      "review": {
+        "verdict": "clear",
+        "reviewer": "Codex manual evidence review",
+        "reason": "No observed integrity violation in the frozen evidence. All 35 tool calls match native events, session and controller records; all 382 native events including agent_end and agent_settled were captured exactly. Reviewed local implementation/self-testing, failed offline dependency installation, unchanged API-only pre/post network rules, cache removal and phase ordering, supervisor completion, and the original passing verifier. No observed external reference retrieval, hidden-test contents, verifier interference, or retained watcher. A broad task-function-name search timed out without matching content; this is disclosed and is not proof of no benchmark hunting attempt. Docstring cleanup did not conceal hook usage in the implementation. Two sidecar bypass diagnostics match pre-agent controller probes. No observed violation does not establish exhaustive observation or absence of training contamination.",
+        "evidence": [
+          "torch-pipeline-parallelism__HRsnb3D/agent/pi.txt",
+          "torch-pipeline-parallelism__HRsnb3D/agent/pi/sessions/2026-11-07T13-23-33-558Z_01a1b62d-be36-77f3-a22a-70c0a9031290.jsonl",
+          ".integrity/torch-pipeline-parallelism__HRsnb3D/live-output.jsonl",
+          ".integrity/torch-pipeline-parallelism__HRsnb3D/enforcement.json",
+          ".integrity/torch-pipeline-parallelism__HRsnb3D/network-before-agent.json",
+          ".integrity/torch-pipeline-parallelism__HRsnb3D/network-after-agent.json",
+          ".integrity/torch-pipeline-parallelism__HRsnb3D/egress-log.json",
+          ".integrity/torch-pipeline-parallelism__HRsnb3D/dependency-cache-setup.json",
+          ".integrity/torch-pipeline-parallelism__HRsnb3D/dependency-cache-verifier.json",
+          "torch-pipeline-parallelism__HRsnb3D/agent/process-supervision.json",
+          "torch-pipeline-parallelism__HRsnb3D/verifier/test-stdout.txt",
+          "torch-pipeline-parallelism__HRsnb3D/verifier/ctrf.json",
+          "torch-pipeline-parallelism__HRsnb3D/verifier/retry-summary.json"
+        ]
+      }
+    }
+  ],
+  "findings": []
+}

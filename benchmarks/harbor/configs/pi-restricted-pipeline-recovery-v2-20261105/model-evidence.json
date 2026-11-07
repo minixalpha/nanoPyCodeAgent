@@ -1,0 +1,135 @@
+{
+  "trial": "torch-pipeline-parallelism__7rHhxP6",
+  "task": "terminal-bench/torch-pipeline-parallelism",
+  "source_ref": "a867883257b9511793b52152561de04808f0c6f9",
+  "setup_seconds": 142.791023,
+  "agent_seconds": 433.014135,
+  "timestamps": {
+    "started_at": "2026-11-05T15:33:15.529143Z",
+    "finished_at": "2026-11-05T15:43:05.394041Z",
+    "agent_setup": {
+      "started_at": "2026-11-05T15:33:18.236751Z",
+      "finished_at": "2026-11-05T15:35:41.027774Z"
+    },
+    "agent_execution": {
+      "started_at": "2026-11-05T15:35:41.027892Z",
+      "finished_at": "2026-11-05T15:42:54.042027Z"
+    },
+    "verifier": null
+  },
+  "native_exception": {
+    "exception_type": "ValueError",
+    "exception_message": "Separator is not found, and chunk exceed the limit",
+    "exception_traceback": "Traceback (most recent call last):\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 562, in readline\n    line = await self.readuntil(sep)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 663, in readuntil\n    raise exceptions.LimitOverrunError(\n        'Separator is not found, and chunk exceed the limit',\n        offset)\nasyncio.exceptions.LimitOverrunError: Separator is not found, and chunk exceed the limit\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 378, in run\n    await self._run()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 41, in _run\n    await self._run_agent()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/single_step.py\", line 77, in _run_agent\n    await self._run_agent_phase(\n    ...<5 lines>...\n    )\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/trial/trial.py\", line 480, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 175, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-v2-model-20261105-input/source/harbor_adapter/integrity.py\", line 95, in guarded\n    return await run(self, RULES + \"\\nTask:\\n\" + instruction, environment, context)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/pi-restricted-pipeline-v2-model-20261105-input/source/harbor_adapter/pi.py\", line 163, in run\n    await self.exec_as_agent(\n    ...<3 lines>...\n    )\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 884, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/agents/installed/base.py\", line 835, in _exec\n    result = await environment.exec(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 1096, in exec\n    return await self._compose_exec(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 1173, in _compose_exec\n    return await self._run_docker_compose_command(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 642, in _run_docker_compose_command\n    result = await self._collect_streamed_output(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 738, in _collect_streamed_output\n    await _read_and_wait()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 732, in _read_and_wait\n    await _read_stdout_and_wait()\n  File \"/mnt/ubuntu/home/omarchy_data/nanoPyCodeAgent/jobs/dsh-harbor-venv/lib/python3.13/site-packages/harbor/environments/docker/docker.py\", line 717, in _read_stdout_and_wait\n    async for raw_line in stdout_stream:\n    ...<2 lines>...\n        await on_output(line, \"stdout\")\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 784, in __anext__\n    val = await self.readline()\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/minix/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/asyncio/streams.py\", line 571, in readline\n    raise ValueError(e.args[0])\nValueError: Separator is not found, and chunk exceed the limit\n",
+    "occurred_at": "2026-11-05T15:42:54.153274Z"
+  },
+  "native_rewards": null,
+  "effective_score": null,
+  "official_verifier_started": false,
+  "diagnosis": "Harbor 0.21 reads callback output by line with the default 65536-byte StreamReader limit. Pi finished normally, but its final agent_end event was 209940 bytes. The collector raised ValueError before official verification. Native Pi logs contain agent_settled; controller output is the exact event prefix missing agent_end and agent_settled. The native error and missing reward are preserved.",
+  "supervision": {
+    "status": "completed",
+    "return_code": 0
+  },
+  "enforcement": {
+    "protocol": "restricted-v1",
+    "policy": {
+      "protocol": "restricted-v1",
+      "allowed_hosts": [
+        "api.deepseek.com"
+      ],
+      "probe_url": "https://example.com/"
+    },
+    "rules_sha256": "89db5b77afe8608c1d10884151a3730d5878929ecc3a0ac53b0ed164bb7fbf47",
+    "preflight": "passed",
+    "agent_phase": "interrupted",
+    "host_mounts": false,
+    "verifier_isolation": "task_defined; shared tasks remain shared",
+    "dependency_cache": {
+      "protocol": "pypi-verified-v1",
+      "absent_before_agent": true
+    },
+    "dns_upstreams": [
+      "172.17.0.1"
+    ],
+    "positive_control": {
+      "reachable": true
+    },
+    "negative_control": {
+      "reachable": false,
+      "error_type": "URLError",
+      "reason_type": "SSLEOFError"
+    },
+    "allowed_controls": {
+      "api.deepseek.com": {
+        "reachable": true
+      }
+    },
+    "started_at": "2026-11-05T15:35:41.373095+00:00",
+    "finished_at": "2026-11-05T15:42:53.848086+00:00",
+    "live_output_sha256": "45c29e3b0b7ba0b474268f7014e8b315d7e6b8c35687040baf44a9492044e362"
+  },
+  "cache": {
+    "phase": {
+      "protocol": "pypi-verified-v1",
+      "image": "alexgshaw/pytorch-model-cli@sha256:c996884b5fb5fb2c0c07d67da2c4f974f271f07234ed28e1a868240375c57a67",
+      "helper": "nanopy-pypi-0b0595153f3c4cea8f0d462ea4d7f404",
+      "scripts_sha256": {
+        "pypi_wheel_cache.py": "c3bf80298fbdfe14cdf1809249b78063eed9c378139723bbcf4b987f07c281f3",
+        "cache_image.py": "11ddde3fe86a6e4bfdefe7c3578794df98d237f701e40f219d76a541911c9f0c",
+        "uv_release_cache.py": "a8dac0e782b1aa684209195e2715a68fbb5157d9974e59678c3e83999d5390a3",
+        "release-manifest.json": "3a132b29494bea24ec2c872a9b9c88dda059575a0bb9f2d869f9ff1c50810edb"
+      },
+      "phase": "setup",
+      "started_at": "2026-11-05T15:33:42.534572+00:00",
+      "removed": true,
+      "finished_at": "2026-11-05T15:35:35.148407+00:00"
+    },
+    "wheel_requests": 45,
+    "cache_hits": 45,
+    "verified_bytes": 3080594478,
+    "all_wheels_match_current_metadata": true,
+    "release_requests": [
+      {
+        "at": "2026-11-05T15:33:46.735766+00:00",
+        "instance": "7d1f02dfc7fd",
+        "kind": "release_asset",
+        "filename": "uv-x86_64-unknown-linux-gnu.tar.gz",
+        "size": 21370871,
+        "sha256": "2cf10babba653310606f8b49876cfb679928669e7ddaa1fb41fb00ce73e64f66",
+        "source_url": "https://github.com/astral-sh/uv/releases/download/0.9.5/uv-x86_64-unknown-linux-gnu.tar.gz",
+        "cache_hit": true
+      },
+      {
+        "at": "2026-11-05T15:33:47.192858+00:00",
+        "instance": "7d1f02dfc7fd",
+        "kind": "release_asset",
+        "filename": "cpython-3.13.9+20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "size": 33517986,
+        "sha256": "c0ccda275948c79996e46993c2c5476ff5cca606dee530f1dea712179131b348",
+        "source_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20251014/cpython-3.13.9%2B20251014-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "cache_hit": true
+      }
+    ],
+    "release_redirects": []
+  },
+  "usage": {
+    "n_input_tokens": 667185,
+    "n_cache_tokens": 639872,
+    "n_output_tokens": 24996,
+    "cost_usd": 0.042028331999999995
+  },
+  "usage_metadata": {
+    "version": "1.4.0",
+    "usage_records": 25,
+    "missing_usage_records": 0,
+    "assistant_errors": [],
+    "cost_is_estimated": true,
+    "usage_is_partial": false,
+    "cost_is_partial": false
+  },
+  "result_sha256": "c0661ca62189589d188cae543573806bceefdbe7a09865ab2fcdb515aedd98a5",
+  "freeze_sha256": "7597e12251e688623cd7de611404650cc5dba063b5f4eccba6c2117ea640d24d",
+  "native_audit_classification": "integrity_error",
+  "native_audit_note": "The automatic audit requires a complete agent/verifier enforcement sequence. Its integrity_error here is an unscored protocol/infrastructure status, not a finding that the agent cheated."
+}

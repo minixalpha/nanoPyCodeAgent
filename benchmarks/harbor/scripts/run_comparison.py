@@ -270,6 +270,26 @@ def accepted_preflights_passed(root, plan):
         config = checked(inputs / "config.json", item["input_config_sha256"])
         if config.get("install_only") is not True or manifest["commit"] != arm["source_ref"]:
             raise ValueError("Accepted installation used a different mode or source revision")
+        cache = manifest.get("dependency_cache_input")
+        if cache:
+            if config["environment"]["kwargs"].get("dependency_cache") != cache:
+                raise ValueError("Accepted dependency transport differs from its snapshot")
+            for name, expected_hash in cache["scripts_sha256"].items():
+                path = inputs / "dependency-cache" / name
+                if name == "release-manifest.json":
+                    originals = []
+                    for job in plan["queue"]:
+                        if (job["arm"], job["task"]) == (item["arm"], item["task"]):
+                            option = json.loads((root / job["config"]).read_text()).get("dependency_cache")
+                            if not isinstance(option, dict) or "release_manifest" not in option:
+                                raise ValueError("Accepted release cache differs from queued configuration")
+                            originals.append(root / Path(option["release_manifest"]).expanduser())
+                else:
+                    originals = [source / "benchmarks/harbor/scripts" / name]
+                if (path.parent != inputs / "dependency-cache"
+                        or digest(path) != expected_hash
+                        or not originals or any(digest(original) != expected_hash for original in originals)):
+                    raise ValueError("Accepted dependency transport source changed")
         expected_sources = {}
         packages = [("benchmarks/harbor/src", "harbor_adapter")]
         if arm.get("agent") != "pi":

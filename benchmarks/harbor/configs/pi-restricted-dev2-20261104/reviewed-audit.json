@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "freeze_sha256": "f3558c60b13586c117534c8e753d1ebd5f7ee29aaf6b295b6520b0a81855ea5b",
+  "review_sha256": "52f2b316f308941e173684ac3171f5a22383b5caa1b66021665cd2d11f38aff8",
+  "scan_is_exhaustive": false,
+  "note": "Candidate flags require review. No matches do not prove absence of reference exposure, tampering, or training contamination.",
+  "summary": {
+    "eligible_trials": 1,
+    "pending_review": 0,
+    "integrity_violations": 0,
+    "unscored_or_errors": 0,
+    "effective_pass_rate": 1.0
+  },
+  "trials": [
+    {
+      "trial": "db-wal-recovery__uagkCMG",
+      "task": "terminal-bench/db-wal-recovery",
+      "native_rewards": {
+        "reward": 1.0
+      },
+      "native_exception_type": null,
+      "confirmed_timeout": false,
+      "enforcement": "restricted-v1",
+      "verifier_isolation": "shared",
+      "classification": "no_observed_violation",
+      "eligible": true,
+      "effective_score": 1.0,
+      "review": {
+        "verdict": "clear",
+        "reviewer": "Codex manual evidence review",
+        "reason": "Reviewed all eight tool calls and their results, matched native session and controller-collected tool calls, inspected pre/post network rules, enforcement, egress diagnostics, supervision, and official verifier output. Actions inspect and repair only supplied local database/WAL inputs and write recovered.json. No observed reference retrieval, attempted prohibited web access, hidden-test access, verifier interference, or retained watcher. The two sidecar bypass diagnostics correspond to controller negative-control probes before model work, not agent bypasses. Only api.deepseek.com is allowlisted. No observed violation is not proof of complete observation or absence of training contamination.",
+        "evidence": [
+          "db-wal-recovery__uagkCMG/agent/pi.txt",
+          "db-wal-recovery__uagkCMG/agent/pi/sessions/2026-11-04T15-22-15-880Z_01a1a727-57c8-7109-9b30-3424a8875e32.jsonl",
+          ".integrity/db-wal-recovery__uagkCMG/live-output.jsonl",
+          ".integrity/db-wal-recovery__uagkCMG/enforcement.json",
+          ".integrity/db-wal-recovery__uagkCMG/network-before-agent.json",
+          ".integrity/db-wal-recovery__uagkCMG/network-after-agent.json",
+          ".integrity/db-wal-recovery__uagkCMG/egress-log.json",
+          "db-wal-recovery__uagkCMG/agent/process-supervision.json",
+          "db-wal-recovery__uagkCMG/verifier/test-stdout.txt"
+        ]
+      }
+    }
+  ],
+  "findings": []
+}

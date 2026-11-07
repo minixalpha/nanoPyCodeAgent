@@ -64,6 +64,14 @@ class _RetryEnvironment:
     async def exec(self, *, command, **kwargs):
         if command != self._command:
             return await self._environment.exec(command=command, **kwargs)
+        cache = getattr(self._environment, "dependency_cache", None)
+        if cache is not None:
+            async with cache.phase("verifier") as cache_env:
+                kwargs["env"] = {**(kwargs.get("env") or {}), **cache_env}
+                return await self._execute_test(command, **kwargs)
+        return await self._execute_test(command, **kwargs)
+
+    async def _execute_test(self, command, **kwargs):
         control = f"/tmp/nanopy-verifier-{uuid.uuid4().hex}.pid"
         invocation = shlex.join([
             "python3", "-c", _RUNNER, command, str(self._timeout_sec),

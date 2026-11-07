@@ -133,3 +133,39 @@ def test_missing_trial_results_cannot_shrink_the_denominator(job, tmp_path):
     }))
     with pytest.raises(ValueError, match="inventory is incomplete"):
         audit_job(job, tmp_path / "audit")
+
+
+@pytest.mark.parametrize("missing", [None, "boundary", "setup", "verifier", "scripts", "overlap"])
+def test_cache_accounting_requires_phase_cleanup_evidence(job, tmp_path, missing):
+    import hashlib
+    from harbor_adapter.audit import trial_accounting
+    policy = {"protocol": "restricted-v1", "allowed_hosts": ["api.deepseek.com"]}
+    cache = {"protocol": "pypi-verified-v1", "image": "pinned", "scripts_sha256": {"helper.py": "digest"}}
+    (job / "pass/config.json").write_text(json.dumps({
+        "agent": {"kwargs": {"integrity_policy": policy}},
+        "environment": {"kwargs": {"dependency_cache": cache}},
+    }))
+    evidence = job / ".integrity/pass"
+    evidence.mkdir(parents=True)
+    (evidence / "live-output.jsonl").write_text("")
+    for name in ("network-preflight.json", "network-before-agent.json", "network-after-agent.json", "egress-log.json"):
+        (evidence / name).write_text("{}")
+    proof = {"preflight": "passed", "agent_phase": "completed", "policy": policy,
+             "started_at": "2026-11-05T01:00:00+00:00", "finished_at": "2026-11-05T02:00:00+00:00",
+             "live_output_sha256": hashlib.sha256(b"").hexdigest(),
+             "dependency_cache": {"absent_before_agent": missing != "boundary"}}
+    (evidence / "enforcement.json").write_text(json.dumps(proof))
+    for phase in ("setup", "verifier"):
+        hour = "00" if phase == "setup" else "03"
+        if missing == "overlap":
+            hour = "01"
+        record = {**cache, "removed": missing != phase, "phase": phase,
+                  "started_at": f"2026-11-05T{hour}:10:00+00:00",
+                  "finished_at": f"2026-11-05T{hour}:20:00+00:00"}
+        if missing == "scripts":
+            record["scripts_sha256"] = {"helper.py": "changed"}
+        (evidence / f"dependency-cache-{phase}.json").write_text(json.dumps(record))
+        (evidence / f"dependency-cache-{phase}-log.json").write_text("{}")
+    row = trial_accounting(job, job / "pass/result.json", None)
+    assert row["eligible"] is (missing is None)
+    assert row["classification"] == ("pending_review" if missing is None else "integrity_error")
