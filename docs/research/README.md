@@ -18,6 +18,9 @@ versions are in sync.
 
 - Built-in tools of Pi, Claude Code, Codex, OpenCode, and Grok Build:
   [English](en/agent_tools.md) | [Chinese](zh-CN/agent_tools.md)
+- Permission modes, approval semantics, and execution boundaries of Claude Code,
+  Codex, Pi, Grok Build, OpenCode, and DeepSeek Harness:
+  [English](en/agent_permission_modes.md) | [Chinese](zh-CN/agent_permission_modes.md)
 - How five agent projects express a localized edit, and what contract a first
   Edit tool here should commit to:
   [English](en/edit_tool.md) | [Chinese](zh-CN/edit_tool.md)
