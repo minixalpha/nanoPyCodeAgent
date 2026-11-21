@@ -21,6 +21,10 @@ versions are in sync.
 - Permission modes, approval semantics, and execution boundaries of Claude Code,
   Codex, Pi, Grok Build, OpenCode, and DeepSeek Harness:
   [English](en/agent_permission_modes.md) | [Chinese](zh-CN/agent_permission_modes.md)
+- Tool-call review prompts in DeepSeek Harness, Codex, and Grok Build, with
+  complete Chinese translations, original English text, and authorization-policy
+  comparisons:
+  [English](en/agent_review_prompts.md) | [Chinese](zh-CN/agent_review_prompts.md)
 - How five agent projects express a localized edit, and what contract a first
   Edit tool here should commit to:
   [English](en/edit_tool.md) | [Chinese](zh-CN/edit_tool.md)
