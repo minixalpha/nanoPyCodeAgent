@@ -138,6 +138,23 @@ this recovery loop. A configured wall-clock budget also bounds in-flight
 requests and retry waits. Exhausted transport failures exit headless mode with
 `1`; stopping for the wall-clock budget exits `0` with its distinct outcome.
 
+## Tool authorization
+
+Interactive and headless runs default to `auto` permission mode. Review denials
+return a tool error and do not execute the call. A technical review failure
+asks for manual approval only in interactive mode; headless runs return an
+error without reading stdin. The agent may continue with another action, so
+a denial does not itself change the process exit status to failure.
+
+Set the startup-only `permission_mode` in the user settings file to change
+modes; there is no permission CLI flag. See the
+[configuration reference](configuration.md#permission-modes).
+
+Review requests count toward task time, usage, and cost, but not `--max-turns`.
+The journal and ATIF mark review model calls with `purpose: permission_review`
+and the reviewed tool-call ID. ATIF records the mode in
+`agent.extra.permission_mode` and decisions in tool observation extras.
+
 ## Output channels
 
 During a headless run, stdout carries the streamed model text plus echoed tool

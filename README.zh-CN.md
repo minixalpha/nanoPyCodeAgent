@@ -61,6 +61,10 @@ uvx --from "git+https://github.com/minixalpha/nanoPyCodeAgent@v0.1.0" nanoPyCode
 环境变量或 `~/.nanoPyCodeAgent/settings.json` 配置 endpoint 与模型。支持的变量、
 默认值、文件格式、优先级和空值处理请参阅[配置参考](docs/user_docs/zh-CN/configuration.md)。
 
+工具调用默认使用 `auto` 权限模式，执行前由独立模型请求审核。在启动前将配置文件顶层
+的 `"permission_mode"` 设为 `"full"` 可跳过模型审核。两种模式都会阻止部分可识别的
+极端风险操作，均不提供沙箱。参阅[权限模式](docs/user_docs/zh-CN/configuration.md#权限模式)。
+
 ### 如何更新
 
 将已安装的工具升级到最新发布版:

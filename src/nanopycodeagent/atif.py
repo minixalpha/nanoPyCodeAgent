@@ -140,6 +140,9 @@ def _step_extra(
         "stop_reason": payload["stop_reason"],
         "duration_ms": payload["duration_ms"],
     }
+    for field in ("purpose", "reviewed_tool_call_id"):
+        if field in payload:
+            extra[field] = payload[field]
     content = payload["content"]
     assert isinstance(content, list)
     content_extensions = [
@@ -218,6 +221,8 @@ def _tool_calls_and_observation(
         }
         if "error" in completed_payload:
             result_extra["error"] = completed_payload["error"]
+        if "permission" in completed_payload:
+            result_extra["permission"] = completed_payload["permission"]
         _add_journal_truncation(result_extra, completed)
         results.append(
             {
@@ -492,6 +497,11 @@ def project_atif(entries: Sequence[JournalEntry]) -> JsonObject:
                 **(
                     {"time_budget_seconds": run_payload["time_budget_seconds"]}
                     if "time_budget_seconds" in run_payload
+                    else {}
+                ),
+                **(
+                    {"permission_mode": run_payload["permission_mode"]}
+                    if "permission_mode" in run_payload
                     else {}
                 ),
             },

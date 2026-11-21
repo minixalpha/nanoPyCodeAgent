@@ -22,7 +22,7 @@ import os
 import sys
 import time
 import uuid
-from copy import copy
+from copy import copy, deepcopy
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
@@ -59,7 +59,10 @@ from .event_journal import (
     utc_now,
 )
 from .read_tool import run_read
-from .settings import DEFAULT_MAX_TOKENS, load_settings_env, resolve_max_tokens
+from .permissions import PermissionDecision, REVIEW_PROMPT, authorize
+from .settings import (
+    DEFAULT_MAX_TOKENS, load_permission_mode, load_settings_env, resolve_max_tokens,
+)
 from .terminal import Spinner, print_tool_output, print_tool_use
 from .tool_validation import TOOLS, tool_input_error
 from .transport import HTTP_ERRORS, RETRYABLE_STREAM_ERRORS
@@ -314,6 +317,8 @@ class _TextOutputProjector:
         self._model_calls_with_text: set[str] = set()
 
     def __call__(self, event: NativeEvent) -> None:
+        if event.payload.get("purpose") == "permission_review":
+            return
         if event.type == "model.output_delta":
             model_call_id = str(event.payload["model_call_id"])
             if model_call_id not in self._model_calls_with_text:
@@ -345,6 +350,10 @@ class _TextOutputProjector:
             )
             if error:
                 print_tool_use(f"[{tool_name}] (invalid arguments; not executed)")
+            elif event.payload.get("permission", {}).get("audit_result") == "not_pass":
+                source = event.payload["permission"]["source"]
+                label = "permission review failed" if source == "review_failed" else "permission denied"
+                print_tool_use(f"[{tool_name}] ({label}; not executed)")
             elif tool_name == "read":
                 print_tool_use(f"[read] {arguments['path']}")
             elif tool_name == "write":
@@ -388,6 +397,7 @@ def _run_one_tool(
     *,
     input_error: str | None = None,
     remaining_seconds: float | None = None,
+    permission: PermissionDecision | None = None,
 ) -> ToolResultBlockParam:
     """Execute one ``tool_use`` block and emit its runtime facts."""
     tool_input = _json_value(block.input)
@@ -400,6 +410,7 @@ def _run_one_tool(
             "tool_name": block.name,
             "input": tool_input if isinstance(tool_input, dict) else {},
             **({"input_error": input_error} if input_error else {}),
+            **({"permission": permission.as_dict()} if permission else {}),
             "source_timestamp": utc_now(),
         },
     )
@@ -407,6 +418,11 @@ def _run_one_tool(
     try:
         if input_error:
             output, is_error = input_error, True
+        elif permission is not None and not permission.allowed:
+            label = "Permission review failed" if permission.source == "review_failed" else "Permission denied"
+            output, is_error = (
+                f"{label}; tool was not executed: {permission.reason}", True,
+            )
         elif block.name == "read":
             path = block.input["path"]
             output, is_error = run_read(
@@ -445,6 +461,7 @@ def _run_one_tool(
                 "result": None,
                 "is_error": True,
                 "error": {"type": type(exc).__name__, "message": str(exc)},
+                **({"permission": permission.as_dict()} if permission else {}),
                 "duration_ms": (time.perf_counter_ns() - tool_started_ns)
                 / 1_000_000,
                 "source_timestamp": utc_now(),
@@ -462,6 +479,15 @@ def _run_one_tool(
             **(
                 {"error": {"type": "ToolInputError", "message": input_error}}
                 if input_error else {}
+            ),
+            **({"permission": permission.as_dict()} if permission else {}),
+            **(
+                {"error": {
+                    "type": "PermissionReviewFailed" if permission.source == "review_failed" else "PermissionDenied",
+                    "message": permission.reason,
+                }}
+                if permission is not None and not permission.allowed and not input_error
+                else {}
             ),
             "duration_ms": (time.perf_counter_ns() - tool_started_ns) / 1_000_000,
             "source_timestamp": utc_now(),
@@ -505,6 +531,92 @@ def _resolve_model() -> str:
     return os.environ.get("ANTHROPIC_MODEL", "").strip() or DEFAULT_MODEL
 
 
+def _model_completion_payload(
+    message, *, model_call_id: str, model: str, content: list,
+    generation_id: str | None, duration_ms: float,
+) -> JsonObject:
+    provider_response_id = getattr(message, "id", None)
+    usage = _json_value(getattr(message, "usage", None))
+    return {
+        "model_call_id": model_call_id,
+        "message_id": str(provider_response_id or model_call_id),
+        "content": content,
+        "tool_calls": [item for item in content if item.get("type") == "tool_call"],
+        "model": str(getattr(message, "model", None) or model),
+        "stop_reason": getattr(message, "stop_reason", None),
+        "usage": usage,
+        "provider_response_id": str(provider_response_id) if provider_response_id is not None else None,
+        "generation_id": generation_id,
+        "cost": usage_cost(usage if isinstance(usage, dict) else None)
+        or estimated_cost(
+            str(getattr(message, "model", None) or model),
+            usage if isinstance(usage, dict) else None,
+        ) or pending_cost(generation_id),
+        "duration_ms": duration_ms,
+        "source_timestamp": utc_now(),
+    }
+
+
+def _review_one_tool(
+    client, model: str, history: list, previous_results: list,
+    block: ToolUseBlock, *, emitter: EventEmitter, remaining: float | None,
+) -> str:
+    """Make an independent, tool-free review request and account for its cost."""
+    tool = next(tool for tool in TOOLS if tool["name"] == block.name)
+    snapshot = {
+        "cwd": os.getcwd(),
+        "messages": _json_value(history),
+        "completed_tool_results": _json_value(previous_results),
+        "pending_tool_call": {
+            "id": block.id, "name": block.name,
+            "description": tool["description"],
+            "parameters": tool["input_schema"], "arguments": deepcopy(block.input),
+        },
+    }
+    call_id = f"review-{uuid.uuid4()}"
+    metadata = {"purpose": "permission_review", "reviewed_tool_call_id": block.id}
+    emitter.emit("model.started", {
+        "model_call_id": call_id, "model": model, **metadata,
+        "source_timestamp": utc_now(),
+    })
+    started = time.perf_counter_ns()
+    generation_id = None
+    try:
+        with Spinner("Reviewing..."), client.messages.stream(
+            model=model, max_tokens=2048, system=REVIEW_PROMPT,
+            messages=[{"role": "user", "content": json.dumps(snapshot, ensure_ascii=False)}],
+            timeout=min(60.0, remaining) if remaining is not None else 60.0,
+        ) as stream:
+            generation_id = _response_header(stream, "x-generation-id")
+            for _ in stream:
+                pass
+            message = stream.get_final_message()
+    except BaseException as exc:
+        emitter.emit("model.failed", {
+            "model_call_id": call_id, **metadata,
+            "error_type": type(exc).__name__, "message": str(exc),
+            "generation_id": generation_id,
+            "duration_ms": (time.perf_counter_ns() - started) / 1_000_000,
+            "will_retry": False, "retry_delay_seconds": 0,
+            "source_timestamp": utc_now(),
+        })
+        raise
+    emitter.emit("model.completed", {
+        **_model_completion_payload(
+            message, model_call_id=call_id, model=model,
+            content=_native_content_blocks(message.content), generation_id=generation_id,
+            duration_ms=(time.perf_counter_ns() - started) / 1_000_000,
+        ),
+        **metadata,
+    })
+    if message.stop_reason != "end_turn" or any(
+        block.type not in {"text", "thinking", "redacted_thinking"}
+        for block in message.content
+    ):
+        raise ValueError("review did not finish with a complete text response")
+    return "".join(block.text for block in message.content if block.type == "text")
+
+
 def _run_exchange(
     client: anthropic.Anthropic,
     model: str,
@@ -516,6 +628,8 @@ def _run_exchange(
     time_budget_seconds: int | None = None,
     reply_prefix: str = "\nAgent> ",
     trajectory_path: Path | None = None,
+    permission_mode: str = "auto",
+    interactive: bool = False,
 ) -> RunOutcome:
     """Reply to the conversation so far, running tools until the model stops.
 
@@ -544,6 +658,7 @@ def _run_exchange(
                 "max_turns": max_turns,
                 "max_tokens": max_tokens,
                 "time_budget_seconds": time_budget_seconds,
+                "permission_mode": permission_mode,
                 "producer": {
                     "name": "nanoPyCodeAgent",
                     "version": _package_version(),
@@ -570,6 +685,8 @@ def _run_exchange(
                 max_turns=max_turns,
                 max_tokens=max_tokens,
                 time_budget_seconds=time_budget_seconds,
+                permission_mode=permission_mode,
+                interactive=interactive,
             )
         except BaseException as exc:
             cost_reconciliation = _reconcile_costs(
@@ -630,6 +747,8 @@ def _run_model_loop(
     max_turns: int | None,
     max_tokens: int,
     time_budget_seconds: int | None = None,
+    permission_mode: str = "auto",
+    interactive: bool = False,
 ) -> RunOutcome:
     """Run model replies and tool calls for an already-started Agent Run."""
     turns = 0
@@ -791,35 +910,11 @@ def _run_model_loop(
             if error:
                 input_errors[block.id] = error
                 content[index]["input_error"] = error
-        tool_calls = [
-            item
-            for item in content
-            if isinstance(item, dict) and item.get("type") == "tool_call"
-        ]
-        provider_response_id = getattr(message, "id", None)
-        usage = _json_value(getattr(message, "usage", None))
-        payload: JsonObject = {
-            "model_call_id": model_call_id,
-            "message_id": str(provider_response_id or model_call_id),
-            "content": content,
-            "tool_calls": tool_calls,
-            "model": str(getattr(message, "model", None) or model),
-            "stop_reason": getattr(message, "stop_reason", None),
-            "usage": usage,
-            "provider_response_id": (
-                str(provider_response_id) if provider_response_id is not None else None
-            ),
-            "generation_id": generation_id,
-            "cost": usage_cost(usage if isinstance(usage, dict) else None)
-            or estimated_cost(
-                str(getattr(message, "model", None) or model),
-                usage if isinstance(usage, dict) else None,
-            )
-            or pending_cost(generation_id),
-            "duration_ms": (model_completed_ns - model_started_ns) / 1_000_000,
-            "source_timestamp": utc_now(),
-        }
-        emitter.emit("model.completed", payload)
+        emitter.emit("model.completed", _model_completion_payload(
+            message, model_call_id=model_call_id, model=model, content=content,
+            generation_id=generation_id,
+            duration_ms=(model_completed_ns - model_started_ns) / 1_000_000,
+        ))
 
         turns += 1
         if deadline is not None and time.monotonic() >= deadline:
@@ -864,7 +959,7 @@ def _run_model_loop(
         # Every tool_use block needs a matching tool_result in the next
         # user message, or the API rejects the request.
         results = []
-        for block in message.content:
+        for index, block in enumerate(message.content):
             if block.type != "tool_use":
                 continue
             if deadline is not None and time.monotonic() >= deadline:
@@ -874,10 +969,34 @@ def _run_model_loop(
             remaining = None if deadline is None else deadline - time.monotonic()
             try:
                 with wall_clock_limit(remaining):
+                    # Freeze exactly the call being reviewed and executed. Later
+                    # calls in this response are not evidence for this decision.
+                    block = deepcopy(block)
+                    permission = None
+                    if block.id not in input_errors:
+                        def review() -> str:
+                            history = messages[:-1] + [{
+                                "role": "assistant",
+                                "content": request_content[:index + 1],
+                            }]
+                            return _review_one_tool(
+                                client, model, history, results, block,
+                                emitter=emitter, remaining=remaining,
+                            )
+
+                        permission = authorize(
+                            permission_mode, block.name, block.input,
+                            review,
+                            interactive=interactive,
+                        )
+                    remaining = None if deadline is None else deadline - time.monotonic()
+                    if remaining is not None and remaining <= 0:
+                        return "time_budget_exhausted"
                     result = _run_one_tool(
                         block, emitter, model_call_id,
                         input_error=input_errors.get(block.id),
                         remaining_seconds=remaining,
+                        permission=permission,
                     )
             except DeadlineExceeded:
                 return "time_budget_exhausted"
@@ -953,6 +1072,7 @@ def run(*, max_tokens: int | None = None) -> int:
     fed back to the model until it finishes the turn without tool use.
     Returns the process exit code.
     """
+    permission_mode = load_permission_mode()
     max_tokens = resolve_max_tokens(max_tokens)
     client = _create_client()
     if client is None:
@@ -961,7 +1081,7 @@ def run(*, max_tokens: int | None = None) -> int:
     model = _resolve_model()
     print(
         f"nanoPyCodeAgent v{_package_version()} — model {model}, "
-        f"max tokens {max_tokens} "
+        f"max tokens {max_tokens}, permissions {permission_mode} "
         "(set ANTHROPIC_MODEL to override)."
     )
     print("Type a message to chat, or /exit to quit.")
@@ -983,7 +1103,10 @@ def run(*, max_tokens: int | None = None) -> int:
             break
 
         messages.append({"role": "user", "content": user_input})
-        _run_exchange(client, model, messages, SYSTEM_PROMPT, max_tokens=max_tokens)
+        _run_exchange(
+            client, model, messages, SYSTEM_PROMPT, max_tokens=max_tokens,
+            permission_mode=permission_mode, interactive=True,
+        )
 
     print("Bye!")
     return 0
@@ -1007,6 +1130,7 @@ def run_headless(
     scores the result. Only a run that could not happen at all — no
     credentials, an API that keeps refusing — exits non-zero.
     """
+    permission_mode = load_permission_mode()
     max_tokens = resolve_max_tokens(max_tokens)
     client = _create_client()
     if client is None:
@@ -1017,7 +1141,7 @@ def run_headless(
     # model's prose and the echoed tool calls, nothing else.
     print(
         f"nanoPyCodeAgent v{_package_version()} — model {model}, "
-        f"max turns {max_turns}, max tokens {max_tokens}, "
+        f"max turns {max_turns}, max tokens {max_tokens}, permissions {permission_mode}, "
         f"time budget {time_budget_seconds if time_budget_seconds else 'none'}",
         file=sys.stderr,
     )
@@ -1034,6 +1158,7 @@ def run_headless(
             time_budget_seconds=time_budget_seconds,
             reply_prefix="",
             trajectory_path=trajectory_path,
+            permission_mode=permission_mode,
         )
     except (anthropic.APIError, *HTTP_ERRORS) as exc:
         # Printed verbatim on purpose: a harness classifies a failed run by

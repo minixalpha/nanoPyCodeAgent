@@ -65,6 +65,12 @@ You can also configure the endpoint and model through environment variables or
 for supported variables, defaults, file format, precedence, and empty-value
 handling.
 
+Tool calls use `auto` permission mode by default, with an independent model
+review before execution. Set the top-level `"permission_mode": "full"` in
+the settings file before startup to skip model review. Both modes block some
+recognizable extreme-risk operations; neither provides a sandbox. See
+[permission modes](docs/user_docs/en/configuration.md#permission-modes).
+
 ### How to Update
 
 Upgrade an installed tool to the latest release:
