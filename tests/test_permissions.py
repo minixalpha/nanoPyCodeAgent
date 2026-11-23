@@ -48,8 +48,8 @@ def test_permission_mode_defaults_to_auto_and_accepts_only_documented_values():
     '{"audit_result":"allow","reason":"ok"}',
     '{"audit_result":true,"reason":"ok"}',
     '{"audit_result":"pass","reason":""}',
+    '{"audit_result":"pass","reason":"   "}',
     '{"audit_result":"pass","reason":200}',
-    json.dumps({"audit_result": "pass", "reason": "x" * 201}),
     '{"audit_result":"pass","audit_result":"not_pass","reason":"ok"}',
     '{"audit_result":"pass","reason":"ok","extra":true}',
     '```json\n{"audit_result":"pass","reason":"ok"}\n```',
@@ -57,6 +57,53 @@ def test_permission_mode_defaults_to_auto_and_accepts_only_documented_values():
 def test_invalid_review_output_cannot_approve(response):
     with pytest.raises(ValueError):
         parse_review(response)
+
+
+@pytest.mark.parametrize("result", ["pass", "not_pass"])
+@pytest.mark.parametrize("reason", ["x" * 199, "x" * 200, "x" * 201, "\U0001f680" * 201], ids=["199-chars", "200-chars", "201-chars", "201-unicode-chars"])
+def test_reason_length_is_bounded_without_changing_the_decision(result, reason):
+    parsed = parse_review(json.dumps({"audit_result": result, "reason": reason}))
+    assert parsed.allowed == (result == "pass")
+    assert parsed.source == "model"
+    expected = reason if len(reason) <= 200 else reason[:199] + "…"
+    assert parsed.reason == expected
+
+
+def test_reason_whitespace_is_normalized_before_length_limit():
+    reason = "x" * 200
+    parsed = parse_review(json.dumps({"audit_result": "pass", "reason": "  " + reason + "\n"}))
+    assert parsed.reason == reason
+
+
+@pytest.mark.parametrize("result", ["pass", "not_pass"])
+def test_verbose_review_does_not_trigger_manual_approval(monkeypatch, tmp_path, result):
+    # Reproduces the 216-character explanation from the first live write test.
+    reason = (
+        'User explicitly asked to create pass.txt containing "hello" in the '
+        'working directory; the write matches that target and content (only '
+        'a trailing newline added) and is a bounded, easily reversible local '
+        'file creation.'
+    )
+    assert len(reason) == 216
+    target = tmp_path / "verbose"
+    messages = FakeMessages([
+        FakeStream([write_tool_use_block("verbose", path=str(target), content="hello\n")], stop_reason="tool_use"),
+        decision(result, reason), [text_block("done")],
+    ])
+    prompts = patch_client_and_input(
+        monkeypatch, client=FakeClient(messages), inputs=["create it", "/exit"],
+        permission_mode=None,
+    )
+    agent.run()
+    assert prompts == ["You> ", "You> "]
+    assert target.exists() == (result == "pass")
+    completed = next(event for event in entries() if event.type == "tool.completed")
+    permission = completed.payload["permission"]
+    assert permission["source"] == "model"
+    assert permission["audit_result"] == result
+    assert permission["reason"] == reason[:199] + "…"
+    raw_review = next(event for event in entries() if event.type == "model.completed" and event.payload.get("purpose") == "permission_review")
+    assert json.loads(raw_review.payload["content"][0]["text"])["reason"] == reason
 
 
 @pytest.mark.parametrize("command", [
