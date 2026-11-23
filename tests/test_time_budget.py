@@ -213,6 +213,7 @@ def test_budget_reminders_survive_journal_and_atif(monkeypatch, tmp_path, struct
         FakeClient(messages), "test-model", [{"role": "user", "content": task}],
         agent.HEADLESS_SYSTEM_PROMPT, max_turns=100, time_budget_seconds=1000,
         trajectory_path=trajectory_path,
+        permission_mode="full",
     ) == "time_budget_exhausted"
 
     notes = []

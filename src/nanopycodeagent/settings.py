@@ -2,7 +2,8 @@
 
 The config file at ``~/.nanoPyCodeAgent/settings.json`` may carry an ``env``
 mapping that supplies ``ANTHROPIC_*`` values for keys that are not already set
-in the environment (environment variables win).
+in the environment (environment variables win). Its top-level
+``permission_mode`` is read once when an invocation starts.
 """
 
 import json
@@ -11,6 +12,20 @@ from pathlib import Path
 
 SETTINGS_PATH = Path.home() / ".nanoPyCodeAgent" / "settings.json"
 DEFAULT_MAX_TOKENS = 32768
+
+
+def load_permission_mode(path: Path | None = None) -> str:
+    """Read the startup-only permission mode; missing settings default to auto."""
+    try:
+        value = json.loads((path or SETTINGS_PATH).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return "auto"
+    if not isinstance(value, dict):
+        raise ValueError("settings.json must contain a JSON object")
+    mode = value.get("permission_mode", "auto")
+    if mode not in ("auto", "full"):
+        raise ValueError('permission_mode must be "auto" or "full"')
+    return mode
 
 
 def resolve_max_tokens(override: int | None = None) -> int:

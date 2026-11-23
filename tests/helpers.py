@@ -149,22 +149,27 @@ class FakeClient:
         self.base_url = base_url
 
 
-def patch_client(monkeypatch, client):
+def patch_client(monkeypatch, client, *, permission_mode="full"):
     """Wire up a fake Anthropic client in place of the real SDK one.
 
     The config file is isolated by the autouse ``_isolate_config`` fixture in
     conftest.py, so the agent sees no config file unless a test writes one to
-    ``settings.SETTINGS_PATH``.
+    ``settings.SETTINGS_PATH``. Existing loop/transport tests explicitly use
+    full mode so their scripts describe agent replies only. Permission tests
+    pass None to exercise the real startup configuration and reviewer.
     """
     monkeypatch.setattr(anthropic, "Anthropic", lambda *a, **k: client)
+    if permission_mode is not None:
+        from nanopycodeagent import agent
+        monkeypatch.setattr(agent, "load_permission_mode", lambda: permission_mode)
 
 
-def patch_client_and_input(monkeypatch, *, client, inputs):
+def patch_client_and_input(monkeypatch, *, client, inputs, permission_mode="full"):
     """Wire up a fake Anthropic client and scripted input().
 
     Returns the list that records the prompt of each ``input()`` call.
     """
-    patch_client(monkeypatch, client)
+    patch_client(monkeypatch, client, permission_mode=permission_mode)
 
     answers = iter(inputs)
     prompts = []

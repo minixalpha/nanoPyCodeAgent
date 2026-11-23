@@ -26,7 +26,36 @@ headless modes.
 
 The per-reply generation limit also accepts `--max-tokens N`. For this setting,
 the order is **CLI > environment > settings file > 32768**. It is resolved once
-at startup and applies to every model reply in that invocation.
+at startup and applies to main-agent replies in that invocation. Permission
+reviews have a separate fixed output limit, described below.
+
+## Permission modes
+
+Set `permission_mode` at the top level of `~/.nanoPyCodeAgent/settings.json`,
+outside `env`. The default is `auto`; the only other accepted value is `full`.
+An invalid value stops startup. There is no CLI or environment override.
+The value is fixed for the invocation, including all interactive exchanges;
+editing the file while the agent runs affects only a later invocation.
+
+- `auto`: Every valid tool call is reviewed through an independent request
+  using the current endpoint and model, without giving the reviewer tools.
+  `pass` permits execution; `not_pass` returns the denial and reason to the
+  main model without executing the tool. Technical review failures ask for
+  one-call approval in interactive mode; only `y` or `yes` approves. In
+  headless mode, failure returns an error without reading input or executing.
+- `full`: Ordinary calls skip model review. Use it when you want unrestricted
+  tool execution within your chosen environment.
+
+Both modes validate arguments and block some literal catastrophic operations,
+such as root deletion and raw disk destruction. This limited command check
+cannot analyze arbitrary scripts or equivalent actions in other languages.
+Neither mode provides a sandbox or guarantees safety.
+
+Reviews add model usage and latency. Each has a 2048-token output limit and a
+60-second SDK request timeout, capped by the remaining task time. SDK retries
+still apply. Reviews do not consume `--max-turns`, but their time counts toward
+`--time-budget-seconds`, and their usage and costs appear in the journal and
+trajectory. An exhausted task deadline stops the task without manual fallback.
 
 ## Supported settings
 
@@ -84,6 +113,7 @@ the `env` field in [Claude Code settings](https://code.claude.com/docs/en/settin
 
 ```json
 {
+  "permission_mode": "auto",
   "env": {
     "ANTHROPIC_API_KEY": "",
     "ANTHROPIC_AUTH_TOKEN": "",
@@ -111,8 +141,8 @@ rest empty or remove their keys. For example:
 Settings-file rules:
 
 - A missing file is normal and is ignored silently.
-- A missing `env` field supplies no values. Only entries under `env` are read;
-  other top-level fields are ignored.
+- A missing `env` field supplies no environment values. `permission_mode` is
+  read separately; other top-level fields are ignored.
 - Only keys beginning with `ANTHROPIC_` are eligible; other environment keys
   are ignored.
 - A value must be a string. Non-string values are ignored.
